@@ -26,7 +26,67 @@ export class UsersController {
   findOne(
     @Param('id') id: string,  // parameter decorator
     @Query() query: FindUserQuery,
-  ): Promise
+  ): Promise<UserDto> {       // return type becomes response type
+    return this.usersService.findOne(id, query)
+  }
+}
+```
+
+With `globalPrefix: "/api"`, this becomes a GET route at `/api/users/:id` with
+`params: { id: string }`, `query: FindUserQuery`, and response type `UserDto`.
+
+## Supported decorators
+
+### Controller decorator
+
+| Decorator | Description |
+| --- | --- |
+| `@Controller()` | No path prefix, routes start from `globalPrefix`. |
+| `@Controller('users')` | Adds `/users` prefix to all routes in this controller. |
+| `@Controller('admin/users')` | Nested paths work too. |
+
+### HTTP method decorators
+
+| Decorator | HTTP Method |
+| --- | --- |
+| `@Get()` | GET |
+| `@Post()` | POST |
+| `@Put()` | PUT |
+| `@Patch()` | PATCH |
+| `@Delete()` | DELETE |
+| `@Options()` | OPTIONS |
+| `@Head()` | HEAD |
+| `@All()` | ALL |
+
+Each decorator accepts an optional string path:
+
+```ts
+@Get()           // matches the controller path exactly
+@Get('list')     // appends /list to the controller path
+@Get(':id')      // appends /:id (path parameter)
+@Post(':id/ban') // appends /:id/ban
+```
+
+### Parameter decorators
+
+| Decorator | Maps to | Required? | Example type |
+| --- | --- | --- | --- |
+| `@Body()` | `body` | yes (POST/PUT/PATCH) | The full DTO type |
+| `@Body('field')` | `body.field` | no (optional field) | `{ field?: Type }` |
+| `@Query()` | `query` | no | The full query DTO |
+| `@Query('page')` | `query.page` | no (optional field) | `{ page?: Type }` |
+| `@Param('id')` | `params.id` | yes | `{ id: Type }` |
+| `@Headers()` | `headers` | no | The full headers type |
+| `@Headers('x-token')` | `headers['x-token']` | no (optional field) | `{ 'x-token'?: Type }` |
+
+} title="Full DTO vs named property">
+  `@Body()` with no argument uses the **whole parameter type** as the body. `@Body('email')`
+  produces `{ email?: Type }` — an object with that one optional field. `@Query` and
+  `@Headers` follow the same rule.
+
+## Path construction rules
+
+The final route path joins three segments:
 
 For example:
 
@@ -147,6 +207,7 @@ A controller with several routes and the types generated from it:
 ### The controller
 
 ```ts title="src/modules/users/users.controller.ts"
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common'
 
 @Controller('users')
 export class UsersController {
@@ -187,6 +248,10 @@ export class UsersController {
 With `globalPrefix: "/api"`:
 
 ```ts title="Generated: duck-gen-api-routes.d.ts (simplified)"
+import type { PaginationDto } from '../../src/modules/users/users.dto'
+import type { CreateUserDto } from '../../src/modules/users/users.dto'
+import type { UpdateUserDto } from '../../src/modules/users/users.dto'
+import type { UserDto } from '../../src/modules/users/users.dto'
 
 export interface ApiRoutes {
   '/api/users': {
@@ -233,6 +298,7 @@ export interface ApiRoutes {
 ### Using the types on the client
 
 ```ts title="Client usage"
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 // Extract types for a specific route
 type CreateUserReq = RouteReq<'/api/users'>
@@ -242,6 +308,8 @@ type UserResponse = RouteRes<'/api/users/:id'>
 // => UserDto
 
 // Use with Duck Query for fully typed HTTP calls
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 const client = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',

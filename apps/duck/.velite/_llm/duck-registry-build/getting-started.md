@@ -17,6 +17,8 @@ npm install @gentleduck/registry-build
 Place the config beside the app or package that should own the generated outputs.
 
 ```ts
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
 
 export default defineConfig({
   collections: {

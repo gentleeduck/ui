@@ -290,6 +290,7 @@ strategies testable -- you can provide a mock transport in tests.
 You can write your own strategy for any upload protocol. Here is a minimal example:
 
 ```typescript
+import type { UploadStrategy } from '@gentleduck/upload'
 
 type MyIntent = {
   strategy: 'my-custom'
@@ -362,12 +363,14 @@ photoduck/
     
 
 ```typescript
-
+import {
   createUploadClient,
   createStrategyRegistry,
   PostStrategy,
   createXHRTransport,
 } from '@gentleduck/upload'
+import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+import { PostIntent, PostCursor } from '@gentleduck/upload'
 
 // --- Types ---
 
@@ -435,6 +438,7 @@ export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, P
     
 
 ```typescript
+import { uploadClient } from './upload'
 
 const input = document.querySelector<HTMLInputElement>('#file-input')!
 

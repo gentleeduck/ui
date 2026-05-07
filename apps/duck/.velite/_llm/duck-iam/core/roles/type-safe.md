@@ -3,6 +3,7 @@
 `createAccessConfig()` returns typed builders. With `roles` declared, the role ID parameter on `defineRole()` and the `.role()` / `.roles()` methods on conditions are constrained to those values.
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete', 'publish'] as const,
@@ -53,6 +54,7 @@ const ownerPolicy = access
 Before saving roles to your adapter, validate them for common mistakes:
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['read', 'write'] as const,
@@ -128,6 +130,7 @@ The same builder calls produce different autocomplete suggestions based on which
 ## Complete example
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete', 'publish', 'archive'] as const,

@@ -48,6 +48,7 @@ For logic bugs, write tests. For caching, see [engine caching](/docs/duck-iam/ad
 ## Untyped (direct imports)
 
 ```typescript
+import { defineRole, Engine, MemoryAdapter, policy } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .grant('raed', 'post') // typo: "raed" instead of "read" — NO error
@@ -85,6 +86,7 @@ Cons:
 ## Typed (createAccessConfig)
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete'] as const,
@@ -122,6 +124,7 @@ Drop-in: replace your imports with a single config and re-derive the types.
 **Before:**
 
 ```typescript
+import { defineRole, policy, Engine, MemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').build()
 const engine = new Engine({ adapter })
@@ -130,6 +133,8 @@ const engine = new Engine({ adapter })
 **After:**
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 const access = createAccessConfig({
   actions: ['read'] as const,
@@ -150,6 +155,7 @@ The role/policy data shape is unchanged — adapters, evaluation, and serializat
 You can mix typed and untyped builders in one app:
 
 ```typescript
+import { policy } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['read'] as const,

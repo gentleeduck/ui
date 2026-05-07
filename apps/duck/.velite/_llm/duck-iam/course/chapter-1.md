@@ -295,6 +295,8 @@ blogduck/
     
 
 ```typescript
+import { defineRole, Engine } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .grant('read', 'post')
@@ -319,6 +321,7 @@ export const engine = new Engine({ adapter }) // defaults to mode: 'development'
     
 
 ```typescript
+import { engine } from './access'
 
 async function main() {
   // Boolean check

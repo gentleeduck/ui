@@ -22,6 +22,7 @@ Every GentleDuck package imports from `@gentleduck/libs`. Zero external dependen
 A type-safe class name generator. A faster, smaller alternative to [class-variance-authority](https://cva.style/).
 
 ```ts
+import { cva } from '@gentleduck/variants'
 
 const button = cva('inline-flex items-center rounded font-medium', {
   variants: {

@@ -1,13 +1,13 @@
 ```tsx
-
+import * as Checkers from '@gentleduck/primitives/checkers'
 ```
 
 ## Anatomy
 
 ```tsx
 const { SvgIndicator, inputStyle, indicatorReady, checkedIndicatorReady } = Checkers.useSvgIndicator({
-  indicator: ,
-  checkedIndicator: ,
+  indicator: <svg />,
+  checkedIndicator: <svg />,
 })
 ```
 
@@ -22,17 +22,18 @@ const { SvgIndicator, inputStyle, indicatorReady, checkedIndicatorReady } = Chec
 ## Example
 
 ```tsx
+import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 
 function CustomIndicatorInput() {
   const { SvgIndicator, inputStyle } = useSvgIndicator({
-    indicator: </svg>,
-    checkedIndicator: </svg>,
+    indicator: <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" /></svg>,
+    checkedIndicator: <svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>,
   })
 
   return (
     <>
-      
-      
+      <SvgIndicator />
+      <input style={inputStyle} />
     </>
   )
 }

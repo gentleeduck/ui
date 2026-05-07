@@ -5,6 +5,8 @@
 ## Baseline implementation
 
 ```tsx
+import * as React from 'react'
+import * as Dialog from '@gentleduck/primitives/dialog'
 
 export function AccountDangerZone() {
   const [open, setOpen] = React.useState(false)
@@ -21,7 +23,11 @@ export function AccountDangerZone() {
   }
 
   return (
-    
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="rounded border px-3 py-2 text-sm">Delete account</Dialog.Trigger>
+
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out" />
 
         <Dialog.Content
           className="fixed left-1/2 top-1/2 w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-white p-5 shadow-lg"
@@ -33,13 +39,21 @@ export function AccountDangerZone() {
           }}
         >
           <Dialog.Title className="text-lg font-semibold">Delete account?</Dialog.Title>
-
+          <Dialog.Description className="mt-1 text-sm text-gray-600">
             This action is irreversible.
+          </Dialog.Description>
 
+          <div className="mt-4 flex justify-end gap-2">
+            <Dialog.Close asChild>
               <button disabled={busy} className="rounded border px-3 py-2 text-sm">Cancel</button>
-
+            </Dialog.Close>
+            <button disabled={busy} onClick={handleDelete} className="rounded bg-red-600 px-3 py-2 text-sm text-white">
               {busy ? 'Deleting...' : 'Delete'}
-
+            </button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 ```
@@ -88,7 +102,7 @@ This pattern avoids data loss and inconsistent UI states.
 ## Modal vs non-modal
 
 ```tsx
-
+<Dialog.Root modal={false}>
 ```
 
 Use non-modal only for utility surfaces that should not trap focus or hide page semantics. For destructive workflows, keep modal behavior.

@@ -44,6 +44,8 @@ Duck Gen parses your sources with [ts-morph](https://ts-morph.com/), finds every
 ### Step 3: Use typed routes on the client
 
 ```ts
+import { createDuckQuery } from '@gentleduck/query'
+import type { ApiRoutes } from './generated/api-routes'
 
 const client = createDuckQuery<ApiRoutes>({
   baseURL: 'https://api.example.com',

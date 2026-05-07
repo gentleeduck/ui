@@ -1,6 +1,7 @@
 ## Factory signature
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete', 'manage'] as const,

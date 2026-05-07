@@ -12,7 +12,35 @@ Compares your local component source against the latest registry version. Defaul
 
 | Flag | Description |
 | --- | --- |
-| `-c, --cwd         │   return  │
+| `-c, --cwd <cwd>` | Working directory |
+| `-g, --gui` | Force TUI mode (default when stdout is a TTY) |
+| `-w, --workspace <path>` | Target workspace |
+
+---
+
+## Examples
+
+```bash
+# Diff a specific component
+npx @gentleduck/cli diff button
+
+# Diff all installed components
+npx @gentleduck/cli diff
+
+# Force TUI even in non-interactive shells (e.g. CI logs you'll page later)
+npx @gentleduck/cli diff button --gui
+```
+
+---
+
+## What you see
+
+The TUI renders three panels:
+
+```
+┌──── local ─────────────────┬──── registry ─────────────────┐
+│ export function Button() { │ export function Button(props) {│
+│   return <button />        │   return <button {...props} /> │
 │ }                          │ }                              │
 └────────────────────────────┴───────────────────────────────┘
                           [j/k] move  [q] quit  [u] update

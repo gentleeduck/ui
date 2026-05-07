@@ -5,7 +5,117 @@ Lesson 6 of 8  -  Render keyboard shortcuts in your UI with platform-aware label
 
 You register `'Mod+Shift+S'` as a binding. But what do you show the user?
 
-- On Mac: 
+- On Mac: <Kbd>Cmd+Shift+S</Kbd>
+- On Windows: <Kbd>Ctrl+Shift+S</Kbd>
+- On Linux: <Kbd>Ctrl+Shift+S</Kbd>
+
+And modifiers have different names across platforms: <Kbd>Alt</Kbd> on Windows is <Kbd>Opt</Kbd> on Mac, <Kbd>Meta</Kbd> on Linux is <Kbd>Super</Kbd>.
+
+}>
+duck-vim's `format` module handles all of this automatically.
+
+---
+
+## `formatForDisplay`
+
+The primary function. Takes a binding string and returns a display string for the current (or specified) platform:
+
+```ts
+import { formatForDisplay } from '@gentleduck/vim/format'
+
+formatForDisplay('Mod+S')                          // 'Cmd+S' on Mac, 'Ctrl+S' on Windows
+formatForDisplay('Mod+S', { platform: 'mac' })     // 'Cmd+S' always
+formatForDisplay('Mod+S', { platform: 'windows' }) // 'Ctrl+S' always
+formatForDisplay('alt+k', { platform: 'mac' })     // 'Opt+K'
+formatForDisplay('meta+enter', { platform: 'linux' }) // 'Super+Enter'
+```
+
+} className="[&_ul]:my-0">
+Rules:
+
+- Single-character keys are uppercased: `s` becomes `S`.
+- Multi-character keys are capitalized: `enter` becomes `Enter`.
+- Modifiers use platform-specific names.
+
+---
+
+## `formatWithLabels`
+
+A more verbose format with wider spacing, useful for tooltips and help screens:
+
+```ts
+import { formatWithLabels } from '@gentleduck/vim/format'
+
+formatWithLabels('Mod+Shift+S', { platform: 'mac' })
+// 'Cmd + Shift + S'
+
+formatWithLabels('ctrl+backspace')
+// 'Ctrl + Backspace'
+```
+
+The default separator is `' + '` (with spaces), compared to `'+'` (no spaces) in `formatForDisplay`.
+
+---
+
+## Custom separator
+
+Both functions accept a `separator` option:
+
+```ts
+formatForDisplay('ctrl+shift+k', { separator: ' ' })
+// 'Ctrl Shift K'
+
+formatForDisplay('ctrl+shift+k', { separator: ' -> ' })
+// 'Ctrl -> Shift -> K'
+```
+
+---
+
+## Rendering in React
+
+  
+    Simple inline
+    Split keys
+    In a menu
+  
+  
+    ### Simple inline display
+
+    ```tsx
+    function ShortcutBadge({ binding }: { binding: string }) {
+      return (
+        <kbd className="text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+          {formatForDisplay(binding)}
+        </kbd>
+      )
+    }
+    ```
+  
+  
+    ### Split into individual `<kbd>` elements
+
+    For a more polished look, split each part into its own `<kbd>`:
+
+    ```tsx
+    function ShortcutKeys({ binding }: { binding: string }) {
+      const parts = formatForDisplay(binding).split('+')
+
+      return (
+        <span className="inline-flex items-center gap-0.5">
+          {parts.map((part, i) => (
+            <kbd
+              key={i}
+              className="min-w-[24px] text-center text-xs bg-gray-50 px-1.5 py-0.5 rounded border border-gray-200 font-mono"
+            >
+              {part}
+            </kbd>
+          ))}
+        </span>
+      )
+    }
+
+    // Usage:
+    // <ShortcutKeys binding="Mod+Shift+K" />
     // Renders: [Cmd] [Shift] [K]  (on Mac)
     ```
   
@@ -15,13 +125,16 @@ You register `'Mod+Shift+S'` as a binding. But what do you show the user?
     ```tsx
     function MenuItem({ label, binding }: { label: string; binding: string }) {
       return (
-
+        <div className="flex items-center justify-between px-3 py-2">
+          <span>{label}</span>
+          <ShortcutKeys binding={binding} />
+        </div>
       )
     }
 
-    
-    
-    
+    <MenuItem label="Save" binding="Mod+S" />
+    <MenuItem label="Undo" binding="Mod+Z" />
+    <MenuItem label="Find" binding="Mod+F" />
     ```
   
 
@@ -34,17 +147,22 @@ For multi-key sequences like `g+d`, the format functions work on individual step
 ```tsx
 function SequenceDisplay({ steps }: { steps: string[] }) {
   return (
-
+    <span className="inline-flex items-center gap-1">
+      {steps.map((step, i) => (
+        <span key={i} className="inline-flex items-center gap-1">
+          {i > 0 && <span className="text-gray-400 text-xs">then</span>}
+          <ShortcutKeys binding={step} />
+        </span>
       ))}
-
+    </span>
   )
 }
 
 // Usage:
-// 
+// <SequenceDisplay steps={['g', 'd']} />
 // Renders: [G] then [D]
 //
-// 
+// <SequenceDisplay steps={['ctrl+k', 'ctrl+c']} />
 // Renders: [Ctrl][K] then [Ctrl][C]
 ```
 

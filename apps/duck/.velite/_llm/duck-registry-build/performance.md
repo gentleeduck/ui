@@ -21,6 +21,22 @@ The performance model focuses on five things:
 By default, the builder writes cache state to:
 
 ```text
+<output.dir>/.registry-build/build-cache.json
+```
+
+Override it with:
+
+```ts
+performance: {
+  cacheDir: '.registry-build',
+}
+```
+
+The cache directory is local build state — keep it ignored by Git.
+
+---
+
+## How warm builds work
 
 On warm runs the builder:
 

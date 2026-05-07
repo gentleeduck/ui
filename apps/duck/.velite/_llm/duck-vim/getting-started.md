@@ -20,6 +20,7 @@ This is the simplest path. You create a registry, a handler, register commands, 
 Create a registry and handler
 
 ```ts
+import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const handler = new KeyHandler(registry, 600)
@@ -48,14 +49,47 @@ Start listening
 handler.attach(document)
 ```
 
-Press }
+Press <Kbd>Ctrl+K</Kbd> to open the palette. Press <Kbd>g</Kbd> then <Kbd>d</Kbd> (within 600ms) to navigate to the dashboard.
 
+To stop listening:
+
+```ts
+handler.detach(document)
+```
+
+---
+
+## Option B: React
+
+Wrap your app in `KeyProvider`, then use hooks to register bindings.
+
+```tsx
+import { KeyProvider, useKeyBind, useKeySequence } from '@gentleduck/vim/react'
+
+function App() {
+  const [open, setOpen] = useState(false)
+
+  // Single key binding
+  useKeyBind('ctrl+k', () => setOpen(true), { preventDefault: true })
+
+  // Multi-key sequence: press g, then d
+  useKeySequence(['g', 'd'], () => {
+    window.location.href = '/dashboard'
+  })
+
+  return (
+    <div>
+      <p>Press Ctrl+K to open palette, or g then d to go to dashboard.</p>
+      {open && <CommandPalette onClose={() => setOpen(false)} />}
+    </div>
   )
 }
 
 export default function Root() {
   return (
-
+    <KeyProvider timeoutMs={600}>
+      <App />
+    </KeyProvider>
   )
 }
 ```
@@ -69,6 +103,7 @@ export default function Root() {
 If you just need a quick one-off binding without a full registry, use `createKeyBindHandler`.
 
 ```ts
+import { createKeyBindHandler } from '@gentleduck/vim/matcher'
 
 const handler = createKeyBindHandler({
   binding: 'Mod+S',

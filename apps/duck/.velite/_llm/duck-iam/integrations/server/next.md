@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import {
   withAccess,
   checkAccess,
   getPermissions,
@@ -18,6 +18,9 @@ Covers four protection layers in Next.js App Router: route handler wrappers, Ser
 Wrap App Router route handlers (GET, POST, DELETE, etc.).
 
 ```typescript
+import { withAccess } from '@gentleduck/iam/server/next'
+import { engine } from '@/lib/engine'
+import { auth } from '@/lib/auth'
 
 async function handler(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params
@@ -46,6 +49,8 @@ name, keep the wrapper for coarse route gating and run a deeper `engine.can()` /
 Check a permission inside a React Server Component or Server Action:
 
 ```typescript
+import { checkAccess } from '@gentleduck/iam/server/next'
+import { engine } from '@/lib/engine'
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -53,9 +58,11 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const canEdit = await checkAccess(engine, userId, 'update', 'post', id)
 
   return (
-    }
-      {canDelete && }
-
+    <article>
+      <h1>Post {id}</h1>
+      {canEdit && <EditButton />}
+      {canDelete && <DeleteButton />}
+    </article>
   )
 }
 ```
@@ -69,6 +76,9 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
 Generate a `PermissionMap` on the server and pass it to the client for hydration:
 
 ```typescript
+import { getPermissions } from '@gentleduck/iam/server/next'
+import { engine } from '@/lib/engine'
+import { AccessProvider } from '@/lib/access-client'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
@@ -84,9 +94,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     : {}
 
   return (
-
+    <html>
+      <body>
         <AccessProvider permissions={permissions}>{children}</AccessProvider>
-
+      </body>
+    </html>
   )
 }
 ```
@@ -101,6 +113,9 @@ Protect routes at the edge before they reach application code:
 
 ```typescript
 // middleware.ts
+import { createNextMiddleware } from '@gentleduck/iam/server/next'
+import { engine } from '@/lib/engine'
+import { NextResponse } from 'next/server'
 
 const checkAccess = createNextMiddleware(engine, {
   getUserId: async (req) => {

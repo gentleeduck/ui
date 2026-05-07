@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
 ```
 
 Zero dependencies. Works in any JS runtime that supports `fetch` (browser, Node, Bun, Deno, edge runtimes).
@@ -13,6 +13,7 @@ Zero dependencies. Works in any JS runtime that supports `fetch` (browser, Node,
 Create an `AccessClient` from a permission map:
 
 ```typescript
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
 
 const access = new AccessClient(permissionsFromServer)
 
@@ -85,6 +86,8 @@ unsubscribe()
 
 ```typescript
 // stores/access.ts
+import { writable, derived } from 'svelte/store'
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
 
 const client = new AccessClient(initialPermissions)
 const permissions = writable(client.permissions)
@@ -98,6 +101,8 @@ export const can = (action: string, resource: string) =>
 ### Solid
 
 ```typescript
+import { createSignal } from 'solid-js'
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
 
 const client = new AccessClient(initialPermissions)
 const [permissions, setPermissions] = createSignal(client.permissions)
@@ -132,9 +137,9 @@ customElements.define('access-gate', AccessGate)
 ```
 
 ```html
-
+<access-gate action="delete" resource="post">
   <button>Delete</button>
-
+</access-gate>
 ```
 
 ---

@@ -76,6 +76,8 @@ Use the JSON file as the source of truth for the extension. The `pkgbuilds/` tre
 ## Step 3: Declare a generic config
 
 ```ts
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
 
 export default defineConfig({
   collections: {
@@ -118,6 +120,8 @@ Why this shape works:
 The extension reads the collection, groups package records by repo, emits files, and registers outputs.
 
 ```ts
+import path from 'node:path'
+import { writeFileIfChanged, writeJsonIfChanged } from '@gentleduck/registry-build'
 
 export function archRepositoryExtension(options: { collection: string }) {
   return {

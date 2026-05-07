@@ -7,6 +7,7 @@
 `useCalendar` wraps the grid builder and selection logic in a stateful React hook. It returns state, actions, and prop getters.
 
 ```tsx showLineNumbers
+import { NativeAdapter, useCalendar } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 
@@ -40,15 +41,15 @@ function SingleSelect() {
   })
 
   return (
-
+    <div {...getGridProps()}>
       {state.weeks.map(week =>
         week.days.map(day => (
-
+          <button key={day.date.getTime()} {...getDayProps(day)}>
             {day.date.getDate()}
-
+          </button>
         ))
       )}
-
+    </div>
   )
 }
 ```

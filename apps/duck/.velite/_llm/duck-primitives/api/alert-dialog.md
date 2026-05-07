@@ -1,11 +1,22 @@
 ```tsx
-
+import * as AlertDialog from '@gentleduck/primitives/alert-dialog'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<AlertDialog.Root>
+  <AlertDialog.Trigger />
+  <AlertDialog.Portal>
+    <AlertDialog.Overlay />
+    <AlertDialog.Content>
+      <AlertDialog.Title />
+      <AlertDialog.Description />
+      <AlertDialog.Cancel />
+      <AlertDialog.Action />
+    </AlertDialog.Content>
+  </AlertDialog.Portal>
+</AlertDialog.Root>
 ```
 
 ---
@@ -23,21 +34,34 @@ The key difference: Alert Dialog requires explicit user choice. Clicking the ove
 ## Example
 
 ```tsx
+import * as AlertDialog from '@gentleduck/primitives/alert-dialog'
 
 function DeleteButton() {
   return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger className="px-4 py-2 bg-red-500 text-white rounded">
+        Delete
+      </AlertDialog.Trigger>
 
+      <AlertDialog.Portal>
+        <AlertDialog.Overlay className="fixed inset-0 bg-black/50" />
+        <AlertDialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg max-w-md">
           <AlertDialog.Title>Delete this item?</AlertDialog.Title>
           <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
-
+          <div className="flex gap-2 justify-end mt-4">
+            <AlertDialog.Cancel className="px-4 py-2 border rounded">
               Cancel
-
+            </AlertDialog.Cancel>
             <AlertDialog.Action
               className="px-4 py-2 bg-red-500 text-white rounded"
               onClick={() => deleteItem()}
             >
               Delete
-
+            </AlertDialog.Action>
+          </div>
+        </AlertDialog.Content>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   )
 }
 ```

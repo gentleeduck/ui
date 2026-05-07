@@ -88,13 +88,13 @@ The styles file lives in the shared UI package (e.g. `packages/ui/src/styles.css
 Apps import the styles from the shared package:
 
 ```ts title="apps/web/src/main.tsx"
-
+import '@my-org/ui/styles.css'
 ```
 
 Or in Next.js:
 
 ```ts title="apps/web/src/app/layout.tsx"
-
+import '@my-org/ui/styles.css'
 ```
 
 Make sure the shared package exports the CSS file in its `package.json`:
@@ -121,7 +121,7 @@ export * from './components/ui/card'
 Apps consume components from the package:
 
 ```tsx title="apps/web/src/app/page.tsx"
-
+import { Button } from '@my-org/ui'
 ```
 
 ## Working example

@@ -6,7 +6,7 @@ This page lists **every exported type** with a usage example.
 Import generated types from the framework entrypoint:
 
 ```ts
-
+import type {
   // API route types
   ApiRoutes,
   RoutePath,
@@ -70,6 +70,8 @@ interface ApiRoutes {
 Pass `ApiRoutes` as the generic when creating a Duck Query client:
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 const client = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -399,6 +401,7 @@ type ScopedI18n = DuckgenScopedI18nByGroup<'en' | 'ar', DuckGenI18nMessages>
 Full usage example:
 
 ```ts
+import type { DuckgenScopedI18nByGroup, DuckGenI18nMessages } from '@gentleduck/gen/nestjs'
 
 type Lang = 'en' | 'ar'
 type I18n = DuckgenScopedI18nByGroup<Lang, DuckGenI18nMessages>

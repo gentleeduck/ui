@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { accessMiddleware, guard } from '@gentleduck/iam/server/hono'
 ```
 
 Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge — anywhere Hono runs.
@@ -13,6 +13,7 @@ Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge — an
 Apply access control to all routes under a path pattern. If no user ID is found, the middleware returns 401 immediately.
 
 ```typescript
+import { accessMiddleware } from '@gentleduck/iam/server/hono'
 
 app.use(
   '/api/*',
@@ -32,6 +33,7 @@ app.use(
 Guard individual Hono routes with fixed action and resource types.
 
 ```typescript
+import { guard } from '@gentleduck/iam/server/hono'
 
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), async (c) => {
   // Only reached if the user can delete posts

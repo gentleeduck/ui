@@ -7,6 +7,10 @@ Let users redefine key bindings with a settings UI. duck-vim provides `KeyRecord
 ## React implementation
 
 ```tsx
+import { useState, useContext } from 'react'
+import { KeyContext, useKeyRecorder } from '@gentleduck/vim/react'
+import { formatForDisplay } from '@gentleduck/vim/format'
+import type { Command } from '@gentleduck/vim/command'
 
 interface ShortcutEntry {
   id: string
@@ -65,30 +69,31 @@ function ShortcutSettings() {
   }
 
   return (
-
+    <div className="space-y-2">
       <h2 className="text-lg font-semibold">Keyboard Shortcuts</h2>
       {shortcuts.map((shortcut) => (
-
+        <div key={shortcut.id} className="flex items-center justify-between py-2 border-b">
           <span>{shortcut.name}</span>
 
           {editingId === shortcut.id ? (
-
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-blue-100 rounded text-sm">
                 {state.recorded ?? 'Press a key...'}
-
+              </kbd>
               <button onClick={() => saveBinding(shortcut.id)}>Save</button>
               <button onClick={cancelEditing}>Cancel</button>
-
+            </div>
           ) : (
             <button
               onClick={() => startEditing(shortcut.id)}
               className="px-2 py-1 bg-gray-100 rounded text-sm hover:bg-gray-200"
             >
               {formatForDisplay(shortcut.binding)}
-
+            </button>
           )}
-
+        </div>
       ))}
-
+    </div>
   )
 }
 ```
@@ -128,6 +133,7 @@ function saveBinding(commandName: string, newBinding: string) {
 Before saving a new binding, check if it conflicts with an existing one.
 
 ```ts
+import { normalizeKeyBind } from '@gentleduck/vim/parser'
 
 function hasConflict(newBinding: string): string | null {
   const normalized = normalizeKeyBind(newBinding)
@@ -150,6 +156,7 @@ function hasConflict(newBinding: string): string | null {
 Use `validateKeyBind` to check user input before accepting it:
 
 ```ts
+import { validateKeyBind } from '@gentleduck/vim/parser'
 
 const result = validateKeyBind(state.recorded)
 if (!result.valid) {

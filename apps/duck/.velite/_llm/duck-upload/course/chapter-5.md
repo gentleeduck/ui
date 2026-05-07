@@ -22,12 +22,212 @@ train Wi-Fi needs to pause when signal drops and resume when it comes back. You 
         store.dispatch({ type: 'pause', localId })
       }
 
-      return 
-              
+      return <button onClick={handlePause}>Pause</button>
+    }
+    ```
+
+    When you dispatch `pause`, the engine sets the inflight upload's abort mode to `'pause'`
+    and aborts the underlying `AbortController`. The strategy receives the abort signal,
+    stops transferring bytes, and emits an internal `paused` event with the current cursor
+    position. The reducer transitions the item from `uploading` to `paused`.
+
+    If the item is in the `queued` phase (waiting for a concurrency slot), pause reverts it
+    back to `ready` without touching the network.
+  
+
+  
+    **Resume a paused upload**
+
+    ```typescript title="src/components/UploadControls.tsx"
+    const handleResume = () => {
+      store.dispatch({ type: 'resume', localId })
+    }
+    ```
+
+    Resume moves the item from `paused` back to `queued`. The scheduler picks it up when a
+    concurrency slot opens. The strategy reads the stored cursor to continue from the last
+    byte offset -- no data is re-uploaded.
+
+    Resume requires the item to have a `file` reference. After a page refresh, File objects
+    are lost (Chapter 6 covers rebinding). If `item.file` is `undefined`, resume is a no-op.
+  
+
+  
+    **Cancel uploads and clean up**
+
+    ```typescript title="src/components/UploadControls.tsx"
+    const handleCancel = () => {
+      store.dispatch({ type: 'cancel', localId })
+    }
+
+    // Remove the item from state entirely
+    const handleRemove = () => {
+      store.dispatch({ type: 'remove', localId })
+    }
+    ```
+
+    Cancel transitions any non-terminal item to the `canceled` phase. If the item is actively
+    uploading, the engine aborts the network request with mode `'cancel'`. Unlike pause,
+    cancel is final -- the cursor and intent are preserved on the item for debugging, but
+    the item cannot be resumed.
+
+    Use `remove` to delete the item from state completely. This is useful for cleaning up
+    the UI after a cancel or completion.
+  
+
+  
+    **Configure automatic retry with exponential backoff**
+
+    ```typescript title="src/lib/upload-client.ts"
+    import { createUploadStore } from '@gentleduck/upload'
+
+    const store = createUploadStore({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      config: {
+        maxAttempts: 5,
+        retryPolicy: ({ phase, attempt, error }) => {
+          // Don't retry auth errors
+          if (error.code === 'auth') return { retryable: false }
+
+          // Don't retry validation failures
+          if (error.code === 'validation_failed') return { retryable: false }
+
+          // Exponential backoff: 1s, 2s, 4s, 8s, 16s
+          const delayMs = Math.min(1000 * Math.pow(2, attempt - 1), 30_000)
+
+          return { retryable: true, delayMs }
+        },
+      },
+    })
+    ```
+
+    The `retryPolicy` function is called whenever a phase fails. It receives the current
+    `phase` (`'intent'`, `'upload'`, or `'complete'`), the `attempt` number, and the
+    `UploadError`. Return `{ retryable: true, delayMs }` to schedule a retry after the
+    given delay, or `{ retryable: false }` to mark the item as permanently failed.
+
+    `maxAttempts` is the global cap. Even if `retryPolicy` says retryable, the engine stops
+    after this many attempts. The default is 3.
+  
+
+  
+    **Handle errors and show retry UI**
+
+    ```tsx title="src/components/UploadItem.tsx"
+    import { useUploader } from '@gentleduck/upload/react'
+    import type { UploadItem } from '@gentleduck/upload'
+
+    function UploadItemRow({ item }: { item: UploadItem }) {
+      const { store } = useUploader()
+
+      if (item.phase === 'error') {
+        return (
+          <div className="flex items-center gap-2">
+            <span className="text-red-500">
+              {item.error.message}
+            </span>
+
+            {item.retryable && (
+              <button
+                onClick={() => store.dispatch({ type: 'retry', localId: item.localId })}
+              >
+                Retry (attempt {item.attempt})
+              </button>
+            )}
+
+            <button
+              onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}
+            >
+              Dismiss
+            </button>
+          </div>
+        )
+      }
+
+      return (
+        <div className="flex items-center gap-2">
+          {item.phase === 'uploading' && (
+            <>
+              <progress value={item.progress.pct} max={100} />
+              <button onClick={() => store.dispatch({ type: 'pause', localId: item.localId })}>
+                Pause
+              </button>
+            </>
           )}
 
           {item.phase === 'paused' && (
-            
+            <button onClick={() => store.dispatch({ type: 'resume', localId: item.localId })}>
+              Resume
+            </button>
+          )}
+
+          <button onClick={() => store.dispatch({ type: 'cancel', localId: item.localId })}>
+            Cancel
+          </button>
+        </div>
+      )
+    }
+    ```
+
+    The `retry` command is only accepted when the item is in the `error` phase and `retryable`
+    is `true`. Retry transitions the item differently depending on its state:
+    - If the item has no intent yet (intent creation failed): moves to `creating_intent`
+    - If the item has an intent but upload failed: moves to `ready` to re-queue
+    - If the item was in the `completing` phase (100% uploaded, finalization failed): moves
+      back to `completing` to retry finalization only
+  
+
+## Batch Operations
+
+For bulk control, dispatch `pauseAll`, `startAll`, or `cancelAll`. These iterate over every
+item in state and apply the individual command. Pass an optional `purpose` to scope the
+operation:
+
+```typescript title="src/components/BatchControls.tsx"
+function BatchControls() {
+  const { store } = useUploader()
+
+  return (
+    <div className="flex gap-2">
+      <button onClick={() => store.dispatch({ type: 'startAll' })}>
+        Start All
+      </button>
+      <button onClick={() => store.dispatch({ type: 'pauseAll' })}>
+        Pause All
+      </button>
+      <button onClick={() => store.dispatch({ type: 'cancelAll' })}>
+        Cancel All
+      </button>
+
+      {/* Scope to a specific purpose */}
+      <button onClick={() => store.dispatch({ type: 'startAll', purpose: 'photo' })}>
+        Start All Photos
+      </button>
+    </div>
+  )
+}
+```
+
+The full set of commands accepted by the store:
+
+| Command | Description | Valid From |
+| --- | --- | --- |
+| `start` | Queue a single item for upload | `ready` |
+| `startAll` | Queue all ready items | `ready` (each) |
+| `pause` | Pause an active or queued upload | `uploading`, `queued` |
+| `pauseAll` | Pause all active uploads | `uploading`, `queued` (each) |
+| `resume` | Resume a paused upload | `paused` (requires `file`) |
+| `cancel` | Cancel an upload | any non-terminal |
+| `cancelAll` | Cancel all non-terminal uploads | any non-terminal (each) |
+| `retry` | Retry a failed upload | `error` (requires `retryable`) |
+| `remove` | Remove item from state | any |
+| `rebind` | Re-attach a File reference | `paused` (no `file`) |
+
+## How the State Machine Transitions Between Phases
+
+The upload engine uses a strict state machine. Each `UploadItem` has a `phase` field that
+acts as a discriminant. The reducer only allows transitions from valid source phases:
 
 Key transitions to understand:
 
@@ -55,6 +255,8 @@ Key transitions to understand:
 Full upload controls component with pause, resume, cancel, retry, and batch operations:
 
 ```tsx title="src/components/PhotoUploader.tsx"
+import { useUploader } from '@gentleduck/upload/react'
+import type { UploadItem } from '@gentleduck/upload'
 
 type Purpose = 'photo'
 
@@ -68,58 +270,112 @@ function PhotoUploader() {
   ).length
 
   return (
+    <div>
+      <h2>PhotoDuck Uploads</h2>
 
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? [])
+          if (files.length > 0) {
+            store.dispatch({ type: 'addFiles', files, purpose: 'photo' as Purpose })
+          }
+        }}
+      />
+
+      <div className="flex gap-2 my-4">
+        <button onClick={() => store.dispatch({ type: 'startAll' })}>
+          Start All
+        </button>
+        <button onClick={() => store.dispatch({ type: 'pauseAll' })}>
+          Pause All
+        </button>
+        <button onClick={() => store.dispatch({ type: 'cancelAll' })}>
+          Cancel All
+        </button>
+        <span>{activeCount} active</span>
+      </div>
+
+      <ul>
+        {items.map((item) => (
+          <li key={item.localId}>
+            <UploadRow item={item} />
+          </li>
         ))}
-
+      </ul>
+    </div>
   )
 }
 
 function UploadRow({ item }: { item: UploadItem }) {
   const { store } = useUploader()
 
-  const phaseLabel: Record
+  const phaseLabel: Record<string, string> = {
+    validating: 'Validating...',
+    creating_intent: 'Preparing...',
+    ready: 'Ready',
+    queued: 'Queued',
+    uploading: 'Uploading',
+    paused: 'Paused',
+    completing: 'Finalizing...',
+    completed: 'Done',
+    error: 'Error',
+    canceled: 'Canceled',
+  }
+
+  return (
+    <div className="flex items-center gap-3 py-2">
+      <span className="w-48 truncate">{item.fingerprint.name}</span>
+      <span className="text-sm text-muted-foreground">{phaseLabel[item.phase]}</span>
+
+      {item.phase === 'uploading' && (
+        <progress value={item.progress.pct} max={100} className="flex-1" />
       )}
 
       {item.phase === 'paused' && 'progress' in item && (
         <span className="text-sm">{Math.round(item.progress.pct)}% paused</span>
       )}
 
+      <div className="flex gap-1">
         {item.phase === 'ready' && (
           <button onClick={() => store.dispatch({ type: 'start', localId: item.localId })}>
             Start
-
+          </button>
         )}
 
         {item.phase === 'uploading' && (
           <button onClick={() => store.dispatch({ type: 'pause', localId: item.localId })}>
             Pause
-
+          </button>
         )}
 
         {item.phase === 'paused' && (
           <button onClick={() => store.dispatch({ type: 'resume', localId: item.localId })}>
             Resume
-
+          </button>
         )}
 
         {item.phase === 'error' && item.retryable && (
           <button onClick={() => store.dispatch({ type: 'retry', localId: item.localId })}>
             Retry ({item.attempt})
-
+          </button>
         )}
 
         {item.phase !== 'completed' && item.phase !== 'canceled' && (
           <button onClick={() => store.dispatch({ type: 'cancel', localId: item.localId })}>
             Cancel
-
+          </button>
         )}
 
         {(item.phase === 'completed' || item.phase === 'canceled' || item.phase === 'error') && (
           <button onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}>
             Remove
-
+          </button>
         )}
-
+      </div>
+    </div>
   )
 }
 ```

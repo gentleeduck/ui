@@ -45,15 +45,32 @@ function StyledCalendar() {
   })
 
   return (
-
+    <div
+      {...getGridProps()}
+      className="grid grid-cols-7 gap-1"
+    >
       {state.weeks.map(week =>
         week.days.map(day => (
-
+          <button
+            key={day.date.getTime()}
+            {...getDayProps(day)}
+            className={[
+              'h-9 w-9 rounded-md text-sm',
+              'data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground',
+              'data-[today=true]:bg-accent data-[today=true]:text-accent-foreground',
+              'data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed',
+              'data-[outside-month=true]:text-muted-foreground',
+              'data-[range-start=true]:rounded-l-md data-[range-start=true]:bg-primary',
+              'data-[range-middle=true]:bg-accent',
+              'data-[range-end=true]:rounded-r-md data-[range-end=true]:bg-primary',
+              'data-[focused=true]:ring-2 data-[focused=true]:ring-ring',
+            ].join(' ')}
+          >
             {day.date.getDate()}
-
+          </button>
         ))
       )}
-
+    </div>
   )
 }
 ```

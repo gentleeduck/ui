@@ -28,6 +28,7 @@ For production applications, use the typed config. It prevents an entire class o
 ### Untyped (direct imports)
 
 ```typescript
+import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .grant('raed', 'post') // typo: "raed" instead of "read" — NO error
@@ -41,6 +42,7 @@ await engine.can('user-1', 'raed', { type: 'post', attributes: {} })
 ### Typed (createAccessConfig)
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete'] as const,
@@ -60,6 +62,7 @@ The typed version catches the typo immediately. For any application with more th
 ## Quick start
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete', 'manage'] as const,

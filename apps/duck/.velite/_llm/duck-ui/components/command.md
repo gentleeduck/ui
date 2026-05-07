@@ -50,7 +50,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx
-
+import {
   Command,
   CommandDialog,
   CommandEmpty,
@@ -64,11 +64,119 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx
+<Command>
+  <CommandInput placeholder="Type a command or search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem>Search GitHub</CommandItem>
+      <CommandItem>Search Twitter</CommandItem>
+      <CommandItem>Search Discord</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Settings">
+      <CommandItem>General</CommandItem>
+      <CommandItem>Profile</CommandItem>
+      <CommandItem>Notifications</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
 
-  
-    ` component, or use the `` component with the `command` variant.
+## Examples
+
+### Dialog
+
+```tsx title="components/command-2.tsx"
+// import from your project: import Demo from '@/components/command-2'
+'use client'
+
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from '@gentleduck/registry-ui/command'
+import { useKeyCommands } from '@gentleduck/vim/react'
+
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
+import * as React from 'react'
+
+export default function Demo() {
+  const [open, setOpen] = React.useState(false)
+
+  useKeyCommands(
+    {
+      'ctrl+j': {
+        description: 'Open command menu',
+        execute: () => {
+          setOpen(true)
+        },
+        name: '⌘j',
+      },
+    },
+    { preventDefault: true },
+  )
+
+  return (
+    <>
+      <p className="text-muted-foreground text-sm">
+        Press{' '}
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-medium font-mono text-[10px] text-muted-foreground opacity-100">
+          <span className="text-xs">⌘</span>J
+        </kbd>
+      </p>
+      <CommandDialog onOpenChange={setOpen} open={open}>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <Calendar />
+              <span>Calendar</span>
+            </CommandItem>
+            <CommandItem>
+              <Smile />
+              <span>Search Emoji</span>
+            </CommandItem>
+            <CommandItem>
+              <Calculator />
+              <span>Calculator</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem>
+              <User />
+              <span>Profile</span>
+              <CommandShortcut>⌘P</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <CreditCard />
+              <span>Billing</span>
+              <CommandShortcut>⌘B</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <Settings />
+              <span>Settings</span>
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
+  )
+}
+```
+
+To show the command menu in a dialog, use the `` component, or use the `` component with the `command` variant.
 
 ```tsx
+import { useKeyCommands } from '@gentleduck/vim/react'
 
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false)
@@ -86,9 +194,27 @@ export function CommandMenu() {
     { preventDefault: true },
   )
 
+
   return (
-    
-      
+    <CommandDialog
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>Settings</CommandItem>
+          <CommandItem>Messages</CommandItem>
+          <CommandItem>Search</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  )
+}
+```
+
+## Component Composition
 
 ## Types
 
@@ -102,10 +228,119 @@ Returned by `useCommandContext()`. Provides root command state.
 | `onSearchChange` | `(search: string) => void` | Callback to update the search query. |
 | `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. Uses the same `useDirection` resolution order. |
 | `listId` | `string` | Auto-generated id linking the input to the list via `aria-controls`. |
-| `inputRef` | `React.RefObject
+| `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
+| `typeaheadSearchRef` | `React.RefObject<string>` | Ref tracking the current typeahead search string. |
 
+---
+
+**CommandListContextValue**
+
+Returned by `useCommandListContext()`. Provides list-level state.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `onItemLeave` | `() => void` | Called when pointer leaves an item; returns focus to the input. |
+| `listRef` | `React.RefObject<HTMLUListElement \| null>` | The `ul` element holding items. |
+| `emptyRef` | `React.RefObject<HTMLDivElement \| null>` | The empty state div ref. |
+| `selectedItem` | `HTMLLIElement \| null` | The first visible item after filtering. |
+
+---
+
+**CommandItemContextValue**
+
+Per-item context. Available via `useCommandItemContext()`.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `value` | `string` | The item's value. |
+| `disabled` | `boolean` | Whether the item is disabled. |
+| `textId` | `string` | Auto-generated id for the item's text label. |
+| `onItemTextChange` | `(node: HTMLElement \| null) => void` | Callback to update the item's text value from the DOM. |
+
+---
+
+**CommandBadgeProps (CommandShortcut)**
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `keys` | `string` (optional) | Keyboard shortcut string (e.g. `'ctrl+K'`). |
+| `onKeysPressed` | `() => void` (optional) | Called when the shortcut is triggered. |
+| `variant` | `'default' \| 'secondary'` (optional) | Visual style. |
+| `...props` | `React.HTMLProps<HTMLElement>` | Native `kbd` element props. |
+
+## RTL Support
+
+RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for a local override, or set `DirectionProvider` once at app/root level for global direction. Child primitives inherit direction automatically.
+
+```tsx
+<Command dir="rtl">
+  <CommandInput placeholder="..." />
+  <CommandList>
+    <CommandGroup heading="...">
       <CommandItem>...</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
 
+```tsx title="components/command-3.tsx"
+// import from your project: import Demo from '@/components/command-3'
+'use client'
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from '@gentleduck/registry-ui/command'
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <Command className="h-fit w-80 border pt-0" dir="rtl">
+      <CommandInput placeholder="...اكتب امرا او ابحث" />
+      <CommandList>
+        <CommandEmpty>لا توجد نتائج.</CommandEmpty>
+        <CommandGroup heading="اقتراحات">
+          <CommandItem>
+            <Calendar />
+            <span>التقويم</span>
+          </CommandItem>
+          <CommandItem>
+            <Smile />
+            <span>بحث عن رموز تعبيرية</span>
+          </CommandItem>
+          <CommandItem disabled>
+            <Calculator />
+            <span>الالة الحاسبة</span>
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="الاعدادات">
+          <CommandItem>
+            <User />
+            <span>الملف الشخصي</span>
+            <CommandShortcut>⌘P</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            <CreditCard />
+            <span>الفواتير</span>
+            <CommandShortcut>⌘B</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            <Settings />
+            <span>الاعدادات</span>
+            <CommandShortcut>⌘S</CommandShortcut>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
 ```
 
 ## Motion
@@ -116,6 +351,66 @@ Returned by `useCommandContext()`. Provides root command state.
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionCommandItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 30ms via the `index` prop.
+
+```tsx title="components/command-4.tsx"
+// import from your project: import Demo from '@/components/command-4'
+'use client'
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+  MotionCommandItem,
+} from '@gentleduck/registry-ui/command'
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <Command className="h-fit w-80 border pt-0">
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <MotionCommandItem index={0}>
+            <Calendar />
+            <span>Calendar</span>
+          </MotionCommandItem>
+          <MotionCommandItem index={1}>
+            <Smile />
+            <span>Search Emoji</span>
+          </MotionCommandItem>
+          <MotionCommandItem index={2} disabled>
+            <Calculator />
+            <span>Calculator</span>
+          </MotionCommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Settings">
+          <MotionCommandItem index={3}>
+            <User />
+            <span>Profile</span>
+            <CommandShortcut>⌘P</CommandShortcut>
+          </MotionCommandItem>
+          <MotionCommandItem index={4}>
+            <CreditCard />
+            <span>Billing</span>
+            <CommandShortcut>⌘B</CommandShortcut>
+          </MotionCommandItem>
+          <MotionCommandItem index={5}>
+            <Settings />
+            <span>Settings</span>
+            <CommandShortcut>⌘S</CommandShortcut>
+          </MotionCommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionCommandItem` instead of `CommandItem`. Same props plus `index` for stagger delay. All other sub-components stay the same.

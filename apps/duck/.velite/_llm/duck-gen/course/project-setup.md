@@ -91,6 +91,8 @@ your source code and what to generate.
 Open `src/main.ts` and add the global prefix:
 
 ```ts title="src/main.ts"
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)

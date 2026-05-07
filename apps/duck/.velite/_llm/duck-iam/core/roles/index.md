@@ -3,6 +3,7 @@
 Roles are the RBAC side of duck-iam. Build them with `defineRole()`, granting permissions as action/resource pairs. At evaluation time, roles convert to ABAC policies and run through the same engine as hand-written ones.
 
 ```typescript
+import { defineRole } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .name('Viewer')
@@ -39,6 +40,21 @@ interface Role {
   permissions: readonly Permission[]
   inherits?: readonly string[]
   scope?: string
-  metadata?: Record
+  metadata?: Record<string, AttributeValue>
+}
+
+interface Permission {
+  action: string | '*'
+  resource: string | '*'
+  scope?: string | '*'
+  conditions?: ConditionGroup
+}
+```
+
+Each permission is an action/resource pair with optional scope and conditions. Roles are stored as plain JSON in the adapter — no runtime classes.
+
+---
+
+## How roles fit in
 
 The engine doesn't have a separate "RBAC" path. It calls `rolesToPolicy()` to turn role definitions into one synthetic ABAC policy with `id: '__rbac__'`, then evaluates that alongside your custom policies. See [rolesToPolicy](/docs/duck-iam/core/roles/roles-to-policy) for the conversion details.

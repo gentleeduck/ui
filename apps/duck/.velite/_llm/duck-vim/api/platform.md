@@ -3,7 +3,8 @@
 OS detection and cross-platform **Mod** key resolution. Detects whether the user is on macOS, Windows, or Linux and maps the virtual <Kbd>Mod</Kbd> key to the correct platform modifier.
 
 ```ts
-
+import { detectPlatform, resolveMod, isMac } from '@gentleduck/vim/platform'
+import type { Platform } from '@gentleduck/vim/platform'
 ```
 
 ## Types

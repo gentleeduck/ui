@@ -1,11 +1,36 @@
 ```tsx
-
+import * as ContextMenu from '@gentleduck/primitives/context-menu'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<ContextMenu.Root>
+  <ContextMenu.Trigger />
+  <ContextMenu.Portal>
+    <ContextMenu.Content>
+      <ContextMenu.Label />
+      <ContextMenu.Item />
+      <ContextMenu.Group>
+        <ContextMenu.Item />
+      </ContextMenu.Group>
+      <ContextMenu.CheckboxItem>
+        <ContextMenu.ItemIndicator />
+      </ContextMenu.CheckboxItem>
+      <ContextMenu.RadioGroup>
+        <ContextMenu.RadioItem>
+          <ContextMenu.ItemIndicator />
+        </ContextMenu.RadioItem>
+      </ContextMenu.RadioGroup>
+      <ContextMenu.Separator />
+      <ContextMenu.Sub>
+        <ContextMenu.SubTrigger />
+        <ContextMenu.SubContent />
+      </ContextMenu.Sub>
+      <ContextMenu.Arrow />
+    </ContextMenu.Content>
+  </ContextMenu.Portal>
+</ContextMenu.Root>
 ```
 
 ---
@@ -13,16 +38,40 @@
 ## Example
 
 ```tsx
+import * as ContextMenu from '@gentleduck/primitives/context-menu'
 
 function FileExplorer() {
   return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger className="w-64 h-64 border-2 border-dashed rounded flex items-center justify-center">
+        Right-click here
+      </ContextMenu.Trigger>
 
+      <ContextMenu.Portal>
+        <ContextMenu.Content className="bg-white shadow-lg rounded-md p-1 min-w-[180px] border">
+          <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+            New File
+          </ContextMenu.Item>
+          <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+            New Folder
+          </ContextMenu.Item>
+          <ContextMenu.Separator className="h-px bg-gray-200 my-1" />
+          <ContextMenu.Sub>
+            <ContextMenu.SubTrigger className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer flex justify-between">
               Sort by <span>></span>
-
+            </ContextMenu.SubTrigger>
+            <ContextMenu.SubContent className="bg-white shadow-lg rounded-md p-1 min-w-[140px] border">
+              <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
                 Name
-
+              </ContextMenu.Item>
+              <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
                 Date
-
+              </ContextMenu.Item>
+            </ContextMenu.SubContent>
+          </ContextMenu.Sub>
+        </ContextMenu.Content>
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
   )
 }
 ```

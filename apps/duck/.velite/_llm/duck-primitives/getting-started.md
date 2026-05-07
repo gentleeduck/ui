@@ -21,9 +21,51 @@ Requirements:
 If the product might support RTL later, set direction now.
 
 ```tsx
+import { DirectionProvider } from '@gentleduck/primitives/direction'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return 
+  return <DirectionProvider dir="ltr">{children}</DirectionProvider>
+}
+```
+
+Also set document semantics:
+
+```html
+<html dir="ltr" lang="en">
+```
+
+Use `dir="rtl"` at provider or primitive level where needed.
+
+---
+
+## First Dialog
+
+```tsx
+import * as React from 'react'
+import * as Dialog from '@gentleduck/primitives/dialog'
+
+export function DeleteProjectDialog() {
+  const [open, setOpen] = React.useState(false)
+  const [submitting, setSubmitting] = React.useState(false)
+
+  async function onDelete() {
+    try {
+      setSubmitting(true)
+      // await deleteProject()
+      setOpen(false)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="rounded-md border px-3 py-2 text-sm">
+        Delete project
+      </Dialog.Trigger>
+
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out" />
 
         <Dialog.Content
           className="fixed left-1/2 top-1/2 w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-background p-5 shadow-xl data-[state=open]:animate-in data-[state=closed]:animate-out"
@@ -35,13 +77,27 @@ export function Providers({ children }: { children: React.ReactNode }) {
           }}
         >
           <Dialog.Title className="text-lg font-semibold">Delete project?</Dialog.Title>
-
+          <Dialog.Description className="mt-1 text-sm text-muted-foreground">
             This action removes all environments and cannot be undone.
+          </Dialog.Description>
 
+          <div className="mt-4 flex justify-end gap-2">
+            <Dialog.Close asChild>
+              <button className="rounded-md border px-3 py-2 text-sm" disabled={submitting}>
                 Cancel
-
+              </button>
+            </Dialog.Close>
+            <button
+              className="rounded-md bg-red-600 px-3 py-2 text-sm text-white"
+              disabled={submitting}
+              onClick={onDelete}
+            >
               {submitting ? 'Deleting...' : 'Delete'}
-
+            </button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 ```
@@ -60,7 +116,9 @@ You get:
 Use namespace imports to keep JSX readable and avoid naming collisions:
 
 ```tsx
-
+import * as Dialog from '@gentleduck/primitives/dialog'
+import * as Popover from '@gentleduck/primitives/popover'
+import * as Tooltip from '@gentleduck/primitives/tooltip'
 ```
 
 ---

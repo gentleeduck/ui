@@ -1,21 +1,30 @@
 ```tsx
-
+import * as Pagination from '@gentleduck/primitives/pagination'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Pagination.Root>
+  <Pagination.Content>
+    <Pagination.Item />
+  </Pagination.Content>
+</Pagination.Root>
 ```
 
 ## Example
 
 ```tsx
-
+<Pagination.Root className="flex justify-center" dir="rtl">
+  <Pagination.Content className="flex items-center gap-2">
+    <Pagination.Item>
       <button type="button">التالي</button>
-
+    </Pagination.Item>
+    <Pagination.Item>
       <button type="button">١</button>
-
+    </Pagination.Item>
+  </Pagination.Content>
+</Pagination.Root>
 ```
 
 ## API

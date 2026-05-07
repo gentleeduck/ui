@@ -1,11 +1,20 @@
 ```tsx
-
+import * as Command from '@gentleduck/primitives/command'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Command.Root>
+  <Command.Input />
+  <Command.List>
+    <Command.Empty />
+    <Command.Group>
+      <Command.Item />
+    </Command.Group>
+    <Command.Separator />
+  </Command.List>
+</Command.Root>
 ```
 
 ---
@@ -13,13 +22,25 @@
 ## Example
 
 ```tsx
+import * as Command from '@gentleduck/primitives/command'
 
 function CommandMenu() {
   return (
-
+    <Command.Root className="rounded-lg border shadow-md">
+      <Command.Input placeholder="Type a command or search..." />
+      <Command.List>
+        <Command.Empty>No results found.</Command.Empty>
+        <Command.Group heading="Suggestions">
+          <Command.Item onSelect={() => console.log('Calendar')}>Calendar</Command.Item>
+          <Command.Item onSelect={() => console.log('Search')}>Search</Command.Item>
+        </Command.Group>
+        <Command.Separator />
+        <Command.Group heading="Settings">
           <Command.Item onSelect={() => console.log('Profile')}>Profile</Command.Item>
           <Command.Item onSelect={() => console.log('Settings')}>Settings</Command.Item>
-
+        </Command.Group>
+      </Command.List>
+    </Command.Root>
   )
 }
 ```

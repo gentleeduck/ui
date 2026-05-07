@@ -47,6 +47,7 @@ Customize this with the `getResource` callback.
 The `extractEnvironment()` helper reads standard headers:
 
 ```typescript
+import { extractEnvironment } from '@gentleduck/iam/server/generic'
 
 const env = extractEnvironment(req)
 // {
@@ -65,6 +66,7 @@ Framework-agnostic utilities that work with any server.
 Generate a `PermissionMap` for the client (Chapter 7):
 
 ```typescript
+import { generatePermissionMap } from '@gentleduck/iam/server/generic'
 
 const permissions = await generatePermissionMap(engine, userId, [
   { action: 'create', resource: 'post' },
@@ -83,6 +85,7 @@ Pass this map to the client `AccessProvider` for permission-based UI rendering.
 Create a reusable `can` function bound to a user:
 
 ```typescript
+import { createSubjectCan } from '@gentleduck/iam/server/generic'
 
 const can = createSubjectCan(engine, userId)
 
@@ -110,6 +113,8 @@ Use `mode: 'production'` for maximum throughput. Production mode skips Decision 
 allocation, timing, and hooks, giving roughly 2x faster:
 
 ```typescript title="src/access.ts"
+import { Engine } from '@gentleduck/iam'
+import { adapter } from './adapter'
 
 export const engine = new Engine({
   adapter,
@@ -302,8 +307,165 @@ returns boolean either way, the rest of your code stays the same.
 
     @Injectable()
     export class AccessGuard implements CanActivate {
-      private check: ReturnType
+      private check: ReturnType<typeof nestAccessGuard>
 
+      constructor(@Inject(ACCESS_ENGINE_TOKEN) engine: Engine) {
+        this.check = nestAccessGuard(engine, {
+          getUserId: (req) => req.user?.id || req.user?.sub,
+          getScope: (req) => req.headers['x-organization'],
+          getResourceId: (req) => req.params?.id,
+        })
+      }
+
+      async canActivate(context: ExecutionContext): Promise<boolean> {
+        return this.check(context)
+      }
+    }
+    ```
+
+    **Full options:**
+
+    ```typescript
+    interface NestGuardOptions {
+      getUserId?: (req) => string | null          // default: req.user?.id or req.user?.sub
+      getEnvironment?: (req) => Environment       // default: extractEnvironment()
+      getResourceId?: (req) => string | undefined // default: req.params?.id
+      getScope?: (req) => string | undefined      // default: none
+      onError?: (err, req) => boolean             // default: return false (deny)
+    }
+    ```
+  
+
+  
+    **Use the @Authorize decorator**
+
+    ```typescript title="src/posts/posts.controller.ts"
+    import { Controller, Delete, Get, Post, Param, UseGuards } from '@nestjs/common'
+    import { Authorize } from '@gentleduck/iam/server/nest'
+    import { AccessGuard } from '../access/access.guard'
+
+    @Controller('posts')
+    @UseGuards(AccessGuard)
+    export class PostsController {
+      // Explicit action and resource
+      @Delete(':id')
+      @Authorize({ action: 'delete', resource: 'post' })
+      async deletePost(@Param('id') id: string) {
+        return { deleted: id }
+      }
+
+      // With scope
+      @Post('admin')
+      @Authorize({ action: 'manage', resource: 'post', scope: 'admin' })
+      async adminAction() {
+        return { success: true }
+      }
+
+      // Infer action from HTTP method, resource from route path
+      @Get()
+      @Authorize()  // infer: true by default
+      async listPosts() {
+        return []
+      }
+    }
+    ```
+
+    When `@Authorize()` uses `infer: true` (the default), action is inferred from the HTTP method
+    via `METHOD_ACTION_MAP` and resource is inferred from the route path (last non-parameter segment).
+
+    If no `@Authorize` decorator is present, the guard allows the request through.
+
+    **AuthorizeMeta interface:**
+
+    ```typescript
+    interface AuthorizeMeta {
+      action?: string       // explicit action
+      resource?: string     // explicit resource type
+      scope?: string        // explicit scope
+      infer?: boolean       // infer from HTTP method + route (default: true)
+    }
+    ```
+  
+
+  
+    **Type-safe decorator**
+
+    ```typescript title="src/access/authorize.ts"
+    import { createTypedAuthorize } from '@gentleduck/iam/server/nest'
+
+    type AppAction = 'read' | 'create' | 'update' | 'delete' | 'manage'
+    type AppResource = 'post' | 'comment' | 'user' | 'dashboard'
+    type AppScope = 'acme' | 'globex'
+
+    export const Authorize = createTypedAuthorize<AppAction, AppResource, AppScope>()
+
+    // Now typos are compile errors:
+    // @Authorize({ action: 'delet', resource: 'post' })  // TypeScript error
+    ```
+  
+
+## Next.js (App Router)
+
+  
+    **Protect API route handlers**
+
+    ```typescript title="app/api/posts/[id]/route.ts"
+    import { withAccess } from '@gentleduck/iam/server/next'
+    import { engine } from '@/lib/access'  // mode: 'production' recommended
+
+    export const DELETE = withAccess(engine, 'delete', 'post',
+      async (req, { params }) => {
+        const { id } = await params
+        return Response.json({ deleted: id })
+      },
+      {
+        getUserId: (req) => req.headers.get('x-user-id'),
+        scope: 'acme',
+      }
+    )
+    ```
+
+    **WithAccessOptions:**
+
+    ```typescript
+    interface WithAccessOptions {
+      getUserId?: (req: Request) => string | null | Promise<string | null>
+      getEnvironment?: (req: Request) => Environment
+      scope?: string
+      onError?: (err: Error, req: Request) => Response
+    }
+    ```
+
+    `getUserId` can be async, useful for reading from cookies or JWT.
+  
+
+  
+    **Check permissions in Server Components**
+
+    ```typescript title="app/posts/[id]/page.tsx"
+    import { checkAccess, getPermissions } from '@gentleduck/iam/server/next'
+    import { engine } from '@/lib/access'
+
+    export default async function PostPage({ params }) {
+      const { id } = await params
+      const userId = 'alice'  // from your auth
+
+      // Single check
+      const canDelete = await checkAccess(engine, userId, 'delete', 'post', id)
+
+      // Batch check for the client
+      const permissions = await getPermissions(engine, userId, [
+        { action: 'update', resource: 'post', resourceId: id },
+        { action: 'delete', resource: 'post', resourceId: id },
+        { action: 'create', resource: 'comment' },
+      ])
+
+      return (
+        <div>
+          <h1>Post {id}</h1>
+          {canDelete && <button>Delete</button>}
+          <ClientToolbar permissions={permissions} />
+        </div>
       )
     }
     ```

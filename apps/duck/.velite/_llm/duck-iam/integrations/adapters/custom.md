@@ -3,6 +3,7 @@
 Any object satisfying this interface can plug into `Engine`:
 
 ```typescript
+import type { Adapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
 
 interface Adapter<TAction, TResource, TRole, TScope> {
   // PolicyStore
@@ -34,6 +35,8 @@ interface Adapter<TAction, TResource, TRole, TScope> {
 ## Example: DynamoDB sketch
 
 ```typescript
+import type { Adapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
+import type { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 
 export class DynamoAdapter implements Adapter {
   constructor(
@@ -76,6 +79,8 @@ export class DynamoAdapter implements Adapter {
 ## Example: MongoDB sketch
 
 ```typescript
+import type { Adapter, Policy } from '@gentleduck/iam'
+import type { Db } from 'mongodb'
 
 export class MongoAdapter implements Adapter {
   constructor(private db: Db) {}
@@ -129,6 +134,8 @@ For high-contention attribute writes, use database transactions (`SELECT ... FOR
 Use `MemoryAdapter` as a behavioral reference. Your adapter should produce identical engine results for the same inputs.
 
 ```typescript
+import { Engine } from '@gentleduck/iam'
+import { YourAdapter } from './your-adapter'
 
 const adapter = new YourAdapter(/* config */)
 

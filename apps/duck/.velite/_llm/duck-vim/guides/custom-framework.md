@@ -17,6 +17,9 @@ Register bindings via registry.register() and store the handle for cleanup
 ## Vue 3 (Composition API)
 
 ```ts title="composables/useKeyBind.ts"
+import { onMounted, onUnmounted } from 'vue'
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import type { Command, KeyBindOptions } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const handler = new KeyHandler(registry, 600)
@@ -43,11 +46,13 @@ export function useKeyBind(binding: string, execute: () => void, options?: KeyBi
 **Usage in a component:**
 
 ```vue
+<script setup>
+import { useKeyBind } from './composables/useKeyBind'
 
 useKeyBind('ctrl+k', () => {
   console.log('Palette opened!')
 }, { preventDefault: true })
-
+</script>
 ```
 
 ---
@@ -55,6 +60,7 @@ useKeyBind('ctrl+k', () => {
 ## Svelte
 
 ```ts title="actions/keybind.ts"
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const handler = new KeyHandler(registry, 600)
@@ -77,12 +83,13 @@ export function keybind(node: HTMLElement, params: { binding: string; handler: (
 **Usage:**
 
 ```svelte
-
+<script>
   import { keybind } from './actions/keybind'
+</script>
 
 <div use:keybind={{ binding: 'ctrl+k', handler: () => console.log('palette') }}>
   App content
-
+</div>
 ```
 
 ---
@@ -90,6 +97,9 @@ export function keybind(node: HTMLElement, params: { binding: string; handler: (
 ## Angular
 
 ```ts title="keybind.service.ts"
+import { Injectable, OnDestroy } from '@angular/core'
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import type { Command, KeyBindOptions, RegistrationHandle } from '@gentleduck/vim/command'
 
 @Injectable({ providedIn: 'root' })
 export class KeyBindService implements OnDestroy {
@@ -138,6 +148,7 @@ export class AppComponent implements OnInit, OnDestroy {
 ## Vanilla (module pattern)
 
 ```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const handler = new KeyHandler(registry, 600)

@@ -25,10 +25,13 @@ npx @gentleduck/cli add switch
 The command above will add the `Switch` component to `resources/js/components/ui/switch.tsx`. You can then import it like this:
 
 ```tsx title="resources/js/pages/index.tsx" {1,6} showLineNumbers
+import { Switch } from "@/components/ui/switch"
 
 const MyPage = () => {
   return (
-
+    <div>
+      <Switch />
+    </div>
   )
 }
 

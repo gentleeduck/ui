@@ -14,7 +14,7 @@ Typical reasons to reach for them:
 All imports come from the root package:
 
 ```typescript
-
+import {
   matchesAction,
   matchesResource,
   matchesResourceHierarchical,
@@ -36,6 +36,7 @@ Matches an action string against a pattern. `'*'` matches everything. Patterns e
 in `:*` match any action that shares the prefix.
 
 ```typescript
+import { matchesAction } from '@gentleduck/iam'
 
 matchesAction('*', 'delete')           // true  -- wildcard
 matchesAction('read', 'read')          // true  -- exact
@@ -56,6 +57,7 @@ Matches a resource type against a pattern. Same wildcard rules as `matchesAction
 plus hierarchical prefix matching: `'org'` matches `'org:project:doc'`.
 
 ```typescript
+import { matchesResource } from '@gentleduck/iam'
 
 matchesResource('*', 'post')                // true
 matchesResource('post', 'post')             // true
@@ -77,6 +79,7 @@ Dot-notation variant of resource matching. `'dashboard'` matches
 parent itself.
 
 ```typescript
+import { matchesResourceHierarchical } from '@gentleduck/iam'
 
 matchesResourceHierarchical('*', 'anything')                       // true
 matchesResourceHierarchical('dashboard', 'dashboard')              // true
@@ -98,6 +101,7 @@ any scope (global permission). If the request has no scope, only global patterns
 Otherwise exact match.
 
 ```typescript
+import { matchesScope } from '@gentleduck/iam'
 
 matchesScope(null, null)          // true  -- both global
 matchesScope(undefined, 'org-1')  // true  -- global pattern matches any scope
@@ -129,6 +133,7 @@ Returns `null` for invalid paths. Blocks `__proto__`, `constructor`, and `protot
 traversal.
 
 ```typescript
+import { resolve } from '@gentleduck/iam'
 
 const request = {
   subject: { id: 'user-1', roles: ['editor'], attributes: { department: 'eng' } },
@@ -169,6 +174,7 @@ engine calls for each leaf condition. Supports all built-in operators:
 `superset_of`.
 
 ```typescript
+import { evaluateOperator } from '@gentleduck/iam'
 
 evaluateOperator('eq', 'admin', 'admin')            // true
 evaluateOperator('neq', 'viewer', 'admin')           // true
@@ -201,6 +207,7 @@ unchanged. The engine calls this internally so conditions like
 work.
 
 ```typescript
+import { resolveConditionValue } from '@gentleduck/iam'
 
 const request = {
   subject: { id: 'user-1', roles: ['editor'], attributes: {} },

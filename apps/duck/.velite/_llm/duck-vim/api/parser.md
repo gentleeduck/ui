@@ -3,7 +3,7 @@
 Parse, normalize, and validate key binding strings. This module converts human-readable bindings like <Kbd>Ctrl+Shift+S</Kbd> into structured objects for matching.
 
 ```ts
-
+import {
   parseKeyBind,
   normalizeKeyBind,
   validateKeyBind,

@@ -90,6 +90,7 @@ Processing done
 Import and use the generated types
 
 ```ts
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 // Now your client knows every route, request shape, and response type
 type SigninRequest = RouteReq<'/api/auth/signin'>
@@ -117,9 +118,10 @@ locations (e.g. `./generated` in your project root).
 
 ```ts
 // From the package entrypoint (recommended)
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 // From a custom output directory
-
+import type { ApiRoutes } from './generated/duck-gen-api-routes'
 ```
 
 } title="Which import path should I use?">

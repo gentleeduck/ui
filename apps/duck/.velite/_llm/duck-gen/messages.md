@@ -131,6 +131,7 @@ export const ZodMessages = {
 ```
 
 ```ts title="src/modules/auth/auth.constants.ts"
+import { ZodMessages } from '~/common/constants'
 
 /** @duckgen messages auth */
 export const AuthMessages = [
@@ -254,6 +255,7 @@ bunx duck-gen
 ### Step 3: Build the i18n object on the client
 
 ```ts title="client/i18n.ts"
+import type { DuckgenScopedI18nByGroup, DuckGenI18nMessages } from '@gentleduck/gen/nestjs'
 
 type SupportedLang = 'en' | 'ar'
 type I18n = DuckgenScopedI18nByGroup<SupportedLang, DuckGenI18nMessages>
@@ -290,6 +292,7 @@ TypeScript errors when you:
 ### Step 4: Use in the UI
 
 ```ts title="client/auth.ts"
+import { i18n } from './i18n'
 
 function showSigninError(lang: 'en' | 'ar', messageKey: string) {
   const text = i18n[lang].server.AuthMessages[messageKey]

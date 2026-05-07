@@ -7,7 +7,33 @@ You add a route on the server, update the DTO, then write matching types on the 
 ```ts
 // Server: you add a new route
 @Post('signup')
-signup(@Body() body: SignupDto): Promise
+signup(@Body() body: SignupDto): Promise<AuthSession> { ... }
+
+// Client: you manually write the matching types... or forget to
+type SignupReq = { email: string; password: string }  // hope this matches SignupDto
+type SignupRes = { token: string }                     // hope this matches AuthSession
+```
+
+Duck Gen and Duck Query close this gap.
+
+---
+
+## Duck Gen -- The Compiler Extension
+
+Duck Gen reads your server source and emits TypeScript definition files (`.d.ts`) for every API route and message key it finds.
+
+The contract layer stops being something you write by hand.
+
+### What it generates
+
+| Category | Output |
+| --- | --- |
+| **API route types** | A route map with typed request shapes (body, query, params, headers) and response types for every controller method. |
+| **Message registry types** | Strongly-typed i18n dictionaries derived from `@duckgen` message tags in your code. |
+
+Both outputs are `.d.ts` files you import directly -- no runtime cost, just types.
+
+### How it works
 
 Duck Gen parses your source statically with [ts-morph](https://ts-morph.com/). It finds every `@Controller` class, extracts the HTTP method decorators (`@Get`, `@Post`, `@Put`, `@Delete`, `@Patch`), resolves the full route path, and reads parameter decorators (`@Body`, `@Query`, `@Param`, `@Headers`) for request shapes. Response types come from the method's return type.
 
@@ -96,6 +122,8 @@ const res = await client.post('/api/auth/signin', {
 ### Setup
 
 ```ts
+import { createDuckQuery } from '@gentleduck/query'
+import type { ApiRoutes } from './generated/api-routes'
 
 const client = createDuckQuery<ApiRoutes>({
   baseURL: 'https://api.example.com',

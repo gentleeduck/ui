@@ -7,6 +7,7 @@
 A date adapter is an object that implements `Adapter.IDateAdapter<TDate>`. It tells the engine how to do date math without coupling to a specific library.
 
 ```tsx showLineNumbers
+import type { Adapter } from '@gentleduck/calendar'
 
 // TDate is a generic - it can be Date, Dayjs, DateTime, etc.
 // The adapter tells the engine how to work with that type
@@ -31,6 +32,7 @@ With one:
 `NativeAdapter` ships with the package and uses `Date` + `Intl.DateTimeFormat`. Zero extra dependencies.
 
 ```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 
@@ -47,6 +49,8 @@ const formatted = adapter.format(today, { month: 'long', year: 'numeric' })  // 
 A dayjs adapter, step by step:
 
 ```tsx showLineNumbers
+import type { Adapter } from '@gentleduck/calendar'
+import dayjs, { type Dayjs } from 'dayjs'
 
 const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
   // Creation

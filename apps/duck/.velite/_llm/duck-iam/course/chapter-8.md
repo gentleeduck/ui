@@ -191,6 +191,7 @@ duck-iam provides four adapters for persistent storage.
 For prototyping, testing, and simple apps:
 
 ```typescript
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 const adapter = new MemoryAdapter({
   policies: [ownerPolicy],
@@ -209,7 +210,34 @@ const adapter = new MemoryAdapter({
 #### MemoryAdapterInit Interface
 
 ```typescript
-interface MemoryAdapterInit
+interface MemoryAdapterInit<TAction, TResource, TRole, TScope> {
+  policies?: Policy<TAction, TResource, TRole>[]
+  roles?: Role<TAction, TResource, TRole, TScope>[]
+  assignments?: Record<string, TRole[]>         // subjectId -> base roles
+  attributes?: Record<string, Attributes>        // subjectId -> attributes
+}
+```
+
+The MemoryAdapter stores everything in `Map` objects. Internally it tracks assignments as
+`{ role, scope? }` pairs. The `assignments` init option only sets unscoped (base) roles.
+For scoped assignments, use `adapter.assignRole(subjectId, roleId, scope)` after creation.
+
+**How it separates base and scoped roles:**
+
+- `getSubjectRoles()` returns only entries where `scope == null` (base roles)
+- `getSubjectScopedRoles()` returns only entries where `scope != null`
+- `assignRole()` prevents duplicates before inserting
+- `setSubjectAttributes()` merges into existing attributes (does not replace)
+
+### PrismaAdapter
+
+```typescript title="src/access.ts"
+import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+const adapter = new PrismaAdapter(prisma)
+```
 
 Required Prisma models:
 
@@ -274,6 +302,10 @@ it uses `deleteMany` with a compound filter on `(subjectId, roleId, scope)`.
 ### DrizzleAdapter
 
 ```typescript title="src/access.ts"
+import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { db } from './db'
+import { eq, and } from 'drizzle-orm'
+import * as tables from './schema'
 
 const adapter = new DrizzleAdapter({
   db,
@@ -293,7 +325,226 @@ const adapter = new DrizzleAdapter({
 interface DrizzleConfig {
   db: {
     select: () => { from: (table: unknown) => DrizzleQuery }
-    insert: (table: unknown) => { values: (data: RecordKey: 'all' -> Role[]"]
+    insert: (table: unknown) => { values: (data: Record<string, unknown>) => DrizzleInsert }
+    delete: (table: unknown) => { where: (condition: unknown) => Promise<unknown> }
+  }
+  tables: {
+    policies: DrizzleTable
+    roles: DrizzleTable
+    assignments: DrizzleTable
+    attrs: DrizzleTable
+  }
+  ops: {
+    eq: (col: unknown, val: unknown) => unknown
+    and: (...conditions: unknown[]) => unknown
+  }
+}
+```
+
+**Key differences from PrismaAdapter:**
+
+- JSON columns may store as `string`. The adapter handles both `string` (parses with
+  `JSON.parse`) and object (uses directly) values
+- Uses `onConflictDoUpdate` for upsert and `onConflictDoNothing` for `assignRole`
+- Requires you to pass the `eq` and `and` operators from `drizzle-orm`
+- Serializes JSON fields with `JSON.stringify` before writing
+
+#### Drizzle Schema Example
+
+```typescript title="src/schema.ts"
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
+
+export const accessPolicies = sqliteTable('access_policies', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  version: integer('version').notNull().default(1),
+  algorithm: text('algorithm').notNull(),
+  rules: text('rules').notNull(),        // JSON string
+  targets: text('targets'),              // JSON string or null
+})
+
+export const accessRoles = sqliteTable('access_roles', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  permissions: text('permissions').notNull(),  // JSON string
+  inherits: text('inherits').notNull().default('[]'),
+  scope: text('scope'),
+  metadata: text('metadata'),
+})
+
+export const accessAssignments = sqliteTable('access_assignments', {
+  subjectId: text('subject_id').notNull(),
+  roleId: text('role_id').notNull(),
+  scope: text('scope'),
+}, (t) => ({
+  pk: primaryKey(t.subjectId, t.roleId, t.scope),
+}))
+
+export const accessSubjectAttrs = sqliteTable('access_subject_attrs', {
+  subjectId: text('subject_id').primaryKey(),
+  data: text('data').notNull(),   // JSON string
+})
+```
+
+### HttpAdapter
+
+For microservice architectures where a central service manages authorization:
+
+```typescript title="src/access.ts"
+import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+
+const adapter = new HttpAdapter({
+  baseUrl: 'https://auth.internal.company.com/access',
+  headers: () => ({
+    Authorization: `Bearer ${getServiceToken()}`,
+  }),
+})
+```
+
+#### HttpAdapterConfig Interface
+
+```typescript
+interface HttpAdapterConfig {
+  /** Base URL of your duck-iam API, e.g. "https://api.example.com/access" */
+  baseUrl: string
+  /** Custom fetch function (defaults to globalThis.fetch) */
+  fetch?: typeof globalThis.fetch
+  /** Headers to include -- static object or async function */
+  headers?: Record<string, string>
+    | (() => Record<string, string> | Promise<Record<string, string>>)
+}
+```
+
+**Features:**
+
+- `headers` can be a static object or an async function (for rotating tokens)
+- `fetch` can be customized (for testing or Node.js polyfill)
+- Trailing slashes on `baseUrl` are automatically stripped
+- All requests include `Content-Type: application/json`
+- Non-OK responses throw `Error` with `duck-iam HTTP ${status}: ${body}`
+
+#### HttpAdapter Endpoint Mapping
+
+The adapter maps each store method to an HTTP endpoint:
+
+| Method | HTTP Request | Notes |
+| --- | --- | --- |
+| `listPolicies()` | `GET /policies` | Returns `Policy[]` |
+| `getPolicy(id)` | `GET /policies/:id` | Returns `Policy \| null` |
+| `savePolicy(p)` | `PUT /policies` | Body: full Policy JSON |
+| `deletePolicy(id)` | `DELETE /policies/:id` | |
+| `listRoles()` | `GET /roles` | Returns `Role[]` |
+| `getRole(id)` | `GET /roles/:id` | Returns `Role \| null` |
+| `saveRole(r)` | `PUT /roles` | Body: full Role JSON |
+| `deleteRole(id)` | `DELETE /roles/:id` | |
+| `getSubjectRoles(id)` | `GET /subjects/:id/roles` | Returns `string[]` |
+| `getSubjectScopedRoles(id)` | `GET /subjects/:id/scoped-roles` | Returns `ScopedRole[]` |
+| `assignRole(id, role, scope?)` | `POST /subjects/:id/roles` | Body: `{ roleId, scope }` |
+| `revokeRole(id, role, scope?)` | `DELETE /subjects/:id/roles/:role?scope=...` | Query param for scope |
+| `getSubjectAttributes(id)` | `GET /subjects/:id/attributes` | Returns `Attributes` |
+| `setSubjectAttributes(id, attrs)` | `PATCH /subjects/:id/attributes` | Body: partial attrs (merged) |
+
+These endpoints match the admin router from Chapter 6. Run one central duck-iam service
+with Express + admin router, and have other services connect via the HTTP adapter.
+
+### Writing a Custom Adapter
+
+Implement the `Adapter` interface to connect any storage backend:
+
+```typescript
+import type { Adapter, Attributes, Policy, Role, ScopedRole } from '@gentleduck/iam'
+
+export class MongoAdapter implements Adapter {
+  constructor(private db: Db) {}
+
+  // PolicyStore
+  async listPolicies(): Promise<Policy[]> {
+    return this.db.collection('policies').find().toArray()
+  }
+  async getPolicy(id: string): Promise<Policy | null> {
+    return this.db.collection('policies').findOne({ id })
+  }
+  async savePolicy(p: Policy): Promise<void> {
+    await this.db.collection('policies').updateOne(
+      { id: p.id }, { $set: p }, { upsert: true }
+    )
+  }
+  async deletePolicy(id: string): Promise<void> {
+    await this.db.collection('policies').deleteOne({ id })
+  }
+
+  // RoleStore
+  async listRoles(): Promise<Role[]> {
+    return this.db.collection('roles').find().toArray()
+  }
+  async getRole(id: string): Promise<Role | null> {
+    return this.db.collection('roles').findOne({ id })
+  }
+  async saveRole(r: Role): Promise<void> {
+    await this.db.collection('roles').updateOne(
+      { id: r.id }, { $set: r }, { upsert: true }
+    )
+  }
+  async deleteRole(id: string): Promise<void> {
+    await this.db.collection('roles').deleteOne({ id })
+  }
+
+  // SubjectStore
+  async getSubjectRoles(subjectId: string): Promise<string[]> {
+    const rows = await this.db.collection('assignments')
+      .find({ subjectId, scope: null }).toArray()
+    return rows.map(r => r.roleId)
+  }
+  async getSubjectScopedRoles(subjectId: string): Promise<ScopedRole[]> {
+    const rows = await this.db.collection('assignments')
+      .find({ subjectId, scope: { $ne: null } }).toArray()
+    return rows.map(r => ({ role: r.roleId, scope: r.scope }))
+  }
+  async assignRole(subjectId: string, roleId: string, scope?: string): Promise<void> {
+    await this.db.collection('assignments').updateOne(
+      { subjectId, roleId, scope: scope ?? null },
+      { $set: { subjectId, roleId, scope: scope ?? null } },
+      { upsert: true }
+    )
+  }
+  async revokeRole(subjectId: string, roleId: string, scope?: string): Promise<void> {
+    await this.db.collection('assignments').deleteOne({
+      subjectId, roleId, scope: scope ?? null,
+    })
+  }
+  async getSubjectAttributes(subjectId: string): Promise<Attributes> {
+    const doc = await this.db.collection('subject_attrs').findOne({ subjectId })
+    return doc?.data ?? {}
+  }
+  async setSubjectAttributes(subjectId: string, attrs: Attributes): Promise<void> {
+    const existing = await this.getSubjectAttributes(subjectId)
+    const merged = { ...existing, ...attrs }
+    await this.db.collection('subject_attrs').updateOne(
+      { subjectId },
+      { $set: { subjectId, data: merged } },
+      { upsert: true }
+    )
+  }
+}
+```
+
+**Requirements for a correct adapter:**
+
+1. `getSubjectRoles()` must return only unscoped (base) roles
+2. `getSubjectScopedRoles()` must return only scoped roles (with `scope` set)
+3. `assignRole()` should prevent duplicate assignments
+4. `setSubjectAttributes()` should merge into existing attributes, not replace them
+5. `savePolicy()` and `saveRole()` should upsert (create if new, update if existing)
+6. `getPolicy()` and `getRole()` must return `null` when the ID does not exist
+
+## Cache Internals
+
+The engine uses four LRU caches to minimize adapter calls:
+
+Key: 'all' -> Policy[]"]
+        RC["roleCache (size: 1)Key: 'all' -> Role[]"]
         RBC["rbacPolicyCache (size: 1)Key: 'rbac' -> Policy"]
         SC["subjectCache (size: maxCacheSize)Key: subjectId -> Subject"]
     end
@@ -688,6 +939,7 @@ resolution), use `evaluateFast()` as a pure function. It takes policies and a fu
 resolved request, and returns a boolean directly:
 
 ```typescript
+import { evaluateFast } from '@gentleduck/iam'
 
 const allowed = evaluateFast(
   [ownerPolicy, rbacPolicy],
@@ -1172,6 +1424,9 @@ Before shipping BlogDuck:
     
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
+import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { PrismaClient } from '@prisma/client'
 
 // 1. Type-safe config
 export const access = createAccessConfig({

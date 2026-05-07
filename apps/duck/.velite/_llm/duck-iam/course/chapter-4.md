@@ -39,7 +39,144 @@ interface EngineHooks {
   // Runs before evaluation. Can modify the request (enrich with DB data).
   beforeEvaluate?(
     request: AccessRequest,
-  ): AccessRequest | Promise(1 entry)"]
+  ): AccessRequest | Promise<AccessRequest>
+
+  // Runs after evaluation, regardless of outcome.
+  afterEvaluate?(
+    request: AccessRequest,
+    decision: Decision,
+  ): void | Promise<void>
+
+  // Runs only when the decision is deny.
+  onDeny?(
+    request: AccessRequest,
+    decision: Decision,
+  ): void | Promise<void>
+
+  // Runs if any error occurs during evaluation.
+  onError?(
+    error: Error,
+    request: AccessRequest,
+  ): void | Promise<void>
+}
+```
+
+  
+    **beforeEvaluate: enrich the request**
+
+    Fetch resource data from a database before evaluation runs:
+
+    ```typescript title="src/access.ts"
+    export const engine = new Engine({
+      adapter,
+      hooks: {
+        beforeEvaluate: async (request) => {
+          if (request.resource.type !== 'post') return request
+
+          // Fetch the post to get its ownerId
+          const post = await db.posts.findUnique({
+            where: { id: request.resource.id },
+          })
+
+          return {
+            ...request,
+            resource: {
+              ...request.resource,
+              attributes: {
+                ...request.resource.attributes,
+                ownerId: post?.authorId,
+              },
+            },
+          }
+        },
+      },
+    })
+    ```
+
+    Callers don't need to pass `ownerId`; the hook fetches it automatically. The hook
+    receives the full `AccessRequest` and returns a (potentially modified) request. You can
+    modify any part: subject attributes, resource attributes, environment, etc.
+
+    If `beforeEvaluate` throws, evaluation is skipped and the result is deny (fail closed).
+    The `onError` hook is called.
+  
+
+  
+    **afterEvaluate: audit logging**
+
+    ```typescript
+    hooks: {
+      afterEvaluate: async (request, decision) => {
+        console.log(
+          `[audit] ${request.subject.id} ${decision.effect} ${request.action}` +
+          ` on ${request.resource.type}:${request.resource.id ?? 'any'}`
+        )
+      },
+    }
+    ```
+
+    `afterEvaluate` runs regardless of outcome (allow or deny). Use it for audit trails,
+    metrics, and analytics.
+  
+
+  
+    **onDeny: alert on denied access**
+
+    ```typescript
+    hooks: {
+      onDeny: async (request, decision) => {
+        metrics.increment('access.denied', {
+          action: request.action,
+          resource: request.resource.type,
+          subject: request.subject.id,
+          reason: decision.reason,
+        })
+      },
+    }
+    ```
+
+    `onDeny` runs only when the decision is deny, after `afterEvaluate`.
+  
+
+  
+    **onError: handle evaluation failures**
+
+    ```typescript
+    hooks: {
+      onError: async (error, request) => {
+        logger.error('Authorization error', {
+          error: error.message,
+          subjectId: request.subject.id,
+          action: request.action,
+          resource: request.resource.type,
+        })
+      },
+    }
+    ```
+
+    If any error occurs during evaluation (including in hooks), the engine catches it,
+    calls `onError`, and returns deny. Errors never result in accidental allows.
+
+    The deny decision includes the error message:
+    `{ allowed: false, reason: 'Evaluation error: ...' }`
+  
+
+### Hooks in Batch Permissions
+
+`engine.permissions()` triggers hooks for each check in the batch. Each permission
+check goes through `beforeEvaluate`, evaluation, `afterEvaluate`, and `onDeny` (if denied).
+
+### Hooks in Explain
+
+`engine.explain()` only triggers `beforeEvaluate`, not `afterEvaluate`, `onDeny`, or
+`onError`. The hook may modify the request, which affects the evaluation trace. If subject
+resolution, `beforeEvaluate`, or policy loading throws, the `explain()` call rejects.
+
+## Caching
+
+The engine maintains four LRU caches to avoid hitting the adapter on every check:
+
+all policies from adapter(1 entry)"]
         RC["Role Cacheall role definitions(1 entry)"]
         RB["RBAC Policy Cachesynthetic __rbac__ policy(1 entry)"]
         SC["Subject Cacheper-user roles + attributes(up to maxCacheSize entries)"]
@@ -306,6 +443,10 @@ check picks up the new role. No manual invalidation needed after admin operation
     
 
 ```typescript
+import { Engine, validateRoles } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { viewer, editor, admin } from './roles'
+import { ownerPolicy } from './policies'
 
 validateRoles([viewer, editor, admin])
 

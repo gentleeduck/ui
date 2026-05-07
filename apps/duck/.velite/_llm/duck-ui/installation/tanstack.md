@@ -35,6 +35,11 @@ Create an `app.css` file in the `app/styles` directory and import `tailwindcss`
 Import `app.css`
 
 ```tsx title="app/routes/__root.tsx" showLineNumbers {5,21-26}
+import type { ReactNode } from "react"
+import { createRootRoute, Outlet } from "@tanstack/react-router"
+import { Meta, Scripts } from "@tanstack/start"
+
+import appCss from "@/styles/app.css?url"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -103,6 +108,8 @@ npx @gentleduck/cli add button
 The command above will add the `Button` component to your project. You can then import it like this:
 
 ```tsx title="app/routes/index.tsx" showLineNumbers {1-2,7}
+import { createFileRoute } from "@tanstack/react-router"
+import { Button } from "@/components/ui/button"
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -110,9 +117,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-
+    <div>
       <Button>Click me</Button>
-
+    </div>
   )
 }
 ```

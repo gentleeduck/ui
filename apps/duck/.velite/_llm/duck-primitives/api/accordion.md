@@ -1,11 +1,16 @@
 ```tsx
-
+import * as Accordion from '@gentleduck/primitives/accordion'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Trigger />
+    <Accordion.Content />
+  </Accordion.Item>
+</Accordion.Root>
 ```
 
 ---
@@ -13,18 +18,24 @@
 ## Example
 
 ```tsx
+import * as Accordion from '@gentleduck/primitives/accordion'
 
 function BasicAccordion() {
   return (
-
+    <Accordion.Root type="single" collapsible>
+      <Accordion.Item value="item-1">
         <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
-
+        <Accordion.Content>
           Yes. It adheres to the WAI-ARIA design pattern.
-
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="item-2">
         <Accordion.Trigger>Is it unstyled?</Accordion.Trigger>
-
+        <Accordion.Content>
           Yes. It is unstyled by default, giving you full control over styling.
-
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
   )
 }
 ```

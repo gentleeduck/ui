@@ -1,11 +1,11 @@
 ```tsx
-
+import * as Toggle from '@gentleduck/primitives/toggle'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Toggle.Root />
 ```
 
 ---
@@ -13,10 +13,14 @@
 ## Example
 
 ```tsx
+import * as Toggle from '@gentleduck/primitives/toggle'
+import { Bold } from 'lucide-react'
 
 function BoldToggle() {
   return (
-
+    <Toggle.Root aria-label="Toggle bold" className="rounded p-2 data-[state=on]:bg-accent">
+      <Bold className="size-4" />
+    </Toggle.Root>
   )
 }
 ```

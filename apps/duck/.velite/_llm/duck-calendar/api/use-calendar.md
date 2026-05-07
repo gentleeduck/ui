@@ -1,5 +1,5 @@
 ```tsx
-
+import { useCalendar } from '@gentleduck/calendar'
 ```
 
 ## Usage

@@ -5,6 +5,8 @@ generic over the route map, so TypeScript checks paths, request shapes, and resp
 types at compile time.
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 const client = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -38,6 +40,7 @@ const client = createDuckQueryClient<ApiRoutes>({
 })
 
 // With existing Axios instance
+import axios from 'axios'
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000',

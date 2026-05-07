@@ -6,7 +6,11 @@ logic stays in the core engine.
 Wrap the app with `UploadProvider` so components can reach the store:
 
 ```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
 
+<UploadProvider store={store}>
+  <App />
+</UploadProvider>
 ```
 
 ## Hooks

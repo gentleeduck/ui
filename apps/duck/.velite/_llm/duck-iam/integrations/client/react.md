@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { createAccessControl, createPermissionChecker } from '@gentleduck/iam/client/react'
 ```
 
 React is an optional peer dep. The factory accepts your `React` import to avoid a hard version dependency.
@@ -14,6 +14,8 @@ Create the access control system once at app initialization. Pass your React imp
 
 ```typescript
 // lib/access.tsx
+import React from 'react'
+import { createAccessControl } from '@gentleduck/iam/client/react'
 
 export const { AccessProvider, useAccess, usePermissions, Can, Cannot } = createAccessControl(React)
 ```
@@ -25,13 +27,129 @@ type Action = 'create' | 'read' | 'update' | 'delete'
 type Resource = 'post' | 'comment' | 'team'
 type Scope = 'org-1' | 'admin'
 
-export const access = createAccessControl
+export const access = createAccessControl<Action, Resource, Scope>(React)
+```
 
-      }>
+---
 
-  if (error) return 
+## AccessProvider
 
-  return }</div>
+Wrap your app (or a subtree) with the provider. Pass the permission map generated on the server.
+
+```tsx
+// app/layout.tsx (Next.js example)
+import { AccessProvider } from '@/lib/access'
+import { getPermissions } from '@gentleduck/iam/server/next'
+
+export default async function RootLayout({ children }) {
+  const session = await auth()
+  const permissions = session?.user
+    ? await getPermissions(engine, session.user.id, [
+        { action: 'create', resource: 'post' },
+        { action: 'delete', resource: 'post' },
+        { action: 'manage', resource: 'team' },
+        { action: 'read', resource: 'analytics' },
+      ])
+    : {}
+
+  return <AccessProvider permissions={permissions}>{children}</AccessProvider>
+}
+```
+
+The provider memoizes the `can`/`cannot` callbacks on the permission map identity, so re-renders are cheap.
+
+---
+
+## useAccess hook
+
+Read permissions from context in any component.
+
+```tsx
+import { useAccess } from '@/lib/access'
+
+function PostActions({ postId }: { postId: string }) {
+  const { can, cannot } = useAccess()
+
+  return (
+    <div>
+      {can('update', 'post') && <button>Edit</button>}
+      {can('delete', 'post') && <button>Delete</button>}
+      {cannot('manage', 'team') && <span>Contact an admin to manage teams</span>}
+    </div>
+  )
+}
+```
+
+The hook returns:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `permissions` | `PermissionMap` | The raw permission map |
+| `can` | `(action, resource, resourceId?, scope?) -> boolean` | Check if a permission is granted |
+| `cannot` | `(action, resource, resourceId?, scope?) -> boolean` | Check if a permission is denied |
+
+---
+
+## Can and Cannot components
+
+Declarative permission gates for JSX.
+
+```tsx
+import { Can, Cannot } from '@/lib/access'
+
+function Dashboard() {
+  return (
+    <div>
+      <Can action="read" resource="analytics">
+        <AnalyticsPanel />
+      </Can>
+
+      <Can action="manage" resource="team" fallback={<UpgradePrompt />}>
+        <TeamSettings />
+      </Can>
+
+      <Cannot action="create" resource="post">
+        <p>You do not have permission to create posts.</p>
+      </Cannot>
+    </div>
+  )
+}
+```
+
+### `Can` props
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `action` | `string` | yes | The action to check |
+| `resource` | `string` | yes | The resource type to check |
+| `resourceId` | `string` | no | Specific resource instance |
+| `scope` | `string` | no | Scope for the check |
+| `children` | `ReactNode` | yes | Rendered when allowed |
+| `fallback` | `ReactNode` | no | Rendered when denied (defaults to `null`) |
+
+### `Cannot` props
+
+Same as `Can` minus `fallback`. Renders `children` when the permission is denied.
+
+---
+
+## usePermissions hook
+
+Fetch permissions from a server endpoint on the client side. Useful for SPAs without server-side rendering.
+
+```tsx
+import { usePermissions } from '@/lib/access'
+
+function App() {
+  const { can, loading, error } = usePermissions(
+    () => fetch('/api/me/permissions').then((r) => r.json()),
+    [], // dependency array, like useEffect
+  )
+
+  if (loading) return <Spinner />
+  if (error) return <ErrorMessage error={error} />
+
+  return <div>{can('create', 'post') && <NewPostButton />}</div>
 }
 ```
 
@@ -55,6 +173,7 @@ The hook handles race conditions internally: if the component unmounts or the de
 For code outside React components (utilities, event handlers, tests), use `createPermissionChecker`. It takes a `PermissionMap` and returns a checker object with `can`, `cannot`, and the raw `permissions`.
 
 ```typescript
+import { createPermissionChecker } from '@gentleduck/iam/client/react'
 
 const checker = createPermissionChecker(permissionMap)
 checker.can('delete', 'post') // boolean
@@ -83,7 +202,7 @@ Use this when you don't need React context — for example, in route loaders, fo
 
 ```tsx
 'use client'
-
+import { AccessProvider } from '@gentleduck/iam/client/react'
 // ...
 ```
 

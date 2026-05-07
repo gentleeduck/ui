@@ -8,7 +8,66 @@ These patterns are the contract design-system wrappers should preserve.
 the primitive's behavior and semantics.
 
 ```tsx
+<Dialog.Trigger asChild>
+  <a href="#">Open</a>
+</Dialog.Trigger>
+```
 
+Merge behavior model:
+
+- Event handlers are composed.
+- `ref` is composed.
+- `className` and `style` are merged.
+- ARIA/data attributes are forwarded.
+
+Rules:
+
+- Provide exactly one child.
+- Child components must forward refs.
+- Do not swallow incoming props in your custom components.
+
+---
+
+## 2) State ownership: controlled vs uncontrolled
+
+Every stateful primitive supports both patterns:
+
+- Uncontrolled for local behavior (`defaultOpen`, `defaultValue`).
+- Controlled for business workflows (`open` + `onOpenChange`, `value` + `onValueChange`).
+
+Use controlled mode when open/close depends on async work, validation, permissions, or routing.
+
+```tsx
+<Dialog.Root
+  open={open}
+  onOpenChange={(next) => {
+    if (canDismiss(next)) setOpen(next)
+  }}
+>
+```
+
+Anti-pattern: mixing controlled and uncontrolled over component lifetime.
+
+---
+
+## 3) Focus safety with `Focus Scope`
+
+Modal surfaces need reliable focus behavior:
+
+- Initial focus on open.
+- Tab loop containment.
+- Focus restoration on close.
+
+Dialog-like primitives handle this internally. If you intercept focus events
+(`onOpenAutoFocus`, `onCloseAutoFocus`), keep the accessibility intent.
+
+```tsx
+<Dialog.Content
+  onOpenAutoFocus={(event) => {
+    event.preventDefault()
+    primaryInputRef.current?.focus()
+  }}
+/>
 ```
 
 ---
@@ -62,9 +121,13 @@ This is a layout API, not a styling API. Keep visual concerns in classes/tokens.
 Primitives use scoped contexts so nested instances remain independent.
 
 ```tsx
-
+<Dialog.Root>
+  <Dialog.Content>
+    <Dialog.Root>
       <Dialog.Content>Nested dialog</Dialog.Content>
-
+    </Dialog.Root>
+  </Dialog.Content>
+</Dialog.Root>
 ```
 
 When wrapper components fail in nested cases, the root cause is usually prop

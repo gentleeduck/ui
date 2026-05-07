@@ -24,7 +24,23 @@ smaller bundles.
 
 ```ts
 // Before (v2)
+import { PieSectorDataItem } from 'recharts/types/polar/Pie'
 
+<PieChart>
+  <Pie activeIndex={0} data={data} accessibilityLayer>
+    ...
+  </Pie>
+</PieChart>
+
+// After (v3)
+import { type PieSectorDataItem } from 'recharts'
+
+<PieChart>
+  <Pie data={data}>
+    ...
+  </Pie>
+  <ChartTooltip defaultIndex={0} />
+</PieChart>
 ```
 
   The chart API is unchanged for consumers. Your existing chart code works as-is. Charts now render on the server, so there is no flash of "Loading..." on page load.

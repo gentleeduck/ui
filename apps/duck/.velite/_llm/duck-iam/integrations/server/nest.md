@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import {
   nestAccessGuard,
   Authorize,
   createTypedAuthorize,
@@ -20,6 +20,7 @@ Zero hard dependency on `@nestjs/common` — uses minimal duck-typed interfaces.
 Create a NestJS-compatible guard function. It reads metadata from the `@Authorize` decorator on each handler.
 
 ```typescript
+import { nestAccessGuard } from '@gentleduck/iam/server/nest'
 
 const canAccess = nestAccessGuard(engine, {
   getUserId: (req) => req.user?.id ?? req.user?.sub,
@@ -41,6 +42,7 @@ Handlers without an `@Authorize` decorator are allowed by default. The guard onl
 Annotate controller methods with their required permissions.
 
 ```typescript
+import { Authorize } from '@gentleduck/iam/server/nest'
 
 @Controller('posts')
 export class PostsController {
@@ -83,6 +85,7 @@ If no scope is set on the decorator, the guard falls back to the `getScope` opti
 `createTypedAuthorize` constrains the decorator to your application's exact action, resource, and scope types. Typos become compile-time errors.
 
 ```typescript
+import { createTypedAuthorize } from '@gentleduck/iam/server/nest'
 
 type Action = 'create' | 'read' | 'update' | 'delete' | 'manage'
 type Resource = 'post' | 'user' | 'billing' | 'report'
@@ -104,7 +107,9 @@ const Auth = createTypedAuthorize<Action, Resource, Scope>()
 Register the engine as a NestJS provider:
 
 ```typescript
-
+import { Module } from '@nestjs/common'
+import { APP_GUARD } from '@nestjs/core'
+import {
   createEngineProvider,
   ACCESS_ENGINE_TOKEN,
   nestAccessGuard,

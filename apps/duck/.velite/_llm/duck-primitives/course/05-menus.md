@@ -16,12 +16,21 @@ Use the right primitive for the right trigger model:
 ## Action menu baseline
 
 ```tsx
+import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
 
 export function RowActions() {
   return (
-    
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="rounded border px-2 py-1 text-sm">Actions</DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="min-w-44 rounded-md border bg-white p-1 shadow-lg">
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Edit</DropdownMenu.Item>
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Duplicate</DropdownMenu.Item>
+          <DropdownMenu.Separator className="my-1 h-px bg-gray-200" />
           <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm text-red-600 data-[highlighted]:bg-red-50">Delete</DropdownMenu.Item>
-
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   )
 }
 ```
@@ -50,7 +59,7 @@ Default behavior closes menu after activation. To keep it open for batch actions
   }}
 >
   Toggle without close
-
+</DropdownMenu.Item>
 ```
 
 Use sparingly; persistent menus can confuse users if overused.

@@ -1,3 +1,46 @@
+```tsx title="components/avatar-1.tsx"
+// import from your project: import Demo from '@/components/avatar-1'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+
+export default function Demo() {
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-12">
+      <Avatar>
+        <AvatarImage
+          alt="GD"
+          src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+        />
+        <AvatarFallback>GD</AvatarFallback>
+      </Avatar>
+      <Avatar className="rounded-lg">
+        <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
+        <AvatarFallback className="rounded-lg">WD</AvatarFallback>
+      </Avatar>
+      <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+        <Avatar>
+          <AvatarImage
+            alt="GD"
+            src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+          />
+          <AvatarFallback>GD</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
+          <AvatarFallback>WD</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage
+            alt="GD"
+            src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
+          />
+          <AvatarFallback>GD</AvatarFallback>
+        </Avatar>
+      </div>
+    </div>
+  )
+}
+```
+
 ## Philosophy
 
 Identity in UI starts with a face. Avatars humanize interfaces by giving users a visual anchor. We support both single avatars and groups because social context  -  seeing who else is involved  -  is a fundamental interaction pattern. The fallback-to-initials behavior ensures graceful degradation when images fail.
@@ -24,16 +67,62 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx showLineNumbers
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 ```
 
 ```tsx showLineNumbers
-
+<Avatar>
+  <AvatarImage src="https://github.com/wildduck2.png" alt="wildduck" />
   <AvatarFallback>WD</AvatarFallback>
-
+</Avatar>
 ```
 
 ## RTL Support
+
+```tsx title="components/avatar-2.tsx"
+// import from your project: import Demo from '@/components/avatar-2'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+
+export default function Demo() {
+  return (
+    <div dir="rtl">
+      <div className="flex flex-row flex-wrap items-center gap-12">
+        <Avatar>
+          <AvatarImage
+            alt="GD"
+            src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+          />
+          <AvatarFallback>GD</AvatarFallback>
+        </Avatar>
+        <Avatar className="rounded-lg">
+          <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
+          <AvatarFallback className="rounded-lg">WD</AvatarFallback>
+        </Avatar>
+        <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+          <Avatar>
+            <AvatarImage
+              alt="GD"
+              src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+            />
+            <AvatarFallback>GD</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
+            <AvatarFallback>WD</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarImage
+              alt="GD"
+              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
+            />
+            <AvatarFallback>GD</AvatarFallback>
+          </Avatar>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
 
 ## Motion
 
@@ -43,6 +132,51 @@ Update the import paths to match your project setup.
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionAvatar` and `MotionAvatarGroup` for animated entrance powered by [motion](https://motion.dev). Avatars spin in with scale, rotate, and blur. The group staggers each avatar 80ms apart.
+
+```tsx title="components/avatar-3.tsx"
+// import from your project: import Demo from '@/components/avatar-3'
+'use client'
+
+import { AvatarFallback, AvatarImage, MotionAvatar, MotionAvatarGroup } from '@gentleduck/registry-ui/avatar'
+
+export default function Demo() {
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-12">
+      <MotionAvatar>
+        <AvatarImage
+          alt="GD"
+          src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+        />
+        <AvatarFallback>GD</AvatarFallback>
+      </MotionAvatar>
+      <MotionAvatar className="rounded-lg">
+        <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
+        <AvatarFallback className="rounded-lg">WD</AvatarFallback>
+      </MotionAvatar>
+      <MotionAvatarGroup
+        imgs={[
+          {
+            id: '1',
+            src: 'https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
+            alt: 'GD',
+            fallback: 'GD',
+          },
+          { id: '2', src: 'https://avatars.githubusercontent.com/u/108896341?v=4', alt: 'WD', fallback: 'WD' },
+          {
+            id: '3',
+            src: 'https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp',
+            alt: 'GD',
+            fallback: 'GD',
+          },
+          { id: '4', alt: 'JD', fallback: 'JD' },
+          { id: '5', alt: 'MK', fallback: 'MK' },
+        ]}
+        maxVisible={3}
+      />
+    </div>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionAvatar` instead of `Avatar` and `MotionAvatarGroup` instead of `AvatarGroup`. `AvatarImage` and `AvatarFallback` stay the same.

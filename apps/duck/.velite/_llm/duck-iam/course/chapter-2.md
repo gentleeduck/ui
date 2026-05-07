@@ -300,6 +300,7 @@ Dot-based resource hierarchies (`dashboard.users`) are covered in Chapter 5.
 Validate your role configuration at startup to catch mistakes early:
 
 ```typescript
+import { validateRoles } from '@gentleduck/iam'
 
 const result = validateRoles([viewer, editor, admin])
 
@@ -346,6 +347,8 @@ Validate at startup. It is cheap and prevents silent failures at runtime.
     
 
 ```typescript
+import { defineRole, Engine, validateRoles } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .name('Viewer')

@@ -45,14 +45,22 @@ The command above will add the `Button` component to your project. You can then 
 
 ```astro title="src/pages/index.astro" {2,16} showLineNumbers
 ---
-
+import { Button } from "@/components/ui/button"
 ---
 
-		
-		
-		
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
 		<title>Astro + TailwindCSS</title>
+	</head>
 
+	<body>
+		<div class="grid place-items-center h-screen content-center">
 			<Button>Button</Button>
-
+		</div>
+	</body>
+</html>
 ```

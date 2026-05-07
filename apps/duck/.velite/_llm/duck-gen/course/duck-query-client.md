@@ -15,6 +15,8 @@ Axios is a peer dependency. If it is already in your project, you only need `@ge
 ## Create a typed client
 
 ```ts title="client/api/client.ts"
+import { createDuckQuery } from '@gentleduck/duck-query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 export const api = createDuckQuery<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -112,6 +114,8 @@ api.get('/api/nonexistent')
 Duck Query integrates naturally with TanStack React Query:
 
 ```tsx title="client/hooks/use-users.ts"
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../api/client'
 
 export function useUsers(page: number = 1) {
   return useQuery({

@@ -1,3 +1,20 @@
+```tsx title="components/preview-panel-1.tsx"
+// import from your project: import Demo from '@/components/preview-panel-1'
+import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
+
+export default function Demo() {
+  return (
+    <PreviewPanel maxHeight="400px" className="rounded-lg border bg-card">
+      <div className="flex flex-col items-center gap-4 p-8">
+        <div className="size-24 rounded-full bg-primary/20" />
+        <h3 className="font-semibold text-lg">Pan & Zoom</h3>
+        <p className="text-muted-foreground text-sm">Drag to pan, scroll to zoom, or use the controls.</p>
+      </div>
+    </PreviewPanel>
+  )
+}
+```
+
 ## About
 
 - **Pan & zoom** via drag, scroll wheel, and pinch-to-zoom gestures
@@ -37,27 +54,31 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx
-
+import { PreviewPanel } from '@/components/ui/preview-panel'
 ```
 
 ```tsx
-
+<PreviewPanel maxHeight="400px">
+  <YourContent />
+</PreviewPanel>
 ```
 
 ### With HTML content
 
 ```tsx
-
+<PreviewPanel html="<svg>...</svg>" maxHeight="400px" />
 ```
 
 ### With dialog and sync
 
 ```tsx
-
+import { PreviewPanelDialog } from '@/components/ui/preview-panel'
 ```
 
 ```tsx
-
+<PreviewPanelDialog syncPanels maxHeight="400px">
+  <YourContent />
+</PreviewPanelDialog>
 ```
 
 ## Examples
@@ -66,17 +87,97 @@ Update the import paths to match your project setup.
 
 Render raw HTML or SVG strings directly using the `html` prop.
 
+```tsx title="components/preview-panel-2.tsx"
+// import from your project: import Demo from '@/components/preview-panel-2'
+import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
+
+const SVG_HTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect x="10" y="10" width="80" height="80" rx="8" fill="#3b82f6" opacity="0.8"/>
+  <rect x="110" y="10" width="80" height="80" rx="8" fill="#10b981" opacity="0.8"/>
+  <rect x="10" y="110" width="80" height="80" rx="8" fill="#f59e0b" opacity="0.8"/>
+  <rect x="110" y="110" width="80" height="80" rx="8" fill="#ef4444" opacity="0.8"/>
+  <text x="100" y="105" text-anchor="middle" font-size="12" fill="currentColor">SVG Content</text>
+</svg>`
+
+export default function Demo() {
+  return <PreviewPanel html={SVG_HTML} maxHeight="350px" className="rounded-lg border bg-card" />
+}
+```
+
 ### Dialog with synced zoom
 
 Open the content in a fullscreen dialog. Zoom and position sync between both panels.
+
+```tsx title="components/preview-panel-3.tsx"
+// import from your project: import Demo from '@/components/preview-panel-3'
+import { PreviewPanelDialog } from '@gentleduck/registry-ui/preview-panel'
+
+export default function Demo() {
+  return (
+    <PreviewPanelDialog maxHeight="350px" syncPanels>
+      <div className="flex flex-col items-center gap-4 p-8">
+        <div className="grid grid-cols-3 gap-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: static list generated from Array.from
+              key={i}
+              className="flex size-16 items-center justify-center rounded-md bg-primary/10 font-medium text-sm">
+              {i + 1}
+            </div>
+          ))}
+        </div>
+        <p className="text-muted-foreground text-sm">
+          Click expand to open fullscreen. Zoom state syncs between both views.
+        </p>
+      </div>
+    </PreviewPanelDialog>
+  )
+}
+```
 
 ### Image viewer
 
 Use as a zoomable image viewer.
 
+```tsx title="components/preview-panel-4.tsx"
+// import from your project: import Demo from '@/components/preview-panel-4'
+import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
+
+export default function Demo() {
+  return (
+    <PreviewPanel maxHeight="400px" initialZoom={0.8} className="rounded-lg border bg-card">
+      {/* biome-ignore lint/performance/noImgElement: example component demonstrating PreviewPanel with a plain img */}
+      <img
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80"
+        alt="Landscape"
+        className="max-w-[600px] rounded-md"
+        draggable={false}
+      />
+    </PreviewPanel>
+  )
+}
+```
+
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+```tsx title="components/preview-panel-5.tsx"
+// import from your project: import Demo from '@/components/preview-panel-5'
+import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
+
+export default function Demo() {
+  return (
+    <PreviewPanel maxHeight="400px" className="rounded-lg border bg-card" dir="rtl">
+      <div className="flex flex-col items-center gap-4 p-8">
+        <div className="size-24 rounded-full bg-primary/20" />
+        <h3 className="font-semibold text-lg">تحريك وتكبير</h3>
+        <p className="text-muted-foreground text-sm">اسحب للتحريك، مرر للتكبير، او استخدم ادوات التحكم.</p>
+      </div>
+    </PreviewPanel>
+  )
+}
+```
 
 ## Motion
 
@@ -86,6 +187,25 @@ Direction is resolved through the shared primitives direction module. Use a loca
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionPreviewPanel` for a smooth entrance animation powered by [motion](https://motion.dev). The panel fades in with scale and blur on mount, and its internal controls (buttons, separators, badges, tooltips) use the full motion stack.
+
+```tsx title="components/preview-panel-6.tsx"
+// import from your project: import Demo from '@/components/preview-panel-6'
+'use client'
+
+import { MotionPreviewPanel } from '@gentleduck/registry-ui/preview-panel'
+
+export default function Demo() {
+  return (
+    <MotionPreviewPanel maxHeight="400px" className="rounded-lg border bg-card">
+      <div className="flex flex-col items-center gap-4 p-8">
+        <div className="size-24 rounded-full bg-primary/20" />
+        <h3 className="font-semibold text-lg">Pan & Zoom</h3>
+        <p className="text-muted-foreground text-sm">Drag to pan, scroll to zoom, or use the controls.</p>
+      </div>
+    </MotionPreviewPanel>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionPreviewPanel` instead of `PreviewPanel`. Same props. The internal zoom controls automatically use `MotionButton`, `MotionBadge`, `MotionSeparator`, and `MotionTooltip`.

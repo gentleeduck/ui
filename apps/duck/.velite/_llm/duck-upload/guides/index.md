@@ -5,6 +5,8 @@ A basic file upload, from scratch.
 ### Step 1: Set Up the Store
 
 ```ts
+import { createUploadStore } from '@gentleduck/upload/core'
+import { createStrategyRegistry, PostStrategy } from '@gentleduck/upload/strategies'
 
 // Register the POST strategy for simple uploads
 const strategies = createStrategyRegistry()
@@ -63,10 +65,13 @@ store.on('upload.completed', ({ localId, result }) => {
 ### Wrap Your App
 
 ```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
 
 function App() {
   return (
-
+    <UploadProvider store={store}>
+      <UploadPage />
+    </UploadProvider>
   )
 }
 ```
@@ -74,6 +79,8 @@ function App() {
 ### Build an Upload Component
 
 ```tsx
+import { useUploader } from '@gentleduck/upload/react'
+import React from 'react'
 
 function UploadPage() {
   const { items, dispatch, on } = useUploader()
@@ -84,15 +91,23 @@ function UploadPage() {
     })
   }, [on])
 
-  const handleFiles = (e: React.ChangeEvent
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? [])
+    dispatch({ type: 'addFiles', files, purpose: 'avatar' })
+  }
 
+  return (
+    <div>
+      <input type="file" multiple onChange={handleFiles} />
+      <ul>
         {items.map((item) => (
-
+          <li key={item.localId}>
             {item.file?.name} — {item.phase}
             {item.phase === 'uploading' && ` (${Math.round(item.progress ?? 0)}%)`}
-
+          </li>
         ))}
-
+      </ul>
+    </div>
   )
 }
 ```
@@ -104,6 +119,7 @@ function UploadPage() {
 For resumable uploads, use the multipart strategy:
 
 ```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
 
 const strategies = createStrategyRegistry()
 strategies.set(PostStrategy())
@@ -140,6 +156,7 @@ The engine picks the strategy from the `strategy` field on the returned intent.
 To resume uploads after a page refresh:
 
 ```ts
+import { LocalStorageAdapter } from '@gentleduck/upload/core'
 
 const store = createUploadStore({
   api,

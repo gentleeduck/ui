@@ -9,6 +9,7 @@ Adapters are duck-iam's storage layer. They implement the `Adapter` interface, w
 Every adapter is fully typed against your app's action, resource, role, and scope unions.
 
 ```typescript
+import { Engine } from '@gentleduck/iam'
 
 const engine = new Engine({
   adapter: yourAdapter,
@@ -37,6 +38,8 @@ All adapters are interchangeable. Start with `MemoryAdapter` during development 
 ## How adapters fit in
 
 ```typescript
+import { Engine } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 // 1. Pick a storage backend
 const adapter = new MemoryAdapter({ /* seed */ })

@@ -96,6 +96,7 @@ export type ResponseType<TFn extends (...args: any[]) => any, M extends string> 
 ```
 
 ```ts title="src/modules/auth/auth.constants.ts"
+import { ZodMessages } from '~/common/constants'
 
 /**
  * @duckgen messages
@@ -112,11 +113,14 @@ export const AuthMessages = [
 ```
 
 ```ts title="src/modules/auth/auth.types.ts"
+import { AuthMessages } from './auth.constants'
 
 export type AuthMessage = (typeof AuthMessages)[number]
 ```
 
 ```ts title="src/modules/auth/auth.dto.ts"
+import { z } from 'zod'
+import type { AuthMessage } from './auth.types'
 
 const errorMessage = <T extends AuthMessage>(message: T) => ({ message })
 
@@ -133,6 +137,7 @@ export type SigninDto = z.infer<typeof signinSchema>
 ```
 
 ```ts title="src/modules/auth/auth.utils.ts"
+import { HttpException, HttpStatus } from '@nestjs/common'
 
 export function throwError<M extends string>(message: M, statusCode: number): never {
   throw new HttpException({ message }, statusCode as HttpStatus)
@@ -147,6 +152,8 @@ export class PasswordHasher {
 ```
 
 ```ts title="src/modules/auth/auth.filters.ts"
+import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common'
+import { Catch, HttpException } from '@nestjs/common'
 
 @Catch(HttpException)
 export class ErrorExceptionFilter implements ExceptionFilter {
@@ -168,6 +175,10 @@ export class ErrorExceptionFilter implements ExceptionFilter {
 ```
 
 ```ts title="src/modules/auth/auth.service.ts"
+import { Injectable } from '@nestjs/common'
+import type { AuthMessage } from './auth.types'
+import type { SigninDto } from './auth.dto'
+import { PasswordHasher, throwError } from './auth.utils'
 
 type User = { id: string; username: string }
 
@@ -199,6 +210,13 @@ export class AuthService {
 ```
 
 ```ts title="src/modules/auth/auth.controller.ts"
+import { Body, Controller, Post, Session, UseFilters } from '@nestjs/common'
+import { ZodValidationPipe } from '@nestjs/zod'
+import { signinSchema, type SigninDto } from './auth.dto'
+import { AuthService } from './auth.service'
+import { ErrorExceptionFilter } from './auth.filters'
+import type { AuthMessage } from './auth.types'
+import type { ResponseType } from '~/common/types/api.types'
 
 type SessionData = { user?: unknown }
 
@@ -232,6 +250,9 @@ export class AuthController {
 ```
 
 ```ts title="src/modules/auth/auth.module.ts"
+import { Module } from '@nestjs/common'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
 
 class EmailService {}
 
@@ -247,6 +268,9 @@ export class AuthModule {}
 Full query docs: [/duck-query](/duck-query).
 
 ```ts title="client/auth.query.ts"
+import { toast } from 'sonner'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes, DuckGenI18nMessages, DuckgenScopedI18nByGroup } from '@gentleduck/gen/nestjs'
 
 const D = createDuckQueryClient<ApiRoutes>()
 

@@ -15,6 +15,7 @@ flowchart LR
 ## Enabling Persistence
 
 ```ts
+import { LocalStorageAdapter } from '@gentleduck/upload/core'
 
 const store = createUploadStore({
   api,

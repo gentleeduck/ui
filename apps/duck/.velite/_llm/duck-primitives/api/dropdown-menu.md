@@ -1,11 +1,36 @@
 ```tsx
-
+import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger />
+  <DropdownMenu.Portal>
+    <DropdownMenu.Content>
+      <DropdownMenu.Label />
+      <DropdownMenu.Item />
+      <DropdownMenu.Group>
+        <DropdownMenu.Item />
+      </DropdownMenu.Group>
+      <DropdownMenu.CheckboxItem>
+        <DropdownMenu.ItemIndicator />
+      </DropdownMenu.CheckboxItem>
+      <DropdownMenu.RadioGroup>
+        <DropdownMenu.RadioItem>
+          <DropdownMenu.ItemIndicator />
+        </DropdownMenu.RadioItem>
+      </DropdownMenu.RadioGroup>
+      <DropdownMenu.Separator />
+      <DropdownMenu.Sub>
+        <DropdownMenu.SubTrigger />
+        <DropdownMenu.SubContent />
+      </DropdownMenu.Sub>
+      <DropdownMenu.Arrow />
+    </DropdownMenu.Content>
+  </DropdownMenu.Portal>
+</DropdownMenu.Root>
 ```
 
 ---
@@ -13,12 +38,44 @@
 ## Example
 
 ```tsx
+import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
 
 function ActionsMenu() {
   return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="px-3 py-2 border rounded">
+        Actions
+      </DropdownMenu.Trigger>
 
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="bg-white shadow-lg rounded-md p-1 min-w-[180px] border" sideOffset={4}>
+          <DropdownMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+            Edit
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+            Duplicate
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer flex justify-between">
+              Share <span>></span>
+            </DropdownMenu.SubTrigger>
+            <DropdownMenu.SubContent className="bg-white shadow-lg rounded-md p-1 min-w-[140px] border">
+              <DropdownMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+                Copy Link
+              </DropdownMenu.Item>
+              <DropdownMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer">
+                Email
+              </DropdownMenu.Item>
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Sub>
+          <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
+          <DropdownMenu.Item className="px-3 py-1.5 rounded hover:bg-gray-100 cursor-pointer text-red-600">
             Delete
-
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   )
 }
 ```

@@ -1,13 +1,23 @@
 ```tsx
-
+import * as Calendar from '@gentleduck/primitives/calendar'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Calendar.Root>
+  <Calendar.Header />
+  <Calendar.Nav>
+    <Calendar.PrevButton />
+    <Calendar.NextButton />
+  </Calendar.Nav>
+  <Calendar.Grid>
+    <Calendar.Weekdays />
     {/* Map over state.weeks to render Calendar.Day */}
-
+  </Calendar.Grid>
+  <Calendar.MonthView />
+  <Calendar.YearView />
+</Calendar.Root>
 ```
 
 ---
@@ -15,15 +25,30 @@
 ## Example
 
 ```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
+import * as Calendar from '@gentleduck/primitives/calendar'
 
 const adapter = new NativeAdapter()
 
 function DatePicker() {
   return (
-    
-        
+    <Calendar.Root adapter={adapter} mode="single" className="p-4 border rounded-lg">
+      <div className="flex items-center justify-between mb-4">
+        <Calendar.Header className="text-sm font-medium" />
+        <Calendar.Nav className="flex gap-1">
+          <Calendar.PrevButton className="h-7 w-7 rounded hover:bg-accent">
+            <-
+          </Calendar.PrevButton>
+          <Calendar.NextButton className="h-7 w-7 rounded hover:bg-accent">
+            ->
+          </Calendar.NextButton>
+        </Calendar.Nav>
+      </div>
+      <Calendar.Grid className="grid grid-cols-7 gap-1">
+        <Calendar.Weekdays className="contents text-muted-foreground text-xs" />
         {/* Day cells rendered via context */}
-
+      </Calendar.Grid>
+    </Calendar.Root>
   )
 }
 ```

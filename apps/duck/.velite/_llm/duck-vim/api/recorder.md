@@ -3,7 +3,8 @@
 Record key combinations for settings UIs where users customize their shortcuts. Capture what the user presses and output a canonical binding string like `ctrl+shift+k`.
 
 ```ts
-
+import { KeyRecorder, KeyStateTracker } from '@gentleduck/vim/recorder'
+import type { KeyRecorderState, KeyRecorderOptions, KeyStateSnapshot } from '@gentleduck/vim/recorder'
 ```
 
 ## Overview

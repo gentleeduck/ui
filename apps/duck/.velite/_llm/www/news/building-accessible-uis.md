@@ -39,11 +39,84 @@ Primitives set the correct ARIA roles, states, and properties automatically:
 
 ```tsx
 // You write this:
+<Dialog.Root open={open} onOpenChange={setOpen}>
+  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Content>
+    <Dialog.Title>Settings</Dialog.Title>
+    <Dialog.Description>Update your preferences.</Dialog.Description>
+  </Dialog.Content>
+</Dialog.Root>
 
+// Primitives render this:
+<button aria-haspopup="dialog" aria-expanded="true">Open</button>
+<div role="dialog" aria-modal="true" aria-labelledby="..." aria-describedby="...">
+  <h2 id="...">Settings</h2>
+  <p id="...">Update your preferences.</p>
+</div>
+```
+
+---
+
+## The Primitives Catalog
+
+| Primitive | Accessibility Features |
+| --- | --- |
+| **Dialog** | Focus trap, Escape close, aria-modal, aria-labelledby |
+| **Alert Dialog** | Same as Dialog + requires explicit action (no click-outside dismiss) |
+| **Drawer** | Focus trap, drag-to-dismiss, aria-modal |
+| **Sheet** | Focus trap, Escape close, edge-slide animation |
+| **Popover** | Focus management, click-outside dismiss, aria-expanded |
+| **Tooltip** | Hover + focus trigger, aria-describedby, delay management |
+| **Hover Card** | Hover intent, dismiss on pointer leave |
+| **Dropdown Menu** | Roving focus, type-ahead, nested submenus, role="menu" |
+| **Context Menu** | Right-click trigger, same keyboard nav as Dropdown |
+| **Menubar** | Horizontal menu bar, arrow key navigation between menus |
+| **Select** | Listbox pattern, type-ahead, aria-selected |
+| **Slider** | aria-valuemin/max/now, keyboard step control |
+| **Navigation Menu** | Arrow navigation, flyout management |
+| **Progress** | role="progressbar", aria-valuenow |
+| **Input OTP** | Individual digit inputs with auto-advance |
+
+---
+
+## Unstyled by Design
+
+Primitives ship with zero CSS. They provide behavior, not appearance:
+
+- Nothing to override.
+- No specificity battles.
+- The design system is yours.
+- Works with Tailwind, CSS modules, vanilla CSS, or anything else.
+
+Pair with `@gentleduck/variants` for type-safe styling and `@gentleduck/motion` for animations.
+
+---
+
+## Building a Custom Component
+
+The pattern for an accessible dialog built from primitives:
+
+```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
+import { cva } from '@gentleduck/variants'
+import { cn } from '@gentleduck/libs'
+
+const overlayStyles = cva('fixed inset-0 bg-black/50 animate-in fade-in')
+const contentStyles = cva('fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-background p-6 shadow-lg animate-in fade-in zoom-in-95')
+
+export function MyDialog({ children, trigger, title, description }) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className={cn(overlayStyles())} />
+        <Dialog.Content className={cn(contentStyles())}>
           <Dialog.Title>{title}</Dialog.Title>
           <Dialog.Description>{description}</Dialog.Description>
           {children}
-
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 ```

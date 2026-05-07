@@ -1,10 +1,12 @@
 ```tsx
-
+import { useTimePicker } from '@gentleduck/calendar'
+import type { Time, UseTimePicker } from '@gentleduck/calendar'
 ```
 
 ## Usage
 
 ```tsx showLineNumbers
+import { useTimePicker } from '@gentleduck/calendar'
 
 function MyTimePicker() {
   const { state, actions, getFieldProps } = useTimePicker({
@@ -13,11 +15,14 @@ function MyTimePicker() {
   })
 
   return (
-    
-      
-      
+    <div>
+      <input {...getFieldProps('hour')} />
+      <span>:</span>
+      <input {...getFieldProps('minute')} />
+      <span>:</span>
+      <input {...getFieldProps('second')} />
       <button {...getFieldProps('ampm')}>{state.displayAmPm}</button>
-
+    </div>
   )
 }
 ```

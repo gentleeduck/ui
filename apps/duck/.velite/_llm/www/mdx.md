@@ -29,44 +29,44 @@ description: One sentence summary for nav/SEO.
 ### Callout
 
 ```mdx
-} title="Tip">
+<Callout icon={<Lightbulb />} title="Tip">
 Keep examples short and copy-pasteable.
-
+</Callout>
 ```
 
 ### Steps + Step
 
 ```mdx
-
-  Install dependencies
-  Add the component
-  Run your app
-
+<Steps>
+  <Step>Install dependencies</Step>
+  <Step>Add the component</Step>
+  <Step>Run your app</Step>
+</Steps>
 ```
 
 ### Tabs
 
 ```mdx
-
-  
-    npm
-    pnpm
-  
-  
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm">
 
 ~~~bash
 npm install your-package
 ~~~
 
-  
-  
+  </TabsContent>
+  <TabsContent value="pnpm">
 
 ~~~bash
 pnpm add your-package
 ~~~
 
-  
-
+  </TabsContent>
+</Tabs>
 ```
 
 ### ComponentPreview
@@ -74,7 +74,25 @@ pnpm add your-package
 Use this to render an interactive preview from the registry index.
 
 ```mdx
+```tsx title="components/button-1.tsx"
+// import from your project: import Demo from '@/components/button-1'
+'use client'
 
+export default function Demo() {
+  const [open, setOpen] = React.useState}
+            isCollapsed={open}
+            loading={false}
+            onClick={() => setOpen((prev) => !prev)}
+            size="default">
+            Button
+
+            +m
+
+          <p>Advanced button</p>
+
+  )
+}
+```
 ```
 
 ### ComponentSource

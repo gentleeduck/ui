@@ -452,7 +452,7 @@ When server and client live in separate packages:
 Then, in the client package:
 
 ```ts
-
+import type { ApiRoutes } from '../../packages/shared-types/generated/duck-gen-api-routes'
 ```
 
 } title="Monorepo tip">

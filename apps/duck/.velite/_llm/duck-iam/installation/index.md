@@ -24,6 +24,7 @@ pnpm add @gentleduck/iam
 Basic setup
 
 ```typescript title="src/lib/access.ts"
+import { createAccessConfig, MemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define your application's actions, resources, and scopes
 const access = createAccessConfig({
@@ -136,15 +137,28 @@ duck-iam uses subpath exports:
 
 ```typescript
 // Core engine, builders, memory adapter, types
+import { Engine, defineRole, policy, when, MemoryAdapter } from "@gentleduck/iam";
 
 // Server integrations
+import { accessMiddleware, guard } from "@gentleduck/iam/server/express";
+import { accessMiddleware, guard } from "@gentleduck/iam/server/hono";
+import { Authorize, nestAccessGuard } from "@gentleduck/iam/server/nest";
+import { withAccess, checkAccess, getPermissions } from "@gentleduck/iam/server/next";
 
 // Client libraries
+import { createAccessControl } from "@gentleduck/iam/client/react";
+import { createVueAccess } from "@gentleduck/iam/client/vue";
+import { AccessClient } from "@gentleduck/iam/client/vanilla";
 
 // Storage adapters
+import { MemoryAdapter } from "@gentleduck/iam/adapters/memory";
+import { PrismaAdapter } from "@gentleduck/iam/adapters/prisma";
+import { DrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
+import { RedisAdapter } from "@gentleduck/iam/adapters/redis";
+import { HttpAdapter } from "@gentleduck/iam/adapters/http";
 
 // Drizzle pre-built schemas (pick one dialect)
-
+import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
 // or:    @gentleduck/iam/adapters/drizzle/schema/mysql
 // or:    @gentleduck/iam/adapters/drizzle/schema/sqlite
 ```

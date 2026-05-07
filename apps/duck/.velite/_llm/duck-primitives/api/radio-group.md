@@ -1,20 +1,35 @@
 ```tsx
-
+import * as RadioGroup from '@gentleduck/primitives/radio-group'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<RadioGroup.Root>
+  <RadioGroup.Item value="comfortable">
+    <RadioGroup.Indicator />
+  </RadioGroup.Item>
+</RadioGroup.Root>
 ```
 
 ## Example
 
 ```tsx
+import * as RadioGroup from '@gentleduck/primitives/radio-group'
 
 function DensityPicker() {
   return (
-
+    <RadioGroup.Root defaultValue="comfortable" name="density" className="grid gap-2">
+      <RadioGroup.Item value="compact" textValue="Compact" aria-label="Compact density">
+        <RadioGroup.Indicator />
+      </RadioGroup.Item>
+      <RadioGroup.Item value="comfortable" textValue="Comfortable" aria-label="Comfortable density">
+        <RadioGroup.Indicator />
+      </RadioGroup.Item>
+      <RadioGroup.Item value="spacious" textValue="Spacious" aria-label="Spacious density">
+        <RadioGroup.Indicator />
+      </RadioGroup.Item>
+    </RadioGroup.Root>
   )
 }
 ```

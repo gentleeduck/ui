@@ -1,14 +1,17 @@
 ```tsx
-
+import { FocusScope } from '@gentleduck/primitives/focus-scope'
 ```
 
 ## Usage
 
 ```tsx
-
-    
+<FocusScope trapped loop onMountAutoFocus={(e) => e.preventDefault()}>
+  <div>
+    <input placeholder="First" />
+    <input placeholder="Second" />
     <button>Submit</button>
-
+  </div>
+</FocusScope>
 ```
 
 ## Props

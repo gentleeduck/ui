@@ -5,10 +5,20 @@
 ## Baseline popover
 
 ```tsx
+import * as Popover from '@gentleduck/primitives/popover'
 
 export function FilterPopover() {
   return (
-
+    <Popover.Root>
+      <Popover.Trigger className="rounded border px-3 py-2 text-sm">Filters</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content sideOffset={8} className="w-72 rounded-lg border bg-white p-4 shadow-lg">
+          <h3 className="font-medium">Filters</h3>
+          <p className="mt-1 text-sm text-gray-600">Adjust visible results.</p>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   )
 }
 ```
@@ -33,7 +43,12 @@ Treat these as geometry controls. Keep spacing, color, borders in CSS/tokens.
 Popper can flip and shift content to keep it visible.
 
 ```tsx
-
+<Popover.Content
+  side="bottom"
+  align="start"
+  avoidCollisions
+  collisionPadding={8}
+/>
 ```
 
 Use `collisionPadding` to preserve comfortable edge spacing.
@@ -45,9 +60,9 @@ Use `collisionPadding` to preserve comfortable edge spacing.
 By default, content anchors to `Trigger`. Use `Anchor` when trigger and visual anchor differ.
 
 ```tsx
-
+<Popover.Anchor asChild>
   <div className="inline-flex items-center gap-2">...</div>
-
+</Popover.Anchor>
 ```
 
 This is useful for composite inputs and toolbar groups.

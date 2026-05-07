@@ -103,7 +103,7 @@ ls ./generated/
 Import the types
 
 ```ts
-
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 ```
 
 ## Install Duck Query
@@ -127,6 +127,8 @@ bun add axios
 Create a client
 
 ```ts title="src/api/client.ts"
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 export const api = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -177,7 +179,7 @@ Write generated types to a shared location using `outputSource`:
 Then in your client:
 
 ```ts
-
+import type { ApiRoutes } from '../../packages/shared-types/generated/duck-gen-api-routes'
 ```
 
 ### Option 2: Import from the package
@@ -186,7 +188,7 @@ Install `@gentleduck/gen` as a dev dependency in your client package and import 
 package entrypoint. The generated types live inside `node_modules/@gentleduck/gen/generated/`.
 
 ```ts
-
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 ```
 
 This works if the server and client share the same `node_modules` (hoisted workspace).

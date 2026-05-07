@@ -1,6 +1,7 @@
 ## Basic role
 
 ```typescript
+import { defineRole } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .name('Viewer')

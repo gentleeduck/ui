@@ -1,10 +1,11 @@
 ```tsx
-
+import { useDateTime } from '@gentleduck/calendar'
 ```
 
 ## Usage
 
 ```tsx showLineNumbers
+import { NativeAdapter, useDateTime } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 

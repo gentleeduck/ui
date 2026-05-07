@@ -7,6 +7,7 @@
 `buildCalendarMonth` is a pure function. Pass an adapter, a date, and optional config; get back a `Grid.ICalendarMonth` with weeks and day cells.
 
 ```tsx showLineNumbers
+import { NativeAdapter, buildCalendarMonth } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 const march2026 = new Date(2026, 2, 1)
@@ -59,6 +60,7 @@ const month = buildCalendarMonth(adapter, march2026, {
 A minimal React component that renders the grid:
 
 ```tsx showLineNumbers
+import { NativeAdapter, buildCalendarMonth } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 
@@ -68,21 +70,31 @@ function StaticCalendar({ date }: { date: Date }) {
   })
 
   return (
-
+    <table>
+      <thead>
+        <tr>
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
             <th key={d}>{d}</th>
           ))}
-
+        </tr>
+      </thead>
+      <tbody>
         {month.weeks.map((week, i) => (
-
+          <tr key={i}>
             {week.days.map(day => (
-
+              <td
+                key={day.date.getTime()}
+                style={{
+                  opacity: day.isOutside ? 0.4 : 1,
+                  fontWeight: day.isToday ? 'bold' : 'normal',
+                }}>
                 {day.date.getDate()}
-
+              </td>
             ))}
-
+          </tr>
         ))}
-
+      </tbody>
+    </table>
   )
 }
 ```
@@ -94,6 +106,7 @@ function StaticCalendar({ date }: { date: Date }) {
 `buildMultiMonth` generates several consecutive months:
 
 ```tsx showLineNumbers
+import { buildMultiMonth } from '@gentleduck/calendar'
 
 const months = buildMultiMonth(adapter, new Date(), 3, {
   showOutsideDays: true,

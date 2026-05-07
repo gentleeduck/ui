@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { HttpAdapter } from '@gentleduck/iam/adapters/http'
 ```
 
 Delegates all storage operations to a remote API via `fetch`. Zero dependencies.
@@ -19,6 +19,8 @@ Delegates all storage operations to a remote API via `fetch`. Zero dependencies.
 ## Usage
 
 ```typescript
+import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+import { Engine } from '@gentleduck/iam'
 
 const adapter = new HttpAdapter({
   baseUrl: 'https://api.example.com/access',
@@ -53,6 +55,7 @@ const adapter = new HttpAdapter({
 Provide your own fetch for environments without a global `fetch`, or to add middleware (logging, retries, tracing).
 
 ```typescript
+import { HttpAdapter } from '@gentleduck/iam/adapters/http'
 
 const adapter = new HttpAdapter({
   baseUrl: 'https://api.example.com/access',

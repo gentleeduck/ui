@@ -32,6 +32,7 @@ Each topic has its own page:
 ## Quick example
 
 ```typescript
+import { policy } from '@gentleduck/iam'
 
 const weekendDeny = policy('deny-weekends')
   .name('Deny on Weekends')

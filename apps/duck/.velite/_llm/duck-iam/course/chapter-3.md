@@ -334,6 +334,7 @@ to prevent stack overflow.
 Build condition groups outside of a rule using the `when()` factory:
 
 ```typescript
+import { when } from '@gentleduck/iam'
 
 // Build an ANY group (OR)
 const isAdminOrOwner = when()
@@ -437,6 +438,7 @@ Multiple scopes use `in`:
 Create rules outside of a policy and add them later:
 
 ```typescript
+import { defineRule } from '@gentleduck/iam'
 
 const ownerCheck = defineRule('owner-check')
   .deny()
@@ -566,6 +568,7 @@ The engine evaluates policies in order and short-circuits on the first deny.
     
 
 ```typescript
+import { policy } from '@gentleduck/iam'
 
 export const ownerPolicy = policy('owner-restrictions')
   .name('Owner Restrictions')

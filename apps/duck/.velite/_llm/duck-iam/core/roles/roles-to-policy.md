@@ -96,6 +96,7 @@ In production, this means role evaluations hit a hot in-process cache, not the a
 You normally don't, but the function is exported if you need it:
 
 ```typescript
+import { rolesToPolicy } from '@gentleduck/iam'
 
 const rbacPolicy = rolesToPolicy([viewer, editor, admin])
 console.log(rbacPolicy.rules.length) // total rules generated

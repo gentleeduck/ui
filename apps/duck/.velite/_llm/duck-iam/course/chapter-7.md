@@ -86,9 +86,9 @@ it reads the map. Checks are O(1) key lookups.
       ])
 
       return (
-
+        <AccessProvider permissions={permissions}>
           {children}
-
+        </AccessProvider>
       )
     }
     ```
@@ -108,7 +108,7 @@ it reads the map. Checks are O(1) key lookups.
       const { can, cannot, permissions } = useAccess()
 
       return (
-
+        <div>
           {can('update', 'post', postId) && (
             <button>Edit</button>
           )}
@@ -118,7 +118,7 @@ it reads the map. Checks are O(1) key lookups.
           {cannot('update', 'post', postId) && (
             <span>Read only</span>
           )}
-
+        </div>
       )
     }
     ```
@@ -143,14 +143,19 @@ it reads the map. Checks are O(1) key lookups.
 
     export function Toolbar() {
       return (
-
+        <nav>
+          <Can action="create" resource="post">
             <button>New Post</button>
+          </Can>
 
           <Can action="manage" resource="dashboard" fallback={<span>View only</span>}>
             <a href="/admin">Admin Panel</a>
+          </Can>
 
+          <Cannot action="create" resource="post">
             <p>You do not have permission to create posts.</p>
-
+          </Cannot>
+        </nav>
       )
     }
     ```
@@ -183,9 +188,9 @@ it reads the map. Checks are O(1) key lookups.
       if (error) return <div>Error: {error.message}</div>
 
       return (
-
+        <div>
           {can('create', 'post') && <button>New Post</button>}
-
+        </div>
       )
     }
     ```
@@ -211,6 +216,7 @@ it reads the map. Checks are O(1) key lookups.
 If you have a permission map but do not need React context:
 
 ```typescript
+import { createPermissionChecker } from '@gentleduck/iam/client/react'
 
 const { can, cannot, permissions } = createPermissionChecker(permissionMap)
 
@@ -277,12 +283,12 @@ Works in any environment: server, client, tests, or Node.js scripts.
     **Use provide/inject (alternative)**
 
     ```typescript title="src/App.vue"
-
+    <script setup>
     import { provideAccess } from '@/lib/access-client'
 
     const props = defineProps<{ permissions: PermissionMap }>()
     const { can, cannot, update } = provideAccess(props.permissions)
-
+    </script>
     ```
 
     Returns reactive access state and provides it to all descendants. `update(newPerms)`
@@ -293,16 +299,20 @@ Works in any environment: server, client, tests, or Node.js scripts.
     **Use the composable**
 
     ```vue title="src/components/PostActions.vue"
-
+    <script setup>
     import { useAccess } from '@/lib/access-client'
 
     const props = defineProps<{ postId: string }>()
     const { can, cannot } = useAccess()
+    </script>
 
+    <template>
+      <div>
         <button v-if="can('update', 'post', props.postId)">Edit</button>
         <button v-if="can('delete', 'post', props.postId)">Delete</button>
         <span v-if="cannot('update', 'post', props.postId)">Read only</span>
-
+      </div>
+    </template>
     ```
 
     ```typescript
@@ -319,15 +329,24 @@ Works in any environment: server, client, tests, or Node.js scripts.
     **Use the Can and Cannot components**
 
     ```vue title="src/components/Toolbar.vue"
-
+    <template>
+      <nav>
+        <Can action="create" resource="post">
           <button>New Post</button>
-
+          <template #fallback>
             <span>No permission</span>
+          </template>
+        </Can>
 
+        <Cannot action="manage" resource="dashboard">
           <p>Admin access required.</p>
+        </Cannot>
+      </nav>
+    </template>
 
+    <script setup>
     import { Can, Cannot } from '@/lib/access-client'
-
+    </script>
     ```
 
     - Default slot: rendered when permission is granted

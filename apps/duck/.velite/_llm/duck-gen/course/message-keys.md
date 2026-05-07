@@ -43,6 +43,13 @@ export const UserMessages = {
 Update the Users controller to use these message constants:
 
 ```ts title="src/users/users.controller.ts"
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common'
+import { ApiResponse } from '../common/api-response'
+import { CreateUserDto } from './dto/create-user.dto'
+import { PaginationDto } from './dto/pagination.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { UserDto } from './dto/user.dto'
+import { UserMessages } from './users.messages'
 
 type UserMessage = keyof typeof UserMessages
 
@@ -101,6 +108,7 @@ export type DuckgenMessageKeys = keyof DuckgenMessagesByGroup[keyof DuckgenMessa
 Now you can build a type-safe i18n system:
 
 ```ts title="client/i18n/messages.ts"
+import type { DuckgenMessagesByGroup } from '@gentleduck/gen/nestjs'
 
 // Define translations for each language
 const translations: Record<string, Record<string, string>> = {

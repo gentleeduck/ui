@@ -1,17 +1,34 @@
 ```tsx
-
+import * as InputOTP from '@gentleduck/primitives/input-otp'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<InputOTP.Root>
+  <InputOTP.Group>
+    <InputOTP.Slot />
+  </InputOTP.Group>
+  <InputOTP.Separator />
+</InputOTP.Root>
 ```
 
 ## Example
 
 ```tsx
-
+<InputOTP.Root maxLength={6} dir="rtl">
+  <InputOTP.Group>
+    <InputOTP.Slot />
+    <InputOTP.Slot />
+    <InputOTP.Slot />
+  </InputOTP.Group>
+  <InputOTP.Separator>-</InputOTP.Separator>
+  <InputOTP.Group>
+    <InputOTP.Slot />
+    <InputOTP.Slot />
+    <InputOTP.Slot />
+  </InputOTP.Group>
+</InputOTP.Root>
 ```
 
 ## API

@@ -24,7 +24,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx showLineNumbers
-
+import {
   Table,
   TableBody,
   TableCaption,
@@ -36,7 +36,32 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx showLineNumbers
-` component to build more complex data tables. Combine it with
+<Table>
+  <TableCaption>A list of your recent invoices.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[100px]">Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">INV001</TableCell>
+      <TableCell>Paid</TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Examples
+
+### Data Table
+
+You can use the `` component to build more complex data tables. Combine it with
 [@gentleduck/table](https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-table) to create tables with sorting, filtering and pagination.
 
 See the [Data Table](/duck-ui/components/data-table) documentation for more information.
@@ -49,6 +74,97 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
+```tsx title="components/table-2.tsx"
+// import from your project: import Demo from '@/components/table-2'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@gentleduck/registry-ui/table'
+
+const invoices = [
+  {
+    invoice: 'INV101',
+    paymentMethod: 'Apple Pay',
+    paymentStatus: 'غير مدفوع',
+    totalAmount: '$180.00',
+  },
+  {
+    invoice: 'INV102',
+    paymentMethod: 'بطاقة ائتمان',
+    paymentStatus: 'مدفوع',
+    totalAmount: '$720.00',
+  },
+  {
+    invoice: 'INV103',
+    paymentMethod: 'PayPal',
+    paymentStatus: 'قيد الانتظار',
+    totalAmount: '$95.00',
+  },
+  {
+    invoice: 'INV104',
+    paymentMethod: 'تحويل بنكي',
+    paymentStatus: 'مدفوع',
+    totalAmount: '$1,250.00',
+  },
+  {
+    invoice: 'INV105',
+    paymentMethod: 'بطاقة خصم',
+    paymentStatus: 'غير مدفوع',
+    totalAmount: '$430.00',
+  },
+  {
+    invoice: 'INV106',
+    paymentMethod: 'Apple Pay',
+    paymentStatus: 'قيد الانتظار',
+    totalAmount: '$610.00',
+  },
+  {
+    invoice: 'INV107',
+    paymentMethod: 'Google Pay',
+    paymentStatus: 'مدفوع',
+    totalAmount: '$390.00',
+  },
+]
+
+export default function Demo() {
+  return (
+    <Table dir="rtl">
+      <TableCaption>{'قائمة بفواتيرك الأخيرة.'}</TableCaption>
+      <TableHeader>
+        <TableRow className="[&_th]:py-2">
+          <TableHead className="w-[100px]">{'الفاتورة'}</TableHead>
+          <TableHead>{'الحالة'}</TableHead>
+          <TableHead>{'طريقة الدفع'}</TableHead>
+          <TableHead className="text-left">{'المبلغ'}</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.map((invoice) => (
+          <TableRow key={invoice.invoice} className="[&_td]:py-2">
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-left">{invoice.totalAmount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow className="[&_td]:py-2">
+          <TableCell colSpan={3}>{'الإجمالي'}</TableCell>
+          <TableCell className="text-left">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  )
+}
+```
+
 ## Motion
 
 }
@@ -57,6 +173,62 @@ Direction is resolved through the shared primitives direction module. Use a loca
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionTable` and `MotionTableRow` for staggered entrance animations powered by [motion](https://motion.dev). The table fades in with scale and blur, and each row staggers by 50ms via the `index` prop.
+
+```tsx title="components/table-3.tsx"
+// import from your project: import Demo from '@/components/table-3'
+import {
+  MotionTable,
+  MotionTableRow,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+} from '@gentleduck/registry-ui/table'
+
+const invoices = [
+  { invoice: 'INV101', paymentMethod: 'Apple Pay', paymentStatus: 'Unpaid', totalAmount: '$180.00' },
+  { invoice: 'INV102', paymentMethod: 'Credit Card', paymentStatus: 'Paid', totalAmount: '$720.00' },
+  { invoice: 'INV103', paymentMethod: 'PayPal', paymentStatus: 'Pending', totalAmount: '$95.00' },
+  { invoice: 'INV104', paymentMethod: 'Bank Transfer', paymentStatus: 'Paid', totalAmount: '$1,250.00' },
+  { invoice: 'INV105', paymentMethod: 'Debit Card', paymentStatus: 'Unpaid', totalAmount: '$430.00' },
+  { invoice: 'INV106', paymentMethod: 'Apple Pay', paymentStatus: 'Pending', totalAmount: '$610.00' },
+  { invoice: 'INV107', paymentMethod: 'Google Pay', paymentStatus: 'Paid', totalAmount: '$390.00' },
+]
+
+export default function Demo() {
+  return (
+    <MotionTable>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <MotionTableRow className="[&_th]:py-2" index={0}>
+          <TableHead className="w-[100px]">Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </MotionTableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.map((invoice, i) => (
+          <MotionTableRow key={invoice.invoice} className="[&_td]:py-2" index={i + 1}>
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          </MotionTableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <MotionTableRow className="[&_td]:py-2" index={invoices.length + 1}>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right">$2,500.00</TableCell>
+        </MotionTableRow>
+      </TableFooter>
+    </MotionTable>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionTable` instead of `Table` and `MotionTableRow` instead of `TableRow`. All other sub-components stay the same. The regular components are perfectly fine - this is an optional enhancement.

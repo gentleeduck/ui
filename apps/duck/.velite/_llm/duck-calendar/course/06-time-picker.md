@@ -7,6 +7,7 @@
 `useTimePicker` handles time input — spinbutton fields, keyboard increment/decrement, and AM/PM.
 
 ```tsx showLineNumbers
+import { useTimePicker } from '@gentleduck/calendar'
 
 function MyTimePicker() {
   const { state, getFieldProps } = useTimePicker({
@@ -15,11 +16,14 @@ function MyTimePicker() {
   })
 
   return (
-    
-      
-      
+    <div>
+      <input {...getFieldProps('hour')} />
+      <span>:</span>
+      <input {...getFieldProps('minute')} />
+      <span>:</span>
+      <input {...getFieldProps('second')} />
       <button {...getFieldProps('ampm')}>{state.displayAmPm}</button>
-
+    </div>
   )
 }
 ```
@@ -68,6 +72,7 @@ useTimePicker({ hourCycle: '12' })
 `useDateTime` composes `useCalendar` and `useTimePicker` into a single hook:
 
 ```tsx showLineNumbers
+import { NativeAdapter, useDateTime } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 
@@ -79,11 +84,11 @@ function MyDateTimePicker() {
   })
 
   return (
-
+    <div>
       {/* Calendar UI using calendar.state, calendar.getDayProps, etc. */}
       {/* Time UI using timePicker.state, timePicker.getFieldProps, etc. */}
       <p>Combined value: {state.value?.toISOString()}</p>
-
+    </div>
   )
 }
 ```

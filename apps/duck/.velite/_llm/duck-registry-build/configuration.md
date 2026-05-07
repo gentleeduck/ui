@@ -7,6 +7,7 @@ recommended starting point.
 ## Minimal generic shape
 
 ```ts
+import { defineConfig } from '@gentleduck/registry-build'
 
 export default defineConfig({
   extends: ['./registry-build.base.ts'],
@@ -129,7 +130,7 @@ Extensions are the primary mechanism for adding behavior to the builder. The run
 For UI registries, either use `uiRegistryPreset()` to bundle the standard extensions, or register them individually for full control:
 
 ```ts
-
+import {
   bannerExtension,
   colorsExtension,
   componentIndexExtension,
@@ -209,6 +210,9 @@ export default defineConfig({
 ```
 
 ```ts
+import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
+import { baseConfig } from './registry-build.base'
+import { archConfig } from './registry-build.arch'
 
 export default defineConfig(mergeRegistryBuildConfigs(baseConfig, archConfig))
 ```

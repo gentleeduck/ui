@@ -1,3 +1,81 @@
+```tsx title="components/dropdown-menu-1.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-1'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  // DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+
+export default function Demo() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Keyboard shortcuts
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem>Email</DropdownMenuItem>
+              <DropdownMenuItem>Message</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>More...</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
 ## Philosophy
 
 Dropdown menus are the Swiss Army knife of action UIs. They group related actions behind a single trigger, keeping interfaces clean while maintaining discoverability. Our implementation builds on `@gentleduck/primitives/dropdown-menu` which wraps the base Menu primitive, adding checkbox items, radio groups, sub-menus, and keyboard navigation. The wrapper adds design-system styling while the primitive handles all interaction logic.
@@ -26,7 +104,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx
-
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -37,12 +115,236 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Team</DropdownMenuItem>
+    <DropdownMenuItem>Subscription</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
 
-    
+## Examples
+
+### Checkboxes
+
+```tsx title="components/dropdown-menu-2.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-2'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+import * as React from 'react'
+
+export default function Demo() {
+  const [showStatusBar, setShowStatusBar] = React.useState(true)
+  const [showActivityBar, setShowActivityBar] = React.useState(false)
+  const [showPanel, setShowPanel] = React.useState(false)
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
+          Status Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={showActivityBar} disabled onCheckedChange={setShowActivityBar}>
+          Activity Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
+          Panel
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+### Radio Group
+
+```tsx title="components/dropdown-menu-3.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-3'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+import * as React from 'react'
+
+export default function Demo() {
+  const [position, setPosition] = React.useState('bottom')
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup defaultValue="top" onValueChange={setPosition} value={position}>
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the menu is open using `data-[state=open]`:
+
+```tsx title="components/dropdown-menu-5.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-5'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+import { ChevronDown, LogOut, Settings, User } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className="data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:ring-2 data-[state=open]:ring-ring">
+          Account
+          <ChevronDown className="ml-2 h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>
+          <User className="mr-2 h-4 w-4" />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Settings className="mr-2 h-4 w-4" />
+          Settings
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <LogOut className="mr-2 h-4 w-4" />
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+## Component Composition
 
 ## RTL Support
 
 Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+```tsx title="components/dropdown-menu-4.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-4'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  // DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+
+export default function Demo() {
+  return (
+    <DropdownMenu dir="rtl">
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">فتح</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>حسابي</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            الملف الشخصي
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            الفواتير
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            الاعدادات
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            اختصارات لوحة المفاتيح
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>الفريق</DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>دعوة مستخدمين</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem>البريد الالكتروني</DropdownMenuItem>
+              <DropdownMenuItem>رسالة</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>المزيد...</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            فريق جديد
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>الدعم</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          تسجيل الخروج
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
 
 ## Motion
 
@@ -52,6 +354,83 @@ Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvide
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionDropdownMenu` and `MotionDropdownMenuContent` for smooth enter/exit animations powered by [motion](https://motion.dev). For animated sub-menus, use `MotionDropdownMenuSub` and `MotionDropdownMenuSubContent`.
+
+```tsx title="components/dropdown-menu-6.tsx"
+// import from your project: import Demo from '@/components/dropdown-menu-6'
+'use client'
+
+import { MotionButton } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+  MotionDropdownMenu,
+  MotionDropdownMenuContent,
+  MotionDropdownMenuSub,
+  MotionDropdownMenuSubContent,
+} from '@gentleduck/registry-ui/dropdown-menu'
+
+export default function Demo() {
+  return (
+    <MotionDropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <MotionButton variant="outline">Open</MotionButton>
+      </DropdownMenuTrigger>
+      <MotionDropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Keyboard shortcuts
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <MotionDropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <MotionDropdownMenuSubContent>
+              <DropdownMenuItem>Email</DropdownMenuItem>
+              <DropdownMenuItem>Message</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>More...</DropdownMenuItem>
+            </MotionDropdownMenuSubContent>
+          </MotionDropdownMenuSub>
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </MotionDropdownMenuContent>
+    </MotionDropdownMenu>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionDropdownMenu` instead of `DropdownMenu` and `MotionDropdownMenuContent` instead of `DropdownMenuContent`. For sub-menus, use `MotionDropdownMenuSub` and `MotionDropdownMenuSubContent`. All other sub-components stay the same.

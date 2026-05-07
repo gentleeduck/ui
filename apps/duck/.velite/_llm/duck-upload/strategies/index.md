@@ -21,6 +21,7 @@ Each strategy:
 Install strategies via the registry helper before creating the store:
 
 ```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
 
 const registry = createStrategyRegistry()
 registry.set(PostStrategy())

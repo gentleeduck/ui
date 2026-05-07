@@ -42,6 +42,7 @@ The shape is determined by which fields you pass when generating the map (or cal
 The same key builder powers every client integration:
 
 ```typescript
+import { buildPermissionKey } from '@gentleduck/iam'
 
 buildPermissionKey('delete', 'post')
 // "delete:post"
@@ -63,6 +64,7 @@ You rarely call `buildPermissionKey()` directly — the React, Vue, and vanilla 
 ## Generating a map (server side)
 
 ```typescript
+import { engine } from '@/lib/engine'
 
 const permissions = await engine.permissions('user-1', [
   { action: 'create', resource: 'post' },

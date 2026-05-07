@@ -1,5 +1,5 @@
 ```tsx
-
+import { DirectionProvider, useDirection } from '@gentleduck/primitives/direction'
 ```
 
 ## What it does
@@ -13,12 +13,16 @@ This is the single direction module used by primitives and registry-ui component
 ## Example
 
 ```tsx
+import { DirectionProvider } from '@gentleduck/primitives/direction'
+import * as Dialog from '@gentleduck/primitives/dialog'
 
 export function App() {
   return (
-
+    <DirectionProvider dir="rtl">
+      <Dialog.Root>
         <Dialog.Trigger>Open</Dialog.Trigger>
-
+      </Dialog.Root>
+    </DirectionProvider>
   )
 }
 ```

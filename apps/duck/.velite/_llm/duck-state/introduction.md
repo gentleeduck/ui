@@ -18,6 +18,7 @@ npm install @gentleduck/state
 ### Core (vanilla)
 
 ```ts
+import { atom, createStore } from '@gentleduck/state'
 
 const count = atom(0)
 const double = atom((get) => get(count) * 2)
@@ -30,13 +31,21 @@ console.log(store.get(double))
 ### React
 
 ```tsx
+import { atom } from '@gentleduck/state'
+import { useAtom, useAtomValue, useSetAtom, Provider } from '@gentleduck/state/react'
 
 const count = atom(0)
 
 function Counter() {
   const [value, setValue] = useAtom(count)
-  return 
+  return <button onClick={() => setValue((c) => c + 1)}>{value}</button>
+}
 
+function App() {
+  return (
+    <Provider>
+      <Counter />
+    </Provider>
   )
 }
 ```

@@ -1,3 +1,45 @@
+```tsx title="components/alert-dialog-1.tsx"
+// import from your project: import Demo from '@/components/alert-dialog-1'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@gentleduck/registry-ui/alert-dialog'
+import { Button } from '@gentleduck/registry-ui/button'
+
+export default function Demo() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone This will permanently delete your account and remove your data from our servers
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild>
+            <Button variant="outline">Cancel</Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button>Continue</Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
 ## Philosophy
 
 Alert dialogs are the nuclear option of UI interruption. Unlike regular dialogs, they can't be dismissed by clicking outside or pressing Escape  -  the user must explicitly choose an action. Reserve them for destructive operations where an accidental dismissal could mean data loss.
@@ -26,7 +68,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx
-
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -40,22 +82,139 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx
+<AlertDialog>
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Examples
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
+
+```tsx title="components/alert-dialog-3.tsx"
+// import from your project: import Demo from '@/components/alert-dialog-3'
+'use client'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@gentleduck/registry-ui/alert-dialog'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Trash2 } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="destructive"
+          className="data-[state=open]:opacity-90 data-[state=open]:ring-2 data-[state=open]:ring-destructive/50">
+          <Trash2 className="mr-2 h-4 w-4" />
+          Delete account
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. The trigger button is highlighted while this dialog is open.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+## Component Composition
 
 ## RTL Support
 
 Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
 
 ```tsx
-
+<AlertDialog dir="rtl">
   <AlertDialogTrigger>Open</AlertDialogTrigger>
-
+  <AlertDialogContent>
+    <AlertDialogHeader>
       <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
-
+      <AlertDialogDescription>
         هذا الاجراء لا يمكن التراجع عنه.
-
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
       <AlertDialogCancel>الغاء</AlertDialogCancel>
       <AlertDialogAction>متابعة</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
 
+```tsx title="components/alert-dialog-2.tsx"
+// import from your project: import Demo from '@/components/alert-dialog-2'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@gentleduck/registry-ui/alert-dialog'
+import { Button } from '@gentleduck/registry-ui/button'
+
+export default function Demo() {
+  return (
+    <AlertDialog dir="rtl">
+      <AlertDialogTrigger asChild>
+        <Button variant="outline">فتح</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>هل أنت متأكد تماما؟</AlertDialogTitle>
+          <AlertDialogDescription>
+            لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف حسابك نهائيا وإزالة بياناتك من خوادمنا
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild>
+            <Button variant="outline">إلغاء</Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button>متابعة</Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
 ```
 
 ## Motion
@@ -66,6 +225,50 @@ Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionAlertDialog` and `MotionAlertDialogContent` for smooth enter/exit animations powered by [motion](https://motion.dev). Uses a stiffer spring to convey urgency compared to the regular dialog.
+
+```tsx title="components/alert-dialog-4.tsx"
+// import from your project: import Demo from '@/components/alert-dialog-4'
+'use client'
+
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  MotionAlertDialog,
+  MotionAlertDialogContent,
+} from '@gentleduck/registry-ui/alert-dialog'
+import { MotionButton } from '@gentleduck/registry-ui/button'
+
+export default function Demo() {
+  return (
+    <MotionAlertDialog>
+      <AlertDialogTrigger asChild>
+        <MotionButton variant="outline">Open</MotionButton>
+      </AlertDialogTrigger>
+      <MotionAlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone This will permanently delete your account and remove your data from our servers
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild>
+            <MotionButton variant="outline">Cancel</MotionButton>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <MotionButton>Continue</MotionButton>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </MotionAlertDialogContent>
+    </MotionAlertDialog>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionAlertDialog` instead of `AlertDialog` and `MotionAlertDialogContent` instead of `AlertDialogContent`. All other sub-components (`AlertDialogTrigger`, `AlertDialogAction`, etc.) stay the same.

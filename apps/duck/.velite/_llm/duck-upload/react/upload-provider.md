@@ -9,10 +9,13 @@
 ## Usage
 
 ```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
 
 export function App() {
   return (
-
+    <UploadProvider store={store}>
+      <Routes />
+    </UploadProvider>
   )
 }
 ```

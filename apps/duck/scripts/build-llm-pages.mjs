@@ -65,14 +65,43 @@ function langFor(file) {
 }
 
 async function loadRegistry() {
-  const raw = await readFile(REGISTRY_INDEX, 'utf8')
-  const parsed = JSON.parse(raw)
+  // Per-component JSONs at /public/r/components/<name>.json embed `content`
+  // for every file. Prefer them — index.json only carries paths.
+  const componentsDir = path.join(APP_ROOT, 'public/r/components')
   const map = new Map()
-  for (const entry of Object.values(parsed)) {
-    if (entry?.name && entry.source && Array.isArray(entry.files)) {
-      map.set(entry.name, { source: entry.source, files: entry.files })
+
+  if (existsSync(componentsDir)) {
+    const files = await readdir(componentsDir)
+    for (const f of files) {
+      if (!f.endsWith('.json')) continue
+      try {
+        const raw = await readFile(path.join(componentsDir, f), 'utf8')
+        const entry = JSON.parse(raw)
+        if (entry?.name && Array.isArray(entry.files)) {
+          map.set(entry.name, {
+            source: entry.source ?? '',
+            files: entry.files,
+          })
+        }
+      } catch {
+        // skip
+      }
     }
   }
+
+  // Backfill anything missing from index.json (no content, but at least we know the path).
+  try {
+    const raw = await readFile(REGISTRY_INDEX, 'utf8')
+    const parsed = JSON.parse(raw)
+    for (const entry of Object.values(parsed)) {
+      if (entry?.name && entry.source && Array.isArray(entry.files) && !map.has(entry.name)) {
+        map.set(entry.name, { source: entry.source, files: entry.files })
+      }
+    }
+  } catch {
+    // index.json missing — components dir alone is fine
+  }
+
   return map
 }
 
@@ -81,14 +110,19 @@ async function readRegistrySource(name, registry) {
   if (!entry) return null
   const blocks = []
   for (const file of entry.files) {
-    const abs = path.join(WORKSPACE_PACKAGES, entry.source.replace(/^\//, ''), file.path)
-    try {
-      const src = await readFile(abs, 'utf8')
-      const lang = langFor(file.path)
-      blocks.push(`\`\`\`${lang} title="${file.path}"\n${src}\n\`\`\``)
-    } catch {
-      // skip missing files
+    let src = typeof file.content === 'string' ? file.content : null
+    if (!src) {
+      const abs = path.join(WORKSPACE_PACKAGES, entry.source.replace(/^\//, ''), file.path)
+      try {
+        src = await readFile(abs, 'utf8')
+      } catch {
+        continue
+      }
     }
+    const lang = langFor(file.path) || 'tsx'
+    const importPath = file.target ? file.target.replace(/\.[^.]+$/, '') : file.path.replace(/\.[^.]+$/, '')
+    const importLine = `// import from your project: import Demo from '@/${importPath}'`
+    blocks.push(`\`\`\`${lang} title="${file.target ?? file.path}"\n${importLine}\n${src.trimEnd()}\n\`\`\``)
   }
   return blocks.length ? blocks.join('\n\n') : null
 }
@@ -139,7 +173,14 @@ const UNWRAP = [
 const REMOVE = ['MermaidDiagram', 'LinkedCard']
 
 function stripRemainingJsx(body) {
-  let out = body.replace(/^import\s+.*$/gm, '')
+  // Stash fenced code blocks so the JSX-stripping regexes don't touch their contents.
+  const blocks = []
+  const stashed = body.replace(/```[\s\S]*?```/g, (m) => {
+    const id = blocks.push(m) - 1
+    return `__CODE_BLOCK_${id}__`
+  })
+
+  let out = stashed.replace(/^import\s+.*$/gm, '')
   for (const c of UNWRAP) {
     out = out.replace(new RegExp(`<${c}[^>]*>([\\s\\S]*?)<\\/${c}>`, 'g'), '$1')
   }
@@ -147,11 +188,14 @@ function stripRemainingJsx(body) {
     out = out.replace(new RegExp(`<${c}[^>]*>[\\s\\S]*?<\\/${c}>`, 'g'), '')
     out = out.replace(new RegExp(`<${c}\\b[^>]*\\/>`, 'g'), '')
   }
-  return out
+  out = out
     .replace(/<\w+[\s\S]*?\/>/g, '')
     .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim()
+
+  // Restore stashed code blocks.
+  return out.replace(/__CODE_BLOCK_(\d+)__/g, (_, id) => blocks[Number(id)] ?? '')
 }
 
 async function loadCollection(name) {

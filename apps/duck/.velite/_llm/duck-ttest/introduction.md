@@ -33,6 +33,7 @@ npm install --save-dev @gentleduck/ttest
 ## Quick Start
 
 ```ts
+import { AssertTrue, Equal } from "@gentleduck/ttest";
 
 type Schema = InferSchema<
   "CREATE TABLE users (id INT PRIMARY KEY, email TEXT NOT NULL)"
@@ -60,6 +61,8 @@ type Test_Column = AssertTrue<
 ## Advanced Patterns
 
 ```ts
+import { AssertTrue, Equal } from "@gentleduck/ttest";
+import { XOR } from "@gentleduck/utils";
 
 type X1 = XOR<
   { a: number; common: string },

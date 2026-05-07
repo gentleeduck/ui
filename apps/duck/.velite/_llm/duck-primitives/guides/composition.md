@@ -12,7 +12,55 @@ Every primitive element supports `asChild`. When true, the primitive doesn't ren
 
 ```tsx
 // Instead of wrapping:
+<div onClick={open}>
+  <Dialog.Trigger>
+    <MyFancyButton>Open</MyFancyButton>
+  </Dialog.Trigger>
+</div>
 
+// Compose directly:
+<Dialog.Trigger asChild>
+  <MyFancyButton>Open</MyFancyButton>
+</Dialog.Trigger>
+```
+
+The `MyFancyButton` receives all of Dialog.Trigger's props (`aria-haspopup`, `aria-expanded`, `onClick`, `data-state`, etc.) merged with its own props.
+
+---
+
+## Common patterns
+
+### Link as trigger
+
+```tsx
+<Popover.Trigger asChild>
+  <a href="#" className="text-blue-600 underline">Show details</a>
+</Popover.Trigger>
+```
+
+### Custom component as content
+
+```tsx
+<Dialog.Content asChild>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 20 }}
+    className="bg-white rounded-lg p-6"
+  >
+    <Dialog.Title>Animated dialog</Dialog.Title>
+  </motion.div>
+</Dialog.Content>
+```
+
+### Icon button as close
+
+```tsx
+<Dialog.Close asChild>
+  <button aria-label="Close" className="absolute top-2 right-2">
+    <XIcon />
+  </button>
+</Dialog.Close>
 ```
 
 ---
@@ -33,14 +81,24 @@ Keep these rules in mind when using `asChild`:
 A common pattern is to create styled wrappers around primitives:
 
 ```tsx
+import * as DialogPrimitive from '@gentleduck/primitives/dialog'
 
 export const Dialog = DialogPrimitive.Root
 
 export const DialogContent = React.forwardRef<
-  React.ComponentRef
-
+  React.ComponentRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <DialogPrimitive.Portal>
+    <DialogPrimitive.Overlay className="fixed inset-0 bg-black/50" />
+    <DialogPrimitive.Content
+      ref={ref}
+      className={cn("fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6", className)}
+      {...props}
+    >
       {children}
-
+    </DialogPrimitive.Content>
+  </DialogPrimitive.Portal>
 ))
 ```
 

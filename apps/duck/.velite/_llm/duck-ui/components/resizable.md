@@ -1,3 +1,36 @@
+```tsx title="components/resizable-1.tsx"
+// import from your project: import Demo from '@/components/resizable-1'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+
+export default function Demo() {
+  return (
+    <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal">
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-[200px] items-center justify-center p-6">
+          <span className="font-semibold">One</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={50}>
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize={25}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Two</span>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={75}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Three</span>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
 ## Philosophy
 
 Resizable panels let users allocate screen real estate to match their workflow. We wrap react-resizable-panels because the math of proportional resizing, minimum sizes, and persistent layouts is deceptively complex. The PanelGroup/Panel/Handle model keeps the API simple while supporting arbitrarily complex layouts.
@@ -31,7 +64,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx showLineNumbers
-
+import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
@@ -39,14 +72,143 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx showLineNumbers
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel>One</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Two</ResizablePanel>
+</ResizablePanelGroup>
+```
 
-  
-      
-      
+## Examples
+
+### Vertical
+
+Use the `orientation` prop to set the direction of the resizable panels.
+
+```tsx title="components/resizable-2.tsx"
+// import from your project: import Demo from '@/components/resizable-2'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+
+export default function Demo() {
+  return (
+    <ResizablePanelGroup className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]" orientation="vertical">
+      <ResizablePanel defaultSize={25}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Header</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={75}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+```tsx showLineNumbers {9}
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function Example() {
+  return (
+    <ResizablePanelGroup orientation="vertical">
+      <ResizablePanel>One</ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel>Two</ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+### Handle
+
+The grip handle shows by default. Pass `withHandle={false}` to render only the thin line without the visible grip.
+
+```tsx title="components/resizable-3.tsx"
+// import from your project: import Demo from '@/components/resizable-3'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+
+export default function Demo() {
+  return (
+    <ResizablePanelGroup className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal">
+      <ResizablePanel defaultSize={25}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Sidebar</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={75}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+```tsx showLineNumbers {11}
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function Example() {
+  return (
+    <ResizablePanelGroup orientation="horizontal">
+      <ResizablePanel>One</ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel>Two</ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+## Component Composition
 
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+```tsx title="components/resizable-4.tsx"
+// import from your project: import Demo from '@/components/resizable-4'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+
+export default function Demo() {
+  return (
+    <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal" dir="rtl">
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-[200px] items-center justify-center p-6">
+          <span className="font-semibold">واحد</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={50}>
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize={25}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">اثنان</span>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={75}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">ثلاثة</span>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
 
 ## Motion
 
@@ -56,6 +218,44 @@ Direction is resolved through the shared primitives direction module. Use a loca
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionResizablePanelGroup` for a smooth entrance animation powered by [motion](https://motion.dev). The panel group fades in with scale and blur on mount using `springBouncy`.
+
+```tsx title="components/resizable-5.tsx"
+// import from your project: import Demo from '@/components/resizable-5'
+import {
+  MotionResizablePanelGroup,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@gentleduck/registry-ui/resizable'
+
+export default function Demo() {
+  return (
+    <MotionResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal">
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-[200px] items-center justify-center p-6">
+          <span className="font-semibold">One</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={50}>
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize={25}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Two</span>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={75}>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Three</span>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </MotionResizablePanelGroup>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionResizablePanelGroup` instead of `ResizablePanelGroup`. The rest of the components (`ResizablePanel`, `ResizableHandle`) stay the same. The regular `ResizablePanelGroup` is perfectly fine - this is an optional enhancement.

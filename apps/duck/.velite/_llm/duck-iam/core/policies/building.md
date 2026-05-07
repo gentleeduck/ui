@@ -3,6 +3,7 @@
 Build policies with `policy()`:
 
 ```typescript
+import { policy } from '@gentleduck/iam'
 
 const weekendDeny = policy('deny-weekends')
   .name('Deny on Weekends')
@@ -67,6 +68,7 @@ const myPolicy = policy('content-policy')
 Use `defineRule()` to author rules independently and attach them to multiple policies:
 
 ```typescript
+import { defineRule } from '@gentleduck/iam'
 
 const ownerOnly = defineRule('owner-only')
   .allow()

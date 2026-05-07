@@ -24,14 +24,72 @@ Not every shortcut should be global. Some should only work when a specific eleme
   
     ```tsx
     function Editor() {
-      const ref = useRef
+      const ref = useRef<HTMLDivElement>(null)
+
+      useKeyBind('ctrl+s', () => save(), {
+        preventDefault: true,
+        targetRef: ref,
+      })
+
+      return <div ref={ref} tabIndex={0}>Editor</div>
+    }
+    ```
+
+    }>
+    Remember: non-natively-focusable elements need `tabIndex={0}` to receive keyboard events.
+    
+  
+
+### Nested scopes
+
+Use `stopPropagation: true` to prevent shortcuts from bubbling up:
+
+```tsx
+// Modal catches Escape first
+useKeyBind('escape', () => closeModal(), {
+  targetRef: modalRef,
+  stopPropagation: true,
+})
+
+// App-level Escape won't fire when modal is open
+useKeyBind('escape', () => closeSidebar())
+```
+
+---
+
+## Building a command palette
+
+}>
+Since the Registry stores names and descriptions, building a command palette is straightforward.
+
+```tsx
+function CommandPalette() {
+  const ctx = useContext(KeyContext)
+  const [query, setQuery] = useState('')
+
+  const items = useMemo(() => {
+    if (!ctx) return []
+    const all = Array.from(ctx.registry.getAllCommands())
+    if (!query) return all
+    const q = query.toLowerCase()
+    return all.filter(([, cmd]) => cmd.name.toLowerCase().includes(q))
+  }, [ctx, query])
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search commands..."
+        autoFocus
+      />
       {items.map(([binding, cmd]) => (
         <button key={binding} onClick={() => cmd.execute()}>
           {cmd.name}
           <kbd>{formatForDisplay(binding)}</kbd>
-
+        </button>
       ))}
-
+    </div>
   )
 }
 ```
@@ -46,6 +104,7 @@ See the [Command Palette guide](/duck-vim/guides/command-palette) for a more com
 When users customize shortcuts or when you register many bindings, conflicts can occur. Detect them early.
 
 ```ts
+import { normalizeKeyBind } from '@gentleduck/vim/parser'
 
 function findConflicts(registry: Registry): Array<[string, string]> {
   const normalized = new Map<string, string[]>()
@@ -101,6 +160,7 @@ Without `requireReset`, holding <Kbd>Ctrl+S</Kbd> would trigger `save()` on ever
 ### Unit testing key parsing
 
 ```ts
+import { parseKeyBind, normalizeKeyBind, validateKeyBind } from '@gentleduck/vim/parser'
 
 test('parses Mod+S on Mac', () => {
   const result = parseKeyBind('Mod+S', 'mac')
@@ -122,6 +182,8 @@ test('validates empty binding', () => {
 ### Unit testing matching
 
 ```ts
+import { matchesKeyboardEvent } from '@gentleduck/vim/matcher'
+import { parseKeyBind } from '@gentleduck/vim/parser'
 
 test('matches ctrl+k event', () => {
   const parsed = parseKeyBind('ctrl+k')
@@ -142,6 +204,7 @@ test('does not match without ctrl', () => {
 ### Integration testing the Registry
 
 ```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
 test('executes command on key match', () => {
   const registry = new Registry()
@@ -163,6 +226,7 @@ test('executes command on key match', () => {
 ### Testing platform detection
 
 ```ts
+import { _resetPlatformCache } from '@gentleduck/vim/platform'
 
 beforeEach(() => {
   _resetPlatformCache()

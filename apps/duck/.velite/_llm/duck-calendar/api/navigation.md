@@ -1,5 +1,6 @@
 ```tsx
-
+import { navigate, canNavigate, goToMonth, goToYear, goToNextMonth, goToPrevMonth } from '@gentleduck/calendar'
+import type { Navigation, Adapter } from '@gentleduck/calendar'
 ```
 
 ## Functions
@@ -56,6 +57,7 @@ canNavigate(
 Navigate to a specific month within the current year. Used by the month picker view. The `month` parameter is **0-indexed** (0 = January, 11 = December). Returns the 1st of the target month.
 
 ```tsx
+import { goToMonth } from '@gentleduck/calendar'
 
 goToMonth(adapter: Adapter.IDateAdapter<TDate>, current: TDate, month: number) => TDate
 ```

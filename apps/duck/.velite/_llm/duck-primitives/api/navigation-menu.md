@@ -1,11 +1,22 @@
 ```tsx
-
+import * as NavigationMenu from '@gentleduck/primitives/navigation-menu'
 ```
 
 ## Usage
 
 ```tsx
-
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="docs">
+      <NavigationMenu.Trigger>Docs</NavigationMenu.Trigger>
+      <NavigationMenu.Content>
+        <NavigationMenu.Link href="/docs/getting-started">Getting Started</NavigationMenu.Link>
+      </NavigationMenu.Content>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+  <NavigationMenu.Indicator />
+  <NavigationMenu.Viewport />
+</NavigationMenu.Root>
 ```
 
 ## API
@@ -82,7 +93,7 @@ Shared animated viewport that hosts active content.
 ### Scope
 
 ```tsx
-
+import { createNavigationMenuScope } from '@gentleduck/primitives/navigation-menu'
 ```
 
 `createNavigationMenuScope` is exported for advanced composition and nested-scoped integration.

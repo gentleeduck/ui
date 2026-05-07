@@ -212,6 +212,7 @@ The subject has the `editor` role but the `ownerId` condition failed because the
 Use `validatePolicy()` to validate untrusted policy objects before saving them. This is necessary when policies come from a database, API, or admin dashboard where the data could be malformed.
 
 ```typescript
+import { validatePolicy } from '@gentleduck/iam'
 
 // Policy from an external source (database, API, user input)
 const policyJson = await db.query('SELECT data FROM policies WHERE id = $1', [id])
@@ -260,6 +261,7 @@ interface ValidationIssue {
 Use `validateRoles()` to validate your role configuration. This catches structural mistakes that cause silent failures at runtime.
 
 ```typescript
+import { validateRoles } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').build()
 const editor = defineRole('editor').inherits('viewer').grant('update', 'post').build()

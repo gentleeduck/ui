@@ -31,6 +31,7 @@ While recording, the recorder calls `preventDefault()` and `stopPropagation()` o
 ### Vanilla usage
 
 ```ts
+import { KeyRecorder } from '@gentleduck/vim/recorder'
 
 const recorder = new KeyRecorder({
   onRecord: (binding) => {
@@ -56,19 +57,201 @@ recorder.start(document.body)
 The hook wraps `KeyRecorder` with React state:
 
 ```tsx
+import { useKeyRecorder } from '@gentleduck/vim/react'
 
 function RecorderDemo() {
   const { state, start, stop, reset } = useKeyRecorder()
 
   return (
-    
+    <div>
+      <p>Recording: {state.isRecording ? 'Yes' : 'No'}</p>
+      <p>Recorded: {state.recorded ?? 'Nothing yet'}</p>
+      <button onClick={() => start()}>Start</button>
+      <button onClick={() => stop()}>Stop</button>
+      <button onClick={() => reset()}>Reset</button>
+    </div>
+  )
+}
+```
+
+The `state` object:
+
+```ts
+{
+  activeKeys: string[]     // Keys currently held
+  recorded: string | null  // Last recorded binding
+  isRecording: boolean     // Whether we're listening
+}
+```
+
+---
+
+## Building the settings UI
+
+Here's a complete shortcut settings component:
+
+```tsx
+import { useState, useContext, useMemo } from 'react'
+import { KeyContext, useKeyRecorder } from '@gentleduck/vim/react'
+import { formatForDisplay } from '@gentleduck/vim/format'
+import { validateKeyBind, normalizeKeyBind } from '@gentleduck/vim/parser'
+
+interface ShortcutItem {
+  originalBinding: string
+  currentBinding: string
+  name: string
+}
+
+function ShortcutSettings() {
+  const ctx = useContext(KeyContext)
+  const { state: recorderState, start, stop, reset } = useKeyRecorder()
+  const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const [shortcuts, setShortcuts] = useState<ShortcutItem[]>(() => {
+    if (!ctx) return []
+    return Array.from(ctx.registry.getAllCommands()).map(([binding, cmd]) => ({
+      originalBinding: binding,
+      currentBinding: binding,
+      name: cmd.name,
+    }))
+  })
+
+  function startEditing(index: number) {
+    setEditingIndex(index)
+    setError(null)
+    reset()
+    start()
+  }
+
+  function cancelEditing() {
+    stop()
+    setEditingIndex(null)
+    setError(null)
+    reset()
+  }
+
+  function saveBinding(index: number) {
+    if (!recorderState.recorded || !ctx) return
+
+    // Validate
+    const validation = validateKeyBind(recorderState.recorded)
+    if (!validation.valid) {
+      setError(validation.errors.join(', '))
+      return
+    }
+
+    // Check for conflicts
+    const normalized = normalizeKeyBind(recorderState.recorded)
+    const conflicting = shortcuts.find(
+      (s, i) => i !== index && normalizeKeyBind(s.currentBinding) === normalized,
+    )
+    if (conflicting) {
+      setError(`Conflicts with "${conflicting.name}"`)
+      return
+    }
+
+    // Apply the change
+    const item = shortcuts[index]
+    if (!item) return
+
+    const command = ctx.registry.getCommand(item.currentBinding)
+    if (command) {
+      ctx.registry.unregister(item.currentBinding)
+      ctx.registry.register(recorderState.recorded, command)
+    }
+
+    setShortcuts((prev) =>
+      prev.map((s, i) =>
+        i === index ? { ...s, currentBinding: recorderState.recorded! } : s,
+      ),
+    )
+
+    stop()
+    setEditingIndex(null)
+    setError(null)
+    reset()
+  }
+
+  function resetToDefault(index: number) {
+    if (!ctx) return
+    const item = shortcuts[index]
+    if (!item || item.currentBinding === item.originalBinding) return
+
+    const command = ctx.registry.getCommand(item.currentBinding)
+    if (command) {
+      ctx.registry.unregister(item.currentBinding)
+      ctx.registry.register(item.originalBinding, command)
+    }
+
+    setShortcuts((prev) =>
+      prev.map((s, i) =>
+        i === index ? { ...s, currentBinding: s.originalBinding } : s,
+      ),
+    )
+  }
+
+  return (
+    <div className="max-w-lg mx-auto p-6">
+      <h2 className="text-xl font-bold mb-4">Keyboard Shortcuts</h2>
+
+      {error && (
+        <div className="bg-red-50 text-red-700 px-3 py-2 rounded mb-3 text-sm">
+          {error}
+        </div>
+      )}
+
+      <div className="space-y-1">
+        {shortcuts.map((shortcut, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between py-2 px-3 rounded hover:bg-gray-50"
+          >
+            <span className="text-sm">{shortcut.name}</span>
+
+            <div className="flex items-center gap-2">
+              {editingIndex === i ? (
+                <>
+                  <kbd className="px-2 py-1 bg-blue-100 border border-blue-300 rounded text-sm min-w-[80px] text-center">
+                    {recorderState.recorded ?? 'Press keys...'}
+                  </kbd>
+                  <button
+                    onClick={() => saveBinding(i)}
+                    disabled={!recorderState.recorded}
+                    className="text-xs text-blue-600 hover:underline"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={cancelEditing}
+                    className="text-xs text-gray-500 hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </>
               ) : (
                 <>
-                  
+                  <button
+                    onClick={() => startEditing(i)}
+                    className="px-2 py-1 bg-gray-100 border rounded text-sm hover:bg-gray-200"
+                  >
+                    {formatForDisplay(shortcut.currentBinding)}
+                  </button>
+                  {shortcut.currentBinding !== shortcut.originalBinding && (
+                    <button
+                      onClick={() => resetToDefault(i)}
+                      className="text-xs text-gray-400 hover:text-gray-600"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </>
               )}
-
+            </div>
+          </div>
         ))}
-
+      </div>
+    </div>
   )
 }
 ```
@@ -81,6 +264,7 @@ function RecorderDemo() {
 Always validate before saving user-recorded bindings.
 
 ```ts
+import { validateKeyBind } from '@gentleduck/vim/parser'
 
 const result = validateKeyBind(recorded)
 
@@ -114,6 +298,7 @@ Common errors:
 For more casual key state tracking (games, drawing apps), use `KeyStateTracker` instead of `KeyRecorder`.
 
 ```ts
+import { KeyStateTracker } from '@gentleduck/vim/recorder'
 
 const tracker = new KeyStateTracker()
 tracker.attach(document)

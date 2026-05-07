@@ -7,10 +7,22 @@ Navigation menus serve a different purpose than dropdown menus  -  they're for w
 You can use the `asChild` prop to make another component look like a navigation menu trigger. Here's an example of a link that looks like a navigation menu trigger.
 
 ```tsx showLineNumbers title="components/example-navigation-menu.tsx"
+import Link from "next/link"
 
 export function NavigationMenuDemo() {
   return (
-    
+    <NavigationMenuItem>
+      <NavigationMenuLink asChild>
+        <Link href="/www">Documentation</Link>
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  )
+}
+```
+
+## RTL Support
+
+Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 ## Motion
 
@@ -99,9 +111,11 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 A `cva` variant function that returns the default trigger styling classes. Use it to style non-trigger elements (e.g. plain links) to match the trigger appearance.
 
 ```tsx
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 
+<NavigationMenuLink className={navigationMenuTriggerStyle()}>
   Documentation
-
+</NavigationMenuLink>
 ```
 
 ### MotionNavigationMenu

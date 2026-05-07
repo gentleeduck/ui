@@ -77,6 +77,12 @@ will generate the expanded type in the output.
 Now create the Users controller with full CRUD operations:
 
 ```ts title="src/users/users.controller.ts"
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common'
+import { ApiResponse } from '../common/api-response'
+import { CreateUserDto } from './dto/create-user.dto'
+import { PaginationDto } from './dto/pagination.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { UserDto } from './dto/user.dto'
 
 type UserMessage = 'USER_CREATED' | 'USER_UPDATED' | 'USER_DELETED' | 'USER_FOUND' | 'USERS_LISTED'
 
@@ -143,6 +149,8 @@ export class UsersController {
 Add the controller to a module and import it in your app:
 
 ```ts title="src/users/users.module.ts"
+import { Module } from '@nestjs/common'
+import { UsersController } from './users.controller'
 
 @Module({
   controllers: [UsersController],
@@ -151,6 +159,8 @@ export class UsersModule {}
 ```
 
 ```ts title="src/app.module.ts"
+import { Module } from '@nestjs/common'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [UsersModule],

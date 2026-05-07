@@ -23,6 +23,9 @@ npx @gentleduck/cli add button
 The command above will add the `Button` component to your project. You can then import it like this:
 
 ```tsx showLineNumbers title="app/routes/home.tsx"
+import { Button } from "~/components/ui/button"
+
+import type { Route } from "./+types/home"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -33,9 +36,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-
+    <div className="flex min-h-svh flex-col items-center justify-center">
       <Button>Click me</Button>
-
+    </div>
   )
 }
 ```

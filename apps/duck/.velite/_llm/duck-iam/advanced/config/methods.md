@@ -118,6 +118,7 @@ These `ConditionGroup` objects can be reused inside `r.when()`/`r.whenAny()` cal
 Creates a typed engine instance. Permission checks on this engine are constrained to your schema. An optional `mode` parameter sets the engine's operating mode, which flows through the generic for full type safety.
 
 ```typescript
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 const adapter = new MemoryAdapter({
   roles: [viewer, editor, admin],
@@ -231,6 +232,8 @@ Checks for:
 A complete example showing how to define and use a typed permission schema for a multi-tenant blog application:
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 // 1. Define the permission schema
 const access = createAccessConfig({

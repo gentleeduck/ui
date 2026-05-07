@@ -5,6 +5,7 @@
 Declare the actions, resources, and scopes your application uses. This creates a typed factory that constrains all subsequent builders:
 
 ```typescript title="src/lib/access.ts"
+import { createAccessConfig } from "@gentleduck/iam";
 
 export const access = createAccessConfig({
   actions: ["create", "read", "update", "delete", "manage"],
@@ -18,6 +19,7 @@ The `as const` assertion tells TypeScript to infer literal types rather than `st
 ## Step 2: Define Roles with Inheritance
 
 ```typescript title="src/lib/roles.ts"
+import { access } from "./access";
 
 export const viewer = access
   .defineRole("viewer")
@@ -60,6 +62,9 @@ export const allRoles = [viewer, editor, moderator, admin];
 ## Step 3: Create the Engine
 
 ```typescript title="src/lib/engine.ts"
+import { MemoryAdapter } from "@gentleduck/iam";
+import { access } from "./access";
+import { allRoles } from "./roles";
 
 const adapter = new MemoryAdapter({
   roles: allRoles,
@@ -98,6 +103,7 @@ await engine.can("user-carol", "create", { type: "post", attributes: {} });
 A policy that denies access outside of business hours:
 
 ```typescript title="src/lib/policies.ts"
+import { access } from "./access";
 
 export const businessHoursPolicy = access
   .policy("business-hours")
@@ -168,6 +174,9 @@ await engine.can("user-carol", "update", {
 ## Step 6: Multi-Tenant Scoped Roles
 
 ```typescript title="src/lib/scoped-engine.ts"
+import { MemoryAdapter } from "@gentleduck/iam";
+import { access } from "./access";
+import { allRoles } from "./roles";
 
 const adapter = new MemoryAdapter({
   roles: allRoles,
@@ -216,6 +225,9 @@ The engine matches the request scope against scoped role assignments. Only roles
 ### Express
 
 ```typescript title="src/server.ts"
+import express from "express";
+import { accessMiddleware, guard } from "@gentleduck/iam/server/express";
+import { engine } from "./lib/engine";
 
 const app = express();
 
@@ -241,6 +253,9 @@ app.listen(3000);
 ### Hono
 
 ```typescript title="src/worker.ts"
+import { Hono } from "hono";
+import { accessMiddleware, guard } from "@gentleduck/iam/server/hono";
+import { engine } from "./lib/engine";
 
 const app = new Hono();
 
@@ -260,6 +275,9 @@ export default app;
 ### NestJS
 
 ```typescript title="src/posts/posts.controller.ts"
+import { Controller, Get, Delete, Param, UseGuards } from "@nestjs/common";
+import { Authorize, nestAccessGuard } from "@gentleduck/iam/server/nest";
+import { engine } from "../lib/engine";
 
 const AccessGuard = nestAccessGuard(engine, {
   getUserId: (req) => req.user?.sub ?? null,
@@ -285,6 +303,9 @@ export class PostsController {
 ### Next.js
 
 ```typescript title="src/app/api/posts/[id]/route.ts"
+import { withAccess } from "@gentleduck/iam/server/next";
+import { engine } from "@/lib/engine";
+import { getSession } from "@/lib/auth";
 
 export const DELETE = withAccess(
   engine,
@@ -306,6 +327,9 @@ export const DELETE = withAccess(
 For Server Components, use `checkAccess()` and `getPermissions()`:
 
 ```typescript title="src/app/layout.tsx"
+import { getPermissions } from "@gentleduck/iam/server/next";
+import { engine } from "@/lib/engine";
+import { getSession } from "@/lib/auth";
 
 export default async function Layout({ children }) {
   const session = await getSession();
@@ -317,9 +341,9 @@ export default async function Layout({ children }) {
   ]);
 
   return (
-
+    <AccessProvider permissions={permissions}>
       {children}
-
+    </AccessProvider>
   );
 }
 ```
@@ -328,6 +352,9 @@ export default async function Layout({ children }) {
 
 ```typescript title="src/lib/access-client.tsx"
 "use client";
+
+import React from "react";
+import { createAccessControl } from "@gentleduck/iam/client/react";
 
 export const {
   AccessProvider,
@@ -340,24 +367,28 @@ export const {
 ```tsx title="src/components/post-actions.tsx"
 "use client";
 
+import { Can, useAccess } from "@/lib/access-client";
+
 export function PostActions({ postId }: { postId: string }) {
   const { can } = useAccess();
 
   return (
-
+    <div>
       {/* Imperative check */}
       {can("update", "post") && (
         <button>Edit Post</button>
       )}
 
       {/* Declarative check */}
-
+      <Can action="delete" resource="post" fallback={null}>
         <button>Delete Post</button>
+      </Can>
 
       {/* Show message when user lacks permission */}
-
+      <Cannot action="manage" resource="team">
         <p>You do not have permission to manage this team.</p>
-
+      </Cannot>
+    </div>
   );
 }
 ```

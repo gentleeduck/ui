@@ -39,7 +39,7 @@ of the core package.
 | `colorsExtension()` | `afterBuild` | Generate colors, themes, and CSS artifacts |
 
 ```ts
-
+import {
   bannerExtension,
   colorsExtension,
   componentIndexExtension,
@@ -149,6 +149,9 @@ When options are passed directly to the extension, use loaded objects rather tha
 ## Writing a custom extension
 
 ```ts
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { defineConfig } from '@gentleduck/registry-build'
 
 export default defineConfig({
   extensions: [

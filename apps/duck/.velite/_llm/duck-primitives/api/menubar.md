@@ -1,24 +1,59 @@
 ```tsx
-
+import * as Menubar from '@gentleduck/primitives/menubar'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Menubar.Root>
+  <Menubar.Menu>
+    <Menubar.Trigger />
+    <Menubar.Portal>
+      <Menubar.Content>
+        <Menubar.Item />
+        <Menubar.Separator />
+        <Menubar.Sub>
+          <Menubar.SubTrigger />
+          <Menubar.SubContent>
+            <Menubar.Item />
+          </Menubar.SubContent>
+        </Menubar.Sub>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
 ```
 
 ## Example
 
 ```tsx
-
+<Menubar.Root className="flex gap-1 bg-white border rounded-md p-1">
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
+      File
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">New File</Menubar.Item>
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Save</Menubar.Item>
+        <Menubar.Separator className="h-px bg-gray-200 my-1" />
         <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Exit</Menubar.Item>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
 
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
       Edit
-
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
         <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Undo</Menubar.Item>
         <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Redo</Menubar.Item>
-
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
 ```
 
 ## API

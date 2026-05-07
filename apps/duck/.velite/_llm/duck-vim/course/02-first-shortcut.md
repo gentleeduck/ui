@@ -91,6 +91,7 @@ They're separate because you might want to query the registry (for a command pal
 ## Complete example
 
 ```ts
+import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
 
 // 1. Create registry
 const registry = new Registry(true) // debug mode

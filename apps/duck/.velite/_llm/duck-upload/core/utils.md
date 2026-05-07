@@ -16,6 +16,7 @@ Shared helpers used across core and strategies. Keeping them centralized reduces
 Use these helpers instead of rolling custom versions inside strategies or UI code:
 
 ```ts
+import { sleep, generateId, isRecord } from '@gentleduck/upload/core'
 
 // Delay execution
 await sleep(1000)

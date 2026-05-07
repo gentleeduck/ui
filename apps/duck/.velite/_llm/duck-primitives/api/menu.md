@@ -1,5 +1,5 @@
 ```tsx
-
+import * as Menu from '@gentleduck/primitives/menu'
 ```
 
 }>

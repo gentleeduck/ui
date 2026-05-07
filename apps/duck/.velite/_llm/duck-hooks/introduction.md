@@ -30,6 +30,7 @@ npm install @gentleduck/hooks
 Import each hook from its own entry:
 
 ```tsx
+import { useDebounce } from '@gentleduck/hooks/use-debounce';
 
 function MyComponent() {
   const [value, setValue] = useState('');
@@ -37,6 +38,6 @@ function MyComponent() {
     console.log('Searching for:', query);
   }, 500);
 
-  return ;
+  return <input onChange={(e) => debouncedSearch(e.target.value)} />;
 }
 ```

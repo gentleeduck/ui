@@ -1,5 +1,5 @@
 ```tsx
-
+import { DismissableLayer, DismissableLayerBranch } from '@gentleduck/primitives/dismissable-layer'
 ```
 
 ## Props

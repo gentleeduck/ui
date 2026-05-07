@@ -9,6 +9,7 @@ The `Adapter.IDateAdapter
 Zero dependencies. Uses `Date` + `Intl.DateTimeFormat`.
 
 ```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 ```
@@ -40,6 +41,8 @@ Implement the `Adapter.IDateAdapter<TDate>` interface for your preferred date li
 ### dayjs example
 
 ```tsx showLineNumbers
+import type { Adapter } from '@gentleduck/calendar'
+import dayjs, { type Dayjs } from 'dayjs'
 
 const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
   today: () => dayjs().startOf('day'),

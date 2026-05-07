@@ -3,6 +3,8 @@
 The `Engine` is the central evaluator. You create an engine with an adapter and optional configuration, then call its methods to check permissions. The engine loads roles and policies from the adapter, resolves the subject, runs the evaluation pipeline, and returns a decision.
 
 ```typescript
+import { Engine } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 const adapter = new MemoryAdapter({
   roles: [viewer, editor, admin],
@@ -154,7 +156,7 @@ In production mode, `engine.authorize()` returns a plain `boolean` — no Decisi
 Most applications only need the `Engine`, but two adjacent exports are worth knowing about:
 
 ```typescript
-
+import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
 ```
 
 - `buildPermissionKey(action, resource, resourceId?, scope?)` matches the exact key format used by `engine.permissions()` and all client libraries
@@ -165,6 +167,7 @@ Most applications only need the `Engine`, but two adjacent exports are worth kno
 ## Putting it together
 
 ```typescript
+import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').grant('read', 'comment').build()
 const editor = defineRole('editor').inherits('viewer').grant('create', 'post').grant('update', 'post').build()

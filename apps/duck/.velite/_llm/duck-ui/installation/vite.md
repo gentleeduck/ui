@@ -72,6 +72,10 @@ npm install -D @types/node
 ```
 
 ```typescript title="vite.config.ts" showLineNumbers {1,2,8-13}
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -109,12 +113,13 @@ npx @gentleduck/cli add button
 The command above will add the `Button` component to your project. You can then import it like this:
 
 ```tsx showLineNumbers title="src/App.tsx"
+import { Button } from "@/components/ui/button"
 
 function App() {
   return (
-
+    <div className="flex min-h-svh flex-col items-center justify-center">
       <Button>Click me</Button>
-
+    </div>
   )
 }
 

@@ -230,6 +230,8 @@ Add the following to your styles/globals.css file. You can learn more about usin
 Add a cn helper
 
 ```ts showLineNumbers title="lib/utils.ts"
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

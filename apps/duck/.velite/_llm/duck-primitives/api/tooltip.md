@@ -1,11 +1,20 @@
 ```tsx
-
+import * as Tooltip from '@gentleduck/primitives/tooltip'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger />
+    <Tooltip.Portal>
+      <Tooltip.Content>
+        <Tooltip.Arrow />
+      </Tooltip.Content>
+    </Tooltip.Portal>
+  </Tooltip.Root>
+</Tooltip.Provider>
 ```
 
 ---
@@ -13,10 +22,26 @@
 ## Example
 
 ```tsx
+import * as Tooltip from '@gentleduck/primitives/tooltip'
 
 function App() {
   return (
-
+    <Tooltip.Provider delayDuration={400}>
+      <Tooltip.Root>
+        <Tooltip.Trigger className="px-3 py-1 border rounded">
+          Hover me
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            className="bg-gray-900 text-white text-sm px-3 py-1.5 rounded shadow"
+            sideOffset={5}
+          >
+            This is a tooltip
+            <Tooltip.Arrow className="fill-gray-900" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   )
 }
 ```
@@ -63,11 +88,17 @@ When `disableCloseOnClick` is enabled:
 - Hover and blur behavior remain unchanged
 
 ```tsx
+import * as Tooltip from '@gentleduck/primitives/tooltip'
+import { Toggle } from '@gentleduck/primitives/toggle'
 
+<Tooltip.Root>
+  <Tooltip.Trigger asChild disableCloseOnClick>
     <Toggle>Bold</Toggle>
-
+  </Tooltip.Trigger>
+  <Tooltip.Portal>
     <Tooltip.Content>Toggle bold formatting</Tooltip.Content>
-
+  </Tooltip.Portal>
+</Tooltip.Root>
 ```
 
 ### `Tooltip.Portal`

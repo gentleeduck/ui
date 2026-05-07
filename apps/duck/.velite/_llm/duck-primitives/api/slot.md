@@ -1,5 +1,5 @@
 ```tsx
-
+import { Slot, Slottable, createSlot, createSlottable } from '@gentleduck/primitives/slot'
 ```
 
 ## What it does
@@ -36,9 +36,10 @@ const MySlottable = createSlottable('MyComponent')
 Marks a specific child as the replacement target. Identified by a symbol, not instanceof checks, so it works across module boundaries.
 
 ```tsx
-
+<Slot>
+  <Slottable>
     <button>This replaces the Slot</button>
-
+  </Slottable>
   <span>This is preserved as a sibling</span>
-
+</Slot>
 ```

@@ -3,7 +3,7 @@
 Match keyboard events against parsed key bindings and create standalone handlers. This module provides the low-level matching engine and convenient factory functions for binding shortcuts without the full registry.
 
 ```ts
-
+import {
   matchesKeyboardEvent,
   isInputElement,
   createKeyBindHandler,
@@ -64,6 +64,7 @@ Checks all four modifier flags (`ctrlKey`, `altKey`, `metaKey`, `shiftKey`) for 
 **Example:**
 
 ```ts
+import { parseKeyBind } from '@gentleduck/vim/parser'
 
 const parsed = parseKeyBind('ctrl+s')
 

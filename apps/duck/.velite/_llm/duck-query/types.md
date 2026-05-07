@@ -7,7 +7,7 @@ Duck Query exports the types that power its client. Use them on their own to:
 - Build utilities on top of the type system.
 
 ```ts
-
+import type {
   DuckRouteMeta,
   DuckApiRoutes,
   DuckQueryClient,
@@ -256,6 +256,7 @@ type RouteReqMethod<Routes, P, M extends string> = CleanupNever<
 A complete route map without Duck Gen:
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
 
 // Define your route map
 type Routes = {

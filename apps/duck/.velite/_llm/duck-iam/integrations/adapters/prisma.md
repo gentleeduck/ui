@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
 ```
 
 Stores duck-iam state in your database through Prisma Client. Requires four models in your `schema.prisma`.
@@ -87,6 +87,9 @@ bunx prisma generate
 ## Usage
 
 ```typescript
+import { PrismaClient } from '@prisma/client'
+import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { Engine } from '@gentleduck/iam'
 
 const prisma = new PrismaClient()
 const adapter = new PrismaAdapter(prisma)

@@ -85,7 +85,171 @@ progress, and understand how concurrent chunk uploads work.
       createXHRTransport,
     } from '@gentleduck/upload'
 
-    const strategies = createStrategyRegistry
+    const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
+    strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
+    strategies.set(multipartStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+      maxPartConcurrency: 4,
+    }))
+    ```
+
+    `multipartStrategy()` accepts an optional config:
+
+    | Option | Default | Description |
+    | --- | --- | --- |
+    | `maxPartConcurrency` | `4` | Maximum number of parts uploaded simultaneously |
+
+    Higher concurrency uses more bandwidth and memory but finishes faster. For most connections,
+    3-6 is a good range. Each concurrent part holds a file slice (`Blob`) in memory.
+  
+
+  
+    **Implement multipart UploadApi methods**
+
+    The multipart strategy requires two additional methods on your `UploadApi`: `signPart` and
+    `completeMultipart`. These live under the `multipart` namespace:
+
+    ```typescript title="src/upload.ts"
+    const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
+      async createIntent({ purpose, contentType, size, filename }) {
+        const res = await fetch('/api/uploads/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ purpose, contentType, size, filename }),
+        })
+
+        if (!res.ok) throw new Error(`Failed to create intent: ${res.status}`)
+
+        // Backend decides strategy based on file size:
+        // - Small files (under 100MB): returns PostIntent
+        // - Large files (100MB and above): returns MultipartIntent
+        return res.json()
+      },
+
+      async complete({ fileId }) {
+        const res = await fetch('/api/uploads/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileId }),
+        })
+
+        if (!res.ok) throw new Error(`Failed to complete upload: ${res.status}`)
+        return res.json()
+      },
+
+      // Multipart-specific operations
+      multipart: {
+        async signPart({ fileId, uploadId, partNumber }) {
+          const res = await fetch('/api/uploads/sign-part', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileId, uploadId, partNumber }),
+          })
+
+          if (!res.ok) throw new Error(`Failed to sign part ${partNumber}: ${res.status}`)
+
+          // Returns: { url: 'https://...presigned-put-url...', headers?: { ... } }
+          return res.json()
+        },
+
+        async completeMultipart({ fileId, uploadId, parts }) {
+          const res = await fetch('/api/uploads/complete-multipart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileId, uploadId, parts }),
+          })
+
+          if (!res.ok) throw new Error(`Failed to complete multipart: ${res.status}`)
+          return res.json()
+        },
+      },
+    }
+    ```
+
+    The flow per part is:
+    1. Engine calls `signPart({ fileId, uploadId, partNumber })` to get a presigned PUT URL
+    2. Transport sends the part bytes via PUT to that URL
+    3. S3 returns an `ETag` header for the part
+    4. After all parts, engine calls `completeMultipart` with the list of `{ partNumber, etag }`
+  
+
+  
+    **Configure chunk size and concurrency**
+
+    The chunk size is controlled by your backend. When `createIntent` returns a
+    `MultipartIntent`, it includes `partSize` and `partCount`:
+
+    ```typescript
+    // Example backend response for a 200MB file with 10MB parts
+    {
+      strategy: 'multipart',
+      fileId: 'abc-123',
+      uploadId: 's3-upload-id-xyz',
+      partSize: 10 * 1024 * 1024,   // 10MB per part
+      partCount: 20,                  // 200MB / 10MB = 20 parts
+    }
+    ```
+
+    Common part size choices:
+
+    | File size | Part size | Parts | Notes |
+    | --- | --- | --- | --- |
+    | Under 100MB | N/A | N/A | Use POST strategy instead |
+    | 100MB - 1GB | 10MB | 10-100 | Good balance |
+    | 1GB - 5GB | 50MB | 20-100 | Fewer requests |
+    | 5GB+ | 100MB | 50+ | S3 allows max 10,000 parts |
+
+    S3 requires a minimum part size of 5MB (except the last part) and allows up to 10,000
+    parts per upload.
+  
+
+  
+    **Upload a large file and track per-part progress**
+
+    With the multipart strategy registered, large file uploads work the same way as POST
+    uploads from the UI perspective. The engine handles everything internally:
+
+    ```typescript title="src/main.ts"
+    import { uploadClient } from './upload'
+
+    // Listen to progress -- same API as POST uploads
+    uploadClient.on('upload.progress', ({ localId, pct, uploadedBytes, totalBytes }) => {
+      const mb = (bytes: number) => (bytes / 1024 / 1024).toFixed(1)
+      console.log(`${localId}: ${pct.toFixed(1)}% (${mb(uploadedBytes)}MB / ${mb(totalBytes)}MB)`)
+    })
+
+    // Listen to cursor updates -- multipart-specific resume state
+    uploadClient.on('upload.cursor', ({ localId, cursor }) => {
+      if (cursor.strategy === 'multipart' && cursor.value) {
+        const mc = cursor.value as { done: Array<{ partNumber: number }> }
+        console.log(`${localId}: ${mc.done.length} parts completed`)
+      }
+    })
+
+    uploadClient.on('upload.completed', ({ localId, result }) => {
+      console.log(`${localId}: upload complete!`, result)
+    })
+
+    // Add a large file
+    const input = document.querySelector<HTMLInputElement>('#file-input')!
+    input.addEventListener('change', () => {
+      const files = Array.from(input.files ?? [])
+      if (files.length > 0) {
+        uploadClient.dispatch({ type: 'addFiles', files, purpose: 'photo' })
+      }
+    })
+    ```
+
+    The `upload.progress` event aggregates progress across all parts. The engine tracks bytes
+    from finished parts plus bytes in-flight from currently uploading parts to give you a smooth
+    total progress percentage.
+  
+
+## How Concurrent Part Uploads Work
+
+The multipart strategy manages its own concurrency at the part level (separate from the
+engine's `maxConcurrentUploads` which controls file-level concurrency).
+
+Here is what happens step by step:
 
 1. **Build the queue** -- The strategy calculates which parts need uploading. It reads the
    cursor (`ctx.readCursor()`) to skip parts that were already uploaded in a previous session.
@@ -179,14 +343,15 @@ photoduck/
     
 
 ```typescript
-
+import {
   createUploadClient,
   createStrategyRegistry,
   PostStrategy,
   multipartStrategy,
   createXHRTransport,
 } from '@gentleduck/upload'
-
+import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+import {
   PostIntent, PostCursor,
   MultipartIntent, MultipartCursor,
 } from '@gentleduck/upload'

@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 ```
 
 Works with any Drizzle ORM driver. Pre-built schema modules are shipped for all three SQL dialects.
@@ -20,7 +20,7 @@ Pick the entry that matches your database. All three define the same four tables
 ### PostgreSQL
 
 ```typescript
-
+import {
   accessPolicies,
   accessRoles,
   accessAssignments,
@@ -35,7 +35,7 @@ Pick the entry that matches your database. All three define the same four tables
 ### MySQL
 
 ```typescript
-
+import {
   accessPolicies,
   accessRoles,
   accessAssignments,
@@ -50,7 +50,7 @@ Pick the entry that matches your database. All three define the same four tables
 ### SQLite
 
 ```typescript
-
+import {
   accessPolicies,
   accessRoles,
   accessAssignments,
@@ -82,7 +82,7 @@ Re-export the schema from your own schema barrel so `drizzle-kit` picks it up:
 export * from '@gentleduck/iam/adapters/drizzle/schema/pg'
 
 // ...your own tables alongside
-
+import { pgTable, text } from 'drizzle-orm/pg-core'
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull().unique(),
@@ -101,7 +101,12 @@ bunx drizzle-kit migrate
 ## Usage
 
 ```typescript
-
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { eq, and } from 'drizzle-orm'
+import { Pool } from 'pg'
+import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { Engine } from '@gentleduck/iam'
+import {
   accessPolicies,
   accessRoles,
   accessAssignments,

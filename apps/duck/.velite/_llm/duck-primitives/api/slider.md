@@ -1,11 +1,16 @@
 ```tsx
-
+import * as Slider from '@gentleduck/primitives/slider'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Slider.Root>
+  <Slider.Track>
+    <Slider.Range />
+  </Slider.Track>
+  <Slider.Thumb />
+</Slider.Root>
 ```
 
 ---
@@ -13,10 +18,16 @@
 ## Example
 
 ```tsx
+import * as Slider from '@gentleduck/primitives/slider'
 
 function VolumeSlider() {
   return (
-
+    <Slider.Root defaultValue={[50]} max={100} step={1} className="relative flex w-64 items-center">
+      <Slider.Track className="relative h-1 w-full grow rounded-full bg-gray-200">
+        <Slider.Range className="absolute h-full rounded-full bg-blue-500" />
+      </Slider.Track>
+      <Slider.Thumb className="block size-4 rounded-full border bg-white shadow" />
+    </Slider.Root>
   )
 }
 ```
@@ -26,7 +37,13 @@ function VolumeSlider() {
 ```tsx
 function PriceRange() {
   return (
-
+    <Slider.Root defaultValue={[20, 80]} max={100} step={5} className="relative flex w-64 items-center">
+      <Slider.Track className="relative h-1 w-full grow rounded-full bg-gray-200">
+        <Slider.Range className="absolute h-full rounded-full bg-blue-500" />
+      </Slider.Track>
+      <Slider.Thumb className="block size-4 rounded-full border bg-white shadow" />
+      <Slider.Thumb className="block size-4 rounded-full border bg-white shadow" />
+    </Slider.Root>
   )
 }
 ```

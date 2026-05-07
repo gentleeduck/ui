@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import {
   METHOD_ACTION_MAP,
   createSubjectCan,
   extractEnvironment,
@@ -29,6 +29,7 @@ Use the generic helpers when the framework wrappers are too opinionated, or when
 `createSubjectCan` is the workhorse — bind a user once, then run multiple checks without repeating the subject ID:
 
 ```typescript
+import { createSubjectCan, extractEnvironment } from '@gentleduck/iam/server/generic'
 
 const can = createSubjectCan(engine, userId, extractEnvironment(req))
 

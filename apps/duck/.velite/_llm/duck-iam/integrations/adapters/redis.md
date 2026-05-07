@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
 ```
 
 Distributed key/value backend. Works with [`ioredis`](https://github.com/redis/ioredis), [`node-redis`](https://github.com/redis/node-redis) v4+, or any client matching the `RedisLike` interface.
@@ -28,6 +28,9 @@ bun add redis
 ### ioredis
 
 ```typescript
+import Redis from 'ioredis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { Engine } from '@gentleduck/iam'
 
 const redis = new Redis(process.env.REDIS_URL!)
 
@@ -42,6 +45,8 @@ const engine = new Engine({ adapter, cacheTTL: 60 })
 ### node-redis (v4+)
 
 ```typescript
+import { createClient } from 'redis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
 
 const client = createClient({ url: process.env.REDIS_URL })
 await client.connect()
@@ -52,6 +57,8 @@ const adapter = new RedisAdapter({ client, keyPrefix: 'iam:' })
 ### Upstash Redis (REST)
 
 ```typescript
+import { Redis } from '@upstash/redis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
 
 const redis = Redis.fromEnv()
 const adapter = new RedisAdapter({ client: redis, keyPrefix: 'iam:' })

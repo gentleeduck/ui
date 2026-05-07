@@ -39,7 +39,7 @@ Configure it in the KeyHandler constructor or the React provider:
 const handler = new KeyHandler(registry, 800) // 800ms timeout
 
 // React
-
+<KeyProvider timeoutMs={800}>
 ```
 
 ---

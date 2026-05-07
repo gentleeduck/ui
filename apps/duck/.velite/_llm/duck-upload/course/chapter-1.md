@@ -60,7 +60,113 @@ client, add a file, start the upload, and watch it progress through the state ma
     required methods: `createIntent` and `complete`. For now, we mock them:
 
     ```typescript title="src/upload.ts"
-    const api: UploadApi
+    const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
+      async createIntent({ purpose, contentType, size, filename }) {
+        // In a real app, this calls your backend to get a presigned POST URL
+        console.log(`Creating intent for ${filename} (${size} bytes, ${contentType})`)
+
+        return {
+          strategy: 'post',
+          fileId: `file-${Date.now()}`,
+          url: 'https://your-bucket.s3.amazonaws.com',
+          fields: {
+            key: `uploads/${filename}`,
+            'Content-Type': contentType,
+          },
+        }
+      },
+
+      async complete({ fileId }) {
+        // In a real app, this tells your backend the upload finished
+        console.log(`Completing upload for ${fileId}`)
+        return {
+          fileId,
+          key: `uploads/${fileId}`,
+          url: `https://cdn.example.com/uploads/${fileId}`,
+        }
+      },
+    }
+    ```
+
+    `createIntent` is called when a file enters the pipeline. Your backend decides the strategy,
+    generates presigned URLs, and returns an intent object. The engine then hands this intent to
+    the matching strategy.
+
+    `complete` is called after the bytes are transferred. Your backend can mark the file as
+    uploaded in the database, generate thumbnails, or return metadata.
+  
+
+  
+    **Create the upload client**
+
+    Now wire everything together with `createUploadClient`:
+
+    ```typescript title="src/upload.ts"
+    import {
+      createUploadClient,
+      createStrategyRegistry,
+      PostStrategy,
+      createXHRTransport,
+    } from '@gentleduck/upload'
+    import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+    import { PostIntent, PostCursor } from '@gentleduck/upload'
+
+    // ... types and api from above ...
+
+    const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
+    strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
+
+    export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+      api,
+      strategies,
+      transport: createXHRTransport(),
+    })
+    ```
+
+    `createStrategyRegistry` creates a registry where you register strategy implementations.
+    `PostStrategy()` creates the built-in POST strategy for simple file uploads.
+    `createXHRTransport()` creates a browser-native XHR transport with upload progress support.
+  
+
+  
+    **Add files and start uploading**
+
+    Create `src/main.ts`:
+
+    ```typescript title="src/main.ts"
+    import { uploadClient } from './upload'
+
+    // Add files to the pipeline
+    const file = new File(['hello world'], 'photo.jpg', { type: 'image/jpeg' })
+    uploadClient.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
+
+    // Listen to progress events
+    uploadClient.on('upload.progress', (event) => {
+      console.log(`Progress: ${event.pct.toFixed(1)}% (${event.uploadedBytes}/${event.totalBytes})`)
+    })
+
+    // Listen to completion
+    uploadClient.on('upload.completed', (event) => {
+      console.log(`Upload completed: ${event.localId}`, event.result)
+    })
+
+    // Listen to errors
+    uploadClient.on('upload.error', (event) => {
+      console.log(`Upload failed: ${event.localId}`, event.error.message)
+    })
+
+    // Start all uploads
+    uploadClient.dispatch({ type: 'startAll' })
+    ```
+
+    `dispatch` is the single entry point for all commands. `addFiles` puts files into the
+    pipeline. `startAll` begins uploading every file that is in the `ready` phase.
+  
+
+## How the State Machine Works
+
+Every upload item flows through a sequence of **phases**. The phase determines what the engine
+is doing with the file at any given moment:
 
 | Phase | Meaning |
 | --- | --- |
@@ -204,12 +310,14 @@ photoduck/
     
 
 ```typescript
-
+import {
   createUploadClient,
   createStrategyRegistry,
   PostStrategy,
   createXHRTransport,
 } from '@gentleduck/upload'
+import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+import { PostIntent, PostCursor } from '@gentleduck/upload'
 
 // --- Types ---
 
@@ -274,6 +382,7 @@ export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, P
     
 
 ```typescript
+import { uploadClient } from './upload'
 
 // Listen to events
 uploadClient.on('file.added', (event) => {

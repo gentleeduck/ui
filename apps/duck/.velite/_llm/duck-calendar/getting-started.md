@@ -62,6 +62,7 @@ Create an adapter instance
 The adapter tells the engine how to work with dates. The built-in `NativeAdapter` uses `Date` + `Intl.DateTimeFormat` with zero dependencies.
 
 ```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 ```
@@ -71,6 +72,7 @@ Wire up the hook
 `useCalendar` returns state, actions, and prop getters you spread onto your elements.
 
 ```tsx showLineNumbers
+import { NativeAdapter, useCalendar } from '@gentleduck/calendar'
 
 const adapter = new NativeAdapter()
 
@@ -81,11 +83,46 @@ function MyCalendar() {
   })
 
   return (
-    
-      
-      
-        {/* Render day cells using CalendarPrimitive.Day */}
+    <div>
+      <div {...getHeaderProps()}>
+        {adapter.format(state.month, { month: 'long', year: 'numeric' })}
+      </div>
+      <button {...getNavProps('prev')}><-</button>
+      <button {...getNavProps('next')}>-></button>
+      <div {...getGridProps()}>
+        {state.weeks.map(week =>
+          week.days.map(day => (
+            <button key={day.date.getTime()} {...getDayProps(day)}>
+              {day.date.getDate()}
+            </button>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+```
 
+Or use compound components
+
+If you prefer a declarative API, use the compound components from `@gentleduck/primitives/calendar`. They compose `useCalendar` internally.
+
+```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
+import * as CalendarPrimitive from '@gentleduck/primitives/calendar'
+
+const adapter = new NativeAdapter()
+
+function MyCalendar() {
+  return (
+    <CalendarPrimitive.Root adapter={adapter} mode="single">
+      <CalendarPrimitive.Header />
+      <CalendarPrimitive.Nav />
+      <CalendarPrimitive.Grid>
+        <CalendarPrimitive.Weekdays />
+        {/* Render day cells using CalendarPrimitive.Day */}
+      </CalendarPrimitive.Grid>
+    </CalendarPrimitive.Root>
   )
 }
 ```

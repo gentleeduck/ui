@@ -1,11 +1,16 @@
 ```tsx
-
+import * as Popper from '@gentleduck/primitives/popper'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Popper.Root>
+  <Popper.Anchor />
+  <Popper.Content side="bottom" sideOffset={5} align="center">
+    <Popper.Arrow />
+  </Popper.Content>
+</Popper.Root>
 ```
 
 ## API

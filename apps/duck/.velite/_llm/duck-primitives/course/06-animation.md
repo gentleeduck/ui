@@ -9,7 +9,11 @@ A common bug in animated overlays: component unmounts before exit animation fini
 `Presence` solves this by delaying unmount until animation completion.
 
 ```tsx
+import { Presence } from '@gentleduck/primitives/presence'
 
+<Presence present={open}>
+  <div className={open ? 'animate-in' : 'animate-out'} />
+</Presence>
 ```
 
 ---
@@ -44,7 +48,11 @@ Always define both states when using animated exit.
 Use `forceMount` when a motion library controls render lifecycle.
 
 ```tsx
-
+<Dialog.Portal forceMount>
+  <Dialog.Content forceMount asChild>
+    <motion.div />
+  </Dialog.Content>
+</Dialog.Portal>
 ```
 
 This avoids double lifecycle ownership.

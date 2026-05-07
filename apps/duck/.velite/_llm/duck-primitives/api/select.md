@@ -1,11 +1,32 @@
 ```tsx
-
+import * as Select from '@gentleduck/primitives/select'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Select.Root>
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Content>
+      <Select.ScrollUpButton />
+      <Select.Viewport>
+        <Select.Group>
+          <Select.Label />
+          <Select.Item>
+            <Select.ItemText />
+            <Select.ItemIndicator />
+          </Select.Item>
+        </Select.Group>
+        <Select.Separator />
+      </Select.Viewport>
+      <Select.ScrollDownButton />
+    </Select.Content>
+  </Select.Portal>
+</Select.Root>
 ```
 
 ---
@@ -13,19 +34,35 @@
 ## Example
 
 ```tsx
+import * as Select from '@gentleduck/primitives/select'
 
 function ThemeSelect() {
   return (
+    <Select.Root defaultValue="system">
+      <Select.Trigger className="px-3 py-2 border rounded">
+        <Select.Value placeholder="Pick a theme" />
+        <Select.Icon />
+      </Select.Trigger>
 
+      <Select.Portal>
+        <Select.Content position="popper" sideOffset={4} className="bg-white border rounded shadow-lg">
+          <Select.Viewport className="p-1">
+            <Select.Item value="light" className="px-3 py-1.5 rounded cursor-pointer hover:bg-gray-100">
               <Select.ItemText>Light</Select.ItemText>
               <Select.ItemIndicator>*</Select.ItemIndicator>
-
+            </Select.Item>
+            <Select.Item value="dark" className="px-3 py-1.5 rounded cursor-pointer hover:bg-gray-100">
               <Select.ItemText>Dark</Select.ItemText>
               <Select.ItemIndicator>*</Select.ItemIndicator>
-
+            </Select.Item>
+            <Select.Item value="system" className="px-3 py-1.5 rounded cursor-pointer hover:bg-gray-100">
               <Select.ItemText>System</Select.ItemText>
               <Select.ItemIndicator>*</Select.ItemIndicator>
-
+            </Select.Item>
+          </Select.Viewport>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   )
 }
 ```

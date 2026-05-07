@@ -27,6 +27,7 @@ pnpm add @gentleduck/upload
 Register the strategies the app needs:
 
 ```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
 
 const strategies = createStrategyRegistry()
 strategies.set(PostStrategy())
@@ -38,6 +39,7 @@ strategies.set(multipartStrategy())
 The backend adapter implements `UploadApi`:
 
 ```ts
+import type { UploadApi } from '@gentleduck/upload/core'
 
 const api: UploadApi = {
   createIntent: async ({ file, purpose }) => {
@@ -59,6 +61,7 @@ const api: UploadApi = {
 ### 3. Create the Upload Store
 
 ```ts
+import { createUploadStore } from '@gentleduck/upload/core'
 
 const store = createUploadStore({
   api,
@@ -75,10 +78,13 @@ const store = createUploadStore({
 For React, wrap the app in `UploadProvider`:
 
 ```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
 
 function App() {
   return (
-
+    <UploadProvider store={store}>
+      <YourUploadUI />
+    </UploadProvider>
   )
 }
 ```
@@ -86,16 +92,23 @@ function App() {
 Use `useUploader` inside components:
 
 ```tsx
+import { useUploader } from '@gentleduck/upload/react'
 
 function UploadList() {
   const { items, dispatch } = useUploader()
 
   return (
-    
+    <div>
+      <input
+        type="file"
+        onChange={(e) => {
+          dispatch({ type: 'addFiles', files: Array.from(e.target.files!), purpose: 'doc' })
+        }}
+      />
       {items.map((item) => (
         <div key={item.localId}>{item.file?.name} - {item.phase}</div>
       ))}
-
+    </div>
   )
 }
 ```

@@ -28,12 +28,13 @@ npm install @gentleduck/libs
 ## Usage
 
 ```tsx
+import { cn } from '@gentleduck/libs'
 
 function MyComponent({ active }: { active: boolean }) {
   return (
-
+    <div className={cn('rounded-md border p-4', active && 'bg-primary text-primary-foreground')}>
       Hello
-
+    </div>
   )
 }
 ```

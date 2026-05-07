@@ -1,17 +1,21 @@
 ```tsx
-
+import * as RovingFocusGroup from '@gentleduck/primitives/roving-focus'
 ```
 
 ## Usage
 
 ```tsx
-
+<RovingFocusGroup.Root orientation="horizontal" loop>
+  <RovingFocusGroup.Item asChild>
     <button>Item 1</button>
-
+  </RovingFocusGroup.Item>
+  <RovingFocusGroup.Item asChild>
     <button>Item 2</button>
-
+  </RovingFocusGroup.Item>
+  <RovingFocusGroup.Item asChild>
     <button>Item 3</button>
-
+  </RovingFocusGroup.Item>
+</RovingFocusGroup.Root>
 ```
 
 ## Props (Root)

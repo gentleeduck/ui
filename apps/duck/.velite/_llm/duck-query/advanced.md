@@ -8,6 +8,8 @@ through `client.axios`.
 Attach an auth token to every request:
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 const client = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -74,6 +76,7 @@ client.axios.interceptors.response.use(
 ### Using isAxiosError
 
 ```ts
+import { isAxiosError } from 'axios'
 
 async function signin(username: string, password: string) {
   try {
@@ -134,6 +137,9 @@ Pass an existing Axios instance instead of a config object. Useful for sharing o
 instance across clients or for setups that need special configuration.
 
 ```ts
+import axios from 'axios'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 // Create and configure an Axios instance
 const axiosInstance = axios.create({
@@ -167,6 +173,7 @@ required.
 ### Defining routes manually
 
 ```ts
+import { createDuckQueryClient, type DuckRouteMeta } from '@gentleduck/query'
 
 // Define your routes
 type Routes = {
@@ -229,6 +236,8 @@ export type User = {
 ```
 
 ```ts title="apps/client/api.ts"
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { Routes } from '@monorepo/shared/routes'
 
 export const api = createDuckQueryClient<Routes>({
   baseURL: process.env.API_URL,
@@ -240,6 +249,9 @@ export const api = createDuckQueryClient<Routes>({
 Duck Query pairs well with [TanStack Query](https://tanstack.com/query) (React Query):
 
 ```ts title="hooks/useUser.ts"
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 const client = createDuckQueryClient<ApiRoutes>({
   baseURL: 'http://localhost:3000',
@@ -283,6 +295,8 @@ function UserProfile({ userId }: { userId: string }) {
 Create separate clients per API or environment:
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 // Main API client
 export const api = createDuckQueryClient<ApiRoutes>({

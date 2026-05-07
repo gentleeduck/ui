@@ -1,17 +1,18 @@
 ```tsx
-
+import { Portal } from '@gentleduck/primitives/portal'
 ```
 
 ## Usage
 
 ```tsx
-
+<Portal>
   <div className="modal">I'm rendered in document.body</div>
+</Portal>
 
 // Custom container
-
+<Portal container={document.getElementById('my-container')}>
   <div>I'm rendered in #my-container</div>
-
+</Portal>
 ```
 
 ## Props

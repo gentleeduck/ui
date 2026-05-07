@@ -1,11 +1,21 @@
 ```tsx
-
+import * as Sheet from '@gentleduck/primitives/sheet'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Sheet.Root>
+  <Sheet.Trigger />
+  <Sheet.Portal>
+    <Sheet.Overlay />
+    <Sheet.Content>
+      <Sheet.Title />
+      <Sheet.Description />
+      <Sheet.Close />
+    </Sheet.Content>
+  </Sheet.Portal>
+</Sheet.Root>
 ```
 
 ---
@@ -13,16 +23,23 @@
 ## Example
 
 ```tsx
+import * as Sheet from '@gentleduck/primitives/sheet'
 
 function SettingsSheet() {
   return (
-
+    <Sheet.Root>
+      <Sheet.Trigger className="px-3 py-2 rounded border">Open settings</Sheet.Trigger>
+      <Sheet.Portal>
+        <Sheet.Overlay className="fixed inset-0 bg-black/50" />
+        <Sheet.Content className="fixed right-0 top-0 h-full w-[400px] bg-white p-6 shadow-xl">
           <Sheet.Title className="text-lg font-semibold">Settings</Sheet.Title>
-
+          <Sheet.Description className="mt-2 text-sm text-gray-500">
             Configure your account and interface preferences.
-
+          </Sheet.Description>
           <Sheet.Close className="mt-6 px-3 py-2 rounded border">Close</Sheet.Close>
-
+        </Sheet.Content>
+      </Sheet.Portal>
+    </Sheet.Root>
   )
 }
 ```

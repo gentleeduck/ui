@@ -3,7 +3,8 @@
 Multi-step keyboard sequence matching with timeout support. Handle complex shortcuts like <Kbd>Ctrl+K</Kbd> followed by <Kbd>Ctrl+D</Kbd>, or simple character sequences like <Kbd>g</Kbd> then <Kbd>d</Kbd>.
 
 ```ts
-
+import { SequenceManager, createSequenceMatcher } from '@gentleduck/vim/sequence'
+import type {
   SequenceStep,
   SequenceOptions,
   SequenceRegistration,

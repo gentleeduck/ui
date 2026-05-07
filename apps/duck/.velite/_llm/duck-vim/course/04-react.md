@@ -17,7 +17,12 @@ duck-vim's React layer wraps the core system in a context provider and exposes h
 
     export default function Root() {
       return (
-
+        <KeyProvider
+          debug={process.env.NODE_ENV === 'development'}
+          timeoutMs={600}
+        >
+          <App />
+        </KeyProvider>
       )
     }
     ```
@@ -29,7 +34,32 @@ duck-vim's React layer wraps the core system in a context provider and exposes h
 | --- | --- | --- | --- |
 | `debug` | `boolean` | `false` | Log key events and matches to console |
 | `timeoutMs` | `number` | `600` | Timeout for multi-key sequences |
-| `defaultOptions` | `Partial
+| `defaultOptions` | `Partial<KeyBindOptions>` | - | Default options for all bindings |
+
+---
+
+## `useKeyBind`: Single binding
+
+The simplest hook. Register one binding with one handler:
+
+```tsx
+import { useKeyBind } from '@gentleduck/vim/react'
+
+function SearchBar() {
+  const [focused, setFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useKeyBind('/', () => {
+    inputRef.current?.focus()
+    setFocused(true)
+  }, { ignoreInputs: true })
+
+  useKeyBind('escape', () => {
+    inputRef.current?.blur()
+    setFocused(false)
+  }, { enabled: focused })
+
+  return <input ref={inputRef} placeholder="Search..." />
 }
 ```
 
@@ -47,6 +77,7 @@ Key points:
 Register multiple bindings at once with a record:
 
 ```tsx
+import { useKeyCommands } from '@gentleduck/vim/react'
 
 function Navigation() {
   const navigate = useNavigate()
@@ -89,6 +120,7 @@ useKeyCommands(commands)
 For explicit multi-step sequences where each step can be a full key combination:
 
 ```tsx
+import { useKeySequence } from '@gentleduck/vim/react'
 
 function Editor() {
   // Press Ctrl+K, then Ctrl+C to comment
@@ -119,8 +151,94 @@ All hooks work without a `KeyProvider`. When used outside a provider, they creat
 // This works even without KeyProvider
 function StandaloneComponent() {
   useKeyBind('escape', () => close())
-  return 
+  return <div>...</div>
+}
+```
 
+}>
+The tradeoff is that standalone bindings:
+
+- Don't appear in `registry.getAllCommands()` (they have their own registry).
+- Don't participate in sequence prefix matching with other bindings.
+- Create extra event listeners.
+
+Use a provider for any non-trivial app.
+
+---
+
+## Accessing the context directly
+
+For advanced use cases, access the raw context:
+
+```tsx
+import { useContext } from 'react'
+import { KeyContext } from '@gentleduck/vim/react'
+
+function DebugPanel() {
+  const ctx = useContext(KeyContext)
+  if (!ctx) return <p>No KeyProvider found</p>
+
+  const commands = Array.from(ctx.registry.getAllCommands())
+
+  return (
+    <div>
+      <h3>Registered shortcuts ({commands.length})</h3>
+      <ul>
+        {commands.map(([binding, cmd]) => (
+          <li key={binding}>{cmd.name}: {binding}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+---
+
+## Putting it together
+
+```tsx
+import { KeyProvider, useKeyBind, useKeyCommands } from '@gentleduck/vim/react'
+import { useState } from 'react'
+
+function App() {
+  const [count, setCount] = useState(0)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+
+  useKeyBind('Mod+k', () => setPaletteOpen(true), { preventDefault: true })
+  useKeyBind('escape', () => setPaletteOpen(false), { enabled: paletteOpen })
+
+  useKeyCommands({
+    'g+i': {
+      name: 'Increment',
+      execute: () => setCount((c) => c + 1),
+    },
+    'g+r': {
+      name: 'Reset',
+      execute: () => setCount(0),
+    },
+  }, { ignoreInputs: true })
+
+  return (
+    <div className="p-8">
+      <p>Count: {count}</p>
+      <p className="text-sm text-gray-500">
+        <Kbd>Ctrl/Cmd+K</Kbd>: palette | <Kbd>G</Kbd>,<Kbd>I</Kbd>: increment | <Kbd>G</Kbd>,<Kbd>R</Kbd>: reset | <Kbd>Escape</Kbd>: close palette
+      </p>
+      {paletteOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded">Command Palette</div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function Root() {
+  return (
+    <KeyProvider debug>
+      <App />
+    </KeyProvider>
   )
 }
 ```

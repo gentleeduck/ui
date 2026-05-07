@@ -36,9 +36,12 @@ yarn add @gentleduck/vim
 
 ```ts
 // Core (framework-agnostic)
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import { parseKeyBind } from '@gentleduck/vim/parser'
+import { formatForDisplay } from '@gentleduck/vim/format'
 
 // React bindings
-
+import { KeyProvider, useKeyBind, useKeySequence } from '@gentleduck/vim/react'
 ```
 
 ---
@@ -46,6 +49,7 @@ yarn add @gentleduck/vim
 ## Minimal example
 
 ```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const handler = new KeyHandler(registry)

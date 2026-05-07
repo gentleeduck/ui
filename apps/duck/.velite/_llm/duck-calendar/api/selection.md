@@ -1,5 +1,6 @@
 ```tsx
-
+import type { Selection, Adapter, Grid } from '@gentleduck/calendar'
+import { selectDay, applySelection } from '@gentleduck/calendar'
 ```
 
 ## Functions

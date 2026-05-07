@@ -8,8 +8,82 @@
 
 | Key | Action |
 | :--- | :--- |
-| 
+| <Kbd>ArrowLeft</Kbd> / <Kbd>ArrowRight</Kbd> | Move focus +/- 1 day |
+| <Kbd>ArrowUp</Kbd> / <Kbd>ArrowDown</Kbd> | Move focus +/- 1 week |
+| <Kbd>PageUp</Kbd> / <Kbd>PageDown</Kbd> | Move focus +/- 1 month |
+| <Kbd>Shift+PageUp</Kbd> / <Kbd>Shift+PageDown</Kbd> | Move focus +/- 1 year |
+| <Kbd>Home</Kbd> / <Kbd>End</Kbd> | Move to start/end of week |
+| <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Select focused date |
+| <Kbd>Escape</Kbd> | Dismiss (calls `onDismiss`) |
 
+Spread `getDayProps(day)` on each day element and you get all of this.
+
+---
+
+## Focus management
+
+The calendar uses roving `tabIndex`:
+
+- The focused date has `tabIndex=0`.
+- Other days have `tabIndex=-1`.
+- <Kbd>Tab</Kbd> enters the grid on the focused date, then leaves.
+- Arrow keys move focus inside the grid.
+
+Focus crossing a month boundary (e.g. <Kbd>ArrowRight</Kbd> on the last day) auto-advances the displayed month.
+
+---
+
+## ARIA roles
+
+The prop getters apply all required ARIA attributes:
+
+```tsx showLineNumbers
+// getGridProps() produces:
+{
+  role: 'grid',
+  'aria-labelledby': '<header-id>',
+  'aria-roledescription': 'calendar',
+}
+
+// getDayProps(day) produces:
+{
+  role: 'gridcell',
+  'aria-label': 'Saturday, March 14, 2026',
+  'aria-selected': true,
+  'aria-disabled': false,
+  'aria-current': 'date', // only for today
+  tabIndex: 0, // or -1
+}
+
+// getNavProps('prev') produces:
+{
+  'aria-label': 'Go to previous month',
+  disabled: false,
+  onClick: () => { /* navigates */ },
+}
+```
+
+---
+
+## Screen reader announcements
+
+The internal `useAnnouncer` hook adds a visually hidden `aria-live="polite"` region. It announces:
+
+- **Month changes**: "March 2026"
+- **Selection changes**: "Selected Saturday, March 14, 2026"
+
+Compound components render the announcer inside `Calendar.Root` automatically.
+
+When using hooks directly, render the portal yourself:
+
+```tsx showLineNumbers
+const { announcer, ...rest } = useCalendar({ adapter, mode: 'single' })
+
+return (
+  <div>
+    {/* ... calendar UI ... */}
+    <announcer.AnnouncerPortal />
+  </div>
 )
 ```
 

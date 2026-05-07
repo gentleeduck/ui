@@ -3,6 +3,7 @@
 By default, the `When` condition builder accepts any string for `.attr()`, `.resourceAttr()`, `.env()`, and `.check()` field paths. To get autocompletion and type-checked values, pass a `context` phantom field with your application's context type.
 
 ```typescript
+import { createAccessConfig, type DefaultContext } from '@gentleduck/iam'
 
 interface AppContext extends DefaultContext {
   subject: {

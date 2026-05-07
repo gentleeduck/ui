@@ -1,15 +1,20 @@
 ```tsx
-
+import * as Popover from '@gentleduck/primitives/popover'
 ```
 
 ## Anatomy
 
 ```tsx
-
-        {/* Optional custom anchor point */}
-      {/* Optional */}
-          {/* Optional */}
-
+<Popover.Root>
+  <Popover.Trigger />
+  <Popover.Anchor />      {/* Optional custom anchor point */}
+  <Popover.Portal>
+    <Popover.Content>
+      <Popover.Arrow />    {/* Optional */}
+      <Popover.Close />    {/* Optional */}
+    </Popover.Content>
+  </Popover.Portal>
+</Popover.Root>
 ```
 
 ---
@@ -17,10 +22,27 @@
 ## Example
 
 ```tsx
+import * as Popover from '@gentleduck/primitives/popover'
 
 function UserMenu() {
   return (
+    <Popover.Root>
+      <Popover.Trigger className="px-3 py-1 border rounded">
+        Settings
+      </Popover.Trigger>
 
+      <Popover.Portal>
+        <Popover.Content
+          className="bg-white shadow-lg rounded-lg p-4 w-64 border"
+          sideOffset={5}
+        >
+          <p className="font-medium mb-2">User settings</p>
+          <input placeholder="Display name" className="w-full border rounded px-2 py-1 mb-2" />
+          <Popover.Close className="text-sm text-blue-600">Done</Popover.Close>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   )
 }
 ```

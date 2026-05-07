@@ -9,6 +9,7 @@ normalizes config, wires plugins, sets up the transport, and returns a stable
 `createUploadClient` is the recommended way to create an upload store:
 
 ```typescript title="src/lib/upload-client.ts"
+import { createUploadClient } from "@gentleduck/upload"
 
 const client = createUploadClient({
   api: uploadApi,
@@ -120,6 +121,7 @@ minimal proxy with `on`, `dispatch`, and `getSnapshot` — enough to observe eve
 drive behavior, not enough to break internal state.
 
 ```typescript title="src/lib/plugins/analytics.ts"
+import type { UploadPlugin } from "@gentleduck/upload"
 
 const analyticsPlugin: UploadPlugin<MyIntents, MyCursors, Purpose, MyResult> = {
   name: "analytics",

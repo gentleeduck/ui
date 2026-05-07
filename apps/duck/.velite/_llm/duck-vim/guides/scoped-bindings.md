@@ -15,6 +15,7 @@ duck-vim supports scoped bindings in both vanilla and React usage.
 Create a separate `KeyHandler` and attach it to a specific element:
 
 ```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
 const registry = new Registry()
 const editorHandler = new KeyHandler(registry, 600)
@@ -38,6 +39,7 @@ The binding only fires when keydown events originate from within the editor elem
 For a quick one-off, use `createKeyBindHandler` and attach to any element:
 
 ```ts
+import { createKeyBindHandler } from '@gentleduck/vim/matcher'
 
 const handler = createKeyBindHandler({
   binding: 'ctrl+enter',
@@ -69,9 +71,9 @@ function Editor() {
   })
 
   return (
-
+    <div ref={editorRef} tabIndex={0} className="editor">
       {/* Editor content */}
-
+    </div>
   )
 }
 ```
@@ -102,10 +104,10 @@ function App() {
   useKeyBind('ctrl+k', () => openPalette(), { preventDefault: true })
 
   return (
-
+    <div className="flex">
       <div ref={sidebarRef} tabIndex={0}>Sidebar</div>
       <div ref={mainRef} tabIndex={0}>Main</div>
-
+    </div>
   )
 }
 ```

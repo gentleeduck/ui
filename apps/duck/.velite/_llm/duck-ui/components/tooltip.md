@@ -1,3 +1,25 @@
+```tsx title="components/tooltip-1.tsx"
+// import from your project: import Demo from '@/components/tooltip-1'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+
+export default function Demo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Hover</Button>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>Add to library</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+```
+
 ## Philosophy
 
 Tooltips are the lightest touch of contextual help  -  they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-state` and `data-side` attributes give you animation hooks without JavaScript state management.
@@ -34,14 +56,125 @@ Ensure import paths match your project structure.
 ## Usage
 
 ```tsx
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 // app/layout.tsx (once)
+<TooltipProvider>{children}</TooltipProvider>
 
+<Tooltip delayDuration={500}>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>Tooltip text</TooltipContent>
+</Tooltip>
+```
+
+## Examples
+
+### Basic
+
+```tsx title="components/tooltip-2.tsx"
+// import from your project: import Demo from '@/components/tooltip-2'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+
+export default function Demo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Hover</Button>
+        </TooltipTrigger>
+        <TooltipContent>Tooltip Content</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+```
+
+### Custom Trigger with `asChild`
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <span className="cursor-pointer underline">Hover me</span>
+  </TooltipTrigger>
+  <TooltipContent>Custom element trigger</TooltipContent>
+</Tooltip>
+```
+
+### Animated Tooltip
+
+```tsx
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent className="TooltipContent">Animated tooltip</TooltipContent>
+</Tooltip>
+```
+
+```css
+.TooltipContent {
+  transform-origin: var(--gentleduck-tooltip-content-transform-origin);
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.TooltipContent[data-state='closed'] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.TooltipContent[data-state='delayed-open'],
+.TooltipContent[data-state='instant-open'] {
+  opacity: 1;
+  transform: scale(1);
+}
+```
+
+### Tooltip with Toggle
+
+When wrapping a `Toggle` (or any interactive element that manages its own pressed/active state), use `disableCloseOnClick` to prevent the tooltip from intercepting clicks and overriding `data-state`:
+
+```tsx
+import { Toggle } from '@/components/ui/toggle'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Bold } from 'lucide-react'
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild disableCloseOnClick>
+      <Toggle aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </Toggle>
+    </TooltipTrigger>
     <TooltipContent>Toggle bold</TooltipContent>
-
+  </Tooltip>
+</TooltipProvider>
 ```
 
 Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Toggle from toggling, and its `data-state="closed"` overrides the Toggle's `data-state="on"/"off"`, breaking the visual feedback.
+
+```tsx title="components/tooltip-4.tsx"
+// import from your project: import Demo from '@/components/tooltip-4'
+import { Toggle } from '@gentleduck/registry-ui/toggle'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+import { Bold } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild disableCloseOnClick>
+          <Toggle aria-label="Toggle bold">
+            <Bold className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>Toggle bold</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+```
 
 ## Styling Hooks
 
@@ -54,10 +187,37 @@ Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Togg
 Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors tooltip positioning in right-to-left layouts.
 
 ```tsx
-
+<TooltipProvider>
+  <Tooltip dir="rtl">
     <TooltipTrigger>مرر الماوس</TooltipTrigger>
     <TooltipContent>نص التلميح</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
 
+```tsx title="components/tooltip-3.tsx"
+// import from your project: import Demo from '@/components/tooltip-3'
+import { Button } from '@gentleduck/registry-ui/button'
+import { DirectionProvider } from '@gentleduck/registry-ui/direction'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+
+export default function Demo() {
+  return (
+    <DirectionProvider dir="rtl">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline">{'تمرير'}</Button>
+          </TooltipTrigger>
+
+          <TooltipContent>
+            <p>{'أضف إلى المكتبة'}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </DirectionProvider>
+  )
+}
 ```
 
 ## Motion
@@ -68,6 +228,30 @@ Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` on
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionTooltip` and `MotionTooltipContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The tooltip fades in with a subtle scale and directional shift toward the trigger.
+
+```tsx title="components/tooltip-5.tsx"
+// import from your project: import Demo from '@/components/tooltip-5'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import { MotionTooltip, MotionTooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+
+export default function Demo() {
+  return (
+    <TooltipProvider>
+      <MotionTooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Hover</Button>
+        </TooltipTrigger>
+
+        <MotionTooltipContent>
+          <p>Add to library</p>
+        </MotionTooltipContent>
+      </MotionTooltip>
+    </TooltipProvider>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `MotionTooltipContent` instead of `TooltipContent`. `TooltipProvider` and `TooltipTrigger` stay the same.

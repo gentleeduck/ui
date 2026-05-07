@@ -13,7 +13,48 @@ interface Subject {
   id: string
   roles: readonly string[]
   scopedRoles?: readonly ScopedRole[]
-  attributes: Record
+  attributes: Record<string, AttributeValue>
+}
+```
+
+A subject carries an `id`, assigned roles, and arbitrary attributes — department, plan tier, clearance level, or whatever the domain requires.
+
+The engine resolves a subject from `subjectId` on every check (cached after the first resolution). You don't construct `Subject` objects directly — pass the ID and the engine handles it.
+
+---
+
+## Resource
+
+The thing being accessed — a post, document, settings page.
+
+```typescript
+interface Resource {
+  type: string // e.g. "post", "comment", "dashboard.settings"
+  id?: string // optional instance ID
+  attributes: Record<string, AttributeValue>
+}
+```
+
+Resource types use **dot-separated hierarchical matching**. A rule targeting `"dashboard"` also matches `"dashboard.users"` and `"dashboard.users.settings"`.
+
+`attributes` carries record-level data: `ownerId`, `status`, `tenantId`, `tags`, etc. This is what enables ABAC checks like `isOwner()` or `resourceAttr('status', 'eq', 'published')`.
+
+---
+
+## Action
+
+A string describing the operation: `"read"`, `"create"`, `"update"`, `"delete"`, or any custom action. Actions support wildcards:
+
+- `"*"` — matches everything
+- Custom prefixes — define your own (e.g. `"posts:read"`, `"posts:write"`)
+
+There's nothing magical about the four CRUD verbs — they're convention, not built-in. Pick action names that fit your domain.
+
+---
+
+## Scope
+
+An optional namespace for multi-tenant isolation. With `scope: "org-1"`, only roles and rules matching that scope apply. Any string works — org IDs, workspace slugs, project keys.
 
 See [scoped roles](/docs/duck-iam/core/roles/scoped) for the three scoping mechanisms.
 

@@ -75,6 +75,7 @@ All three share the prefix <Kbd>G</Kbd>. When the user presses <Kbd>G</Kbd>, the
 ### Basic usage
 
 ```ts
+import { SequenceManager } from '@gentleduck/vim/sequence'
 
 const manager = new SequenceManager()
 
@@ -118,9 +119,9 @@ function SequenceIndicator() {
   if (!state.isMatching) return null
 
   return (
-
+    <div className="fixed bottom-4 right-4 bg-black text-white px-3 py-1 rounded text-sm">
       Step {state.completedSteps}/{state.totalSteps}
-
+    </div>
   )
 }
 ```
@@ -130,6 +131,7 @@ function SequenceIndicator() {
 For a single sequence without managing a `SequenceManager` instance:
 
 ```ts
+import { createSequenceMatcher } from '@gentleduck/vim/sequence'
 
 const matcher = createSequenceMatcher(
   ['g', 'd'],
@@ -147,6 +149,7 @@ document.addEventListener('keydown', (e) => matcher.feed(e))
 The React hook wraps `SequenceManager`:
 
 ```tsx
+import { useKeySequence } from '@gentleduck/vim/react'
 
 function Editor() {
   // Two-key character sequence

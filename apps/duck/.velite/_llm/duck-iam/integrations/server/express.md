@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { accessMiddleware, guard, adminRouter } from '@gentleduck/iam/server/express'
 ```
 
 No runtime dependency on Express — the integration is typed against minimal req/res/next interfaces and works with Express 4, Express 5, and any compatible router.
@@ -13,6 +13,8 @@ No runtime dependency on Express — the integration is typed against minimal re
 Apply access control to every route under a path prefix.
 
 ```typescript
+import { accessMiddleware } from '@gentleduck/iam/server/express'
+import { METHOD_ACTION_MAP } from '@gentleduck/iam/server/generic'
 
 const middleware = accessMiddleware(engine, {
   // Extract user ID from your auth layer (passport, jwt, etc.)
@@ -54,6 +56,7 @@ app.use('/api', middleware)
 Use `guard` on individual routes when the action and resource are known at definition time.
 
 ```typescript
+import { guard } from '@gentleduck/iam/server/express'
 
 // Basic guard — action and resource are fixed
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), (req, res) => {
@@ -102,6 +105,8 @@ once you have the real resource ID and attributes.
 Mount a pre-built admin API for managing policies, roles, and assignments.
 
 ```typescript
+import express from 'express'
+import { adminRouter } from '@gentleduck/iam/server/express'
 
 const createRouter = adminRouter(engine)
 app.use('/api/access-admin', createRouter(() => express.Router()))

@@ -1,11 +1,13 @@
 ```tsx
-
+import * as ToggleGroup from '@gentleduck/primitives/toggle-group'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<ToggleGroup.Root>
+  <ToggleGroup.Item />
+</ToggleGroup.Root>
 ```
 
 ---
@@ -15,10 +17,22 @@
 ### Single selection
 
 ```tsx
+import * as ToggleGroup from '@gentleduck/primitives/toggle-group'
+import { AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
 
 function TextAlign() {
   return (
-
+    <ToggleGroup.Root type="single" defaultValue="left" className="flex gap-1">
+      <ToggleGroup.Item value="left" aria-label="Align left" className="rounded p-2 data-[state=on]:bg-accent">
+        <AlignLeft className="size-4" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="center" aria-label="Align center" className="rounded p-2 data-[state=on]:bg-accent">
+        <AlignCenter className="size-4" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="right" aria-label="Align right" className="rounded p-2 data-[state=on]:bg-accent">
+        <AlignRight className="size-4" />
+      </ToggleGroup.Item>
+    </ToggleGroup.Root>
   )
 }
 ```
@@ -28,11 +42,11 @@ function TextAlign() {
 ```tsx
 function FormatOptions() {
   return (
-
+    <ToggleGroup.Root type="multiple" className="flex gap-1">
       <ToggleGroup.Item value="bold" className="rounded p-2 data-[state=on]:bg-accent">B</ToggleGroup.Item>
       <ToggleGroup.Item value="italic" className="rounded p-2 data-[state=on]:bg-accent">I</ToggleGroup.Item>
       <ToggleGroup.Item value="underline" className="rounded p-2 data-[state=on]:bg-accent">U</ToggleGroup.Item>
-
+    </ToggleGroup.Root>
   )
 }
 ```

@@ -3,7 +3,7 @@
 Provider, hooks, and context for using **duck-vim** in React applications. Drop in the `KeyProvider`, then use hooks like `useKeyBind` and `useKeySequence` to register shortcuts declaratively.
 
 ```ts
-
+import {
   KeyProvider,
   KeyContext,
   useKeyCommands,
@@ -31,8 +31,62 @@ interface KeyContextValue {
   handler: KeyHandler
   sequenceManager: SequenceManager
   timeoutMs: number
-  defaultOptions?: Partial
+  defaultOptions?: Partial<KeyBindOptions>
+}
+```
 
+### `KeyBindHookOptions`
+
+Options for `useKeyBind`. Extends `KeyBindOptions` with a `targetRef`.
+
+```ts
+interface KeyBindHookOptions extends Partial<KeyBindOptions> {
+  targetRef?: React.RefObject<HTMLElement | null>
+}
+```
+
+### `SequenceHookOptions`
+
+Options for `useKeySequence`. Extends `SequenceOptions` with a `targetRef`.
+
+```ts
+interface SequenceHookOptions extends SequenceOptions {
+  targetRef?: React.RefObject<HTMLElement | null>
+}
+```
+
+### `KeyRecorderReturn`
+
+```ts
+interface KeyRecorderReturn {
+  state: KeyRecorderState
+  start: (target?: HTMLElement) => void
+  stop: () => void
+  reset: () => void
+}
+```
+
+---
+
+## `KeyProvider`
+
+Wraps your app (or a subtree) with the keyboard command system. Creates a `Registry`, `KeyHandler`, and `SequenceManager`, attaches the handler on mount, and cleans up on unmount.
+
+```tsx
+interface KeyProviderProps {
+  debug?: boolean                      // Enable debug logging
+  timeoutMs?: number                   // Sequence timeout (default: 600)
+  defaultOptions?: Partial<KeyBindOptions>  // Default options for all bindings
+  children: React.ReactNode
+}
+```
+
+**Example:**
+
+```tsx
+<KeyProvider debug={process.env.NODE_ENV === 'development'} timeoutMs={600}>
+  <App />
+</KeyProvider>
 ```
 
 }>
@@ -203,21 +257,22 @@ function ShortcutRecorder() {
   const { state, start, stop, reset } = useKeyRecorder()
 
   return (
-
+    <div>
       <button onClick={() => start()}>
         {state.isRecording ? 'Press a key combination...' : 'Click to record'}
+      </button>
 
       {state.recorded && (
-
+        <div>
           <span>Recorded: {state.recorded}</span>
           <button onClick={reset}>Clear</button>
-
+        </div>
       )}
 
       {state.isRecording && (
         <button onClick={stop}>Cancel</button>
       )}
-
+    </div>
   )
 }
 ```

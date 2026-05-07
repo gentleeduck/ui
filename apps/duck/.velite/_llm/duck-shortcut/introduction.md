@@ -16,6 +16,7 @@ npm install @gentleduck/shortcut mousetrap
 ## Usage
 
 ```tsx
+import { useDuckShortcut } from '@gentleduck/shortcut'
 
 export function EditorShortcuts() {
   useDuckShortcut({

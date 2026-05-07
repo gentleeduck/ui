@@ -1,11 +1,11 @@
 ```tsx
-
+import * as Arrow from '@gentleduck/primitives/arrow'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Arrow.Arrow />
 ```
 
 ---
@@ -13,16 +13,21 @@
 ## Example
 
 ```tsx
+import { Arrow } from '@gentleduck/primitives/arrow'
 
 function PopoverArrow() {
-  return 
+  return <Arrow width={12} height={6} className="fill-popover" />
 }
 ```
 
 ### Custom shape with `asChild`
 
 ```tsx
-
+<Arrow.Arrow asChild width={14} height={8}>
+  <svg viewBox="0 0 14 8">
+    <path d="M0 0h14L7 8z" />
+  </svg>
+</Arrow.Arrow>
 ```
 
 ---

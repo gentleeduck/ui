@@ -12,7 +12,7 @@ This is the common shape for a docs app that needs:
 - theme and color outputs
 
 ```ts
-
+import {
   bannerExtension,
   colorsExtension,
   componentIndexExtension,
@@ -67,6 +67,8 @@ export default defineConfig({
 This pattern treats `registry-build` as a generic build core plus a custom extension. The core UI phases are disabled, and the custom extension emits repository metadata, package-file manifests, and search artifacts.
 
 ```ts
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
 
 export default defineConfig({
   collections: {
@@ -164,6 +166,9 @@ export default defineConfig({
 Code-based composition:
 
 ```ts
+import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
+import { base } from './registry-build.base'
+import { theme } from './registry-build.theme'
 
 export default defineConfig(mergeRegistryBuildConfigs(base, theme))
 ```

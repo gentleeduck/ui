@@ -36,6 +36,8 @@ See [Using without Duck Gen](/duck-query/advanced#using-without-duck-gen).
 ### With Duck Gen types
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 // Create a typed client
 const client = createDuckQueryClient<ApiRoutes>({
@@ -56,6 +58,7 @@ const { data } = await client.post('/api/auth/signin', {
 ### With custom route types
 
 ```ts
+import { createDuckQueryClient } from '@gentleduck/query'
 
 type MyRoutes = {
   '/ping': {
@@ -146,6 +149,7 @@ See [Client Methods](/duck-query/client-methods) for detailed documentation of e
 Duck Query returns Axios responses, so errors are standard Axios errors:
 
 ```ts
+import { isAxiosError } from 'axios'
 
 try {
   const { data } = await client.post('/api/auth/signin', {

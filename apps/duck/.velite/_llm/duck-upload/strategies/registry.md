@@ -9,6 +9,7 @@ The registry owns the set of available strategies and keeps the core engine deco
 ## Usage
 
 ```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
 
 const registry = createStrategyRegistry()
 registry.set(PostStrategy())

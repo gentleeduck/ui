@@ -29,10 +29,12 @@ Do not rely on only one layer.
 ## Example interaction test
 
 ```tsx
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 it('restores focus to trigger after dialog close', async () => {
   const user = userEvent.setup()
-  render()
+  render(<DeleteProjectDialog />)
 
   const trigger = screen.getByRole('button', { name: /delete project/i })
   await user.click(trigger)

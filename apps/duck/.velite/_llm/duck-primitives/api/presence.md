@@ -1,13 +1,13 @@
 ```tsx
-
+import { Presence } from '@gentleduck/primitives/presence'
 ```
 
 ## Usage
 
 ```tsx
-
+<Presence present={isOpen}>
   <div className="my-animated-element">Content</div>
-
+</Presence>
 ```
 
 }>
@@ -26,13 +26,13 @@ When `present` changes from `true` to `false`, Presence detects CSS animations o
 For more control, use a render function:
 
 ```tsx
-
+<Presence present={isOpen}>
   {({ present }) => (
-
+    <div className={present ? 'fade-in' : 'fade-out'}>
       Content
-
+    </div>
   )}
-
+</Presence>
 ```
 
 ## State machine

@@ -20,6 +20,7 @@ duck-vim parses these strings into structured objects that can be matched agains
 ## Parsing a binding
 
 ```ts
+import { parseKeyBind } from '@gentleduck/vim/parser'
 
 const result = parseKeyBind('ctrl+shift+s')
 ```
@@ -60,6 +61,7 @@ normalizeKeyBind('SHIFT+CTRL+S')   // 'ctrl+shift+s'
 Use `normalizeKeyBind` when comparing bindings:
 
 ```ts
+import { normalizeKeyBind } from '@gentleduck/vim/parser'
 
 normalizeKeyBind(bindingA) === normalizeKeyBind(bindingB)
 ```
@@ -121,6 +123,7 @@ parseKeyBind('Mod+S', 'windows') // Always ctrl
 Use `validateKeyBind` to check a binding without throwing:
 
 ```ts
+import { validateKeyBind } from '@gentleduck/vim/parser'
 
 validateKeyBind('ctrl+k')
 // { valid: true, warnings: [], errors: [] }
@@ -151,6 +154,7 @@ The last example is important: <Kbd>Alt</Kbd>+letter combinations produce specia
 When the KeyHandler receives a keyboard event, it converts it to a descriptor string:
 
 ```ts
+import { keyboardEventToDescriptor } from '@gentleduck/vim/parser'
 
 document.addEventListener('keydown', (e) => {
   const desc = keyboardEventToDescriptor(e)

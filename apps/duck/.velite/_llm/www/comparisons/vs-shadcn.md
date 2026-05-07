@@ -59,6 +59,7 @@ See the [full calendar comparison](/www/comparisons/vs-react-day-picker).
 `@gentleduck/vim` provides key bindings, multi-key sequences (vim-style), macro recording, and platform-aware formatting (`Cmd` on Mac, `Ctrl` elsewhere). shadcn/ui has no keyboard abstraction - you wire up event listeners manually.
 
 ```tsx
+import { useKeymap } from '@gentleduck/vim/react'
 
 useKeymap({
   'Mod+k': () => openCommandPalette(),
@@ -124,11 +125,13 @@ shadcn ships a basic button with variant and size props. gentleduck adds:
 
 ```tsx
 // shadcn: you build loading state yourself
- : null}
+<Button disabled={isLoading}>
+  {isLoading ? <Loader className="animate-spin" /> : null}
   {isLoading ? 'Saving...' : 'Save'}
+</Button>
 
 // gentleduck: one prop
-}>Save</Button>
+<Button loading={isLoading} icon={<Save />}>Save</Button>
 ```
 
 ### Dialog
@@ -138,7 +141,103 @@ shadcn ships a basic dialog. gentleduck adds a `DialogResponsive` variant that a
 ```tsx
 // shadcn: you build responsive behavior yourself
 const isDesktop = useMediaQuery('(min-width: 768px)')
-return isDesktop ? 
+return isDesktop ? <Dialog>...</Dialog> : <Drawer>...</Drawer>
+
+// gentleduck: built-in
+<DialogResponsive>
+  <DialogTriggerResponsive>Open</DialogTriggerResponsive>
+  <DialogContentResponsive>
+    {/* Same content, renders as Dialog or Drawer automatically */}
+  </DialogContentResponsive>
+</DialogResponsive>
+```
+
+### Calendar
+
+shadcn wraps react-day-picker (~20 KB + date-fns). gentleduck ships a full calendar system at ~5 KB with zero dependencies:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Bundle size | ~5 KB gzipped | ~20 KB + date-fns |
+| Calendar systems | 4 (Gregorian, Islamic, Persian, Hebrew) | 1 (Gregorian) |
+| Date adapters | 7 (Native, date-fns, dayjs, luxon, + 3 calendar-specific) | date-fns only |
+| Selection modes | Single, range, multi | Single, range, multi |
+| Render props | `renderDay`, `renderHeader`, `renderWeekday`, `renderFooter` | Limited |
+| Month/year dropdowns | `showDropdowns` prop | Manual implementation |
+| Multiple months | `numberOfMonths` prop | `numberOfMonths` prop |
+| Locale/RTL | Full i18n with Arabic numerals, Persian text | Basic locale |
+
+### Combobox
+
+shadcn documents a combobox pattern using Command + Popover manually. gentleduck ships a dedicated `Combobox` component:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Single + multi select | Generic type for both modes | Manual implementation |
+| Search filtering | `withSearch` prop | Manual Command integration |
+| Selected item display | Badges with "+N Selected" truncation | Manual implementation |
+| RTL support | Built-in `dir` prop | Not available |
+
+### InputGroup and ButtonGroup
+
+These components do not exist in shadcn at all.
+
+**InputGroup** provides addon slots (icons, buttons, labels) that attach to inputs with proper focus delegation - clicking the addon focuses the input. Supports inline-start, inline-end, block-start, block-end positions. Error states cascade from input to the group wrapper automatically.
+
+**ButtonGroup** provides horizontal/vertical grouping with separators and text labels, with full RTL support.
+
+### Tooltip
+
+gentleduck's tooltip supports `disableCloseOnClick` for wrapping interactive elements like toggles. In shadcn, putting a tooltip on a toggle button causes the tooltip to intercept the click and close instead of toggling. gentleduck solves this at the primitive level.
+
+### Sidebar
+
+Both ship a sidebar component. gentleduck adds:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Collapse modes | `offcanvas`, `icon`, `none` | `offcanvas`, `icon`, `none` |
+| Cookie persistence | Auto-saves state to cookies | Auto-saves state to cookies |
+| Keyboard shortcut | Cmd/Ctrl+B toggles sidebar | Cmd/Ctrl+B toggles sidebar |
+| RTL support | Built-in `side` + `dir` props | `side` prop |
+| Mobile sheet | Auto-switches to Sheet on mobile | Auto-switches to Sheet on mobile |
+
+The sidebar implementations are nearly identical. This is an example of where shadcn got it right and gentleduck matches the behavior while running on lighter primitives underneath.
+
+---
+
+## Code comparison
+
+The same Button component in both:
+
+### shadcn/ui
+
+```tsx
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+import { Slot } from '@radix-ui/react-slot'
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md text-sm font-medium ...',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        outline: 'border border-input bg-background hover:bg-accent',
+      },
+      size: {
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 rounded-md px-3',
+      },
+    },
+    defaultVariants: { variant: 'default', size: 'default' },
+  },
+)
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
   },
 )
 ```
@@ -146,6 +245,9 @@ return isDesktop ?
 ### gentleduck/ui
 
 ```tsx
+import { cva } from '@gentleduck/variants'
+import { cn } from '@gentleduck/libs/cn'
+import { Slot, Slottable } from '@gentleduck/primitives/slot'
 
 const buttonVariants = cva(
   'relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 ...',
@@ -175,9 +277,19 @@ const buttonVariants = cva(
   },
 )
 
-const Button = React.forwardRef : icon}
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, variant, size, border, asChild, className, loading, icon, ...props }, ref) => {
+    const Comp = (asChild ? Slot : 'button') as React.ElementType
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ border, variant, size, className }))}
+        disabled={loading || props.disabled}
+        ref={ref}
+        {...props}>
+        {loading ? <Loader className="animate-spin" /> : icon}
         <Slottable>{children}</Slottable>
-
+      </Comp>
     )
   },
 )

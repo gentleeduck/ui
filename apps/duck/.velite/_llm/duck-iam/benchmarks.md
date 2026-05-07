@@ -277,6 +277,8 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 Build a typed policy and evaluate it without `createAccessConfig`:
 
 ```ts
+import type { Policy, AccessRequest } from '@gentleduck/iam'
+import { evaluatePolicyFast } from '@gentleduck/iam'
 
 // Define your action/resource types for type safety
 type Action = 'read' | 'update' | 'delete'

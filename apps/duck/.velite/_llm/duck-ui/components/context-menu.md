@@ -1,3 +1,74 @@
+```tsx title="components/context-menu-1.tsx"
+// import from your project: import Demo from '@/components/context-menu-1'
+'use client'
+
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from '@gentleduck/registry-ui/context-menu'
+
+export default function Demo() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-64">
+        <ContextMenuItem inset>
+          Back
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled inset>
+          Forward
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem inset>
+          Reload
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-48">
+            <ContextMenuItem>
+              Save Page As...
+              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+            <ContextMenuItem>Name Window...</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>Developer Tools</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuCheckboxItem checked>
+          Show Bookmarks Bar
+          <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup value="pedro">
+          <ContextMenuLabel inset>People</ContextMenuLabel>
+          <ContextMenuSeparator />
+          <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
 ## Philosophy
 
 Context menus are power-user shortcuts that surface relevant actions where the user already is. This implementation is built directly on the `@gentleduck/primitives/context-menu` primitives, so right-click behavior, keyboard interactions, and submenu semantics stay consistent.
@@ -26,7 +97,7 @@ Update the import paths to match your project setup.
 ## Usage
 
 ```tsx showLineNumbers
-
+import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
@@ -35,6 +106,18 @@ Update the import paths to match your project setup.
 ```
 
 ```tsx showLineNumbers
+<ContextMenu>
+  <ContextMenuTrigger>Right click</ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Profile</ContextMenuItem>
+    <ContextMenuItem>Billing</ContextMenuItem>
+    <ContextMenuItem>Team</ContextMenuItem>
+    <ContextMenuItem>Subscription</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Component Composition
 
 ## Behavior
 
@@ -46,6 +129,77 @@ Update the import paths to match your project setup.
 
 Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
+```tsx title="components/context-menu-2.tsx"
+// import from your project: import Demo from '@/components/context-menu-2'
+'use client'
+
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from '@gentleduck/registry-ui/context-menu'
+
+export default function Demo() {
+  return (
+    <ContextMenu dir="rtl">
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+        انقر بالزر الايمن هنا
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-64">
+        <ContextMenuItem inset>
+          رجوع
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled inset>
+          تقدم
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem inset>
+          اعادة تحميل
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger inset>ادوات اضافية</ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-48">
+            <ContextMenuItem>
+              حفظ الصفحة باسم...
+              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem>انشاء اختصار...</ContextMenuItem>
+            <ContextMenuItem>تسمية النافذة...</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>ادوات المطور</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuCheckboxItem checked>
+          اظهار شريط المفضلة
+          <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>اظهار الروابط الكاملة</ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup value="ahmad">
+          <ContextMenuLabel inset>الاشخاص</ContextMenuLabel>
+          <ContextMenuSeparator />
+          <ContextMenuRadioItem value="ahmad">احمد خالد</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="sara">سارة محمد</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
 ## Motion
 
 }
@@ -54,6 +208,77 @@ Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider
 Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionContextMenu` and `MotionContextMenuContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The transform origin is fixed to top-left since the menu appears at the cursor position. For animated sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`.
+
+```tsx title="components/context-menu-3.tsx"
+// import from your project: import Demo from '@/components/context-menu-3'
+'use client'
+
+import {
+  ContextMenuCheckboxItem,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+  MotionContextMenu,
+  MotionContextMenuContent,
+  MotionContextMenuSub,
+  MotionContextMenuSubContent,
+} from '@gentleduck/registry-ui/context-menu'
+
+export default function Demo() {
+  return (
+    <MotionContextMenu>
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+        Right click here
+      </ContextMenuTrigger>
+      <MotionContextMenuContent className="w-64">
+        <ContextMenuItem inset>
+          Back
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled inset>
+          Forward
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem inset>
+          Reload
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <MotionContextMenuSub>
+          <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+          <MotionContextMenuSubContent className="w-48">
+            <ContextMenuItem>
+              Save Page As...
+              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+            <ContextMenuItem>Name Window...</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>Developer Tools</ContextMenuItem>
+          </MotionContextMenuSubContent>
+        </MotionContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuCheckboxItem checked>
+          Show Bookmarks Bar
+          <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup value="pedro">
+          <ContextMenuLabel inset>People</ContextMenuLabel>
+          <ContextMenuSeparator />
+          <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </MotionContextMenuContent>
+    </MotionContextMenu>
+  )
+}
+```
 
 }>
 Requires the `motion` package. Use `MotionContextMenu` instead of `ContextMenu` and `MotionContextMenuContent` instead of `ContextMenuContent`. For sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`. All other sub-components stay the same.

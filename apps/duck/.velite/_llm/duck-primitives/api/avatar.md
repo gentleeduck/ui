@@ -1,11 +1,14 @@
 ```tsx
-
+import * as Avatar from '@gentleduck/primitives/avatar'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Avatar.Root>
+  <Avatar.Image />
+  <Avatar.Fallback />
+</Avatar.Root>
 ```
 
 ---
@@ -13,12 +16,20 @@
 ## Example
 
 ```tsx
+import * as Avatar from '@gentleduck/primitives/avatar'
 
 function UserAvatar() {
   return (
-
+    <Avatar.Root className="relative flex size-10 shrink-0 overflow-hidden rounded-full">
+      <Avatar.Image
+        src="https://github.com/wildduck.png"
+        alt="@wildduck"
+        className="aspect-square size-full"
+      />
+      <Avatar.Fallback className="flex size-full items-center justify-center rounded-full bg-muted" delayMs={600}>
         WD
-
+      </Avatar.Fallback>
+    </Avatar.Root>
   )
 }
 ```

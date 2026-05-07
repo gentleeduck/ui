@@ -1,14 +1,37 @@
 ```tsx
-
+import * as VisuallyHidden from '@gentleduck/primitives/visibility-hidden'
 ```
 
 ## Anatomy
 
 ```tsx
+<VisuallyHidden.Root>Accessible-only label</VisuallyHidden.Root>
+```
 
-      
+---
+
+## Example
+
+```tsx
+import { VisuallyHidden } from '@gentleduck/primitives/visibility-hidden'
+
+function IconButtonLabel() {
+  return (
+    <button>
+      <svg aria-hidden viewBox="0 0 16 16" />
+      <VisuallyHidden>Open notifications</VisuallyHidden>
+    </button>
+  )
+}
+```
+
+### Icon-only button label
+
+```tsx
+<button>
+  <BellIcon aria-hidden />
   <VisuallyHidden.Root>Open notifications</VisuallyHidden.Root>
-
+</button>
 ```
 
 ---

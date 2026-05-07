@@ -1,17 +1,40 @@
 ```tsx
-
+import * as HoverCard from '@gentleduck/primitives/hover-card'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<HoverCard.Root>
+  <HoverCard.Trigger />
+  <HoverCard.Portal>
+    <HoverCard.Content>
+      <HoverCard.Arrow />
+    </HoverCard.Content>
+  </HoverCard.Portal>
+</HoverCard.Root>
 ```
 
 ## Example
 
 ```tsx
-
+<HoverCard.Root openDelay={200} closeDelay={300}>
+  <HoverCard.Trigger asChild>
+    <a href="/user/ahmed" className="text-blue-600 underline">@ahmed</a>
+  </HoverCard.Trigger>
+  <HoverCard.Portal>
+    <HoverCard.Content className="bg-white shadow-lg rounded-lg p-4 w-72 border" sideOffset={5}>
+      <div className="flex gap-3">
+        <div className="w-12 h-12 bg-gray-200 rounded-full" />
+        <div>
+          <p className="font-semibold">Ahmed</p>
+          <p className="text-sm text-gray-500">Software Engineer</p>
+        </div>
+      </div>
+      <HoverCard.Arrow className="fill-white" />
+    </HoverCard.Content>
+  </HoverCard.Portal>
+</HoverCard.Root>
 ```
 
 ## API

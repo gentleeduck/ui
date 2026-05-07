@@ -4,6 +4,8 @@ Duck Query returns Axios responses, so you can catch errors the same way you wou
 plain Axios:
 
 ```ts
+import { AxiosError } from 'axios'
+import { api } from './client'
 
 async function createUser(body: { name: string; email: string; password: string }) {
   try {
@@ -42,6 +44,8 @@ Duck Query exposes the underlying Axios instance, so you can add interceptors fo
 authentication, logging, or retry logic:
 
 ```ts title="client/api/client.ts"
+import { createDuckQuery } from '@gentleduck/duck-query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 export const api = createDuckQuery<ApiRoutes>({
   baseURL: 'http://localhost:3000',

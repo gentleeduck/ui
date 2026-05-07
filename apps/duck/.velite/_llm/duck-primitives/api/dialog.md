@@ -1,11 +1,21 @@
 ```tsx
-
+import * as Dialog from '@gentleduck/primitives/dialog'
 ```
 
 ## Anatomy
 
 ```tsx
-
+<Dialog.Root>
+  <Dialog.Trigger />
+  <Dialog.Portal>
+    <Dialog.Overlay />
+    <Dialog.Content>
+      <Dialog.Title />
+      <Dialog.Description />
+      <Dialog.Close />
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
 ```
 
 ---
@@ -13,18 +23,35 @@
 ## Example
 
 ```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
 
 function DeleteConfirmation() {
   return (
+    <Dialog.Root>
+      <Dialog.Trigger className="px-4 py-2 bg-red-500 text-white rounded">
+        Delete account
+      </Dialog.Trigger>
 
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 animate-fadeIn" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-xl max-w-md w-full animate-scaleIn">
+          <Dialog.Title className="text-lg font-semibold">
             Delete your account?
-
+          </Dialog.Title>
+          <Dialog.Description className="mt-2 text-gray-600">
             This will permanently delete your account and all associated data.
-
+          </Dialog.Description>
+          <div className="mt-4 flex gap-2 justify-end">
+            <Dialog.Close className="px-4 py-2 border rounded">
               Cancel
-
+            </Dialog.Close>
+            <button className="px-4 py-2 bg-red-500 text-white rounded">
               Delete
-
+            </button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 ```
@@ -133,9 +160,9 @@ When `modal={true}` (default):
 Set `modal={false}` for non-modal dialogs (sidebars, panels) that don't block interaction with the rest of the page.
 
 ```tsx
-
+<Dialog.Root modal={false}>
   ...
-
+</Dialog.Root>
 ```
 
 ---

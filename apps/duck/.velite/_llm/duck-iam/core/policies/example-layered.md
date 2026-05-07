@@ -3,6 +3,7 @@
 A blog with editors, admins, and content safety rules. Let's wire roles + ABAC together.
 
 ```typescript
+import { createAccessConfig } from '@gentleduck/iam'
 
 const access = createAccessConfig({
   actions: ['create', 'read', 'update', 'delete', 'publish'] as const,

@@ -49,7 +49,17 @@ Presence detects the `animationend` event and only unmounts after it fires. Make
 ## Tailwind CSS
 
 ```tsx
+<Dialog.Overlay className="
+  fixed inset-0 bg-black/50
+  data-[state=open]:animate-in data-[state=open]:fade-in-0
+  data-[state=closed]:animate-out data-[state=closed]:fade-out-0
+" />
 
+<Dialog.Content className="
+  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+  data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95
+  data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95
+" />
 ```
 
 }>
@@ -63,7 +73,19 @@ Requires the `tailwindcss-animate` plugin for `animate-in` / `animate-out` utili
 If you want to control animation entirely yourself (e.g., with Framer Motion), use `forceMount` on Portal, Overlay, and Content to keep them always mounted:
 
 ```tsx
-
+<Dialog.Portal forceMount>
+  <Dialog.Overlay forceMount asChild>
+    <motion.div
+      animate={open ? { opacity: 1 } : { opacity: 0 }}
+      initial={{ opacity: 0 }}
+    />
+  </Dialog.Overlay>
+  <Dialog.Content forceMount asChild>
+    <motion.div
+      animate={open ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
+    />
+  </Dialog.Content>
+</Dialog.Portal>
 ```
 
 ---
@@ -73,13 +95,13 @@ If you want to control animation entirely yourself (e.g., with Framer Motion), u
 For conditional class application without forceMount:
 
 ```tsx
-
+<Presence present={isOpen}>
   {({ present }) => (
-
+    <div className={present ? 'slide-in' : 'slide-out'}>
       Sidebar content
-
+    </div>
   )}
-
+</Presence>
 ```
 
 ---

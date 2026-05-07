@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 ```
 
 Stores everything in `Map` instances. Zero dependencies. **Data does not survive process restarts** — use a database adapter for production.
@@ -11,6 +11,8 @@ Stores everything in `Map` instances. Zero dependencies. **Data does not survive
 ## Basic usage
 
 ```typescript
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { Engine } from '@gentleduck/iam'
 
 const adapter = new MemoryAdapter({
   roles: [

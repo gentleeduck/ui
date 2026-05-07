@@ -31,13 +31,19 @@ If wrapper API hides critical primitive events, you lose escape hatches.
 ## Example wrapper shape
 
 ```tsx
+import * as DialogPrimitive from '@gentleduck/primitives/dialog'
 
 export const Dialog = DialogPrimitive.Root
 export const DialogTrigger = DialogPrimitive.Trigger
 
 export const DialogContent = React.forwardRef<
-  React.ComponentRef
-
+  React.ComponentRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Portal>
+    <DialogPrimitive.Overlay className="fixed inset-0 bg-black/45" />
+    <DialogPrimitive.Content ref={ref} className={className} {...props} />
+  </DialogPrimitive.Portal>
 ))
 DialogContent.displayName = 'DialogContent'
 ```

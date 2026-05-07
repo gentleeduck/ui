@@ -19,7 +19,12 @@ progress bars, and completion/error states -- all powered by the `UploadProvider
 
     export function App() {
       return (
-
+        <UploadProvider store={uploadClient}>
+          <div className="app">
+            <h1>PhotoDuck</h1>
+            <PhotoUploader />
+          </div>
+        </UploadProvider>
       )
     }
     ```
@@ -40,12 +45,108 @@ progress bars, and completion/error states -- all powered by the `UploadProvider
       const { items, dispatch, uploading, completed, failed, ready } = useUploader()
 
       return (
-        
+        <div>
+          <p>{items.length} files total</p>
+          <p>{uploading.length} uploading, {completed.length} done, {failed.length} failed</p>
+        </div>
+      )
+    }
+    ```
+
+    The `useUploader` hook returns:
+
+    | Field | Type | Description |
+    | --- | --- | --- |
+    | `items` | `UploadItem[]` | All upload items as an array |
+    | `byPhase` | `Record<string, UploadItem[]>` | Items grouped by phase |
+    | `dispatch` | `(cmd) => void` | Dispatch commands (same as `uploadClient.dispatch`) |
+    | `on` | `(event, cb) => unsub` | Subscribe to events |
+    | `off` | `(event, cb) => unsub` | Unsubscribe from events |
+    | `uploading` | `UploadItem[]` | Items in `uploading` phase |
+    | `paused` | `UploadItem[]` | Items in `paused` phase |
+    | `completed` | `UploadItem[]` | Items in `completed` phase |
+    | `failed` | `UploadItem[]` | Items in `error` phase |
+    | `ready` | `UploadItem[]` | Items in `ready` phase |
+  
+
+  
+    **Build a file input / dropzone component**
+
+    Add a file input and a drag-and-drop zone:
+
+    ```tsx title="src/PhotoUploader.tsx"
+    import { useUploader } from '@gentleduck/upload'
+    import { useCallback, useRef, useState } from 'react'
+
+    export function PhotoUploader() {
+      const { items, dispatch, uploading, completed, failed } = useUploader()
+      const inputRef = useRef<HTMLInputElement>(null)
+      const [isDragging, setIsDragging] = useState(false)
+
+      const addFiles = useCallback((files: File[]) => {
+        if (files.length > 0) {
+          dispatch({ type: 'addFiles', files, purpose: 'photo' })
+        }
+      }, [dispatch])
+
+      const handleDrop = useCallback((e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(false)
+        const files = Array.from(e.dataTransfer.files)
+        addFiles(files)
+      }, [addFiles])
+
+      const handleDragOver = useCallback((e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(true)
+      }, [])
+
+      const handleDragLeave = useCallback(() => {
+        setIsDragging(false)
+      }, [])
+
+      return (
+        <div>
+          {/* Dropzone */}
+          <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onClick={() => inputRef.current?.click()}
+            style={{
+              border: `2px dashed ${isDragging ? '#3b82f6' : '#d1d5db'}`,
+              borderRadius: 8,
+              padding: 40,
+              textAlign: 'center',
+              cursor: 'pointer',
+              backgroundColor: isDragging ? '#eff6ff' : 'transparent',
+              transition: 'all 0.2s',
+            }}
+          >
+            <p>{isDragging ? 'Drop files here' : 'Click or drag files to upload'}</p>
+          </div>
+
+          {/* Hidden file input */}
+          <input
+            ref={inputRef}
+            type="file"
+            multiple
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const files = Array.from(e.target.files ?? [])
+              addFiles(files)
+              e.target.value = ''
+            }}
+          />
 
           {/* Upload list */}
-          
+          <div style={{ marginTop: 20 }}>
+            {items.map((item) => (
+              <UploadItemRow key={item.localId} item={item} dispatch={dispatch} />
             ))}
-
+          </div>
+        </div>
       )
     }
     ```
@@ -63,21 +164,274 @@ progress bars, and completion/error states -- all powered by the `UploadProvider
       item,
       dispatch,
     }: {
-      item: UploadItem
+      item: UploadItem<any, any, any, any>
+      dispatch: (cmd: UploadCommand<string>) => void
+    }) {
+      const filename = item.file?.name ?? 'Unknown file'
 
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0' }}>
+          {/* Filename */}
+          <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {filename}
+          </span>
+
+          {/* Phase-specific UI */}
+          {item.phase === 'validating' && <span>Validating...</span>}
+          {item.phase === 'creating_intent' && <span>Preparing...</span>}
+          {item.phase === 'ready' && (
+            <button onClick={() => dispatch({ type: 'start', localId: item.localId })}>
+              Start
+            </button>
+          )}
+          {item.phase === 'queued' && <span>Queued...</span>}
+
+          {item.phase === 'uploading' && (
+            <>
+              <div style={{ width: 120, height: 8, backgroundColor: '#e5e7eb', borderRadius: 4 }}>
+                <div
+                  style={{
+                    width: `${item.progress.pct}%`,
+                    height: '100%',
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4,
+                    transition: 'width 0.2s',
+                  }}
+                />
+              </div>
+              <span style={{ width: 50, textAlign: 'right' }}>{item.progress.pct.toFixed(0)}%</span>
+              <button onClick={() => dispatch({ type: 'pause', localId: item.localId })}>
+                Pause
+              </button>
+            </>
           )}
 
           {item.phase === 'paused' && (
             <>
-              
+              <span>Paused ({item.progress.pct.toFixed(0)}%)</span>
+              <button onClick={() => dispatch({ type: 'resume', localId: item.localId })}>
+                Resume
+              </button>
+            </>
           )}
 
-          {item.phase === 'completing' && 
+          {item.phase === 'completing' && <span>Finalizing...</span>}
+
+          {item.phase === 'completed' && (
+            <span style={{ color: '#16a34a' }}>Done</span>
+          )}
+
+          {item.phase === 'error' && (
+            <>
+              <span style={{ color: '#dc2626' }}>{item.error.message}</span>
+              {item.retryable && (
+                <button onClick={() => dispatch({ type: 'retry', localId: item.localId })}>
+                  Retry
+                </button>
+              )}
+            </>
           )}
 
           {/* Cancel button (for active uploads) */}
           {!['completed', 'canceled', 'error'].includes(item.phase) && (
+            <button onClick={() => dispatch({ type: 'cancel', localId: item.localId })}>
+              Cancel
+            </button>
+          )}
 
+          {/* Remove button (for terminal states) */}
+          {['completed', 'canceled', 'error'].includes(item.phase) && (
+            <button onClick={() => dispatch({ type: 'remove', localId: item.localId })}>
+              Remove
+            </button>
+          )}
+        </div>
+      )
+    }
+    ```
+  
+
+  
+    **Handle completion and errors with event listeners**
+
+    You can use the `on` method from `useUploader` to show toast notifications or trigger side
+    effects:
+
+    ```tsx title="src/PhotoUploader.tsx"
+    import { useEffect } from 'react'
+
+    export function PhotoUploader() {
+      const { items, dispatch, on } = useUploader()
+
+      useEffect(() => {
+        const unsubCompleted = on('upload.completed', ({ localId, result }) => {
+          // Show a toast notification, update a gallery, etc.
+          console.log(`Upload ${localId} completed:`, result)
+        })
+
+        const unsubError = on('upload.error', ({ localId, error }) => {
+          console.error(`Upload ${localId} failed:`, error.message)
+        })
+
+        const unsubRejected = on('file.rejected', ({ file, reason }) => {
+          console.warn(`File ${file.name} rejected:`, reason)
+        })
+
+        return () => {
+          unsubCompleted()
+          unsubError()
+          unsubRejected()
+        }
+      }, [on])
+
+      // ... rest of component
+    }
+    ```
+  
+
+## How useSyncExternalStore Powers the React Binding
+
+The `useUploader` hook is built on top of React's `useSyncExternalStore`. This is the
+recommended way for external stores to integrate with React's concurrent features.
+
+Here is a simplified version of what happens internally:
+
+```typescript
+// Simplified from source
+function useUploader(store) {
+  const snapshot = useSyncExternalStore(
+    store.subscribe.bind(store),
+    store.getSnapshot.bind(store),
+    store.getSnapshot.bind(store),  // server snapshot (same for SSR)
+  )
+
+  const items = useMemo(
+    () => Array.from(snapshot.items.values()),
+    [snapshot.items],
+  )
+
+  const byPhase = useMemo(() => {
+    const result = {}
+    items.forEach((item) => {
+      if (!result[item.phase]) result[item.phase] = []
+      result[item.phase].push(item)
+    })
+    return result
+  }, [items])
+
+  return {
+    items,
+    byPhase,
+    dispatch: store.dispatch.bind(store),
+    on: store.on.bind(store),
+    off: store.off.bind(store),
+    uploading: byPhase.uploading || [],
+    paused: byPhase.paused || [],
+    completed: byPhase.completed || [],
+    failed: byPhase.error || [],
+    ready: byPhase.ready || [],
+  }
+}
+```
+
+Key points:
+
+- `store.subscribe` is called by React to register a listener. When the store's state changes,
+  React re-renders components that use `useUploader`.
+- `store.getSnapshot` returns the current immutable state. React compares snapshots by reference
+  to decide if a re-render is needed.
+- The `items` and `byPhase` values are memoized to avoid unnecessary re-renders downstream.
+- The `failed` array maps to the `error` phase (not `failed`), matching the phase naming in
+  the state machine.
+
+## Using useUploader Without a Provider
+
+You can also pass a store directly to `useUploader` if you prefer not to use context:
+
+```tsx
+import { useUploader } from '@gentleduck/upload'
+import { uploadClient } from './upload'
+
+function PhotoUploader() {
+  const { items, dispatch } = useUploader(uploadClient)
+  // ...
+}
+```
+
+This is useful for standalone components or when you have multiple upload stores in the same app.
+
+## The createUploadFactory Helper
+
+For fully typed hook factories, use `createUploadFactory`:
+
+```typescript
+import { createUploadFactory } from '@gentleduck/upload'
+import { uploadClient } from './upload'
+
+// Creates a typed hook bound to your specific store
+export const usePhotoUploader = createUploadFactory(uploadClient)
+```
+
+```tsx
+function PhotoUploader() {
+  // Fully typed -- knows about PhotoIntentMap, PhotoPurpose, etc.
+  const { items, dispatch } = usePhotoUploader()
+  // ...
+}
+```
+
+## The useUploaderActions Hook
+
+If you only need dispatch and events (no reactive state), use `useUploaderActions`:
+
+```tsx
+import { useUploaderActions } from '@gentleduck/upload'
+
+function UploadButton() {
+  const { dispatch, on, store } = useUploaderActions()
+
+  return (
+    <button onClick={() => dispatch({ type: 'startAll' })}>
+      Start All Uploads
+    </button>
+  )
+}
+```
+
+This avoids re-rendering the component on every state change, since it does not subscribe to
+snapshot updates.
+
+## Checkpoint
+
+Your project should look like this:
+
+```
+photoduck/
+  src/
+    upload.ts         -- types + api + client
+    App.tsx           -- UploadProvider wrapper
+    PhotoUploader.tsx -- dropzone + progress bars + controls
+  package.json
+  tsconfig.json
+```
+
+  
+    Full `src/App.tsx`
+    
+
+```tsx
+import { UploadProvider } from '@gentleduck/upload'
+import { uploadClient } from './upload'
+import { PhotoUploader } from './PhotoUploader'
+
+export function App() {
+  return (
+    <UploadProvider store={uploadClient}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: 20 }}>
+        <h1>PhotoDuck</h1>
+        <PhotoUploader />
+      </div>
+    </UploadProvider>
   )
 }
 ```
@@ -90,16 +444,106 @@ progress bars, and completion/error states -- all powered by the `UploadProvider
     
 
 ```tsx
+import { useUploader } from '@gentleduck/upload'
+import type { UploadItem, UploadCommand } from '@gentleduck/upload'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export function PhotoUploader() {
   const { items, dispatch, on, uploading, completed, failed } = useUploader()
-  const inputRef = useRef
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const addFiles = useCallback((files: File[]) => {
+    if (files.length > 0) {
+      dispatch({ type: 'addFiles', files, purpose: 'photo' })
+    }
+  }, [dispatch])
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    addFiles(Array.from(e.dataTransfer.files))
+  }, [addFiles])
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }, [])
+
+  const handleDragLeave = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
+  // Event listeners for side effects
+  useEffect(() => {
+    const unsubCompleted = on('upload.completed', ({ localId, result }) => {
+      console.log(`Upload ${localId} completed:`, result)
+    })
+
+    const unsubError = on('upload.error', ({ localId, error }) => {
+      console.error(`Upload ${localId} failed:`, error.message)
+    })
+
+    return () => {
+      unsubCompleted()
+      unsubError()
+    }
+  }, [on])
+
+  return (
+    <div>
+      {/* Summary */}
+      <p>
+        {items.length} files | {uploading.length} uploading | {completed.length} done | {failed.length} failed
+      </p>
+
+      {/* Dropzone */}
+      <div
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onClick={() => inputRef.current?.click()}
+        style={{
+          border: `2px dashed ${isDragging ? '#3b82f6' : '#d1d5db'}`,
+          borderRadius: 8,
+          padding: 40,
+          textAlign: 'center',
+          cursor: 'pointer',
+          backgroundColor: isDragging ? '#eff6ff' : 'transparent',
+          transition: 'all 0.2s',
+        }}
+      >
+        <p>{isDragging ? 'Drop files here' : 'Click or drag files to upload'}</p>
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          addFiles(Array.from(e.target.files ?? []))
+          e.target.value = ''
+        }}
+      />
 
       {/* Bulk actions */}
       {items.length > 0 && (
-        
-        ))}
+        <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+          <button onClick={() => dispatch({ type: 'startAll' })}>Start All</button>
+          <button onClick={() => dispatch({ type: 'pauseAll' })}>Pause All</button>
+          <button onClick={() => dispatch({ type: 'cancelAll' })}>Cancel All</button>
+        </div>
+      )}
 
+      {/* Upload list */}
+      <div style={{ marginTop: 20 }}>
+        {items.map((item) => (
+          <UploadItemRow key={item.localId} item={item} dispatch={dispatch} />
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -107,16 +551,64 @@ function UploadItemRow({
   item,
   dispatch,
 }: {
-  item: UploadItem
+  item: UploadItem<any, any, any, any>
+  dispatch: (cmd: UploadCommand<string>) => void
+}) {
+  const filename = item.file?.name ?? 'Unknown file'
 
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
+      <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        {filename}
+      </span>
+
+      {item.phase === 'validating' && <span style={{ color: '#6b7280' }}>Validating...</span>}
+      {item.phase === 'creating_intent' && <span style={{ color: '#6b7280' }}>Preparing...</span>}
+
+      {item.phase === 'ready' && (
+        <button onClick={() => dispatch({ type: 'start', localId: item.localId })}>Start</button>
+      )}
+
+      {item.phase === 'queued' && <span style={{ color: '#6b7280' }}>Queued</span>}
+
+      {item.phase === 'uploading' && (
+        <>
+          <div style={{ width: 120, height: 8, backgroundColor: '#e5e7eb', borderRadius: 4 }}>
+            <div
+              style={{
+                width: `${item.progress.pct}%`,
+                height: '100%',
+                backgroundColor: '#3b82f6',
+                borderRadius: 4,
+                transition: 'width 0.2s',
+              }}
+            />
+          </div>
+          <span style={{ width: 50, textAlign: 'right', fontSize: 14 }}>
+            {item.progress.pct.toFixed(0)}%
+          </span>
+          <button onClick={() => dispatch({ type: 'pause', localId: item.localId })}>Pause</button>
+        </>
       )}
 
       {item.phase === 'paused' && (
         <>
-          
+          <span style={{ color: '#f59e0b' }}>Paused</span>
+          <button onClick={() => dispatch({ type: 'resume', localId: item.localId })}>Resume</button>
+        </>
       )}
 
-      {item.phase === 'completing' && 
+      {item.phase === 'completing' && <span style={{ color: '#6b7280' }}>Finalizing...</span>}
+
+      {item.phase === 'completed' && <span style={{ color: '#16a34a' }}>Done</span>}
+
+      {item.phase === 'error' && (
+        <>
+          <span style={{ color: '#dc2626' }}>{item.error.message}</span>
+          {item.retryable && (
+            <button onClick={() => dispatch({ type: 'retry', localId: item.localId })}>Retry</button>
+          )}
+        </>
       )}
 
       {!['completed', 'canceled', 'error'].includes(item.phase) && (
@@ -126,7 +618,7 @@ function UploadItemRow({
       {['completed', 'canceled', 'error'].includes(item.phase) && (
         <button onClick={() => dispatch({ type: 'remove', localId: item.localId })}>Remove</button>
       )}
-
+    </div>
   )
 }
 ```

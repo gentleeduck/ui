@@ -82,6 +82,7 @@ When an authorization request comes in, the engine follows this pipeline:
 ## Quick Example
 
 ```typescript
+import { defineRole, Engine, MemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define roles
 const viewer = defineRole("viewer")

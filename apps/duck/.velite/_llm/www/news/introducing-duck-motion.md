@@ -12,7 +12,14 @@ You want a dialog to fade in on open and fade out on close. React unmounts the c
 
 ```tsx
 // The problem: component unmounts before animation finishes
-{open && 
+{open && <Dialog>...</Dialog>}
+```
+
+`@gentleduck/motion` provides a `Presence` primitive that holds the component in the tree until the exit animation finishes.
+
+---
+
+## How It Works
 
 Three phases:
 
@@ -44,6 +51,7 @@ Every animated component in `@gentleduck/ui` uses motion primitives:
 Motion pairs with `@gentleduck/variants` for conditional animation classes:
 
 ```tsx
+import { cva } from '@gentleduck/variants'
 
 const overlay = cva('fixed inset-0 bg-black/50', {
   variants: {

@@ -1,5 +1,5 @@
 ```tsx
-
+import { Mount, MountMinimal } from '@gentleduck/primitives/mount'
 ```
 
 ## `Mount`
@@ -13,9 +13,9 @@ A simple component that mounts children when `open` is true and unmounts after `
 | `animationDuration` | `number` | `400` | Delay before unmounting (ms) |
 
 ```tsx
-
+<Mount open={isOpen} animationDuration={300}>
   <div className="fade-out-on-close">Content</div>
-
+</Mount>
 ```
 
 ## `MountMinimal`

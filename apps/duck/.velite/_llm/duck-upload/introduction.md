@@ -34,6 +34,8 @@ graph TD
 ## Quick Start
 
 ```ts
+import { createUploadStore } from '@gentleduck/upload/core'
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
 
 const strategies = createStrategyRegistry()
 strategies.set(PostStrategy())

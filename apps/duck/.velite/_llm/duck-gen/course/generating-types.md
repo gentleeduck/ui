@@ -116,7 +116,7 @@ In addition to your `./generated` folder, Duck Gen writes the same files inside
 `node_modules/@gentleduck/gen/generated/nestjs/`. This is the primary import path:
 
 ```ts
-
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 ```
 
 ## Understanding utility types
@@ -130,6 +130,7 @@ The full route map type. Useful when you need to iterate over all routes or buil
 generic utilities:
 
 ```ts
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
 
 // ApiRoutes is the DuckgenApiRoutes interface
 type AllPaths = keyof ApiRoutes // '/api/users' | '/api/users/:id'
@@ -141,6 +142,7 @@ Extracts the request shape for a specific route and method. Returns only the non
 fields:
 
 ```ts
+import type { RouteReq } from '@gentleduck/gen/nestjs'
 
 type CreateUserReq = RouteReq<'/api/users', 'POST'>
 // { body: { name: string; email: string; password: string } }
@@ -157,6 +159,7 @@ type GetUserReq = RouteReq<'/api/users/:id', 'GET'>
 Extracts the response type:
 
 ```ts
+import type { RouteRes } from '@gentleduck/gen/nestjs'
 
 type CreateUserRes = RouteRes<'/api/users', 'POST'>
 // { data: UserDto; message: UserMessage; success: boolean }

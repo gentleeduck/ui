@@ -18,7 +18,14 @@ gentleduck/primitives ship with zero CSS. Every component renders semantic HTML 
 The simplest approach. Apply utility classes directly:
 
 ```tsx
+<Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+<Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg">
+```
 
+For state-based styling, use Tailwind's `data-*` variant:
+
+```tsx
+<Dialog.Overlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
 ```
 
 Target `data-state` and other data attributes in plain CSS:
@@ -49,7 +56,10 @@ Target `data-state` and other data attributes in plain CSS:
 ```
 
 ```tsx
+import styles from './Dialog.module.css'
 
+<Dialog.Overlay className={styles.overlay} />
+<Dialog.Content className={styles.content} />
 ```
 
 Works with any CSS-in-JS library. Use `asChild` to apply styled components:
@@ -61,6 +71,9 @@ const StyledOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `
 
+<Dialog.Overlay asChild>
+  <StyledOverlay />
+</Dialog.Overlay>
 ```
 
 ---
