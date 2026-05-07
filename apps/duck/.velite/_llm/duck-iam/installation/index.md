@@ -122,11 +122,13 @@ const permissions = await engine.permissions("user-2", [
 
 | Integration | Peer dependency | Install |
 | --- | --- | --- |
-| React client | `react >= 18.0.0` | `npm install react` |
-| Vue client | `vue >= 3.3.0` | `npm install vue` |
-| Prisma adapter | `@prisma/client >= 5.0.0` | `npm install @prisma/client` |
+| React client | `react >= 18.0.0` | `bun add react` |
+| Vue client | `vue >= 3.3.0` | `bun add vue` |
+| Prisma adapter | `@prisma/client >= 5.0.0` | `bun add @prisma/client` |
+| Drizzle adapter | `drizzle-orm >= 0.30.0` | `bun add drizzle-orm` |
+| Redis adapter | `ioredis >= 5.0.0` or `redis >= 4.0.0` | `bun add ioredis` |
 
-The core engine, memory adapter, Drizzle adapter, HTTP adapter, and all server integrations (Express, Hono, NestJS, Next.js) have zero peer dependencies.
+The core engine, memory adapter, HTTP adapter, and all server integrations (Express, Hono, NestJS, Next.js) have zero peer dependencies. The Drizzle schemas (`/adapters/drizzle/schema/{pg,mysql,sqlite}`) require `drizzle-orm` since they re-export Drizzle table builders.
 
 ## Import Paths
 
@@ -141,6 +143,10 @@ duck-iam uses subpath exports:
 
 // Storage adapters
 
+// Drizzle pre-built schemas (pick one dialect)
+
+// or:    @gentleduck/iam/adapters/drizzle/schema/mysql
+// or:    @gentleduck/iam/adapters/drizzle/schema/sqlite
 ```
 
 ## TypeScript Configuration

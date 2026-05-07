@@ -1,0 +1,155 @@
+## Install
+
+```typescript
+
+  nestAccessGuard,
+  Authorize,
+  createTypedAuthorize,
+  createEngineProvider,
+  ACCESS_ENGINE_TOKEN,
+  ACCESS_METADATA_KEY,
+} from '@gentleduck/iam/server/nest'
+```
+
+Zero hard dependency on `@nestjs/common` — uses minimal duck-typed interfaces. `reflect-metadata` is used when available, with a direct property fallback so the decorator works without it.
+
+---
+
+## Guard factory
+
+Create a NestJS-compatible guard function. It reads metadata from the `@Authorize` decorator on each handler.
+
+```typescript
+
+const canAccess = nestAccessGuard(engine, {
+  getUserId: (req) => req.user?.id ?? req.user?.sub,
+  getScope: (req) => req.headers['x-org-id'] as string | undefined,
+  getResourceId: (req) => req.params?.id,
+  onError: (err, req) => false,
+})
+
+// Register as a global guard in your module:
+// APP_GUARD -> { provide: APP_GUARD, useValue: { canActivate: canAccess } }
+```
+
+Handlers without an `@Authorize` decorator are allowed by default. The guard only activates when metadata is present.
+
+---
+
+## The Authorize decorator
+
+Annotate controller methods with their required permissions.
+
+```typescript
+
+@Controller('posts')
+export class PostsController {
+  @Delete(':id')
+  @Authorize({ action: 'delete', resource: 'post' })
+  async deletePost(@Param('id') id: string) {
+    return this.postsService.delete(id)
+  }
+
+  @Post()
+  @Authorize({ action: 'create', resource: 'post' })
+  async createPost(@Body() dto: CreatePostDto) {
+    return this.postsService.create(dto)
+  }
+
+  // Infer action from HTTP method, resource from route path
+  @Get()
+  @Authorize({ infer: true })
+  async listPosts() {
+    return this.postsService.list()
+  }
+}
+```
+
+### Scoped authorization
+
+Attach a scope to restrict access to a specific context.
+
+```typescript
+@Authorize({ action: 'manage', resource: 'billing', scope: 'admin' })
+async updateBilling() { ... }
+```
+
+If no scope is set on the decorator, the guard falls back to the `getScope` option from the guard factory.
+
+---
+
+## Type-safe decorator
+
+`createTypedAuthorize` constrains the decorator to your application's exact action, resource, and scope types. Typos become compile-time errors.
+
+```typescript
+
+type Action = 'create' | 'read' | 'update' | 'delete' | 'manage'
+type Resource = 'post' | 'user' | 'billing' | 'report'
+type Scope = 'admin' | 'member'
+
+const Auth = createTypedAuthorize<Action, Resource, Scope>()
+
+// This compiles:
+@Auth({ action: 'delete', resource: 'post' })
+
+// This is a compile error — "craete" is not in Action:
+@Auth({ action: 'craete', resource: 'post' })
+```
+
+---
+
+## Engine provider
+
+Register the engine as a NestJS provider:
+
+```typescript
+
+  createEngineProvider,
+  ACCESS_ENGINE_TOKEN,
+  nestAccessGuard,
+} from '@gentleduck/iam/server/nest'
+
+@Module({
+  providers: [
+    createEngineProvider(() => new Engine({ adapter })),
+    {
+      provide: APP_GUARD,
+      useFactory: (engine) => ({ canActivate: nestAccessGuard(engine) }),
+      inject: [ACCESS_ENGINE_TOKEN],
+    },
+  ],
+})
+export class AppModule {}
+```
+
+The engine factory can be async — return a `Promise<Engine>` to support adapter setup that requires `await`.
+
+---
+
+## Notes
+
+- **`reflect-metadata` is optional but recommended.** The integration uses it when available and falls back to a property attached directly to the descriptor. In a normal Nest app, load `reflect-metadata` once at the entry point.
+- **No `@Authorize` = allowed.** A handler without metadata is treated as public. Use route-level Nest guards or other middleware for blanket coverage.
+- **`onError` returns boolean.** Default is `() => false` (deny on engine error). Return `true` only if you want a fail-open behavior in specific cases.
+
+---
+
+## Options reference
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `getUserId` | `(req) -> string or null` | `req.user?.id ?? req.user?.sub` | Extract the subject ID |
+| `getEnvironment` | `(req) -> Environment` | IP + user agent + timestamp | Extract environment context |
+| `getResourceId` | `(req) -> string or undefined` | `req.params?.id` | Extract the resource instance ID |
+| `getScope` | `(req) -> string or undefined` | `undefined` | Fallback scope when decorator has none |
+| `onError` | `(err, req) -> boolean` | `() => false` | Return true to allow on error, false to deny |
+
+---
+
+## Exported tokens
+
+| Token | Type | Purpose |
+| --- | --- | --- |
+| `ACCESS_ENGINE_TOKEN` | `string` (`'ACCESS_ENGINE'`) | DI token for the engine |
+| `ACCESS_METADATA_KEY` | `string` (`'duck-iam:authorize'`) | Reflect metadata key for the decorator |

@@ -1,0 +1,152 @@
+---
+title: conditions
+description: The When builder — operators, semantic shortcuts, and field paths for ABAC condition logic.
+section: Core
+order: 23
+---
+## The When builder
+
+The `When` builder defines conditions for rules (and for `grantWhen()` on roles). Conditions added to a `When` builder combine with **AND**.
+
+```typescript
+.when((w) => w
+  .attr('department', 'eq', 'engineering')
+  .attr('level', 'gte', 5)
+  .resourceAttr('classification', 'neq', 'top-secret')
+)
+// All three must be true
+```
+
+For OR/NOT/nested logic, see [nesting and/or/not](/docs/duck-iam/core/policies/nesting).
+
+---
+
+## Raw condition check
+
+`check(field, operator, value)` is the general form:
+
+```typescript
+.when((w) => w
+  .check('subject.attributes.age', 'gte', 18)
+  .check('resource.attributes.rating', 'neq', 'restricted')
+)
+```
+
+---
+
+## Shorthand operator methods
+
+Common comparisons have direct methods:
+
+```typescript
+.when((w) => w
+  .eq('subject.id', 'user-1')                           // field === value
+  .neq('resource.attributes.status', 'archived')        // field !== value
+  .gt('subject.attributes.age', 18)                     // field > value
+  .gte('subject.attributes.level', 5)                   // field >= value
+  .lt('resource.attributes.price', 100)                 // field < value
+  .lte('subject.attributes.risk', 3)                    // field <= value
+  .in('subject.attributes.role', ['admin', 'editor'])   // field in [values]
+  .contains('subject.roles', 'admin')                   // array/string contains
+  .exists('resource.attributes.ownerId')                // not null/undefined
+  .matches('resource.attributes.email', '^.*@company\\.com$') // regex match
+)
+```
+
+---
+
+## Semantic shortcuts
+
+Domain-specific helpers for common patterns:
+
+```typescript
+.when((w) => w
+  // Role checks
+  .role('admin')                              // subject.roles contains "admin"
+  .roles('admin', 'editor')                   // subject.roles in ["admin", "editor"]
+
+  // Scope checks
+  .scope('org-1')                             // scope eq "org-1"
+  .scopes('org-1', 'org-2')                   // scope in ["org-1", "org-2"]
+
+  // Ownership check
+  .isOwner()                                  // resource.attributes.ownerId eq $subject.id
+  .isOwner('resource.attributes.createdBy')   // custom owner field
+
+  // Resource type check
+  .resourceType('post', 'comment')            // resource.type in ["post", "comment"]
+
+  // Attribute shortcuts
+  .attr('department', 'eq', 'engineering')    // subject.attributes.department
+  .resourceAttr('status', 'eq', 'published')  // resource.attributes.status
+  .env('ip', 'eq', '10.0.0.1')                // environment.ip
+)
+```
+
+<Callout type="info">
+  **Typed dot-paths:** By default, `.attr()`, `.resourceAttr()`, `.env()`, and `.check()`
+  accept any string. Pass a `context` phantom field to `createAccessConfig()` to get full
+  autocompletion and type-checked values. See the
+  [type-safe config](/docs/duck-iam/advanced/config) docs.
+</Callout>
+
+---
+
+## All condition operators
+
+| Operator | Description | Example |
+| --- | --- | --- |
+| `eq` | Strict equality (`===`) | `w.eq('subject.id', 'user-1')` |
+| `neq` | Strict inequality (`!==`) | `w.neq('resource.attributes.status', 'deleted')` |
+| `gt` | Greater than (numbers only) | `w.gt('subject.attributes.age', 18)` |
+| `gte` | Greater than or equal (numbers only) | `w.gte('resource.attributes.priority', 5)` |
+| `lt` | Less than (numbers only) | `w.lt('resource.attributes.price', 1000)` |
+| `lte` | Less than or equal (numbers only) | `w.lte('subject.attributes.riskScore', 3)` |
+| `in` | Value is in the given array. If field is array, checks any overlap. | `w.in('subject.attributes.tier', ['pro', 'enterprise'])` |
+| `nin` | Value is NOT in the given array | `w.check('subject.attributes.status', 'nin', ['banned', 'suspended'])` |
+| `contains` | Array contains value, or string contains substring | `w.contains('subject.roles', 'admin')` |
+| `not_contains` | Array does NOT contain value, or string does NOT contain substring | `w.check('subject.attributes.tags', 'not_contains', 'blocked')` |
+| `starts_with` | String starts with the given prefix | `w.check('resource.attributes.path', 'starts_with', '/admin')` |
+| `ends_with` | String ends with the given suffix | `w.check('resource.attributes.email', 'ends_with', '@company.com')` |
+| `matches` | String matches a regex. Patterns over 512 chars return `false` (ReDoS protection). Invalid patterns return `false`. Cached in 256-entry LRU. | `w.matches('resource.attributes.slug', '^[a-z0-9-]+$')` |
+| `exists` | Field is not null and not undefined. The `value` parameter is ignored. | `w.exists('resource.attributes.publishedAt')` |
+| `not_exists` | Field is null or undefined. | `w.check('resource.attributes.deletedAt', 'not_exists')` |
+| `subset_of` | Every element in the field array exists in the value array. Both must be arrays. | `w.check('subject.attributes.permissions', 'subset_of', ['read', 'write', 'admin'])` |
+| `superset_of` | Every element in the value array exists in the field array. Both must be arrays. | `w.check('subject.roles', 'superset_of', ['viewer', 'commenter'])` |
+
+---
+
+## Operator edge cases
+
+- **Numeric operators** (`gt`, `gte`, `lt`, `lte`) — field and value must both be numbers. Anything else returns `false`.
+- **String operators** (`starts_with`, `ends_with`, `matches`) — field and value must both be strings. Anything else returns `false`.
+- **`in` with arrays** — when the field is an array (e.g. `subject.roles`), checks for any overlap with the value array. When the field is a scalar, checks membership.
+- **`contains` with strings vs arrays** — arrays use `Array.includes()`; strings use `String.includes()`. Other types return `false`.
+- **`subset_of` / `superset_of`** — both must be arrays. Non-arrays return `false`.
+- **Missing fields** — a path that resolves to `null` or `undefined` compares against `null` for `eq`, `gt`, etc. Use `exists` / `not_exists` to test presence.
+
+---
+
+## Field resolution
+
+Conditions reference fields using dot-notation paths resolved against the `AccessRequest` at evaluation time.
+
+### Supported paths
+
+| Path | Resolves to |
+| --- | --- |
+| `subject.id` | The subject's ID string |
+| `subject.roles` | The subject's roles array |
+| `subject.attributes.<key>` | A subject attribute. Nest as deep as needed. |
+| `resource.type` | The resource type string |
+| `resource.id` | The resource instance ID |
+| `resource.attributes.<key>` | A resource attribute |
+| `environment.<key>` | An environment value (ip, userAgent, timestamp, or custom) |
+| `action` | Shorthand for the action string on the request |
+| `scope` | Shorthand for the scope string on the request |
+
+### Security
+
+The resolver only allows traversal under `subject`, `resource`, and `environment`. Access to `__proto__`, `constructor`, and `prototype` is **blocked** to prevent prototype pollution.
+
+A bad field path doesn't throw — it resolves to `null`. The condition fails closed, evaluation continues. This keeps misconfigured rules from crashing entire requests.

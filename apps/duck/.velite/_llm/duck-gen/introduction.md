@@ -1,20 +1,14 @@
-## What is Duck Gen?
+**`@gentleduck/gen` is deprecated and no longer maintained.** Use the
+NestJS-native toolchain instead — it covers the same surface (typed routes,
+typed bodies, runtime validation, SDK generation) with a real compiler
+transformer, full tooling, and an active community.
 
-Duck Gen is a **compiler extension** that reads your server source code and generates TypeScript
-definition files (`.d.ts`) for every API route and message key it finds. It removes the step of
-writing route types by hand to match the server.
+- **[nestia](https://nestia.io/)** — typed `@TypedRoute` / `@TypedBody` /
+  `@TypedQuery` / `@TypedParam` decorators, automatic SDK generation, Swagger
+- **[typia](https://typia.io/)** — runtime validators, serializers, JSON
+  schema generation from TypeScript types via a TS transformer plugin
 
-Duck Gen ships with a **NestJS** adapter. The architecture supports multiple frameworks;
-NestJS is the first one.
-
-### The problem it solves
-
-Without Duck Gen, keeping client types aligned with server routes looks like this:
-
-```ts
-// Server: you add a new route
-@Post('signup')
-signup(@Body() body: SignupDto): Promise
+Migration: replace `@Body(typiaBody
 
 Here is the step-by-step flow:
 

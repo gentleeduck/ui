@@ -1,0 +1,155 @@
+## What are `$`-references?
+
+Dollar-prefixed values resolve at evaluation time instead of being literals. Use them to compare two fields on the same request.
+
+```typescript
+// This checks: resource.attributes.ownerId === request.subject.id
+.when((w) => w.check('resource.attributes.ownerId', 'eq', '$subject.id'))
+```
+
+`$subject.id` isn't compared literally. At eval time the engine strips `$`, resolves `subject.id` from the request, then compares.
+
+---
+
+## isOwner shortcut
+
+The most common pattern — owner check — has a built-in helper:
+
+```typescript
+// These are equivalent:
+.when((w) => w.isOwner())
+.when((w) => w.check('resource.attributes.ownerId', 'eq', '$subject.id'))
+```
+
+Custom owner field name:
+
+```typescript
+.when((w) => w.isOwner('resource.attributes.createdBy'))
+// resource.attributes.createdBy === $subject.id
+```
+
+---
+
+## Where `$`-references work
+
+`$`-references work anywhere a value is accepted — `.check()`, `.attr()`, `.resourceAttr()`, `.env()`, and the shorthand operator methods (`.eq`, `.neq`, etc.):
+
+```typescript
+// Compare resource owner to current user
+.when((w) => w.resourceAttr('ownerId', 'neq', '$subject.id'))
+
+// Compare subject attribute to resource attribute
+.when((w) => w.attr('status', 'eq', '$resource.attributes.status'))
+
+// Prevent self-actions (e.g. user can't delete own account)
+.when((w) => w.check('resource.id', 'eq', '$subject.id'))
+
+// Compare env value to resource attribute
+.when((w) => w.env('ip', 'eq', '$resource.attributes.allowedIp'))
+
+// Resource department must match subject department
+.when((w) => w.check(
+  'resource.attributes.department',
+  'eq',
+  '$subject.attributes.department',
+))
+
+// Resource scope must match request scope
+.when((w) => w.check('resource.attributes.scope', 'eq', '$scope'))
+```
+
+---
+
+## What can `$`-paths point at?
+
+The same roots that field paths can use:
+
+- `$subject.*` — `$subject.id`, `$subject.attributes.foo`, `$subject.roles`
+- `$resource.*` — `$resource.id`, `$resource.type`, `$resource.attributes.foo`
+- `$environment.*` — `$environment.ip`, `$environment.timestamp`, `$environment.foo`
+- `$action` — shorthand for the action string
+- `$scope` — shorthand for the scope string
+
+---
+
+## Type-safe autocomplete
+
+When you use `createAccessConfig()` with a typed context, `$`-references get full autocomplete in your editor. Type `'$'` in any value position and your editor suggests all valid paths.
+
+```typescript
+const access = createAccessConfig({
+  actions: ['read', 'update'] as const,
+  resources: ['post'] as const,
+  context: {} as {
+    subject: { id: string; attributes: { tier: 'free' | 'pro' } }
+    resource: { type: 'post'; attributes: { ownerId: string; tier: 'free' | 'pro' } }
+  },
+})
+
+access.policy('post-tier').rule('match-tier', (r) =>
+  r
+    .allow()
+    .on('read')
+    .of('post')
+    // Editor autocompletes "$subject.attributes.tier" here
+    .when((w) => w.check('resource.attributes.tier', 'eq', '$subject.attributes.tier')),
+)
+```
+
+Internally, the `& {}` intersection trick is used so that even when the literal type is `string`, autocomplete still shows `$`-prefixed suggestions. See the [type-safe config](/docs/duck-iam/advanced/config) docs.
+
+---
+
+## Common patterns
+
+### Owner-only edits
+
+```typescript
+.rule('owner-edit', (r) =>
+  r
+    .allow()
+    .on('update', 'delete')
+    .of('post')
+    .when((w) => w.isOwner()), // resource.attributes.ownerId === $subject.id
+)
+```
+
+### Same-tenant access
+
+```typescript
+.rule('tenant-isolation', (r) =>
+  r
+    .allow()
+    .on('*')
+    .of('document')
+    .when((w) =>
+      w.check('resource.attributes.tenantId', 'eq', '$subject.attributes.tenantId'),
+    ),
+)
+```
+
+### Prevent self-deletion
+
+```typescript
+.rule('no-self-delete', (r) =>
+  r
+    .deny()
+    .on('delete')
+    .of('user')
+    .when((w) => w.check('resource.id', 'eq', '$subject.id')),
+)
+```
+
+### Deny when attributes diverge
+
+```typescript
+.rule('classification-match-required', (r) =>
+  r
+    .deny()
+    .on('read')
+    .of('document')
+    .when((w) =>
+      w.check('subject.attributes.clearance', 'lt', '$resource.attributes.classificationLevel'),
+    ),
+)
+```

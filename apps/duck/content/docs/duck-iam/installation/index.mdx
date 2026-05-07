@@ -133,11 +133,13 @@ const permissions = await engine.permissions("user-2", [
 
 | Integration | Peer dependency | Install |
 | --- | --- | --- |
-| React client | `react >= 18.0.0` | `npm install react` |
-| Vue client | `vue >= 3.3.0` | `npm install vue` |
-| Prisma adapter | `@prisma/client >= 5.0.0` | `npm install @prisma/client` |
+| React client | `react >= 18.0.0` | `bun add react` |
+| Vue client | `vue >= 3.3.0` | `bun add vue` |
+| Prisma adapter | `@prisma/client >= 5.0.0` | `bun add @prisma/client` |
+| Drizzle adapter | `drizzle-orm >= 0.30.0` | `bun add drizzle-orm` |
+| Redis adapter | `ioredis >= 5.0.0` or `redis >= 4.0.0` | `bun add ioredis` |
 
-The core engine, memory adapter, Drizzle adapter, HTTP adapter, and all server integrations (Express, Hono, NestJS, Next.js) have zero peer dependencies.
+The core engine, memory adapter, HTTP adapter, and all server integrations (Express, Hono, NestJS, Next.js) have zero peer dependencies. The Drizzle schemas (`/adapters/drizzle/schema/{pg,mysql,sqlite}`) require `drizzle-orm` since they re-export Drizzle table builders.
 
 ## Import Paths
 
@@ -171,7 +173,9 @@ duck-iam uses subpath exports:
         A1["adapters/memory"]
         A2["adapters/prisma"]
         A3["adapters/drizzle"]
-        A4["adapters/http"]
+        A4["adapters/drizzle/schema/{pg,mysql,sqlite}"]
+        A5["adapters/redis"]
+        A6["adapters/http"]
     end`} />
 
 ```typescript
@@ -193,7 +197,13 @@ import { AccessClient } from "@gentleduck/iam/client/vanilla";
 import { MemoryAdapter } from "@gentleduck/iam/adapters/memory";
 import { PrismaAdapter } from "@gentleduck/iam/adapters/prisma";
 import { DrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
+import { RedisAdapter } from "@gentleduck/iam/adapters/redis";
 import { HttpAdapter } from "@gentleduck/iam/adapters/http";
+
+// Drizzle pre-built schemas (pick one dialect)
+import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
+// or:    @gentleduck/iam/adapters/drizzle/schema/mysql
+// or:    @gentleduck/iam/adapters/drizzle/schema/sqlite
 ```
 
 ## TypeScript Configuration

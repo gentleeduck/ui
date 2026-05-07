@@ -1,26 +1,37 @@
 [
   {
-    "body": "const{Fragment:n,jsx:e,jsxs:a}=arguments[0];function _createMdxContent(c){const t={a:\"a\",h2:\"h2\",h3:\"h3\",li:\"li\",span:\"span\",ul:\"ul\",...c.components};return a(n,{children:[a(t.h2,{id:\"044\",children:[e(t.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#044\",children:e(t.span,{className:\"icon icon-link\"})}),\"0.4.4\"]}),\"\\n\",a(t.h3,{id:\"patch-changes\",children:[e(t.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes\",children:e(t.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(t.ul,{children:[\"\\n\",e(t.li,{children:\"fixed tests\"}),\"\\n\"]})]})}return{default:function(n={}){const{wrapper:a}=n.components||{};return a?e(a,{...n,children:e(_createMdxContent,{...n})}):_createMdxContent(n)}};",
+    "body": "const{Fragment:e,jsx:n,jsxs:c}=arguments[0];function _createMdxContent(a){const i={a:\"a\",code:\"code\",h2:\"h2\",h3:\"h3\",li:\"li\",span:\"span\",ul:\"ul\",...a.components};return c(e,{children:[c(i.h2,{id:\"045\",children:[n(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#045\",children:n(i.span,{className:\"icon icon-link\"})}),\"0.4.5\"]}),\"\\n\",c(i.h3,{id:\"patch-changes\",children:[n(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes\",children:n(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",c(i.ul,{children:[\"\\n\",c(i.li,{children:[\"918b34c: Strip \",n(i.code,{__rawString__:\"workspace:*\",children:\"workspace:*\"}),\" and \",n(i.code,{__rawString__:\"catalog:\",children:\"catalog:\"}),\" protocol tokens from \",n(i.code,{__rawString__:\"devDependencies\",children:\"devDependencies\"}),\"/\",n(i.code,{__rawString__:\"dependencies\",children:\"dependencies\"}),\"/\",n(i.code,{__rawString__:\"peerDependencies\",children:\"peerDependencies\"}),\" of every public package before \",n(i.code,{__rawString__:\"changeset publish\",children:\"changeset publish\"}),\". Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds \",n(i.code,{__rawString__:\"scripts/clean-publish.ts\",children:\"scripts/clean-publish.ts\"}),\" and wires it into the root \",n(i.code,{__rawString__:\"release\",children:\"release\"}),\" script with a \",n(i.code,{__rawString__:\"git checkout\",children:\"git checkout\"}),\" restore step so source remains workspace-friendly.\"]}),\"\\n\"]}),\"\\n\",c(i.h2,{id:\"044\",children:[n(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#044\",children:n(i.span,{className:\"icon icon-link\"})}),\"0.4.4\"]}),\"\\n\",c(i.h3,{id:\"patch-changes-1\",children:[n(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-1\",children:n(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",c(i.ul,{children:[\"\\n\",n(i.li,{children:\"fixed tests\"}),\"\\n\"]})]})}return{default:function(e={}){const{wrapper:c}=e.components||{};return c?n(c,{...e,children:n(_createMdxContent,{...e})}):_createMdxContent(e)}};",
     "component": false,
-    "content": "<h2>0.4.4</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>fixed tests</li>\n</ul>",
-    "raw": "## 0.4.4\n\n### Patch Changes\n\n- fixed tests",
+    "content": "<h2>0.4.5</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>918b34c: Strip <code>workspace:*</code> and <code>catalog:</code> protocol tokens from <code>devDependencies</code>/<code>dependencies</code>/<code>peerDependencies</code> of every public package before <code>changeset publish</code>. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds <code>scripts/clean-publish.ts</code> and wires it into the root <code>release</code> script with a <code>git checkout</code> restore step so source remains workspace-friendly.</li>\n</ul>\n<h2>0.4.4</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>fixed tests</li>\n</ul>",
+    "raw": "## 0.4.5\n\n### Patch Changes\n\n- 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.\n\n## 0.4.4\n\n### Patch Changes\n\n- fixed tests",
     "description": "Release history for @gentleduck/ttest. Newest releases at the top.",
-    "excerpt": "0.4.4\nPatch Changes\n\nfixed tests\n",
+    "excerpt": "0.4.5\nPatch Changes\n\n918b34c: Strip workspace:* and catalog: protocol tokens from devDependencies/dependencies/peerDependencies of every public package before changeset publish. Previously published artifacts leaked these tokens into npm metadata, which broke ",
     "metadata": {
       "readingTime": 1,
-      "wordCount": 4
+      "wordCount": 67
     },
     "order": 999,
     "section": "Changelog",
     "title": "Changelog",
     "toc": [
       {
+        "title": "0.4.5",
+        "url": "#045",
+        "items": [
+          {
+            "title": "Patch Changes",
+            "url": "#patch-changes",
+            "items": []
+          }
+        ]
+      },
+      {
         "title": "0.4.4",
         "url": "#044",
         "items": [
           {
             "title": "Patch Changes",
-            "url": "#patch-changes",
+            "url": "#patch-changes-1",
             "items": []
           }
         ]

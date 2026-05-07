@@ -1,0 +1,134 @@
+## Two modes
+
+The `mode` config option chooses the evaluation path:
+
+```typescript
+const engine = new Engine({
+  adapter,
+  mode: 'production', // or 'development' (default)
+})
+```
+
+| Mode | Path | Output | Use for |
+| --- | --- | --- | --- |
+| `'development'` (default) | `evaluate()` | Full `Decision` with timing, rule/policy refs, reason | Local dev, `explain()`, debugging |
+| `'production'` | `evaluateFast()` | Plain `boolean` — no allocations | Deployed services |
+
+---
+
+## What changes
+
+### development mode
+
+- `engine.authorize()` returns `Decision` (object with `allowed`, `effect`, `rule`, `policy`, `reason`, `duration`, `timestamp`)
+- `engine.check()` returns `Decision`
+- `engine.explain()` works (full evaluation trace available)
+- `afterEvaluate` hook receives the `Decision` object
+- Timing is recorded — `duration` is the actual evaluation milliseconds
+- All allocations happen — matching rule arrays, intermediate effect tags, etc.
+
+### production mode
+
+- `engine.authorize()` returns plain `boolean`
+- `engine.check()` returns plain `boolean` (same as `can()`)
+- `engine.explain()` **throws** (`Error: explain() is not available in production mode`)
+- `afterEvaluate` hook never fires (the engine takes the fast path that skips Decision construction)
+- No timing recorded
+- Zero-allocation hot path — combined action+resource index, pre-computed unconditional rules
+
+`engine.can()` always returns boolean regardless of mode — it's the simple-API method that works the same way in both modes.
+
+---
+
+## Performance difference
+
+Benchmark numbers from `bun run benchmark`:
+
+| Operation | development | production | Ratio |
+| --- | --- | --- | --- |
+| `engine.can()` simple RBAC | ~5 µs | ~2 µs | 2.5× faster |
+| `engine.authorize()` full | ~6 µs | ~1.5 µs | 4× faster |
+| `engine.permissions()` 20 checks | ~21 µs | ~12 µs | 1.7× faster |
+| `evaluatePolicyFast()` (one policy) | ~1 µs | ~0.5 µs | 2× faster |
+
+Production mode is ~2× faster than development on simple checks. The gap widens for batch operations because the per-check Decision allocation cost compounds.
+
+For raw single-policy lookups, duck-iam in production mode is ~2× slower than CASL (8.2M ops/sec vs CASL's 16.8M). CASL pre-compiles rules at build time; duck-iam supports runtime-updatable policies, which costs an extra Map lookup per check.
+
+---
+
+## When to switch modes
+
+Default to development mode in:
+
+- Local dev
+- Test suites (you want `explain()` for failing tests)
+- Staging environments
+- CI
+
+Switch to production mode in:
+
+- Production deployments serving live traffic
+- High-throughput batch jobs
+- Edge runtimes where every microsecond matters
+
+You can mix — different engines for different routes if you really care:
+
+```typescript
+const debugEngine = new Engine({ adapter, mode: 'development' })
+const prodEngine = new Engine({ adapter, mode: 'production' })
+
+app.use('/api/debug', accessMiddleware(debugEngine))
+app.use('/api', accessMiddleware(prodEngine))
+```
+
+But this is rare. Default to one mode per process.
+
+---
+
+## Detecting mode at runtime
+
+The engine exposes its mode via the type system:
+
+```typescript
+const engine = new Engine<MyAction, MyResource, MyRole, MyScope, 'production'>({
+  adapter,
+  mode: 'production',
+})
+
+// `engine.authorize()` returns boolean (typed)
+// `engine.explain()` is unavailable at the type level (and throws at runtime)
+```
+
+The mode is a **type parameter** of `Engine` — calling `explain()` on a `'production'`-mode engine is a compile-time error if you've declared the mode in the generic. At runtime, it throws if called regardless of the static type.
+
+---
+
+## Caveat: development hooks vs production fast path
+
+`afterEvaluate`, `onDeny`, `onError` hooks receive the `Decision` object — which is only constructed in development mode. In production mode, these hooks **don't fire** because the fast path skips Decision construction entirely.
+
+If you rely on `afterEvaluate` for audit logging in production:
+
+- Either run development mode (and pay the ~2× cost)
+- Or move audit logging to `beforeEvaluate` and read the result from the boolean return + your own logic
+
+This is an explicit trade-off — production mode is opt-in for users who care about peak performance and don't need per-call observability.
+
+For batched audit logging, build it into your route handlers or middleware around `engine.can()` instead of relying on engine hooks.
+
+---
+
+## Recommended setup
+
+For most apps, development mode is the right default. The 2× performance gap doesn't matter unless you're doing 100k+ checks per second.
+
+```typescript
+// Most apps:
+const engine = new Engine({ adapter })
+
+// Only if you're chasing microseconds:
+const engine = new Engine({ adapter, mode: 'production' })
+```
+
+When in doubt, benchmark your actual workload. Adapter latency (DB round-trips, Redis network hops) usually dominates engine evaluation time — and that doesn't change between modes.

@@ -102,23 +102,23 @@
     "sourceFilePath": []
   },
   {
-    "body": "const{Fragment:n,jsx:a,jsxs:e}=arguments[0];function _createMdxContent(c){const i={a:\"a\",h2:\"h2\",h3:\"h3\",li:\"li\",span:\"span\",ul:\"ul\",...c.components};return e(n,{children:[e(i.h2,{id:\"016\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#016\",children:a(i.span,{className:\"icon icon-link\"})}),\"0.1.6\"]}),\"\\n\",e(i.h3,{id:\"patch-changes\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes\",children:a(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",e(i.ul,{children:[\"\\n\",a(i.li,{children:\"4f93768: fixing bugs and making sure gen support new format\"}),\"\\n\"]}),\"\\n\",e(i.h2,{id:\"015\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#015\",children:a(i.span,{className:\"icon icon-link\"})}),\"0.1.5\"]}),\"\\n\",e(i.h3,{id:\"patch-changes-1\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-1\",children:a(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",e(i.ul,{children:[\"\\n\",a(i.li,{children:\"7c62d44: done\"}),\"\\n\",a(i.li,{children:\"7c62d44: fixed bug\"}),\"\\n\"]}),\"\\n\",e(i.h2,{id:\"015-1\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#015-1\",children:a(i.span,{className:\"icon icon-link\"})}),\"0.1.5\"]}),\"\\n\",e(i.h3,{id:\"patch-changes-2\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-2\",children:a(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",e(i.ul,{children:[\"\\n\",a(i.li,{children:\"533602f: fixed gen and query\"}),\"\\n\"]}),\"\\n\",e(i.h2,{id:\"014\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#014\",children:a(i.span,{className:\"icon icon-link\"})}),\"0.1.4\"]}),\"\\n\",e(i.h3,{id:\"patch-changes-3\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-3\",children:a(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",e(i.ul,{children:[\"\\n\",a(i.li,{children:\"48e4bbf: fixed deps\"}),\"\\n\"]}),\"\\n\",e(i.h2,{id:\"013\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#013\",children:a(i.span,{className:\"icon icon-link\"})}),\"0.1.3\"]}),\"\\n\",e(i.h3,{id:\"patch-changes-4\",children:[a(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-4\",children:a(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",e(i.ul,{children:[\"\\n\",a(i.li,{children:\"batman\"}),\"\\n\"]})]})}return{default:function(n={}){const{wrapper:e}=n.components||{};return e?a(e,{...n,children:a(_createMdxContent,{...n})}):_createMdxContent(n)}};",
+    "body": "const{Fragment:n,jsx:e,jsxs:a}=arguments[0];function _createMdxContent(c){const i={a:\"a\",code:\"code\",h2:\"h2\",h3:\"h3\",li:\"li\",span:\"span\",ul:\"ul\",...c.components};return a(n,{children:[a(i.h2,{id:\"017\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#017\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.7\"]}),\"\\n\",a(i.h3,{id:\"patch-changes\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",a(i.li,{children:[\"918b34c: Strip \",e(i.code,{__rawString__:\"workspace:*\",children:\"workspace:*\"}),\" and \",e(i.code,{__rawString__:\"catalog:\",children:\"catalog:\"}),\" protocol tokens from \",e(i.code,{__rawString__:\"devDependencies\",children:\"devDependencies\"}),\"/\",e(i.code,{__rawString__:\"dependencies\",children:\"dependencies\"}),\"/\",e(i.code,{__rawString__:\"peerDependencies\",children:\"peerDependencies\"}),\" of every public package before \",e(i.code,{__rawString__:\"changeset publish\",children:\"changeset publish\"}),\". Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds \",e(i.code,{__rawString__:\"scripts/clean-publish.ts\",children:\"scripts/clean-publish.ts\"}),\" and wires it into the root \",e(i.code,{__rawString__:\"release\",children:\"release\"}),\" script with a \",e(i.code,{__rawString__:\"git checkout\",children:\"git checkout\"}),\" restore step so source remains workspace-friendly.\"]}),\"\\n\"]}),\"\\n\",a(i.h2,{id:\"016\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#016\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.6\"]}),\"\\n\",a(i.h3,{id:\"patch-changes-1\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-1\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",e(i.li,{children:\"4f93768: fixing bugs and making sure gen support new format\"}),\"\\n\"]}),\"\\n\",a(i.h2,{id:\"015\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#015\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.5\"]}),\"\\n\",a(i.h3,{id:\"patch-changes-2\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-2\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",e(i.li,{children:\"7c62d44: done\"}),\"\\n\",e(i.li,{children:\"7c62d44: fixed bug\"}),\"\\n\"]}),\"\\n\",a(i.h2,{id:\"015-1\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#015-1\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.5\"]}),\"\\n\",a(i.h3,{id:\"patch-changes-3\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-3\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",e(i.li,{children:\"533602f: fixed gen and query\"}),\"\\n\"]}),\"\\n\",a(i.h2,{id:\"014\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#014\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.4\"]}),\"\\n\",a(i.h3,{id:\"patch-changes-4\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-4\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",e(i.li,{children:\"48e4bbf: fixed deps\"}),\"\\n\"]}),\"\\n\",a(i.h2,{id:\"013\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#013\",children:e(i.span,{className:\"icon icon-link\"})}),\"0.1.3\"]}),\"\\n\",a(i.h3,{id:\"patch-changes-5\",children:[e(i.a,{\"aria-label\":\"Link to section\",className:\"subheading-anchor\",href:\"#patch-changes-5\",children:e(i.span,{className:\"icon icon-link\"})}),\"Patch Changes\"]}),\"\\n\",a(i.ul,{children:[\"\\n\",e(i.li,{children:\"batman\"}),\"\\n\"]})]})}return{default:function(n={}){const{wrapper:a}=n.components||{};return a?e(a,{...n,children:e(_createMdxContent,{...n})}):_createMdxContent(n)}};",
     "component": false,
-    "content": "<h2>0.1.6</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>4f93768: fixing bugs and making sure gen support new format</li>\n</ul>\n<h2>0.1.5</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>7c62d44: done</li>\n<li>7c62d44: fixed bug</li>\n</ul>\n<h2>0.1.5</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>533602f: fixed gen and query</li>\n</ul>\n<h2>0.1.4</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>48e4bbf: fixed deps</li>\n</ul>\n<h2>0.1.3</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>batman</li>\n</ul>",
-    "raw": "## 0.1.6\n\n### Patch Changes\n\n- 4f93768: fixing bugs and making sure gen support new format\n\n## 0.1.5\n\n### Patch Changes\n\n- 7c62d44: done\n- 7c62d44: fixed bug\n\n## 0.1.5\n\n### Patch Changes\n\n- 533602f: fixed gen and query\n\n## 0.1.4\n\n### Patch Changes\n\n- 48e4bbf: fixed deps\n\n## 0.1.3\n\n### Patch Changes\n\n- batman",
+    "content": "<h2>0.1.7</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>918b34c: Strip <code>workspace:*</code> and <code>catalog:</code> protocol tokens from <code>devDependencies</code>/<code>dependencies</code>/<code>peerDependencies</code> of every public package before <code>changeset publish</code>. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds <code>scripts/clean-publish.ts</code> and wires it into the root <code>release</code> script with a <code>git checkout</code> restore step so source remains workspace-friendly.</li>\n</ul>\n<h2>0.1.6</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>4f93768: fixing bugs and making sure gen support new format</li>\n</ul>\n<h2>0.1.5</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>7c62d44: done</li>\n<li>7c62d44: fixed bug</li>\n</ul>\n<h2>0.1.5</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>533602f: fixed gen and query</li>\n</ul>\n<h2>0.1.4</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>48e4bbf: fixed deps</li>\n</ul>\n<h2>0.1.3</h2>\n<h3>Patch Changes</h3>\n<ul>\n<li>batman</li>\n</ul>",
+    "raw": "## 0.1.7\n\n### Patch Changes\n\n- 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.\n\n## 0.1.6\n\n### Patch Changes\n\n- 4f93768: fixing bugs and making sure gen support new format\n\n## 0.1.5\n\n### Patch Changes\n\n- 7c62d44: done\n- 7c62d44: fixed bug\n\n## 0.1.5\n\n### Patch Changes\n\n- 533602f: fixed gen and query\n\n## 0.1.4\n\n### Patch Changes\n\n- 48e4bbf: fixed deps\n\n## 0.1.3\n\n### Patch Changes\n\n- batman",
     "description": "Release history for @gentleduck/query. Newest releases at the top.",
-    "excerpt": "0.1.6\nPatch Changes\n\n4f93768: fixing bugs and making sure gen support new format\n\n0.1.5\nPatch Changes\n\n7c62d44: done\n7c62d44: fixed bug\n\n0.1.5\nPatch Changes\n\n533602f: fixed gen and query\n\n0.1.4\nPatch Changes\n\n48e4bbf: fixed deps\n\n0.1.3\nPatch Changes\n\nbatman\n",
+    "excerpt": "0.1.7\nPatch Changes\n\n918b34c: Strip workspace:* and catalog: protocol tokens from devDependencies/dependencies/peerDependencies of every public package before changeset publish. Previously published artifacts leaked these tokens into npm metadata, which broke ",
     "metadata": {
       "readingTime": 1,
-      "wordCount": 37
+      "wordCount": 100
     },
     "order": 999,
     "section": "Changelog",
     "title": "Changelog",
     "toc": [
       {
-        "title": "0.1.6",
-        "url": "#016",
+        "title": "0.1.7",
+        "url": "#017",
         "items": [
           {
             "title": "Patch Changes",
@@ -128,8 +128,8 @@
         ]
       },
       {
-        "title": "0.1.5",
-        "url": "#015",
+        "title": "0.1.6",
+        "url": "#016",
         "items": [
           {
             "title": "Patch Changes",
@@ -140,11 +140,22 @@
       },
       {
         "title": "0.1.5",
-        "url": "#015-1",
+        "url": "#015",
         "items": [
           {
             "title": "Patch Changes",
             "url": "#patch-changes-2",
+            "items": []
+          }
+        ]
+      },
+      {
+        "title": "0.1.5",
+        "url": "#015-1",
+        "items": [
+          {
+            "title": "Patch Changes",
+            "url": "#patch-changes-3",
             "items": []
           }
         ]
@@ -155,7 +166,7 @@
         "items": [
           {
             "title": "Patch Changes",
-            "url": "#patch-changes-3",
+            "url": "#patch-changes-4",
             "items": []
           }
         ]
@@ -166,7 +177,7 @@
         "items": [
           {
             "title": "Patch Changes",
-            "url": "#patch-changes-4",
+            "url": "#patch-changes-5",
             "items": []
           }
         ]

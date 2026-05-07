@@ -1,0 +1,225 @@
+---
+title: admin API
+description: engine.admin.* — runtime CRUD for policies, roles, role assignments, and subject attributes. Automatically invalidates caches.
+section: Advanced
+order: 14
+---
+## What admin does
+
+`engine.admin` exposes CRUD operations for policies, roles, and subject attributes. **All mutations automatically invalidate the relevant caches.**
+
+Use this when you want to manage authorization data without bypassing the engine. For pure data access (no cache invalidation), call the adapter directly.
+
+---
+
+## Policy management
+
+```typescript
+// List all policies
+const policies = await engine.admin.listPolicies()
+
+// Get a specific policy
+const policy = await engine.admin.getPolicy('ip-restriction')
+
+// Save (create or update) a policy
+await engine.admin.savePolicy({
+  id: 'office-hours',
+  name: 'Office Hours Only',
+  algorithm: 'deny-overrides',
+  rules: [
+    {
+      id: 'deny-outside-hours',
+      effect: 'deny',
+      priority: 100,
+      actions: ['*'],
+      resources: ['*'],
+      conditions: {
+        any: [
+          { field: 'environment.hour', operator: 'lt', value: 9 },
+          { field: 'environment.hour', operator: 'gt', value: 17 },
+        ],
+      },
+    },
+    {
+      id: 'allow-all',
+      effect: 'allow',
+      priority: 1,
+      actions: ['*'],
+      resources: ['*'],
+      conditions: { all: [] },
+    },
+  ],
+})
+
+// Delete a policy
+await engine.admin.deletePolicy('office-hours')
+```
+
+`savePolicy` is upsert semantics in every shipped adapter — saving an existing ID updates it.
+
+---
+
+## Role management
+
+```typescript
+// List all roles
+const roles = await engine.admin.listRoles()
+
+// Get a specific role
+const role = await engine.admin.getRole('editor')
+
+// Save (create or update) a role
+await engine.admin.saveRole({
+  id: 'moderator',
+  name: 'Moderator',
+  permissions: [
+    { action: 'read', resource: 'post' },
+    { action: 'update', resource: 'post' },
+    { action: 'delete', resource: 'comment' },
+  ],
+  inherits: ['viewer'],
+})
+
+// Delete a role
+await engine.admin.deleteRole('moderator')
+```
+
+For typed builders, use `defineRole().build()` and pass the result to `saveRole()` instead of writing raw `Permission` arrays.
+
+---
+
+## Role assignments
+
+```typescript
+// Assign a role to a user
+await engine.admin.assignRole('user-1', 'editor')
+
+// Assign a scoped role (multi-tenant)
+await engine.admin.assignRole('user-1', 'admin', 'org-1')
+
+// Revoke a role
+await engine.admin.revokeRole('user-1', 'editor')
+
+// Revoke a scoped role (only the matching scope)
+await engine.admin.revokeRole('user-1', 'admin', 'org-1')
+
+// Revoke all scopes of a role
+await engine.admin.revokeRole('user-1', 'admin')
+```
+
+### Idempotency caveat
+
+Assignment idempotency depends on the adapter:
+
+| Adapter | `assignRole` idempotent? |
+| --- | --- |
+| Memory | yes (in-memory check) |
+| Redis | yes (set semantics) |
+| Drizzle | yes (`onConflictDoNothing`) |
+| Prisma | **no** — throws on duplicate against the unique constraint |
+| HTTP | depends on backend |
+
+For the Prisma adapter, wrap in try/catch or check existence first:
+
+```typescript
+const existing = await engine.admin.listSubjectRoles?.('user-1') // adapter-dependent
+if (!existing.includes('editor')) {
+  await engine.admin.assignRole('user-1', 'editor')
+}
+```
+
+---
+
+## Subject attributes
+
+```typescript
+// Set attributes (built-in adapters merge with existing)
+await engine.admin.setAttributes('user-1', {
+  department: 'engineering',
+  level: 'senior',
+  region: 'us-east',
+})
+
+// Read attributes
+const attrs = await engine.admin.getAttributes('user-1')
+// { department: 'engineering', level: 'senior', region: 'us-east' }
+```
+
+### Merge vs replace
+
+The exact merge/replace behavior depends on the adapter implementation:
+
+- **Memory** — shallow-merges new attributes into existing
+- **Prisma** — read-merge-write (race risk under concurrent writes)
+- **Drizzle** — same as Prisma
+- **Redis** — same as above
+- **HTTP** — depends on backend (the built-in HTTP adapter sends PATCH which most servers interpret as merge)
+
+To remove an attribute, set it to `null`. The merge will replace the existing value with `null`.
+
+### Concurrent write race
+
+For high-contention attribute writes (multiple services updating the same subject), wrap in a transaction:
+
+```typescript
+// Prisma
+await prisma.$transaction(async (tx) => {
+  const existing = await tx.accessSubjectAttr.findUnique({ where: { subjectId: 'user-1' } })
+  const merged = { ...(existing?.data as Attributes), ...newAttrs }
+  await tx.accessSubjectAttr.upsert({
+    where: { subjectId: 'user-1' },
+    create: { subjectId: 'user-1', data: merged },
+    update: { data: merged },
+  })
+})
+```
+
+The built-in adapters don't wrap reads + merges in transactions — concurrent writes may lose data. For Redis, use `WATCH/MULTI/EXEC` or a Lua script.
+
+---
+
+## Cache invalidation summary
+
+| Admin call | Invalidates |
+| --- | --- |
+| `savePolicy` / `deletePolicy` | Policy cache + RBAC cache |
+| `saveRole` / `deleteRole` | Role cache + RBAC cache + all subjects |
+| `assignRole` / `revokeRole` | Specific subject |
+| `setAttributes` | Specific subject |
+
+See [caching](/docs/duck-iam/advanced/engine/caching) for full details.
+
+---
+
+## When NOT to use admin
+
+The admin API is the right surface for:
+
+- Building admin UIs (your team adding/removing roles)
+- Internal scripts that mutate authorization state
+- Webhooks that sync from external IdPs (SCIM, etc.)
+
+Don't use it for:
+
+- Data migrations — write directly to the adapter database for speed, then call `engine.invalidate()`
+- Bulk imports — same reason; admin's per-item cache invalidation is overhead
+- Read-only data export — call the adapter directly to skip cache machinery
+
+---
+
+## Securing the admin surface
+
+`engine.admin` is **not authenticated**. It's a programmatic interface — anyone with a reference to `engine` can call it.
+
+If you expose admin endpoints over HTTP (e.g. via the [Express admin router](/docs/duck-iam/integrations/server/express)), wrap them in your own admin-only auth check:
+
+```typescript
+app.use(
+  '/api/access-admin',
+  requireAuth(), // your auth middleware
+  requireRole('platform-admin'), // your authz check
+  adminRouter(engine)(() => express.Router()),
+)
+```
+
+Same for Hono, Nest, Next, etc. The shipped admin routers don't ship with auth baked in — that's a deliberate separation of concerns.

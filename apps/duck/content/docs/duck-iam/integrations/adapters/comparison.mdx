@@ -1,0 +1,187 @@
+---
+title: choosing & FAQ
+description: Pick the right adapter for your stack and answer common questions about persistence, scoped roles, idempotency, and migration.
+section: Integrations
+order: 17
+---
+## Quick comparison
+
+| Adapter | Use case | Persistence | Peer dep | Idempotent assign | Native scoped roles |
+| --- | --- | --- | --- | --- | --- |
+| [Memory](/docs/duck-iam/integrations/adapters/memory) | Dev, testing | None | None | yes (in-memory check) | yes |
+| [Prisma](/docs/duck-iam/integrations/adapters/prisma) | Prisma apps | Any DB | `@prisma/client` | **no** (throws on dup) | yes |
+| [Drizzle](/docs/duck-iam/integrations/adapters/drizzle) | Drizzle apps | PG/MySQL/SQLite | `drizzle-orm` | yes (`onConflictDoNothing`) | yes |
+| [Redis](/docs/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis | `ioredis` or `redis` | yes (set semantics) | yes |
+| [HTTP](/docs/duck-iam/integrations/adapters/http) | Microservice split | Remote API | None | depends on backend | yes |
+
+All adapters are interchangeable. Engine, builder, and middleware code stays the same — migration is data movement only.
+
+---
+
+## Decision tree
+
+```
+Are you in production?
+│
+├─ No → MemoryAdapter
+│
+└─ Yes
+   │
+   ├─ Already use Prisma? → PrismaAdapter
+   ├─ Already use Drizzle? → DrizzleAdapter
+   ├─ Need distributed cache + multi-instance? → RedisAdapter
+   ├─ Splitting auth across services? → HttpAdapter (consume centrally)
+   └─ Custom backend? → Implement Adapter (see "Custom" doc)
+```
+
+---
+
+## FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="adapter-responsibility">
+    <AccordionTrigger>What does an adapter actually do in duck-iam?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      An adapter is the persistence layer. It loads and stores policies, roles, role assignments, scoped assignments,
+      and subject attributes. The engine owns evaluation, policy combination, explain traces, and decision logic.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="memory-persistence">
+    <AccordionTrigger>Does MemoryAdapter persist anything?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. It stores everything in process memory. Restarting the process resets policies, roles, assignments, and
+      attributes, which is why it is best for tests, demos, and local development.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="memory-scoped-seed">
+    <AccordionTrigger>Can I seed scoped assignments in MemoryAdapter constructor input?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Not directly. Constructor assignment seeding is unscoped. For scoped assignments, create the adapter first and then
+      call <code className="rounded bg-muted px-2 py-1">assignRole(subjectId, roleId, scope)</code>.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="existing-database">
+    <AccordionTrigger>Can I use my existing database instead of a dedicated auth database?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. duck-iam only needs four storage areas for policies, roles, assignments, and subject attributes. Those can live
+      alongside the rest of your application schema.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="prisma-vs-drizzle">
+    <AccordionTrigger>How do PrismaAdapter and DrizzleAdapter differ in practice?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Prisma expects named models and lets Prisma handle JSON columns natively. Drizzle expects you to wire the tables and
+      query operators explicitly, and the adapter serializes or parses JSON fields for you. Drizzle ships pre-built
+      schema modules for Postgres, MySQL, and SQLite — Prisma ships a single reference <code>schema.prisma</code> snippet.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="redis-vs-relational">
+    <AccordionTrigger>When should I pick RedisAdapter over Prisma or Drizzle?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Redis is best when you need distributed cache semantics — multiple app instances reading the same authorization
+      state with sub-millisecond latency. For tens of thousands of policies or complex audit/history requirements,
+      relational adapters scale better. Many production deployments use both: Redis as the engine adapter for hot reads,
+      Postgres as a separate audit/source-of-truth store synced via background jobs.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="attribute-merge-behavior">
+    <AccordionTrigger>Do adapters merge subject attributes or replace them?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The built-in adapters merge incoming attributes into the current subject attribute map. This lets you patch a few
+      attributes without rewriting the entire stored object.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="duplicate-assignment-behavior">
+    <AccordionTrigger>How are duplicate role assignments handled?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Memory and Redis are idempotent (in-memory check / set semantics). Drizzle uses <code>onConflictDoNothing</code>.
+      Prisma currently uses <code>create</code> and will throw on a duplicate against the unique constraint — wrap in a
+      try/catch or check existence first if you can't guarantee unique calls.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="http-adapter-local-eval">
+    <AccordionTrigger>Does HttpAdapter move policy evaluation to the server?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. HttpAdapter fetches authorization data over HTTP, but the consuming engine still evaluates permissions locally.
+      Use it when you want shared storage behind a service boundary, not when you want to outsource evaluation entirely.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="http-dynamic-headers">
+    <AccordionTrigger>Can HttpAdapter attach auth headers dynamically?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. The <code className="rounded bg-muted px-2 py-1">headers</code> option can be a static object or an async
+      function, which makes it suitable for short-lived bearer tokens and per-request auth state.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="memory-to-db-migration">
+    <AccordionTrigger>Can I start with MemoryAdapter and move to Prisma, Drizzle, Redis, or HTTP later?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. That is one of the intended adoption paths. The engine and builder APIs stay the same; the main migration work
+      is moving your persisted roles, policies, assignments, and subject attributes into the new adapter's storage shape.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="scoped-role-contract">
+    <AccordionTrigger>What should a scoped-role capable adapter guarantee?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It should keep global role assignments and scoped assignments conceptually separate. Global assignments belong in
+      <code className="rounded bg-muted px-2 py-1">getSubjectRoles()</code>. Scope-bound assignments belong in
+      <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> so the engine can merge them only for
+      matching request scopes.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="getsubjectroles-shape">
+    <AccordionTrigger>What exactly should getSubjectRoles() return when a subject has both global and scoped assignments?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It should return the subject's global role IDs only. Scoped assignments should be surfaced through
+      <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> so the engine can merge them only when
+      the request scope matches.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="unscoped-first">
+    <AccordionTrigger>Can I implement only unscoped roles first and add multi-tenant support later?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. A custom adapter can omit <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> and still
+      support the core engine. Add that method and scoped assignment storage once your application needs
+      tenant-aware role resolution.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="httphandler-surface">
+    <AccordionTrigger>Does the Express admin router fully satisfy HttpAdapter?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. It is a useful management surface, but the HTTP adapter expects additional read endpoints and subject surfaces
+      beyond the stock router. Treat the router as a starting point, not a drop-in backend for the full adapter contract.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="redis-ttl">
+    <AccordionTrigger>Does RedisAdapter set a TTL on stored keys?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. Stored values are persistent. Engine-level caching is handled by the in-process LRU with its <code>cacheTTL</code>
+      option — Redis is the source of truth, not a TTL cache. Configure Redis persistence (AOF/RDB) if you don't want
+      data loss on restart.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="redis-multi-tenant">
+    <AccordionTrigger>How do I isolate tenants in a shared Redis?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use <code className="rounded bg-muted px-2 py-1">keyPrefix</code> per tenant. Two adapters with different prefixes
+      cannot read each other's keys. Combine with separate Redis logical databases (<code>SELECT n</code>) for stronger
+      isolation.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>

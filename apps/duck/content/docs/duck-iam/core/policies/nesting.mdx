@@ -1,0 +1,198 @@
+---
+title: nesting (and / or / not)
+description: Nested condition groups via and(), or(), not(), and whenAny(). Depth limit, empty-group semantics, and composition patterns.
+section: Core
+order: 25
+---
+## Default is AND
+
+The `When` builder defaults to AND. Top-level conditions all combine with AND:
+
+```typescript
+.when((w) => w
+  .attr('department', 'eq', 'engineering')
+  .attr('level', 'gte', 5)
+)
+// Both must be true
+```
+
+Use `and()`, `or()`, and `not()` for nested groups.
+
+---
+
+## Group types
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph AND_Group["all (AND) -- every child must pass"]
+        direction LR
+        AND_ROOT["all"] --> AND_C1["dept eq 'eng': PASS"]
+        AND_ROOT --> AND_C2["level gte 5: PASS"]
+        AND_ROOT --> AND_C3["status neq 'banned': PASS"]
+        AND_C1 --> AND_RESULT["PASS"]
+        AND_C2 --> AND_RESULT
+        AND_C3 --> AND_RESULT
+    end
+
+    subgraph OR_Group["any (OR) -- at least one must pass"]
+        direction LR
+        OR_ROOT["any"] --> OR_C1["role 'admin': FAIL"]
+        OR_ROOT --> OR_C2["isOwner: PASS"]
+        OR_C2 --> OR_RESULT["PASS"]
+    end
+
+    subgraph NOT_Group["none (NOT) -- every child must fail"]
+        direction LR
+        NOT_ROOT["none"] --> NOT_C1["status 'banned': false"]
+        NOT_ROOT --> NOT_C2["status 'suspended': false"]
+        NOT_C1 --> NOT_RESULT["PASS (none true)"]
+        NOT_C2 --> NOT_RESULT
+    end`} />
+
+---
+
+## OR — any condition must be true
+
+```typescript
+.when((w) => w
+  .or((w) => w
+    .role('admin')
+    .isOwner(),
+  ),
+)
+// Allowed if the subject is an admin OR the owner
+```
+
+---
+
+## AND — all conditions must be true (explicit nesting)
+
+```typescript
+.when((w) => w
+  .and((w) => w
+    .attr('department', 'eq', 'engineering')
+    .attr('level', 'gte', 5),
+  ),
+)
+// Allowed if subject is in engineering AND level >= 5
+```
+
+Top-level conditions are already AND'd, so `.and(...)` is mainly useful inside other groups for clarity.
+
+---
+
+## NOT — none of the conditions must be true
+
+```typescript
+.when((w) => w
+  .not((w) => w
+    .attr('status', 'eq', 'banned')
+    .attr('status', 'eq', 'suspended'),
+  ),
+)
+// Allowed if subject is NOT banned AND NOT suspended
+```
+
+`not()` is `none` semantics — every child must be false.
+
+---
+
+## Composing nested groups
+
+```typescript
+const complexRule = defineRule('complex-access')
+  .allow()
+  .on('update')
+  .of('post')
+  .when((w) => w
+    // Must not be banned
+    .not((w) => w.attr('status', 'eq', 'banned'))
+    // AND must satisfy one of these
+    .or((w) => w
+      .role('admin')
+      .and((w) => w
+        .isOwner()
+        .resourceAttr('status', 'neq', 'locked'),
+      ),
+    ),
+  )
+  .build()
+
+// Logic: NOT banned AND (admin OR (owner AND post not locked))
+```
+
+Evaluation tree:
+
+<MermaidDiagram chart={`flowchart TD
+    ROOT["all (AND)"] --> NOT["none (NOT)"]
+    ROOT --> OR["any (OR)"]
+
+    NOT --> BANNED["status eq 'banned'"]
+    BANNED --> BAN_RESULT{"User banned?"}
+    BAN_RESULT -- "Yes" --> BAN_TRUE["Condition: true"]
+    BAN_RESULT -- "No" --> BAN_FALSE["Condition: false"]
+    BAN_TRUE --> NOT_FAIL["none: FAIL (child was true)"]
+    BAN_FALSE --> NOT_PASS["none: PASS (child was false)"]
+
+    OR --> ADMIN["role contains 'admin'"]
+    OR --> AND["all (AND)"]
+
+    AND --> OWNER["ownerId eq subject.id"]
+    AND --> LOCKED["status neq 'locked'"]
+
+    ADMIN --> ADMIN_CHECK{"Is admin?"}
+    ADMIN_CHECK -- "Yes" --> OR_PASS1["any: PASS"]
+    ADMIN_CHECK -- "No" --> CHECK_AND["Check AND group"]
+
+    OWNER --> OWNER_CHECK{"Is owner?"}
+    LOCKED --> LOCKED_CHECK{"Post unlocked?"}
+
+    OWNER_CHECK -- "Yes" --> AND_PART1["PASS"]
+    LOCKED_CHECK -- "Yes" --> AND_PART2["PASS"]
+    AND_PART1 --> AND_RESULT["all: PASS"]
+    AND_PART2 --> AND_RESULT
+    AND_RESULT --> OR_PASS2["any: PASS"]`} />
+
+---
+
+## Depth limit
+
+Nesting caps at **10 levels**. Past that the condition evaluates to `false` (fail closed). This protects against accidental infinite recursion or stack overflow from generated rules.
+
+If you genuinely need more than 10 levels of nesting, refactor — split logic into separate policies and let the [combining algorithm](/docs/duck-iam/core/policies/combining-algorithms) compose them.
+
+---
+
+## Empty condition groups
+
+Empty arrays follow standard logic:
+
+| Group | Semantics |
+| --- | --- |
+| `{ all: [] }` | `true` (vacuous truth: zero conditions all satisfied) |
+| `{ any: [] }` | `false` (no conditions to satisfy) |
+| `{ none: [] }` | `true` (no conditions violated) |
+
+This matches mathematical logic and SQL conventions. An empty `when()` block is equivalent to no `when()` at all — the rule matches unconditionally.
+
+---
+
+## whenAny for top-level OR
+
+`whenAny()` makes the top level OR instead of AND:
+
+```typescript
+const rule = defineRule('flexible-access')
+  .allow()
+  .on('read')
+  .of('post')
+  .whenAny((w) => w
+    .resourceAttr('visibility', 'eq', 'public')
+    .role('admin')
+    .isOwner(),
+  )
+  .build()
+
+// Allowed if the post is public OR subject is admin OR subject is owner
+```
+
+Use `whenAny()` when the **whole rule** is one top-level OR expression. Use nested `.or()` groups when the OR logic is only one branch inside a larger AND-shaped rule. The difference is mostly readability.
