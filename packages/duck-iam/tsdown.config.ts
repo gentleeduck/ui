@@ -9,7 +9,11 @@ export default defineConfig({
     'adapters/memory/index': 'src/adapters/memory/index.ts',
     'adapters/prisma/index': 'src/adapters/prisma/index.ts',
     'adapters/drizzle/index': 'src/adapters/drizzle/index.ts',
+    'adapters/drizzle/schema/pg': 'src/adapters/drizzle/schema/pg.ts',
+    'adapters/drizzle/schema/mysql': 'src/adapters/drizzle/schema/mysql.ts',
+    'adapters/drizzle/schema/sqlite': 'src/adapters/drizzle/schema/sqlite.ts',
     'adapters/http/index': 'src/adapters/http/index.ts',
+    'adapters/redis/index': 'src/adapters/redis/index.ts',
 
     // Server
     'server/express/index': 'src/server/express/index.ts',
@@ -39,11 +43,16 @@ export default defineConfig({
     'vue',
     '@prisma/client',
     'drizzle-orm',
+    'drizzle-orm/pg-core',
+    'drizzle-orm/mysql-core',
+    'drizzle-orm/sqlite-core',
     'hono',
     '@nestjs/common',
     '@nestjs/core',
     'express',
     'next',
     'next/server',
+    'ioredis',
+    'redis',
   ],
 })

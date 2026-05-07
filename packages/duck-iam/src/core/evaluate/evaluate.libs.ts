@@ -283,7 +283,7 @@ export function indexPolicy(policy: Policy): PolicyRuleIndex {
             }
             if (result === undefined && hasDeny) result = false
           } else if (algo === 'first-match' && entries.length > 0) {
-            result = entries[0]!.rule.effect === 'allow'
+            result = entries[0]?.rule.effect === 'allow'
           }
 
           if (result !== undefined) {

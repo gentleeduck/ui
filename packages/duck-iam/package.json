@@ -61,6 +61,46 @@
         "default": "./dist/adapters/drizzle/index.cjs"
       }
     },
+    "./adapters/drizzle/schema/pg": {
+      "import": {
+        "types": "./dist/adapters/drizzle/schema/pg.d.ts",
+        "default": "./dist/adapters/drizzle/schema/pg.js"
+      },
+      "require": {
+        "types": "./dist/adapters/drizzle/schema/pg.d.cts",
+        "default": "./dist/adapters/drizzle/schema/pg.cjs"
+      }
+    },
+    "./adapters/drizzle/schema/mysql": {
+      "import": {
+        "types": "./dist/adapters/drizzle/schema/mysql.d.ts",
+        "default": "./dist/adapters/drizzle/schema/mysql.js"
+      },
+      "require": {
+        "types": "./dist/adapters/drizzle/schema/mysql.d.cts",
+        "default": "./dist/adapters/drizzle/schema/mysql.cjs"
+      }
+    },
+    "./adapters/drizzle/schema/sqlite": {
+      "import": {
+        "types": "./dist/adapters/drizzle/schema/sqlite.d.ts",
+        "default": "./dist/adapters/drizzle/schema/sqlite.js"
+      },
+      "require": {
+        "types": "./dist/adapters/drizzle/schema/sqlite.d.cts",
+        "default": "./dist/adapters/drizzle/schema/sqlite.cjs"
+      }
+    },
+    "./adapters/redis": {
+      "import": {
+        "types": "./dist/adapters/redis/index.d.ts",
+        "default": "./dist/adapters/redis/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/redis/index.d.cts",
+        "default": "./dist/adapters/redis/index.cjs"
+      }
+    },
     "./adapters/http": {
       "import": {
         "types": "./dist/adapters/http/index.d.ts",
@@ -170,14 +210,26 @@
   },
   "peerDependencies": {
     "@prisma/client": ">=5.0.0",
+    "drizzle-orm": ">=0.30.0",
+    "ioredis": ">=5.0.0",
     "react": ">=18.0.0",
+    "redis": ">=4.0.0",
     "vue": ">=3.3.0"
   },
   "peerDependenciesMeta": {
     "@prisma/client": {
       "optional": true
     },
+    "drizzle-orm": {
+      "optional": true
+    },
+    "ioredis": {
+      "optional": true
+    },
     "react": {
+      "optional": true
+    },
+    "redis": {
       "optional": true
     },
     "vue": {
@@ -193,6 +245,7 @@
     "@types/react": "19.2.14",
     "accesscontrol": "^2.2.1",
     "casbin": "^5.36.0",
+    "drizzle-orm": "^0.45.2",
     "easy-rbac": "^3.2.0",
     "role-acl": "^4.5.4",
     "tsdown": "catalog:",
@@ -225,6 +278,9 @@
     "hono",
     "nextjs",
     "react",
-    "vue"
+    "vue",
+    "drizzle",
+    "prisma",
+    "redis"
   ]
 }

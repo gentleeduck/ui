@@ -2,58 +2,58 @@
   "corePerformance": [
     {
       "label": "evaluatePolicy (simple rule)",
-      "us": 0.65
+      "us": 1.05
     },
     {
       "label": "evaluatePolicy (conditions)",
-      "us": 0.87
+      "us": 1.04
     },
     {
       "label": "evaluatePolicy (target match)",
-      "us": 0.51
+      "us": 0.61
     },
     {
       "label": "evaluatePolicy (target skip)",
-      "us": 0.2
+      "us": 0.26
     },
     {
       "label": "evaluate (2 policies)",
-      "us": 0.8
+      "us": 1.33
     },
     {
       "label": "evaluate (deny path)",
-      "us": 0.51
+      "us": 0.54
     }
   ],
   "enginePerformance": [
     {
       "label": "engine.can() (cached)",
-      "us": 4.52
+      "us": 4.49
     },
     {
       "label": "engine.check() (cached)",
-      "us": 3.44
+      "us": 3.3
     },
     {
       "label": "engine.permissions() (20 checks)",
-      "us": 17.39
+      "us": 20.88
     },
     {
       "label": "engine.explain()",
-      "us": 5.39
+      "us": 5.99
     }
   ],
   "moduleSizes": [
     {
       "name": "Core (full)",
       "entry": "index.js",
-      "sizeBytes": 23869,
-      "sizeKB": 23.3
+      "sizeBytes": 24618,
+      "sizeKB": 24
     },
     {
       "name": "Core only",
       "entry": "core/index.js",
-      "sizeBytes": 399,
+      "sizeBytes": 401,
       "sizeKB": 0.4
     },
     {
@@ -132,7 +132,7 @@
   "bundleComparison": [
     {
       "name": "@gentleduck/iam (full)",
-      "sizeKB": 23.3,
+      "sizeKB": 24,
       "deps": 0,
       "treeshakeable": true,
       "note": "Full package (engine + evaluate + explain + builder + conditions + rbac + config + validate)"
@@ -300,7 +300,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "6.0 KB",
           "winner": "competitor"
         },
@@ -371,7 +371,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "30 KB",
           "winner": "gentleduck"
         },
@@ -448,7 +448,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "8.2 KB",
           "winner": "competitor"
         },
@@ -515,5 +515,5 @@
       ]
     }
   ],
-  "generatedAt": "2026-04-01T15:37:25.280Z"
+  "generatedAt": "2026-05-07T06:38:25.333Z"
 }
