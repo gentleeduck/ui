@@ -35,15 +35,15 @@
     "!dist/*.tsbuildinfo"
   ],
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-build#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-build#readme",
   "license": "MIT",
   "main": "./dist/index.mjs",
   "name": "@gentleduck/registry-build",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/registry-build"
   },
   "packageManager": "bun@1.3.5",

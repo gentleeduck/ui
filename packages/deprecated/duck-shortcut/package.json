@@ -20,9 +20,9 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-shortcut#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-shortcut#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "keywords": [
     "gentleduck",
@@ -61,7 +61,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-shortcut"
   },
   "scripts": {

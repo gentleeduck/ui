@@ -102,7 +102,7 @@ export default async function DuckTtestPage() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ttest"
+              href="https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-ttest"
               target="_blank"
               rel="noreferrer">
               View Source

@@ -24,10 +24,10 @@
   "homepage": "https://ui.gentleduck.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git"
+    "url": "git+https://github.com/gentleeduck/gentleduck.git"
   },
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "keywords": [
     "gentleduck",

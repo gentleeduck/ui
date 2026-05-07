@@ -62,13 +62,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-calendar"
   },
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-calendar#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-calendar#readme",
   "keywords": [
     "gentleduck",
     "calendar",

@@ -153,13 +153,13 @@
   ],
   "license": "MIT",
   "author": "gentleduck contributors",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-docs#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-docs#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-docs"
   },
   "publishConfig": {

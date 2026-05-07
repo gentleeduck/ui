@@ -102,7 +102,7 @@ export default async function DuckRegistryBuildPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-registry-build',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-build',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-build',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),

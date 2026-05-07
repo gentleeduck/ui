@@ -9,13 +9,13 @@
   "name": "@gentleduck/typescript-config",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/typescript#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/tooling/typescript#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "tooling/typescript"
   },
   "private": true,

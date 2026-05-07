@@ -332,7 +332,7 @@ const AppShell = React.memo(function AppShell() {
       <Card className="relative w-[500px] justify-self-center rounded-none py-6">
         <a
           className="absolute top-2 right-2 z-10"
-          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extension"
+          href="https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-extension"
           rel="noreferrer"
           target="_blank">
           <Button icon={<Github />} size="icon" variant="outline" />

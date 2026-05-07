@@ -4,8 +4,8 @@ contact_links:
     url: https://ui.gentleduck.org
     about: Check the docs before opening an issue.
   - name: Community Discussions
-    url: https://github.com/gentleeduck/duck-ui/discussions
+    url: https://github.com/gentleeduck/gentleduck/discussions
     about: Ask questions, share ideas, or start a conversation.
   - name: Security Reports
-    url: https://github.com/gentleeduck/duck-ui/security/policy
+    url: https://github.com/gentleeduck/gentleduck/security/policy
     about: Report security vulnerabilities responsibly.

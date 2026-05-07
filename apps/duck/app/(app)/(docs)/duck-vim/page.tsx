@@ -98,7 +98,7 @@ export default async function DuckVimPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-vim',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-vim',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-vim',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),

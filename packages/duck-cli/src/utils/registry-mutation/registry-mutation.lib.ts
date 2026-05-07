@@ -70,7 +70,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
         spinner.fail('Why you cannot install components?, goodbye!')
         spinner.info(
           `Having issues you can report them here: ${highlighter.info(
-            'https://github.com/gentleeduck/duck-ui/issues',
+            'https://github.com/gentleeduck/gentleduck/issues',
           )}`,
         )
         spinner.info(

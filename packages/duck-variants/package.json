@@ -5,7 +5,7 @@
   },
   "author": "gentleduck contributors",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {
@@ -32,7 +32,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-variants#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-variants#readme",
   "keywords": [
     "class-variants",
     "class-names",
@@ -62,7 +62,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-variants"
   },
   "scripts": {

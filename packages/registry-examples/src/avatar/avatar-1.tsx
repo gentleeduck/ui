@@ -6,7 +6,7 @@ export default function Demo() {
       <Avatar>
         <AvatarImage
           alt="GD"
-          src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+          src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
         />
         <AvatarFallback>GD</AvatarFallback>
       </Avatar>
@@ -18,7 +18,7 @@ export default function Demo() {
         <Avatar>
           <AvatarImage
             alt="GD"
-            src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+            src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
           />
           <AvatarFallback>GD</AvatarFallback>
         </Avatar>

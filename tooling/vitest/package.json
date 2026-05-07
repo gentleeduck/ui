@@ -21,13 +21,13 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@gentleduck/vitest-config",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/vitest#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/tooling/vitest#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "tooling/vitest"
   },
   "packageManager": "bun@1.3.5",

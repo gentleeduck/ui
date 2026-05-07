@@ -99,7 +99,7 @@ export default async function DuckVariantsPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-variants',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-variants',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-variants',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),
@@ -114,7 +114,7 @@ export default async function DuckVariantsPage() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-variants"
+              href="https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-variants"
               rel="noreferrer"
               target="_blank">
               View Source

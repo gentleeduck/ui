@@ -8,7 +8,7 @@
     "duck-cli": "dist/index.mjs"
   },
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "dependencies": {
     "@antfu/ni": "^30.0.0",
@@ -55,7 +55,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-cli#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-cli#readme",
   "keywords": [
     "components",
     "ui",
@@ -76,7 +76,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-cli"
   },
   "scripts": {

@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
@@ -32,7 +32,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-hooks#readme",
   "description": "React hooks for Duck UI.",
   "keywords": [
     "gentleduck",
@@ -56,7 +56,7 @@
   "repository": {
     "directory": "packages/duck-hooks",
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git"
+    "url": "git+https://github.com/gentleeduck/gentleduck.git"
   },
   "scripts": {
     "build": "tsdown",

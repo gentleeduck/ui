@@ -12,7 +12,7 @@ export const siteConfig = {
     community: 'community@gentleduck.org',
     discord: process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/r93Qvam8',
     email: 'support@gentleduck.org',
-    github: 'https://github.com/gentleeduck/duck-ui',
+    github: 'https://github.com/gentleeduck/gentleduck',
     security: 'security@gentleduck.org',
     sponsor: process.env.NEXT_PUBLIC_SPONSOR_URL ?? 'https://opencollective.com/gentelduck',
     twitter: 'https://x.com/wild_ducka',

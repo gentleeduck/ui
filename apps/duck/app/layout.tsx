@@ -117,7 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     height: 628,
                   },
                   sameAs: [
-                    'https://github.com/gentleeduck/duck-ui',
+                    'https://github.com/gentleeduck/gentleduck',
                     'https://x.com/wild_ducka',
                     'https://opencollective.com/gentelduck',
                   ],

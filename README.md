@@ -8,7 +8,7 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
  
 ## Documentation
 - Docs app: `apps/duck-ui-docs`
-- GitHub: https://github.com/gentleeduck/duck-ui
+- GitHub: https://github.com/gentleeduck/gentleduck
 
 ## Workspace Matrix
 
@@ -76,7 +76,7 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
 
 ## Getting Started
 ```bash
-git clone https://github.com/gentleeduck/duck-ui.git
+git clone https://github.com/gentleeduck/gentleduck.git
 cd duck-ui
 bun install
 ```

@@ -5,7 +5,7 @@
   },
   "author": "gentleduck contributors",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "description": "Motion primitives for gentleduck/ui components.",
   "devDependencies": {
@@ -69,7 +69,7 @@
     "tsconfig.json",
     "src/css/index.css"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-motion#readme",
   "keywords": [
     "gentleduck",
     "motion",
@@ -99,7 +99,7 @@
   "repository": {
     "directory": "packages/duck-motion",
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git"
+    "url": "git+https://github.com/gentleeduck/gentleduck.git"
   },
   "scripts": {
     "build": "tsdown",

@@ -101,7 +101,7 @@ export default async function DuckStatePage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-state',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/wip/duck-state',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/wip/duck-state',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),
@@ -119,7 +119,7 @@ export default async function DuckStatePage() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/wip/duck-state"
+              href="https://github.com/gentleeduck/gentleduck/tree/master/packages/wip/duck-state"
               rel="noreferrer"
               target="_blank">
               View Source

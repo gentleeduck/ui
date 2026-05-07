@@ -65,11 +65,11 @@
   "license": "MIT",
   "homepage": "https://www.gentleduck.org",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "apps/duck-ui-docs"
   },
   "private": true,

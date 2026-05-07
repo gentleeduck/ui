@@ -8,7 +8,7 @@ export default function Demo() {
       <MotionAvatar>
         <AvatarImage
           alt="GD"
-          src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
+          src="https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
         />
         <AvatarFallback>GD</AvatarFallback>
       </MotionAvatar>
@@ -20,7 +20,7 @@ export default function Demo() {
         imgs={[
           {
             id: '1',
-            src: 'https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
+            src: 'https://github.com/gentleeduck/gentleduck/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
             alt: 'GD',
             fallback: 'GD',
           },

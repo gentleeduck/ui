@@ -31,7 +31,7 @@ export default function SkillsLayout({ children }: { children: React.ReactNode }
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <div className="flex gap-3">
           <Button asChild>
-            <Link href="https://github.com/gentleeduck/duck-ui/tree/master/skills" target="_blank" rel="noreferrer">
+            <Link href="https://github.com/gentleeduck/gentleduck/tree/master/skills" target="_blank" rel="noreferrer">
               Browse on GitHub
             </Link>
           </Button>

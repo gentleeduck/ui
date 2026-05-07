@@ -33,13 +33,13 @@
   "name": "@gentleduck/registry-blocks",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-blocks#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-blocks#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/registry-blocks"
   },
   "packageManager": "bun@1.3.5",

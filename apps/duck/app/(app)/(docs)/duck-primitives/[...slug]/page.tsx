@@ -155,7 +155,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
               <nav aria-label="Page actions" className="flex shrink-0 flex-col gap-1">
                 <Button asChild className="justify-start" size="sm" variant="link">
                   <a
-                    href={`https://github.com/gentleeduck/duck-ui/blob/master/apps/duck/content/${PKG_PREFIX}/${_params.slug.join('/')}.mdx`}
+                    href={`https://github.com/gentleeduck/gentleduck/blob/master/apps/duck/content/${PKG_PREFIX}/${_params.slug.join('/')}.mdx`}
                     rel="noreferrer"
                     target="_blank">
                     <SquareArrowOutUpRight aria-hidden="true" className="size-3.5" />

@@ -19,7 +19,7 @@ Please treat everyone with respect and kindness.
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/gentleeduck/duck-ui.git
+git clone https://github.com/gentleeduck/gentleduck.git
 cd duck-ui
 ```
 
@@ -113,7 +113,7 @@ This will spin up local development environments for the packages and docs.
 
 ## Reporting Issues
 
-If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui/issues) with:
+If you find a bug, please [open an issue](https://github.com/gentleeduck/gentleduck/issues) with:
 
 * Steps to reproduce
 * Expected behavior
@@ -134,7 +134,7 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 ## Tips
 
 * Start small - even fixing a typo helps!
-* Look at the ["good first issue"](https://github.com/gentleeduck/duck-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
+* Look at the ["good first issue"](https://github.com/gentleeduck/gentleduck/labels/good%20first%20issue) label for beginner-friendly contributions.
 * Ask questions! We're happy to guide you.
 
 ---

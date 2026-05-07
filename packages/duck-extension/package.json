@@ -8,7 +8,7 @@
   },
   "author": "gentleduck contributors",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "dependencies": {
     "@gentleduck/motion": "workspace:*",
@@ -54,7 +54,7 @@
     "tsconfig.app.json",
     "tsconfig.node.json"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extension#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-extension#readme",
   "keywords": [
     "gentleduck",
     "browser-extension",
@@ -73,7 +73,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-extension"
   },
   "scripts": {

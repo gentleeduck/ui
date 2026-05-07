@@ -14,13 +14,13 @@
   "name": "@gentleduck/registers",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registers#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registers#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/registers"
   },
   "packageManager": "bun@1.3.5",

@@ -100,7 +100,7 @@ export default async function DuckCliPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-cli',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-cli',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-cli',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),
@@ -115,7 +115,7 @@ export default async function DuckCliPage() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-cli"
+              href="https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-cli"
               rel="noreferrer"
               target="_blank">
               View Source

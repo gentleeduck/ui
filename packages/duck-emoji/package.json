@@ -13,13 +13,13 @@
   "description": "[Placeholder/Planned] Emoji assets and utilities for gentleduck/ui. Not yet published or consumed by other packages.",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-emoji#readme",
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-emoji#readme",
   "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "packages/duck-emoji"
   },
   "keywords": [

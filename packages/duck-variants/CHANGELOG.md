@@ -46,4 +46,4 @@
 
 ### Patch Changes
 
-- Fix TypeScript type inference for variant compound conditions. Correct GitHub URLs from gentleeduck/ui to gentleeduck/duck-ui. Normalize package metadata.
+- Fix TypeScript type inference for variant compound conditions. Correct GitHub URLs from gentleeduck/ui to gentleeduck/gentleduck. Normalize package metadata.

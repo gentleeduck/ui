@@ -98,7 +98,7 @@ export default async function DuckHooksPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-hooks',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-hooks',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),
@@ -113,7 +113,7 @@ export default async function DuckHooksPage() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks"
+              href="https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-hooks"
               rel="noreferrer"
               target="_blank">
               View Source

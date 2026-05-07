@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/master/public/logo-dark.svg" alt="gentleduck" width="80"/>
+  <img src="https://raw.githubusercontent.com/gentleeduck/gentleduck/master/public/logo-dark.svg" alt="gentleduck" width="80"/>
 </p>
 
 # @gentleduck/variants

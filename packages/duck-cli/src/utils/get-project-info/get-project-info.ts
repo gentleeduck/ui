@@ -37,7 +37,7 @@ export async function getDuckuiConfig(cwd: string, spinner: Ora) {
     const configRoot = findDuckuiRootCwd(cwd)
     if (!configRoot) {
       spinner.fail(
-        `No ${highlighter.info('duckui')} configs found \nPlease run ${highlighter.info('@gentleduck/cli init')} to create one\nNotice you gonna add your package manager executer\ncommand at the beginning or the CLI command!\nLike ${highlighter.info('bunx @gentleduck/cli init')}\nIf you need any info run the help command,\nHaving issues?   ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}.`,
+        `No ${highlighter.info('duckui')} configs found \nPlease run ${highlighter.info('@gentleduck/cli init')} to create one\nNotice you gonna add your package manager executer\ncommand at the beginning or the CLI command!\nLike ${highlighter.info('bunx @gentleduck/cli init')}\nIf you need any info run the help command,\nHaving issues?   ${highlighter.info('https://github.com/gentleeduck/gentleduck/issues')}.`,
       )
       process.exit(1)
     }

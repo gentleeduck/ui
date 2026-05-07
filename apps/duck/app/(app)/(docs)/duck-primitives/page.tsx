@@ -102,7 +102,7 @@ export default async function DuckPrimitivesPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-primitives',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-primitives',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),

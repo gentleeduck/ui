@@ -162,7 +162,7 @@ export default async function DuckUiPage() {
             description,
             programmingLanguage: 'TypeScript',
             url: 'https://gentleduck.org/duck-ui',
-            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-ui',
+            codeRepository: 'https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-ui',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
           }),
