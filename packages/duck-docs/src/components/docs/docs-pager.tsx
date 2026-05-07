@@ -105,8 +105,11 @@ export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: IDocsCon
   const allNav = [...(docsConfig.sidebarNav ?? []), ...(docsConfig.chartsNav ?? [])]
   const flattenedLinks = [null, ...flatten(allNav), null]
 
-  // Normalize slug: ensure leading /, strip trailing /index
-  const normalizedSlug = `/${doc.slug ?? ''}`.replace(/\/+/g, '/').replace(/\/index$/, '')
+  // Normalize slug: ensure leading /, strip leading /docs/ (velite prefix), strip trailing /index
+  const normalizedSlug = `/${doc.slug ?? ''}`
+    .replace(/\/+/g, '/')
+    .replace(/^\/docs\//, '/')
+    .replace(/\/index$/, '')
 
   const activeIndex = flattenedLinks.findIndex((link) => {
     if (!link?.href) return false
