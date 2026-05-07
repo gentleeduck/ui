@@ -6,7 +6,6 @@ import { codeToHtml } from 'shiki'
 import { CopyButton } from '~/components/copy-button'
 import { OpenSourceSection } from '~/components/layouts/open-source-section'
 import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
-import { PackageStatusBadge } from '~/components/package-status-badge'
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -95,7 +94,6 @@ export default async function DuckIamPage() {
   return (
     <div className="container py-8">
       <PageHeader>
-        <PackageStatusBadge status="wip" />
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <PageHeaderHeading className="max-w-none">{title}</PageHeaderHeading>
         </div>
