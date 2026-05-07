@@ -32,7 +32,7 @@ npx @gentleduck/cli remove sidebar --workspace apps/dashboard
 
 ### Single shared UI workspace
 
-```
+```text
 apps/
   web/
   dashboard/
@@ -48,7 +48,7 @@ Run all CLI commands from the repo root. The CLI writes into `packages/ui/compon
 
 ### Per-app components
 
-```
+```text
 apps/
   web/
     components/        ← gets its own components
