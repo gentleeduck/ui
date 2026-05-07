@@ -1,0 +1,49 @@
+# https://github.com/crate-ci/typos
+[files]
+extend-exclude = [
+  "node_modules/",
+  "tmp/",
+  "tmp*/",
+  "temp/",
+  "temp*/",
+  ".next/",
+  ".turbo/",
+  ".velite/",
+  ".cache/",
+  "dist/",
+  "build/",
+  "coverage/",
+  ".gentleduck/",
+  "_oldstuff_refactor/",
+  "__snapshots__/",
+  "__ui_registry__/",
+  "bun.lock",
+  "pnpm-lock.yaml",
+  "package-lock.json",
+  "public/sitemap-0.xml",
+  "*.svg",
+]
+
+[default]
+extend-ignore-identifiers-re = [
+  # crate / pkg names that look like typos
+  "gentleduck",
+  "tsdown",
+  "biomejs",
+  "tabler",
+  "tanstack",
+  "trpc",
+  "vitest",
+  "lucide",
+  "shiki",
+  "rehype",
+  "remark",
+  "sherif",
+]
+
+[default.extend-words]
+# project-specific words that look misspelled but aren't
+gentleduck = "gentleduck"
+duckui = "duckui"
+mdx = "mdx"
+cva = "cva"

@@ -112,6 +112,24 @@ export const registryEntrySchema = z.object({
 
 export const registrySchema = z.array(registryEntrySchema)
 
+/** Single entry in /r/themes/index.json. */
+export const registryThemeIndexEntrySchema = z.object({
+  name: z.string(),
+  label: z.string().optional(),
+})
+
+/** Shape of /r/themes/index.json. */
+export const registryThemesIndexSchema = z.array(registryThemeIndexEntrySchema)
+
+/** Shape of /r/themes/<name>.json. */
+export const registryThemeSchema = z.object({
+  name: z.string(),
+  label: z.string().optional(),
+  light: z.record(z.string(), z.string()),
+  dark: z.record(z.string(), z.string()),
+  radius: z.string().optional(),
+})
+
 export namespace Registry {
   export type HSL = `${number} ${number}% ${number}%`
   export type Radius = `${number}px` | `${number}rem`
@@ -135,4 +153,10 @@ export namespace Registry {
     dark: Record<string, string>
     radius?: string
   }
+
+  export interface ThemeIndexEntry extends z.infer<typeof registryThemeIndexEntrySchema> {}
+
+  export type ThemesIndex = z.infer<typeof registryThemesIndexSchema>
+
+  export interface Theme extends z.infer<typeof registryThemeSchema> {}
 }

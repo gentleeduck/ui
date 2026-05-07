@@ -39,12 +39,23 @@ export function createMockFetch(overrides: Record<string, any> = {}) {
         },
       ],
     }),
+    '/r/themes/index.json': [
+      { name: 'zinc', label: 'Zinc' },
+      { name: 'rose', label: 'Rose' },
+      { name: 'blue', label: 'Blue' },
+    ],
     '/r/themes/zinc.json': {
       name: 'zinc',
       label: 'Zinc',
       light: { background: 'oklch(1 0 0)', foreground: 'oklch(0.141 0.005 285.823)' },
       dark: { background: 'oklch(0.145 0 0)', foreground: 'oklch(0.985 0 0)' },
       radius: '0.5rem',
+    },
+    '/r/themes/rose.json': {
+      name: 'rose',
+      label: 'Rose',
+      light: { primary: 'oklch(0.645 0.246 16.439)' },
+      dark: { primary: 'oklch(0.645 0.246 16.439)' },
     },
     ...overrides,
   }

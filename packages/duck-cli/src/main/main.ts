@@ -4,6 +4,7 @@ import { diffCommand } from '~/commands/diff'
 import { initCommand } from '~/commands/init'
 import { listCommand } from '~/commands/list'
 import { removeCommand } from '~/commands/remove'
+import { themeCommand } from '~/commands/theme'
 import { updateCommand } from '~/commands/update'
 import { getPackageJson } from '~/utils'
 import { setVerbose } from '~/utils/verbose'
@@ -29,6 +30,7 @@ export async function init() {
   duckUi.addCommand(removeCommand())
   duckUi.addCommand(diffCommand())
   duckUi.addCommand(listCommand())
+  duckUi.addCommand(themeCommand())
 
   duckUi.parse()
 }

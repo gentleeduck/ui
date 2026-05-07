@@ -1,5 +1,11 @@
 import { logger } from '../text-styling'
-import { type Registry, registryEntrySchema, registrySchema } from './get-registry.dto'
+import {
+  type Registry,
+  registryEntrySchema,
+  registrySchema,
+  registryThemeSchema,
+  registryThemesIndexSchema,
+} from './get-registry.dto'
 import { fetchRegistryUrl, isUrl } from './get-registry.lib'
 
 export async function getRegistryIndex() {
@@ -41,6 +47,37 @@ export async function getRegistryBaseColor(theme: string): Promise<Registry.Them
     return result as Registry.ThemeResponse
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
+    return null
+  }
+}
+
+/** List all available themes from the registry's themes/index.json. */
+export async function getRegistryThemesIndex() {
+  try {
+    const [result] = await fetchRegistryUrl(['themes/index.json'])
+    if (!result) {
+      return null
+    }
+
+    return registryThemesIndexSchema.parse(result)
+  } catch (error) {
+    logger.error({ args: [`Failed to fetch theme index from registry.`, error] })
+    return null
+  }
+}
+
+/** Fetch a single theme definition by name from themes/<name>.json. */
+export async function getRegistryTheme(name: string) {
+  try {
+    const lower = name.toLowerCase()
+    const [result] = await fetchRegistryUrl([`themes/${lower}.json`])
+    if (!result) {
+      return null
+    }
+
+    return registryThemeSchema.parse(result)
+  } catch (error) {
+    logger.error({ args: [`Failed to fetch theme "${name}" from registry.`, error] })
     return null
   }
 }

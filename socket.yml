@@ -1,0 +1,46 @@
+# https://docs.socket.dev/docs/socket-yml
+version: 2
+
+projectIgnorePaths:
+  - 'node_modules/**'
+  - 'tmp/**'
+  - 'tmp*/**'
+  - 'temp/**'
+  - 'temp*/**'
+  - '.next/**'
+  - '.turbo/**'
+  - '.velite/**'
+  - '.cache/**'
+  - 'dist/**'
+  - 'build/**'
+  - 'coverage/**'
+  - '.gentleduck/**'
+  - '_oldstuff_refactor/**'
+  - '__snapshots__/**'
+  - '__ui_registry__/**'
+
+githubApp:
+  enabled: true
+  projectReportsEnabled: true
+  pullRequestAlertsEnabled: true
+  secretScanningEnabled: true
+
+issueRules:
+  malware: error
+  gptMalware: error
+  gptSecurity: warn
+  installScripts: warn
+  envVars: warn
+  unresolvedRequire: warn
+  hasNativeCode: warn
+  shellAccess: warn
+  filesystemAccess: warn
+  networkAccess: warn
+
+  obfuscatedFile: warn
+  troll: warn
+  telemetry: warn
+
+  # Things we accept for an OSS UI library:
+  unpopularPackage: ignore
+  newAuthor: ignore

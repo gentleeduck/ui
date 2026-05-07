@@ -1,0 +1,62 @@
+[
+  {
+    "name": "amber",
+    "label": "Amber"
+  },
+  {
+    "name": "blue",
+    "label": "Blue"
+  },
+  {
+    "name": "gray",
+    "label": "Gray"
+  },
+  {
+    "name": "green",
+    "label": "Green"
+  },
+  {
+    "name": "neutral",
+    "label": "Neutral"
+  },
+  {
+    "name": "orange",
+    "label": "Orange"
+  },
+  {
+    "name": "purple",
+    "label": "Purple"
+  },
+  {
+    "name": "red",
+    "label": "Red"
+  },
+  {
+    "name": "rose",
+    "label": "Rose"
+  },
+  {
+    "name": "slate",
+    "label": "Slate"
+  },
+  {
+    "name": "stone",
+    "label": "Stone"
+  },
+  {
+    "name": "teal",
+    "label": "Teal"
+  },
+  {
+    "name": "violet",
+    "label": "Violet"
+  },
+  {
+    "name": "yellow",
+    "label": "Yellow"
+  },
+  {
+    "name": "zinc",
+    "label": "Zinc"
+  }
+]

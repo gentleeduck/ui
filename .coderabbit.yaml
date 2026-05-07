@@ -1,25 +1,80 @@
+# https://docs.coderabbit.ai/guides/configure-coderabbit
+# Schema: https://coderabbit.ai/integrations/schema.v2.json
 language: en-US
+early_access: false
+tone_instructions: |
+  Caveman-mode terse. Drop articles, filler, hedging. Fragments OK.
+  Code blocks unchanged. Errors quoted exact. No AI slop phrases.
 
 reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: '@coderabbitai summary'
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  abort_on_close: true
   auto_review:
     enabled: true
     drafts: false
     base_branches:
       - master
+      - main
   path_filters:
-    - "!**/_oldstuff_refactor/**"
-    - "!**/___/**"
-    - "!**/dist/**"
-    - "!**/build/**"
-    - "!**/.next/**"
-    - "!**/__snapshots__/**"
-    - "!**/__ui_registry__/**"
-    - "!**/node_modules/**"
-    - "!**/bun.lock"
-    - "!**/public/sitemap-0.xml"
+    - '!**/node_modules/**'
+    - '!**/dist/**'
+    - '!**/build/**'
+    - '!**/.next/**'
+    - '!**/.turbo/**'
+    - '!**/.velite/**'
+    - '!**/.cache/**'
+    - '!**/coverage/**'
+    - '!**/__snapshots__/**'
+    - '!**/__ui_registry__/**'
+    - '!**/_oldstuff_refactor/**'
+    - '!**/*.lock'
+    - '!**/bun.lock'
+    - '!**/pnpm-lock.yaml'
+    - '!**/package-lock.json'
+    - '!public/sitemap-0.xml'
+  path_instructions:
+    - path: 'packages/**/*.{ts,tsx}'
+      instructions: |
+        Package source. Tab indent (per .editorconfig). Single quotes,
+        no semicolons (Biome). Prefer cn() from @gentleduck/libs/cn
+        and cva() from @gentleduck/variants. React.forwardRef with
+        explicit generics; displayName + data-slot on root elements.
+        No any without justification. Comments explain WHY not WHAT.
+    - path: 'packages/**/*.test.{ts,tsx}'
+      instructions: |
+        Tests. Defensive expect.unreachable() and non-null in tests
+        are OK. Look for missing edge cases (empty input, unicode,
+        a11y keyboard paths, RTL).
+    - path: 'apps/duck-ui-docs/**/*.{ts,tsx,md,mdx}'
+      instructions: |
+        Docs site + content. Reject em-dashes, en-dashes, ellipsis
+        glyphs, curly quotes, unicode arrows. Use ASCII: -, ', ", ...,
+        ->. Reject AI slop ("comprehensive", "robust", "leverage",
+        "seamless", "delve", "furthermore").
+    - path: 'packages/duck-cli/**/*.ts'
+      instructions: |
+        CLI code. Validate user input before fs writes. No shell
+        injection. Friendly errors with actionable next step.
   tools:
     biome:
       enabled: true
 
 chat:
   auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto

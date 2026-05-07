@@ -1,144 +1,92 @@
 # Contributing to gentleduck/ui
 
-First off, thank you for considering contributing to **gentleduck/ui**!
-We welcome all kinds of contributions  -  from bug reports and documentation improvements to feature requests and new packages.
+Thanks for the interest. This file covers the workflow + style.
 
-This document provides guidelines to help you get started.
+## Repo layout
 
----
-
-## Code of Conduct
-
-By participating in this project, you agree to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md).
-Please treat everyone with respect and kindness.
-
----
-
-## 🛠 Getting Started
-
-### 1. Fork & Clone
-
-```bash
-git clone https://github.com/gentleeduck/gentleduck.git
-cd duck-ui
+```
+gentleduck/
+|- apps/duck-ui-docs/        public docs site, registry explorer
+|- packages/registry-ui/     styled Tailwind components (source-exported)
+|- packages/duck-primitives/ headless a11y-first primitives
+|- packages/duck-cli/        CLI for scaffolding + adding components
+|- packages/duck-variants/   cva() variant system
+|- packages/duck-calendar/   headless calendar engine
+|- packages/duck-motion/     motion tokens
+|- packages/duck-vim/        keyboard command engine
+|- packages/duck-state/      atom-based state
+|- packages/duck-hooks/      React hooks
+|- packages/duck-libs/       cn() + utilities
+|- packages/duck-lazy/       lazy-loading helpers
+|- packages/duck-docs/       shared docs app kit
+|- tooling/                  shared biome / tsdown / typescript / vitest configs
+`- skills/                   agent skills for AI coding assistants
 ```
 
-### 2. Install Dependencies
+## Build
 
-We use **Bun** with workspaces:
-
-```bash
+```sh
 bun install
-```
-
-### 3. Build All Packages
-
-```bash
 bun run build
+bun run test
 ```
 
-### 4. Run in Development
+## Pre-commit
 
-```bash
-bun run dev
+Husky runs Biome checks automatically. Before pushing:
+
+```sh
+bun run check         # biome check
+bun run check-types   # turbo run check-types
+bun run test          # turbo run test
 ```
 
-This will spin up local development environments for the packages and docs.
+## Style
 
----
+- TypeScript only. No semicolons, single quotes (Biome enforced).
+- Use `cn()` from `@gentleduck/libs/cn` for class merging.
+- Use `cva()` from `@gentleduck/variants` for variants.
+- `React.forwardRef` with explicit generics; `displayName` on every
+  component; `data-slot` on root elements.
+- Import order: external libs, `@gentleduck/*` packages, relative.
+- Caveman-mode terse comments. No filler. Comments explain WHY, not
+  WHAT.
+- Conventional commit subjects: `kind(scope): subject`. Examples:
+  `fix(button): resolve focus ring on safari`,
+  `feat(calendar): add range selection`.
 
-## Working with Packages
+## Tests
 
-* All code lives under the `packages/` directory.
-* Each package has its own `package.json` and may depend on other internal packages.
-* Use [Turborepo](https://turbo.build/) commands to build, test, and lint efficiently.
+Per-package `tests/*.test.ts(x)` for unit + integration. Vitest +
+`@testing-library/react`. Run `bun run test` at the root to run the
+full workspace.
 
----
+## Adding a new component / primitive / hook
 
-## Development Workflow
+- Add source under the right package (`registry-ui`, `duck-primitives`,
+  `duck-hooks`, etc.).
+- Add a `displayName` and `data-slot` attribute on the root.
+- Export from the package's barrel/index.
+- Add a test.
+- Add a docs page in `apps/duck-ui-docs/` if user-facing.
+- Add a changeset (`bun changeset`) describing the change.
 
-1. **Branching**
+## PR checklist
 
-   * Create a new branch from `master`.
-   * Use a descriptive name, e.g. `fix/button-hover`, `feat/new-dialog`, `docs/readme-update`.
+- [ ] Tests pass: `bun run test`
+- [ ] Biome clean: `bun run check`
+- [ ] Types clean: `bun run check-types`
+- [ ] Docs updated for user-facing changes
+- [ ] Changeset added for published package changes
+- [ ] No special chars in prose (em-dash, curly quotes, etc)
 
-   ```bash
-   git checkout -b feat/new-component
-   ```
+## Reporting bugs / requesting features
 
-2. **Coding Standards**
-
-   * Use **TypeScript**.
-   * Follow existing **Biome** rules.
-   * Write clear, self-documenting code.
-
-3. **Commit Messages**
-   Follow [Conventional Commits](https://www.conventionalcommits.org/):
-   Also make sure that you pass the `Husky` checks.
-
-   ```
-   feat: add new dropdown menu component
-   fix: resolve button focus issue in Safari
-   docs: update contributing guide
-   ```
-
-4. **Testing**
-
-   * Write unit tests for new functionality.
-   * Run all tests before pushing:
-
-     ```bash
-     bun run test
-     ```
-
----
-
-## Submitting a Pull Request
-
-1. Push your branch:
-
-   ```bash
-   git push origin feat/new-component
-   ```
-
-2. Open a Pull Request (PR) against the `master` branch.
-
-3. Fill out the PR template with:
-
-   * A clear description of your changes
-   * Any related issues (`Closes #123`)
-   * Screenshots or code samples (if UI related)
-
----
-
-## Reporting Issues
-
-If you find a bug, please [open an issue](https://github.com/gentleeduck/gentleduck/issues) with:
-
-* Steps to reproduce
-* Expected behavior
-* Actual behavior
-* Screenshots (if applicable)
-
----
-
-## Ways to Contribute
-
-* **Code**: Bug fixes, features, optimizations
-* **Docs**: Tutorials, guides, API references
-* **Design**: Improving UX, accessibility, component design
-* **Community**: Helping others in discussions, writing blog posts, or sharing gentleduck/ui
-
----
-
-## Tips
-
-* Start small - even fixing a typo helps!
-* Look at the ["good first issue"](https://github.com/gentleeduck/gentleduck/labels/good%20first%20issue) label for beginner-friendly contributions.
-* Ask questions! We're happy to guide you.
-
----
+Open an issue at
+[github.com/gentleeduck/gentleduck/issues](https://github.com/gentleeduck/gentleduck/issues).
+For security issues, see [`SECURITY.md`](SECURITY.md).
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project's [MIT License](./LICENSE).
+Contributions are licensed under MIT (see [`LICENSE`](LICENSE)) by
+default.

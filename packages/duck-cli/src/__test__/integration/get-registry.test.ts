@@ -113,3 +113,80 @@ describe('getRegistryBaseColor', () => {
     expect(result).toBeNull()
   })
 })
+
+describe('getRegistryThemesIndex', () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.stubGlobal('fetch', createMockFetch())
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  })
+
+  it('fetches and parses the themes index', async () => {
+    const { getRegistryThemesIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryThemesIndex()
+    if (!result) throw new Error('expected getRegistryThemesIndex to return entries')
+    expect(Array.isArray(result)).toBe(true)
+    expect(result.length).toBeGreaterThanOrEqual(1)
+    expect(result[0]).toHaveProperty('name')
+    expect(result[0]).toHaveProperty('label')
+  })
+
+  it('returns null on network error', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('boom')))
+    const { getRegistryThemesIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryThemesIndex()
+    expect(result).toBeNull()
+  })
+
+  it('returns null when response is not an array', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ not: 'an array' }),
+        text: () => Promise.resolve('{}'),
+      }),
+    )
+    const { getRegistryThemesIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryThemesIndex()
+    expect(result).toBeNull()
+  })
+})
+
+describe('getRegistryTheme', () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.stubGlobal('fetch', createMockFetch())
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  })
+
+  it('fetches a theme by name', async () => {
+    const { getRegistryTheme } = await import('~/utils/get-registry')
+    const result = await getRegistryTheme('zinc')
+    if (!result) throw new Error('expected getRegistryTheme to return a theme')
+    expect(result.name).toBe('zinc')
+    expect(result.light).toBeDefined()
+    expect(result.dark).toBeDefined()
+  })
+
+  it('lowercases the theme name before lookup', async () => {
+    const { getRegistryTheme } = await import('~/utils/get-registry')
+    const result = await getRegistryTheme('ZINC')
+    expect(result?.name).toBe('zinc')
+  })
+
+  it('returns null for missing theme', async () => {
+    const { getRegistryTheme } = await import('~/utils/get-registry')
+    const result = await getRegistryTheme('nonexistent')
+    expect(result).toBeNull()
+  })
+})
