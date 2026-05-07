@@ -15,7 +15,7 @@
     "sherif": "1.11.0",
     "turbo": "^2.8.14",
     "typescript": "6.0.2",
-    "vercel": "^50.28.0"
+    "vercel": "^53.2.0"
   },
   "name": "gentleduck",
   "description": "gentleduck/ui monorepo for UI components, tools, and related packages.",
