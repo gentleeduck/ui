@@ -17,9 +17,7 @@ export const accessPolicies = sqliteTable('access_policies', {
   algorithm: text('algorithm').notNull().default('deny-overrides'),
   rules: text('rules').notNull(),
   targets: text('targets'),
-  createdAt: integer('created_at', { mode: 'timestamp_ms' })
-    .notNull()
-    .default(sql`(unixepoch() * 1000)`),
+  createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(sql`(unixepoch() * 1000)`),
   updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
     .notNull()
     .default(sql`(unixepoch() * 1000)`)
@@ -34,9 +32,7 @@ export const accessRoles = sqliteTable('access_roles', {
   inherits: text('inherits').notNull().default('[]'),
   scope: text('scope'),
   metadata: text('metadata'),
-  createdAt: integer('created_at', { mode: 'timestamp_ms' })
-    .notNull()
-    .default(sql`(unixepoch() * 1000)`),
+  createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(sql`(unixepoch() * 1000)`),
   updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
     .notNull()
     .default(sql`(unixepoch() * 1000)`)
@@ -54,9 +50,7 @@ export const accessAssignments = sqliteTable(
       .notNull()
       .references(() => accessRoles.id, { onDelete: 'cascade' }),
     scope: text('scope'),
-    createdAt: integer('created_at', { mode: 'timestamp_ms' })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(sql`(unixepoch() * 1000)`),
   },
   (t) => [
     uniqueIndex('access_assignments_subject_role_scope_idx').on(t.subjectId, t.roleId, t.scope),

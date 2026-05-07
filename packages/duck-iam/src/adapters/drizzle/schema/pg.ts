@@ -43,10 +43,7 @@ export const accessRoles = pgTable('access_roles', {
   name: text('name').notNull(),
   description: text('description'),
   permissions: jsonb('permissions').notNull(),
-  inherits: text('inherits')
-    .array()
-    .notNull()
-    .default(sql`ARRAY[]::text[]`),
+  inherits: text('inherits').array().notNull().default(sql`ARRAY[]::text[]`),
   scope: text('scope'),
   metadata: jsonb('metadata'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -69,7 +66,10 @@ export const accessAssignments = pgTable(
     scope: text('scope'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [uniqueIndex('access_assignments_subject_role_scope_idx').on(t.subjectId, t.roleId, t.scope), index('access_assignments_subject_idx').on(t.subjectId)],
+  (t) => [
+    uniqueIndex('access_assignments_subject_role_scope_idx').on(t.subjectId, t.roleId, t.scope),
+    index('access_assignments_subject_idx').on(t.subjectId),
+  ],
 )
 
 export const accessSubjectAttrs = pgTable('access_subject_attrs', {
