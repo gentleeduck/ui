@@ -1,8 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckHooksHref = '/duck-hooks/changelog' | '/duck-hooks/introduction'
-
-export const duckHooksSidebar = defineSidebar<DuckHooksHref>([
+export const duckHooksSidebar = defineSidebar([
   {
     title: '',
     items: [{ title: 'Introduction', href: '/duck-hooks/introduction' }],

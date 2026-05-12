@@ -1,8 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckTtlogHref = '/duck-ttlog/core' | '/duck-ttlog/introduction' | '/duck-ttlog/macros'
-
-export const duckTtlogSidebar = defineSidebar<DuckTtlogHref>([
+export const duckTtlogSidebar = defineSidebar([
   {
     title: '',
     items: [

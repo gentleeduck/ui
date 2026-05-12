@@ -302,9 +302,7 @@ function BlockViewerCode() {
       <div className="w-72">
         <BlockViewerFileTree />
       </div>
-      <figure
-        className="!mx-0 mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none"
-        data-rehype-pretty-code-figure="">
+      <figure className="!mx-0 mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none" data-dmc-fragment="">
         <figcaption
           className="!text-base !font-medium flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-code-foreground [&_svg]:size-4 [&_svg]:text-code-foreground [&_svg]:opacity-70"
           data-language={language}>

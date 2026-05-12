@@ -18,7 +18,7 @@ import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
 import { duckCliSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { duckCli } from '../../../../../.velite'
+import { duckCli } from '../../../../../.gentleduck'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false

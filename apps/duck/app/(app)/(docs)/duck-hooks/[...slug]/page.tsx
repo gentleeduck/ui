@@ -18,7 +18,7 @@ import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
 import { duckHooksSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { duckHooks } from '../../../../../.velite'
+import { duckHooks } from '../../../../../.gentleduck'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false

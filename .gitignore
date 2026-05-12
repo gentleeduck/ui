@@ -100,10 +100,11 @@ node_modules/
 
 # Task files
 # tasks.json
-# tasks/ 
+# tasks/
 **/.claude/settings.local.json
 **/.claude/worktrees
 .codex
 
-# rust 
+# rust
 **/target
+**/.cache

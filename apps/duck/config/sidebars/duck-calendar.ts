@@ -1,32 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckCalendarHref =
-  | '/duck-calendar/api'
-  | '/duck-calendar/api/grid'
-  | '/duck-calendar/api/navigation'
-  | '/duck-calendar/api/selection'
-  | '/duck-calendar/api/use-calendar'
-  | '/duck-calendar/api/use-datetime'
-  | '/duck-calendar/api/use-time-picker'
-  | '/duck-calendar/benchmarks'
-  | '/duck-calendar/changelog'
-  | '/duck-calendar/course'
-  | '/duck-calendar/course/01-introduction'
-  | '/duck-calendar/course/02-adapter-pattern'
-  | '/duck-calendar/course/03-building-a-grid'
-  | '/duck-calendar/course/04-selection-modes'
-  | '/duck-calendar/course/05-keyboard-a11y'
-  | '/duck-calendar/course/06-time-picker'
-  | '/duck-calendar/course/07-styling'
-  | '/duck-calendar/course/08-performance'
-  | '/duck-calendar/getting-started'
-  | '/duck-calendar/guides'
-  | '/duck-calendar/guides/accessibility'
-  | '/duck-calendar/guides/adapters'
-  | '/duck-calendar/guides/styling'
-  | '/duck-calendar/introduction'
-
-export const duckCalendarSidebar = defineSidebar<DuckCalendarHref>([
+export const duckCalendarSidebar = defineSidebar([
   {
     title: '',
     items: [

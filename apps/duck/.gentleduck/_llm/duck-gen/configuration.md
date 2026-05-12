@@ -1,0 +1,469 @@
+## Overview
+
+Duck Gen reads config from a `duck-gen.json` file at the project root. The file is
+**required** — the CLI fails if it can't find or parse it.
+
+All paths resolve **relative to the config file**.
+
+} title="Editor autocomplete">
+  Add a `$schema` field to get autocomplete, validation, and inline docs in VS Code or any
+  editor that reads JSON Schema.
+
+## Minimal config
+
+The smallest working configuration for a NestJS project:
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+## JSON Schema
+
+Add `$schema` for autocomplete and validation:
+
+```json
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json"
+}
+```
+
+The schema ships with the `@gentleduck/gen` package.
+
+## Root options
+
+### framework
+
+```json
+{ "framework": "nestjs" }
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` |
+| **Required** | Yes |
+| **Accepted values** | `"nestjs"` |
+
+The target framework adapter. Only `nestjs` is supported today — other values fail
+validation. More adapters are planned.
+
+## Shared options
+
+`extensions.shared` applies to **both** the API routes and messages extensions.
+
+} title="Shared means shared">
+  Values under `extensions.shared` affect every extension. An `outputSource` here writes
+  **both** route types and message types to that location. Use the per-extension
+  `outputSource` to split them.
+
+### tsconfigPath
+
+```json
+{
+  "extensions": {
+    "shared": {
+      "tsconfigPath": "./tsconfig.json"
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` |
+| **Required** | Yes (for NestJS) |
+| **Default** | None |
+
+Path to `tsconfig.json`. Duck Gen uses [ts-morph](https://ts-morph.com/) to build an
+in-memory TypeScript project from this config. The `include` and `exclude` globs pick
+which files get scanned.
+
+**The tsconfig must include the files you want scanned.** Anything excluded by tsconfig
+stays invisible to Duck Gen.
+
+### includeNodeModules
+
+```json
+{
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `boolean` |
+| **Required** | Yes |
+| **Recommended** | `false` |
+
+Include `node_modules` during scanning. Keep this `false` unless you need to scan
+third-party code (for example, a linked workspace package).
+
+} title="Performance warning">
+  `includeNodeModules: true` makes Duck Gen parse every TypeScript file under
+  `node_modules`. Only enable it to scan controllers in a linked workspace package.
+
+### outputSource
+
+```json
+{
+  "extensions": {
+    "shared": {
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` or `string[]` |
+| **Required** | No |
+| **Default** | None |
+
+Extra output directories for **all** generated files (both API routes and messages).
+Duck Gen always writes to its internal `generated` folder inside the package. This
+option adds more locations.
+
+**Single directory:**
+
+```json
+{ "outputSource": "./generated" }
+```
+
+**Multiple directories:**
+
+```json
+{ "outputSource": ["./generated", "../shared-types/generated"] }
+```
+
+A directory path (no extension) creates files with default names inside it. A file path
+(with `.d.ts`) writes directly to that file.
+
+### sourceGlobs
+
+```json
+{
+  "extensions": {
+    "shared": {
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"]
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string[]` |
+| **Required** | No |
+| **Status** | Reserved, present in the schema but **not applied** by the current NestJS adapter |
+
+The NestJS adapter uses the tsconfig include/exclude globs instead. This field is
+reserved for future adapters that don't rely on a tsconfig.
+
+## API Routes options
+
+`extensions.apiRoutes` configures the API route type generator.
+
+### enabled
+
+```json
+{
+  "extensions": {
+    "apiRoutes": {
+      "enabled": true
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `boolean` |
+| **Required** | Yes |
+
+Turns API route generation on or off. Set `false` to generate only message types.
+
+### globalPrefix
+
+```json
+{
+  "extensions": {
+    "apiRoutes": {
+      "globalPrefix": "/api"
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` |
+| **Required** | No |
+| **Default** | None (empty prefix) |
+
+Prefix applied to **all** generated routes. Match the global prefix set in the NestJS
+app:
+
+```ts title="main.ts"
+const app = await NestFactory.create(AppModule)
+app.setGlobalPrefix('api')  // match this in duck-gen.json as "/api"
+```
+
+Without a prefix, routes start directly from the controller path:
+
+* With `globalPrefix: "/api"`: `/api/users/:id`
+* Without: `/users/:id`
+
+} title="Keep prefixes in sync">
+  If the NestJS app uses `app.setGlobalPrefix('api')` and the config says
+  `globalPrefix: "/v1"`, generated paths won't match real server paths. Keep them aligned.
+
+### normalizeAnyToUnknown
+
+```json
+{
+  "extensions": {
+    "apiRoutes": {
+      "normalizeAnyToUnknown": true
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `boolean` |
+| **Required** | Yes |
+| **Recommended** | `true` |
+
+When enabled:
+
+* `any` return types become `unknown` in generated output.
+* Each method with an `any` return type logs a warning.
+
+This keeps `any` from leaking into client types. Set `false` only to let `any` through
+on purpose.
+
+### outputSource (apiRoutes)
+
+```json
+{
+  "extensions": {
+    "apiRoutes": {
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` or `string[]` |
+| **Required** | No |
+
+Extra output locations for API route types only. Same semantics as
+`shared.outputSource`, scoped to the routes file.
+
+Adds to `shared.outputSource` — both sets of locations receive the file.
+
+## Messages options
+
+`extensions.messages` configures the message registry type generator.
+
+### enabled
+
+```json
+{
+  "extensions": {
+    "messages": {
+      "enabled": true
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `boolean` |
+| **Required** | Yes |
+
+Turns message generation on or off. Set `false` to generate only API route types.
+
+### outputSource (messages)
+
+```json
+{
+  "extensions": {
+    "messages": {
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+| Property | Value |
+| --- | --- |
+| **Type** | `string` or `string[]` |
+| **Required** | No |
+
+Extra output locations for message types only. Same semantics as the API routes
+`outputSource`.
+
+## Complete example
+
+A fully configured `duck-gen.json` with every option set:
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": ["./generated", "../client/generated"],
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+With this config:
+
+* API route types are written to:
+  1. `node_modules/@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts` (always)
+  2. `./generated/duck-gen-api-routes.d.ts` (from `shared.outputSource`)
+  3. `../client/generated/duck-gen-api-routes.d.ts` (from `shared.outputSource`)
+  4. `./generated/duck-gen-api-routes.d.ts` (from `apiRoutes.outputSource`, deduped)
+
+* Message types are written to the same locations but as `duck-gen-messages.d.ts`.
+
+## Configuration examples
+
+### API routes only
+
+For projects without i18n or message keys:
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true
+    },
+    "messages": {
+      "enabled": false
+    }
+  }
+}
+```
+
+### Messages only
+
+For projects that only need i18n type safety:
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": false
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+### Monorepo with shared output
+
+When server and client live in separate packages:
+
+```json title="apps/server/duck-gen.json"
+{
+  "$schema": "../../node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": ["./generated", "../../packages/shared-types/generated"],
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true
+    },
+    "messages": {
+      "enabled": true
+    }
+  }
+}
+```
+
+Then, in the client package:
+
+```ts
+import type { ApiRoutes } from '../../packages/shared-types/generated/duck-gen-api-routes'
+```
+
+} title="Monorepo tip">
+  With a shared output directory, add the generated files to `.gitignore` and regenerate
+  them in CI. Fewer merge conflicts, always-fresh types.
+
+## Next steps
+
+* [API Routes guide](/duck-gen/api-routes): how route scanning works.
+* [Messages guide](/duck-gen/messages): how message scanning works.
+* [Generated types](/duck-gen/generated-types): every exported type explained.

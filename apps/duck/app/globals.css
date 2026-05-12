@@ -20,9 +20,9 @@ html body[data-scroll-locked] {
   overflow: hidden !important;
 }
 
-html span:is(.light *) {
-  color: var(--shiki-light) !important;
-}
+/* html span:is(.light *) { */
+/*   color: var(--dmc-light) !important; */
+/* } */
 
 @custom-variant dark (&:is(.dark *));
 

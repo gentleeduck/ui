@@ -1,23 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckRegistryBuildHref =
-  | '/duck-registry-build/architecture'
-  | '/duck-registry-build/changelog'
-  | '/duck-registry-build/cli'
-  | '/duck-registry-build/configuration'
-  | '/duck-registry-build/course'
-  | '/duck-registry-build/course-arch-package-index'
-  | '/duck-registry-build/extensions'
-  | '/duck-registry-build/getting-started'
-  | '/duck-registry-build/introduction'
-  | '/duck-registry-build/operations'
-  | '/duck-registry-build/performance'
-  | '/duck-registry-build/recipes'
-  | '/duck-registry-build/reference'
-  | '/duck-registry-build/testing-ci'
-  | '/duck-registry-build/troubleshooting'
-
-export const duckRegistryBuildSidebar = defineSidebar<DuckRegistryBuildHref>([
+export const duckRegistryBuildSidebar = defineSidebar([
   {
     title: '',
     items: [

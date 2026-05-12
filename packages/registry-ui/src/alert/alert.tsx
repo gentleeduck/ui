@@ -42,7 +42,7 @@ const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
     <div
       ref={ref}
       className={cn(
-        'col-start-2 grid justify-items-start gap-1 text-muted-foreground text-sm [&_p]:leading-relaxed',
+        'col-start-2 text-muted-foreground text-sm [&_p:not(:first-child)]:mt-2 [&_p]:leading-relaxed',
         className,
       )}
       data-slot="alert-description"

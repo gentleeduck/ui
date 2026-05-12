@@ -1,0 +1,120 @@
+## Data attributes
+
+The calendar outputs `data-*` attributes on every element. These give you full control over styling without any shipped CSS.
+
+### Day cell attributes
+
+| Attribute | Values | Description |
+| :--- | :--- | :--- |
+| `data-selected` | `"true"` | Day is selected |
+| `data-today` | `"true"` | Day is today |
+| `data-disabled` | `"true"` | Day is disabled |
+| `data-outside-month` | `"true"` | Day belongs to adjacent month |
+| `data-range-start` | `"true"` | First day in a range selection |
+| `data-range-middle` | `"true"` | Middle day in a range selection |
+| `data-range-end` | `"true"` | Last day in a range selection |
+| `data-focused` | `"true"` | Day has keyboard focus |
+| `data-weekend` | `"true"` | Day is a weekend |
+
+***
+
+## Tailwind CSS
+
+Use attribute selectors to style based on state:
+
+```css showLineNumbers
+/* Selected day */
+[data-selected="true"] {
+  @apply bg-primary text-primary-foreground;
+}
+
+/* Today */
+[data-today="true"] {
+  @apply bg-accent text-accent-foreground;
+}
+
+/* Disabled */
+[data-disabled="true"] {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Range selection */
+[data-range-start="true"] {
+  @apply rounded-l-md bg-primary;
+}
+[data-range-middle="true"] {
+  @apply bg-accent;
+}
+[data-range-end="true"] {
+  @apply rounded-r-md bg-primary;
+}
+
+/* Outside month */
+[data-outside-month="true"] {
+  @apply text-muted-foreground;
+}
+
+/* Focus ring */
+[data-focused="true"] {
+  @apply ring-2 ring-ring;
+}
+```
+
+***
+
+## Plain CSS
+
+The same data attributes work with plain CSS:
+
+```css showLineNumbers
+[data-selected="true"] {
+  background: var(--color-primary);
+  color: white;
+  border-radius: 4px;
+}
+
+[data-today="true"] {
+  border: 2px solid var(--color-primary);
+}
+
+[data-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+[data-outside-month="true"] {
+  color: var(--color-muted);
+}
+```
+
+***
+
+## Slot attributes
+
+When using compound components from `@gentleduck/primitives/calendar`, each component sets a `data-slot` attribute for targeted styling:
+
+| Slot | Component |
+| :--- | :--- |
+| `calendar` | `Calendar.Root` |
+| `calendar-header` | `Calendar.Header` |
+| `calendar-nav` | `Calendar.Nav` |
+| `calendar-nav-button` | `Calendar.PrevButton` / `Calendar.NextButton` |
+| `calendar-grid` | `Calendar.Grid` |
+| `calendar-weekdays` | `Calendar.Weekdays` |
+| `calendar-weekday` | Individual weekday header cells |
+| `calendar-day` | `Calendar.Day` |
+| `calendar-month-view` | `Calendar.MonthView` |
+| `calendar-year-view` | `Calendar.YearView` |
+
+```css showLineNumbers
+[data-slot="calendar"] {
+  /* Root container styles */
+}
+
+[data-slot="calendar-day"] {
+  /* Base day cell styles */
+}
+```
+
+}>
+  The headless approach means zero specificity conflicts. You own every pixel and can use any CSS methodology - Tailwind, CSS modules, styled-components, or plain stylesheets.

@@ -1,27 +1,6 @@
 import { defineSidebar } from './types'
 
-export type WwwHref =
-  | '/www/changelog'
-  | '/www/comparisons/vs-radix'
-  | '/www/comparisons/vs-react-day-picker'
-  | '/www/comparisons/vs-shadcn'
-  | '/www/faqs'
-  | '/www/installation'
-  | '/www/introduction'
-  | '/www/mcp'
-  | '/www/mdx'
-  | '/www/news/building-accessible-uis'
-  | '/www/news/component-library'
-  | '/www/news/duck-gen-and-query'
-  | '/www/news/ecosystem-overview'
-  | '/www/news/february-2026-updates'
-  | '/www/news/introducing-duck-motion'
-  | '/www/news/type-safe-apis-with-duck-gen'
-  | '/www/packages'
-  | '/www/skills'
-  | '/www/whoiam'
-
-export const wwwSidebar = defineSidebar<WwwHref>([
+export const wwwSidebar = defineSidebar([
   {
     title: '',
     items: [

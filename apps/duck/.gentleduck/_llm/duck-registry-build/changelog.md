@@ -1,0 +1,97 @@
+## 0.2.2
+
+### Patch Changes
+
+* 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+
+## 0.2.1
+
+### Patch Changes
+
+* fd5e095: Fix tsdown config to use platform node, resolving node:\* import warnings and producing correct .mjs output
+
+## 0.2.0
+
+### Minor Changes
+
+* 34f38e5: Refactor `@gentleduck/registry-build` into a fully extension-driven build system.
+
+  * All processing (index build, components, validation, colors/themes, component index, banners) is now performed by explicit extensions - the core runner has no built-in phases.
+  * Added `indexBuildExtension()` and `componentsExtension()` as standalone extensions (also bundled by `uiRegistryPreset()`).
+  * Moved monorepo-specific presets out of the package to consumer-local config files.
+  * Added generic `collections` config surface for non-UI consumers.
+  * Added incremental file-hash cache with write-skipping, stale file cleanup, and `--changed-only` mode.
+  * Added config composition via `extends` (path-aware) and `mergeRegistryBuildConfigs()`.
+  * Consolidated over-split config files, removed dead code, added JSDoc to all public APIs.
+  * Added unit tests for config merge, defaults, change detection, and adapters.
+
+## Unreleased
+
+### Breaking Changes
+
+* The core runner no longer has built-in index or components phases. All processing is now extension-driven. Consumers must explicitly register `indexBuildExtension()` and `componentsExtension()` (or use `uiRegistryPreset()`) to get the same behavior.
+* Monorepo-specific presets (`createMonorepoSourcesPreset`, `monorepoRegistryPreset`, `MONOREPO_THEME_CSS_VAR_KEYS`, `MONOREPO_THEME_NAMES`) have been removed from the package. Consumers should define these presets locally beside their config files.
+
+### Features
+
+* **Extension-driven architecture**: The runner executes `beforeBuild` and `afterBuild` extension stages only. All domain logic (index building, component generation, validation, colors/themes, component indexes, banners) lives in composable extensions.
+* **Generic collections**: New `collections` config surface for non-UI consumers. Collections hold file-backed data, named source trees, and arbitrary metadata that extensions can read.
+* **Config composition**: File-based `extends` with path-aware resolution, plus code-driven `mergeRegistryBuildConfigs()` for parameterized preset factories.
+* **Incremental cache and partial rebuilds**: File-hash caching under `<output.dir>/.registry-build/`, write-skipping for unchanged outputs, stale file cleanup, and `--changed-only` mode with explicit changed paths.
+* **`uiRegistryPreset()`**: Bundles the standard UI extensions (`bannerExtension`, `validateExtension`, `indexBuildExtension`, `componentsExtension`, `componentIndexExtension`, `colorsExtension`) with configurable options.
+* **`defineConfig()`**: Type-safe config wrapper that enforces the `registry:${string}` namespace across sources, mappings, target paths, schema item types, and registry entries.
+* **Zod schema validation**: Config is validated against a Zod schema after defaults and resolution, catching shape errors before the build runs.
+* **Framework adapters**: Built-in component-index adapters for `nextjs`, `vite`, and `custom` with full custom generator support.
+* **Bounded concurrency**: CPU-aware parallelism cap for discovery and generation work, configurable via `performance.parallelism`.
+
+### Refactoring
+
+* Consolidated `types.config.ts` + `types.resolved.ts` into a single `config/types.ts` with section comments.
+* Consolidated `defaults.constants.ts` + `defaults.apply.ts` into a single `config/defaults.ts`.
+* Removed dead code: unused logger module, unexported internal helpers, duplicate type aliases.
+* Removed duplicate `pathExists` from loader (now uses shared `lib/fs.ts`).
+* Replaced duplicate `mergeColorData`/`mergeThemeData` with generic `mergeRecordOrString<T>()`.
+* Simplified config resolution to trust `withRegistryBuildDefaults` guarantees.
+* Extracted `createOutputPaths()` and `createPathRegistry()` into `pipeline/context/context.paths.ts`.
+* Extracted `processTheme()` into `pipeline/phases/colors/colors.lib.ts`.
+
+### Documentation
+
+* Added JSDoc to all exported functions across `lib/`, `pipeline/`, `extensions/`, and `config/`.
+* Updated architecture docs to reflect extension-driven lifecycle (no built-in core phases).
+* Updated extensions docs with `indexBuildExtension()` and `componentsExtension()` in the built-in table.
+* Updated configuration, recipes, and getting-started docs with explicit extension registration examples.
+* Updated README to remove stale monorepo preset imports and document consumer-local preset pattern.
+
+### Tests
+
+* Added config merge tests covering extension concatenation, collection merging, source merging, themes dedup, and colors data override.
+* Added config defaults tests covering source glob/ignore defaults, performance defaults, branding defaults, and user-value preservation.
+* Added change detection tests covering deterministic cache keys, backslash normalization, and affected-path matching.
+* Added adapter tests covering nextjs/vite/custom resolution and generated import patterns.
+* Existing golden tests and runner integration tests continue to pass.
+
+## 0.1.0 - 2026-03-10
+
+### Features
+
+* Initial release as `@gentleduck/registry-build`.
+* Config-driven CLI (`registry-build build`) with `--config`, `--cwd`, `--silent`, `--json`, `--verbose`, `--changed-only`, and `--changed` flags.
+* `registry-build.config.ts` discovery with upward search and multiple format support (`.ts`, `.mts`, `.cts`, `.js`, `.mjs`, `.cjs`, `.json`).
+* Full UI registry build pipeline: index materialization, component payload generation, component-index generation, colors/themes CSS and JSON emission.
+* Extension API with `beforeBuild` and `afterBuild` stages, artifact storage, and output registration.
+* Incremental file-hash cache with write-skipping and stale file cleanup.
+* Path-aware config `extends` with deep merge semantics.
+* Framework-specific component-index adapters (Next.js, Vite, custom).
+* Bounded concurrent file discovery and generation.
+* Golden fixture test suite for output regression detection.
+
+### Commits
+
+* `abbb7769` feat(registry-build): ship config-driven registry builder
+* `20456291` feat(registry-build): add incremental cache and partial rebuilds
+* `5d2ef490` feat(registry-build): add generic collections foundation
+* `64d085e2` test(registers,registry-build): add schema and logger tests
+* `5051d7f8` build(deps): bump zod from 4.2.1 to 4.3.6
+* `917e714e` feat(registry): migrate duckui registry packages and add internal registry support
+* `0c6d3a06` fix(lint): resolve all 213 biome lint warnings across monorepo

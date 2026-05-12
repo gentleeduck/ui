@@ -61,7 +61,8 @@
   },
   "overrides": {
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "@gentleduck/md": "file:/run/media/wildduck/duck1/wildduck/@duck/@duck-md/dmc-napi"
   },
   "workspaces": {
     "packages": [

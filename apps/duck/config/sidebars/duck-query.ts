@@ -1,13 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckQueryHref =
-  | '/duck-query/advanced'
-  | '/duck-query/changelog'
-  | '/duck-query/client-methods'
-  | '/duck-query/introduction'
-  | '/duck-query/types'
-
-export const duckQuerySidebar = defineSidebar<DuckQueryHref>([
+export const duckQuerySidebar = defineSidebar([
   {
     title: '',
     items: [

@@ -12,6 +12,7 @@ import {
   PreBlock,
 } from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
+import { ShellCommand } from './mdx-components/code/pre-block/shell-command'
 import { ComponentsList } from './mdx-components/components-list'
 import { Table, TableCell, TableHeader, TableRow } from './mdx-components/table'
 import { Tab, TabContent, TabList, TabTrigger } from './mdx-components/tabs'
@@ -28,11 +29,22 @@ export const mdxBaseComponents = {
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <blockquote className={cn('mt-6 border-l-2 pl-6 italic', className)} {...props} />
   ),
+  ApiRoutes: ({ children }: { children?: React.ReactNode }) => <div className="api-routes">{children}</div>,
   Callout,
   CodeBlockWrapper,
   ComponentPreview,
   ComponentSource,
   ComponentsList,
+  MathMl: ({ children }: { children?: React.ReactNode }) => <span className="mathml">{children}</span>,
+  MermaidSvg: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div className="mermaid-svg" {...props}>
+      {children}
+    </div>
+  ),
+  PackageManagerTabs: ({ npm, yarn, pnpm, bun }: { npm?: string; yarn?: string; pnpm?: string; bun?: string }) => (
+    <ShellCommand bun={bun} npm={npm} pnpm={pnpm} yarn={yarn} />
+  ),
+  SequenceDisplay: ({ children }: { children?: React.ReactNode }) => <div className="sequence-display">{children}</div>,
   code: CodeBlock,
   figcaption: FigcaptionBlock,
   h1: H1,

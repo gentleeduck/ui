@@ -2,7 +2,7 @@
 /**
  * Pre-render every doc as plain markdown with ComponentSource and
  * ComponentPreview tags inlined as fenced code blocks. Output lands in
- * `apps/duck/.velite/_llm/<permalink>.md` and is served verbatim by
+ * `apps/duck/.gentleduck/_llm/<permalink>.md` and is served verbatim by
  * `/llm/[...slug]/route.ts`.
  *
  * Doing the heavy lifting here lets the route stay tiny (just an fs
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const APP_ROOT = path.resolve(__dirname, '..')
-const VELITE_DIR = path.join(APP_ROOT, '.velite')
+const VELITE_DIR = path.join(APP_ROOT, '.gentleduck')
 const OUT_DIR = path.join(VELITE_DIR, '_llm')
 const REGISTRY_INDEX = path.join(APP_ROOT, 'public/r/index.json')
 const WORKSPACE_PACKAGES = path.resolve(APP_ROOT, '..', '..', 'packages')

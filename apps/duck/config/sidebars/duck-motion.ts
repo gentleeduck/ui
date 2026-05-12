@@ -1,8 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckMotionHref = '/duck-motion/changelog' | '/duck-motion/introduction'
-
-export const duckMotionSidebar = defineSidebar<DuckMotionHref>([
+export const duckMotionSidebar = defineSidebar([
   {
     title: '',
     items: [{ title: 'Introduction', href: '/duck-motion/introduction' }],

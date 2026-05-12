@@ -11,16 +11,16 @@ export interface IMermaidBlockProps {
   lightSvg?: string
   darkSvg?: string
   className?: string
-  __mermaidLightSvg__?: string
-  __mermaidDarkSvg__?: string
-  __rawString__?: string
+  __dmcLightSvg__?: string
+  __dmcDarkSvg__?: string
+  __dmcRaw__?: string
   [key: string]: unknown
 }
 
 export function MermaidBlock(props: IMermaidBlockProps) {
-  const chart = props.chart || props.__rawString__ || ''
-  const preLight = props.lightSvg || props.__mermaidLightSvg__ || ''
-  const preDark = props.darkSvg || props.__mermaidDarkSvg__ || ''
+  const chart = props.chart || props.__dmcRaw__ || ''
+  const preLight = props.lightSvg || props.__dmcLightSvg__ || ''
+  const preDark = props.darkSvg || props.__dmcDarkSvg__ || ''
 
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)

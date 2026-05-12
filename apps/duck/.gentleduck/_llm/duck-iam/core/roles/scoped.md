@@ -1,0 +1,125 @@
+## Three scoping mechanisms
+
+Scopes restrict roles to specific tenants, organizations, or workspaces.
+
+| Mechanism | Use when |
+| --- | --- |
+| Role-level scope | The whole role is inherently tenant-bound |
+| Permission-level scope | Only some grants on the role are restricted |
+| Scoped assignment | Same role definition, different tenants per user |
+
+***
+
+## 1. Role-level scope
+
+A scope on a role limits all its permissions to that scope:
+
+```typescript
+const orgEditor = defineRole('org-editor')
+  .name('Org Editor')
+  .scope('org-1')
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .build()
+```
+
+When converted to policy rules, each rule gets an extra `scope eq "org-1"` condition. The permission only fires when the request scope matches.
+
+***
+
+## 2. Permission-level scope
+
+Scope individual permissions by passing an optional third argument to `grant()`:
+
+```typescript
+const hybridRole = defineRole('hybrid')
+  .name('Hybrid Role')
+  .grant('read', 'post')               // global — no scope restriction
+  .grant('update', 'post', 'org-1')    // only in org-1
+  .grant('create', 'comment', 'org-2') // only in org-2
+  .build()
+```
+
+`read` works everywhere; `update` only in `org-1`; `create` only in `org-2`.
+
+`grantScoped(scope, action, resource)` does the same thing with scope first — pure stylistic preference.
+
+***
+
+## 3. Scoped role assignments
+
+The most flexible: a user can have `editor` globally and `admin` only in `org-1`:
+
+```typescript
+// In the adapter / admin API:
+await engine.admin.assignRole('user-1', 'editor') // global
+await engine.admin.assignRole('user-1', 'admin', 'org-1') // scoped
+
+// When checking access:
+const allowed = await engine.can(
+  'user-1',
+  'delete',
+  { type: 'post', attributes: {} },
+  undefined, // environment
+  'org-1', // scope
+)
+// user-1 has admin in org-1, so delete is allowed
+```
+
+When a request carries a scope, the engine merges matching scoped role assignments into the subject. The `admin` role only joins `subject.roles` for requests with `scope: "org-1"`.
+
+***
+
+## Combining global + scoped
+
+Users routinely have both:
+
+```typescript
+await engine.admin.assignRole('alice', 'viewer')           // global viewer
+await engine.admin.assignRole('alice', 'admin', 'org-acme') // admin only in org-acme
+```
+
+Request behavior:
+
+| Request scope | Effective roles |
+| --- | --- |
+| `'org-acme'` | `['viewer', 'admin']` |
+| `'org-other'` | `['viewer']` (admin scope doesn't match) |
+| `undefined` | `['viewer']` (global only) |
+
+This is the recommended pattern for multi-tenant SaaS — one global "platform user" role + tenant-specific admin roles per org.
+
+***
+
+## Scoped roles + inheritance
+
+Inherited permissions keep honoring scope constraints. If `org-editor` (scoped to `org-1`) inherits from `org-viewer` (scoped to `org-1`), the inherited viewer permissions also only fire in `org-1`.
+
+Scope doesn't propagate up — a scoped role inheriting from a global role keeps the global role's permissions global. Inheritance flattens permissions, but scope constraints attached to those permissions travel with them.
+
+***
+
+## Wildcard scope
+
+`scope: '*'` matches every scope, including requests without one:
+
+```typescript
+const globalEditor = defineRole('global-editor')
+  .grant('update', 'post', '*') // matches any scope, including unscoped
+  .build()
+```
+
+Useful when you have a mostly-scoped role with a few permissions that should apply universally.
+
+***
+
+## Choosing between mechanisms
+
+Quick decision guide:
+
+* **One reusable role + assigned per tenant?** Scoped assignment (`engine.admin.assignRole(user, role, scope)`).
+* **Role definition itself differs by tenant?** Tenant-specific role IDs (`org-acme-admin`, `org-globex-admin`).
+* **Whole role is inherently tenant-bound?** Role-level scope (`defineRole(...).scope('org-1')`).
+* **Mostly-global role with a few scoped grants?** Permission-level scope (`grant(action, resource, 'org-1')`).
+
+Prefer scoped assignments when permission shape is the same across tenants. Tenant-specific role IDs become hard to maintain — every permission change has to be replicated across all tenant role definitions.

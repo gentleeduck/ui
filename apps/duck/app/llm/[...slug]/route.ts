@@ -5,11 +5,11 @@ export const dynamic = 'force-static'
 export const dynamicParams = false
 
 // `apps/duck/scripts/build-llm-pages.mjs` runs after velite and writes
-// one pre-rendered .md file per doc into `.velite/_llm/<permalink>.md`,
+// one pre-rendered .md file per doc into `.gentleduck/_llm/<permalink>.md`,
 // with ComponentSource/Preview tags inlined as fenced code blocks.
 // Keeping the heavy work in the build script lets this route be a tiny
 // fs lookup so the Netlify Lambda stays well under its 250 MB cap.
-const LLM_DIR = join(process.cwd(), '.velite', '_llm')
+const LLM_DIR = join(process.cwd(), '.gentleduck', '_llm')
 
 function listAllSlugs(): string[][] {
   if (!existsSync(LLM_DIR)) return []

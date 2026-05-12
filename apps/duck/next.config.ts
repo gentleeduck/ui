@@ -66,8 +66,8 @@ const nextConfig: NextConfig = {
       '**/.next/cache/**',
       // The velite collections are already inlined into webpack chunks
       // (`with { type: 'json' }`); the raw JSON is a duplicate.
-      '**/.velite/*.json',
-      '**/.velite/index.js.map',
+      '**/.gentleduck/*.json',
+      '**/.gentleduck/index.js.map',
       '**/packages/_oldstuff_refactor/**',
       '**/packages/wip/**',
       '**/packages/deprecated/**',

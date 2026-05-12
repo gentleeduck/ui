@@ -1,8 +1,0 @@
-export type { IDocsVeliteConfigOptions } from './config'
-export { createDocsVeliteConfig, docsVeliteConfig } from './config'
-export { rehypeMetadataPlugin, rhypeMetadataPlugin } from './plugins/metadata-plugin'
-export { rehypeMermaid } from './plugins/rehype-mermaid'
-export { rehypeNpmCommand } from './plugins/rehype-npm-command'
-export { rehypePreBlockSource } from './plugins/rehype-pre-block-source'
-export { rehypeTitle } from './plugins/rehype-title'
-export { cleanTocItems } from './utils'

@@ -1,18 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckCliHref =
-  | '/duck-cli/changelog'
-  | '/duck-cli/commands/add'
-  | '/duck-cli/commands/diff'
-  | '/duck-cli/commands/init'
-  | '/duck-cli/commands/list'
-  | '/duck-cli/commands/remove'
-  | '/duck-cli/commands/theme'
-  | '/duck-cli/commands/update'
-  | '/duck-cli/guides/monorepo'
-  | '/duck-cli/introduction'
-
-export const duckCliSidebar = defineSidebar<DuckCliHref>([
+export const duckCliSidebar = defineSidebar([
   {
     title: '',
     items: [{ title: 'Introduction', href: '/duck-cli/introduction' }],

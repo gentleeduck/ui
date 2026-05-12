@@ -1,0 +1,82 @@
+## What is duck-iam?
+
+A hybrid access control engine. Roles (RBAC) and policies (ABAC) feed the **same evaluation pipeline** — no separate paths.
+
+Roles convert to ABAC policies internally. Every check runs through one evaluator.
+
+***
+
+## Reading order
+
+| Page | Covers |
+| --- | --- |
+| [evaluation pipeline](/docs/duck-iam/core/evaluation) | Step-by-step request → decision flow, dev vs prod modes |
+| [primitives](/docs/duck-iam/core/primitives) | Subject, Resource, Action, Scope, Environment, AccessRequest, Decision |
+| [rule matching](/docs/duck-iam/core/rule-matching) | When a rule fires — action match, resource match, conditions |
+| [cross-policy combination](/docs/duck-iam/core/cross-policy) | AND across policies, default effect, defense in depth |
+| [roles](/docs/duck-iam/core/roles) | RBAC — defining, inheritance, scoped, conditional |
+| [policies](/docs/duck-iam/core/policies) | ABAC — building, conditions, targets, combining algorithms |
+
+***
+
+## Quick mental model
+
+```
+Subject + Action + Resource + Scope + Environment
+        |
+        v
+[ RBAC roles → __rbac__ policy ]   [ Custom ABAC policies ]
+        |                                    |
+        +--------- evaluate each ------------+
+                       |
+                       v
+              AND-combine across policies
+                       |
+                       v
+              Decision (allow / deny)
+```
+
+A deny from any policy is final. The cross-policy combiner is fixed engine behavior — no per-policy tuning to override it.
+
+***
+
+## Why hybrid?
+
+RBAC alone can express "editors update posts" but not "editors update posts they own during business hours." ABAC alone forces every grant to be a hand-written rule, which is verbose for the simple cases.
+
+duck-iam lets you:
+
+* Express common grants as roles (concise, easy to reason about)
+* Express contextual rules as ABAC policies (deny on weekends, owner-only edits, geo-fencing)
+* Have both contribute to the same decision via AND-combination
+
+The result: roles cover 80% of grants in 20% of the code, ABAC handles the long tail.
+
+***
+
+## FAQ
+
+Are roles just shorthand for policies?
+
+Conceptually, yes. duck-iam converts resolved role permissions into a synthetic RBAC policy so that
+roles and ABAC rules go through the same evaluator. You still model them differently because roles are
+easier for common grants and policies are better for contextual logic.
+
+Why do I see a **rbac** policy in explain() output even though I never created one?
+
+Because duck-iam materializes your resolved role permissions into a synthetic RBAC policy before evaluation.
+That policy is how roles enter the same rule engine as your hand-written ABAC policies, so seeing
+<code className="rounded bg-muted px-2 py-1">**rbac**</code> in traces is expected.
+
+What happens when no rules or targets match?
+
+The evaluator falls back to the configured default effect, which is usually
+<code className="rounded bg-muted px-2 py-1">deny</code>. duck-iam treats "policy does not apply" and
+"no rule matched" as fail-closed outcomes unless you explicitly choose a different default.
+
+When should tenant or org info live in scope instead of environment or resource attributes?
+
+Put it in <code className="rounded bg-muted px-2 py-1">scope</code> when it should activate scoped role assignments
+and scope-aware permissions. Keep it in <code className="rounded bg-muted px-2 py-1">environment</code> or
+<code className="rounded bg-muted px-2 py-1">resource.attributes</code> when it is only extra context for conditions
+and should not change how subject roles are resolved.

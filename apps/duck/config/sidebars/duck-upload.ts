@@ -1,35 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckUploadHref =
-  | '/duck-upload/changelog'
-  | '/duck-upload/core'
-  | '/duck-upload/core/client'
-  | '/duck-upload/core/contracts'
-  | '/duck-upload/core/engine'
-  | '/duck-upload/core/persistence'
-  | '/duck-upload/core/utils'
-  | '/duck-upload/course'
-  | '/duck-upload/course/chapter-1'
-  | '/duck-upload/course/chapter-2'
-  | '/duck-upload/course/chapter-3'
-  | '/duck-upload/course/chapter-4'
-  | '/duck-upload/course/chapter-5'
-  | '/duck-upload/course/chapter-6'
-  | '/duck-upload/course/chapter-7'
-  | '/duck-upload/course/chapter-8'
-  | '/duck-upload/design'
-  | '/duck-upload/guides'
-  | '/duck-upload/installation'
-  | '/duck-upload/introduction'
-  | '/duck-upload/react'
-  | '/duck-upload/react/upload-provider'
-  | '/duck-upload/react/use-uploader'
-  | '/duck-upload/strategies'
-  | '/duck-upload/strategies/multipart'
-  | '/duck-upload/strategies/post'
-  | '/duck-upload/strategies/registry'
-
-export const duckUploadSidebar = defineSidebar<DuckUploadHref>([
+export const duckUploadSidebar = defineSidebar([
   {
     title: '',
     items: [

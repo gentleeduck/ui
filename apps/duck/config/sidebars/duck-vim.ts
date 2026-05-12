@@ -1,35 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckVimHref =
-  | '/duck-vim/api'
-  | '/duck-vim/api/command'
-  | '/duck-vim/api/format'
-  | '/duck-vim/api/matcher'
-  | '/duck-vim/api/parser'
-  | '/duck-vim/api/platform'
-  | '/duck-vim/api/react'
-  | '/duck-vim/api/recorder'
-  | '/duck-vim/api/sequence'
-  | '/duck-vim/changelog'
-  | '/duck-vim/concepts'
-  | '/duck-vim/course'
-  | '/duck-vim/course/01-introduction'
-  | '/duck-vim/course/02-first-shortcut'
-  | '/duck-vim/course/03-key-bindings'
-  | '/duck-vim/course/04-react'
-  | '/duck-vim/course/05-sequences'
-  | '/duck-vim/course/06-formatting'
-  | '/duck-vim/course/07-recorder'
-  | '/duck-vim/course/08-advanced'
-  | '/duck-vim/getting-started'
-  | '/duck-vim/guides'
-  | '/duck-vim/guides/command-palette'
-  | '/duck-vim/guides/custom-framework'
-  | '/duck-vim/guides/scoped-bindings'
-  | '/duck-vim/guides/shortcut-settings'
-  | '/duck-vim/introduction'
-
-export const duckVimSidebar = defineSidebar<DuckVimHref>([
+export const duckVimSidebar = defineSidebar([
   {
     title: '',
     items: [

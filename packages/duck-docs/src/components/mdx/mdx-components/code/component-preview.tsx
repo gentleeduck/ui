@@ -21,12 +21,12 @@ interface IComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 type CodeFragmentProps = {
-  'data-rehype-pretty-code-fragment'?: unknown
+  'data-dmc-fragment'?: unknown
   children?: React.ReactNode
 }
 
 type CopyValueProps = {
-  __rawString__?: string
+  __dmcRaw__?: string
   value?: string
 }
 
@@ -35,7 +35,7 @@ function getCodeStringFromFragment(codeNode: React.ReactElement | undefined): st
     return null
   }
 
-  if (typeof codeNode.props['data-rehype-pretty-code-fragment'] === 'undefined') {
+  if (typeof codeNode.props['data-dmc-fragment'] === 'undefined') {
     return null
   }
 
@@ -46,7 +46,7 @@ function getCodeStringFromFragment(codeNode: React.ReactElement | undefined): st
     return null
   }
 
-  return copyNode.props.value ?? copyNode.props.__rawString__ ?? null
+  return copyNode.props.value ?? copyNode.props.__dmcRaw__ ?? null
 }
 
 export function ComponentPreview({
@@ -64,6 +64,10 @@ export function ComponentPreview({
   const Codes = React.Children.toArray(children) as React.ReactElement[]
   const Code = Codes[0]
   const registryIndex = useRegistryIndex()
+
+  // `<ComponentPreview name="…">` ships pre-resolved children from
+  // dmc's `preMdxPlugins` pass — a fenced code block per file that
+  // PrettyCode highlights natively. No runtime fetch.
 
   const Preview = React.useMemo(() => {
     if (!registryIndex) {
@@ -89,9 +93,7 @@ export function ComponentPreview({
     return <Component />
   }, [name, registryIndex])
 
-  const codeString = React.useMemo(() => {
-    return getCodeStringFromFragment(Code)
-  }, [Code])
+  const codeString = React.useMemo(() => getCodeStringFromFragment(Code), [Code])
 
   return (
     <div
@@ -140,9 +142,16 @@ export function ComponentPreview({
           </div>
         </TabsContent>
         <TabsContent
-          className="[&_[data-rehype-pretty-code-fragment]]:!m-0 relative mt-2 [&>div>div>button]:top-3 [&>div>div>button]:right-3 [&>div>div]:mb-0 [&>div]:rounded-lg [&>div]:border [&>div]:bg-muted/40 [&_pre]:h-[502px]"
+          className="[&_[data-dmc-fragment]]:!m-0 relative mt-2 [&>div>div>button]:top-3 [&>div>div>button]:right-3 [&>div>div]:mb-0 [&>div]:rounded-lg [&>div]:border [&>div]:bg-muted/40 [&_pre]:h-[502px]"
           value="code">
-          {Code}
+          {Code ?? (
+            <output
+              aria-live="polite"
+              className="flex h-[502px] w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm">
+              <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
+              Loading...
+            </output>
+          )}
         </TabsContent>
         <BuildTab />
       </Tabs>

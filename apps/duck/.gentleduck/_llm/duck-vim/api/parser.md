@@ -1,0 +1,176 @@
+}>
+  Parse, normalize, and validate key binding strings. This module converts human-readable bindings like <Kbd>Ctrl+Shift+S</Kbd> into structured objects for matching.
+
+```ts
+import {
+  parseKeyBind,
+  normalizeKeyBind,
+  validateKeyBind,
+  keyboardEventToDescriptor,
+  KEY_ALIASES,
+  MODIFIER_KEYS,
+} from '@gentleduck/vim/parser'
+```
+
+## Types
+
+### `ParsedKeyBind`
+
+The structured result of parsing a key binding string.
+
+```ts
+interface ParsedKeyBind {
+  /** The non-modifier key, lowercased (e.g. 's', 'space', 'enter') */
+  key: string
+  ctrl: boolean
+  shift: boolean
+  alt: boolean
+  meta: boolean
+  /** Sorted array of active modifier names */
+  modifiers: Array<'ctrl' | 'alt' | 'meta' | 'shift'>
+}
+```
+
+### `ValidationResult`
+
+```ts
+interface ValidationResult {
+  valid: boolean
+  warnings: string[]
+  errors: string[]
+}
+```
+
+***
+
+## Functions
+
+### `parseKeyBind(binding, platform?)`
+
+Parses a key binding string into its structured components. Resolves the <Kbd>Mod</Kbd> key based on the current or specified platform.
+
+```ts
+function parseKeyBind(binding: string, platform?: Platform): ParsedKeyBind
+```
+
+**Throws** if the binding is empty, has multiple non-modifier keys, or has no non-modifier key.
+
+**Examples:**
+
+```ts
+parseKeyBind('ctrl+shift+s')
+// { key: 's', ctrl: true, shift: true, alt: false, meta: false, modifiers: ['ctrl', 'shift'] }
+
+parseKeyBind('Mod+S', 'mac')
+// { key: 's', ctrl: false, shift: false, alt: false, meta: true, modifiers: ['meta'] }
+
+parseKeyBind('space')
+// { key: 'space', ctrl: false, shift: false, alt: false, meta: false, modifiers: [] }
+```
+
+}>
+  This function **throws** on invalid input. If you want to validate without throwing, use `validateKeyBind()` instead.
+
+***
+
+### `normalizeKeyBind(binding, platform?)`
+
+Returns the canonical string form of a binding: modifiers in alphabetical order, all lowercase, joined by `+`.
+
+```ts
+function normalizeKeyBind(binding: string, platform?: Platform): string
+```
+
+**Examples:**
+
+```ts
+normalizeKeyBind('Shift+Mod+s', 'mac') // 'meta+shift+s'
+normalizeKeyBind('Ctrl+K')             // 'ctrl+k'
+normalizeKeyBind('Command+Alt+Z')      // 'alt+meta+z' (on any platform, since Command is an alias for meta)
+```
+
+} className="[&_div]:w-full">
+  Use this when you need to compare two bindings for equality:
+
+  ```ts
+  normalizeKeyBind(bindingA) === normalizeKeyBind(bindingB)
+  ```
+
+***
+
+### `validateKeyBind(binding)`
+
+Validates a key binding string without throwing. Returns errors and warnings.
+
+```ts
+function validateKeyBind(binding: string): ValidationResult
+```
+
+**Examples:**
+
+```ts
+validateKeyBind('ctrl+k')
+// { valid: true, warnings: [], errors: [] }
+
+validateKeyBind('ctrl+k+j')
+// { valid: false, warnings: [], errors: ['Multiple non-modifier keys found'] }
+
+validateKeyBind('shift+shift+a')
+// { valid: false, warnings: [], errors: ["Duplicate modifier: 'shift'"] }
+
+validateKeyBind('alt+n')
+// { valid: true, warnings: ['Alt+letter combinations may not work on macOS due to special characters'], errors: [] }
+```
+
+}>
+  Use this before storing user-defined bindings to catch problems early.
+
+}>
+  <Kbd>Alt</Kbd>+letter combinations may produce special characters on macOS, making them unreliable for shortcuts. The validator will warn about this.
+
+***
+
+### `keyboardEventToDescriptor(event)`
+
+Builds a canonical key descriptor string from a `KeyboardEvent`. Returns `null` for pure modifier key presses.
+
+```ts
+function keyboardEventToDescriptor(e: KeyboardEvent): string | null
+```
+
+**Example:**
+
+```ts
+document.addEventListener('keydown', (e) => {
+  const desc = keyboardEventToDescriptor(e)
+  if (desc) console.log('Key descriptor:', desc) // e.g. 'ctrl+k'
+})
+```
+
+***
+
+## Constants
+
+### `KEY_ALIASES`
+
+A record mapping raw key names to their canonical forms.
+
+```ts
+const KEY_ALIASES: Record<string, string> = {
+  ' ': 'space',
+  escape: 'esc',
+  control: 'ctrl',
+  cmd: 'meta',
+  command: 'meta',
+  opt: 'alt',
+  option: 'alt',
+}
+```
+
+### `MODIFIER_KEYS`
+
+The set of recognized modifier key names.
+
+```ts
+const MODIFIER_KEYS: ReadonlySet<string> = new Set(['ctrl', 'alt', 'meta', 'shift'])
+```

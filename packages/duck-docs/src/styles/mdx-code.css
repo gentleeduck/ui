@@ -1,136 +1,193 @@
+/* Declare every dmc pretty-code custom property up front so they show
+ * up in DevTools with sane initial values even before a token sets one.
+ * Tokens override per-mode via inline `style="--dmc-{mode}:#hex;…"`. */
+@property --dmc-light {
+  syntax: "<color>";
+  initial-value: currentColor;
+  inherits: true;
+}
+@property --dmc-dark {
+  syntax: "<color>";
+  initial-value: currentColor;
+  inherits: true;
+}
+@property --dmc-light-bg {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: true;
+}
+@property --dmc-dark-bg {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: true;
+}
+@property --dmc-light-fs {
+  syntax: "*";
+  initial-value: inherit;
+  inherits: true;
+}
+@property --dmc-dark-fs {
+  syntax: "*";
+  initial-value: inherit;
+  inherits: true;
+}
+@property --dmc-light-fw {
+  syntax: "*";
+  initial-value: inherit;
+  inherits: true;
+}
+@property --dmc-dark-fw {
+  syntax: "*";
+  initial-value: inherit;
+  inherits: true;
+}
+@property --dmc-light-td {
+  syntax: "*";
+  initial-value: none;
+  inherits: true;
+}
+@property --dmc-dark-td {
+  syntax: "*";
+  initial-value: none;
+  inherits: true;
+}
+
 @layer components {
-  [data-rehype-pretty-code-fragment] {
-    @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
-  }
+  /* dmc pretty-code output (css-vars strategy, default):
+   *
+   *   <div data-dmc-fragment="">
+   *     <figcaption data-dmc-title>filename.ts</figcaption>     ← optional
+   *     <pre __dmcRaw__="…" data-language="…"
+   *          style="color:#fg;background-color:#bg;
+   *                 --dmc-light:#fg;--dmc-light-bg:#bg;
+   *                 --dmc-dark:#fg;--dmc-dark-bg:#bg">
+   *       <code data-language="…">
+   *         <span class="line">
+   *           <span style="--dmc-light:#XXX;--dmc-dark:#YYY">token</span>
+   *           …
+   *         </span>
+   *         <span class="line" data-dmc-line-highlighted="">…</span>
+   *       </code>
+   *     </pre>
+   *   </div>
+   */
 
-  div[data-value]:not([data-value="cli"])[data-slot="tabs-content"] > [data-rehype-pretty-code-fragment] {
-    @apply bg-transparent m-0 static rounded-none border-0;
-  }
+  /* Outer fragment wrapper. */
+  [data-dmc-fragment] {
+    @apply -mx-1 md:-mx-1;
 
-  [data-rehype-pretty-code-fragment] code {
-    counter-reset: line;
-    box-decoration-break: clone;
-  }
-
-  [data-rehype-pretty-code-fragment] .line {
-    @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
-  }
-
-  [data-rehype-pretty-code-fragment] [data-line-numbers] .line {
-    @apply px-2;
-  }
-
-  [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
-    display: inline-block;
-    width: 1.8rem;
-    margin-right: 1.4rem;
-    text-align: right;
-    content: counter(line);
-    counter-increment: line;
-    @apply text-accent-foreground text-xs;
-  }
-
-  [data-rehype-pretty-code-fragment] .line--highlighted,
-  [data-rehype-pretty-code-fragment] .word--highlighted {
-    @apply bg-foreground/4 dark:bg-foreground/5;
-  }
-
-  [data-rehype-pretty-code-fragment] .line-highlighted span {
-    @apply relative;
-  }
-
-  [data-rehype-pretty-code-fragment] .word--highlighted {
-    @apply rounded-md p-1;
-  }
-
-  [data-rehype-pretty-code-figure] {
     position: relative;
     margin-top: calc(var(--spacing) * 6);
+    margin-bottom: calc(var(--spacing) * 4);
     overflow: hidden;
     font-size: var(--text-sm);
     color: var(--color-code-foreground);
-    outline: none;
     background-color: var(--color-code);
-    border-color: var(--border);
-    border-width: 0px;
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    @apply -mx-1 md:-mx-1;
+    outline: none;
 
-    &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
+    &:has([data-dmc-title]) [data-slot="copy-button"] {
       top: calc(var(--spacing) * 1.5);
     }
   }
 
-  [data-rehype-pretty-code-title] {
+  /* Inside tabs, the fragment loses chrome (the tab panel owns it). */
+  div[data-value]:not([data-value="cli"])[data-slot="tabs-content"] > [data-dmc-fragment] {
+    @apply m-0 static rounded-none border-0 bg-transparent;
+  }
+
+  /* Title row from `title="…"` meta. */
+  [data-dmc-title] {
     padding-block: calc(var(--spacing) * 2.5);
     padding-inline: calc(var(--spacing) * 4);
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     color: var(--color-code-foreground);
+    border-bottom: 1px solid var(--border);
   }
 
-  [data-line-numbers] {
-    display: grid;
+  /* Code block — padding lives on the consumer `<PreBlock>` className.
+   * This rule only owns the per-theme background swap (kept transparent
+   * by default; opt in via `prettyCode.includePreBackground: false` +
+   * uncommenting the bg lines below). */
+  [data-dmc-fragment] pre {
+    overflow-x: auto;
+  }
+
+  [data-dmc-fragment] code {
+    display: inline-block;
     min-width: 100%;
-    white-space: pre;
-    border: 0;
-    background: transparent;
-    padding: 0;
     counter-reset: line;
     box-decoration-break: clone;
-  }
-
-  [data-line-numbers] [data-line]::before {
-    position: sticky;
-    left: 0;
-    display: inline-block;
-    width: calc(var(--spacing) * 16);
-    padding-right: calc(var(--spacing) * 6);
+    background: transparent;
+    font-family: var(--font-mono);
     font-size: var(--text-sm);
-    color: var(--color-code-number);
-    text-align: right;
-    content: counter(line);
-    counter-increment: line;
-    background-color: var(--color-code);
+    line-height: 1.5;
   }
 
-  [data-line-numbers] [data-highlighted-line][data-line]::before {
-    background-color: var(--color-code-highlight);
-  }
-
-  [data-line] {
+  [data-dmc-fragment] .line {
     display: inline-block;
     width: 100%;
-    min-height: calc(var(--spacing) * 1);
-    padding-top: calc(var(--spacing) * 0.5);
-    padding-bottom: calc(var(--spacing) * 0.5);
+    min-height: 1rem;
+    padding-inline: calc(var(--spacing) * 4);
+    padding-block: calc(var(--spacing) * 0.125);
   }
 
-  /* biome-ignore lint/style/noDescendingSpecificity: intentional light/dark theming via @variant */
-
-  [data-highlighted-line],
-  [data-highlighted-chars] {
+  /* Highlighted lines (`{1,3-5}` meta). */
+  [data-dmc-line-highlighted] {
     position: relative;
-    background-color: var(--color-code-highlight);
-  }
+    background-color: var(--color-code-highlight, color-mix(in oklab, var(--foreground) 4%, transparent));
 
-  [data-highlighted-line] {
-    &:after {
+    &::before {
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
       width: 2px;
       height: 100%;
-      content: "";
       background-color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
     }
   }
 
-  [data-highlighted-chars] {
+  /* Highlighted character runs (reserved for future `{1[1-5]}` meta). */
+  [data-dmc-chars-highlighted] {
     padding-block: 0.1rem;
     padding-inline: 0.3rem;
     font-family: var(--font-mono);
     font-size: 0.8rem;
     border-radius: var(--radius-md);
+    background-color: var(--color-code-highlight);
+  }
+
+  /* Tokens read the active mode's custom properties directly. Vars
+   * default to currentColor / inherit / inherit / none via @property
+   * declarations above, so unstyled tokens inherit cleanly with no
+   * undefined-var noise in DevTools. */
+  [data-dmc-fragment] code span {
+    color: var(--dmc-light);
+    font-style: var(--dmc-light-fs);
+    font-weight: var(--dmc-light-fw);
+    text-decoration: var(--dmc-light-td);
+  }
+
+  .dark [data-dmc-fragment] code span {
+    color: var(--dmc-dark);
+    font-style: var(--dmc-dark-fs);
+    font-weight: var(--dmc-dark-fw);
+    text-decoration: var(--dmc-dark-td);
+  }
+
+  /* dmc package-manager tabs (npm-command transformer wrapper class). */
+  .dmc-pm-tabs {
+    @apply relative;
+
+    & pre {
+      @apply m-0;
+    }
+
+    & pre + pre {
+      @apply hidden;
+    }
   }
 }

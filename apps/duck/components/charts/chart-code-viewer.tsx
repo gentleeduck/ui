@@ -103,14 +103,14 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
               dangerouslySetInnerHTML={{
                 __html: chart.highlightedCode,
               }}
-              data-rehype-pretty-code-fragment
+              data-dmc-fragment
             />
           </div>
         </TabsContent>
         <TabsContent
-          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex [&_[data-rehype-pretty-code-fragment]]:my-0"
+          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex [&_[data-dmc-fragment]]:my-0"
           value="theme">
-          <div className="" data-rehype-pretty-code-fragment="">
+          <div className="" data-dmc-fragment="">
             <pre className="relative max-h-[44.5vh] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
               <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
                 <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>

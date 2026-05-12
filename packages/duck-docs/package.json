@@ -4,6 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
+    "@gentleduck/md": "file:/run/media/wildduck/duck1/wildduck/@duck/@duck-md/dmc-napi",
     "@shikijs/compat": "1.12.1",
     "@tanstack/react-virtual": "^3.13.24",
     "@types/unist": "^3.0.3",
@@ -24,7 +25,6 @@
     "unified": "^11.0.5",
     "unist-builder": "4.0.0",
     "unist-util-visit": "^5.0.0",
-    "velite": "^0.3.1",
     "zod": "4.3.6"
   },
   "devDependencies": {
@@ -128,12 +128,6 @@
       "default": "./dist/*/index.js"
     },
     "./styles/mdx.css": "./src/styles/mdx.css",
-    "./velite": {
-      "browser": "./dist/velite/browser.js",
-      "default": "./dist/velite/index.js",
-      "node": "./dist/velite/index.js",
-      "types": "./dist/velite/index.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "module": "./dist/index.js",

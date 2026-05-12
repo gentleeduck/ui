@@ -20,7 +20,7 @@ import { SLUG_METADATA } from '~/config/metadata'
 import { getPackageLifecycleStatusFromHref } from '~/config/package-status'
 import { duckMotionSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { duckMotion } from '../../../../../.velite'
+import { duckMotion } from '../../../../../.gentleduck'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false

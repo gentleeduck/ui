@@ -1,0 +1,116 @@
+```tsx
+import * as Menubar from '@gentleduck/primitives/menubar'
+```
+
+## Anatomy
+
+```tsx
+<Menubar.Root>
+  <Menubar.Menu>
+    <Menubar.Trigger />
+    <Menubar.Portal>
+      <Menubar.Content>
+        <Menubar.Item />
+        <Menubar.Separator />
+        <Menubar.Sub>
+          <Menubar.SubTrigger />
+          <Menubar.SubContent>
+            <Menubar.Item />
+          </Menubar.SubContent>
+        </Menubar.Sub>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
+```
+
+## Example
+
+```tsx
+<Menubar.Root className="flex gap-1 bg-white border rounded-md p-1">
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
+      File
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">New File</Menubar.Item>
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Save</Menubar.Item>
+        <Menubar.Separator className="h-px bg-gray-200 my-1" />
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Exit</Menubar.Item>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
+      Edit
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Undo</Menubar.Item>
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Redo</Menubar.Item>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
+```
+
+## API
+
+### `Menubar.Root`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | Controlled value of the currently open menu |
+| `defaultValue` | `string` | - | Initial open menu (uncontrolled) |
+| `onValueChange` | `(value: string) => void` | - | Called when the active menu changes |
+| `loop` | `boolean` | `true` | Keyboard navigation wraps from last to first |
+| `dir` | `'ltr' \| 'rtl'` | - | Reading direction for keyboard navigation |
+
+### `Menubar.Menu`
+
+Groups a trigger and its content into one menu entry.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | Unique value identifying this menu |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when this menu opens or closes. Useful for integrating with animation libraries like `motion` |
+
+### `Menubar.Content`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment relative to the trigger |
+| `sideOffset` | `number` | `0` | Distance from the trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset |
+| `forceMount` | `true` | - | Force content to stay mounted. Useful for animation libraries |
+| `asChild` | `boolean` | `false` | Render as child element instead of wrapper |
+| `loop` | `boolean` | `false` | Whether keyboard navigation loops around |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether outside pointer events are disabled |
+| `disableOutsideScroll` | `boolean` | - | Override whether scroll is locked when content is open |
+| `onCloseAutoFocus` | `(event: Event) => void` | - | Called when auto-focusing on close |
+| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | - | Called when Escape is pressed |
+| `onPointerDownOutside` | `(event: PointerDownOutsideEvent) => void` | - | Called when a pointer down event occurs outside |
+| `onFocusOutside` | `(event: FocusOutsideEvent) => void` | - | Called when focus moves outside the content |
+| `onInteractOutside` | `(event: PointerDownOutsideEvent \| FocusOutsideEvent) => void` | - | Called on any outside interaction |
+
+}>
+  The `forceMount`, `asChild`, `trapFocus`, `disableOutsidePointerEvents`, and `onPointerDownOutside` / `onFocusOutside` props give you full control over the content lifecycle. This is especially useful when integrating with animation libraries like [motion](https://motion.dev) — use `forceMount` + `asChild` to keep the content mounted during exit animations, and the outside-interaction handlers to prevent premature dismissal.
+
+***
+
+## Keyboard interactions
+
+| Key | Action |
+| --- | --- |
+| <Kbd>ArrowRight</Kbd> | Move to next menu in the bar |
+| <Kbd>ArrowLeft</Kbd> | Move to previous menu in the bar |
+| <Kbd>ArrowDown</Kbd> | Open menu / highlight next item |
+| <Kbd>ArrowUp</Kbd> | Highlight previous item |
+| <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Activate item |
+| <Kbd>Escape</Kbd> | Close menu |
+
+}>
+  All menu-level sub-components (Item, CheckboxItem, RadioGroup, RadioItem, Sub, etc.) work identically to Context Menu.

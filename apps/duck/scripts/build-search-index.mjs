@@ -9,7 +9,7 @@
  * the shared layout chunk via webpack (JSON imports do not tree-shake).
  *
  * This script runs after `velite` and emits
- * `apps/duck/.velite/_search-index.json`, containing only the fields
+ * `apps/duck/.gentleduck/_search-index.json`, containing only the fields
  * the Command Menu actually reads:
  *   - docsEntries: { permalink, slug, title, component, toc, section, order }
  *   - packageSidebarNavs: precomputed sidebar items per package
@@ -22,7 +22,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const VELITE_DIR = path.resolve(__dirname, '../.velite')
+const VELITE_DIR = path.resolve(__dirname, '../.gentleduck')
 
 const slimDoc = (doc) => ({
   component: doc.component,

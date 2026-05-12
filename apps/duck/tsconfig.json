@@ -10,7 +10,7 @@
       "~/*": ["./*"],
       "@gentleduck/primitives/*": ["../../packages/duck-primitives/src/*"],
       "@gentleduck/registry-internals/*": ["../../packages/registry-internals/src/*"],
-      "~/velite": ["./.velite/*"]
+      "~/gentleduck": ["./.gentleduck/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -20,5 +20,5 @@
   },
   "exclude": ["node_modules", "dist", "**/__test__/**", "**/*.test.ts"],
   "extends": "@gentleduck/typescript-config/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".velite"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".gentleduck"]
 }

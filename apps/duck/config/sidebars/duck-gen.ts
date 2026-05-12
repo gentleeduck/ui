@@ -1,26 +1,6 @@
 import { defineSidebar } from './types'
 
-export type DuckGenHref =
-  | '/duck-gen/api-routes'
-  | '/duck-gen/changelog'
-  | '/duck-gen/configuration'
-  | '/duck-gen/course'
-  | '/duck-gen/course/duck-query-client'
-  | '/duck-gen/course/first-controller'
-  | '/duck-gen/course/generating-types'
-  | '/duck-gen/course/message-keys'
-  | '/duck-gen/course/project-setup'
-  | '/duck-gen/course/real-world-patterns'
-  | '/duck-gen/course/the-problem'
-  | '/duck-gen/course/using-generated-types'
-  | '/duck-gen/generated-types'
-  | '/duck-gen/guides'
-  | '/duck-gen/installation'
-  | '/duck-gen/introduction'
-  | '/duck-gen/messages'
-  | '/duck-gen/templates'
-
-export const duckGenSidebar = defineSidebar<DuckGenHref>([
+export const duckGenSidebar = defineSidebar([
   {
     title: '',
     items: [

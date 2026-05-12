@@ -1,5 +1,5 @@
 import type { IDocsConfig } from '@gentleduck/docs/context'
-import searchIndex from '~/.velite/_search-index.json' with { type: 'json' }
+import searchIndex from '~/.gentleduck/_search-index.json' with { type: 'json' }
 import type { ISidebarNavItem } from '~/types/nav'
 
 // Slim search index built by `apps/duck/scripts/build-search-index.mjs`.

@@ -242,7 +242,7 @@ function CustomizerCode() {
   return (
     <div className="relative">
       <CopyButton className="absolute top-4 right-4" value={getThemeCode(activeTheme, config.radius)} />
-      <div data-rehype-pretty-code-fragment="">
+      <div data-dmc-fragment="">
         <pre className="relative max-h-112.5 overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
           <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
             <span className="line text-white">&nbsp;:root &#123;</span>

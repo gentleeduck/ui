@@ -159,7 +159,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
       <TabsContent value="code">
         <div
           className="w-full overflow-hidden rounded-md [&_pre]:my-0 [&_pre]:h-[--container-height] [&_pre]:overflow-auto [&_pre]:whitespace-break-spaces [&_pre]:p-6 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-relaxed"
-          data-rehype-pretty-code-fragment>
+          data-dmc-fragment>
           {renderedCode}
         </div>
       </TabsContent>
