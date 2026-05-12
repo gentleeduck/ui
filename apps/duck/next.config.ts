@@ -69,14 +69,12 @@ const nextConfig: NextConfig = {
       '**/.gentleduck/*.json',
       '**/.gentleduck/index.js.map',
       // `@gentleduck/md` ships every platform's prebuilt `.node` binary
-      // (~95 MB total) and is only used at build time by
-      // `scripts/build-docs-content.mjs`. Drop the binaries the Netlify
-      // Lambda (amazonlinux / x64 glibc) can never load so the function
-      // bundle stays under the 250 MB limit.
-      '**/node_modules/@gentleduck/md/dmc.darwin-*.node',
-      '**/node_modules/@gentleduck/md/dmc.win32-*.node',
-      '**/node_modules/@gentleduck/md/dmc.linux-arm64-*.node',
-      '**/node_modules/@gentleduck/md/dmc.linux-x64-musl.node',
+      // (~95 MB unpacked) plus the whole remark/unified toolchain, and is
+      // imported only by build-time scripts (`scripts/build-docs-content.mjs`,
+      // `duck-md.config.ts`) -- never by a request-time route handler. Drop
+      // it from the function trace entirely so the Lambda bundle stays well
+      // under the 250 MB limit ("Invalid AWS Lambda parameters").
+      '**/node_modules/@gentleduck/md/**',
       '**/packages/_oldstuff_refactor/**',
       '**/packages/wip/**',
       '**/packages/deprecated/**',
