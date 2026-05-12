@@ -4,7 +4,7 @@ import { PreBlock } from '../../../src/components/mdx/mdx-components/code/pre-bl
 describe('PreBlock', () => {
   it('renders a regular pre block with source content', () => {
     const html = renderToStaticMarkup(
-      <PreBlock __rawString__="npm install @gentleduck/ui">
+      <PreBlock __dmcRaw__="npm install @gentleduck/ui">
         <code>npm install @gentleduck/ui</code>
       </PreBlock>,
     )
@@ -16,10 +16,10 @@ describe('PreBlock', () => {
   it('renders command tabs when all package manager commands are available', () => {
     const html = renderToStaticMarkup(
       <PreBlock
-        __bunCommand__="bun add @gentleduck/ui"
-        __npmCommand__="npm install @gentleduck/ui"
-        __pnpmCommand__="pnpm add @gentleduck/ui"
-        __yarnCommand__="yarn add @gentleduck/ui">
+        bun="bun add @gentleduck/ui"
+        npm="npm install @gentleduck/ui"
+        pnpm="pnpm add @gentleduck/ui"
+        yarn="yarn add @gentleduck/ui">
         <code>npm install @gentleduck/ui</code>
       </PreBlock>,
     )
