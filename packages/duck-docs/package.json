@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@gentleduck/md": "file:/run/media/wildduck/duck1/wildduck/@duck/@duck-md/dmc-napi",
+    "@gentleduck/md": "^0.3.1",
     "@shikijs/compat": "1.12.1",
     "@tanstack/react-virtual": "^3.13.24",
     "@types/unist": "^3.0.3",
