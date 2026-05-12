@@ -77,5 +77,5 @@
     "prepack": "bun run build"
   },
   "type": "module",
-  "version": "0.2.8"
+  "version": "0.2.9"
 }
