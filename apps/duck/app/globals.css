@@ -12,19 +12,24 @@
 @source "../node_modules/@gentleduck/lazy/src/";
 @source "../node_modules/@gentleduck/motion/src/";
 
+@custom-variant dark (&:is(.dark *));
+
 /* html overflow-y:scroll keeps scrollbar always — cancel react-remove-scroll-bar's incorrect compensation.
-   Higher specificity (html body vs body) beats the dynamically injected <style> tag */
+   Higher specificity (html body vs body) beats the dynamically injected <style> tag.
+   position: static prevents body from becoming a containing block for sticky sidebars. */
 html body[data-scroll-locked] {
   margin-right: 0 !important;
   padding-right: 0 !important;
-  overflow: hidden !important;
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+  position: static !important;
+  overscroll-behavior: auto !important;
 }
 
-/* html span:is(.light *) { */
-/*   color: var(--dmc-light) !important; */
-/* } */
-
-@custom-variant dark (&:is(.dark *));
+html:has(body[data-scroll-locked]) {
+  overflow: hidden;
+}
 
 @theme {
   --animate-shine: shine 8s ease-in-out infinite;
@@ -65,7 +70,7 @@ html body[data-scroll-locked] {
 
 @layer base {
   * {
-    @apply border-border font-medium;
+    @apply border-border;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -141,8 +146,15 @@ html body[data-scroll-locked] {
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
-    font-synthesis-weight: none;
-    font-synthesis-style: none;
+    /* The shipped families (JetBrains Mono Nerd, Inter, Inria Serif)
+       carry 400/500/700 only -- forbidding synthesis means utility
+       classes like `font-semibold` (600) and `font-bold` (700) on a
+       mono-preset body fail to render visibly bold on browsers that
+       resolve 600 via the descending side of the CSS Fonts 4 weight
+       match. Letting the UA synthesize fills the gap until the full
+       weight set ships. */
+    font-synthesis-weight: auto;
+    font-synthesis-style: auto;
     text-rendering: optimizeLegibility;
   }
 

@@ -14,13 +14,23 @@ import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { siteConfig } from '~/config/site'
 
-// Inter and Inria Serif used to load eagerly via next/font/local. Both
-// are now lazy-registered on-demand by ~/lib/dynamic-fonts when the
-// user picks a sans- or serif- preset in the FontStyle menu. Initial
-// page still ships JetBrains Mono Nerd, but now includes the medium and
-// italic emphasis faces the chrome actually asks for.
 const JetBrainsMonoNerd = localFont({
   src: [
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
+      style: 'normal',
+      weight: '100',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
+      style: 'normal',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
+      style: 'normal',
+      weight: '300',
+    },
     {
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
       style: 'normal',
@@ -32,7 +42,7 @@ const JetBrainsMonoNerd = localFont({
       weight: '500',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
       style: 'normal',
       weight: '600',
     },
@@ -40,6 +50,31 @@ const JetBrainsMonoNerd = localFont({
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
       style: 'normal',
       weight: '700',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
+      style: 'normal',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
+      style: 'normal',
+      weight: '900',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
+      style: 'italic',
+      weight: '100',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
+      style: 'italic',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
+      style: 'italic',
+      weight: '300',
     },
     {
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
@@ -52,7 +87,7 @@ const JetBrainsMonoNerd = localFont({
       weight: '500',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
       style: 'italic',
       weight: '600',
     },
@@ -60,6 +95,16 @@ const JetBrainsMonoNerd = localFont({
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
       style: 'italic',
       weight: '700',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
+      style: 'italic',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
+      style: 'italic',
+      weight: '900',
     },
   ],
   variable: '--font-mono-font',
@@ -93,11 +138,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ overflowY: 'scroll', scrollbarGutter: 'stable' }}
       suppressHydrationWarning>
       <head>
-        {/* Single @graph entity bundle so Google can read Organization,
-            WebSite (with SearchAction → sitelinks search box),
-            SoftwareApplication, and SiteNavigationElement in one parse.
-            Sitelinks themselves are still earned, not declared, but
-            this gives Google the structure it needs to surface them. */}
+        {/* @graph entity bundle: Organization + WebSite (SearchAction sitelinks) + SoftwareApplication + SiteNavigationElement. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -194,13 +235,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
-        {/* {process.env.NODE_ENV === 'development' && ( */}
-        {/*   <> */}
-        {/*     <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" /> */}
-        {/*     <script crossOrigin="anonymous" src="//unpkg.com/react-grab/dist/index.global.js" /> */}
-        {/*   </> */}
-        {/* )} */}
-
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -265,10 +299,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   }
                   var style = preset.indexOf('-italic') > -1 ? 'italic' : 'normal';
                   var applyPresetStyles = function () {
-                    // Single write batch — never read computed styles
-                    // back, otherwise the browser forces a synchronous
-                    // reflow before the next paint (Lighthouse "Forced
-                    // reflow" hit).
+                    // Write-only batch — reading computed styles here triggers a synchronous reflow.
                     var rootStyle = document.documentElement.style;
                     document.documentElement.setAttribute('data-font-preset', preset);
                     rootStyle.setProperty('--duck-font-family', family);
@@ -299,10 +330,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <DirectionProvider dir="ltr">
               <DocsAppProvider docsConfig={docsConfig} siteConfig={siteConfig}>
                 <ThemeWrapper>
-                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                  <div vaul-drawer-wrapper="">
+                    <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                  </div>
 
-                  {/* <SpeedInsights /> */}
-                  {/* <VercelAnalytics /> */}
                   {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
                 </ThemeWrapper>
               </DocsAppProvider>
