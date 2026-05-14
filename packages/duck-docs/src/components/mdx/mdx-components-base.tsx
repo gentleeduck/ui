@@ -80,6 +80,18 @@ export const mdxBaseComponents = {
   Steps: ({ ...props }: React.ComponentProps<'div'>) => (
     <div className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]" {...props} />
   ),
+  // Tailwind's preflight resets <strong>/<b> to `font-weight: inherit`,
+  // so without an explicit mapping `**foo**` renders unbolded in the
+  // docs surface. Map both intrinsics to a `font-semibold` span-style.
+  strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <strong className={cn('font-semibold', className)} {...props} />
+  ),
+  b: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <b className={cn('font-semibold', className)} {...props} />
+  ),
+  em: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <em className={cn('italic', className)} {...props} />
+  ),
   table: Table,
   Tabs: Tab,
   TabsContent: TabContent,
