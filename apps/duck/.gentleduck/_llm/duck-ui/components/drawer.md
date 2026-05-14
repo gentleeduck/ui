@@ -192,7 +192,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer>
+    <Drawer shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open Drawer</Button>
       </DrawerTrigger>
@@ -298,7 +298,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer onOpenChange={setOpen} open={open}>
+    <Drawer onOpenChange={setOpen} open={open} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DrawerTrigger>
@@ -376,7 +376,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer>
+    <Drawer shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open New Drawer</Button>
       </DrawerTrigger>
@@ -492,7 +492,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer modal={false}>
+    <Drawer modal={false} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open New Drawer</Button>
       </DrawerTrigger>
@@ -616,7 +616,7 @@ export default function Demo() {
   const allDone = checked.size === TASKS.length
 
   return (
-    <Drawer>
+    <Drawer shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open checklist</Button>
       </DrawerTrigger>
@@ -717,7 +717,7 @@ import { Menu } from 'lucide-react'
 
 export default function Demo() {
   return (
-    <Drawer>
+    <Drawer shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button
           variant="outline"
@@ -731,6 +731,122 @@ export default function Demo() {
           <DrawerTitle>Drawer</DrawerTitle>
           <DrawerDescription>The trigger stays active while the drawer is open.</DrawerDescription>
         </DrawerHeader>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+```
+
+### Sides
+
+Open the drawer from the `top`, `right`, `bottom`, or `left` by setting the `direction` prop.
+
+```tsx title="components/drawer-9.tsx"
+// import from your project: import Demo from '@/components/drawer-9'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@gentleduck/registry-ui/drawer'
+
+const DRAWER_SIDES = ['top', 'right', 'bottom', 'left'] as const
+
+export default function Demo() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {DRAWER_SIDES.map((side) => (
+        <Drawer key={side} direction={side === 'bottom' ? undefined : (side as 'top' | 'right' | 'left')}>
+          <DrawerTrigger asChild>
+            <Button className="capitalize" variant="outline">
+              {side}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
+            <DrawerHeader>
+              <DrawerTitle>Move Goal</DrawerTitle>
+              <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            </DrawerHeader>
+            <div className="no-scrollbar overflow-y-auto px-4">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <p className="mb-4 leading-normal" key={index}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                  officia deserunt mollit anim id est laborum.
+                </p>
+              ))}
+            </div>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ))}
+    </div>
+  )
+}
+```
+
+### Scrollable Content
+
+Right-side drawer with a long, scrollable body. The scroll container fills remaining height while header and footer stay pinned.
+
+```tsx title="components/drawer-10.tsx"
+// import from your project: import Demo from '@/components/drawer-10'
+'use client'
+
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@gentleduck/registry-ui/drawer'
+
+export default function Demo() {
+  return (
+    <Drawer direction="right">
+      <DrawerTrigger asChild>
+        <Button variant="outline">Open Right Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Terms of Service</DrawerTitle>
+          <DrawerDescription>Scroll through the content below.</DrawerDescription>
+        </DrawerHeader>
+        <div className="no-scrollbar flex-1 overflow-y-auto px-4">
+          {Array.from({ length: 20 }).map((_, index) => (
+            <p className="mb-4 leading-normal text-sm" key={index}>
+              <strong>Section {index + 1}.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          ))}
+        </div>
+        <DrawerFooter>
+          <Button>Accept</Button>
+          <DrawerClose asChild>
+            <Button variant="outline">Decline</Button>
+          </DrawerClose>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
@@ -798,7 +914,7 @@ export default function Demo() {
 
   return (
     <DirectionProvider dir="rtl">
-      <Drawer>
+      <Drawer shouldScaleBackground={false}>
         <DrawerTrigger asChild>
           <Button variant="outline">فتح الدرج</Button>
         </DrawerTrigger>

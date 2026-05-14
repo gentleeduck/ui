@@ -35,9 +35,9 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here.
 // import from your project: import Demo from '@/components/chart-benchmark-iam-vs'
 'use client'
 
-import { useState } from 'react'
 import type { ChartConfig } from '@gentleduck/registry-ui/chart'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'
+import { useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from 'recharts'
 import { ChartTabs } from './chart-tabs'
 
@@ -311,9 +311,9 @@ import { Engine } from '@gentleduck/iam'
 // import from your project: import Demo from '@/components/chart-benchmark-iam'
 'use client'
 
-import { useState } from 'react'
 import type { ChartConfig } from '@gentleduck/registry-ui/chart'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'
+import { useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck/public/data/benchmarks/iam.json'
 import { ChartTabs } from './chart-tabs'
@@ -549,10 +549,10 @@ function Summary({ comparison }: { comparison: (typeof data.libraryComparisons)[
   }
 
   return (
-    <div className="mt-3 text-sm text-muted-foreground">
-      <span className="text-green-600 dark:text-green-400 font-medium">{wins} wins</span>
+    <div className="mt-3 text-muted-foreground text-sm">
+      <span className="font-medium text-green-600 dark:text-green-400">{wins} wins</span>
       {' / '}
-      <span className="text-blue-600 dark:text-blue-400 font-medium">{losses} losses</span>
+      <span className="font-medium text-blue-600 dark:text-blue-400">{losses} losses</span>
       {' / '}
       <span className="font-medium">{ties} ties</span>
       {' for @gentleduck/iam'}
@@ -575,21 +575,21 @@ export default function ChartBenchmarkIamCompare() {
               <thead>
                 <tr className="border-b">
                   <th className="py-2 pr-4 text-left font-medium">Metric</th>
-                  <th className="py-2 px-4 text-left font-medium">@gentleduck/iam</th>
-                  <th className="py-2 px-4 text-left font-medium">{activeLib.name}</th>
+                  <th className="px-4 py-2 text-left font-medium">@gentleduck/iam</th>
+                  <th className="px-4 py-2 text-left font-medium">{activeLib.name}</th>
                   <th className="py-2 pl-4 text-center font-medium">Winner</th>
                 </tr>
               </thead>
               <tbody>
                 {activeLib.comparison.map((row) => (
-                  <tr key={row.metric} className="border-b border-border/50">
+                  <tr key={row.metric} className="border-border/50 border-b">
                     <td className="py-2 pr-4 font-medium">{row.metric}</td>
                     <td
-                      className={`py-2 px-4 ${row.winner === 'gentleduck' ? 'text-green-600 dark:text-green-400 font-medium' : ''}`}>
+                      className={`px-4 py-2 ${row.winner === 'gentleduck' ? 'font-medium text-green-600 dark:text-green-400' : ''}`}>
                       {row.gentleduck}
                     </td>
                     <td
-                      className={`py-2 px-4 ${row.winner === 'competitor' ? 'text-blue-600 dark:text-blue-400 font-medium' : ''}`}>
+                      className={`px-4 py-2 ${row.winner === 'competitor' ? 'font-medium text-blue-600 dark:text-blue-400' : ''}`}>
                       {row.competitor}
                     </td>
                     <td className="py-2 pl-4 text-center">

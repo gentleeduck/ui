@@ -402,6 +402,7 @@ const _Calendar7 = dynamic(() => import('@gentleduck/registry-examples/calendar/
 const _Calendar8 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-8'), { ssr: false })
 const _Calendar9 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-9'), { ssr: false })
 const _Drawer1 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-1'), { ssr: false })
+const _Drawer10 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-10'), { ssr: false })
 const _Drawer2 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-2'), { ssr: false })
 const _Drawer3 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-3'), { ssr: false })
 const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-4'), { ssr: false })
@@ -409,6 +410,7 @@ const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples/drawer/draw
 const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-6'), { ssr: false })
 const _Drawer7 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-7'), { ssr: false })
 const _Drawer8 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-8'), { ssr: false })
+const _Drawer9 = dynamic(() => import('@gentleduck/registry-examples/drawer/drawer-9'), { ssr: false })
 const _Direction1 = dynamic(() => import('@gentleduck/registry-examples/direction/direction-1'), { ssr: false })
 const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-1'), { ssr: false })
 const _HoverCard2 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-2'), { ssr: false })
@@ -4294,6 +4296,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'drawer',
   },
+  'drawer-10': {
+    name: 'drawer-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Drawer10,
+    source: '/registry-examples/src/drawer',
+    categories: [],
+    root_folder: 'drawer',
+  },
   'drawer-2': {
     name: 'drawer-2',
     description: '',
@@ -4402,6 +4420,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Drawer8,
+    source: '/registry-examples/src/drawer',
+    categories: [],
+    root_folder: 'drawer',
+  },
+  'drawer-9': {
+    name: 'drawer-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Drawer9,
     source: '/registry-examples/src/drawer',
     categories: [],
     root_folder: 'drawer',
