@@ -1,8 +1,3 @@
-/**
- * Text processing utilities for doc content.
- * Parsing frontmatter, stripping MDX syntax, extracting sections.
- */
-
 export function parseFrontmatter(content: string): { title: string; description: string; body: string } {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
   if (!match) return { title: '', description: '', body: content }
@@ -16,17 +11,12 @@ export function parseFrontmatter(content: string): { title: string; description:
   return { title, description, body }
 }
 
-/**
- * Strip MDX-specific syntax (JSX components, imports, mermaid diagrams)
- * to produce clean markdown that uses fewer tokens.
- */
+/** Strip JSX, imports, and mermaid components to leave plain markdown. */
 export function stripMdxSyntax(body: string): string {
   const unwrapComponents = ['Tabs', 'TabsList', 'TabsTrigger', 'TabsContent', 'Steps', 'Step']
   const removeComponents = ['MermaidDiagram', 'ComponentSource', 'ComponentPreview']
 
-  let stripped = body
-    // Remove import statements
-    .replace(/^import\s+.*$/gm, '')
+  let stripped = body.replace(/^import\s+.*$/gm, '')
 
   for (const component of unwrapComponents) {
     stripped = stripped.replace(new RegExp(`<${component}[^>]*>([\\s\\S]*?)<\\/${component}>`, 'g'), '$1')
@@ -43,9 +33,6 @@ export function stripMdxSyntax(body: string): string {
     .trim()
 }
 
-/**
- * Extract fenced code blocks from the body.
- */
 export function extractCodeBlocks(body: string): string[] {
   const blocks: string[] = []
   const regex = /```(\w*)\n([\s\S]*?)```/g
@@ -59,10 +46,7 @@ export function extractCodeBlocks(body: string): string[] {
   return blocks
 }
 
-/**
- * Extract only headings and the first paragraph under each
- * for a compact summary that saves tokens.
- */
+/** Headings + first paragraph under each — compact summary. */
 export function extractSummary(cleanBody: string): string {
   const lines = cleanBody.split('\n')
   const summary: string[] = []
@@ -81,9 +65,6 @@ export function extractSummary(cleanBody: string): string {
   return summary.join('\n')
 }
 
-/**
- * Extract a section from clean body by heading name.
- */
 export function extractSection(
   cleanBody: string,
   sectionName: string,

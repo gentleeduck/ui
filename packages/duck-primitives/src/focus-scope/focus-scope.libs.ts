@@ -1,9 +1,6 @@
 type FocusableTarget = HTMLElement | { focus(): void }
 
-/**
- * Attempts to focus the first element in a list of candidates.
- * Stops as soon as focus has actually moved.
- */
+/** Focus first candidate that actually accepts focus. */
 function focusFirst(candidates: HTMLElement[], { select = false } = {}) {
   const previouslyFocusedElement = document.activeElement
   for (const candidate of candidates) {
@@ -12,9 +9,7 @@ function focusFirst(candidates: HTMLElement[], { select = false } = {}) {
   }
 }
 
-/**
- * Returns the first and last tabbable elements inside a container.
- */
+/** First and last visible tabbable elements inside a container. */
 function getTabbableEdges(container: HTMLElement) {
   const candidates = getTabbableCandidates(container)
   const first = findVisible(candidates, container)
@@ -23,12 +18,8 @@ function getTabbableEdges(container: HTMLElement) {
 }
 
 /**
- * Returns a list of potential tabbable candidates using TreeWalker.
- *
- * This is an approximation -- it does not account for computed visibility.
- * Those cases are handled separately via findVisible/isHidden.
- *
- * See: https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
+ * Tabbable candidates via TreeWalker. Approximation: does not account for computed
+ * visibility (use findVisible/isHidden for that). Relies on `.tabIndex` for runtime tabbability.
  */
 function getTabbableCandidates(container: HTMLElement) {
   const nodes: HTMLElement[] = []
@@ -38,8 +29,6 @@ function getTabbableCandidates(container: HTMLElement) {
       const isHiddenInput = node.tagName === 'INPUT' && (node as HTMLInputElement).type === 'hidden'
       if (node.hidden || isHiddenInput) return NodeFilter.FILTER_SKIP
       if ('disabled' in node && node.disabled) return NodeFilter.FILTER_SKIP
-      // .tabIndex reflects the runtime tabbability of the element,
-      // automatically accounting for all natively focusable elements.
       return node.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
     },
   })
@@ -47,10 +36,7 @@ function getTabbableCandidates(container: HTMLElement) {
   return nodes
 }
 
-/**
- * Returns the first visible element in a list.
- * Checks visibility up to (but not including) the container.
- */
+/** First visible element; visibility checked up to (excluding) the container. */
 function findVisible(elements: HTMLElement[], container: HTMLElement) {
   for (const element of elements) {
     if (!isHidden(element, { upTo: container })) return element
@@ -71,10 +57,7 @@ function isSelectableInput(element: unknown): element is FocusableTarget & { sel
   return element instanceof HTMLInputElement && 'select' in element
 }
 
-/**
- * Programmatically focuses an element without scrolling.
- * Optionally selects input content after focusing.
- */
+/** Focus with preventScroll; optionally select input contents. */
 function focus(element?: FocusableTarget | null, { select = false } = {}) {
   if (element?.focus) {
     const previouslyFocusedElement = document.activeElement
@@ -83,10 +66,7 @@ function focus(element?: FocusableTarget | null, { select = false } = {}) {
   }
 }
 
-/**
- * Filters out anchor (<a>) elements from a list.
- * Used to prevent auto-focusing links on mount.
- */
+/** Strip anchors; prevents auto-focusing links on mount. */
 function removeLinks(items: HTMLElement[]) {
   return items.filter((item) => item.tagName !== 'A')
 }

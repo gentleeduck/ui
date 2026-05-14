@@ -7,17 +7,15 @@ export async function compileBenchmark({ folders, visited = new Set<string>(), s
     spinner.text = `Compiling ${folders.length} folders`
 
     for (const folder of folders) {
-      if (visited.has(folder.path)) continue // Prevent infinite loops
+      if (visited.has(folder.path)) continue // prevent infinite loops on symlink cycles
       visited.add(folder.path)
 
-      // Process files in the current folder
       for (const file of folder.files) {
         const res = await compileFile({ cwd, file, spinner })
         file.compileTimeMs = res.compileTimeMs
         file.bundleSize = res.bundleSize
       }
 
-      // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
         await compileBenchmark({
           cwd,
@@ -36,19 +34,15 @@ export async function compileBenchmark({ folders, visited = new Set<string>(), s
 
 export async function renderBenchmark({ folders, visited = new Set<string>(), spinner, cwd }: RenderBenchmarkParams) {
   try {
-    // spinner.text = `Rendering ${folders.length} folders`
-
     for (const folder of folders) {
-      if (visited.has(folder.path)) continue // Prevent infinite loops
+      if (visited.has(folder.path)) continue // prevent infinite loops on symlink cycles
       visited.add(folder.path)
 
-      // Process files in the current folder
       for (const file of folder.files) {
         const res = await renderFile({ cwd, file, spinner })
         file.renderTimeMs = res.renderTimeMs
       }
 
-      // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
         await renderBenchmark({
           cwd,

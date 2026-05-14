@@ -7,7 +7,6 @@ export function createStore() {
   const atomState = new WeakMap<IAtom<unknown>, unknown>()
   const listeners = new WeakMap<IAtom<unknown>, Set<Listener>>()
 
-  // Dependency maps
   const dependencies = new WeakMap<IAtom<unknown>, Set<IAtom<unknown>>>()
   const dependents = new WeakMap<IAtom<unknown>, Set<IAtom<unknown>>>()
 
@@ -34,15 +33,14 @@ export function createStore() {
     if (!dependentsSet) return
 
     for (const dependent of dependentsSet) {
-      atomState.delete(dependent) // Invalidate cache
-      invalidateDependents(dependent) // Recursively invalidate downstream
+      atomState.delete(dependent)
+      invalidateDependents(dependent)
       const l = listeners.get(dependent)
       if (l) l.forEach((fn) => fn())
     }
   }
 
   const store = {
-    // For testing/debugging
     _getRaw<Value>(atom: IAtom<Value>): Value | undefined {
       return atomState.get(atom) as Value | undefined
     },
@@ -62,7 +60,6 @@ export function createStore() {
         return atomState.get(atom) as Value
       }
 
-      // Memoized result
       if (atomState.has(atom)) {
         return atomState.get(atom) as Value
       }

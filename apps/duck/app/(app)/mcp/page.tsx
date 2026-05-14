@@ -114,7 +114,6 @@ export default async function McpPage() {
 
   return (
     <div className="relative space-y-20">
-      {/* Tools section */}
       <div>
         <div className="mb-10 text-center">
           <div className="mb-3 flex items-center justify-center gap-2">
@@ -148,7 +147,6 @@ export default async function McpPage() {
         </div>
       </div>
 
-      {/* Quick setup */}
       <div>
         <div className="mb-8 flex flex-col items-center gap-1 text-center">
           <h2 className="font-semibold text-xl leading-tight tracking-tight">Quick setup</h2>

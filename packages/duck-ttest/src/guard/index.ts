@@ -1,10 +1,7 @@
-// Runtime-agnostic compile-time type guards.
-//
-// Every predicate answers a strict yes/no question about the shape of `T` and
-// returns `true | false`. Combine with `If` / `IfExtends` from `~/conditional`
-// to branch conditionally on the result.
+// Compile-time predicates returning `true | false`.
+// Compose with `If` / `IfExtends` from `~/conditional` to branch.
 
-/** `true` if `T` is exactly `string` or a string-literal subtype of `string`. */
+/** `true` if `T` is exactly `string` or a string-literal subtype. */
 export type IsString<T> = [T] extends [string] ? true : false
 
 /** `true` if `T` is exactly `number` or a numeric-literal subtype of `number`. */
@@ -35,15 +32,7 @@ export type IsArray<T> = T extends readonly unknown[] ? true : false
 /** `true` if `T` is `readonly X[]` but not `X[]`. */
 export type IsReadonlyArray<T> = T extends readonly unknown[] ? (T extends unknown[] ? false : true) : false
 
-/**
- * `true` if `T` is empty. Works for strings, arrays, and objects.
- *
- * @example
- * type A = IsEmpty<''>     // true
- * type B = IsEmpty<[]>     // true
- * type C = IsEmpty<{}>     // true
- * type D = IsEmpty<[1]>    // false
- */
+/** `true` for empty strings, arrays, and objects. */
 export type IsEmpty<T> = T extends ''
   ? true
   : T extends readonly []
@@ -80,10 +69,7 @@ export type IsSet<T> = T extends Set<unknown> ? true : false
 /** `true` if `T` is `PromiseLike<unknown>`. */
 export type IsPromiseLike<T> = T extends PromiseLike<unknown> ? true : false
 
-/**
- * `true` if `T` is a plain `Record<PropertyKey, unknown>` — not an array,
- * function, `Date`, `Map`, `Set`, etc.
- */
+/** Plain `Record<PropertyKey, unknown>`: not array/function/Date/Map/Set/etc. */
 export type IsRecord<T> = T extends object
   ? T extends readonly unknown[]
     ? false
@@ -136,7 +122,5 @@ export type IsTypedArray<T> = T extends
   ? true
   : false
 
-/**
- * `true` if `T` is `[T1, T2, ...]` (a tuple), not `T[]`.
- */
+/** `true` if `T` is a fixed tuple (length is a literal, not `number`). */
 export type IsFixedTuple<T> = T extends readonly unknown[] ? (number extends T['length'] ? false : true) : false

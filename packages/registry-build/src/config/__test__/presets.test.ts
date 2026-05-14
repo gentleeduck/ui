@@ -20,10 +20,6 @@ describe('uiRegistryPreset', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // Default extensions (no options)
-  // -----------------------------------------------------------------------
-
   test('includes banner, validate, indexBuild, and components by default', () => {
     const extensions = uiRegistryPreset()
     const names = extensions.map((e) => e.name)
@@ -53,10 +49,6 @@ describe('uiRegistryPreset', () => {
 
     expect(extensions).toHaveLength(4)
   })
-
-  // -----------------------------------------------------------------------
-  // Disabling default extensions
-  // -----------------------------------------------------------------------
 
   test('excludes banner when banner is false', () => {
     const extensions = uiRegistryPreset({ banner: false })
@@ -97,10 +89,6 @@ describe('uiRegistryPreset', () => {
     expect(extensions).toHaveLength(0)
   })
 
-  // -----------------------------------------------------------------------
-  // Enabling optional extensions
-  // -----------------------------------------------------------------------
-
   test('includes colors when colors option is provided', () => {
     const extensions = uiRegistryPreset({ colors: {} })
     const names = extensions.map((e) => e.name)
@@ -124,10 +112,6 @@ describe('uiRegistryPreset', () => {
     expect(extensions).toHaveLength(6)
   })
 
-  // -----------------------------------------------------------------------
-  // Extension ordering
-  // -----------------------------------------------------------------------
-
   test('banner is the first extension in the default list', () => {
     const extensions = uiRegistryPreset()
 
@@ -146,10 +130,6 @@ describe('uiRegistryPreset', () => {
     expect(componentIndexIdx).toBeGreaterThan(componentsIdx)
   })
 
-  // -----------------------------------------------------------------------
-  // Merging preset with custom config
-  // -----------------------------------------------------------------------
-
   test('preset extensions can be spread into a config extensions array', () => {
     const customExtension = { name: 'custom', run: () => {} }
     const extensions = [...uiRegistryPreset(), customExtension]
@@ -167,10 +147,6 @@ describe('uiRegistryPreset', () => {
     expect(extensions[0]!.name).toBe('custom')
     expect(extensions[1]!.name).toBe('banner')
   })
-
-  // -----------------------------------------------------------------------
-  // Overriding preset values
-  // -----------------------------------------------------------------------
 
   test('banner option with config object still includes banner', () => {
     const extensions = uiRegistryPreset({ banner: { name: 'my-tool' } })

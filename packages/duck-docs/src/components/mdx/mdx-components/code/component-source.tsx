@@ -69,9 +69,7 @@ function stripLeadingCommentLine(child: React.ReactNode): React.ReactNode {
   const newCode = React.cloneElement(code, { children: trimmedLines } as { children: React.ReactNode })
   const newPreChildren = React.Children.toArray(pre.props.children).map((c) => (c === code ? newCode : c))
   const newPre = React.cloneElement(pre, { children: newPreChildren } as { children: React.ReactNode })
-  // Walk back up cloning until we reach the wrapper element. Easiest
-  // path: re-clone `child` swapping its children with a recursive
-  // mapper that replaces the original `<pre>` with `newPre`.
+  // Rebuild the tree from `child` down, swapping `pre` -> `newPre`.
   const replace = (n: React.ReactNode): React.ReactNode => {
     if (!React.isValidElement(n)) return n
     if (n === pre) return newPre
@@ -101,7 +99,6 @@ export function ComponentSource({ children, className, ...props }: IComponentSou
     )
   }
 
-  // Single file -- render just the code block, no wrapper
   if (items.length === 1) {
     const value = getChildLabel(items[0])
     return (
@@ -112,7 +109,6 @@ export function ComponentSource({ children, className, ...props }: IComponentSou
     )
   }
 
-  // Multiple files -- render with tabs
   const defaultValue = getChildLabel(items[0])
 
   return (

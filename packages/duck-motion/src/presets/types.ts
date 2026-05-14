@@ -31,7 +31,7 @@ export namespace IDuckMotion {
   export type IDirection = 'top' | 'bottom' | 'left' | 'right'
 }
 
-// Backward-compat aliases — do NOT remove these
+// Backward-compat aliases — do NOT remove.
 export type MotionAnimationState = IDuckMotion.IAnimationState
 export type MotionTransitionConfig = IDuckMotion.ITransitionConfig
 export type IMotionPreset = IDuckMotion.IPreset

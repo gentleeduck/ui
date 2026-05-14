@@ -1,10 +1,4 @@
-/**
- * Return a shallow copy of `obj` with the specified `keys` removed.
- *
- * @param keys - Property names to exclude.
- * @param obj  - The source object.
- * @returns A new object without the excluded keys.
- */
+/** Shallow copy of `obj` with the given `keys` removed. */
 export const filteredObject = <T extends Record<string, unknown>>(
   keys: readonly string[],
   obj: Readonly<T>,

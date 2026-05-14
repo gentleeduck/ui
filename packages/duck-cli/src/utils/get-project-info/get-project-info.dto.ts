@@ -1,11 +1,9 @@
 import { z } from 'zod'
 
-// Helper schemas
 const StringOrNull = z.union([z.string(), z.null()]).optional()
 const BooleanOrNull = z.union([z.boolean(), z.null()]).optional()
 const ArrayOfStringsOrNull = z.union([z.array(z.string()), z.null()]).optional()
 
-// Sub-schemas
 const CompilerOptions = z
   .object({
     allowArbitraryExtensions: BooleanOrNull,
@@ -193,7 +191,6 @@ const TsNodeOptions = z
   .partial()
   .optional()
 
-// Main tsconfig schema
 export const tsConfigSchema = z
   .looseObject({
     buildOptions: BuildOptions,

@@ -3,10 +3,6 @@ import type { Engine, EngineConfig } from '../engine'
 import type { DefaultContext, Mode, PermissionCheck, Role } from '../types'
 import type { ValidationResult } from '../validate'
 
-// ------------------------------------------------------------
-// Input
-// ------------------------------------------------------------
-
 /**
  * Input shape for {@link createAccessConfig}.
  *
@@ -53,10 +49,6 @@ export interface AccessConfigInput<
    */
   readonly context?: TContext
 }
-
-// ------------------------------------------------------------
-// Output
-// ------------------------------------------------------------
 
 /**
  * The typed configuration object returned by {@link createAccessConfig}.
@@ -139,10 +131,6 @@ export interface AccessConfig<
    */
   validatePolicy: (input: unknown) => ValidationResult
 }
-
-// ------------------------------------------------------------
-// Inference helpers
-// ------------------------------------------------------------
 
 /**
  * Extracts the union of action strings from a config input.

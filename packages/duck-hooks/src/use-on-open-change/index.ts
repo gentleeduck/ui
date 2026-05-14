@@ -5,10 +5,7 @@ import type { IUseOnOpenChange } from './use-on-open-change.types'
 export type { IUseOnOpenChange } from './use-on-open-change.types'
 
 /**
- * Manage open/close state with scroll-locking and CSS-transition-aware timing.
- *
- * Synchronises an optional controlled `openProp` with internal state,
- * locks `document.body` scroll while open, and waits for the element's
+ * Open/close state with body-scroll lock that waits for the element's
  * CSS transition to finish before unlocking.
  */
 export function useOnOpenChange<T extends React.RefObject<HTMLElement | null>>(

@@ -16,7 +16,6 @@ import { GalleryVerticalEnd, Minus, Plus } from 'lucide-react'
 import type * as React from 'react'
 import { SearchForm } from './search-form'
 
-// This is sample data.
 const data = {
   navMain: [
     {

@@ -13,7 +13,6 @@ export class NativeAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate())
   }
 
-  /** Creates a date from year, month (0-indexed), and day. */
   create(year: number, month: number, day: number): Date {
     return new Date(year, month, day)
   }
@@ -107,7 +106,6 @@ export class NativeAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
-  /** Formats using Intl.DateTimeFormat with cached formatter instances. */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
     return getCachedFormatter(locale, options).format(date)
   }

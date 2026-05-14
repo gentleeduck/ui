@@ -1,27 +1,11 @@
-// JSON-serialization type utilities
-
-/** Valid JSON primitive types. */
 export type JSONPrimitive = string | number | boolean | null
-
-/** Valid JSON object — a plain record of JSON values. */
 export type JSONObject = { [key: string]: JSONValue }
-
-/** Valid JSON array — a list of JSON values. */
 export type JSONArray = JSONValue[]
-
-/** Any valid JSON value. */
 export type JSONValue = JSONPrimitive | JSONObject | JSONArray
 
 /**
- * Recursively transforms `T` into a JSON-serializable version of itself.
- *
- * - Drops function and `Date` properties.
- * - Drops `toJSON` and other intentionally-sensitive keys (`password`).
- * - Recurses into arrays and objects.
- *
- * @example
- * type User = { id: number; name: string; password: string; createdAt: Date; toJSON(): string };
- * type Clean = Jsonify<User>; // { id: number; name: string }
+ * Recursively coerce `T` into a JSON-serializable shape.
+ * Drops functions and `Date`; drops `password` and `toJSON` keys; recurses.
  */
 export type Jsonify<T> = T extends JSONPrimitive
   ? T
@@ -40,14 +24,12 @@ export type Jsonify<T> = T extends JSONPrimitive
           }
         : never
 
-/**
- * `true` if `T` is structurally assignable to `JSONValue`.
- */
+/** `true` if `T` is structurally assignable to `JSONValue`. */
 export type IsJsonValue<T> = T extends JSONValue ? true : false
 
 /**
- * A value that survives `JSON.stringify`/`JSON.parse` round-trip. Values with
- * a `toJSON()` method are allowed (the return type is required to be JSON).
+ * A value that survives `JSON.stringify`/`JSON.parse` round-trip.
+ * Objects with `toJSON()` are accepted; the return type must itself be JSON.
  */
 export type Jsonifiable<T = unknown> = T extends JSONPrimitive
   ? T

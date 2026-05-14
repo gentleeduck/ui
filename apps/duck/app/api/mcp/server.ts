@@ -1,15 +1,3 @@
-/**
- * MCP server for @gentleduck/ui documentation.
- *
- * This file wires the tool handlers. Domain logic lives in:
- * - text.ts         -  frontmatter parsing, MDX stripping, section extraction
- * - tokenize.ts     -  stemming, tokenization, synonym expansion
- * - tfidf.ts        -  TF-IDF vectors, cosine similarity
- * - fuzzy.ts        -  edit distance, fuzzy matching, keyword scoring
- * - docs-index.ts   -  doc types, file system, index building, caching
- * - rate-limit.ts   -  rate limiting, slug validation, request logging
- */
-
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 import {
@@ -27,48 +15,12 @@ import { extractSection, extractSummary } from './text'
 import { computeTf, computeTfidfVector, cosineSimilarity } from './tfidf'
 import { expandSearchTerms, expandSearchText, stem, tokenize } from './tokenize'
 
-// -- Re-exports for consumers (chat API, tests, etc.) ------------------------
-
-export {
-  getDocsIndexStats,
-  // docs-index.ts
-  isContainedPath,
-  resetDocsIndexStateForTests,
-} from './docs-index'
-export {
-  // fuzzy.ts
-  editDistance,
-  fuzzyMatch,
-  fuzzyScore,
-  scoreKeywordQuery,
-} from './fuzzy'
-export {
-  // rate-limit.ts
-  getRateLimitResponse,
-  validateSlug,
-} from './rate-limit'
-export {
-  extractSection,
-  extractSummary,
-  // text.ts
-  parseFrontmatter,
-  stripMdxSyntax,
-} from './text'
-export {
-  computeIdf,
-  // tfidf.ts
-  computeTf,
-  computeTfidfVector,
-  cosineSimilarity,
-} from './tfidf'
-export {
-  expandSearchTerms,
-  // tokenize.ts
-  stem,
-  tokenize,
-} from './tokenize'
-
-// -- Constants ---------------------------------------------------------------
+export { getDocsIndexStats, isContainedPath, resetDocsIndexStateForTests } from './docs-index'
+export { editDistance, fuzzyMatch, fuzzyScore, scoreKeywordQuery } from './fuzzy'
+export { getRateLimitResponse, validateSlug } from './rate-limit'
+export { extractSection, extractSummary, parseFrontmatter, stripMdxSyntax } from './text'
+export { computeIdf, computeTf, computeTfidfVector, cosineSimilarity } from './tfidf'
+export { expandSearchTerms, stem, tokenize } from './tokenize'
 
 export const MCP_TOOL_NAMES = [
   'list_docs',
@@ -85,8 +37,6 @@ export const MCP_TOOL_COUNT = MCP_TOOL_NAMES.length
 
 const CATEGORY_ENUM = z.enum(['components', 'installation', 'packages', 'changelog', 'dark-theme', 'general', 'all'])
 
-// -- Server ------------------------------------------------------------------
-
 export function createMcpServer(): McpServer {
   const server = new McpServer(
     { name: 'duck-ui-docs', version: '1.0.0' },
@@ -100,8 +50,6 @@ export function createMcpServer(): McpServer {
       ].join(' '),
     },
   )
-
-  // -- list_docs --------------------------------------------------------------
 
   server.tool(
     'list_docs',
@@ -137,8 +85,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- read_doc ---------------------------------------------------------------
 
   server.tool(
     'read_doc',
@@ -184,8 +130,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- search_docs ------------------------------------------------------------
 
   server.tool(
     'search_docs',
@@ -254,8 +198,6 @@ export function createMcpServer(): McpServer {
     },
   )
 
-  // -- get_component_api ------------------------------------------------------
-
   server.tool(
     'get_component_api',
     'Get the API reference / props table for a component.',
@@ -321,8 +263,6 @@ export function createMcpServer(): McpServer {
     },
   )
 
-  // -- get_examples -----------------------------------------------------------
-
   server.tool(
     'get_examples',
     'Get only the code examples from a documentation page.',
@@ -352,8 +292,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- get_changelog ----------------------------------------------------------
 
   server.tool(
     'get_changelog',
@@ -410,8 +348,6 @@ export function createMcpServer(): McpServer {
     },
   )
 
-  // -- get_installation -------------------------------------------------------
-
   server.tool(
     'get_installation',
     'Get the installation/setup guide for a specific framework.',
@@ -452,8 +388,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- suggest_components -----------------------------------------------------
 
   server.tool(
     'suggest_components',
@@ -517,8 +451,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- semantic_search --------------------------------------------------------
 
   server.tool(
     'semantic_search',

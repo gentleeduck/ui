@@ -80,15 +80,14 @@ export const SelectItem = React.forwardRef<SelectItemElement, ISelect.IScoped<IS
               if (pointerTypeRef.current !== 'mouse') handleSelect()
             })}
             onPointerUp={composeEventHandlers(itemProps.onPointerUp, () => {
-              // Using a mouse you should be able to do pointer down, move through
-              // the list, and release the pointer over the item to select it.
+              // Mouse: down -> slide -> up-to-select is the expected UX
               if (pointerTypeRef.current === 'mouse') handleSelect()
             })}
             onPointerDown={composeEventHandlers(itemProps.onPointerDown, (event) => {
               pointerTypeRef.current = event.pointerType
             })}
             onPointerMove={composeEventHandlers(itemProps.onPointerMove, (event) => {
-              // Remember pointer type when sliding over to this item from another one
+              // capture pointer type for slide-into-item case
               pointerTypeRef.current = event.pointerType
               if (disabled) {
                 contentContext.onItemLeave?.()
@@ -105,7 +104,7 @@ export const SelectItem = React.forwardRef<SelectItemElement, ISelect.IScoped<IS
               const isTypingAhead = contentContext.searchRef?.current !== ''
               if (isTypingAhead && event.key === ' ') return
               if (SELECTION_KEYS.includes(event.key)) handleSelect()
-              // prevent page scroll if using the space key to select an item
+              // suppress page scroll when Space selects
               if (event.key === ' ') event.preventDefault()
             })}
           />

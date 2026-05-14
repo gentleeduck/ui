@@ -2,10 +2,6 @@ import type { Role } from '../types'
 import { VALID_ALGORITHMS, validateRuleShape } from './validate.libs'
 import type { ValidationIssue, ValidationResult } from './validate.types'
 
-// ------------------------------------------------------------
-// Role validation
-// ------------------------------------------------------------
-
 /**
  * Validate role definitions for common configuration mistakes.
  *
@@ -19,7 +15,6 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
   const issues: ValidationIssue[] = []
   const roleIds = new Set<string>()
 
-  // Check for duplicate IDs
   for (const role of roles) {
     if (roleIds.has(role.id)) {
       issues.push({
@@ -32,7 +27,6 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
     roleIds.add(role.id)
   }
 
-  // Check for dangling inherits references
   for (const role of roles) {
     for (const parentId of role.inherits ?? []) {
       if (!roleIds.has(parentId)) {
@@ -46,7 +40,7 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
     }
   }
 
-  // Check for circular inheritance
+  // Cycles are runtime-safe (handled by visited-set in inheritance walk), so emit as warnings.
   const rolesMap = new Map(roles.map((r) => [r.id, r]))
 
   for (const role of roles) {
@@ -77,7 +71,6 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
     }
   }
 
-  // Check for empty roles (no permissions, no inheritance)
   for (const role of roles) {
     if (role.permissions.length === 0 && (!role.inherits || role.inherits.length === 0)) {
       issues.push({
@@ -94,10 +87,6 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
     issues,
   }
 }
-
-// ------------------------------------------------------------
-// Policy validation (runtime validation for dynamic/untrusted policies)
-// ------------------------------------------------------------
 
 /**
  * Validate a policy object from an untrusted source (database, API, admin dashboard).

@@ -1,13 +1,8 @@
 import { blurLight } from '../transitions/blur'
 
 /**
- * Height expand/collapse preset for accordion and collapsible content.
- *
- * Open state: height auto, full opacity, no blur.
- * Closed state: height 0, transparent, light blur.
- *
- * Use with motion's `animate` prop (not AnimatePresence) since the element
- * stays mounted and toggles between open/closed visually.
+ * Height expand/collapse for accordion/collapsible. Use with `animate`
+ * (not `AnimatePresence`) — element stays mounted and toggles visually.
  */
 export const heightAuto = {
   open: { height: 'auto' as const, opacity: 1, filter: 'blur(0px)' },

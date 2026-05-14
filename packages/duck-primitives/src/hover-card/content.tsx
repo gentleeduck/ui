@@ -16,7 +16,6 @@ const CONTENT_NAME = 'HoverCardContent'
 type HoverCardContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
 type HoverCardContentElement = HoverCardContentImplElement
 
-/** Content area of the hover card with dismissable layer and popper positioning. */
 export const HoverCardContent = React.forwardRef<HoverCardContentElement, IHoverCard.IContentProps>(
   (props: IHoverCard.IScoped<IHoverCard.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeHoverCard)
@@ -76,7 +75,7 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, IHove
           setContainSelection(false)
           context.isPointerDownOnContentRef.current = false
 
-          // Delay a frame to ensure we always access the latest selection
+          // defer one frame so we read the post-pointerup selection
           setTimeout(() => {
             const hasSelection = document.getSelection()?.toString() !== ''
             if (hasSelection) context.hasSelectionRef.current = true
@@ -118,7 +117,7 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, IHove
           {...contentProps}
           dir={context.dir}
           onPointerDown={composeEventHandlers(contentProps.onPointerDown, (event) => {
-            // Contain selection to current layer
+            // contain text selection to this layer
             if (event.currentTarget.contains(event.target as HTMLElement)) {
               setContainSelection(true)
             }
@@ -131,7 +130,7 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, IHove
             userSelect: containSelection ? 'text' : undefined,
             // Safari requires prefix
             WebkitUserSelect: containSelection ? 'text' : undefined,
-            // re-namespace exposed content custom properties
+            // expose popper custom props under hover-card-* namespace
             ...{
               '--gentleduck-hover-card-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
               '--gentleduck-hover-card-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -148,18 +147,12 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, IHove
 
 HoverCardContentImpl.displayName = 'HoverCardContentImpl'
 
-/**
- * Returns a list of nodes that can be in the tab sequence.
- * @see: https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
- */
 function getTabbableNodes(container: HTMLElement) {
   const nodes: HTMLElement[] = []
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, {
     acceptNode: (node: Node) => {
       if (!(node instanceof HTMLElement)) return NodeFilter.FILTER_SKIP
-      // `.tabIndex` is not the same as the `tabindex` attribute. It works on the
-      // runtime's understanding of tabbability, so this automatically accounts
-      // for any kind of element that could be tabbed to.
+      // `.tabIndex` property (not attribute) covers runtime-tabbable nodes uniformly
       return node.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
     },
   })

@@ -1,9 +1,5 @@
-// Drop-in replacement for the old `velite` CLI step in `build:docs`.
-// Reads the existing velite.config.ts (which uses
-// `@gentleduck/md`'s `defineConfig`/`s` API under the hood), runs
-// `build()` from `@gentleduck/md`, and then writes a velite-compatible
-// `.gentleduck/index.js` + `index.d.ts` so all existing
-// `import { ... } from '.gentleduck'` call-sites keep working unchanged.
+// Builds docs collections via @gentleduck/md and emits a velite-shaped
+// `.gentleduck/index.{js,d.ts}` so existing import sites keep working.
 
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { register } from 'node:module'
@@ -11,7 +7,7 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { build } from '@gentleduck/md'
 
-// Allow the script to load the .ts config without a separate tsx wrapper.
+// Load the .ts config without a separate tsx wrapper.
 try {
   register('tsx/esm', pathToFileURL(join(process.cwd(), 'package.json')))
 } catch {}
@@ -28,9 +24,7 @@ console.log('[duck-md] config keys:', Object.keys(config))
 console.log('[duck-md] collections:', Object.keys(config.collections ?? {}))
 const report = await build(config)
 
-// ANSI colors. Disabled when stdout is not a TTY (CI pipes, log
-// captures) or when NO_COLOR is set so the output stays readable
-// in plain-text consumers. Mirrors `clicolors`/`supports-color`.
+// Honor NO_COLOR + non-TTY (CI / piped) to keep output plain-text safe.
 const COLOR = !process.env.NO_COLOR && process.stdout.isTTY
 const ansi = (n) => (s) => (COLOR ? `\x1b[${n}m${s}\x1b[0m` : s)
 const red = ansi('31;1')
@@ -60,9 +54,7 @@ function formatDiagnostic(d) {
   return lines.join('\n')
 }
 
-// Print one-by-one — flush each diagnostic before the next so a
-// bombing build still surfaces the earliest signal even if the
-// process gets killed midway.
+// Flush each diagnostic individually so a killed build still surfaces the earliest signal.
 const diagnostics = report?.diagnostics ?? []
 if (diagnostics.length) {
   console.log(`[duck-md] ${diagnostics.length} diagnostic${diagnostics.length === 1 ? '' : 's'}:`)
@@ -85,9 +77,7 @@ if (!collections.length) {
 
 if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
 
-// Map config keys (lowercase, used in TS imports) to the engine's
-// collection name (which is what gets written to `<name>.json`).
-// `name` defaults to the key when not set.
+// Config key (the import name) -> collection.name (the <name>.json filename); defaults to the key.
 const cfgCollections = config.collections ?? {}
 const entries = Object.entries(cfgCollections)
   .map(([key, c]) => ({ key, name: c?.name ?? key }))

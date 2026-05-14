@@ -5,13 +5,8 @@ import type { ComponentDiff } from './component.service'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 /**
- * Build the initial merge state from a ComponentDiff.
- *
- * File status handling:
- * - Added files: auto-resolved (isResolved=true), will write registry content.
- * - Deleted files: pending user decision (keep local or remove).
- * - Modified files: builds merge hunks via structuredPatch, marks resolved
- *   only if there are no change hunks (files are identical).
+ * `added` auto-resolves to write registry content; `deleted` stays pending until the user
+ * chooses keep/remove; `modified` builds hunks via structuredPatch and pre-resolves if empty.
  */
 export function buildComponentMergeState(
   componentDiff: ComponentDiff,
@@ -43,7 +38,6 @@ export function buildComponentMergeState(
       }
     }
 
-    // Modified
     const hunks = buildMergeHunks(fd.filePath, fd.localContent, fd.registryContent)
     return {
       filePath: fd.filePath,
@@ -64,9 +58,6 @@ export function buildComponentMergeState(
   }
 }
 
-/**
- * Check if all files in a merge state are fully resolved.
- */
 export function isMergeResolved(mergeState: Merge.ComponentState): boolean {
   return mergeState.files.every((f) => {
     if (f.status === 'deleted') return f.fileChoice !== 'pending'
@@ -75,14 +66,7 @@ export function isMergeResolved(mergeState: Merge.ComponentState): boolean {
   })
 }
 
-/**
- * Write resolved merge decisions to disk.
- *
- * - Added files: writes registry content to new file.
- * - Deleted files: removes if fileChoice='remove', else skips.
- * - Modified files: applies hunk choices via applyMergeChoices
- *   to produce the merged content, then writes to disk.
- */
+/** Applies per-hunk choices via `applyMergeChoices`; honors `fileChoice='remove'` for deleted files. */
 export async function writeMergeResults(
   mergeState: Merge.ComponentState,
   onProgress?: ProgressCallback,
@@ -115,7 +99,6 @@ export async function writeMergeResults(
         continue
       }
 
-      // Modified -- apply hunk choices
       onProgress?.(`Writing merged: ${file.filePath}`)
       const merged = applyMergeChoices(file.localContent, file.hunks)
       await fs.writeFile(filePath, merged, 'utf8')

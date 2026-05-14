@@ -9,7 +9,6 @@ const TRIGGER_NAME = 'HoverCardTrigger'
 
 type HoverCardTriggerElement = React.ComponentRef<typeof Primitive.a>
 
-/** Anchor element that opens the hover card on pointer enter and focus. */
 export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, IHoverCard.ITriggerProps>(
   (props: IHoverCard.IScoped<IHoverCard.ITriggerProps>, forwardedRef) => {
     const { __scopeHoverCard, ...triggerProps } = props
@@ -36,7 +35,7 @@ export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, IHover
 
 HoverCardTrigger.displayName = TRIGGER_NAME
 
-/** Wraps an event handler so it is skipped for touch pointer events. */
+/** Skip handler for touch pointers (touch-and-hold should not trigger hover behavior). */
 export function excludeTouch<E>(eventHandler: () => void) {
   return (event: React.PointerEvent<E>) => (event.pointerType === 'touch' ? undefined : eventHandler())
 }

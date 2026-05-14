@@ -16,7 +16,6 @@ import type * as React from 'react'
 import { SearchForm } from './search-form'
 import { VersionSwitcher } from './version-switcher'
 
-// This is sample data.
 const data = {
   navMain: [
     {

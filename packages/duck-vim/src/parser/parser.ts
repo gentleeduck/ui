@@ -2,10 +2,7 @@ import { resolveMod } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
 import type { Parser } from './parser.types'
 
-/**
- * Map of raw key aliases to their canonical names.
- * @internal
- */
+/** @internal Raw key aliases to canonical names. */
 export const KEY_ALIASES: Record<string, string> = {
   ' ': 'space',
   escape: 'esc',
@@ -16,38 +13,22 @@ export const KEY_ALIASES: Record<string, string> = {
   option: 'alt',
 }
 
-/**
- * The set of recognized modifier key names (canonical form).
- */
 export const MODIFIER_KEYS: ReadonlySet<string> = new Set(['ctrl', 'alt', 'meta', 'shift'])
 
-/**
- * The canonical ordering for modifier keys when serializing.
- */
+// Canonical serialization order — keep stable so normalized strings compare equally.
 const MODIFIER_ORDER: ReadonlyArray<'alt' | 'ctrl' | 'meta' | 'shift'> = ['alt', 'ctrl', 'meta', 'shift']
 
-/**
- * Normalizes a single key part to its canonical lowercase form.
- */
 function normalizeKeyPart(part: string): string {
-  // Check alias before lowering/trimming, since ' ' (space) would be trimmed away
+  // Alias lookup before trim/lower because ' ' (space) would otherwise be lost.
   if (KEY_ALIASES[part]) return KEY_ALIASES[part]
   const lower = part.toLowerCase().trim()
   return KEY_ALIASES[lower] ?? lower
 }
 
 /**
- * Parses a key binding string into its structured components.
- *
- * Resolves the cross-platform 'mod' key to 'meta' (Mac) or 'ctrl' (Windows/Linux).
- *
- * @param binding - A key binding string like 'Mod+Shift+S' or 'ctrl+k'
- * @param platform - Optional platform override for Mod resolution
- * @returns The parsed key binding object
- *
- * @example
- * parseKeyBind('Mod+S', 'mac')
- * // { key: 's', ctrl: false, shift: false, alt: false, meta: true, modifiers: ['meta'] }
+ * Parses a binding like `Mod+Shift+S` into structured components.
+ * `mod` resolves to `meta` on Mac and `ctrl` elsewhere via {@link resolveMod}.
+ * @throws if empty, missing a non-modifier key, or containing multiple non-modifiers.
  */
 export function parseKeyBind(binding: string, platform?: Platform.Kind): Parser.IParsedKeyBind {
   if (!binding?.trim()) {
@@ -63,7 +44,6 @@ export function parseKeyBind(binding: string, platform?: Platform.Kind): Parser.
 
     let normalized = normalizeKeyPart(raw)
 
-    // Resolve 'mod' to platform-specific modifier
     if (normalized === 'mod') {
       normalized = resolveMod(platform)
     }
@@ -95,14 +75,8 @@ export function parseKeyBind(binding: string, platform?: Platform.Kind): Parser.
 }
 
 /**
- * Normalizes a key binding string to its canonical form.
- *
- * Canonical form: modifiers in alphabetical order, all lowercase, joined by '+'.
- * Example: 'Shift+Mod+s' on Mac becomes 'meta+shift+s'
- *
- * @param binding - A key binding string
- * @param platform - Optional platform override
- * @returns The canonical key binding string
+ * Returns a canonical form: modifiers in {@link MODIFIER_ORDER}, lowercase, joined by `+`.
+ * Example: `Shift+Mod+s` on Mac becomes `meta+shift+s`.
  */
 export function normalizeKeyBind(binding: string, platform?: Platform.Kind): string {
   const parsed = parseKeyBind(binding, platform)
@@ -110,14 +84,7 @@ export function normalizeKeyBind(binding: string, platform?: Platform.Kind): str
   return parts.join('+')
 }
 
-/**
- * Validates a key binding string without throwing.
- *
- * Returns a result object with `valid`, `warnings`, and `errors` arrays.
- *
- * @param binding - A key binding string to validate
- * @returns The validation result
- */
+/** Validates a binding without throwing; returns `valid`, `warnings`, `errors`. */
 export function validateKeyBind(binding: string): Parser.IValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
@@ -139,9 +106,9 @@ export function validateKeyBind(binding: string): Parser.IValidationResult {
 
     let normalized = normalizeKeyPart(raw)
 
-    // 'mod' resolves to a modifier, so treat it as one for validation
+    // Treat 'mod' as a modifier here; actual ctrl/meta resolution is platform-dependent.
     if (normalized === 'mod') {
-      normalized = 'ctrl' // use ctrl as placeholder for validation purposes
+      normalized = 'ctrl'
     }
 
     if (MODIFIER_KEYS.has(normalized)) {
@@ -162,7 +129,7 @@ export function validateKeyBind(binding: string): Parser.IValidationResult {
     errors.push('Multiple non-modifier keys found')
   }
 
-  // Warnings
+  // macOS Alt+letter emits special characters, so the keydown `key` won't match the letter.
   if (seenModifiers.has('alt') && nonModifierCount === 1) {
     warnings.push('Alt+letter combinations may not work on macOS due to special characters')
   }
@@ -175,11 +142,8 @@ export function validateKeyBind(binding: string): Parser.IValidationResult {
 }
 
 /**
- * Builds a key descriptor from a KeyboardEvent (same format as canonical key binding).
- * Returns null for pure modifier key presses.
- *
- * @param e - The keyboard event
- * @returns The descriptor string or null
+ * Builds a canonical descriptor from a KeyboardEvent.
+ * Returns `null` for pure modifier key presses (Shift/Ctrl/Alt/Meta alone).
  */
 export function keyboardEventToDescriptor(e: KeyboardEvent): string | null {
   if (['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return null

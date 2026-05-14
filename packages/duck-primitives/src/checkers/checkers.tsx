@@ -2,11 +2,7 @@ import svgToMiniDataURI from 'mini-svg-data-uri'
 
 import React from 'react'
 
-/**
- * Hook to convert React SVG elements into mini data URIs
- * and provide a hidden renderer node for both states
- * and style props for an input using CSS variables.
- */
+/** Renders SVG indicators to a hidden node, then exposes them as `--svg-off` / `--svg-on` data-URI CSS vars. */
 export function useSvgIndicator({
   indicator,
   checkedIndicator,
@@ -35,13 +31,11 @@ export function useSvgIndicator({
     setCheckedIndicatorReady(hasOn)
   }, [])
 
-  // CSS style to attach to the input element with both variables
   const inputStyle: React.CSSProperties = {
     ...(uriOff ? { '--svg-off': `url("${uriOff}")` } : {}),
     ...(uriOn ? { '--svg-on': `url("${uriOn}")` } : {}),
   } as React.CSSProperties
 
-  // Combined hidden node rendering both SVGs
   const SvgIndicator: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
     <>
       {indicator && (

@@ -44,12 +44,9 @@ async function runExtensionStage(context: IRegistryBuildContext, stage: 'beforeB
 }
 
 /**
- * Execute the full build pipeline.
- *
- * The runner is entirely extension-driven: it loads config, creates a context,
- * runs `beforeBuild` extensions, then `afterBuild` extensions. All processing
- * (index-build, components, colors, etc.) is provided by extensions registered
- * in the config or via a preset like `uiRegistryPreset()`.
+ * Runs the build pipeline. The runner itself only orchestrates `beforeBuild`
+ * then `afterBuild` extensions — all real work (index-build, components, colors)
+ * comes from extensions registered in the config (typically via `uiRegistryPreset()`).
  */
 export async function build(options: IBuildOptions = {}): Promise<IBuildResult> {
   const loaded = await loadRegistryBuildConfig({

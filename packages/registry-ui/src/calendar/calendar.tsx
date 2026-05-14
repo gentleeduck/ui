@@ -46,7 +46,7 @@ const Calendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
     const direction = useDirection(dir)
     const currentYear = new Date().getFullYear()
     const resolvedYearRange = yearRange ?? { from: currentYear - 100, to: currentYear + 10 }
-    // Build full locale tag with numbering system for Arabic
+    // Arabic uses Eastern Arabic numerals via `-u-nu-arab` extension
     const formatLocale = locale?.startsWith('ar') ? `${locale}-u-nu-arab` : locale
 
     const calendar = useCalendar({
@@ -93,7 +93,6 @@ const Calendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
           className,
         )}>
         <div className="relative flex flex-col gap-4">
-          {/* Nav header  -  spans full width above all months */}
           {renderHeader ? (
             renderHeader({
               month: state.month,

@@ -37,8 +37,8 @@ function usePresence(present: boolean) {
       const currentAnimationName = getAnimationName(styles)
 
       if (present) {
-        // Interrupt any in-flight exit animation so its animationend
-        // doesn't fire and accidentally unmount the re-opened content.
+        // Cancel any in-flight exit animation; otherwise its animationend
+        // would fire and accidentally unmount the re-opened content.
         if (node) {
           ;(node as HTMLElement).style.animationName = 'none'
           void (node as HTMLElement).offsetWidth
@@ -46,12 +46,11 @@ function usePresence(present: boolean) {
         }
         send('MOUNT')
       } else if (currentAnimationName === 'none' || styles?.display === 'none') {
-        // No exit animation or element is hidden -- unmount immediately.
+        // No exit animation, or hidden -> unmount immediately
         send('UNMOUNT')
       } else {
-        // Detect whether an exit animation started by comparing animation-name.
-        // We read computed styles here because there is no animationrun event
-        // and animationstart fires only after animation-delay has elapsed.
+        // No `animationrun` event exists, and `animationstart` waits for animation-delay;
+        // detect an exit animation by diffing computed animation-name instead.
         const isAnimating = prevAnimationName !== currentAnimationName
 
         if (wasPresent && isAnimating) {
@@ -70,15 +69,14 @@ function usePresence(present: boolean) {
       let timeoutId: number
       const ownerWindow = node.ownerDocument.defaultView ?? window
 
-      // Only process ANIMATION_END for the currently active animation.
-      // An ANIMATION_OUT during ANIMATION_IN can fire animationcancel for the
-      // in-animation after we have already entered unmountSuspended.
+      // ANIMATION_OUT interrupting ANIMATION_IN fires animationcancel for the in-anim
+      // AFTER we've entered unmountSuspended; only treat events for the active animation as END.
       const handleAnimationEnd = (event: AnimationEvent) => {
         const currentAnimationName = getAnimationName(stylesRef.current)
         const isCurrentAnimation = currentAnimationName.includes(event.animationName)
         if (event.target === node && isCurrentAnimation) {
-          // Set fill-mode to "forwards" to prevent a flash of visible content
-          // when React 18 concurrency applies the state update a frame late.
+          // forwards fill-mode prevents content-flash when React 18 concurrency applies the
+          // state update a frame late
           send('ANIMATION_END')
           if (!prevPresentRef.current) {
             const currentFillMode = node.style.animationFillMode
@@ -106,7 +104,7 @@ function usePresence(present: boolean) {
         node.removeEventListener('animationend', handleAnimationEnd)
       }
     } else {
-      // Node removed prematurely -- transition to unmounted.
+      // node removed before animation completed
       send('ANIMATION_END')
     }
   }, [node, send])
@@ -124,10 +122,7 @@ function getAnimationName(styles?: CSSStyleDeclaration) {
   return styles?.animationName || 'none'
 }
 
-/**
- * Accesses a ReactElement's ref without triggering version-specific warnings.
- * React 18 DEV warns on element.props.ref, React 19 DEV warns on element.ref.
- */
+/** Read element ref without tripping DEV warnings (React 18: props.ref, React 19: element.ref). */
 function getComponentRef(element: React.ReactElement<{ ref?: React.Ref<unknown> }>) {
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning

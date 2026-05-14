@@ -1,16 +1,10 @@
-/** @internal */
 interface IMeasurable {
   getBoundingClientRect(): DOMRect
 }
 
 /**
- * @internal
- * Observes an element's bounding rect using a requestAnimationFrame loop.
- * Batches DOM reads (getBoundingClientRect) before DOM writes (callbacks)
- * to minimize layout thrashing. Returns an unsubscribe function.
- *
- * Multiple callbacks can observe the same element -- the loop only runs
- * while at least one element is being observed.
+ * Observe an element's rect via a single shared rAF loop. Reads are batched before writes
+ * to avoid layout thrash. Loop runs only while at least one element is observed.
  */
 function observeElementRect(elementToObserve: IMeasurable, callback: CallbackFn) {
   const observedData = observedElements.get(elementToObserve)
@@ -45,8 +39,6 @@ function observeElementRect(elementToObserve: IMeasurable, callback: CallbackFn)
   }
 }
 
-// Module-level state for the shared rAF loop.
-
 type CallbackFn = (rect: DOMRect) => void
 
 interface IObservedData {
@@ -60,7 +52,7 @@ const observedElements: Map<IMeasurable, IObservedData> = new Map()
 function runLoop() {
   const changedRectsData: Array<IObservedData> = []
 
-  // DOM reads
+  // reads
   observedElements.forEach((data, element) => {
     const newRect = element.getBoundingClientRect()
     if (!rectEquals(data.rect, newRect)) {
@@ -69,7 +61,7 @@ function runLoop() {
     }
   })
 
-  // DOM writes (callbacks may trigger layout)
+  // writes (callbacks may trigger layout)
   for (const data of changedRectsData) {
     for (const callback of data.callbacks) {
       callback(data.rect)

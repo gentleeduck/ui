@@ -22,13 +22,9 @@ export async function getAllBlocks(
 
   return Object.values(index).filter((block) => {
     if (!types.includes(block.type)) return false
-    // Only include blocks that match at least one of the requested categories when categories are provided
     if (categories && categories.length > 0) {
       return (block.categories ?? []).some((category) => categories.includes(category))
     }
-    //     &&
-    // (categories.length === 0 || block.categories?.some((category) => categories.includes(category))) &&
-    // !block.name.startsWith('chart-'),
     return true
   })
 }

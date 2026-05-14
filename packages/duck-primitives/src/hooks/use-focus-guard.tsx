@@ -1,21 +1,17 @@
 import * as React from 'react'
 
-/** Number of active components requesting focus guards. */
 let count = 0
 
-/**
- * Renders nothing visible but ensures focus guards are present in the DOM.
- * Can be used as a component wrapper instead of calling useFocusGuards directly.
- */
+/** Component wrapper for `useFocusGuards`. */
 function FocusGuards(props: { children?: React.ReactNode }) {
   useFocusGuards()
   return props.children
 }
 
 /**
- * Injects a pair of invisible, focusable spans at the start and end of the body.
- * These guards ensure focusin/focusout events fire consistently, which is
- * required for focus trapping to work when the scope is portalled.
+ * Insert invisible focusable spans at the start/end of document.body. Required so
+ * focusin/focusout fire consistently for focus-trap when the scope is portalled outside
+ * the trap's container.
  */
 function useFocusGuards() {
   React.useEffect(() => {

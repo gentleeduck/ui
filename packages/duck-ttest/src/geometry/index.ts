@@ -1,5 +1,4 @@
-// Geometry primitives. No math — these are the type shapes that UI toolkits,
-// canvas APIs, and physics libraries tend to share.
+// Geometry shape primitives shared by UI/canvas/physics APIs.
 
 /** 2D point in pixel or unit-agnostic coordinate space. */
 export interface Point2D {

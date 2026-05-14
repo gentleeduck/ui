@@ -12,19 +12,6 @@ import { StepIndicator } from '../components/step-indicator'
 import { useDiffKeyboard } from '../hooks/use-diff-keyboard'
 import { useDiffWorkflow } from '../hooks/use-diff-workflow'
 
-/**
- * Interactive diff viewer screen.
- *
- * Shows the difference between locally installed components
- * and their registry versions. Supports unified and side-by-side views.
- *
- * Workflow steps:
- *   loading  - scan installed components
- *   select   - pick which component to diff
- *   diffing  - compare local vs registry
- *   results  - display diff with scrolling and navigation
- *   error    - show error message
- */
 export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => void }) {
   const workflow = useDiffWorkflow({ onBack })
   useDiffKeyboard(workflow, onBack)
@@ -46,7 +33,6 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
     handleSelect,
   } = workflow
 
-  // -- Loading --
   if (step === 'loading') {
     return (
       <Box flexDirection="column">
@@ -58,7 +44,6 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
     )
   }
 
-  // -- Select component --
   if (step === 'select') {
     return (
       <Box flexDirection="column">
@@ -79,7 +64,6 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
     )
   }
 
-  // -- Diffing (spinner) --
   if (step === 'diffing') {
     return (
       <Box flexDirection="column">
@@ -92,10 +76,9 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
     )
   }
 
-  // -- Results --
   if (step === 'results') {
     const fileNames = diffResult?.diffs.map((d) => d.filePath) ?? []
-    // 7 accounts for the " | " separator (3) + border chrome (2+2)
+    // 7 = " | " separator (3) + box borders (2 + 2).
     const halfWidth = Math.floor((columns - 7) / 2)
 
     const statusItems = [
@@ -139,7 +122,6 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
       )
     }
 
-    // Side-by-side view
     const currentPairs = sideBySidePairsPerFile[activeFileIndex] ?? []
     const visiblePairs = currentPairs.slice(scrollOffset, scrollOffset + visibleRows)
 
@@ -180,7 +162,6 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
     )
   }
 
-  // -- Error --
   return (
     <Box flexDirection="column">
       <Banner compact />

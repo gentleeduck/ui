@@ -130,14 +130,13 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       willChangeTimer: 0,
     })
 
-    // Only React state: the zoom label percentage
+    // Zoom label is the only value that goes through React state; everything else lives in refs.
     const [displayZoom, setDisplayZoom] = useState(initialZoom)
 
-    // Stable ref for the callback so effects never re-subscribe
+    // Ref so listeners can read the latest callback without re-subscribing.
     const onStateChangeRef = useRef(onStateChange)
     onStateChangeRef.current = onStateChange
 
-    // Flush a pending state emission. Called from RAF or directly by button handlers.
     const flushEmit = useCallback(() => {
       if (!s.current.emitPending) return
       s.current.emitPending = false
@@ -148,14 +147,11 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       })
     }, [])
 
-    // Mark state as dirty so the next RAF tick emits it.
-    // For continuous interactions (drag, wheel, pinch) this batches
-    // multiple events into one React state update per frame.
+    // Marks state dirty so the next RAF tick batches drag/wheel/pinch into one emit.
     const markDirty = useCallback(() => {
       s.current.emitPending = true
     }, [])
 
-    // Write transform directly to the DOM element.
     const applyTransform = useCallback((animate: boolean) => {
       const el = contentRef.current
       if (!el) return
@@ -173,8 +169,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }, 200)
     }, [])
 
-    // Batch DOM writes behind a single requestAnimationFrame.
-    // Also flushes any pending state emission in the same frame.
+    // Batches DOM writes and the pending emit into a single RAF tick.
     const scheduleApply = useCallback(() => {
       if (s.current.rafId) return
       s.current.rafId = requestAnimationFrame(() => {
@@ -186,23 +181,18 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
 
     const syncDisplay = useCallback(() => setDisplayZoom(s.current.zoom), [])
 
-    // -- Sync from external state (receives changes from a paired panel) --
-
+    // Receives state from a paired panel. Epsilon check + silent apply avoid feedback loops.
     useEffect(() => {
       if (!syncState) return
       const { zoom, x, y } = syncState
-      // Epsilon check prevents applying our own emitted state back
       if (Math.abs(s.current.zoom - zoom) < 0.001 && Math.abs(s.current.x - x) < 0.5 && Math.abs(s.current.y - y) < 0.5)
         return
       s.current.zoom = zoom
       s.current.x = x
       s.current.y = y
-      // Apply silently without emitting back to avoid ping-pong
       applyTransform(true)
       syncDisplay()
     }, [syncState, applyTransform, syncDisplay])
-
-    // -- Button handlers (discrete, emit immediately) --
 
     const handleZoomIn = useCallback(() => {
       s.current.zoom = clamp(s.current.zoom + ZOOM_STEP_BUTTON, minZoom, maxZoom)

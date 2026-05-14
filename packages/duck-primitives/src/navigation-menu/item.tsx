@@ -17,8 +17,8 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, INavigati
   (props: INavigationMenu.IScoped<INavigationMenuItemProps>, forwardedRef) => {
     const { __scopeNavigationMenu, value: valueProp, ...itemProps } = props
     const autoValue = useId()
-    // We need to provide an initial deterministic value as `useId` will return
-    // empty string on the first render and we don't want to match our internal "closed" value.
+    // useId returns '' on first render; fall back to a sentinel so we never
+    // collide with the internal "closed" state value
     const value = valueProp || autoValue || 'LEGACY_REACT_AUTO_VALUE'
     const contentRef = React.useRef<INavigationMenu.NavigationMenuContentImplElement>(null)
     const triggerRef = React.useRef<HTMLButtonElement>(null)

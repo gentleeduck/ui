@@ -20,7 +20,6 @@ export function rehypeComponent() {
 
       if (node.name === 'ComponentSource') {
         const name = getNodeAttributeByName(node, 'name')?.value as string
-        // const fileName = getNodeAttributeByName(node, 'fileName')?.value as string | undefined
 
         if (!name && !srcPath) {
           return null
@@ -75,20 +74,15 @@ export function rehypeComponent() {
           const firstFile = component.files[0] as { path: string }
           const src = firstFile.path
 
-          // Read the source file.
           const filePath = path.join(process.cwd(), 'registry', src)
           let source = fs.readFileSync(filePath, 'utf8')
 
-          // Replace imports.
-          // TODO: Use @swc/core and a visitor to replace this.
-          // For now a simple regex should do.
           source = source.replaceAll(
             `@/registry/registry-ui-components`,
             `@/components/${src.split('/')[0]?.split('-')[1] ?? ''}`,
           )
           source = source.replaceAll('export default', 'export')
 
-          // Add code as children so that rehype can take over at build time.
           node.children?.push(
             u('element', {
               children: [
@@ -115,82 +109,6 @@ export function rehypeComponent() {
           console.error(error)
         }
       }
-
-      // if (node.name === "ComponentExample") {
-      //   const source = getComponentSourceFileContent(node)
-      //   if (!source) {
-      //     return
-      //   }
-
-      //   // Replace the Example component with a pre element.
-      //   node.children?.push(
-      //     u("element", {
-      //       tagName: "pre",
-      //       properties: {
-      //         __src__: src,
-      //       },
-      //       children: [
-      //         u("element", {
-      //           tagName: "code",
-      //           properties: {
-      //             className: ["language-tsx"],
-      //           },
-      //           children: [
-      //             {
-      //               type: "text",
-      //               value: source,
-      //             },
-      //           ],
-      //         }),
-      //       ],
-      //     })
-      //   )
-
-      //   const extractClassname = getNodeAttributeByName(
-      //     node,
-      //     "extractClassname"
-      //   )
-      //   if (
-      //     extractClassname &&
-      //     typeof extractClassname.value !== "undefined" &&
-      //     extractClassname.value !== "false"
-      //   ) {
-      //     // Extract className from string
-      //     // TODO: Use @swc/core and a visitor to extract this.
-      //     // For now, a simple regex should do.
-      //     const values = source.match(/className="(.*)"/)
-      //     const className = values ? values[1] : ""
-
-      //     // Add the className as a jsx prop so we can pass it to the copy button.
-      //     node.attributes?.push({
-      //       name: "extractedClassNames",
-      //       type: "mdxJsxAttribute",
-      //       value: className,
-      //     })
-
-      //     // Add a pre element with the className only.
-      //     node.children?.push(
-      //       u("element", {
-      //         tagName: "pre",
-      //         properties: {},
-      //         children: [
-      //           u("element", {
-      //             tagName: "code",
-      //             properties: {
-      //               className: ["language-tsx"],
-      //             },
-      //             children: [
-      //               {
-      //                 type: "text",
-      //                 value: className,
-      //               },
-      //             ],
-      //           }),
-      //         ],
-      //       })
-      //     )
-      //   }
-      // }
     })
   }
 }
@@ -203,15 +121,11 @@ type ItemType = { name: string; type: string; src: string }
 function getComponentSource(files: { type: string; path: string }[]) {
   const item: ItemType[] = []
   for (let i = 0; i < files.length; i++) {
-    // ! NOTE: This is a temporary solution
     const filePath = path.join(process.cwd(), 'registry', files[i]?.path || '')
     let source = `// ${files[i]?.path.split('/').slice(1).join('/')}\n\n`
     try {
       source += fs.readFileSync(filePath, 'utf8')
 
-      // Replace imports.
-      // TODO: Use @swc/core and a visitor to replace this.
-      // For now a simple regex should do.
       source = source.replaceAll(
         `@/registry/registry-ui-components`,
         `@/components/${files[i]?.path.split('/')[0]?.split('-')[1]}`,
@@ -220,7 +134,6 @@ function getComponentSource(files: { type: string; path: string }[]) {
       item.push({
         name: files[i]?.path.split('/')?.pop() ?? 'file',
         src: source,
-        // ! NOTE: This is a temporary solution
         type: files[i]?.type ?? 'unknown',
       })
     } catch (error) {

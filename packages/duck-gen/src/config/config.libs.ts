@@ -1,23 +1,21 @@
+/** Strips `#` comments (whole-line or end-of-line). Does not handle `#` inside quoted strings. */
 export function strip_comment(line: string) {
-  // supports whole-line comments and end-of-line comments (simple version)
   const idx = line.indexOf('#')
   if (idx === -1) return line
   return line.slice(0, idx)
 }
 
+/** Parses a single RHS value: booleans, `[..]` arrays of strings, quoted strings, or bare tokens. */
 export function parse_value(raw: string, lineNo: number) {
   const v = raw.trim()
 
-  // boolean
   if (v === 'true') return true
   if (v === 'false') return false
 
-  // array of strings: ["a", "b"]
   if (v.startsWith('[') && v.endsWith(']')) {
     const inside = v.slice(1, -1).trim()
     if (!inside) return []
 
-    // split by commas, trim, remove quotes if present
     return inside
       .split(',')
       .map((s) => s.trim())
@@ -25,12 +23,11 @@ export function parse_value(raw: string, lineNo: number) {
       .map((item) => unquote(item, lineNo))
   }
 
-  // string (quoted)
   if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
     return unquote(v, lineNo)
   }
 
-  // allow bare strings too (like ./tsconfig.json or /api)
+  // Bare tokens (e.g. `./tsconfig.json`, `/api`) pass through unquoted.
   return v
 }
 
@@ -39,9 +36,6 @@ export function unquote(s: string, _lineNo: number) {
   const isDouble = t.startsWith('"') && t.endsWith('"')
   const isSingle = t.startsWith("'") && t.endsWith("'")
   if (isDouble || isSingle) return t.slice(1, -1)
-
-  // In arrays you might get unquoted tokens by mistake.
-  // Keep them, but you can be strict if you want:
   return t
 }
 
@@ -60,7 +54,7 @@ export function get_object_at_path(root: any, pathParts: string[]) {
   let cur = root
   for (const part of pathParts) {
     if (cur[part] == null || typeof cur[part] !== 'object') {
-      // Should not happen if ensureObjectAtPath is used correctly
+      // Reachable only if `ensure_object_at_path` was skipped for this path.
       throw new Error(`Internal error: missing object at "${pathParts.join('.')}"`)
     }
     cur = cur[part]

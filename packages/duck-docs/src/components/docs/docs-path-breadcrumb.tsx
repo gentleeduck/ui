@@ -59,7 +59,6 @@ export function DocsPathBreadcrumb({ segments, basePath = '/docs' }: { segments:
   return (
     <Breadcrumb className="min-w-0 overflow-hidden">
       <BreadcrumbList className="flex-nowrap overflow-hidden">
-        {/* First segment */}
         {first && (
           <BreadcrumbItem className="min-w-0 shrink-0">
             {first.isLast ? (
@@ -74,7 +73,6 @@ export function DocsPathBreadcrumb({ segments, basePath = '/docs' }: { segments:
           </BreadcrumbItem>
         )}
 
-        {/* Middle: collapsed into ellipsis with dropdown/drawer */}
         {middle.length > 0 && (
           <>
             <BreadcrumbSeparator />
@@ -121,7 +119,6 @@ export function DocsPathBreadcrumb({ segments, basePath = '/docs' }: { segments:
           </>
         )}
 
-        {/* Last segment */}
         {last && (
           <>
             <BreadcrumbSeparator />

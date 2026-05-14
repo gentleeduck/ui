@@ -19,7 +19,6 @@ import { ArchiveX, Command, File, Inbox, Send, Trash2 } from 'lucide-react'
 import * as React from 'react'
 import { NavUser } from './nav-user'
 
-// This is sample data
 const data = {
   mails: [
     {
@@ -143,8 +142,7 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Note: I'm using state to show active item.
-  // IRL you should use the url/router.
+  // demo only — real apps should derive active item from the URL/router
   const [activeItem, setActiveItem] = React.useState(data.navMain[0])
   const [mails, setMails] = React.useState(data.mails)
   const { setOpen } = useSidebar()

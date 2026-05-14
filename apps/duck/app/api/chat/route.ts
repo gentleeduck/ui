@@ -110,7 +110,6 @@ export async function POST(request: Request) {
   }
 
   try {
-    // If a specific source slug was selected, use only that page as context
     const { contextText, sources } = body.sourceSlug
       ? await buildChatContextFromSlug(lastUserMessage.content, body.sourceSlug)
       : await buildChatContext(lastUserMessage.content)
@@ -170,9 +169,7 @@ export async function POST(request: Request) {
                 if (text) {
                   controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', content: text })}\n\n`))
                 }
-              } catch {
-                // skip unparseable chunks
-              }
+              } catch {}
             }
           }
         } catch (err) {

@@ -1,4 +1,3 @@
-// --- SQL-to-TypeScript primitive mapping ---
 export type SQLTypeMap = {
   INT: number
   INTEGER: number
@@ -20,7 +19,6 @@ export type SQLTypeMap = {
   JSON: any
 }
 
-// --- Whitespace utils ---
 export type WhitespaceChar = ' ' | '\n' | '\t' | '\r'
 
 export type CollapseWhitespaceSafe<
@@ -39,14 +37,12 @@ export type Trim<S extends string> = S extends ` ${infer R}` ? Trim<R> : S exten
 
 export type NormalizeSQL<S extends string> = CollapseWhitespaceSafe<S>
 
-// --- Capitalization and type cleaning ---
 export type UppercaseWord<S extends string> = S extends `${infer C1}${infer Rest}`
   ? `${Uppercase<C1>}${UppercaseWord<Rest>}`
   : ''
 
 export type NormalizeType<S extends string> = S extends `${infer T}(${string})` ? T : S
 
-// --- Reference extraction ---
 export type Ref<Table extends string, Column extends string> = {
   __ref: true
   table: Table
@@ -57,7 +53,6 @@ export type ExtractReferences<S extends string> = S extends `${string} REFERENCE
   ? Ref<Trim<T>, Trim<C>>
   : null
 
-// --- Enum extraction ---
 export type ExtractEnum<S extends string> = S extends `${string}ENUM(${infer Values})${string}`
   ? ParseEnumValues<Values>
   : never
@@ -68,7 +63,6 @@ export type ParseEnumValues<S extends string> = S extends `'${infer First}',${in
     ? Only
     : never
 
-// --- Constraint detection ---
 export type HasDefault<S extends string> = S extends `${string} DEFAULT ${string}` ? true : false
 export type IsNotNull<S extends string> = S extends `${string} NOT NULL` ? true : false
 export type IsPrimaryKey<S extends string> = S extends `${string} PRIMARY KEY` ? true : false
@@ -78,7 +72,6 @@ export type IsAutoIncrement<S extends string> = S extends `${string} AUTOINCREME
     ? true
     : false
 
-// --- Constraint stripping for type extraction ---
 export type StripConstraints<S extends string> = S extends `${infer H} DEFAULT ${string}`
   ? StripConstraints<H>
   : S extends `${infer H} PRIMARY KEY`
@@ -97,7 +90,7 @@ export type StripConstraints<S extends string> = S extends `${infer H} DEFAULT $
 
 export type CleanSQLType<S extends string> = UppercaseWord<NormalizeType<StripConstraints<S>>>
 
-// --- Parenthesis-aware Splitter for columns ---
+// Parenthesis-aware column splitter.
 type Inc<D extends any[]> = [any, ...D]
 type Dec<D extends any[]> = D extends [any, ...infer R] ? R : []
 
@@ -123,31 +116,30 @@ export type SplitColumns<
           ? SplitColumns<R, Sep, Depth, `${Curr}${F}`, Acc>
           : never
 
-// --- Determine if field should be nullable ---
+// Non-nullable when: DEFAULT, AUTO_INCREMENT, NOT NULL, or PRIMARY KEY.
 export type IsNullable<S extends string> =
-  HasDefault<S> extends true // DEFAULT ⇒ non-nullable
+  HasDefault<S> extends true
     ? false
-    : IsAutoIncrement<S> extends true // AUTO_INCREMENT ⇒ non-nullable
+    : IsAutoIncrement<S> extends true
       ? false
-      : IsNotNull<S> extends true // NOT NULL ⇒ non-nullable
+      : IsNotNull<S> extends true
         ? false
-        : IsPrimaryKey<S> extends true // PRIMARY KEY ⇒ non-nullable
+        : IsPrimaryKey<S> extends true
           ? false
-          : true // otherwise nullable
+          : true
 
-// --- Determine if field should be optional ---
+// Optional when: DEFAULT present, or PK + AUTO_INCREMENT, or lacks NOT NULL.
 export type IsOptional<S extends string> =
-  HasDefault<S> extends true // DEFAULT ⇒ optional
+  HasDefault<S> extends true
     ? true
-    : IsPrimaryKey<S> extends true // PK ⇒ optional if auto-inc only
+    : IsPrimaryKey<S> extends true
       ? IsAutoIncrement<S> extends true
         ? true
         : false
-      : IsNotNull<S> extends true // NOT NULL without default ⇒ required
+      : IsNotNull<S> extends true
         ? false
-        : true // otherwise optional
+        : true
 
-// --- Base type resolution ---
 export type GetBaseType<S extends string> =
   ExtractReferences<S> extends Ref<infer T, infer C>
     ? Ref<T, C>
@@ -157,15 +149,12 @@ export type GetBaseType<S extends string> =
         : unknown
       : ExtractEnum<S>
 
-// --- Apply nullability ---
 export type ApplyNullability<Base, S extends string> = IsNullable<S> extends true ? Base | null : Base
 
-// --- Parse column definition ---
 export type ParseColumnDef<S extends string> = S extends `${infer Name} ${infer Raw}`
   ? [Trim<Name>, ApplyNullability<GetBaseType<Raw>, Raw>, IsOptional<Raw>]
   : never
 
-// --- Extract columns and build schema ---
 export type ExtractColumns<SQL extends string> =
   NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer C})` ? SplitColumns<C> : never
 
@@ -186,7 +175,6 @@ export type InferSchema<S extends string> =
     ? { [K in keyof BuildSchemaType<Cols>]: BuildSchemaType<Cols>[K] }
     : never
 
-// --- Reference resolution ---
 export type ResolveRef<T, Schemas extends Record<string, any>> =
   T extends Ref<infer Tbl, infer Col>
     ? Tbl extends keyof Schemas

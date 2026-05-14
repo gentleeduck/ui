@@ -130,7 +130,6 @@ export async function diffCommandAction(args: string[], opt: DiffOptions) {
           const newNum = formatLineNumber(line.newLineNum, numWidth)
           const prefix = line.type === 'add' ? '+' : line.type === 'remove' ? '-' : ' '
 
-          // Build line content with word-level highlighting
           let content = ''
           for (const seg of line.segments) {
             if (seg.highlight) {

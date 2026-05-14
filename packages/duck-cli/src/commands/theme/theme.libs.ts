@@ -10,7 +10,6 @@ import { isVerbose } from '~/utils/verbose'
 import { DEFAULT_GLOBALS_CANDIDATES, THEME_BLOCK_END, THEME_BLOCK_START } from './theme.constants'
 import { type ThemeOptions, themeOptionsSchema } from './theme.dto'
 
-/** `duck-cli theme list` — print the available theme catalog. */
 export async function themeListAction(opts: ThemeOptions) {
   const options = themeOptionsSchema.parse(opts)
 
@@ -46,7 +45,6 @@ export async function themeListAction(opts: ThemeOptions) {
   }
 }
 
-/** `duck-cli theme info <name>` — print one theme's color tokens. */
 export async function themeInfoAction(name: string | undefined, opts: ThemeOptions) {
   const options = themeOptionsSchema.parse(opts)
 
@@ -91,7 +89,6 @@ export async function themeInfoAction(name: string | undefined, opts: ThemeOptio
   }
 }
 
-/** `duck-cli theme add <name>` — write theme tokens into the user's globals.css. */
 export async function themeAddAction(name: string | undefined, opts: ThemeOptions) {
   const options = themeOptionsSchema.parse(opts)
 
@@ -135,11 +132,7 @@ export async function themeAddAction(name: string | undefined, opts: ThemeOption
   }
 }
 
-// ---------------------------------------------------------------------------
-// Pure helpers — exposed for tests
-// ---------------------------------------------------------------------------
-
-/** Resolve the css file path, preferring the explicit `--css` flag. */
+/** Explicit `--css` short-circuits the auto-probe of `DEFAULT_GLOBALS_CANDIDATES`. */
 export function resolveCssPath(explicit: string, cwd: string = process.cwd()): string | null {
   if (explicit) {
     const resolved = resolve(cwd, explicit)
@@ -152,7 +145,7 @@ export function resolveCssPath(explicit: string, cwd: string = process.cwd()): s
   return null
 }
 
-/** Build the CSS block that materializes a theme inside :root + .dark. */
+/** Emits `:root` for `light` tokens and `.dark` for `dark` tokens, wrapped by the marker pair. */
 export function renderThemeBlock(theme: Registry.Theme): string {
   const lightLines = Object.entries(theme.light)
     .map(([key, value]) => `  --${key}: ${value};`)
@@ -175,7 +168,7 @@ export function renderThemeBlock(theme: Registry.Theme): string {
   ].join('\n')
 }
 
-/** Replace any existing theme block (between markers) or append the new one. */
+/** Idempotent: replaces a previously inserted block (between markers) or appends if absent. */
 export function mergeThemeBlock(existing: string, block: string): string {
   const startIdx = existing.indexOf(THEME_BLOCK_START)
   const endIdx = existing.indexOf(THEME_BLOCK_END)

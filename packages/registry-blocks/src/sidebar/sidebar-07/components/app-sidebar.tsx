@@ -19,7 +19,6 @@ import { NavProjects } from './nav-projects'
 import { NavUser } from './nav-user'
 import { TeamSwitcher } from './team-switcher'
 
-// This is sample data.
 const data = {
   navMain: [
     {

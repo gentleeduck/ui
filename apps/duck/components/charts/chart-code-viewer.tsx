@@ -79,17 +79,6 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           {tab === 'code' && (
             <div className="ml-auto flex items-center justify-center gap-2">
               <BlockCopyButton code={chart.code} event="copy_chart_code" name={chart.name} />
-              {
-                // <V0Button
-                //   block={{
-                //     code: chart.code,
-                //     description: chart.description || 'Edit in v0',
-                //     name: chart.name,
-                //   }}
-                //   className="h-7"
-                //   id={`v0-button-${chart.name}`}
-                // />
-              }
             </div>
           )}
           {tab === 'theme' && (

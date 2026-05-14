@@ -3,9 +3,7 @@ import { detectPlatform } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
 import type { Format } from './format.types'
 
-/**
- * Platform-specific modifier display names (ASCII only).
- */
+/** Platform-specific modifier display names (ASCII only — no unicode glyphs). */
 export const SYMBOL_MAP: Record<Platform.Kind, Record<string, string>> = {
   mac: {
     meta: 'Cmd',
@@ -27,9 +25,6 @@ export const SYMBOL_MAP: Record<Platform.Kind, Record<string, string>> = {
   },
 }
 
-/**
- * Human-readable labels for special keys.
- */
 export const LABEL_MAP: Record<string, string> = {
   space: 'Space',
   esc: 'Escape',
@@ -49,20 +44,8 @@ export const LABEL_MAP: Record<string, string> = {
 }
 
 /**
- * Formats a key binding string for display using platform-aware modifier symbols.
- *
- * Uses ASCII text labels (no unicode symbols) per project convention.
- *
- * @param binding - A key binding string like 'Mod+S' or 'ctrl+shift+k'
- * @param options - Format options
- * @returns Formatted display string
- *
- * @example
- * formatForDisplay('Mod+S', { platform: 'mac' })
- * // 'Cmd+S'
- *
- * formatForDisplay('Mod+S', { platform: 'linux' })
- * // 'Ctrl+S'
+ * Formats a binding (e.g. `Mod+S`) using platform-aware modifier symbols.
+ * `Mod` resolves to `Cmd` on mac and `Ctrl` elsewhere.
  */
 export function formatForDisplay(binding: string, options?: Format.IFormatOptions): string {
   const platform = options?.platform ?? detectPlatform()
@@ -76,24 +59,13 @@ export function formatForDisplay(binding: string, options?: Format.IFormatOption
     parts.push(symbols[mod] ?? mod)
   }
 
-  // Capitalize the key for display
   const displayKey = parsed.key.length === 1 ? parsed.key.toUpperCase() : capitalizeKey(parsed.key)
   parts.push(displayKey)
 
   return parts.join(separator)
 }
 
-/**
- * Formats a key binding string using verbose human-readable labels.
- *
- * @param binding - A key binding string
- * @param options - Format options
- * @returns Formatted label string
- *
- * @example
- * formatWithLabels('Mod+Shift+S', { platform: 'linux' })
- * // 'Ctrl + Shift + S'
- */
+/** Like {@link formatForDisplay} but uses verbose labels (e.g. `Escape` not `Esc`). */
 export function formatWithLabels(binding: string, options?: Format.IFormatOptions): string {
   const platform = options?.platform ?? detectPlatform()
   const separator = options?.separator ?? ' + '

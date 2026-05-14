@@ -199,8 +199,6 @@ function mergeRanges<TDate>(
   return [...merged, ...inProgress]
 }
 
-// -----------------------------------------------------------------------------
-// applySelection
 /**
  * Decorate a grid with selection, disabled, and range flags.
  * Takes the raw output of `buildCalendarMonth()` and fills in

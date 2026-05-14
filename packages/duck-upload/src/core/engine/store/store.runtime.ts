@@ -12,18 +12,9 @@ import { scheduleWork } from './store.schedule'
 import type { InflightUpload, StoreOptions, StoreRuntime } from './store.types'
 
 /**
- * Creates a new runtime instance with initial state, emitter, reducer, and effect queue.
- *
- * Notes:
- * - Reducers remain pure: all async work is enqueued through {@link StoreRuntime.enqueueEffect}.
- * - {@link StoreRuntime.applyInternal} invokes hooks, performs cleanup, and then schedules more work.
- * - {@link StoreRuntime.dispatch} is intentionally assigned later to break import cycles.
- *
- * @template M - Intent map type
- * @template C - Cursor map type
- * @template P - Purpose string union type
- *
- * @param opts - Construction options for the store.
+ * Build the store runtime: state, emitter, reducer, and effect queue.
+ * Reducers stay pure — async work goes through {@link StoreRuntime.enqueueEffect}.
+ * `dispatch` is assigned later by `createUploadStore` to break an import cycle.
  */
 export function createStoreRuntime<
   M extends IntentMap,
@@ -34,8 +25,8 @@ export function createStoreRuntime<
   const resolvedOpts = resolveStoreOptions(opts)
   const persistence = resolvedOpts.persistence
 
-  // Debounced persistence flush. Persistence writes a single namespace `key`,
-  // and the adapter can choose how to store multiple item records under it.
+  // Debounced flush. Persistence writes under a single namespace `key`; the
+  // adapter decides how to encode multiple item records under that key.
   let persistTimer: ReturnType<typeof setTimeout> | null = null
   const persistDebounceMs = Math.max(0, persistence?.debounceMs ?? 200)
 
@@ -44,7 +35,7 @@ export function createStoreRuntime<
     try {
       const snap = (persistence.serialize ?? serializeSnapshot)(rt.state, persistence.version)
 
-      // If there's nothing to persist, clear the namespace to keep storage clean.
+      // Nothing to persist → clear the namespace.
       if (!snap.items || Object.keys(snap.items).length === 0) {
         await persistence.adapter.clear(persistence.key)
         return
@@ -158,14 +149,15 @@ export function createStoreRuntime<
       rt.processingEffects = false
     },
 
-    // replaced by createUploadStore
+    // Replaced by createUploadStore — runtime breaks the cycle.
     dispatch: () => {
       throw new Error('[UploadEngine] dispatch not initialized')
     },
   } satisfies StoreRuntime<M, C, P, R>
 
-  // Hydrate from persistence when no initialState was provided.
-  // For async adapters (IndexedDB), this happens after construction.
+  // Async adapters (IndexedDB) resolve after construction; only hydrate when no
+  // initialState was provided. Merge into an empty store only — never clobber
+  // user actions that arrived before the load resolved.
   if (persistence && !resolvedOpts.initialState && typeof window !== 'undefined') {
     try {
       const loaded = persistence.adapter.load(persistence.key)
@@ -178,8 +170,6 @@ export function createStoreRuntime<
         })
         if (!next) return
 
-        // Only merge into an empty store to avoid clobbering user actions
-        // that happened before the async load completed.
         if (rt.state.items.size === 0) {
           rt.state = next
         } else {

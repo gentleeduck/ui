@@ -52,7 +52,7 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, INa
           onPointerEnter={composeEventHandlers(props.onPointerEnter, context.onContentEnter)}
           onPointerLeave={composeEventHandlers(props.onPointerLeave, whenMouse(context.onContentLeave))}
           style={{
-            // Prevent interaction when animating out
+            // prevent interaction while animating out
             pointerEvents: !open && context.isRootMenu ? 'none' : undefined,
             ...commonProps.style,
           }}
@@ -65,8 +65,6 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, INa
 )
 
 NavigationMenuContent.displayName = CONTENT_NAME
-
-/* ----- ViewportContentMounter (internal) ----- */
 
 const ViewportContentMounter = React.forwardRef<
   INavigationMenu.ViewportContentMounterElement,
@@ -90,8 +88,6 @@ const ViewportContentMounter = React.forwardRef<
 })
 
 ViewportContentMounter.displayName = 'ViewportContentMounter'
-
-/* ----- NavigationMenuContentImpl (internal, also used by viewport.tsx) ----- */
 
 type MotionAttribute = 'to-start' | 'to-end' | 'from-start' | 'from-end'
 
@@ -122,7 +118,7 @@ const NavigationMenuContentImpl = React.forwardRef<
   React.useEffect(() => {
     const content = ref.current
 
-    // Bubble dismiss to the root content node and focus its trigger
+    // bubble dismiss to root content, then return focus to its trigger
     if (context.isRootMenu && content) {
       const handleClose = () => {
         onItemDismiss()
@@ -143,20 +139,15 @@ const NavigationMenuContentImpl = React.forwardRef<
     const isSelected = value === context.value
     const wasSelected = prevIndex === values.indexOf(value)
 
-    // We only want to update selected and the last selected content
-    // this avoids animations being interrupted outside of that range
+    // only animate selected and last-selected to avoid interrupting unrelated transitions
     if (!isSelected && !wasSelected) return prevMotionAttributeRef.current
 
     const attribute = (() => {
-      // Don't provide a direction on the initial open
+      // no direction on initial open or full close (leaving the list entirely)
       if (index !== prevIndex) {
-        // If we're moving to this item from another
         if (isSelected && prevIndex !== -1) return index > prevIndex ? 'from-end' : 'from-start'
-        // If we're leaving this item for another
         if (wasSelected && index !== -1) return index > prevIndex ? 'to-start' : 'to-end'
       }
-      // Otherwise we're entering from closed or leaving the list
-      // entirely and should not animate in any direction
       return null
     })()
 
@@ -184,7 +175,7 @@ const NavigationMenuContentImpl = React.forwardRef<
         onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) => {
           onContentFocusOutside()
           const target = event.target as HTMLElement
-          // Only dismiss content when focus moves outside of the menu
+          // only dismiss when focus leaves the entire menu (not just this content)
           if (context.rootNavigationMenu?.contains(target)) event.preventDefault()
         })}
         onPointerDownOutside={composeEventHandlers(props.onPointerDownOutside, (event) => {
@@ -206,19 +197,16 @@ const NavigationMenuContentImpl = React.forwardRef<
               : candidates.slice(index + 1, candidates.length)
 
             if (focusFirst(nextCandidates)) {
-              // prevent browser tab keydown because we've handled focus
               event.preventDefault()
             } else {
-              // If we can't focus that means we're at the edges
-              // so focus the proxy and let browser handle
-              // tab/shift+tab keypress on the proxy instead
+              // at the edge of tabbable candidates: hand off to the proxy so the
+              // browser tabs out naturally to the next/prev element after the menu
               focusProxyRef.current?.focus()
             }
           }
         })}
         onEscapeKeyDown={composeEventHandlers(props.onEscapeKeyDown, (_event) => {
-          // prevent the dropdown from reopening
-          // after the escape key has been pressed
+          // suppresses pointer-over reopen until pointer leaves the trigger
           wasEscapeCloseRef.current = true
         })}
       />

@@ -8,6 +8,5 @@ export function SpanBlock({ className, children, ...props }: React.HTMLAttribute
   )
 }
 function isLineComment(str: string): boolean {
-  // Matches strings starting with // followed by optional space and text
   return /^\/\/.*$/.test(str)
 }

@@ -26,7 +26,6 @@ export default function Signup1({ className }: { className?: string }) {
           '--color-muted': '#8C8C96',
           '--color-primary': '#2854d0',
           '--font-sans': '"Inter", sans-serif',
-          // scale: 0.8,
           fontFamily: 'var(--font-sans)',
           margin: '3rem',
         } as React.CSSProperties

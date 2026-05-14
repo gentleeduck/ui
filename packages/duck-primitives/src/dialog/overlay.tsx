@@ -12,7 +12,6 @@ const OVERLAY_NAME = 'DialogOverlay'
 type DialogOverlayImplElement = React.ComponentRef<typeof Primitive.div>
 type DialogOverlayElement = DialogOverlayImplElement
 
-/** Renders an overlay behind the dialog content. Only renders in modal mode. */
 export const DialogOverlay = React.forwardRef<DialogOverlayElement, IDialog.IOverlayProps>(
   (props: IDialog.IScoped<IDialog.IOverlayProps>, forwardedRef) => {
     const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog)

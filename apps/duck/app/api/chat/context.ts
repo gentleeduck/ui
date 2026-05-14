@@ -89,7 +89,6 @@ function semanticSearch(query: string, docs: IDocEntry[], idf: Map<string, numbe
   return scored.map((r) => r.doc)
 }
 
-// Words to ignore when matching component names
 const STOP_WORDS = new Set([
   'how',
   'does',
@@ -175,14 +174,13 @@ export function extractComponentNames(query: string, docs: IDocEntry[]): string[
   const matched: string[] = []
 
   for (const word of words) {
-    // Check aliases first
     const aliased = ALIASES[word]
     if (aliased && componentSlugs.includes(aliased)) {
       matched.push(aliased)
       continue
     }
 
-    // Exact match only  -  no fuzzy for component detection
+    // Exact match only — fuzzy here causes too many false positives.
     if (componentSlugs.includes(word)) {
       matched.push(word)
     }
@@ -205,7 +203,7 @@ export async function buildChatContext(userMessage: string): Promise<IChatContex
   for (const name of componentNames) {
     const doc = docs.find((d) => d.slug === `duck-ui/components/${name}`)
     if (!doc) continue
-    // Give full body for exact component matches (truncated to 3000 chars), not just summary
+    // Exact component matches get the full body (capped at 3000 chars), not a summary.
     const body = doc.cleanBody.length > 3000 ? doc.cleanBody.slice(0, 3000) : doc.cleanBody
     const chunk = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/${doc.slug}\n\n${body}`
     if (usedChars + chunk.length > MAX_CONTEXT_CHARS) break

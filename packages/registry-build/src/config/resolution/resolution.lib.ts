@@ -10,9 +10,8 @@ import type {
   IResolvedRegistryBuildSource,
 } from '../types'
 
-/**
- * Infer declared item types from every config section that can mention them.
- */
+// Union of item types declared anywhere in the config (sources, targetPaths,
+// packageMappings, componentIndex.excludeTypes, schema.itemTypes).
 export function deriveDeclaredItemTypes(config: IRegistryBuildConfig): RegistryItemType[] {
   return [
     ...new Set<RegistryItemType>([
@@ -58,9 +57,6 @@ export function deriveLegacyCollections(config: IRegistryBuildConfig): Record<st
   )
 }
 
-/**
- * Derive CSS variable keys from theme payloads when the user did not pin them.
- */
 export function deriveThemeCssVarKeys(themes: Record<string, IRegistryBuildThemeEntry>) {
   return [
     ...new Set(
@@ -69,9 +65,6 @@ export function deriveThemeCssVarKeys(themes: Record<string, IRegistryBuildTheme
   ].sort()
 }
 
-/**
- * Apply source defaults and path resolution for collection-owned sources.
- */
 export function resolveCollectionSources(configDir: string, collections: Record<string, IRegistryBuildCollection>) {
   return Object.fromEntries(
     Object.entries(collections).map(([name, collection]) => [
@@ -97,9 +90,6 @@ export function resolveCollectionSources(configDir: string, collections: Record<
   ) as Record<string, IResolvedRegistryBuildCollection>
 }
 
-/**
- * Apply source defaults and path resolution for the legacy top-level sources.
- */
 export function resolveSources(configDir: string, sources: RegistryItemTypeMap<IRegistryBuildSource>) {
   const sourceEntries = Object.entries(sources).filter((entry): entry is [string, IRegistryBuildSource] => {
     return typeof entry[1] === 'object' && entry[1] !== null

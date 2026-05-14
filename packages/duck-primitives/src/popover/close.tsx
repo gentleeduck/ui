@@ -8,7 +8,6 @@ import type { IPopover } from './popover.types'
 
 const CLOSE_NAME = 'PopoverClose'
 
-/** Button that closes the popover when clicked. */
 export const PopoverClose = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
   IPopover.IScoped<IPopover.ICloseProps>

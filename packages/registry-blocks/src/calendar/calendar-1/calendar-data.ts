@@ -95,7 +95,6 @@ const AVATARS = [
 ]
 
 export const MOCK_EVENTS: CalendarEvent[] = [
-  // Week 1
   {
     id: 'e01',
     title: 'Monday standup',
@@ -185,7 +184,6 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     starred: true,
     location: 'Rooftop Lounge',
   },
-  // Week 2
   { id: 'e11', title: 'Monday standup', date: '2025-01-06', time: '9:00 AM', timeValue: 540, category: 'standup' },
   {
     id: 'e12',
@@ -297,7 +295,6 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     category: 'social',
     starred: true,
   },
-  // Week 3
   { id: 'e24', title: 'Monday standup', date: '2025-01-13', time: '9:00 AM', timeValue: 540, category: 'standup' },
   {
     id: 'e25',
@@ -347,7 +344,6 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     starred: true,
     location: 'Central Park',
   },
-  // Week 4
   { id: 'e33', title: 'Monday standup', date: '2025-01-20', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e34', title: 'Deep work', date: '2025-01-20', time: '9:15 AM', timeValue: 555, category: 'deep-work' },
   {
@@ -392,7 +388,6 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     category: 'planning',
   },
   { id: 'e43b', title: 'Investor update', date: '2025-01-24', time: '4:00 PM', timeValue: 960, category: 'external' },
-  // Week 5
   { id: 'e44', title: 'Monday standup', date: '2025-01-27', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e45', title: 'Content planning', date: '2025-01-28', time: '11:00 AM', timeValue: 660, category: 'planning' },
   { id: 'e46', title: 'Lunch with Alina', date: '2025-01-28', time: '12:45 PM', timeValue: 765, category: 'social' },

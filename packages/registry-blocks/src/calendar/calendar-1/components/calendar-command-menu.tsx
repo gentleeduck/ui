@@ -41,7 +41,6 @@ export function CalendarCommandMenu({
     return events.filter((e) => e.title.toLowerCase().includes(q)).slice(0, 20)
   }, [events, query])
 
-  // Group events by date
   const grouped = React.useMemo(() => {
     const map = new Map<string, CalendarEvent[]>()
     for (const e of filtered) {

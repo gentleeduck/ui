@@ -1,7 +1,3 @@
-/**
- * Rate limiting, slug validation, and request logging.
- */
-
 const RATE_LIMIT_WINDOW = 60_000
 const RATE_LIMIT_MAX = 60
 

@@ -200,7 +200,6 @@ export const charts: IChartGroups = {
   ],
 }
 
-// Export individual components for backward compatibility
 export {
   ChartAreaAxes,
   ChartAreaDefault,

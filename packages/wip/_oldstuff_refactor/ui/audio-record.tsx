@@ -71,7 +71,6 @@ export interface VisualizerClickHandlerParams {
   event: React.MouseEvent<HTMLDivElement>
 }
 
-// Handle audio visualizer click
 const visualizer_click_handler = ({ audioRef, event, setCurrentTime }: VisualizerClickHandlerParams) => {
   if (audioRef.current == null) return
   const rect = event.currentTarget.getBoundingClientRect()
@@ -85,7 +84,6 @@ const visualizer_click_handler = ({ audioRef, event, setCurrentTime }: Visualize
   }
 }
 
-// Start recording audio
 export const start_recording_handler = async ({
   setRecordings,
   setRecording,
@@ -119,7 +117,6 @@ export const start_recording_handler = async ({
   start_timer_handler({ durationRef, intervalRef, setRecordedDuration })
 }
 
-// Stop recording and process audio blob
 export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunksRef }: StopRecordingHandlerParams) => {
   const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
 
@@ -137,14 +134,12 @@ export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunks
   clearInterval(intervalRef.current!)
 }
 
-// Stop recording audio
 export const stop_recording_handle = ({ setRecording, intervalRef, mediaRecorderRef }: StopRecordingHandlerParam) => {
   mediaRecorderRef.current?.stop()
   setRecording(false)
   clearInterval(intervalRef.current!)
 }
 
-// Delete recording
 export const deleteRecordingHandler = ({
   setRecording,
   intervalRef,
@@ -162,7 +157,6 @@ export const deleteRecordingHandler = ({
   })
 }
 
-// Start timer to track recording duration
 export const start_timer_handler = ({ durationRef, intervalRef, setRecordedDuration }: StartTimerParams) => {
   clearInterval(intervalRef.current!)
   intervalRef.current = setInterval(() => {
@@ -171,7 +165,6 @@ export const start_timer_handler = ({ durationRef, intervalRef, setRecordedDurat
   }, 1000)
 }
 
-// Define the type for the context
 interface AudioContextType {
   recording: boolean
   recordedDuration: number
@@ -180,10 +173,8 @@ interface AudioContextType {
   deleteRecording: () => void
 }
 
-// Default values for the context
 const AudioContext = React.createContext<AudioContextType | undefined>(undefined)
 
-// Use the custom hook to access the audio context
 export const useAudioProvider = (): AudioContextType => {
   const context = React.useContext(AudioContext)
   if (!context) {
@@ -192,7 +183,6 @@ export const useAudioProvider = (): AudioContextType => {
   return context
 }
 
-// AudioProvider component that will wrap the rest of the app
 const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [recordedDuration, setRecordedDuration] = React.useState<number>(0)
   const mediaRecorderRef = React.useRef<MediaRecorder | null>(null)
@@ -201,7 +191,6 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const durationRef = React.useRef<number>(0)
   const { setRecordings, setRecording, recording } = useAudioDataProvider()
 
-  // Start recording handler
   const startRecording = () => {
     start_recording_handler({
       audioChunksRef,
@@ -214,7 +203,6 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     })
   }
 
-  // Stop recording handler
   const stopRecording = () => {
     stop_recording_handle({
       durationRef,
@@ -224,7 +212,6 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     })
   }
 
-  // Delete recording handler
   const deleteRecording = () => {
     deleteRecordingHandler({
       audioChunksRef,
@@ -235,14 +222,12 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     })
   }
 
-  // Cleanup audio element and interval on unmount
   React.useEffect(() => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
   }, [])
 
-  // Provide the state and functions to the children components
   return (
     <AudioContext.Provider
       value={{
@@ -580,14 +565,12 @@ const AudioRecordItem = ({
       const audioURL = URL.createObjectURL(audio)
       audioRef.current = new_audio(audioURL)
 
-      // Handle end of the audio
       audioRef.current.onended = () => {
         setIsPlaying(false)
         setCurrentTime(0)
         setTimeLeft(duration)
       }
 
-      // Update current time as the audio plays
       audioRef.current.ontimeupdate = () => {
         setCurrentTime(audioRef.current!.currentTime * 1000)
       }
@@ -601,13 +584,11 @@ const AudioRecordItem = ({
     }
   }, [audio])
 
-  // Update the playback rate and keep the audio playing at the current time
   React.useEffect(() => {
     if (audioRef.current) {
       const wasPlaying = isPlaying
       const currentAudioTime = audioRef.current.currentTime
 
-      // Pause the audio temporarily, change playback rate, and resume if it was playing
       audioRef.current.pause()
       audioRef.current.playbackRate = speed
       audioRef.current.currentTime = currentAudioTime
@@ -619,7 +600,6 @@ const AudioRecordItem = ({
     }
   }, [speed, volume])
 
-  // Play or pause audio
   const handlePlayPause = React.useCallback(() => {
     if (isPlaying) {
       audioRef.current?.pause()
@@ -707,7 +687,6 @@ const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
   )
 }
 
-// Audio Provider
 export interface AudioDataContextType {
   process_audio: (args: Omit<ProcessBlobParams, 'setAnimationProgress' | 'setDuration' | 'setData'>) => Promise<void>
   data: dataPoint[]

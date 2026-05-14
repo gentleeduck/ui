@@ -27,23 +27,17 @@ export const METADATA: Metadata = {
     shortcut: '/favicon-96x96.png',
   },
   keywords: [
-    // Brand
     'acme ui',
     'acme/ui',
     'acme ui react components',
     'acme ui button',
-
     'acme ui library',
     'acme ui components',
-
-    // Core tech stack
     'React UI library',
     'Tailwind CSS components',
     'Next.js UI components',
     'React Server Components',
     'TypeScript UI library',
-
-    // Feature-driven
     'Accessible React components',
     'Headless UI alternative',
     'Customizable UI components',
@@ -52,8 +46,6 @@ export const METADATA: Metadata = {
     'React motion components',
     'React table library',
     'React form components',
-
-    // Developer intent / search intent
     'Open source React UI library',
     'Best React UI frameworks',
     'Tailwind React component library',

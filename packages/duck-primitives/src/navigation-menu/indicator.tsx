@@ -56,9 +56,6 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
     if (triggerNode) setActiveTrigger(triggerNode)
   }, [getItems, context.value])
 
-  /**
-   * Update position when the indicator or parent track size changes
-   */
   const handlePositionChange = () => {
     if (activeTrigger) {
       setPosition({
@@ -70,8 +67,8 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
   useResizeObserver(activeTrigger, handlePositionChange)
   useResizeObserver(context.indicatorTrack, handlePositionChange)
 
-  // We need to wait for the indicator position to be available before rendering to
-  // snap immediately into position rather than transitioning from initial
+  // wait for measured position before first paint so the indicator snaps in
+  // rather than transitioning from a default (0,0) origin
   return position ? (
     <Primitive.div
       data-slot="navigation-menu-indicator"

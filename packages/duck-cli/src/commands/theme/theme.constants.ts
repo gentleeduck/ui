@@ -24,7 +24,7 @@ export const themeCommandConfig: ThemeCommandConfig = {
   },
 }
 
-/** Default candidates the `theme add` command searches when no --css is provided. */
+/** Auto-probe order when `--css` is omitted; first match wins. */
 export const DEFAULT_GLOBALS_CANDIDATES = [
   'app/globals.css',
   'src/app/globals.css',
@@ -33,6 +33,6 @@ export const DEFAULT_GLOBALS_CANDIDATES = [
   'styles/globals.css',
 ] as const
 
-/** Marker comments wrapping the duck-iam theme block in the user's globals.css. */
+// Marker pair used by `mergeThemeBlock` to find and replace a previously injected theme.
 export const THEME_BLOCK_START = '/* @gentleduck/cli theme:start */'
 export const THEME_BLOCK_END = '/* @gentleduck/cli theme:end */'

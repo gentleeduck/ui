@@ -48,8 +48,6 @@ export const blockChunkSchema = z.object({
 })
 
 export const registryEntrySchema = z.object({
-  // chunks: z.array(blockChunkSchema).optional(),
-  // docs: z.string().optional(),
   categories: z.array(z.string()).optional(),
   cssVars: registryItemCssVarsSchema.optional(),
   dependencies: z.array(z.string()).optional(),
@@ -71,13 +69,10 @@ export const registrySchema = z.object({
   examples: z.array(registryEntrySchema),
   uis: z.array(registryEntrySchema),
   internal: z.array(registryEntrySchema),
-  // TODO:
-  // pages: z.array(registryEntrySchema),
 })
 
 export type Registry = z.infer<typeof registrySchema>
 
-// TEST: NOTE: STILL NOT USED IN REAL
 export const blockSchema = registryEntrySchema.extend({
   code: z.string(),
   component: z.any(),

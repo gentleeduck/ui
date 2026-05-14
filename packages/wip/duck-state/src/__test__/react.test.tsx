@@ -8,10 +8,6 @@ import { useAtom } from '../react/useAtom'
 import { useAtomValue } from '../react/useAtomValue'
 import { useSetAtom } from '../react/useSetAtom'
 
-// ===========================================================================
-// Provider
-// ===========================================================================
-
 describe('Provider', () => {
   test('renders children', () => {
     const { getByText } = render(
@@ -52,10 +48,6 @@ describe('Provider', () => {
   })
 })
 
-// ===========================================================================
-// useStore
-// ===========================================================================
-
 describe('useStore', () => {
   test('returns a store instance', () => {
     const { result } = renderHook(() => useStore())
@@ -93,10 +85,6 @@ describe('useStore', () => {
     expect(r1.current).toBe(r2.current)
   })
 })
-
-// ===========================================================================
-// useAtomValue
-// ===========================================================================
 
 describe('useAtomValue', () => {
   test('reads primitive atom initial value', () => {
@@ -179,10 +167,6 @@ describe('useAtomValue', () => {
   })
 })
 
-// ===========================================================================
-// useSetAtom
-// ===========================================================================
-
 describe('useSetAtom', () => {
   test('returns a setter function', () => {
     const countAtom = atom(0)
@@ -255,10 +239,6 @@ describe('useSetAtom', () => {
     expect(getByTestId('val').textContent).toBe('11')
   })
 })
-
-// ===========================================================================
-// useAtom
-// ===========================================================================
 
 describe('useAtom', () => {
   test('returns [value, setter] tuple', () => {
@@ -339,10 +319,6 @@ describe('useAtom', () => {
   })
 })
 
-// ===========================================================================
-// Multiple atoms in same Provider
-// ===========================================================================
-
 describe('multiple atoms in same Provider', () => {
   test('independent atoms work correctly together', () => {
     const nameAtom = atom('Alice')
@@ -396,10 +372,6 @@ describe('multiple atoms in same Provider', () => {
     expect(getByTestId('age').textContent).toBe('31')
   })
 })
-
-// ===========================================================================
-// Derived atoms update components when dependencies change
-// ===========================================================================
 
 describe('derived atoms', () => {
   test('derived atom updates when base atom changes', () => {
@@ -510,10 +482,6 @@ describe('derived atoms', () => {
   })
 })
 
-// ===========================================================================
-// Re-render behavior
-// ===========================================================================
-
 describe('re-render behavior', () => {
   test('component re-renders when subscribed atom changes', () => {
     const countAtom = atom(0)
@@ -595,10 +563,6 @@ describe('re-render behavior', () => {
   })
 })
 
-// ===========================================================================
-// Writable derived atoms
-// ===========================================================================
-
 describe('writable derived atoms', () => {
   test('writable derived atom reads and writes correctly', () => {
     const baseAtom = atom(100)
@@ -635,10 +599,6 @@ describe('writable derived atoms', () => {
     expect(getByTestId('val').textContent).toBe('100')
   })
 })
-
-// ===========================================================================
-// Provider isolation
-// ===========================================================================
 
 describe('Provider isolation', () => {
   test('separate Providers have independent stores', () => {

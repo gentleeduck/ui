@@ -4,7 +4,6 @@ import * as React from 'react'
 
 export const newAudio = (url: string) => new Audio(url)
 
-// Calculate bar data
 export interface IDataPoint {
   max: number
   min: number
@@ -23,10 +22,7 @@ export const calculateBarDataHandler = (() => {
   const cache = new Map<string, IDataPoint[]>()
 
   return ({ buffer, width, height, barWidth, gap }: ICalculateBarDataParams): IDataPoint[] => {
-    // Create a unique key based on the input parameters
     const key = `${buffer.length}-${width}-${height}-${barWidth}-${gap}`
-
-    // Check if the result is already cached
     const cachedData = cache.get(key)
     if (cachedData) return cachedData
 
@@ -77,14 +73,12 @@ export const calculateBarDataHandler = (() => {
       }
     }
 
-    // Store the computed result in the cache
     cache.set(key, data)
 
     return data
   }
 })()
 
-// Draw Handler
 export interface IDrawHandlerParams {
   data: IDataPoint[]
   canvas: HTMLCanvasElement | null
@@ -120,14 +114,12 @@ export const drawHandler = ({
   const amp = canvas.height / 2
   const playedPercent = currentTime / duration
 
-  // Clear the canvas and set background
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   if (backgroundColor !== 'transparent') {
     ctx.fillStyle = backgroundColor
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  // Draw bars in a single loop
   const totalBars = data.length
   for (let i = 0; i < totalBars; i++) {
     const dataPoint = data[i]
@@ -138,7 +130,6 @@ export const drawHandler = ({
   }
 }
 
-// Process Blob
 export interface IProcessBlobParams {
   canvasRef: React.RefObject<HTMLCanvasElement | null>
   blob: Blob | null
@@ -201,7 +192,6 @@ export const processBlob = async ({
 
     setDuration(buffer.duration)
 
-    // Calculate the waveform data for the entire audio buffer
     const barsData = calculateBarDataHandler({
       barWidth,
       buffer,
@@ -210,10 +200,8 @@ export const processBlob = async ({
       width,
     })
 
-    // Set the calculated data for rendering
     setData(barsData)
 
-    // Set up for animation
     let startTime: number | null = null
     const animate = (time: number) => {
       if (!startTime) startTime = time
@@ -221,7 +209,6 @@ export const processBlob = async ({
       const elapsedTime = time - startTime
       const progress = Math.min(elapsedTime / 1000, 1)
 
-      // Update animation progress using a ref
       setAnimationProgress(progress)
 
       drawHandler({
@@ -245,7 +232,6 @@ export const processBlob = async ({
       }
     }
 
-    // Start the animation
     requestAnimationFrame(animate)
   } finally {
     void audioContext.close().catch(() => undefined)

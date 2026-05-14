@@ -7,7 +7,6 @@ const DESCRIPTION_NAME = 'DialogDescription'
 
 type DialogDescriptionElement = React.ComponentRef<typeof Primitive.p>
 
-/** Accessible description for the dialog. */
 export const DialogDescription = React.forwardRef<DialogDescriptionElement, IDialog.IDescriptionProps>(
   (props: IDialog.IScoped<IDialog.IDescriptionProps>, forwardedRef) => {
     const { __scopeDialog, ...descriptionProps } = props

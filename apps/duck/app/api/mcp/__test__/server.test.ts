@@ -19,8 +19,6 @@ import {
   validateSlug,
 } from '../server'
 
-// -- Stemming ----------------------------------------------------------------
-
 describe('stem', () => {
   test('strips -ing suffix', () => {
     expect(stem('running')).toBe('run')
@@ -62,8 +60,6 @@ describe('stem', () => {
   })
 })
 
-// -- Tokenizer ---------------------------------------------------------------
-
 describe('tokenize', () => {
   test('lowercases and splits on whitespace', () => {
     const tokens = tokenize('Hello World')
@@ -91,7 +87,6 @@ describe('tokenize', () => {
 
   test('applies stemming', () => {
     const tokens = tokenize('running buttons testing')
-    // Stemmed forms should be present
     expect(tokens.some((t) => t === 'runn' || t === 'run')).toBe(true)
     expect(tokens.some((t) => t === 'button')).toBe(true)
     expect(tokens.some((t) => t === 'test')).toBe(true)
@@ -112,8 +107,6 @@ describe('expandSearchTerms', () => {
     expect(terms).toContain('datepicker')
   })
 })
-
-// -- MDX stripping -----------------------------------------------------------
 
 describe('stripMdxSyntax', () => {
   test('removes import statements', () => {
@@ -196,8 +189,6 @@ describe('extractSection', () => {
   })
 })
 
-// -- Edit distance -----------------------------------------------------------
-
 describe('editDistance', () => {
   test('identical strings = 0', () => {
     expect(editDistance('button', 'button')).toBe(0)
@@ -225,8 +216,6 @@ describe('editDistance', () => {
     expect(editDistance('abc', 'xyz')).toBe(3)
   })
 })
-
-// -- Fuzzy matching ----------------------------------------------------------
 
 describe('fuzzyMatch', () => {
   test('exact substring match', () => {
@@ -263,8 +252,6 @@ describe('fuzzyScore', () => {
     expect(fuzzyScore('zz', 'button')).toBe(0)
   })
 })
-
-// -- TF-IDF ------------------------------------------------------------------
 
 describe('computeTf', () => {
   test('computes sublinear TF', () => {
@@ -318,7 +305,6 @@ describe('computeTfidfVector', () => {
     ])
     const vector = computeTfidfVector(tf, idf)
 
-    // Check normalization: magnitude should be ~1
     let mag = 0
     for (const val of vector.values()) mag += val * val
     expect(Math.sqrt(mag)).toBeCloseTo(1.0)
@@ -353,8 +339,6 @@ describe('cosineSimilarity', () => {
     expect(cosineSimilarity(a, b)).toBe(0)
   })
 })
-
-// -- Slug validation ---------------------------------------------------------
 
 describe('validateSlug', () => {
   test('accepts valid slugs', () => {

@@ -1,18 +1,7 @@
 import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
-/**
- * CVA variant for applying transition properties to animated elements.
- * Provides consistent easing, duration, and GPU-accelerated pseudo-element
- * transitions across the component set.
- *
- * @example
- * ```tsx
- * <div className={AnimVariants({ alive: 'default', pseudo: 'animate' })}>
- *   Animated content
- * </div>
- * ```
- */
+/** Consistent transition + GPU-accelerated pseudo-element easing/duration across components. */
 export const AnimVariants = cva('', {
   defaultVariants: {
     alive: 'default',

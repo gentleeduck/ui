@@ -9,7 +9,6 @@ const CANCEL_NAME = 'AlertDialogCancel'
 
 type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
 
-/** Button that cancels the alert dialog action and closes it. Receives initial focus. */
 export const AlertDialogCancel = React.forwardRef<AlertDialogCancelElement, IAlertDialog.ICancelProps>(
   (props: IAlertDialog.IScoped<IAlertDialog.ICancelProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...cancelProps } = props

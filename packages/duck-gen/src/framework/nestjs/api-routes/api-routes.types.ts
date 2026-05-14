@@ -14,7 +14,7 @@ export type Route = {
   paramsType: string
   headersType: string
 
-  // 🦆 produced as a type expression string
+  /** Already-expanded TS type expression (not a symbol name) so the generator can inline it directly. */
   resType: string
 }
 

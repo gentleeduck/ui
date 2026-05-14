@@ -29,7 +29,6 @@ async function loadLogo(): Promise<string> {
   return base64Logo
 }
 
-// Duck logo at given size and opacity
 function DuckLogo({ logoSrc, opacity, size }: { logoSrc: string; opacity: number; size: number }) {
   return (
     // biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image.
@@ -55,9 +54,8 @@ export async function GET(request: Request) {
         fontFamily: 'Source Sans 3, Source Sans Pro, ui-sans-serif, system-ui, sans-serif',
       }}
       tw="h-full w-full text-white relative overflow-hidden">
-      {/* -- Decorations layer (glows, lines, corners, ducks, dots) -- */}
+      {/* Decorations layer */}
       <div style={{ display: 'flex' }} tw="absolute inset-0">
-        {/* Warm yellow glow - top right */}
         <div
           tw="absolute -top-20 -right-20 rounded-full"
           style={{
@@ -68,7 +66,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Purple glow - bottom left */}
         <div
           tw="absolute -bottom-20 -left-20 rounded-full"
           style={{
@@ -79,7 +76,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Faint center glow */}
         <div
           tw="absolute rounded-full"
           style={{
@@ -92,7 +88,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Border lines */}
         <div
           tw="absolute inset-y-0 left-16 w-px"
           style={{
@@ -126,7 +121,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Corner markers */}
         <div
           tw="absolute"
           style={{
@@ -176,7 +170,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Scattered ducks -- top area */}
         <div tw="absolute" style={{ display: 'flex', top: 30, right: 140 }}>
           <DuckLogo logoSrc={logoSrc} opacity={0.07} size={28} />
         </div>
@@ -190,7 +183,6 @@ export async function GET(request: Request) {
           <DuckLogo logoSrc={logoSrc} opacity={0.05} size={22} />
         </div>
 
-        {/* Scattered ducks -- sides */}
         <div tw="absolute" style={{ display: 'flex', top: 180, right: 40 }}>
           <DuckLogo logoSrc={logoSrc} opacity={0.06} size={24} />
         </div>
@@ -207,7 +199,6 @@ export async function GET(request: Request) {
           <DuckLogo logoSrc={logoSrc} opacity={0.04} size={18} />
         </div>
 
-        {/* Scattered ducks -- center-right */}
         <div tw="absolute" style={{ display: 'flex', top: 400, right: 160 }}>
           <DuckLogo logoSrc={logoSrc} opacity={0.07} size={30} />
         </div>
@@ -215,7 +206,6 @@ export async function GET(request: Request) {
           <DuckLogo logoSrc={logoSrc} opacity={0.05} size={14} />
         </div>
 
-        {/* Scattered ducks -- bottom (more prominent) */}
         <div tw="absolute" style={{ display: 'flex', bottom: 30, left: 100 }}>
           <DuckLogo logoSrc={logoSrc} opacity={0.12} size={36} />
         </div>
@@ -241,7 +231,6 @@ export async function GET(request: Request) {
           <DuckLogo logoSrc={logoSrc} opacity={0.07} size={26} />
         </div>
 
-        {/* Decorative dots */}
         <div
           tw="absolute"
           style={{
@@ -316,9 +305,8 @@ export async function GET(request: Request) {
         />
       </div>
 
-      {/* -- Content layer -- */}
+      {/* Content layer */}
       <div tw="flex flex-col absolute left-24 right-24 top-24 bottom-24">
-        {/* Logo + brand with URL underneath */}
         <div tw="flex items-center">
           {/* biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image. */}
           <img alt="" height="56" src={logoSrc} width="56" />
@@ -337,7 +325,6 @@ export async function GET(request: Request) {
           </div>
         </div>
 
-        {/* Separator */}
         <div
           tw="w-full mt-6"
           style={{
@@ -348,7 +335,6 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Title + description (left-aligned) */}
         <div tw="flex flex-col flex-1 justify-center" style={{ alignItems: 'flex-start' }}>
           <div
             style={{
@@ -375,7 +361,6 @@ export async function GET(request: Request) {
           )}
         </div>
 
-        {/* Bottom accent line */}
         <div
           tw="w-full mt-5"
           style={{

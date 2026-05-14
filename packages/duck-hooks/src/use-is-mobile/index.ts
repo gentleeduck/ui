@@ -1,14 +1,8 @@
 import * as React from 'react'
 
-/** @internal */
 const MOBILE_BREAKPOINT = 768
 
-/**
- * Reactively track whether the viewport is narrower than the mobile breakpoint (768 px).
- *
- * Uses `matchMedia` under the hood and subscribes to changes so the
- * value stays in sync without polling.
- */
+/** Track whether the viewport is narrower than 768px via `matchMedia`. */
 export function useIsMobile(): boolean {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 

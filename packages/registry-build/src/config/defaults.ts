@@ -12,11 +12,6 @@ import type {
   IResolvedRegistryBuildPerformanceConfig,
 } from './types'
 
-// ---------------------------------------------------------------------------
-// Core defaults (generic builder)
-// ---------------------------------------------------------------------------
-
-/** Files discovered during upward config search. */
 export const DEFAULT_CONFIG_FILENAMES = [
   'registry-build.config.ts',
   'registry-build.config.mts',
@@ -27,7 +22,6 @@ export const DEFAULT_CONFIG_FILENAMES = [
   'registry-build.config.json',
 ] as const
 
-/** Source defaults shared by legacy registries and generic collections. */
 export const DEFAULT_SOURCE_GLOB = '**/*.{ts,tsx}'
 export const DEFAULT_SOURCE_INDEX_STRATEGY = 'item' as const
 export const DEFAULT_SOURCE_IGNORE = [
@@ -37,10 +31,6 @@ export const DEFAULT_SOURCE_IGNORE = [
   '**/*.test.*',
   '**/*.spec.*',
 ] as const
-
-// ---------------------------------------------------------------------------
-// UI extension defaults (used by built-in UI extensions)
-// ---------------------------------------------------------------------------
 
 export const DEFAULT_STRIP_VARIABLES = [] as const
 export const DEFAULT_COMPONENT_INDEX_EXCLUDE_TYPES = [] as const
@@ -58,7 +48,6 @@ export const DEFAULT_THEME_CSS_VAR_KEYS = [] as const
 export const DEFAULT_THEME_NAMES = [] as const
 export const DEFAULT_THEME_RADIUS = '0.5rem'
 
-/** Output subdirectory defaults for the built-in UI emitters. */
 export const DEFAULT_OUTPUT: Omit<IResolvedRegistryBuildOutput, 'dir'> = {
   colorsDir: 'colors',
   componentIndexDir: '__ui_registry__',
@@ -69,7 +58,6 @@ export const DEFAULT_OUTPUT: Omit<IResolvedRegistryBuildOutput, 'dir'> = {
   themesDir: 'themes',
 }
 
-/** Component index defaults. */
 export const DEFAULT_COMPONENT_INDEX: Omit<IResolvedRegistryBuildComponentIndex, 'generator'> = {
   excludeTypes: [...DEFAULT_COMPONENT_INDEX_EXCLUDE_TYPES],
   framework: DEFAULT_COMPONENT_INDEX_FRAMEWORK,
@@ -77,20 +65,17 @@ export const DEFAULT_COMPONENT_INDEX: Omit<IResolvedRegistryBuildComponentIndex,
   ssr: false,
 }
 
-/** Runtime behavior defaults. */
 export const DEFAULT_PERFORMANCE: IResolvedRegistryBuildPerformanceConfig = {
   cacheDir: '.registry-build',
   incremental: true,
   parallelism: Math.max(1, Math.min(availableParallelism(), 8)),
 }
 
-/** Human-facing CLI defaults. */
 export const DEFAULT_BRANDING: IResolvedRegistryBuildBranding = {
   font: 'ANSI Shadow',
   name: '@gentleduck/registry-build',
 }
 
-/** Theme CSS defaults. */
 export const DEFAULT_CSS_TEMPLATES: IResolvedRegistryBuildCssTemplates = {
   baseLayerRules: `@layer base {
   * {
@@ -106,20 +91,10 @@ export const DEFAULT_CSS_TEMPLATES: IResolvedRegistryBuildCssTemplates = {
   `,
 }
 
-/** Schema item type defaults. */
 export const DEFAULT_SCHEMA_ITEM_TYPES = [] as const
 
-// ---------------------------------------------------------------------------
-// Default application helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Apply source defaults (glob, ignore, indexStrategy) to a single source entry.
- *
- * `ignore` is always merged with `DEFAULT_SOURCE_IGNORE` so users never
- * accidentally opt out of the test/snapshot exclusions by supplying their own
- * array. Duplicates are removed via `Set`.
- */
+// `ignore` is force-merged with DEFAULT_SOURCE_IGNORE so user arrays cannot opt
+// out of the test/snapshot exclusions.
 function withSourceDefaults(source: IRegistryBuildSource): IRegistryBuildSource {
   const userIgnore = source.ignore ?? []
   return {
@@ -130,7 +105,6 @@ function withSourceDefaults(source: IRegistryBuildSource): IRegistryBuildSource 
   }
 }
 
-/** Apply source defaults to every source in a collection. */
 function withCollectionDefaults(collection: IRegistryBuildCollection): IRegistryBuildCollection {
   return {
     ...collection,
@@ -142,10 +116,8 @@ function withCollectionDefaults(collection: IRegistryBuildCollection): IRegistry
 }
 
 /**
- * Apply defaults without doing any path resolution or external file loading.
- *
- * This is the single source of truth for all default values. Resolution and
- * the loader trust these values to be fully populated after this function runs.
+ * Single source of truth for default values. No path resolution or file IO;
+ * resolution and the loader rely on fields being fully populated after this runs.
  */
 export function withRegistryBuildDefaults(config: IRegistryBuildConfig): IRegistryBuildConfig {
   const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, IRegistryBuildCollection]>

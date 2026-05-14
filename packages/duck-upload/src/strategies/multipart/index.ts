@@ -1,6 +1,7 @@
 /**
- * Multipart strategy implementation (S3/MinIO style).
- * Signs each part on demand (signPart), uploads via PUT, then completes with ETags.
+ * S3/MinIO-style multipart strategy: sign each part on demand via `signPart`,
+ * PUT, then finalize with `completeMultipart` using collected ETags. Resumable —
+ * persists ETags in the cursor and skips already-completed sessions.
  */
 
 import type { CursorMap, IntentMap, UploadResultBase, UploadStrategy } from '../../core/contracts'
@@ -58,21 +59,19 @@ export function multipartStrategy<
       const totalBytes = ctx.file.size
       const partSize = Math.max(1, intent.partSize)
 
-      // Trust backend partCount if provided (important for maxParts rules)
+      // Trust backend `partCount` when provided — S3-style backends enforce a maxParts rule.
       const totalParts = Math.max(1, intent.partCount ?? Math.ceil(totalBytes / partSize))
 
-      // Restore cursor
       const cursor = ctx.readCursor()
       const done = new Map<number, { etag: string; size: number }>()
       if (cursor?.done) {
         for (const p of cursor.done) done.set(p.partNumber, { etag: p.etag, size: p.size })
       }
 
-      // If we already completed the multipart session in a previous run, do not re-complete.
-      // (The store will still run its generic finalization step.)
+      // Skip re-completing if a previous run already finalized the multipart
+      // session. The store still runs its generic finalization step.
       const alreadyCompleted = cursor?.completed === true
 
-      // Progress
       const inflightBytes = new Map<number, number>()
       let finishedBytes = 0
       for (const v of done.values()) finishedBytes += v.size
@@ -83,7 +82,6 @@ export function multipartStrategy<
         ctx.reportProgress({ uploadedBytes: finishedBytes + inflight, totalBytes })
       }
 
-      // Build queue
       const partsToUpload: Array<{ partNumber: number; start: number; end: number }> = []
       for (let partNumber = 1; partNumber <= totalParts; partNumber++) {
         if (done.has(partNumber)) continue
@@ -102,11 +100,10 @@ export function multipartStrategy<
       const running = new Set<Promise<void>>()
 
       const getSignedPart = async (partNumber: number) => {
-        // Legacy fast path: intent.parts provided
+        // Legacy fast path: backend pre-signed all parts in `intent.parts`.
         const fromIntent = intent.parts?.find((x) => x.partNumber === partNumber)
         if (fromIntent) return fromIntent
 
-        // Normal path: ask backend for this part url
         if (!ctx.api.multipart?.signPart) {
           throw new Error(
             'multipart.signPart is missing in UploadApi. Implement it to call your backend sign-part endpoint.',
@@ -167,7 +164,7 @@ export function multipartStrategy<
 
           if (ctx.signal?.aborted || isAbort(err)) throw err
 
-          // basic retry for network-ish failures
+          // Retry transient network errors with exponential backoff.
           if (retryCount < maxRetries) {
             const msg = err instanceof Error ? err.message : String(err)
             const retryable =
@@ -229,7 +226,7 @@ export function multipartStrategy<
           { signal: ctx.signal },
         )
 
-        // Persist "completed" marker so resume doesn't re-complete.
+        // Persist `completed: true` so resume after this point does not re-call `completeMultipart`.
         const snapshot: MultipartCursor = {
           done: Array.from(done.entries())
             .map(([partNumber, v]) => ({ partNumber, etag: v.etag, size: v.size }))

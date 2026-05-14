@@ -7,7 +7,6 @@ const OVERLAY_NAME = 'AlertDialogOverlay'
 
 type AlertDialogOverlayElement = React.ComponentRef<typeof DialogPrimitive.Overlay>
 
-/** Overlay layer rendered behind the alert dialog content. */
 export const AlertDialogOverlay = React.forwardRef<AlertDialogOverlayElement, IAlertDialog.IOverlayProps>(
   (props: IAlertDialog.IScoped<IAlertDialog.IOverlayProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...overlayProps } = props

@@ -36,8 +36,6 @@ const NavigationMenuViewport = React.forwardRef<
 
 NavigationMenuViewport.displayName = VIEWPORT_NAME
 
-/* ----- NavigationMenuViewportImpl (internal) ----- */
-
 const NavigationMenuViewportImpl = React.forwardRef<
   NavigationMenuViewportImplElement,
   INavigationMenuViewportImplProps
@@ -51,16 +49,11 @@ const NavigationMenuViewportImpl = React.forwardRef<
   const viewportWidth = size ? `${size?.width}px` : undefined
   const viewportHeight = size ? `${size?.height}px` : undefined
   const open = Boolean(context.value)
-  // We persist the last active content value as the viewport may be animating out
-  // and we want the content to remain mounted for the lifecycle of the viewport.
+  // keep the previously active value mounted while the viewport animates out
   const activeContentValue = open ? context.value : context.previousValue
 
-  /**
-   * Update viewport size to match the active content node.
-   * We prefer offset dimensions over `getBoundingClientRect` as the latter respects CSS transform.
-   * For example, if content animates in from `scale(0.5)` the dimensions would be anything
-   * from `0.5` to `1` of the intended size.
-   */
+  // use offset* not getBoundingClientRect: rect is affected by CSS transforms,
+  // so an animating-in scale(0.5) would report intermediate sizes
   const handleSizeChange = () => {
     if (content) setSize({ width: content.offsetWidth, height: content.offsetHeight })
   }
@@ -74,7 +67,7 @@ const NavigationMenuViewportImpl = React.forwardRef<
       {...viewportImplProps}
       ref={composedRefs}
       style={{
-        // Prevent interaction when animating out
+        // block pointer events while animating out
         pointerEvents: !open && context.isRootMenu ? 'none' : undefined,
         ['--radix-navigation-menu-viewport-width' as string]: viewportWidth,
         ['--radix-navigation-menu-viewport-height' as string]: viewportHeight,
@@ -89,8 +82,8 @@ const NavigationMenuViewportImpl = React.forwardRef<
             <NavigationMenuContentImpl
               {...props}
               ref={composeRefs(ref, (node) => {
-                // We only want to update the stored node when another is available
-                // as we need to smoothly transition between them.
+                // only swap measured node when a new active node is mounted; otherwise
+                // the old size collapses to 0 before the exit animation finishes
                 if (isActive && node) setContent(node)
               })}
             />

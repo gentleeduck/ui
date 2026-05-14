@@ -57,10 +57,6 @@ describe('getComponentIndexAdapter', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Adapter shape contract
-// ---------------------------------------------------------------------------
-
 describe('adapter shape contract', () => {
   const frameworks = ['nextjs', 'vite', 'custom'] as const
 
@@ -83,10 +79,6 @@ describe('adapter shape contract', () => {
     expect(vite.renderEntry).toBe(custom.renderEntry)
   })
 })
-
-// ---------------------------------------------------------------------------
-// Header content
-// ---------------------------------------------------------------------------
 
 describe('adapter headers', () => {
   test('nextjs header includes @ts-nocheck directive', () => {
@@ -140,10 +132,6 @@ describe('adapter headers', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Next.js renderImport
-// ---------------------------------------------------------------------------
-
 describe('createNextjsComponentImport', () => {
   test('embeds the component path in the import', () => {
     const result = createNextjsComponentImport({ componentPath: '@ui/button/button', id: '_Button', ssr: false })
@@ -186,10 +174,6 @@ describe('createNextjsComponentImport', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Vite renderImport
-// ---------------------------------------------------------------------------
-
 describe('createViteComponentImport', () => {
   test('uses React.lazy for dynamic import', () => {
     const result = createViteComponentImport({ componentPath: './button', id: '_Button' })
@@ -220,10 +204,6 @@ describe('createViteComponentImport', () => {
     expect(withSsrTrue).not.toContain('ssr')
   })
 })
-
-// ---------------------------------------------------------------------------
-// createComponentIndexEntry (shared across all adapters)
-// ---------------------------------------------------------------------------
 
 describe('createComponentIndexEntry', () => {
   const minimalItem = {
@@ -347,10 +327,6 @@ describe('createComponentIndexEntry', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Adapter isolation (each call returns a fresh object)
-// ---------------------------------------------------------------------------
-
 describe('adapter isolation', () => {
   test('separate calls return distinct adapter objects', () => {
     const a = getComponentIndexAdapter('nextjs')
@@ -366,10 +342,6 @@ describe('adapter isolation', () => {
     expect(b.defaultHeader).toBe(VITE_COMPONENT_INDEX_HEADER)
   })
 })
-
-// ---------------------------------------------------------------------------
-// Edge cases: empty / single / multiple component lists through renderImport
-// ---------------------------------------------------------------------------
 
 describe('adapter with varying component counts', () => {
   const frameworks = ['nextjs', 'vite', 'custom'] as const
@@ -407,10 +379,6 @@ describe('adapter with varying component counts', () => {
     expect(b).not.toContain('_Alert')
   })
 })
-
-// ---------------------------------------------------------------------------
-// renderEntry with rich item data
-// ---------------------------------------------------------------------------
 
 describe('createComponentIndexEntry with rich items', () => {
   test('handles item with all optional fields populated', () => {

@@ -1,10 +1,7 @@
 import * as React from 'react'
 import { useCallbackRef } from './use-callback-ref'
 
-/**
- * Listens for the Escape key in the capture phase and calls the handler.
- * Accepts an optional ownerDocument for cross-frame support.
- */
+/** Escape keydown listener in capture phase. `ownerDocument` for iframe/cross-frame support. */
 function useEscapeKeydown(
   onEscapeKeyDownProp?: (event: KeyboardEvent) => void,
   ownerDocument: Document = globalThis?.document,

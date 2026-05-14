@@ -1,11 +1,7 @@
 import * as React from 'react'
 import { useLayoutEffect } from './use-layout-effect'
 
-/**
- * Observes an element's border-box size via ResizeObserver.
- * Returns { width, height } or undefined when the element is null.
- * Provides the initial size synchronously via offsetWidth/offsetHeight.
- */
+/** Border-box size via ResizeObserver; initial size delivered synchronously from offset*. */
 function useSize(element: HTMLElement | null) {
   const [size, setSize] = React.useState<{ width: number; height: number } | undefined>(undefined)
 

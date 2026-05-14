@@ -5,10 +5,7 @@ import type { IPopover } from './popover.types'
 
 const ANCHOR_NAME = 'PopoverAnchor'
 
-/**
- * Registers a custom anchor element with the popover context.
- * When present, the trigger will not act as the positioning anchor.
- */
+/** Registers a custom positioning anchor; trigger stops being the anchor while mounted. */
 export const PopoverAnchor = React.forwardRef<
   React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
   IPopover.IScoped<IPopover.IAnchorProps>

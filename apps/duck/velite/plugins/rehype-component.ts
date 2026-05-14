@@ -35,13 +35,8 @@ const registryIndex = loadRegistryIndex()
 
 /**
  * Resolves `<ComponentSource path="…">` and `<ComponentPreview name="…">`
- * JSX nodes by reading the referenced source files and replacing the
- * node's children with hast `<pre><code>` blocks. Runs as a rehype
- * plugin in `content.rehypePlugins`.
- *
- * Called from the in-process unified pipeline after dmc's native
- * passes; the rest of the dmc transform chain (heading ids, autolink,
- * pretty-code) runs first.
+ * by reading referenced source files and replacing children with hast
+ * `<pre><code>` blocks.
  */
 export function rehypeComponent() {
   return async (tree: IUnistTree) => {
@@ -107,17 +102,11 @@ function resolvePreviewSourcePath(component: RegistryEntry | undefined, src: str
   return resolveFilePath(path.resolve(packagesRoot, 'registry-examples/src'), src)
 }
 
-/**
- * Build an mdast `code` (fenced code block) node. dmc's preprocessor
- * dedents JSX-flow children and re-anchors fence markers at column 0,
- * so the body is preserved verbatim and dmc's PrettyCode highlighter
- * tokenises every line into its own `<span class="line">`.
- */
+// dmc's preprocessor dedents JSX-flow children and re-anchors fence markers
+// at column 0, so PrettyCode tokenises every line into `<span class="line">`.
 function createCodeNode(source: string, lang: string) {
   return u('code', { lang, value: source })
 }
-
-// -- ComponentSource ----------------------------------------------------------
 
 export function componentSource({ node }: { node: IUnistNode }) {
   const sourcePath = getNodeAttributeByName(node, 'path')?.value as string | undefined
@@ -128,7 +117,7 @@ export function componentSource({ node }: { node: IUnistNode }) {
   }
 
   try {
-    // process.cwd() is apps/duck-ui-docs/, go up to monorepo root
+    // process.cwd() is apps/duck-ui-docs/, resolve to monorepo root
     const resolved = path.resolve(process.cwd(), '../../', sourcePath)
 
     if (!fs.existsSync(resolved)) {
@@ -139,7 +128,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
     const stat = fs.statSync(resolved)
 
     if (stat.isDirectory()) {
-      // Directory -- read all files, create a pre/code block for each (tabs)
       const entries = fs.readdirSync(resolved).filter((entry) => {
         const entryPath = path.join(resolved, entry)
         return fs.statSync(entryPath).isFile()
@@ -153,7 +141,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
         return createCodeNode(source, lang)
       })
     } else {
-      // Single file -- one pre/code block
       const lang = getLangFromExt(resolved)
       const fileName = path.basename(resolved)
       const content = fs.readFileSync(resolved, 'utf8')
@@ -164,8 +151,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
     console.error('[ComponentSource]', error)
   }
 }
-
-// -- ComponentPreview ---------------------------------------------------------
 
 export function componentPreview({ node }: { node: IUnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string

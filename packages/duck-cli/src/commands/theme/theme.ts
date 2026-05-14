@@ -7,13 +7,7 @@ const { name, description, options } = themeCommandConfig
 const jsonOption = requireConfigValue(options['option1'], 'missing theme command json option config')
 const cssOption = requireConfigValue(options['option2'], 'missing theme command css option config')
 
-/**
- * `duck-cli theme` — umbrella command with three subcommands:
- *
- * - `theme list`             list every theme available in the registry
- * - `theme info <name>`      print one theme's color tokens (--json supported)
- * - `theme add <name>`       inject the theme into your globals.css (--css path)
- */
+/** Umbrella command grouping `theme list`, `theme info <name>`, `theme add <name>`. */
 export function themeCommand(): Command {
   const cmd = new Command(name).description(description)
 

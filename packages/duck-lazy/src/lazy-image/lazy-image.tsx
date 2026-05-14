@@ -5,22 +5,9 @@ import { useLazyImage } from './lazy-image.hooks'
 import type { ILazyImage } from './lazy-image.types'
 
 /**
- * `DuckLazyImage` is a React component that lazily loads an image when it comes into view.
- * It supports lazy loading of images to improve performance, shows a placeholder image while the main image loads,
- * and includes several accessibility features to ensure compatibility with assistive technologies like screen readers.
- *
- * @param {ILazyImage.IProps} props - The props to configure the component.
- *
- * @returns {React.JSX.Element} The `DuckLazyImage` component. A div wrapping an `img` tag with lazy loading and placeholder functionality.
- *
- * ## Usage Example:
- * ```tsx
- * <DuckLazyImage
- *   src="https://example.com/image.jpg"
- *   placeholder="https://example.com/placeholder.jpg"
- *   alt="A stunning mountain landscape"
- * />
- * ```
+ * Lazily renders an image, showing `placeholder` until the real `src` is in view and loaded.
+ * Pass `nextImage` to render via `next/image` instead of a plain `<img>`.
+ * Throws when `src` is missing.
  */
 export function DuckLazyImage(props: ILazyImage.IProps): React.JSX.Element {
   if (!props.src) {
@@ -28,8 +15,8 @@ export function DuckLazyImage(props: ILazyImage.IProps): React.JSX.Element {
   }
 
   const { isLoaded, imageRef } = useLazyImage(props.src, {
-    rootMargin: '200px', // Start loading the image when it's 200px away from the viewport
-    threshold: 0.1, // Trigger when 10% of the image is visible
+    rootMargin: '200px',
+    threshold: 0.1,
     ...props.options,
   })
 
@@ -38,34 +25,25 @@ export function DuckLazyImage(props: ILazyImage.IProps): React.JSX.Element {
       <PlaceHolder
         alt="Image is loading..."
         aria-hidden={isLoaded ? 'true' : 'false'}
-        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`} // Provide alt text for the placeholder image
-        src={isLoaded ? props.src : (props.placeholder ?? '')} // Hide placeholder once image loads
+        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`}
+        src={isLoaded ? props.src : (props.placeholder ?? '')}
         {...props}
       />
 
       {!props.nextImage && (
         <output
           aria-hidden={isLoaded ? 'true' : 'false'}
-          aria-live="polite" // Let screen readers know this is a loading status
+          aria-live="polite"
           className={`absolute inset-0 animate-pulse transition-all ${
             isLoaded ? 'bg-transparent opacity-0' : 'bg-muted opacity-100'
-          }`} // Announce the loading state
+          }`}
         />
       )}
     </div>
   )
 }
 
-/**
- * `PlaceHolder` is a React component that renders a placeholder image for the `DuckLazyImage` component.
- * It can be used to display a placeholder image while the main image is being loaded.
- *
- * @internal
- * @param {Omit<ILazyImage.IProps, 'placeholder'>} props - The props to configure the component.
- *
- * @returns {React.JSX.Element} The `PlaceHolder` component. An `img` tag with lazy loading and placeholder functionality.
- *
- */
+/** @internal Renders the actual `<img>` (or `next/image`) for `DuckLazyImage`. */
 function PlaceHolder({
   width = 200,
   height = 200,

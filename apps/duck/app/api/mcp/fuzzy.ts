@@ -1,10 +1,4 @@
-/**
- * Fuzzy matching and keyword scoring.
- */
-
-/**
- * Compute edit distance between two strings (Levenshtein).
- */
+/** Levenshtein edit distance. */
 export function editDistance(a: string, b: string): number {
   if (a.length === 0) return b.length
   if (b.length === 0) return a.length
@@ -37,9 +31,6 @@ export function editDistance(a: string, b: string): number {
   return matrix[b.length]?.[a.length] ?? 0
 }
 
-/**
- * Check if a term fuzzy-matches a target string.
- */
 export function fuzzyMatch(term: string, target: string): boolean {
   if (target.includes(term)) return true
   if (term.length < 3) return false
@@ -48,9 +39,7 @@ export function fuzzyMatch(term: string, target: string): boolean {
   return words.some((word) => editDistance(term, word) <= maxDist)
 }
 
-/**
- * Score a fuzzy match. Higher = better match.
- */
+/** Higher = better. 0 = no match. */
 export function fuzzyScore(term: string, target: string): number {
   if (target.includes(term)) return 3
   if (term.length < 3) return 0

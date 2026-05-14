@@ -57,7 +57,7 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
     let selected = scanResult.data
 
     if (options.all) {
-      // Update everything
+      // no-op: keep all scanned components
     } else if (componentNames.length === 0) {
       spinner.stop()
       const { picked } = await prompts({
@@ -105,7 +105,6 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
       }
     }
 
-    // Fetch latest versions from registry
     spinner.text = 'Fetching latest versions from registry...'
     const registryEntries = []
     for (const comp of selected) {
@@ -122,7 +121,6 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
       process.exit(1)
     }
 
-    // For each component, check for local modifications and offer merge
     const mergeHandled = new Set<string>()
 
     if (!options.yes) {
@@ -166,12 +164,11 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
               spinner.warn(`Merge aborted for ${highlighter.info(entry.name)}.`)
             }
           }
-          // action === 'overwrite' -- will be handled by installComponents below
         }
       }
     }
 
-    // Install remaining components that were not handled by merge (force overwrite)
+    // Components handled via the merge GUI already wrote to disk; force-overwrite the rest.
     const remainingEntries = registryEntries.filter((e) => !mergeHandled.has(e.name))
 
     let allDeps: string[] = []
@@ -197,7 +194,6 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
       allDevDeps = installResult.data.devDependencies
     }
 
-    // Also collect deps from merge-handled components
     for (const entry of registryEntries) {
       if (mergeHandled.has(entry.name)) {
         allDeps.push(...(entry.dependencies ?? []))
@@ -205,7 +201,6 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
       }
     }
 
-    // Install any new/updated npm dependencies
     const depsResult = await installNpmDeps([...new Set(allDeps)], [...new Set(allDevDeps)], projectCwd, (msg) => {
       spinner.text = msg
     })

@@ -122,23 +122,18 @@ export default function ColorThemeManager() {
 
   const convertColor = (value: string, fromFormat: string, toFormat: ColorFormat): string => {
     try {
-      // Clean the input value first
       const cleanValue = value.trim().replace(/;$/, '')
 
       if (fromFormat === toFormat) {
         return cleanValue
       }
 
-      // Try to parse the color - be more lenient with parsing
       let parsedColor = parse(cleanValue)
 
-      // If initial parsing fails, try some common variations
       if (!parsedColor) {
-        // Try without extra spaces or formatting
         const normalizedValue = cleanValue.replace(/\s+/g, ' ')
         parsedColor = parse(normalizedValue)
 
-        // If still failing, try to extract just the color part for complex CSS values
         if (!parsedColor) {
           const colorMatch = cleanValue.match(/(oklch|hsl|rgb|#[0-9a-fA-F]+|color$$[^)]+$$)/i)
           if (colorMatch) {
@@ -147,9 +142,7 @@ export default function ColorThemeManager() {
         }
       }
 
-      // If we still can't parse it, return the original value
       if (!parsedColor) {
-        // console.log('[v0] Could not parse color:', cleanValue)
         return cleanValue
       }
 
@@ -229,7 +222,6 @@ export default function ColorThemeManager() {
           return cleanValue
       }
     } catch (_error) {
-      // console.log('[v0] Color conversion error for value:', value, 'Error:', error)
       return value
     }
   }
@@ -239,7 +231,6 @@ export default function ColorThemeManager() {
       const cleanValue = value.trim().replace(/;$/, '')
       let parsedColor = parse(cleanValue)
 
-      // Try alternative parsing methods if initial fails
       if (!parsedColor) {
         const normalizedValue = cleanValue.replace(/\s+/g, ' ')
         parsedColor = parse(normalizedValue)
@@ -252,10 +243,8 @@ export default function ColorThemeManager() {
         }
       }
 
-      // Check if color is valid and displayable
       return parsedColor !== undefined && parsedColor !== null
     } catch (_error) {
-      // console.log('[v0] Color validation error:', error)
       return false
     }
   }
@@ -322,28 +311,21 @@ export default function ColorThemeManager() {
 
   const applyTheme = useCallback(
     (theme: ITheme) => {
-      // console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
       setActiveTheme(theme)
       const root = document.documentElement
 
-      // Determine which color set to use based on current mode
       const colorsToApply = isDarkMode ? theme.darkColors : theme.lightColors
-      // console.log('[v0] Colors to apply:', colorsToApply)
 
-      // Apply all colors from the appropriate set
       colorsToApply.forEach((color) => {
         root.style.setProperty(`--${color.name}`, color.value)
-        // console.log('[v0] Setting CSS variable:', `--${color.name}`, 'to', color.value)
       })
 
-      // Create dark mode styles that override the light colors when .dark class is present
       const darkStyles = theme.darkColors
         .map((color) => {
           return `--${color.name}: ${color.value};`
         })
         .join(' ')
 
-      // Update or create dark mode styles
       let darkStyleElement = document.getElementById('dynamic-dark-theme')
       if (!darkStyleElement) {
         darkStyleElement = document.createElement('style')
@@ -352,26 +334,19 @@ export default function ColorThemeManager() {
       }
       darkStyleElement.textContent = `.dark { ${darkStyles} }`
 
-      // Apply dark class if in dark mode
       if (isDarkMode) {
         root.classList.add('dark')
       } else {
         root.classList.remove('dark')
       }
 
-      // Ensure proper contrast for primary button
       const primaryColor = colorsToApply.find((c) => c.name === 'primary')
       const primaryForegroundColor = colorsToApply.find((c) => c.name === 'primary-foreground')
-
-      // console.log('[v0] Primary color:', primaryColor?.value)
-      // console.log('[v0] Primary foreground color:', primaryForegroundColor?.value)
 
       if (primaryColor && primaryForegroundColor) {
         root.style.setProperty('--primary', primaryColor.value)
         root.style.setProperty('--primary-foreground', primaryForegroundColor.value)
       } else {
-        // Fallback to ensure good contrast
-        // console.log('[v0] Missing primary colors, using fallbacks')
         if (isDarkMode) {
           root.style.setProperty('--primary', 'hsl(210 40% 98%)')
           root.style.setProperty('--primary-foreground', 'hsl(222.2 84% 4.9%)')
@@ -396,7 +371,6 @@ export default function ColorThemeManager() {
     setActiveTheme(null)
     const root = document.documentElement
 
-    // Remove all custom theme properties to restore defaults
     const propertiesToReset = [
       'background',
       'foreground',
@@ -430,7 +404,6 @@ export default function ColorThemeManager() {
       root.style.removeProperty(`--${prop}`)
     })
 
-    // Remove dynamic dark theme styles
     const darkStyleElement = document.getElementById('dynamic-dark-theme')
     if (darkStyleElement) {
       darkStyleElement.remove()
@@ -729,7 +702,6 @@ export default function ColorThemeManager() {
           </DialogHeader>
 
           <div className="space-y-4">
-            {/* Color Preview */}
             <div className="flex items-center gap-4">
               <div className="h-20 w-20 rounded-lg border-2 border-border" style={{ backgroundColor: hexValue }} />
               <div className="flex-1">
@@ -738,7 +710,6 @@ export default function ColorThemeManager() {
               </div>
             </div>
 
-            {/* Chrome-like Color Picker */}
             <div className="space-y-3">
               <div>
                 <Label className="text-sm" htmlFor="advanced-color-picker">
@@ -753,7 +724,6 @@ export default function ColorThemeManager() {
                 />
               </div>
 
-              {/* HSL Controls */}
               <div className="space-y-2">
                 <Label className="text-sm">HSL Values</Label>
                 <div className="grid grid-cols-3 gap-2">
@@ -811,7 +781,6 @@ export default function ColorThemeManager() {
                 </div>
               </div>
 
-              {/* RGB Controls */}
               <div className="space-y-2">
                 <Label className="text-sm">RGB Values</Label>
                 <div className="grid grid-cols-3 gap-2">
@@ -869,7 +838,6 @@ export default function ColorThemeManager() {
                 </div>
               </div>
 
-              {/* Direct Value Input */}
               <div>
                 <Label className="text-sm" htmlFor="direct-color-value">
                   Direct Value
@@ -907,7 +875,6 @@ export default function ColorThemeManager() {
         </div>
         <CardsDemo />
 
-        {/* Color Palette Display */}
         {activeTheme && (
           <Card>
             <CardHeader>

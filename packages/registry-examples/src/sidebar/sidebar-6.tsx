@@ -59,7 +59,6 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
-// RTL Arabic data
 const data = {
   user: {
     name: 'احمد محمد',

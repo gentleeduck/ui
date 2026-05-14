@@ -44,7 +44,6 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
     },
   }).current
 
-  // Trap focus when it moves outside the container programmatically.
   React.useEffect(() => {
     if (trapped) {
       const handleFocusIn = (event: FocusEvent) => {
@@ -61,9 +60,8 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
         if (focusScope.paused || !container) return
         const relatedTarget = event.relatedTarget as HTMLElement | null
 
-        // When relatedTarget is null the browser or tab lost focus (case 1),
-        // or Chrome removed the focused element from the DOM (case 2).
-        // In both cases, let the browser handle focus restoration.
+        // null relatedTarget means tab/window lost focus, OR Chrome removed focused node;
+        // let the browser handle restoration in both cases.
         if (relatedTarget === null) return
 
         if (!container.contains(relatedTarget)) {
@@ -71,8 +69,7 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
         }
       }
 
-      // When a focused element is removed from the DOM, browsers move focus to
-      // document.body. Detect this via MutationObserver and refocus the container.
+      // Browser moves focus to body when the focused element is removed; bring it back.
       const handleMutations = (mutations: MutationRecord[]) => {
         const focusedElement = document.activeElement as HTMLElement | null
         if (focusedElement !== document.body) return
@@ -94,7 +91,6 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
     }
   }, [trapped, container, focusScope.paused])
 
-  // Auto-focus on mount and restore focus on unmount.
   React.useEffect(() => {
     if (container) {
       focusScopesStack.add(focusScope)
@@ -116,8 +112,8 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
       return () => {
         container.removeEventListener(AUTOFOCUS_ON_MOUNT, onMountAutoFocus)
 
-        // Delay unmount focus to work around a React bug with focusing during unmount.
-        // See: https://github.com/facebook/react/issues/17894
+        // Defer unmount focus: React bug focusing during unmount.
+        // https://github.com/facebook/react/issues/17894
         setTimeout(() => {
           const unmountEvent = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, EVENT_OPTIONS)
           container.addEventListener(AUTOFOCUS_ON_UNMOUNT, onUnmountAutoFocus)
@@ -133,7 +129,7 @@ const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((prop
     }
   }, [container, onMountAutoFocus, onUnmountAutoFocus, focusScope])
 
-  // Handle Tab key looping at container edges.
+  // Tab/Shift+Tab looping at container edges
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent) => {
       if (!loop && !trapped) return

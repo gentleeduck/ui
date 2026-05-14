@@ -5,9 +5,6 @@ import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, IButtonProps } from './button.types'
 
-/**
- * Renders a customizable button component, supporting various styles and behaviors.
- */
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
     {
@@ -54,9 +51,6 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
 )
 Button.displayName = 'Button'
 
-/**
- * Renders an animation icon component.
- */
 function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.JSX.Element {
   return (
     <>

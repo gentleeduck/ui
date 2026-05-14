@@ -15,7 +15,6 @@ import {
 import { ChevronRight, File, Folder } from 'lucide-react'
 import type * as React from 'react'
 
-// This is sample data.
 const data = {
   changes: [
     {

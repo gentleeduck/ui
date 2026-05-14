@@ -8,7 +8,6 @@ import { routeMetadata } from './libs/routes'
 const app = express()
 const PORT = process.env.PORT || 3000
 
-// Security and logging middleware
 app.use(helmet())
 app.use(
   cors({
@@ -22,13 +21,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 app.use(auth_router)
 
-// Start server
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
   console.log(`Registered ${routeMetadata.length} routes`)
 })
 
-// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully')
   server.close(() => {

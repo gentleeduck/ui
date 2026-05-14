@@ -7,7 +7,6 @@ const ARROW_NAME = 'HoverCardArrow'
 
 type HoverCardArrowElement = React.ComponentRef<typeof PopperPrimitive.Arrow>
 
-/** Renders the hover card arrow indicator, delegating to PopperArrow for positioning. */
 export const HoverCardArrow = React.forwardRef<HoverCardArrowElement, IHoverCard.IArrowProps>(
   (props: IHoverCard.IScoped<IHoverCard.IArrowProps>, forwardedRef) => {
     const { __scopeHoverCard, ...arrowProps } = props

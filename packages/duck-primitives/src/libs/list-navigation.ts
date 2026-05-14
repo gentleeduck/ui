@@ -1,17 +1,10 @@
-/**
- * @internal
- * Shared list-navigation utilities used by Select and Command primitives.
- */
-
 import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 
 export const NAVIGATION_KEYS = ['ArrowUp', 'ArrowDown', 'Home', 'End'] as const
 export const SELECTION_KEYS = [' ', 'Enter']
 
-/**
- * Focuses the first candidate element that accepts focus, scrolling it into view.
- */
+/** Focus first candidate that accepts focus, scrolling into view. */
 export function focusFirst(candidates: Array<HTMLElement | null>) {
   const previouslyFocused = document.activeElement
   for (const candidate of candidates) {
@@ -22,10 +15,7 @@ export function focusFirst(candidates: Array<HTMLElement | null>) {
   }
 }
 
-/**
- * Computes the ordered list of navigation candidates for arrow-key movement.
- * Reverses order for ArrowUp/End, slices from current element for ArrowUp/ArrowDown.
- */
+/** Ordered arrow-key candidates: reversed for Up/End, sliced past current for Up/Down. */
 export function getNavigationCandidates(
   items: HTMLElement[],
   key: string,
@@ -42,20 +32,15 @@ export function getNavigationCandidates(
   return candidates
 }
 
-/**
- * Wraps an array around itself at a given start index.
- * Example: `wrapArray(['a', 'b', 'c', 'd'], 2) === ['c', 'd', 'a', 'b']`
- */
+/** `wrapArray(['a','b','c','d'], 2) === ['c','d','a','b']` */
 export function wrapArray<T>(array: T[], startIndex: number) {
   // biome-ignore lint/style/noNonNullAssertion: modulo guarantees the index is always within bounds
   return array.map<T>((_, index) => array[(startIndex + index) % array.length]!)
 }
 
 /**
- * Finds the next item matching a typeahead search string.
- * Normalizes repeated chars (e.g. 'aaa' -> 'a') for cycling behavior.
- * A fresh single-char search starts from the top of the list.
- * Repeated-char searches wrap from the current item and exclude it so focus advances.
+ * Find next typeahead match. Repeated chars (e.g. 'aaa') collapse to one char and cycle
+ * starting after currentItem; a fresh single char searches from the top of the list.
  */
 export function findNextItem<T extends { textValue: string }>(items: T[], search: string, currentItem?: T) {
   const isRepeated = search.length > 1 && Array.from(search).every((char) => char === search[0])
@@ -72,15 +57,9 @@ export function findNextItem<T extends { textValue: string }>(items: T[], search
 }
 
 /**
- * Hook for typeahead search with 1-second auto-reset.
- * Returns [searchRef, handleTypeaheadSearch, resetTypeahead].
- *
- * Pass an optional externalSearchRef to use an existing ref (e.g. one stored
- * in context) instead of creating a new one. The hook will read/write that ref
- * directly and reset it after the 1-second timeout, keeping it in sync.
- *
- * onSearchChange may optionally return a replacement search string that the
- * hook should store (useful for fallback behavior, e.g. resetting to last key).
+ * Typeahead search with 1s auto-reset. Returns [searchRef, handleTypeaheadSearch, reset].
+ * `externalSearchRef` lets callers share state via context. `onSearchChange` may return
+ * a replacement string to store (used for fallback-to-last-key behavior).
  */
 export function useTypeaheadSearch(
   onSearchChange: (search: string, key: string) => string | undefined,
@@ -124,40 +103,21 @@ interface ITypeaheadListState {
 }
 
 interface ITypeaheadListNavigationOptions<T> {
-  /**
-   * Returns candidate items to search. Callers should pre-filter out disabled/hidden items.
-   */
+  /** Candidates to search; callers must pre-filter disabled/hidden items. */
   getItems: () => T[]
-  /**
-   * Returns the element for an item. Used for focus-based current-item detection.
-   */
   getItemElement: (item: T) => HTMLElement | null
-  /**
-   * Returns searchable text for an item. Empty strings are ignored.
-   */
+  /** Searchable text; empty strings are skipped. */
   getItemTextValue: (item: T) => string
-  /**
-   * Called when a matching item is found.
-   */
   onMatch: (item: T) => void
-  /**
-   * Optional current-item resolver override (e.g. SelectTrigger uses selected value instead of focus).
-   */
+  /** Override current-item (e.g. SelectTrigger uses selected value instead of focus). */
   getCurrentItem?: (items: T[], state: ITypeaheadListState) => T | undefined
-  /**
-   * Optional external ref to keep typeahead search state in shared context.
-   */
+  /** Share typeahead state via context. */
   externalSearchRef?: React.RefObject<string>
 }
 
 /**
- * Shared typeahead-list navigation:
- * - Uses `findNextItem` matching semantics (single-char from top, repeated-char cycling, wrap).
- * - Falls back to latest key when accumulated search has no match.
- * - Tracks last matched element so consecutive keys remain stable during async focus changes.
- * - Reuses `useTypeaheadSearch` timeout/reset behavior.
- *
- * Returns [searchRef, handleTypeaheadSearch, resetTypeaheadState].
+ * Typeahead list navigation. Falls back to latest key when accumulated search misses,
+ * and tracks last matched element so consecutive keys stay stable across async focus shifts.
  */
 export function useTypeaheadListNavigation<T>(options: ITypeaheadListNavigationOptions<T>) {
   const lastMatchedRefObject = React.useRef<HTMLElement | null>(null)
@@ -221,17 +181,9 @@ interface IVimNavigationOptions {
 }
 
 /**
- * Hook for vim-like navigation keybindings in list components.
- *
- * Supported bindings:
- *   gg      -- focus first item (two g presses within 300ms)
- *   G       -- focus last item  (Shift+G)
- *
- * Returns a handler: (event, items) => boolean.
- * Returns true when a vim command was executed (caller should skip typeahead/nav).
- * Returns false otherwise (caller proceeds normally).
- *
- * The first g press returns false so typeahead still fires for 'g' items.
+ * Vim-style list bindings: `gg` (two g within ggTimeoutMs) -> first item, `G` -> last item.
+ * Handler returns true when a command fired (caller must skip typeahead/nav). The first
+ * `g` returns false so typeahead still fires on items starting with 'g'.
  */
 export function useVimNavigation(options: IVimNavigationOptions = {}) {
   const { ggTimeoutMs = 300 } = options
@@ -246,7 +198,6 @@ export function useVimNavigation(options: IVimNavigationOptions = {}) {
         return false
       }
 
-      // G (Shift+G) -> focus last item
       if (event.key === 'G' && event.shiftKey) {
         lastGPressRef.current = 0
         event.preventDefault()
@@ -256,7 +207,6 @@ export function useVimNavigation(options: IVimNavigationOptions = {}) {
         return true
       }
 
-      // gg -> focus first item (two g presses within 300ms)
       if (event.key === 'g' && !event.shiftKey) {
         const now = Date.now()
         if (now - lastGPressRef.current < ggTimeoutMs) {
@@ -271,7 +221,7 @@ export function useVimNavigation(options: IVimNavigationOptions = {}) {
         return false
       }
 
-      // Any other key cancels pending "g" sequence.
+      // any other key cancels pending `g`
       lastGPressRef.current = 0
       return false
     },

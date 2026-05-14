@@ -49,7 +49,7 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, IRadioGroup.IItem
               }
             })}
             onFocus={composeEventHandlers(props.onFocus, () => {
-              // When focus moves via keyboard navigation keys, auto-select this item.
+              // arrow-key focus auto-selects per WAI-ARIA radio pattern
               if (context.isNavigationKeyPressedRef.current) {
                 context.onValueChange(value)
               }

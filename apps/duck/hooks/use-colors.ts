@@ -3,7 +3,6 @@ import { atomWithStorage } from 'jotai/utils'
 import type { ColorFormat } from '~/lib'
 import { useMounted } from './use-mounted'
 
-/** @internal */
 interface IConfig {
   format: ColorFormat
   lastCopied: string

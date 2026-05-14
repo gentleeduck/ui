@@ -15,8 +15,7 @@ export function isUrl(path: string) {
 
 export function getRegistryUrl(path: string) {
   if (isUrl(path)) {
-    // If the url contains /chat/b/, we assume it's the v0 registry.
-    // We need to add the /json suffix if it's missing.
+    // v0.dev's `/chat/b/...` registry URLs require a `/json` suffix that users typically omit.
     const url = new URL(path)
     if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
       url.pathname = `${url.pathname}/json`

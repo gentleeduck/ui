@@ -1,8 +1,5 @@
 import type { IRegistryEntry, RegistryItemType } from './ui.registry.types'
 
-/**
- * UI-specific config types layered on top of the generic builder config.
- */
 export interface IRegistryBuildContentRewrite {
   pattern: string
   replacement: string

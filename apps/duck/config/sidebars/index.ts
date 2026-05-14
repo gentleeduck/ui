@@ -1,14 +1,3 @@
-/**
- * Per-package sidebar configs.
- *
- * Each duck-* package has a hand-curated `<pkg>.ts` file that declares
- * its sidebar links with literal `href` types. Slug pages import the
- * constant directly instead of generating one from velite at runtime.
- *
- * Add a new package by creating `apps/duck/config/sidebars/<pkg>.ts`
- * and re-exporting it here.
- */
-
 import { duckCalendarSidebar } from './duck-calendar'
 import { duckCliSidebar } from './duck-cli'
 import { duckGenSidebar } from './duck-gen'
@@ -54,10 +43,6 @@ export type { ITypedSidebarItem, ITypedSidebarSection } from './types'
 export { defineSidebar } from './types'
 export { wwwSidebar } from './www'
 
-/**
- * Map of every package slug -> typed sidebar config.
- * Used by the global command palette and search-index builder.
- */
 export const packageSidebars = {
   'duck-calendar': duckCalendarSidebar,
   'duck-cli': duckCliSidebar,

@@ -70,7 +70,6 @@ export function isWeekend(date: Date): boolean {
   return d === 0 || d === 6
 }
 
-/** Get the Monday of the week containing the given date. */
 export function getWeekStart(date: Date): Date {
   const d = new Date(date)
   const dow = d.getDay()
@@ -78,7 +77,6 @@ export function getWeekStart(date: Date): Date {
   return d
 }
 
-/** Get 7 days starting from Monday of the week containing date. */
 export function getDaysForWeek(date: Date): Date[] {
   const start = getWeekStart(date)
   return Array.from({ length: 7 }, (_, i) => {
@@ -88,7 +86,6 @@ export function getDaysForWeek(date: Date): Date[] {
   })
 }
 
-/** Format heading based on view. */
 export function formatViewHeading(date: Date, view: string): string {
   switch (view) {
     case 'day':
@@ -107,7 +104,6 @@ export function formatViewHeading(date: Date, view: string): string {
   }
 }
 
-/** Format subheading based on view. */
 export function formatViewSubheading(date: Date, view: string): string {
   switch (view) {
     case 'day':

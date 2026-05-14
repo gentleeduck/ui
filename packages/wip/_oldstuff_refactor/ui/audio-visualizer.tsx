@@ -6,7 +6,6 @@ import { useAudioDataProvider } from './audio-record'
 
 export const new_audio = (url: string) => new Audio(url)
 
-// Calculate bar data
 export interface dataPoint {
   max: number
   min: number
@@ -24,10 +23,8 @@ export const calculate_bar_data_handler = (() => {
   const cache = new Map()
 
   return ({ buffer, width, height, barWidth, gap }: CalculateBarDataParams): dataPoint[] => {
-    // Create a unique key based on the input parameters
     const key = `${buffer.length}-${width}-${height}-${barWidth}-${gap}`
 
-    // Check if the result is already cached
     if (cache.has(key)) {
       return cache.get(key)
     }
@@ -76,14 +73,12 @@ export const calculate_bar_data_handler = (() => {
       }
     }
 
-    // Store the computed result in the cache
     cache.set(key, data)
 
     return data
   }
 })()
 
-// Draw Handler
 export interface DrawHandlerParams {
   data: dataPoint[]
   canvas: HTMLCanvasElement | null
@@ -119,14 +114,12 @@ export const draw_handler = ({
   const amp = canvas.height / 2
   const playedPercent = currentTime / duration
 
-  // Clear the canvas and set background
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   if (backgroundColor !== 'transparent') {
     ctx.fillStyle = 'transparent'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  // Draw bars in a single loop
   const totalBars = data.length
   for (let i = 0; i < totalBars; i++) {
     const height = Math.max(data[i].max * 2 * animationProgress, minBarHeight)
@@ -135,7 +128,6 @@ export const draw_handler = ({
   }
 }
 
-// Process Blob
 export interface ProcessBlobParams {
   canvasRef: React.RefObject<HTMLCanvasElement>
   blob: Blob | null
@@ -193,13 +185,11 @@ export const process_blob = async ({
   const audioContext = new AudioContext()
   const audioBuffer = await blob.arrayBuffer()
 
-  // Decode the entire audio data
   audioContext.decodeAudioData(audioBuffer, (buffer) => {
     if (!canvasRef.current) return
 
     setDuration(buffer.duration)
 
-    // Calculate the waveform data for the entire audio buffer
     const barsData = calculate_bar_data_handler({
       barWidth,
       buffer,
@@ -208,10 +198,8 @@ export const process_blob = async ({
       width,
     })
 
-    // Set the calculated data for rendering
     setData(barsData)
 
-    // Set up for animation
     let startTime: number | null = null
     let animationFrameId: number | null = null
 
@@ -221,7 +209,6 @@ export const process_blob = async ({
       const elapsedTime = time - startTime
       const progress = Math.min(elapsedTime / 1000, 1)
 
-      // Update animation progress using a ref
       setAnimationProgress(progress)
 
       draw_handler({
@@ -245,10 +232,8 @@ export const process_blob = async ({
       }
     }
 
-    // Start the animation
     animationFrameId = requestAnimationFrame(animate)
 
-    // Cleanup when the component unmounts or the animation is done
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
@@ -260,7 +245,6 @@ export interface ThemeColor {
   dark: string
 }
 
-// Audio Visualizer
 interface AudioVisualizerProps {
   blob: Blob | null
   width: number

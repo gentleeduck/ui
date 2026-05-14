@@ -22,10 +22,8 @@ import { ModeSwitcher } from '../mode-toggle'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
 
-// CommandMenu indirectly pulls every velite collection (docsEntries +
-// packageSidebarNavs in ~/config/docs). Loading it eagerly inflates the
-// shared (app)/layout chunk to ~57 MB. Defer the load so the docs
-// payload only hits the wire when the user opens the menu.
+// CommandMenu transitively pulls every velite collection via ~/config/docs;
+// eager load inflates the shared (app)/layout chunk to ~57MB.
 const CommandMenu = dynamic(() => import('../command-menu').then((m) => ({ default: m.CommandMenu })), {
   ssr: false,
 })
@@ -67,8 +65,7 @@ function isFontPreset(value: unknown): value is FontPreset {
 }
 
 function applyFontPreset(preset: FontPreset) {
-  // Lazy-register the @font-face rules for the picked family. Mono is
-  // already loaded via next/font in the root layout.
+  // Mono is preloaded via next/font; sans/serif need on-demand @font-face registration.
   if (preset.startsWith('sans')) {
     loadDynamicFont('sans')
   } else if (preset.startsWith('serif')) {
@@ -87,8 +84,7 @@ function applyFontPreset(preset: FontPreset) {
       : '--font-mono-font'
   const style = preset.endsWith('italic') ? 'italic' : 'normal'
 
-  // Single write batch. Never read getComputedStyle here — that would
-  // force a synchronous reflow before the next paint.
+  // Write-only batch — never read getComputedStyle here or it forces sync reflow.
   const rootStyle = document.documentElement.style
   document.documentElement.setAttribute('data-font-preset', preset)
   rootStyle.setProperty('--duck-font-family', family)
@@ -102,55 +98,12 @@ function applyFontPreset(preset: FontPreset) {
     bodyStyle.setProperty('font-family', family, 'important')
     bodyStyle.setProperty('font-style', style, 'important')
   }
-  // unused: family var is now resolved up front, so no need to peek
-  // computed styles for warm-up.
   void familyVar
 }
 
 export function SiteHeader() {
   return (
     <HeaderRoot>
-      {/* <div className="relative h-10 w-full"> */}
-      {/*   <Image */}
-      {/*     src="/banner-light.png" */}
-      {/*     alt="logo" */}
-      {/*     width={2000} */}
-      {/*     height={1028} */}
-      {/*     className="block h-10 w-full object-cover object-center dark:hidden" */}
-      {/*   /> */}
-      {/*   <Image */}
-      {/*     src="/banner-dark2.png" */}
-      {/*     alt="logo" */}
-      {/*     width={2000} */}
-      {/*     height={1028} */}
-      {/*     className="hidden h-10 w-full object-cover object-center dark:block" */}
-      {/*   /> */}
-      {/*   <div className="container absolute inset-0 mx-auto flex w-full items-center justify-between gap-2 px-4"> */}
-      {/*     <div className="pointer-events-none flex items-center gap-2 pl-1"> */}
-      {/*       <img */}
-      {/*         src="/icons/grouped-dark.svg" */}
-      {/*         alt="Gentleduck logo" */}
-      {/*         width={512} */}
-      {/*         height={512} */}
-      {/*         className="h-5 w-5 shrink-0 object-contain drop-shadow-md/70 sm:block dark:hidden" */}
-      {/*       /> */}
-      {/*  */}
-      {/*       <img */}
-      {/*         src="/icons/grouped-light.svg" */}
-      {/*         alt="Gentleduck logo" */}
-      {/*         width={512} */}
-      {/*         height={512} */}
-      {/*         className="hidden h-5 w-5 shrink-0 object-contain drop-shadow-md/70 dark:block dark:sm:block" */}
-      {/*       /> */}
-      {/*       <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono font-semibold text-shadow-md/20 text-xs uppercase leading-snug tracking-wide dark:text-shadow-md/50"> */}
-      {/*         Announcing Gentleduck Iam and the Gentleduck Calendar and Gentleduck Upload */}
-      {/*       </span> */}
-      {/*     </div> */}
-      {/*     <div className="pr-2"> */}
-      {/*       <X className="size-4" /> */}
-      {/*     </div> */}
-      {/*   </div> */}
-      {/* </div> */}
       <HeaderContainer>
         <MainNav />
         <React.Suspense fallback={null}>
@@ -319,7 +272,7 @@ export function FontStyleButton() {
         setFontPreset(migratedPreset)
       }
     } catch {
-      // Ignore legacy migration issues and keep defaults.
+      // Legacy-key migration is best-effort; fall back to defaults on parse error.
     }
   }, [setFontPreset])
 

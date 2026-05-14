@@ -14,7 +14,6 @@ import {
 } from '@gentleduck/registry-ui/sidebar'
 import type * as React from 'react'
 
-// This is sample data.
 const data = {
   navMain: [
     {

@@ -1,12 +1,7 @@
 import { diffWords, structuredPatch } from 'diff'
 import type { Diff } from './diff-format.types'
 
-/**
- * Compute word-level diff segments between two text blocks.
- * Uses diffWords to identify changed words, producing separate
- * segment arrays for removed (old) and added (new) text.
- * Each segment is tagged with highlight=true if it represents a change.
- */
+/** Splits each `diffWords` change into removed/added segment streams, with `highlight=true` for changed runs. */
 export function computeWordSegments(
   oldText: string,
   newText: string,
@@ -29,21 +24,14 @@ export function computeWordSegments(
   return { removedSegments, addedSegments }
 }
 
-/** Pad a line number to the given width, or return spaces if null. */
 export function formatLineNumber(num: number | null, width: number): string {
   if (num === null) return ' '.repeat(width)
   return String(num).padStart(width)
 }
 
 /**
- * Generate a unified diff view as an array of Diff.DisplayLine objects.
- *
- * Uses structuredPatch for the raw diff, then walks each hunk to:
- * 1. Emit file-header lines (--- local, +++ registry)
- * 2. Emit hunk-header lines (@@ -old,count +new,count @@)
- * 3. For each change block, compute word-level highlights by joining
- *    contiguous removed/added lines and running computeWordSegments,
- *    then splitting back into per-line segments.
+ * Walks the `structuredPatch` output and pairs contiguous remove+add blocks through
+ * `computeWordSegments` to get word-level highlighting before splitting back to per-line segments.
  */
 export function buildDisplayLines(filePath: string, localContent: string, registryContent: string): Diff.DisplayLine[] {
   const patch = structuredPatch(
@@ -58,7 +46,6 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
 
   const lines: Diff.DisplayLine[] = []
 
-  // File header lines
   lines.push({
     type: 'file-header',
     oldLineNum: null,
@@ -99,7 +86,6 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
       const content = line.substring(1)
 
       if (prefix === ' ') {
-        // Context line
         lines.push({
           type: 'context',
           oldLineNum: oldLine,
@@ -111,7 +97,8 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
         newLine++
         i++
       } else if (prefix === '-') {
-        // Collect contiguous removed lines
+        // Greedily group contiguous `-` lines followed by contiguous `+` lines so word-level
+        // diffing has both sides as a single text block.
         const removedLines: string[] = []
         let j = i
         while (j < hunkLines.length) {
@@ -120,7 +107,6 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
           removedLines.push(removedLine.substring(1))
           j++
         }
-        // Collect contiguous added lines that follow
         const addedLines: string[] = []
         while (j < hunkLines.length) {
           const addedLine = hunkLines[j]
@@ -130,12 +116,10 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
         }
 
         if (addedLines.length > 0) {
-          // Word-level diff between the blocks
           const oldBlock = removedLines.join('\n')
           const newBlock = addedLines.join('\n')
           const { removedSegments, addedSegments } = computeWordSegments(oldBlock, newBlock)
 
-          // Split segments back into per-line groups
           const removedLineSegments = splitSegmentsByNewline(removedSegments)
           const addedLineSegments = splitSegmentsByNewline(addedSegments)
 
@@ -164,7 +148,6 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
             newLine++
           }
         } else {
-          // Pure removal, no word-level diff
           for (const removed of removedLines) {
             lines.push({
               type: 'remove',
@@ -179,7 +162,7 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
 
         i = j
       } else if (prefix === '+') {
-        // Pure addition (not paired with removal)
+        // Bare `+` not preceded by `-` (we'd have consumed it in the block above otherwise).
         lines.push({
           type: 'add',
           oldLineNum: null,
@@ -190,7 +173,7 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
         newLine++
         i++
       } else {
-        // Skip lines without a recognized prefix (e.g. "\ No newline at end of file")
+        // e.g. `\ No newline at end of file`.
         i++
       }
     }
@@ -199,14 +182,7 @@ export function buildDisplayLines(filePath: string, localContent: string, regist
   return lines
 }
 
-/**
- * Split a flat array of diff segments into per-line groups,
- * breaking at newline characters within segment text.
- *
- * Used after word-level diffing where segments span multiple lines
- * (e.g. from joining lines with '\n' before calling diffWords).
- * The output aligns segments back to individual source lines.
- */
+/** Inverse of joining lines with `\n` for `diffWords`: re-aligns segments back to per-line arrays. */
 export function splitSegmentsByNewline(segments: Diff.Segment[]): Diff.Segment[][] {
   const result: Diff.Segment[][] = [[]]
 
@@ -226,11 +202,7 @@ export function splitSegmentsByNewline(segments: Diff.Segment[]): Diff.Segment[]
   return result
 }
 
-/**
- * Convert a unified diff line array into side-by-side pairs.
- * Contiguous remove+add blocks are paired left/right,
- * with null padding on the shorter side.
- */
+/** Pairs contiguous remove/add runs left/right; shorter side gets null padding. */
 export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySidePair[] {
   const pairs: Diff.SideBySidePair[] = []
   let i = 0
@@ -246,7 +218,6 @@ export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySide
       pairs.push({ left: line, right: line })
       i++
     } else if (line.type === 'remove') {
-      // Collect contiguous removes
       const removes: Diff.DisplayLine[] = []
       while (i < lines.length) {
         const removeLine = lines[i]
@@ -254,7 +225,6 @@ export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySide
         removes.push(removeLine)
         i++
       }
-      // Collect contiguous adds
       const adds: Diff.DisplayLine[] = []
       while (i < lines.length) {
         const addLine = lines[i]
@@ -262,7 +232,6 @@ export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySide
         adds.push(addLine)
         i++
       }
-      // Pair them, padding the shorter side
       const maxLen = Math.max(removes.length, adds.length)
       for (let j = 0; j < maxLen; j++) {
         pairs.push({
@@ -271,7 +240,6 @@ export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySide
         })
       }
     } else if (line.type === 'add') {
-      // Pure addition
       pairs.push({ left: null, right: line })
       i++
     } else {
@@ -282,7 +250,7 @@ export function buildSideBySidePairs(lines: Diff.DisplayLine[]): Diff.SideBySide
   return pairs
 }
 
-/** Find the highest line number across all lines for gutter width calculation. */
+/** Used to size the gutter column to the widest line number. */
 export function getMaxLineNumber(lines: Diff.DisplayLine[]): number {
   let max = 0
   for (const line of lines) {
@@ -292,7 +260,7 @@ export function getMaxLineNumber(lines: Diff.DisplayLine[]): number {
   return max
 }
 
-/** Return array indices of hunk-header lines, used for n/p keyboard navigation. */
+/** Indices of `hunk-header` rows; consumed by the n/p key handler to jump between hunks. */
 export function getHunkOffsets(lines: Diff.DisplayLine[]): number[] {
   const offsets: number[] = []
   for (let i = 0; i < lines.length; i++) {

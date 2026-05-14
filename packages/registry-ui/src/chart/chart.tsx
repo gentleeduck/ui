@@ -14,7 +14,7 @@ import type {
   IChartTooltipContentProps,
 } from './chart.types'
 
-// Format: { THEME_NAME: CSS_SELECTOR }
+/** Theme name -> CSS selector that scopes the injected `--color-*` vars. */
 export const THEMES = { dark: '.dark', light: '' } as const
 const DEFAULT_CHART_INITIAL_DIMENSION = { width: 640, height: 360 } as const
 

@@ -30,7 +30,6 @@ export const [RovingFocusProvider, useRovingFocusContext] =
 type RovingFocusGroupImplElement = React.ComponentRef<typeof Primitive.div>
 type RovingFocusGroupElement = RovingFocusGroupImplElement
 
-/** Container that manages roving tabindex focus within a group of items. */
 const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, IRovingFocus.IGroupProps>(
   (props: IRovingFocus.IScoped<IRovingFocus.IGroupProps>, forwardedRef) => {
     return (

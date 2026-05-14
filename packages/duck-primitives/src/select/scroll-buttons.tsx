@@ -61,8 +61,7 @@ export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplEle
         const viewport = contentContext.viewport
         const handleScroll = () => {
           const maxScroll = viewport.scrollHeight - viewport.clientHeight
-          // we use Math.ceil here because if the UI is zoomed-in
-          // `scrollTop` is not always reported as an integer
+          // ceil because zoomed UIs report fractional scrollTop
           const canScroll = Math.ceil(viewport.scrollTop) < maxScroll
           setCanScrollDown(canScroll)
         }
@@ -109,10 +108,8 @@ const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ISelect.IScoped<
       return () => clearAutoScrollTimer()
     }, [clearAutoScrollTimer])
 
-    // When the viewport becomes scrollable on either side, the relevant scroll button will mount.
-    // Because it is part of the normal flow, it will push down (top button) or shrink (bottom button)
-    // the viewport, potentially causing the active item to now be partially out of view.
-    // We re-run the `scrollIntoView` logic to make sure it stays within the viewport.
+    // Scroll button mounting alters viewport size (push/shrink) and may partially hide the active
+    // item; re-run scrollIntoView to keep focus visible.
     useLayoutEffect(() => {
       const activeItem = getItems().find((item) => item.ref.current === document.activeElement)
       activeItem?.ref.current?.scrollIntoView({ block: 'nearest' })

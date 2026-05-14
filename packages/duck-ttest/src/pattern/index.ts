@@ -1,22 +1,9 @@
-// Type-level glob pattern matching.
-//
-// Supports:
-//   `*`  — match zero or more characters (non-slash greedy substring)
-//   `?`  — match exactly one character
-//   `**` — match any depth, including across `/` (for path-style patterns)
-//
-// Purely structural — no runtime — so it's handy for driving discriminated
-// types off literal route patterns, class-name globs, etc.
+// Glob semantics:
+//   `*`  — zero or more chars (greedy substring)
+//   `?`  — exactly one char
+//   `**` — any depth, including across `/`
 
-/**
- * `true` if `S` matches the glob `P`.
- *
- * @example
- * type A = MatchesGlob<'hello.ts', '*.ts'>       // true
- * type B = MatchesGlob<'src/a/b.ts', 'src/**'>   // true
- * type C = MatchesGlob<'abc', 'a?c'>             // true
- * type D = MatchesGlob<'abcd', 'a?c'>            // false
- */
+/** `true` if `S` matches glob `P`. */
 export type MatchesGlob<S extends string, P extends string> = P extends ''
   ? S extends ''
     ? true
@@ -57,12 +44,7 @@ type _MatchLiteralPrefix<S extends string, Lit extends string, P extends string>
     : false
   : false
 
-/**
- * `true` if `S` starts with any of the given prefixes.
- *
- * @example
- * type X = StartsAnyOf<'hello', ['hi', 'hello', 'hey']> // true
- */
+/** `true` if `S` starts with any of `Prefixes`. */
 export type StartsAnyOf<S extends string, Prefixes extends readonly string[]> = Prefixes extends readonly [
   infer H extends string,
   ...infer R extends string[],

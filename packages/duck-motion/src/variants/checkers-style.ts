@@ -1,19 +1,7 @@
 import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
-/**
- * CVA variant for checkbox, radio, and switch input styling.
- * Handles the checked/unchecked indicator appearance, mask images,
- * and directional (LTR/RTL) toggle positioning.
- *
- * @example
- * ```tsx
- * <input
- *   type="checkbox"
- *   className={checkersStylePattern({ type: 'checkbox', indicatorState: 'both' })}
- * />
- * ```
- */
+/** Checkbox/radio/switch input styling: indicator masks, checked state, LTR/RTL toggle positioning. */
 export const checkersStylePattern = cva(
   `appearance-none relative p-2 size-[1em] flex items-center rounded-full m-0
   border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground

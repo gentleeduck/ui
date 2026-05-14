@@ -8,10 +8,6 @@ import { toString as hastToString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
 import type { IUnistNode, IUnistTree } from '../types'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 function isMermaidCode(node: IUnistNode): boolean {
   const codeChild = node.children?.[0]
   if (!codeChild || codeChild.type !== 'element' || codeChild.tagName !== 'code') return false
@@ -32,7 +28,6 @@ interface IMdxJsxFlowElement extends IUnistNode {
   attributes?: IMdxJsxAttribute[]
 }
 
-/** Safely extract a string value from an mdxJsxAttribute. */
 function extractAttrValue(attr: IMdxJsxAttribute | undefined): string | null {
   if (!attr?.value) return null
   if (typeof attr.value === 'string') return attr.value
@@ -47,7 +42,6 @@ function extractAttrValue(attr: IMdxJsxAttribute | undefined): string | null {
   return null
 }
 
-/** Create an mdxJsxAttribute with an expression value (properly escaped). */
 function makeJsxStringAttr(name: string, value: string) {
   return {
     type: 'mdxJsxAttribute',
@@ -72,35 +66,23 @@ function makeJsxStringAttr(name: string, value: string) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Headless Chromium renderer - produces pixel-perfect SVGs using a real browser
-// ---------------------------------------------------------------------------
-
-/** Find the system Chromium / Chrome binary. */
 function findChromium(): string {
-  // 1) Honor explicit env var
   const envPath = process.env['PUPPETEER_EXECUTABLE_PATH'] || process.env['CHROME_BIN'] || process.env['CHROMIUM_BIN']
   if (envPath && existsSync(envPath)) return envPath
 
-  // 2) Try PATH lookups
   for (const bin of ['chromium', 'google-chrome-stable', 'google-chrome', 'chromium-browser']) {
     try {
       const p = execSync(`which ${bin}`, { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }).trim()
       if (p && existsSync(p)) {
-        // Verify the resolved target exists - homebrew shims can point to deleted .app bundles
+        // Homebrew shims can point to deleted .app bundles; verify before returning.
         try {
           execSync(`"${p}" --version`, { stdio: ['pipe', 'pipe', 'pipe'], timeout: 3000 })
           return p
-        } catch {
-          /* stale shim, try next */
-        }
+        } catch {}
       }
-    } catch {
-      /* next */
-    }
+    } catch {}
   }
 
-  // 3) macOS .app bundles
   const macPaths = [
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary',
@@ -170,7 +152,6 @@ async function renderSvgBatch(
     const json = decodeURIComponent(escape(Buffer.from(titleMatch[1] ?? '', 'base64').toString('binary')))
     const results: Record<string, string> = JSON.parse(json)
 
-    // Make SVGs responsive
     for (const [id, svg] of Object.entries(results)) {
       if (svg) {
         results[id] = svg.replace(/\bwidth="[\d.]+"/, 'width="100%"')
@@ -183,13 +164,8 @@ async function renderSvgBatch(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Plugin
-// ---------------------------------------------------------------------------
-
 export function rehypeMermaid() {
   return async (tree: IUnistTree) => {
-    // Two kinds of entries: code-fence <pre> blocks and <MermaidDiagram> JSX elements
     type CodeFenceEntry = { kind: 'fence'; node: IUnistNode; pre: IUnistNode; source: string }
     type JsxEntry = { kind: 'jsx'; node: IUnistNode; source: string }
     type Entry = CodeFenceEntry | JsxEntry
@@ -197,7 +173,6 @@ export function rehypeMermaid() {
     const entries: Entry[] = []
 
     visit(tree, (node: IUnistNode) => {
-      // 1. <MermaidDiagram chart={`...`} /> JSX elements
       const mdxNode = node as IMdxJsxFlowElement
       if (mdxNode.type === 'mdxJsxFlowElement' && mdxNode.name === 'MermaidDiagram') {
         const attrs = mdxNode.attributes || []
@@ -209,7 +184,7 @@ export function rehypeMermaid() {
         return
       }
 
-      // 2. rehypePrettyCode wrapper div (dual themes, two pre elements)
+      // rehypePrettyCode wrapper div emits dual-theme <pre> elements.
       if (
         node.type === 'element' &&
         node.tagName === 'div' &&
@@ -224,7 +199,6 @@ export function rehypeMermaid() {
         return
       }
 
-      // 3. Standalone <pre>
       if (node.type === 'element' && node.tagName === 'pre' && isMermaidCode(node)) {
         const src = (node.properties?.__rawString__ as string) || hastToString(node as Nodes)
         if (src) entries.push({ kind: 'fence', node, pre: node, source: src.trim() })
@@ -233,7 +207,7 @@ export function rehypeMermaid() {
 
     if (entries.length === 0) return
 
-    // Build all diagrams in a single Chromium invocation (both themes)
+    // Single Chromium invocation renders both themes for every diagram.
     const diagrams: { source: string; id: string; theme: 'default' | 'dark' }[] = []
     for (let i = 0; i < entries.length; i++) {
       const entry = entries[i]

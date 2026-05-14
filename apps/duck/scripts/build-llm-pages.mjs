@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 /**
- * Pre-render every doc as plain markdown with ComponentSource and
- * ComponentPreview tags inlined as fenced code blocks. Output lands in
- * `apps/duck/.gentleduck/_llm/<permalink>.md` and is served verbatim by
- * `/llm/[...slug]/route.ts`.
- *
- * Doing the heavy lifting here lets the route stay tiny (just an fs
- * lookup) instead of importing all velite collections + the registry
- * index, which inflated the Netlify Lambda past the 250 MB cap.
+ * Pre-renders every doc as plain markdown (Component{Source,Preview} inlined as fenced code)
+ * to `apps/duck/.gentleduck/_llm/<permalink>.md`, served verbatim by /llm/[...slug]. Keeps the
+ * route tiny so it doesn't pull in velite + registry index and bust the Netlify Lambda 250 MB cap.
  */
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
@@ -65,8 +60,7 @@ function langFor(file) {
 }
 
 async function loadRegistry() {
-  // Per-component JSONs at /public/r/components/<name>.json embed `content`
-  // for every file. Prefer them — index.json only carries paths.
+  // Per-component JSONs embed file `content`; index.json only carries paths.
   const componentsDir = path.join(APP_ROOT, 'public/r/components')
   const map = new Map()
 
@@ -83,13 +77,11 @@ async function loadRegistry() {
             files: entry.files,
           })
         }
-      } catch {
-        // skip
-      }
+      } catch {}
     }
   }
 
-  // Backfill anything missing from index.json (no content, but at least we know the path).
+  // Backfill from index.json — path-only entries when per-component JSON is absent.
   try {
     const raw = await readFile(REGISTRY_INDEX, 'utf8')
     const parsed = JSON.parse(raw)
@@ -98,9 +90,7 @@ async function loadRegistry() {
         map.set(entry.name, { source: entry.source, files: entry.files })
       }
     }
-  } catch {
-    // index.json missing — components dir alone is fine
-  }
+  } catch {}
 
   return map
 }
@@ -173,7 +163,7 @@ const UNWRAP = [
 const REMOVE = ['MermaidDiagram', 'LinkedCard']
 
 function stripRemainingJsx(body) {
-  // Stash fenced code blocks so the JSX-stripping regexes don't touch their contents.
+  // Stash fenced code so the JSX-stripping regexes can't reach inside them.
   const blocks = []
   const stashed = body.replace(/```[\s\S]*?```/g, (m) => {
     const id = blocks.push(m) - 1
@@ -194,7 +184,6 @@ function stripRemainingJsx(body) {
     .replace(/\n{3,}/g, '\n\n')
     .trim()
 
-  // Restore stashed code blocks.
   return out.replace(/__CODE_BLOCK_(\d+)__/g, (_, id) => blocks[Number(id)] ?? '')
 }
 

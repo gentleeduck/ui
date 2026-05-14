@@ -16,9 +16,6 @@ function mergeRegistries(
   return result
 }
 
-/**
- * Merge two config objects with collection-aware and UI-aware semantics.
- */
 export function mergeRegistryBuildConfigs(
   baseConfig: IRegistryBuildConfig,
   nextConfig: IRegistryBuildConfig,

@@ -26,8 +26,6 @@ import type { ISidebarNavItem } from '~/types/nav'
 
 const AIChatPanel = React.lazy(() => import('./ai-chat-panel').then((m) => ({ default: m.AIChatPanel })))
 
-// -- Types -------------------------------------------------------------------
-
 type FlattenedSidebarItem = {
   href: string
   title: string
@@ -48,16 +46,12 @@ type SearchableItem = {
   tocHeadings: string
 }
 
-// -- Constants ---------------------------------------------------------------
-
 const HEADING_HEIGHT = 32
 const ITEM_HEIGHT = 36
 
 const PACKAGE_CONFIGS: Record<string, ISidebarNavItem[]> = packageSidebarNavs
 
 const ALL_SIDEBAR_NAV: ISidebarNavItem[] = Object.values(PACKAGE_CONFIGS).flat()
-
-// -- Helpers -----------------------------------------------------------------
 
 function flattenSidebarItems(items: ISidebarNavItem[], parentTitle = ''): FlattenedSidebarItem[] {
   const flattened: FlattenedSidebarItem[] = []
@@ -116,8 +110,6 @@ function buildSearchIndex(items: SearchableItem[]): lunr.Index {
   })
 }
 
-// -- CommandMenu -------------------------------------------------------------
-
 export function CommandMenu() {
   const router = useRouter()
   const pathname = usePathname()
@@ -143,10 +135,8 @@ export function CommandMenu() {
     [packagePrefix],
   )
 
-  // Build-time check  -  no runtime API call
   const aiAvailable = process.env['NEXT_PUBLIC_AI_CHAT_ENABLED'] === 'true'
 
-  // Reset AI mode + filter when dialog closes
   React.useEffect(() => {
     if (!open) {
       setAiMode(false)
@@ -193,7 +183,7 @@ export function CommandMenu() {
     [router, setTheme, activeSidebarNav],
   )
 
-  // Package pills — only on the homepage (whole-docs view)
+  // Package pills surface only on whole-docs view; in-package routes already scope by prefix.
   const filterGroups = React.useMemo(() => (packagePrefix ? [] : Object.keys(PACKAGE_CONFIGS)), [packagePrefix])
 
   const flatRows = React.useMemo<VirtualRow[]>(() => {
@@ -312,8 +302,6 @@ export function CommandMenu() {
   )
 }
 
-// -- PackageSelect -----------------------------------------------------------
-
 function PackageSelect({
   activeFilter,
   groups,
@@ -340,8 +328,6 @@ function PackageSelect({
   )
 }
 
-// -- VirtualCommandList ------------------------------------------------------
-
 function VirtualCommandList({
   activeFilter,
   aiAvailable,
@@ -363,7 +349,6 @@ function VirtualCommandList({
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(0)
 
-  // Pre-filter by active package filter before search
   const groupFilteredRows = React.useMemo<VirtualRow[]>(() => {
     if (!activeFilter) return flatRows
     const prefix = `/${activeFilter}`
@@ -386,7 +371,6 @@ function VirtualCommandList({
     return result
   }, [flatRows, activeFilter])
 
-  // Reset selection when filter changes
   React.useEffect(() => {
     setSelectedIndex(0)
   }, [activeFilter])
@@ -394,7 +378,6 @@ function VirtualCommandList({
   const filteredRows = React.useMemo<VirtualRow[]>(() => {
     if (!search) return groupFilteredRows
 
-    // Build score map from lunr results for doc items
     let scoreMap: Map<string, number>
 
     try {
@@ -403,17 +386,17 @@ function VirtualCommandList({
       const terms = sanitized.trim().split(/\s+/).filter(Boolean)
       if (terms.length === 0) return flatRows
 
-      // Try wildcard prefix matching first (natural for incremental typing)
+      // Wildcard prefix first — natural for incremental typing.
       let results = searchIndex.search(terms.map((t) => `${t}*`).join(' '))
 
-      // Fuzzy fallback for typos
+      // Fuzzy fallback only if wildcard found nothing, to tolerate typos.
       if (results.length === 0) {
         results = searchIndex.search(terms.map((t) => `${t}~1`).join(' '))
       }
 
       scoreMap = new Map(results.map((r) => [r.ref, r.score]))
     } catch {
-      // lunr threw on invalid syntax -- fall back to substring
+      // lunr throws on syntactically invalid queries; degrade to substring match.
       const q = search.toLowerCase()
       scoreMap = new Map(
         groupFilteredRows
@@ -430,7 +413,6 @@ function VirtualCommandList({
 
     const flushGroup = () => {
       if (pendingItems.length > 0 && currentHeading) {
-        // Sort items within group by lunr score (highest first)
         pendingItems.sort((a, b) => (scoreMap.get(b.name) ?? 0) - (scoreMap.get(a.name) ?? 0))
         filtered.push(currentHeading)
         filtered.push(...pendingItems)
@@ -444,7 +426,7 @@ function VirtualCommandList({
         currentHeading = row
         isThemeGroup = row.title === 'Theme'
       } else if (row.type === 'item') {
-        // Theme items use substring, doc items use lunr
+        // Theme items are tiny and not in the lunr index; match by substring instead.
         const isMatch = isThemeGroup ? row.name.toLowerCase().includes(query) : scoreMap.has(row.name)
         if (isMatch) {
           pendingItems.push(row)
@@ -456,27 +438,22 @@ function VirtualCommandList({
     return filtered
   }, [groupFilteredRows, search, searchIndex])
 
-  // Extract only item rows for index-based navigation
   const itemRows = React.useMemo<ItemRow[]>(
     () => filteredRows.filter((r): r is ItemRow => r.type === 'item'),
     [filteredRows],
   )
 
-  // Reset selection when search/filter changes
   React.useEffect(() => {
     setSelectedIndex(0)
   }, [])
 
-  // Clamp selectedIndex to valid range
   const clampedIndex = itemRows.length > 0 ? Math.min(selectedIndex, itemRows.length - 1) : -1
   const selectedRow = clampedIndex >= 0 ? itemRows[clampedIndex] : null
 
-  // Sync selected label to parent for footer
   React.useEffect(() => {
     onSelectedLabelChange(selectedRow?.name ?? '')
   }, [selectedRow?.name, onSelectedLabelChange])
 
-  // Find the index in filteredRows (including headings) for virtualizer scrolling
   const selectedFilteredIndex = selectedRow ? filteredRows.indexOf(selectedRow) : -1
 
   const virtualizer = useVirtualizer({
@@ -486,14 +463,13 @@ function VirtualCommandList({
     overscan: 5,
   })
 
-  // Scroll virtualizer to selected item when it changes
   React.useEffect(() => {
     if (selectedFilteredIndex >= 0) {
       virtualizer.scrollToIndex(selectedFilteredIndex, { align: 'auto' })
     }
   }, [selectedFilteredIndex, virtualizer])
 
-  // Keyboard navigation via capture-phase listener.
+  // Capture-phase listener so we win over CommandList's internal nav.
   const stableRef = React.useRef({ itemRows, selectedRow, clampedIndex, onClose, search, aiAvailable, onAskAI })
   stableRef.current = { itemRows, selectedRow, clampedIndex, onClose, search, aiAvailable, onAskAI }
 
@@ -546,8 +522,7 @@ function VirtualCommandList({
 
   const isEmpty = itemRows.length === 0
 
-  // The primitive's CommandList has a built-in substring filter that sets el.hidden = true.
-  // Since we handle filtering ourselves via lunr, unhide all items after the primitive's effect runs.
+  // CommandList's built-in substring filter sets el.hidden; undo it since we filter via lunr.
   const listContainerRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const container = listContainerRef.current
@@ -622,8 +597,6 @@ function VirtualCommandList({
     </>
   )
 }
-
-// -- CommandFooter -----------------------------------------------------------
 
 function CommandFooter({ selectedLabel, sidebarNav }: { selectedLabel: string; sidebarNav: ISidebarNavItem[] }) {
   const sidebarItems = sidebarNav.flatMap((group) => flattenSidebarItems(group.items ?? []))

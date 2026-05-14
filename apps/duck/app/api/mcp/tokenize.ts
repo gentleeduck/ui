@@ -1,11 +1,4 @@
-/**
- * Stemming, tokenization, and search term expansion.
- */
-
-/**
- * Simple suffix-stripping stemmer.
- * Handles common English suffixes so "running" matches "run", "buttons" matches "button", etc.
- */
+/** Suffix-stripping stemmer for common English suffixes. */
 export function stem(word: string): string {
   if (word.length < 4) return word
 
@@ -173,10 +166,7 @@ const STOP_WORDS = new Set([
   'your',
 ])
 
-/**
- * Tokenize text into lowercase terms, removing stop words and short tokens.
- * Also generates bigrams for phrase matching.
- */
+/** Lowercase tokens (stop-words + <2 chars dropped, stemmed) plus bigrams for phrase matching. */
 export function tokenize(text: string): string[] {
   const words = text
     .toLowerCase()

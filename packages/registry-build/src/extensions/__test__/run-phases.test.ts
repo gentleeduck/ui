@@ -8,10 +8,6 @@ import { runBannerPhase } from '../../pipeline/phases/banner'
 import { runValidatePhase } from '../../pipeline/phases/validate'
 import type { IRegistryBuildContext } from '../../pipeline/types'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 const tempDirs: string[] = []
 
 async function createTempDir() {
@@ -105,10 +101,6 @@ function createMockContext(
     ...contextOverrides,
   } as IRegistryBuildContext
 }
-
-// ---------------------------------------------------------------------------
-// runValidatePhase
-// ---------------------------------------------------------------------------
 
 describe('runValidatePhase', () => {
   test('passes with an empty config (no registries, no sources)', async () => {
@@ -337,7 +329,6 @@ describe('runValidatePhase', () => {
       expect.unreachable('should have thrown')
     } catch (error) {
       const message = (error as Error).message
-      // Should contain both an unknown type error and a duplicate name error
       expect(message).toContain('unknown item type')
       expect(message).toContain('Duplicate registry entry name')
     }
@@ -397,10 +388,6 @@ describe('runValidatePhase', () => {
     expect(result.itemCount).toBe(3)
   })
 })
-
-// ---------------------------------------------------------------------------
-// runBannerPhase
-// ---------------------------------------------------------------------------
 
 describe('runBannerPhase', () => {
   const originalLog = console.log
@@ -470,7 +457,6 @@ describe('runBannerPhase', () => {
 
     expect(calls).toHaveLength(2)
     const separatorLine = String(calls[1]?.[0])
-    // The separator is made of box-drawing characters (U+2500)
     expect(separatorLine).toContain('\u2500')
   })
 

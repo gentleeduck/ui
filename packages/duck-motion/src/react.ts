@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-/** @internal */
+// SSR-safe: window/matchMedia guarded so subscribe/snapshot work on the server.
 function subscribe(callback: () => void) {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return () => {}
@@ -13,7 +13,6 @@ function subscribe(callback: () => void) {
   return () => mediaQuery.removeEventListener('change', handler)
 }
 
-/** @internal */
 function getSnapshot() {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return false
@@ -22,16 +21,11 @@ function getSnapshot() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-/** @internal */
 function getServerSnapshot() {
   return false
 }
 
-/**
- * Returns whether the user prefers reduced motion.
- * Uses useSyncExternalStore to subscribe to media query changes
- * without calling window.matchMedia() on every render.
- */
+/** Whether the user prefers reduced motion. Backed by `useSyncExternalStore`. */
 export function useDuckReducedMotion(): boolean {
   try {
     // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments

@@ -1,16 +1,6 @@
-// URL path and route-matching types.
-//
-// Works with patterns like `/users/:id/posts/:postId`. Parameters are
-// extracted as a record; paths can be built back up from a param object;
-// patterns can be matched against concrete paths.
+// URL pattern types for `/users/:id/posts/:postId`-style patterns.
 
-/**
- * Extract the named parameters from a URL pattern as a `Record<Name, string>`.
- *
- * @example
- * type X = PathParams<'/users/:id/posts/:postId'>
- * // { id: string; postId: string }
- */
+/** Extract named params as `{ [name]: string }`. */
 export type PathParams<Pattern extends string> =
   _ExtractParams<Pattern> extends infer Keys extends string
     ? [Keys] extends [never]
@@ -26,12 +16,7 @@ type _ExtractParams<S extends string> = S extends `${string}:${infer Name}/${inf
 
 type _ParamName<S extends string> = S extends `${infer Name}/${string}` ? Name : S
 
-/**
- * Build a concrete path by substituting `Params` into `Pattern`.
- *
- * @example
- * type X = BuildPath<'/users/:id', { id: '42' }> // '/users/42'
- */
+/** Substitute `Params` into `Pattern`. */
 export type BuildPath<
   Pattern extends string,
   Params extends Record<string, string | number>,
@@ -45,12 +30,7 @@ export type BuildPath<
       : never
     : Pattern
 
-/**
- * Split a path into a tuple of segments, discarding empty parts.
- *
- * @example
- * type X = SplitPath<'/users/42/posts'> // ['users', '42', 'posts']
- */
+/** Split a path into segments, dropping empties. */
 export type SplitPath<S extends string> = _Clean<_Split<S>>
 
 type _Split<S extends string> = S extends `${infer H}/${infer R}` ? [H, ..._Split<R>] : [S]
@@ -60,14 +40,7 @@ type _Clean<T extends readonly string[]> = T extends readonly [infer H extends s
     : [H, ..._Clean<R>]
   : []
 
-/**
- * `true` if `Path` matches `Pattern`, `false` otherwise. Segments starting
- * with `:` are treated as wildcards.
- *
- * @example
- * type A = MatchRoute<'/users/:id', '/users/42'>     // true
- * type B = MatchRoute<'/users/:id', '/posts/42'>     // false
- */
+/** `true` if `Path` matches `Pattern`; `:`-prefixed segments are wildcards. */
 export type MatchRoute<Pattern extends string, Path extends string> = _MatchSegments<
   SplitPath<Pattern>,
   SplitPath<Path>
@@ -88,13 +61,7 @@ type _MatchSegments<P extends readonly string[], U extends readonly string[]> = 
     ? true
     : false
 
-/**
- * Extract query-string parameters from a URL like `?a=1&b=2`.
- *
- * @example
- * type X = QueryParams<'?id=42&name=ada'>
- * // { id: string; name: string }
- */
+/** Extract query-string keys from `?a=1&b=2`-style URLs as `{ [key]: string }`. */
 export type QueryParams<S extends string> = S extends `${string}?${infer Q}`
   ? _QueryToRecord<Q>
   : S extends `?${infer Q}`
@@ -116,9 +83,7 @@ type _QSplit<S extends string> = S extends `${infer Pair}&${infer Rest}`
 
 type _PairKey<S extends string> = S extends `${infer K}=${string}` ? K : S
 
-/**
- * Combine `Pattern` params and `QueryParams` into a single descriptor.
- */
+/** Combined path/query descriptor for a route. */
 export interface RouteDescriptor<Pattern extends string, Query = Record<string, never>> {
   readonly pattern: Pattern
   readonly params: PathParams<Pattern>

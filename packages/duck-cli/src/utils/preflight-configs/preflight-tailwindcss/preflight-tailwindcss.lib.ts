@@ -93,7 +93,6 @@ export const tailwindcssDependencies = (projectType: ProjectType, cssPath: strin
   try {
     let cssFile: string
 
-    // Check if cssPath ends with .css (file path) or not (directory)
     if (cssPath.endsWith('.css')) {
       cssFile = path.join(cwd, cssPath)
       fs.mkdirSync(path.dirname(cssFile), { recursive: true })
@@ -125,31 +124,20 @@ export const tailwindcssDependencies = (projectType: ProjectType, cssPath: strin
   }
 }
 
-/**
- * Write the CSS file with Tailwind imports.
- * - If the file already has `@import "tailwindcss"`, skip entirely.
- * - If the file exists with other content, prepend the Tailwind imports.
- * - If the file does not exist, create it with the boilerplate.
- */
+/** Idempotent: skips when `@import "tailwindcss"` is already present, otherwise prepends the boilerplate. */
 function writeCssFile(cssFile: string) {
   if (fs.existsSync(cssFile)) {
     const existing = fs.readFileSync(cssFile, 'utf-8')
     if (existing.includes('@import "tailwindcss"')) {
       return
     }
-    // Prepend the Tailwind boilerplate before existing content
     fs.writeFileSync(cssFile, `${TAILWINDCSS_BOILERPLATE}\n${existing}`)
     return
   }
   fs.writeFileSync(cssFile, TAILWINDCSS_BOILERPLATE)
 }
 
-/**
- * Write postcss.config.mjs for Next.js projects.
- * - If it already exists and has `@tailwindcss/postcss`, skip.
- * - If it already exists without it, inject the plugin.
- * - If it does not exist, create it.
- */
+/** Idempotent Next.js postcss setup: skip if already wired, otherwise inject or scaffold a fresh config. */
 function writePostcssConfig(cwd: string) {
   const configPath = findConfigFile(cwd, ['postcss.config.mjs', 'postcss.config.js', 'postcss.config.cjs'])
 
@@ -158,23 +146,16 @@ function writePostcssConfig(cwd: string) {
     if (existing.includes('@tailwindcss/postcss')) {
       return
     }
-    // Existing postcss config without tailwind - inject the plugin
     const injected = injectPostcssPlugin(existing)
     if (injected) {
       fs.writeFileSync(configPath, injected)
       return
     }
   }
-  // No config found, create fresh
   fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), POST_CSS_NEXTJS)
 }
 
-/**
- * Write vite.config.ts for Vite/TanStack projects.
- * - If it already exists and has `@tailwindcss/vite`, skip.
- * - If it already exists without it, inject the import + plugin.
- * - If it does not exist, create it.
- */
+/** Idempotent Vite/TanStack tailwind setup: skip if already wired, otherwise inject or scaffold a fresh config. */
 function writeViteConfig(cwd: string) {
   const configPath = findConfigFile(cwd, ['vite.config.ts', 'vite.config.js', 'vite.config.mts', 'vite.config.mjs'])
 
@@ -183,20 +164,15 @@ function writeViteConfig(cwd: string) {
     if (existing.includes('@tailwindcss/vite') || existing.includes('tailwindcss')) {
       return
     }
-    // Existing vite config without tailwind - inject the plugin
     const injected = injectViteTailwindPlugin(existing)
     if (injected) {
       fs.writeFileSync(configPath, injected)
       return
     }
   }
-  // No config found, create fresh
   fs.writeFileSync(path.join(cwd, 'vite.config.ts'), TAILWINDCSS_VITE)
 }
 
-/**
- * Find the first config file that exists from a list of candidates.
- */
 function findConfigFile(cwd: string, candidates: string[]): string | null {
   for (const name of candidates) {
     const full = path.join(cwd, name)
@@ -207,12 +183,8 @@ function findConfigFile(cwd: string, candidates: string[]): string | null {
   return null
 }
 
-/**
- * Inject `@tailwindcss/postcss` into an existing PostCSS config.
- * Looks for a `plugins` object and adds the entry.
- */
+/** Splices a `@tailwindcss/postcss` entry into the existing `plugins: {}` object; returns null if not found. */
 function injectPostcssPlugin(content: string): string | null {
-  // Find the plugins object and add our plugin
   const pluginsMatch = content.match(/plugins\s*:\s*\{/)
   if (!pluginsMatch || pluginsMatch.index === undefined) {
     return null
@@ -223,12 +195,8 @@ function injectPostcssPlugin(content: string): string | null {
   return `${before}\n    "@tailwindcss/postcss": {},${after}`
 }
 
-/**
- * Inject the Tailwind CSS Vite plugin into an existing vite config.
- * Adds the import at the top and the plugin in the plugins array.
- */
+/** Inserts `import tailwindcss from '@tailwindcss/vite'` after the last import and splices `tailwindcss()` into `plugins: []`. */
 function injectViteTailwindPlugin(content: string): string | null {
-  // Add import at top (after last import statement)
   const importLines = content.split('\n')
   let lastImportIndex = -1
   for (const [index, line] of importLines.entries()) {
@@ -246,7 +214,6 @@ function injectViteTailwindPlugin(content: string): string | null {
 
   let updated = importLines.join('\n')
 
-  // Add plugin to plugins array
   const pluginsMatch = updated.match(/plugins\s*:\s*\[/)
   if (!pluginsMatch || pluginsMatch.index === undefined) {
     return null

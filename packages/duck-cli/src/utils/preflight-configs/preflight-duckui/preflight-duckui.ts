@@ -234,7 +234,7 @@ export async function preflightDuckui(
         }
 
         if (overwrite) {
-          // Extract only @import and @custom-variant preamble lines from the top of the file
+          // Keep only the top-of-file `@import` and `@custom-variant` preamble; drop the rest before appending theme.
           const lines = oldContent.split('\n')
           const preamble: string[] = []
           for (const line of lines) {
@@ -252,12 +252,11 @@ export async function preflightDuckui(
           fs.writeFileSync(cssFilePath, tailwindImports ? `${tailwindImports}\n\n${css}` : css)
         }
       } else {
-        // Small file, safe to append theme
+        // Treat small existing files as scaffolding and append rather than overwrite.
         const oldContentTrimmed = oldContent.trim()
         fs.writeFileSync(cssFilePath, oldContentTrimmed ? `${oldContentTrimmed}\n\n${css}` : css)
       }
     } else {
-      // Create the CSS file with the theme
       fs.mkdirSync(path.dirname(cssFilePath), { recursive: true })
       fs.writeFileSync(cssFilePath, css)
     }

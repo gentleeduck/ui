@@ -6,8 +6,6 @@ import { cn } from '@gentleduck/libs/cn'
 import { BookOpenText } from 'lucide-react'
 import * as React from 'react'
 
-// -- Types -------------------------------------------------------------------
-
 interface ITocProps {
   toc: ITocEntry[]
 }
@@ -17,8 +15,6 @@ interface IFlatTocItem {
   title: string
   depth: number
 }
-
-// -- Helpers -----------------------------------------------------------------
 
 function flattenToc(toc: ITocEntry[], depth = 1): IFlatTocItem[] {
   const result: IFlatTocItem[] = []
@@ -39,13 +35,9 @@ function itemPadding(depth: number): number {
   return depth >= 2 ? 28 : 16
 }
 
-/**
- * Find the best heading to activate based on current scroll position.
- * Walks backwards through headings and picks the last one whose top
- * is above or at the viewport top (with a small offset).
- */
 function findActiveHeading(ids: string[]): string | null {
-  // At the very bottom of the page, activate the last heading visible
+  // At the bottom of the page, the last "scrolled past" heading may never reach
+  // the 100px threshold, so fall back to any heading still in the viewport.
   const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50
   if (atBottom) {
     for (let i = ids.length - 1; i >= 0; i--) {
@@ -58,7 +50,6 @@ function findActiveHeading(ids: string[]): string | null {
     }
   }
 
-  // Otherwise find the last heading scrolled past (top <= 100px from viewport top)
   let best: string | null = null
   for (const id of ids) {
     const el = document.getElementById(id)
@@ -69,8 +60,6 @@ function findActiveHeading(ids: string[]): string | null {
   return best
 }
 
-// -- Hooks -------------------------------------------------------------------
-
 function useActiveItem(itemIds: (string | undefined)[]) {
   const [activeId, setActiveId] = React.useState<string>('')
   const lockedIdRef = React.useRef<string | null>(null)
@@ -78,18 +67,17 @@ function useActiveItem(itemIds: (string | undefined)[]) {
 
   const setFromClick = React.useCallback((id: string) => {
     setActiveId(id)
-    // Lock: ignore scroll updates until the smooth scroll finishes
+    // Lock so the in-flight smooth scroll doesn't get overridden by the scroll
+    // listener picking a different heading as it passes.
     lockedIdRef.current = id
 
     function unlock() {
-      // Only unlock if it's still the same target
       if (lockedIdRef.current === id) lockedIdRef.current = null
       window.removeEventListener('scrollend', unlock)
     }
 
-    // scrollend fires once smooth scrolling stops
     window.addEventListener('scrollend', unlock, { once: true })
-    // Safety fallback in case scrollend doesn't fire (e.g. already at position)
+    // Fallback: scrollend doesn't fire when already at the target position.
     setTimeout(() => {
       if (lockedIdRef.current === id) lockedIdRef.current = null
     }, 2000)
@@ -105,13 +93,13 @@ function useActiveItem(itemIds: (string | undefined)[]) {
       if (active) setActiveId(active)
     }
 
-    // On first mount: handle URL hash
+    // First mount: if URL carries a hash, scroll it ourselves with offset
+    // (browser default jams it to viewport top) and lock against scroll updates.
     if (!hasInitialized.current) {
       hasInitialized.current = true
       const hash = window.location.hash.replace('#', '')
 
       if (hash && validIds.includes(hash)) {
-        // Lock and set the hash as active immediately
         setActiveId(hash)
         lockedIdRef.current = hash
 
@@ -170,6 +158,9 @@ function useTocThumb(containerRef: React.RefObject<HTMLDivElement | null>, activ
   return pos
 }
 
+// Builds a single SVG path that joins every TOC link so depth-change corners
+// render with one continuous stroke instead of separate borders that don't
+// anti-alias cleanly at fractional pixel offsets.
 function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: IFlatTocItem[]) {
   const [svg, setSvg] = React.useState<{ path: string; width: number; height: number } | null>(null)
 
@@ -203,7 +194,6 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
           d.push(`L${offset} ${bottom}`)
           hasStarted = true
         } else {
-          // Connect stacked items (including depth changes) with one continuous path.
           if (top !== previousBottom || offset !== previousOffset) {
             d.push(`L${offset} ${top}`)
           }
@@ -225,8 +215,6 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
 
   return svg
 }
-
-// -- Skeleton ----------------------------------------------------------------
 
 function TocSkeleton({ toc }: ITocProps) {
   const skeletonItems = React.useMemo(() => {
@@ -263,8 +251,6 @@ function TocSkeleton({ toc }: ITocProps) {
   )
 }
 
-// -- TocTree -----------------------------------------------------------------
-
 function TocTree({
   items,
   activeItem,
@@ -278,7 +264,6 @@ function TocTree({
   const thumb = useTocThumb(containerRef, activeItem)
   const svg = useTocSvg(containerRef, items)
 
-  // Scroll the active TOC link into view within the scrollable container
   React.useEffect(() => {
     const container = containerRef.current
     if (!activeItem || !container) return
@@ -292,7 +277,6 @@ function TocTree({
     const scrollRect = scrollParent.getBoundingClientRect()
     const elRect = el.getBoundingClientRect()
 
-    // Only scroll if the active item is outside the visible area
     if (elRect.top < scrollRect.top || elRect.bottom > scrollRect.bottom) {
       const targetScroll = el.offsetTop - scrollParent.offsetTop - scrollParent.clientHeight / 2 + el.clientHeight / 2
       scrollParent.scrollTo({ top: targetScroll, behavior: 'smooth' })
@@ -307,18 +291,13 @@ function TocTree({
       const heading = document.getElementById(id)
       if (!heading) return
 
-      // Prevent the browser's default hash-jump behavior.
-      // We scroll manually so we can place the heading at a nice offset
-      // instead of jamming it to the very top of the viewport.
+      // Default hash-jump would slam the heading to viewport top; scroll
+      // manually with offset so it sits below the sticky header.
       e.preventDefault()
-
-      // Activate immediately
       onItemClick?.(id)
-
-      // Update the URL hash without triggering a scroll
+      // pushState rather than setting location.hash, which would re-trigger scroll.
       window.history.pushState(null, '', `#${id}`)
 
-      // Scroll the heading into view with offset so it sits below the header
       const top = heading.getBoundingClientRect().top + window.scrollY - 80
       window.scrollTo({ top, behavior: 'smooth' })
     },
@@ -327,7 +306,6 @@ function TocTree({
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Shared SVG track for smoother joins and anti-aliased rendering */}
       {svg ? (
         <svg
           aria-hidden="true"
@@ -348,7 +326,6 @@ function TocTree({
         </svg>
       ) : null}
 
-      {/* Link labels */}
       {items.map((item) => {
         return (
           <a
@@ -367,7 +344,8 @@ function TocTree({
         )
       })}
 
-      {/* Active highlight -- masked by the SVG path */}
+      {/* Active highlight is mask-clipped by the SVG path so it perfectly
+          overlays the track line including at depth-change corners. */}
       {svg ? (
         <div
           aria-hidden="true"
@@ -391,8 +369,6 @@ function TocTree({
     </div>
   )
 }
-
-// -- Main component ----------------------------------------------------------
 
 export function DashboardTableOfContents({ toc }: ITocProps) {
   const flatItems = React.useMemo(() => flattenToc(toc), [toc])

@@ -43,12 +43,11 @@ export function pickHttpMethodDecoratorName(method: MethodDeclaration): HttpMeth
 }
 
 export function toHttpMethod(name: HttpMethodDecorator): HttpMethod {
-  // Get -> GET, All -> ALL, etc
   return HTTP_METHOD_BY_DECORATOR[name]
 }
 
+/** Reads the first string arg of param decorators like `@Query('lang')` or `@Body('user')`. */
 export function getParamDecoratorKey(dec: Decorator): string | undefined {
-  // For @Query('lang') / @Param('id') / @Headers('x-token') / @Body('user')
   const k = getDecoratorFirstStringArg(dec)
   if (k === undefined) return undefined
   if (k === '') return undefined
@@ -132,7 +131,7 @@ export function doc(lines: string[]): string[] {
   return ['/** 🦆', ...lines.map((l) => ` * 🦆 ${l}`), ' */']
 }
 
-// 🦆 Collect all referenced symbols for a type (union/intersection/generics/properties).
+/** Walks unions, intersections, generics, array elements, and properties so every referenced symbol surfaces. */
 export function collectTypeSymbols(t: Type, out: Set<ts.Symbol>): void {
   const seen = new Set<number>()
 
@@ -150,11 +149,10 @@ export function collectTypeSymbols(t: Type, out: Set<ts.Symbol>): void {
     for (const i of ty.getIntersectionTypes()) visit(i)
     for (const arg of ty.getTypeArguments()) visit(arg)
 
-    // Traverse array element types
     const elementType = ty.getArrayElementType()
     if (elementType) visit(elementType)
 
-    // Traverse object property types so getText() references have imports
+    // Recurse into property types so any symbol that ends up in `getText()` output also lands in imports.
     for (const prop of ty.getProperties()) {
       const decls = prop.getDeclarations()
       const decl = decls[0]
@@ -175,7 +173,7 @@ export function collectTypeSymbols(t: Type, out: Set<ts.Symbol>): void {
   visit(t)
 }
 
-// 🦆 Convert a compiler symbol to import info (if applicable).
+/** Resolves a compiler symbol to import info, skipping node_modules/lib.d.ts and recovering default-export names. */
 export function symbolToImportInfo(sym: ts.Symbol): TypeSymbolImportInfo | null {
   const decls = sym.getDeclarations() ?? []
   const decl = decls.find(Boolean)
@@ -186,7 +184,6 @@ export function symbolToImportInfo(sym: ts.Symbol): TypeSymbolImportInfo | null 
 
   if (isNodeModulesFile(filePath) || isTsLibFile(filePath)) return null
 
-  // 🦆 handle "default" symbol name when possible
   let name = sym.getName()
   if (name === 'default') {
     const declName = getNamedDeclarationIdentifier(decl)

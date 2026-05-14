@@ -7,11 +7,6 @@ import type { IRegistryBuildExtension, RegistryBuildExtensionStage } from '../ex
 import { componentsExtension, indexBuildExtension } from '../ui/ui.extensions'
 import { validateExtension } from '../validate'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/** Assert the structural contract every extension must satisfy. */
 function assertExtensionShape(
   ext: IRegistryBuildExtension,
   expectedName: string,
@@ -23,10 +18,6 @@ function assertExtensionShape(
   expect(ext.stage).toBe(expectedStage)
   expect(typeof ext.run).toBe('function')
 }
-
-// ---------------------------------------------------------------------------
-// Extension type contract
-// ---------------------------------------------------------------------------
 
 describe('extension type contract', () => {
   test('every extension has name, stage, and run', () => {
@@ -62,10 +53,6 @@ describe('extension type contract', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// bannerExtension
-// ---------------------------------------------------------------------------
-
 describe('bannerExtension', () => {
   test('returns correct name and beforeBuild stage', () => {
     assertExtensionShape(bannerExtension(), 'banner', 'beforeBuild')
@@ -82,19 +69,11 @@ describe('bannerExtension', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// validateExtension
-// ---------------------------------------------------------------------------
-
 describe('validateExtension', () => {
   test('returns correct name and beforeBuild stage', () => {
     assertExtensionShape(validateExtension(), 'validate', 'beforeBuild')
   })
 })
-
-// ---------------------------------------------------------------------------
-// indexBuildExtension
-// ---------------------------------------------------------------------------
 
 describe('indexBuildExtension', () => {
   test('returns correct name and afterBuild stage', () => {
@@ -102,19 +81,11 @@ describe('indexBuildExtension', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// componentsExtension
-// ---------------------------------------------------------------------------
-
 describe('componentsExtension', () => {
   test('returns correct name and afterBuild stage', () => {
     assertExtensionShape(componentsExtension(), 'components', 'afterBuild')
   })
 })
-
-// ---------------------------------------------------------------------------
-// colorsExtension
-// ---------------------------------------------------------------------------
 
 describe('colorsExtension', () => {
   test('returns correct name and afterBuild stage', () => {
@@ -127,10 +98,6 @@ describe('colorsExtension', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// componentIndexExtension
-// ---------------------------------------------------------------------------
-
 describe('componentIndexExtension', () => {
   test('returns correct name and afterBuild stage', () => {
     assertExtensionShape(componentIndexExtension(), 'componentIndex', 'afterBuild')
@@ -141,10 +108,6 @@ describe('componentIndexExtension', () => {
     assertExtensionShape(ext, 'componentIndex', 'afterBuild')
   })
 })
-
-// ---------------------------------------------------------------------------
-// uiRegistryPreset
-// ---------------------------------------------------------------------------
 
 describe('uiRegistryPreset', () => {
   test('returns default set of extensions with no options', () => {

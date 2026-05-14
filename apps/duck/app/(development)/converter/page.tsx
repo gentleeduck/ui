@@ -21,7 +21,6 @@ export default function ConverterPage() {
   const convertJsToCSS = (jsObject: IThemeObject): string => {
     let css = ':root {\n'
 
-    // Add light theme variables
     Object.entries(jsObject.light).forEach(([key, value]) => {
       const cleanValue = value.split('//')[0]?.trim().replace(/['"]/g, '')
       css += `  --${key}: ${cleanValue};\n`
@@ -29,7 +28,6 @@ export default function ConverterPage() {
 
     css += '}\n\n.dark {\n'
 
-    // Add dark theme variables
     Object.entries(jsObject.dark).forEach(([key, value]) => {
       const cleanValue = value.split('//')[0]?.trim().replace(/['"]/g, '')
       css += `  --${key}: ${cleanValue};\n`
@@ -84,12 +82,10 @@ export default function ConverterPage() {
   const handleConvert = () => {
     try {
       if (isJsToCSS) {
-        // Convert JS object to CSS
         const parsed = JSON.parse(input) as IThemeObject
         const cssOutput = convertJsToCSS(parsed)
         setOutput(cssOutput)
       } else {
-        // Convert CSS to JS object
         const jsOutput = convertCSSToJs(input)
         setOutput(jsOutput)
       }
@@ -188,7 +184,6 @@ export default function ConverterPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Input Section */}
         <Card>
           <CardHeader>
             <CardTitle>Input ({isJsToCSS ? 'JavaScript Object' : 'CSS'})</CardTitle>
@@ -214,7 +209,6 @@ export default function ConverterPage() {
           </CardContent>
         </Card>
 
-        {/* Output Section */}
         <Card>
           <CardHeader>
             <CardTitle>Output ({isJsToCSS ? 'CSS' : 'JavaScript Object'})</CardTitle>
@@ -251,7 +245,6 @@ export default function ConverterPage() {
         </Card>
       </div>
 
-      {/* Format Information */}
       <Card className="mt-6">
         <CardHeader>
           <CardTitle>Format Information</CardTitle>

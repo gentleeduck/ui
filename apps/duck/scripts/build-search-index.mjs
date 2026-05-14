@@ -1,21 +1,9 @@
 #!/usr/bin/env node
 /**
- * Distill the velite output into a slim search index for the client
- * Command Menu.
- *
- * The full per-package collections include the compiled MDX body, raw
- * content, excerpt, metadata, and other large fields — totalling ~50 MB.
- * Importing them in any client component drags the entire payload into
- * the shared layout chunk via webpack (JSON imports do not tree-shake).
- *
- * This script runs after `velite` and emits
- * `apps/duck/.gentleduck/_search-index.json`, containing only the fields
- * the Command Menu actually reads:
- *   - docsEntries: { permalink, slug, title, component, toc, section, order }
- *   - packageSidebarNavs: precomputed sidebar items per package
- *
- * config/docs.ts imports this slim JSON instead of the raw velite
- * collections, keeping the client bundle small.
+ * Emits `apps/duck/.gentleduck/_search-index.json` with only the fields the Command
+ * Menu reads (docsEntries + packageSidebarNavs). Importing the raw velite
+ * collections in client code would pull the full ~50 MB payload into the shared
+ * layout chunk because JSON imports do not tree-shake.
  */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -125,9 +113,6 @@ async function main() {
     }
   })
 
-  // Hand-curated sidebars live in apps/duck/config/sidebars/<pkg>.constants.ts.
-  // Each file exports a typed IDocsConfig — we reduce them down to the sidebarNav
-  // shape the command palette expects.
   const { packageSidebars } = await import(path.resolve(__dirname, '../config/sidebars/index.ts'))
   const packageSidebarNavs = Object.fromEntries(
     Object.entries(packageSidebars).map(([pkg, config]) => [pkg, config.sidebarNav]),

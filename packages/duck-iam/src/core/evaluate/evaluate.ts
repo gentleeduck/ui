@@ -147,12 +147,8 @@ export function evaluate(policies: Policy[], request: AccessRequest, defaultEffe
   }
 }
 
-// ---------------------------------------------------------------------------
-// Fast (production-mode) evaluation — returns plain booleans, no allocations
-// ---------------------------------------------------------------------------
-
 /**
- * Fast single-policy evaluation — returns a plain boolean.
+ * Fast (production-mode) single-policy evaluation — returns a plain boolean.
  *
  * Zero-allocation hot path: no matched[] array, no { rule, effect } objects,
  * no intermediate arrays. Combines index lookup + rule matching + combining

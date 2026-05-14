@@ -2,10 +2,8 @@ import { runComponentsPhase, runIndexBuildPhase } from '../../pipeline/phases'
 import type { IRegistryBuildExtension } from '../extension'
 
 /**
- * Extension wrapper for the index-build pipeline phase.
- *
- * Materializes registry entries by resolving source files and producing the
- * `index.json` artifact consumed by downstream extensions.
+ * Resolves source files and emits the `index.json` artifact that downstream
+ * extensions (components, componentIndex) consume.
  */
 export function indexBuildExtension(): IRegistryBuildExtension {
   return {
@@ -16,10 +14,8 @@ export function indexBuildExtension(): IRegistryBuildExtension {
 }
 
 /**
- * Extension wrapper for the components pipeline phase.
- *
- * Processes each indexed registry entry: reads source files, applies variable
- * stripping and import rewriting, and produces JSON component payloads.
+ * Reads source files for each indexed entry, applies variable stripping and
+ * import rewriting, and emits JSON component payloads. Depends on `indexBuild`.
  */
 export function componentsExtension(): IRegistryBuildExtension {
   return {

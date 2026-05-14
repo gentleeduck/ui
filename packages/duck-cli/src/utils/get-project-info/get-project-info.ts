@@ -10,7 +10,6 @@ import { findDuckuiRootCwd } from '../workspace'
 import { IGNORED_DIRECTORIES } from './get-project-info.constants'
 import { tsConfigSchema } from './get-project-info.dto'
 
-// Get package.json
 export function getPackageJson(): PackageJson | null {
   const files = fg.sync(['package.json'], {
     cwd: process.cwd(),
@@ -44,7 +43,7 @@ export async function getDuckuiConfig(cwd: string, spinner: Ora) {
 
     const duckuiConfigRaw = await fs.readFile(path.join(configRoot, 'duck-ui.config.json'), 'utf8')
 
-    const duckuiConfig = JSON.parse(duckuiConfigRaw) // Ensure JSON parsing
+    const duckuiConfig = JSON.parse(duckuiConfigRaw)
     const duckuiParsedConfig = duckUiSchema.safeParse(duckuiConfig)
     if (duckuiParsedConfig.error) {
       const isLegacyConfig = duckuiParsedConfig.error.issues.some(
@@ -95,7 +94,6 @@ export async function getTsConfig(cwd: string, spinner: Ora) {
 
     const tsConfigRaw = await fs.readFile(path.join(cwd, 'tsconfig.json'), 'utf8')
 
-    // Then unwrap the optional/nullable layers to access the inner object
     const tsConfig = tsConfigSchema.parse(JSON.parse(tsConfigRaw))
 
     return tsConfig

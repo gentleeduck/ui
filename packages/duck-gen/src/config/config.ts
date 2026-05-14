@@ -20,10 +20,8 @@ export async function load_duckgen_config(cwd: string = process.cwd()) {
     throw new Error(`duck-gen.json contains invalid JSON:\n${message}`)
   }
 
-  // Validate with Zod and return typed config
   const result = config_schema.safeParse(config)
   if (!result.success) {
-    // Make Zod error readable
     const details = result.error.issues
       .map((iss) => {
         const p = iss.path.join('.')

@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-/**
- * Converts a callback to a stable ref so it never triggers re-renders when
- * passed as a prop or re-executes effects when listed as a dependency.
- * The returned function always calls the latest callback.
- */
+/** Stable function identity that always invokes the latest `callback`. Safe in deps. */
 function useCallbackRef<T extends (...args: never[]) => unknown>(callback: T | undefined): T {
   const callbackRef = React.useRef(callback)
 

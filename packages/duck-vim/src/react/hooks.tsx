@@ -11,19 +11,9 @@ import { KeyContext } from './command'
 import type { Vim } from './vim.types'
 
 /**
- * React hook to bind a single key binding.
- *
- * Registers the binding via the context registry when available,
- * or creates a scoped handler when a targetRef is provided.
- *
- * @param binding - A key sequence like 'ctrl+k' or 'g+d'
- * @param handler - The function to call when the binding fires
- * @param options - Optional hook options (enabled, preventDefault, targetRef, etc.)
- *
- * @example
- * ```tsx
- * useKeyBind('ctrl+k', () => setOpen(true), { preventDefault: true })
- * ```
+ * Binds `handler` to `binding` (e.g. `'ctrl+k'`, `'g+d'`).
+ * Uses the ambient {@link KeyProvider} when available; otherwise spins up a standalone
+ * registry scoped to `options.targetRef` or `document`.
  */
 export function useKeyBind(binding: string, handler: () => void, options?: Vim.IKeyBindHookOptions): void {
   const ctx = React.useContext(KeyContext)
@@ -35,7 +25,6 @@ export function useKeyBind(binding: string, handler: () => void, options?: Vim.I
 
     const execute = () => handlerRef.current()
 
-    // If we have a context registry, use it
     if (ctx) {
       const handle: Command.IRegistrationHandle = ctx.registry.register(
         binding,
@@ -43,7 +32,7 @@ export function useKeyBind(binding: string, handler: () => void, options?: Vim.I
         bindOpts as Command.IKeyBindOptions,
       )
 
-      // If a targetRef is provided, create a scoped handler for that element
+      // targetRef → scoped handler that only listens on that element.
       let scopedHandler: KeyHandler | undefined
       if (targetRef?.current) {
         scopedHandler = new KeyHandler(ctx.registry, ctx.timeoutMs)
@@ -58,7 +47,6 @@ export function useKeyBind(binding: string, handler: () => void, options?: Vim.I
       }
     }
 
-    // Without context, create a standalone registry + handler
     const registry = new Registry(false)
     const keyHandler = new KeyHandler(registry, 600, bindOpts as Partial<Command.IKeyBindOptions>)
     registry.register(binding, { name: binding, execute })
@@ -83,18 +71,8 @@ export function useKeyBind(binding: string, handler: () => void, options?: Vim.I
 }
 
 /**
- * React hook to bind a multi-key sequence.
- *
- * Uses the SequenceManager from context, or creates a standalone one.
- *
- * @param steps - Array of key binding strings forming the sequence (e.g. ['g', 'd'])
- * @param handler - The function to call when the full sequence is entered
- * @param options - Optional sequence options (timeout, enabled, targetRef)
- *
- * @example
- * ```tsx
- * useKeySequence(['g', 'd'], () => navigate('/dashboard'))
- * ```
+ * Binds a multi-step key sequence (e.g. `['g', 'd']`).
+ * Uses the context {@link SequenceManager} when available; otherwise standalone.
  */
 export function useKeySequence(steps: string[], handler: () => void, options?: Vim.ISequenceHookOptions): void {
   const ctx = React.useContext(KeyContext)
@@ -115,7 +93,6 @@ export function useKeySequence(steps: string[], handler: () => void, options?: V
       return () => handle.unregister()
     }
 
-    // Standalone fallback
     const manager = new SequenceManager()
     const handle = manager.register({
       steps: steps.map((s) => ({ binding: s })),
@@ -136,18 +113,8 @@ export function useKeySequence(steps: string[], handler: () => void, options?: V
 }
 
 /**
- * React hook for recording key combinations.
- *
- * Returns reactive state and controls for the recorder.
- * Useful for settings UIs where users can customize keybindings.
- *
- * @returns An object with state, start, stop, and reset functions
- *
- * @example
- * ```tsx
- * const { state, start, stop, reset } = useKeyRecorder()
- * // state.recorded contains the last recorded combination
- * ```
+ * Reactive wrapper over {@link KeyRecorder} for "press to set shortcut" UIs.
+ * Returns recorder state plus `start`, `stop`, and `reset` controls.
  */
 export function useKeyRecorder(): Vim.IKeyRecorderReturn {
   const [state, setState] = React.useState<Recorder.IKeyRecorderState>({

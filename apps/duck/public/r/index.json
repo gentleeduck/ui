@@ -12349,6 +12349,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12381,6 +12386,78 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "drawer/drawer-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "drawer-10",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "type": "registry:example",
+    "source": "/registry-examples/src/drawer",
+    "tree": [
+      {
+        "name": "drawer-1.tsx",
+        "path": "drawer/drawer-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-2.tsx",
+        "path": "drawer/drawer-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-3.tsx",
+        "path": "drawer/drawer-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-4.tsx",
+        "path": "drawer/drawer-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-5.tsx",
+        "path": "drawer/drawer-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-6.tsx",
+        "path": "drawer/drawer-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-7.tsx",
+        "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12406,6 +12483,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12438,6 +12520,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12463,6 +12550,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12495,6 +12587,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12520,6 +12617,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12552,6 +12654,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12577,6 +12684,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12609,6 +12721,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12634,6 +12751,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12666,6 +12788,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12691,6 +12818,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12723,6 +12855,11 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]
@@ -12748,6 +12885,11 @@
         "type": "file"
       },
       {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "drawer-2.tsx",
         "path": "drawer/drawer-2.tsx",
         "type": "file"
@@ -12780,6 +12922,78 @@
       {
         "name": "drawer-8.tsx",
         "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "drawer/drawer-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "drawer-9",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "type": "registry:example",
+    "source": "/registry-examples/src/drawer",
+    "tree": [
+      {
+        "name": "drawer-1.tsx",
+        "path": "drawer/drawer-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-10.tsx",
+        "path": "drawer/drawer-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-2.tsx",
+        "path": "drawer/drawer-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-3.tsx",
+        "path": "drawer/drawer-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-4.tsx",
+        "path": "drawer/drawer-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-5.tsx",
+        "path": "drawer/drawer-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-6.tsx",
+        "path": "drawer/drawer-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-7.tsx",
+        "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-9.tsx",
+        "path": "drawer/drawer-9.tsx",
         "type": "file"
       }
     ]

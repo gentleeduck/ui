@@ -1,8 +1,4 @@
-// String-format types built from template literals.
-//
-// These constrain string literals to a structural pattern. They cannot
-// replace runtime validation (the compiler only verifies the shape, not
-// every rule of the RFC), but they do help keep fixtures and literals honest.
+// Structural string-format types. Compiler verifies shape only — not RFC semantics.
 
 /** RFC-4122 UUID pattern: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`. */
 export type UUID = `${string}-${string}-${string}-${string}-${string}`

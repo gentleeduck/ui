@@ -34,12 +34,7 @@ import type { ReactNode } from 'react'
 import type { PermissionMap } from '../../core/types'
 import { buildPermissionKey } from '../../shared/keys'
 
-// We export factory functions so React is a peer dependency, not a hard one.
-// The consuming app calls these with their React import.
-
-// ------------------------------------------------------------
-// Minimal React API surface -- matches React 18+ / 19
-// ------------------------------------------------------------
+// React is a peer dep — consumers inject their own React via createAccessControl(React).
 
 /** Minimal React context type. */
 interface ReactContext<_T> {
@@ -57,10 +52,6 @@ interface ReactLike {
   useState<T>(initialState: T | (() => T)): [T, (value: T | ((prev: T) => T)) => void]
   useEffect(effect: () => undefined | (() => void), deps?: readonly unknown[]): void
 }
-
-// ------------------------------------------------------------
-// Context + Provider
-// ------------------------------------------------------------
 
 export interface AccessContextValue<
   TAction extends string = string,
@@ -98,8 +89,6 @@ export function createAccessControl<
     cannot: () => true,
   } as AccessContextValue<TAction, TResource, TScope>)
 
-  // -- Provider --
-
   /** Context provider component that supplies permission data to the tree. */
   function AccessProvider({
     permissions,
@@ -124,14 +113,10 @@ export function createAccessControl<
     return React.createElement(AccessContext.Provider, { value }, children)
   }
 
-  // -- Hook --
-
   /** Hook to access the permission context. */
   function useAccess(): AccessContextValue<TAction, TResource, TScope> {
     return useContext(AccessContext)
   }
-
-  // -- Declarative components --
 
   /** Declarative component that renders children only when the permission is granted. */
   function Can({
@@ -170,8 +155,6 @@ export function createAccessControl<
     const { cannot } = useAccess()
     return cannot(action, resource, resourceId, scope) ? children : null
   }
-
-  // -- Utility hook: fetch permissions from server --
 
   /** Hook to asynchronously fetch permissions from a server endpoint. */
   function usePermissions(

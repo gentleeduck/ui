@@ -9,10 +9,6 @@ export const [PortalProvider, usePortalContext] = createPopoverContext<IPopover.
   forceMount: undefined,
 })
 
-/**
- * Portals popover content into a specified container (or document.body).
- * Wraps children in Presence so content only mounts when open or force-mounted.
- */
 export function PopoverPortal(props: IPopover.IScoped<IPopover.IPortalProps>) {
   const { __scopePopover, forceMount, children, container } = props
   const context = usePopoverContext(PORTAL_NAME, __scopePopover)

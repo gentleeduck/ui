@@ -22,9 +22,6 @@ function deriveItemTypes<TType extends RegistryItemType>(
   ].sort((left, right) => left.localeCompare(right))
 }
 
-/**
- * Build a collection definition for the UI registry extensions.
- */
 export function createUiRegistryCollection<TType extends RegistryItemType = RegistryItemType>(
   options: ICreateUiRegistryCollectionOptions<TType>,
 ): IUiRegistryCollection<TType> {
@@ -49,9 +46,6 @@ export interface ILoadedUiRegistryCollection<TType extends RegistryItemType = Re
   sources: RegistryItemTypeMap<IResolvedRegistryBuildSource, TType>
 }
 
-/**
- * Resolve and validate a collection for the UI registry extensions.
- */
 export function getUiRegistryCollection<TType extends RegistryItemType = RegistryItemType>(
   context: IRegistryBuildContext,
   collectionName: string,

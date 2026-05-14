@@ -1,29 +1,26 @@
 import { isRecord } from '../../utils/guards'
 
-// ============================================================================
-// ABORT HANDLING UTILITIES
-// ============================================================================
-
 export function abortReason(signal?: AbortSignal): unknown {
   return signal?.reason
 }
 
+/**
+ * Map `controller.abort(reason)` payloads to `'pause' | 'cancel'`. Accepts a
+ * bare string, `{ reason }`, or `{ kind }` shape.
+ */
 export function normalizeAbortReason(r: unknown): 'pause' | 'cancel' | 'unknown' {
   if (!r) return 'unknown'
 
-  // Direct string match
   if (typeof r === 'string') {
     if (r === 'pause' || r === 'cancel') return r
     return 'unknown'
   }
 
-  // Object with 'reason' property (from controller.abort({ reason: 'pause' }))
   if (isRecord(r) && 'reason' in r) {
     const v = r.reason
     if (v === 'pause' || v === 'cancel') return v
   }
 
-  // Object with 'kind' property (alternative format)
   if (isRecord(r) && 'kind' in r) {
     const v = r.kind
     if (v === 'pause' || v === 'cancel') return v
@@ -46,20 +43,9 @@ export function makeAbortError(reason: unknown): UploadAbortError {
   return new UploadAbortError(reason)
 }
 
-// ============================================================================
-// ERROR HANDLING HELPERS
-// ============================================================================
-
-/**
- * Creates an error for network failures, including CORS detection.
- *
- * @param xhr - XMLHttpRequest instance to check status
- * @param defaultMessage - Default error message if status is non-zero
- *
- * @returns {Error} Appropriate error message based on XHR status
- */
+/** XHR network error with `status === 0` heuristic for CORS detection. */
 export function createNetworkError(xhr: XMLHttpRequest, defaultMessage: string): Error {
-  // Status 0 typically indicates CORS failure or network error
+  // status 0 → CORS failure or transport-level network error.
   if (xhr.status === 0) {
     return new Error(
       'CORS error: The upload server does not allow requests from this origin. Please check CORS configuration.',
@@ -68,18 +54,7 @@ export function createNetworkError(xhr: XMLHttpRequest, defaultMessage: string):
   return new Error(`${defaultMessage} (status: ${xhr.status})`)
 }
 
-// ============================================================================
-// RESPONSE PARSING
-// ============================================================================
-
-/**
- * Parses XHR response headers into a key-value object.
- * Headers are normalized to lowercase keys.
- *
- * @param xhr - XMLHttpRequest instance
- *
- * @returns {Record<string, string>} Parsed headers object
- */
+/** Parse XHR headers into a lowercase-keyed record. */
 export function parseHeaders(xhr: XMLHttpRequest): Record<string, string> {
   const headers: Record<string, string> = {}
   const headerStr = xhr.getAllResponseHeaders()

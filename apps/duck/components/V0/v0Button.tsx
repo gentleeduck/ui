@@ -22,8 +22,8 @@ export function V0Button({
       action={async () => {
         try {
           const result = await editInV0({
-            //FIX:
-            code: '', // block.code,
+            // TODO: thread block.code through once large-payload submission to v0 is verified.
+            code: '',
             description: block.description || '',
             name: block.name,
           })
@@ -64,12 +64,6 @@ function Form({ disabled, className, ...props }: Omit<React.ComponentProps<typeo
       disabled={disabled || pending}
       loading={pending}
       secondIcon={<V0Logo />}
-      // label={{
-      //   children: 'Edit in V0',
-      //   showLabel: true,
-      //   side: 'bottom',
-      //   // delayDuration: 0,
-      // }}
       {...props}>
       Edit in V0
     </Button>

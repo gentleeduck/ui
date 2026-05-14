@@ -1,13 +1,8 @@
 import * as React from 'react'
 
-/** @internal */
 type PossibleRef<T> = React.Ref<T> | undefined
 
-/**
- * @internal
- * Sets a single ref to a value. Handles both callback refs and RefObject(s).
- * Returns the cleanup function from callback refs (React 19+) if present.
- */
+/** Assigns to callback ref OR RefObject; returns React 19 cleanup if the callback ref produced one. */
 function setRef<T>(ref: PossibleRef<T>, value: T) {
   if (typeof ref === 'function') {
     return ref(value)
@@ -17,10 +12,8 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
 }
 
 /**
- * @internal
- * Composes multiple refs into a single callback ref.
- * Supports React 19 cleanup functions: if any ref returns a cleanup,
- * the composed ref will return a combined cleanup.
+ * Compose refs into a single callback ref. If any child ref returns a React 19 cleanup,
+ * the composed ref returns a combined cleanup that runs each (and nulls others).
  */
 function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
   return (node) => {
@@ -48,13 +41,9 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
   }
 }
 
-/**
- * @internal
- * Hook version of composeRefs. Memoizes the composed ref callback
- * so it remains stable across renders when the input refs do not change.
- */
+/** Memoized composeRefs; rebuilds only when any input ref changes. */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: refs spread is intentionally used as deps  -  the composed callback must update when any ref changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: spread refs as deps so the callback updates when any ref changes
   return React.useCallback(composeRefs(...refs), refs)
 }
 

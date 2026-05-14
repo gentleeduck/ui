@@ -1,4 +1,3 @@
-/** Pure utility functions, types, and constants for the Menu primitive. */
 import type * as React from 'react'
 import type { Polygon } from '../libs/shared-utils'
 import { isPointInPolygon } from '../libs/shared-utils'

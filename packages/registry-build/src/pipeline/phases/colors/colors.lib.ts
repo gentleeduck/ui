@@ -6,10 +6,7 @@ import { writeJsonIfChanged } from '../../../lib/fs'
 import type { IRegistryBuildContext } from '../../types'
 import type { IRegistryBuildColorsPhaseOptions } from './colors.types'
 
-/**
- * Extension overrides must pass loaded data objects rather than unresolved
- * filesystem paths.
- */
+// Extensions get already-loaded data; only the root config supports path-based loading.
 function resolveExtensionData<TValue>(value: TValue | string | undefined, label: string) {
   if (typeof value === 'string') {
     throw new Error(
@@ -20,10 +17,6 @@ function resolveExtensionData<TValue>(value: TValue | string | undefined, label:
   return value
 }
 
-/**
- * Merge root config and extension overrides into one normalized colors-phase
- * view.
- */
 export function resolveColorsPhaseConfig(context: IRegistryBuildContext, options: IRegistryBuildColorsPhaseOptions) {
   const colorsConfig = {
     ...context.config.colors,
@@ -53,9 +46,6 @@ export function resolveColorsPhaseConfig(context: IRegistryBuildContext, options
   }
 }
 
-/**
- * Derive the expected output files for the current theme set.
- */
 export function getColorsOutputFiles(context: IRegistryBuildContext, themeNames: string[]) {
   const colorsIndexFile = path.join(context.getPath('colorsDir'), 'index.json')
   const outputFiles = [colorsIndexFile]
@@ -75,10 +65,6 @@ export function getColorsOutputFiles(context: IRegistryBuildContext, themeNames:
   }
 }
 
-/**
- * Process a single theme entry: generate color/theme JSON payloads and CSS,
- * writing files only when their content has changed.
- */
 export async function processTheme(
   context: IRegistryBuildContext,
   name: string,

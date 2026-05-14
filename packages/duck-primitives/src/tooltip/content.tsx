@@ -181,7 +181,7 @@ const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, ITooltip.
           ref={forwardedRef}
           style={{
             ...contentProps.style,
-            // re-namespace exposed content custom properties
+            // expose popper custom props under tooltip-* namespace
             ...({
               '--gentleduck-tooltip-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
               '--gentleduck-tooltip-content-available-width': 'var(--gentleduck-popper-available-width)',

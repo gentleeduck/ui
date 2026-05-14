@@ -46,7 +46,7 @@ const presetMap: Record<MotionPresetName, IMotionPreset> = {
 
 export interface IUseMotionPresetOptions extends IDuckMotion.IPresetOptions {}
 
-/** Lazy-load a single preset by name. Only fetches the module you ask for. */
+/** Lazy-load a single preset by name. */
 export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
   const loaders: Record<MotionPresetName, () => Promise<IMotionPreset>> = {
     fadeIn: () => import('./presets/fade-in').then((m) => m.fadeIn),
@@ -62,7 +62,7 @@ export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
   return loaders[name]()
 }
 
-/** Lazy-load a directional preset. Only fetches the directional module when called. */
+/** Lazy-load a directional preset. */
 export function loadDirectionalPreset(
   direction: Direction,
   enterOffset?: number,
@@ -81,8 +81,8 @@ function buildResult(preset: IMotionPreset, reduced: boolean, options?: IUseMoti
     : { ...(options?.enterTransition ?? baseTransition), ...(options?.delay ? { delay: options.delay } : {}) }
   const exitTransition: MotionTransitionConfig = reduced ? { duration: 0 } : (options?.exitTransition ?? baseTransition)
 
-  // Override scale specifically so tap press/release is always fast regardless
-  // of the base spring used by the preset.
+  // Scale-only override keeps tap press/release snappy regardless of the
+  // base spring chosen by the preset.
   const enterWithTapScale = reduced ? enterTransition : { ...enterTransition, scale: TAP_SCALE_TRANSITION }
 
   return {
@@ -93,7 +93,7 @@ function buildResult(preset: IMotionPreset, reduced: boolean, options?: IUseMoti
   }
 }
 
-/** Async resolver — lazy-loads the preset module then returns the animation config. */
+/** Async resolver: lazy-loads the preset then returns the animation config. */
 export async function resolveMotionPreset(
   name: MotionPresetName,
   options?: IUseMotionPresetOptions,
@@ -103,9 +103,8 @@ export async function resolveMotionPreset(
 }
 
 /**
- * Sync hook for React components. Accepts either a preset name (string) or a
- * preset object directly. The object form enables tree-shaking since unused
- * presets are never imported.
+ * Sync hook accepting either a preset name or preset object. The object form
+ * enables tree-shaking since unused presets are never imported.
  */
 export function useMotionPreset(
   nameOrPreset: MotionPresetName | IMotionPreset,
@@ -143,7 +142,7 @@ export function useMotionPreset(
   return result
 }
 
-/** Convenience hook for direction-aware menu/popover animations. */
+/** Direction-aware preset for menus/popovers. */
 export function useDirectionalPreset(
   direction: Direction,
   options?: Omit<IUseMotionPresetOptions, 'direction'>,

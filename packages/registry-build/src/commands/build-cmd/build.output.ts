@@ -6,11 +6,7 @@ type RegistryBuildSerializableResult = Pick<
   'artifacts' | 'configPath' | 'outputPaths' | 'outputs' | 'paths' | 'phaseResults'
 >
 
-/**
- * Drop runtime-only objects from the build result for JSON CLI output. The
- * serialized shape stays local to this module because nothing else should
- * depend on the CLI JSON contract.
- */
+// JSON shape is intentionally local; nothing else should depend on the CLI JSON contract.
 export function toSerializableResult(result: IBuildResult) {
   return {
     artifacts: result.artifacts,
@@ -60,9 +56,6 @@ function createTable(headers: string[], rows: string[][]) {
   ].join('\n')
 }
 
-/**
- * Render a compact phase summary that stays readable in a terminal.
- */
 export function formatPhaseSummary(result: IBuildResult) {
   const rows = result.phaseResults.map((phase) => {
     const status = phase.skipped ? kleur.yellow('skipped') : kleur.green('done')
@@ -83,9 +76,6 @@ export function formatPhaseSummary(result: IBuildResult) {
   ].join('\n')
 }
 
-/**
- * Keep default CLI errors concise while still supporting verbose stack traces.
- */
 export function formatError(error: unknown, verbose: boolean) {
   if (verbose && error instanceof Error && error.stack) {
     return error.stack

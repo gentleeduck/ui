@@ -27,10 +27,6 @@ export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
     this.locale = locale
   }
 
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
-
   /** Convert a native Date to its Hebrew parts (cached per-instance). */
   private hebrew(date: Date): { hy: number; hm: number; hd: number } {
     return hebrewCache.get(this, date)
@@ -41,10 +37,6 @@ export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
     const { gy, gm, gd } = hebrewToGregorian(hy, hm, hd)
     return new Date(gy, gm - 1, gd)
   }
-
-  // ---------------------------------------------------------------------------
-  // DateAdapter implementation
-  // ---------------------------------------------------------------------------
 
   today(): Date {
     const d = new Date()

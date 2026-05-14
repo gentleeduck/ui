@@ -1,8 +1,6 @@
 import figlet from 'figlet'
 
-/**
- * Generates the ASCII art banner synchronously to avoid render flicker.
- */
+/** Synchronous to avoid render flicker on TUI startup. */
 export function generateBanner(width: number): string {
   try {
     return figlet.textSync('gduck', { font: 'ANSI Shadow', whitespaceBreak: true, width })
@@ -13,11 +11,7 @@ export function generateBanner(width: number): string {
 
 export const SUBTITLE = 'by gentleduck.org'
 
-/**
- * Color theme constants for the TUI.
- * Uses standard terminal color names so they inherit from
- * the user's terminal theme (light/dark mode compatible).
- */
+/** Uses named ANSI colors so the user's terminal theme controls actual hues (light/dark agnostic). */
 export const THEME = {
   foreground: 'white',
   mutedForeground: 'gray',

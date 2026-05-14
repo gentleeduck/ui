@@ -1,19 +1,13 @@
 'use client'
 
-// components/docs
 export { DocsCopyPage } from './components/docs/docs-copy-page'
 export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './components/docs/docs-pager'
 export { DocsPathBreadcrumb } from './components/docs/docs-path-breadcrumb'
 export type { IDocsSidebarNavProps } from './components/docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './components/docs/docs-sidebar'
 export { DashboardTableOfContents } from './components/docs/docs-toc'
-// components/icons
 export { getIconForLanguageExtension } from './components/icons'
-
-// components/mdx
 export { Mdx } from './components/mdx/mdx'
-
-// components/mdx/mdx-components (barrel)
 export { Callout } from './components/mdx/mdx-components/callout'
 export {
   BuildTab,
@@ -44,11 +38,7 @@ export {
   LinkedCard,
   P,
 } from './components/mdx/mdx-components/typepography'
-
-// components/providers
 export { ThemeProvider } from './components/providers'
-
-// components/style-switcher
 export {
   DocsProvider,
   useDocsConfig,
@@ -57,7 +47,6 @@ export {
   useRegistryIndex,
   useSiteConfig,
 } from './context/context'
-// context
 export type {
   IDocsConfig,
   IDocsContextValue,

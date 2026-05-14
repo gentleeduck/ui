@@ -18,18 +18,12 @@ import { InitialArgsContext, TerminalSizeContext } from '../app'
 import type { AsyncTaskState } from './use-async-task'
 import { useAsyncTask } from './use-async-task'
 
-// Lines of vertical chrome (border, padding, banner, step-indicator,
-// file-tabs, status-line, margins) consumed by the resolving step.
-// The remaining terminal rows display scrollable hunk content.
+// Reserved vertical rows for borders, banner, tabs, status line. Subtract from terminal rows.
 const RESOLVING_CHROME = 14
 
-// Same purpose as RESOLVING_CHROME but for the summary step, which has
-// slightly more fixed elements (summary box + preview header).
+// Summary adds a summary box + preview header on top of the resolving chrome.
 const SUMMARY_CHROME = 16
 
-/**
- * All state and actions needed by the merge screen for rendering.
- */
 export type MergeWorkflowState = {
   step: Merge.Step
   errorMessage: string
@@ -68,14 +62,8 @@ export type MergeWorkflowState = {
 }
 
 /**
- * Hook that encapsulates all state management, side effects, and
- * action handlers for the merge screen workflow.
- *
- * The merge screen follows a multi-step state machine:
- *   loading -> select -> diffing -> resolving -> summary -> writing -> done | error
- *
- * When mergeData is provided (embedded mode), it skips loading/select
- * and starts directly at 'resolving'.
+ * State machine: loading -> select -> diffing -> resolving -> summary -> writing -> done | error.
+ * Passing `mergeData` skips straight to `resolving` (embedded-mode entry from add/update commands).
  */
 export function useMergeWorkflow(options: {
   mergeData?: Merge.ComponentState | undefined
@@ -103,11 +91,10 @@ export function useMergeWorkflow(options: {
   const visibleRows = Math.max(3, rows - RESOLVING_CHROME)
   const summaryVisibleRows = Math.max(3, rows - SUMMARY_CHROME)
 
-  // Resolve write path state for merge-from-select flow
+  // Only populated in the non-embedded flow where we still need to resolve the install path.
   const [writePath, setWritePath] = useState('')
   const [_rootFolder, setRootFolder] = useState('')
 
-  // -- Loading step: scan installed components --
   useEffect(() => {
     if (step !== 'loading') return
 
@@ -159,9 +146,7 @@ export function useMergeWorkflow(options: {
     load()
   }, [step])
 
-  // Auto-select from CLI initial args (e.g. `duck-cli merge button`)
-  // Pre-warm syntax highlighter while user resolves hunks,
-  // so the summary step renders highlighted code instantly.
+  // Pre-warm shiki during the resolving step so the summary preview renders without blocking.
   useEffect(() => {
     if (step !== 'resolving' || !mergeState) return
     for (const file of mergeState.files) {
@@ -170,8 +155,7 @@ export function useMergeWorkflow(options: {
     }
   }, [step, mergeState])
 
-  // Build highlighted preview when entering the summary step.
-  // Shows raw lines immediately, then swaps to syntax-highlighted version.
+  // Render unhighlighted lines first, then swap in the shiki-highlighted version when ready.
   useEffect(() => {
     if (step !== 'summary' || !mergeState) return
 
@@ -190,14 +174,11 @@ export function useMergeWorkflow(options: {
       .catch(() => {})
   }, [step, mergeState])
 
-  // -- Derived state --
-
   const activeFile = mergeState?.files[activeFileIndex] ?? null
   const activeHunks = activeFile?.hunks ?? []
   const activeHunk = activeHunks[activeHunkIndex] ?? null
   const totalHunks = activeHunks.length
 
-  // Check if every file and hunk has been resolved
   const allResolved = mergeState
     ? mergeState.files.every((f) => {
         if (f.status === 'deleted') return f.fileChoice !== 'pending'
@@ -206,9 +187,6 @@ export function useMergeWorkflow(options: {
       })
     : false
 
-  // -- Mutation helpers --
-
-  /** Set the choice for the currently active hunk in a modified file. */
   const updateHunkChoice = useCallback(
     (choice: Merge.HunkChoice) => {
       if (!mergeState || !activeFile || activeFile.status !== 'modified') return
@@ -230,7 +208,6 @@ export function useMergeWorkflow(options: {
     [mergeState, activeFileIndex, activeHunkIndex, activeFile],
   )
 
-  /** Set the keep/remove choice for a deleted file. */
   const updateFileChoice = useCallback(
     (choice: 'keep' | 'remove') => {
       if (!mergeState || !activeFile || activeFile.status !== 'deleted') return
@@ -248,11 +225,10 @@ export function useMergeWorkflow(options: {
     [mergeState, activeFileIndex, activeFile],
   )
 
-  /** Find the next unresolved hunk/file, wrapping around to the start. */
+  /** Wraps around to the start after exhausting the forward search. */
   const findNextUnresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
     if (!mergeState) return null
 
-    // Search forward from current position
     for (let fi = activeFileIndex; fi < mergeState.files.length; fi++) {
       const file = mergeState.files[fi]
       if (!file) continue
@@ -270,7 +246,6 @@ export function useMergeWorkflow(options: {
       }
     }
 
-    // Wrap around from the beginning
     for (let fi = 0; fi <= activeFileIndex; fi++) {
       const file = mergeState.files[fi]
       if (!file) continue
@@ -291,7 +266,6 @@ export function useMergeWorkflow(options: {
     return null
   }, [mergeState, activeFileIndex, activeHunkIndex])
 
-  /** Find the previous unresolved hunk/file, searching backwards. */
   const findPrevUnresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
     if (!mergeState) return null
 
@@ -315,9 +289,6 @@ export function useMergeWorkflow(options: {
     return null
   }, [mergeState, activeFileIndex, activeHunkIndex])
 
-  // -- Async action handlers --
-
-  /** Diff the selected component and build merge state. */
   const handleSelect = useCallback(
     async (name: string) => {
       setStep('diffing')
@@ -367,7 +338,7 @@ export function useMergeWorkflow(options: {
     [diffTask, installed, writePath],
   )
 
-  // Auto-select from CLI initial args (e.g. `duck-cli merge button`)
+  // Auto-pick the component named on the CLI so `duck-cli merge button` skips the picker.
   useEffect(() => {
     const initialArg = initialArgs[0]
     if (initialArg && installed.length > 0 && step === 'select' && !autoSelected) {
@@ -379,7 +350,6 @@ export function useMergeWorkflow(options: {
     }
   }, [autoSelected, handleSelect, initialArgs, installed, step])
 
-  /** Write resolved merge results to disk. */
   const handleWrite = async () => {
     if (!mergeState) return
 

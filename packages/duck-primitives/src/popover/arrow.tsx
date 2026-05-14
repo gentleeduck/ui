@@ -5,7 +5,6 @@ import type { IPopover } from './popover.types'
 
 const ARROW_NAME = 'PopoverArrow'
 
-/** Renders the popover arrow indicator. Delegates to PopperArrow for positioning. */
 export const PopoverArrow = React.forwardRef<
   React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
   IPopover.IScoped<IPopover.IArrowProps>

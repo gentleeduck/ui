@@ -26,7 +26,6 @@ export async function getRegistryItem(name: string) {
     return null
   }
 
-  // Fail early before doing expensive file operations.
   const result = registryEntrySchema.safeParse(item)
   if (!result.success) {
     return null
@@ -44,19 +43,14 @@ export async function getRegistryItem(name: string) {
     })
   }
 
-  // Get meta.
-  // Assume the first file is the main file.
-  // TODO: Get meta from registry.
+  // Meta is derived from the first file; failure is non-fatal.
   let meta = {}
   try {
     const firstFilePath = files[0]?.path
     if (!firstFilePath) throw new Error('No file path found')
     meta = await getFileMeta(firstFilePath, item.type)
-  } catch {
-    // Meta extraction is optional -- don't fail the whole item.
-  }
+  } catch {}
 
-  // Fix file paths.
   files = fixFilePaths(files)
 
   const parsed = registryEntrySchema.safeParse({
@@ -88,14 +82,11 @@ async function getFileContent(file: { path: string; type: string }) {
 
   let code = sourceFile.getFullText()
 
-  // Some registry items uses default export.
-  // We want to use named export instead.
-  // TODO: do we really need this?
+  // Non-page registry items must use named exports.
   if (file.type !== 'registry:page') {
     code = code.replaceAll('export default', 'export')
   }
 
-  // Fix imports.
   code = fixImport(code)
 
   return code
@@ -114,16 +105,8 @@ async function getFileMeta(filePath: string, fileType: string) {
     scriptKind: ScriptKind.TSX,
   })
 
-  // const iframeHeight = extractVariable(sourceFile, 'iframeHeight')
-  // const containerClassName = extractVariable(sourceFile, 'containerClassName')
-  // const description = extractVariable(sourceFile, 'description')
-
   return {
     code: sourceFile.getFullText(),
-    // sourceFile,
-    // iframeHeight,
-    // containerClassName,
-    // description,
   }
 }
 
@@ -162,7 +145,6 @@ function fixFilePaths(files: z.infer<typeof registryEntrySchema>['files']) {
     return []
   }
 
-  // Resolve all paths relative to the first file's directory.
   const firstFilePath = files[0]?.path ?? ''
   const firstFilePathDir = path.dirname(firstFilePath)
 
@@ -216,10 +198,8 @@ export function createFileTreeForRegistryItemFiles(files: Array<{ path: string; 
 
       if (existingNode) {
         if (isFile) {
-          // Update existing file node with full path
           existingNode.path = path
         } else {
-          // Move to next level in the tree
           if (!existingNode.children) {
             existingNode.children = []
           }

@@ -3,9 +3,6 @@ import type { IRegistryBuildComponentIndexAdapter } from './component-index.type
 import { createComponentIndexEntry, createNextjsComponentImport, NEXTJS_COMPONENT_INDEX_HEADER } from './nextjs'
 import { createViteComponentImport, VITE_COMPONENT_INDEX_HEADER } from './vite'
 
-/**
- * Resolve the framework adapter that renders the generated component index.
- */
 export function getComponentIndexAdapter(framework: RegistryBuildFramework): IRegistryBuildComponentIndexAdapter {
   switch (framework) {
     case 'nextjs':

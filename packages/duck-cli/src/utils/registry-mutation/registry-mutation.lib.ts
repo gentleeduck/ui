@@ -51,7 +51,6 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       process.exit(1)
     }
 
-    // Resolve the writePath to an absolute path using the target cwd
     const resolvedWritePath = path.resolve(projectCwd, writePath)
 
     if (!options.yes) {
@@ -187,7 +186,8 @@ export async function installRegistryDependencies(
   duckConfig: DuckUI,
   exclude?: Set<string>,
 ) {
-  const visited = new Set<string>(exclude) // avoid infinite loops and double-installs
+  // Tracks already-resolved names so cycles in `registryDependencies` don't fetch/install twice.
+  const visited = new Set<string>(exclude)
   const allComponents: Registry.Collection = []
 
   async function fetchAndProcess(deps: Set<string>) {
@@ -206,10 +206,8 @@ export async function installRegistryDependencies(
 
     spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
-    // Merge fetched components
     allComponents.push(...components)
 
-    // Collect new registry dependencies
     const newDeps = new Set<string>()
     for (const comp of components) {
       for (const dep of comp.registryDependencies ?? []) {
@@ -221,13 +219,11 @@ export async function installRegistryDependencies(
       }
     }
 
-    // Recurse if we found new dependencies
     if (newDeps.size > 0) {
       await fetchAndProcess(newDeps)
     }
   }
 
-  // Kick off recursion with initial registry deps, filtering out already-visited names
   const initialDeps = new Set<string>()
   for (const d of dependencies.registryDependencies.map((dep) => dep.toLowerCase())) {
     if (!visited.has(d)) {
@@ -237,7 +233,6 @@ export async function installRegistryDependencies(
   }
   await fetchAndProcess(initialDeps)
 
-  // Install all collected components
   for (const [index, component] of allComponents.entries()) {
     await installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force)
   }
@@ -280,7 +275,6 @@ export async function processComponentFiles(
       if (action === 'merge') {
         spinner.text = `Preparing merge for ${highlighter.info(component.name)}...`
 
-        // Build the diff between local and registry
         const localPath = `${writePath}/${component.root_folder}`
         const installedComp = {
           name: component.name,
@@ -300,7 +294,6 @@ export async function processComponentFiles(
           return
         }
 
-        // Build merge state and launch interactive merge
         const mergeState = buildComponentMergeState(diffResult.data, writePath, component.root_folder)
         spinner.stop()
 
@@ -315,7 +308,7 @@ export async function processComponentFiles(
         spinner.succeed(`Merge complete for ${highlighter.info(component.name)}.`)
         return
       }
-      // action === 'overwrite' -- fall through to write files below
+      // overwrite: fall through to the write loop below.
     }
   }
 
@@ -345,7 +338,6 @@ export async function processComponentDependencies(
   try {
     spinner.start(`Installing dependencies`)
 
-    // Deduplicate all collected dependencies
     const allDependencies = [...new Set([...dependencies, ...devDependencies])]
 
     if (allDependencies.length === 0) {

@@ -3,9 +3,6 @@ import { hashValue } from '../../../lib/hash'
 import { normalizeSlashes } from '../../../lib/path'
 import type { IRegistryBuildContext } from '../../types'
 
-/**
- * Convert a registry item name into a stable local variable identifier.
- */
 export function toComponentIdentifier(name: string) {
   return `_${name
     .split('-')
@@ -14,8 +11,8 @@ export function toComponentIdentifier(name: string) {
 }
 
 /**
- * Pick the file that best represents the registry item for dynamic import
- * generation.
+ * Pick the file the framework adapter will dynamic-import: prefers
+ * `<name>.tsx`/`.ts` or `<rootBasename>.tsx`/`.ts` over the first file listed.
  */
 export function getPrimaryFilePath(item: IIndexedRegistryEntry) {
   const files = item.files ?? []
@@ -44,9 +41,6 @@ export function getPrimaryFilePath(item: IIndexedRegistryEntry) {
   return preferredFile?.path ?? files[0]?.path
 }
 
-/**
- * Resolve the import path used by the framework adapter for one item.
- */
 export function createComponentPath(
   context: IRegistryBuildContext,
   item: IIndexedRegistryEntry,
@@ -99,10 +93,6 @@ export function createComponentIndexSignature(options: {
   })
 }
 
-/**
- * Render the default component index payload when the user did not provide a
- * custom generator.
- */
 export function renderComponentIndexContent(options: {
   adapter: {
     renderEntry: (options: { id: string; item: IIndexedRegistryEntry }) => string

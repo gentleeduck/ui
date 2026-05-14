@@ -28,9 +28,7 @@ const PreviewPanelDialog = React.forwardRef<HTMLDivElement, IPreviewPanelDialogP
   ) => {
     const [sharedState, setSharedState] = useState<IPreviewPanelState | undefined>(undefined)
 
-    // Ref tracks whether a state update is already scheduled this frame.
-    // Prevents multiple setState calls per animation frame when both
-    // panels emit state changes simultaneously.
+    // Coalesces simultaneous emissions from both panels into one setState/frame
     const pendingRef = useRef(false)
 
     const handleStateChange = useCallback(

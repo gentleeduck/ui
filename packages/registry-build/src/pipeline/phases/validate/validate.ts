@@ -4,9 +4,6 @@ import type { RegistryItemType } from '../../../extensions/ui/ui.registry.types'
 import { pathExists } from '../../../lib/fs'
 import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 
-/**
- * Validate the legacy UI-registry surface used by the built-in phases.
- */
 export async function runValidatePhase(context: IRegistryBuildContext): Promise<IRegistryBuildPhaseResult> {
   const issues: string[] = []
   const itemTypes = context.config.schema.itemTypes

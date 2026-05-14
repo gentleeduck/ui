@@ -23,7 +23,6 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
 
   const targetDir = path.resolve(cwd)
 
-  // Validate target directory
   if (await fs.pathExists(targetDir)) {
     const files = await fs.readdir(targetDir)
     if (files.length > 0) {
@@ -45,7 +44,6 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
 
   await fs.ensureDir(targetDir)
 
-  // Download tarball
   spinner.text = `Downloading template ${highlighter.info(template)}...`
   const url = tarballUrl(repo, branch)
   const response = await fetch(url)
@@ -54,10 +52,9 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
     throw new Error(`Failed to download template archive: ${response.status} ${response.statusText}`)
   }
 
-  // Extract matching entries
-  // The tarball root dir name varies (e.g., "duck-ui-master/"), so match with a pattern
+  // GitHub tarball root dir name varies (e.g. `duck-ui-master/`), so regex around it.
   const templatePathPattern = new RegExp(`^[^/]+/${templatesDir}/${template}/`)
-  // strip: 3 removes "<root>/<templatesDir>/<template>/" prefix
+  // Strips `<root>/<templatesDir>/<template>/` so the template contents land at the target root.
   const stripCount = 3
 
   spinner.text = `Extracting template ${highlighter.info(template)}...`
@@ -78,7 +75,6 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
     }),
   )
 
-  // Verify extraction
   const extracted = await fs.readdir(targetDir)
   if (extracted.length === 0) {
     throw new Error(
@@ -86,7 +82,6 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
     )
   }
 
-  // Install dependencies
   spinner.text = 'Installing dependencies...'
   try {
     const pm = await getPackageManager(targetDir)

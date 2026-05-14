@@ -10,7 +10,6 @@ export const [PortalProvider, usePortalContext] = createDialogContext<IDialog.IP
   forceMount: undefined,
 })
 
-/** Portals dialog content into a specified container (or document.body). */
 const DialogPortal: React.FC<IDialog.IPortalProps> = (props: IDialog.IScoped<IDialog.IPortalProps>) => {
   const { __scopeDialog, forceMount, children, container } = props
   const context = useDialogContext(PORTAL_NAME, __scopeDialog)

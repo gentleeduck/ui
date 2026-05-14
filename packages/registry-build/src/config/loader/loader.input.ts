@@ -26,9 +26,6 @@ async function materializeCollectionData(collections: Record<string, IRegistryBu
   )
 }
 
-/**
- * Resolve config-local file references before merge/default resolution.
- */
 function normalizeConfigFileInput(config: IRegistryBuildConfig, configPath: string): IRegistryBuildConfig {
   const configDir = path.dirname(configPath)
   const extendEntries = config.extends ? (Array.isArray(config.extends) ? config.extends : [config.extends]) : undefined
@@ -92,9 +89,7 @@ function normalizeConfigFileInput(config: IRegistryBuildConfig, configPath: stri
   }
 }
 
-/**
- * Load file-backed config sections eagerly so merge semantics remain simple.
- */
+// File-backed sections are loaded eagerly so merge semantics stay simple.
 async function materializeConfigReferences(config: IRegistryBuildConfig): Promise<IRegistryBuildConfig> {
   let materializedConfig = { ...config }
 
@@ -147,10 +142,6 @@ async function materializeConfigReferences(config: IRegistryBuildConfig): Promis
   return materializedConfig
 }
 
-/**
- * Load a config file, resolve its local paths, and recursively merge its
- * `extends` chain.
- */
 export async function loadRegistryBuildConfigInput(
   configPath: string,
   options: {

@@ -6,10 +6,6 @@ import { createRegistryBuildCache } from '../cache'
 import type { IBuildOptions, IRegistryBuildContext, IRegistryBuildOutputRecord } from '../types'
 import { createOutputPaths, createPathRegistry } from './context.paths'
 
-/**
- * Create a single build context object with normalized paths, cache access,
- * and artifact/output registries used by all pipeline phases and extensions.
- */
 export async function createRegistryBuildContext(
   loaded: ILoadedRegistryBuildConfig,
   options: Pick<IBuildOptions, 'changedOnly' | 'changedPaths' | 'cwd' | 'silent'> = {},

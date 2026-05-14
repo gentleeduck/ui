@@ -8,9 +8,8 @@ import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 /**
- * Resolve the base installation path from duck-ui config aliases and tsconfig paths.
- * Extracts the alias prefix from aliases.ui (e.g. '@/components/ui' -> '@'),
- * finds the matching tsconfig path entry, and returns the filesystem directory.
+ * Extracts the alias prefix from `aliases.ui` (e.g. `@/components/ui` -> `@`), looks it up in
+ * `tsconfig.compilerOptions.paths`, and strips the trailing `/*` segment to get the parent dir.
  */
 export function resolveInstallPath(duckConfig: DuckUI, tsConfig: TsConfig): ServiceResult<string> {
   const alias = duckConfig.aliases.ui.split('/').shift()
@@ -31,11 +30,7 @@ export function resolveInstallPath(duckConfig: DuckUI, tsConfig: TsConfig): Serv
 
 export type ConflictAction = 'overwrite' | 'skip' | 'merge'
 
-/**
- * Install one or more registry components to disk.
- * Handles file writing, conflict checking (overwrite/skip/merge),
- * and recursive BFS resolution of registry dependencies.
- */
+/** Walks `registryDependencies` BFS-style until closure; conflict callbacks gate overwrites per component. */
 export async function installComponents(
   components: Registry.Collection,
   duckConfig: DuckUI,
@@ -70,8 +65,6 @@ export async function installComponents(
       )
     }
 
-    // BFS resolution of registry dependencies: fetch transitive deps
-    // and install them until no new dependencies are discovered.
     const visited = new Set(components.map((c) => c.name.toLowerCase()))
     const pendingDeps = new Set(registryDeps.map((d) => d.toLowerCase()))
     for (const dependency of pendingDeps) {
@@ -119,11 +112,6 @@ export async function installComponents(
   }
 }
 
-/**
- * Write a single component's files to disk.
- * Creates the target directory if needed, checks for existing files
- * when force=false, and delegates conflict resolution to callbacks.
- */
 async function writeComponent(
   component: Registry.Entry,
   writeTypePath: string,
@@ -148,11 +136,10 @@ async function writeComponent(
       const action = await onConflictCheck(component.name)
       if (action === 'skip') return
       if (action === 'merge') {
-        // Merge is handled externally by the caller
-        // The caller should have already resolved the merge before calling installComponents
+        // Caller resolves merges before invoking installComponents; this branch just opts out of writing.
         return
       }
-      // action === 'overwrite' -- fall through to write
+      // overwrite: fall through
     } else if (onOverwriteCheck) {
       const overwrite = await onOverwriteCheck(component.name)
       if (!overwrite) return
@@ -167,10 +154,7 @@ async function writeComponent(
   }
 }
 
-/**
- * Run the detected package manager to install npm dependencies.
- * Combines deps and devDeps into a single install command.
- */
+/** Detects npm/pnpm/yarn/bun via `getPackageManager` and uses `add` (or `install` for npm). */
 export async function installNpmDeps(
   deps: string[],
   devDeps: string[],

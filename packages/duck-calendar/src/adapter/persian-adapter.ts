@@ -49,17 +49,15 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return persianCache.get(this, date)
   }
 
-  /** Returns the Persian year for the given date. */
   getYear(date: Date): number {
     return this.persian(date).jy
   }
 
-  /** Returns the **0-indexed** Persian month (0 = Farvardin). */
+  /** 0-indexed Persian month (0 = Farvardin). */
   getMonth(date: Date): number {
     return this.persian(date).jm - 1
   }
 
-  /** Returns the day of the Persian month. */
   getDate(date: Date): number {
     return this.persian(date).jd
   }
@@ -68,7 +66,7 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
   }
 
-  /** Compares Persian year and month. */
+  /** Compares in Persian calendar space, not Gregorian. */
   isSameMonth(a: Date, b: Date): boolean {
     const ja = this.persian(a)
     const jb = this.persian(b)
@@ -83,14 +81,14 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return a.getTime() > b.getTime()
   }
 
-  /** Returns the Gregorian date corresponding to the first day of the Persian month. */
+  /** First Gregorian day of the Persian month that contains `date`. */
   startOfMonth(date: Date): Date {
     const { jy, jm } = this.persian(date)
     const { gy, gm, gd } = toGregorian(jy, jm, 1)
     return new Date(gy, gm - 1, gd)
   }
 
-  /** Returns the Gregorian date corresponding to the last day of the Persian month. */
+  /** Last Gregorian day of the Persian month that contains `date`. */
   endOfMonth(date: Date): Date {
     const { jy, jm } = this.persian(date)
     const len = jalaaliMonthLength(jy, jm)
@@ -98,7 +96,6 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(gy, gm - 1, gd)
   }
 
-  /** Walks backward to the given weekStartDay (0=Sunday). */
   startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
@@ -112,12 +109,12 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return d
   }
 
-  /** Adds Persian months with day clamping. */
+  /** Persian month arithmetic with day clamping for the 30/31-day asymmetry. */
   addMonths(date: Date, count: number): Date {
     const { jy, jm, jd } = this.persian(date)
     const totalMonths = jy * 12 + (jm - 1) + count
-    // Use ((n % d) + d) % d to handle negative modulo correctly
     const newJy = Math.floor(totalMonths / 12)
+    // ((n % d) + d) % d handles negative modulo correctly.
     const newJm = (((totalMonths % 12) + 12) % 12) + 1
     const maxDay = jalaaliMonthLength(newJy, newJm)
     const newJd = Math.min(jd, maxDay)
@@ -125,7 +122,7 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(gy, gm - 1, gd)
   }
 
-  /** Adds Persian years with day clamping. */
+  /** Esfand 30 in a leap year clamps to 29 in a non-leap year. */
   addYears(date: Date, count: number): Date {
     const { jy, jm, jd } = this.persian(date)
     const newJy = jy + count

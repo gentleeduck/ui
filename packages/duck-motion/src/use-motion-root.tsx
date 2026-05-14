@@ -3,16 +3,15 @@ import * as React from 'react'
 import { useMotionConfig } from './motion-provider'
 
 /**
- * Context for tracking open state across MotionRoot and MotionContent pairs.
- * The root keeps the primitive open during exit animations by passing
- * `open={isOpen || showContent}` to the primitive root.
+ * Bridges MotionRoot and MotionContent so the primitive stays "open" while
+ * the content's exit animation is still playing. Root passes
+ * `open={isOpen || showContent}` to the primitive.
  */
 export interface IMotionRootContextValue {
-  /** Whether the user intends the component to be open. */
   isOpen: boolean
-  /** Whether the content is still visually mounted (including during exit animation). */
+  /** Content still visually mounted (including during exit). */
   showContent: boolean
-  /** Called by AnimatePresence onExitComplete to finally unmount. */
+  /** Called by `AnimatePresence.onExitComplete` to finally unmount. */
   setShowContent: (v: boolean) => void
 }
 
@@ -23,28 +22,11 @@ export const MotionRootContext = React.createContext<IMotionRootContextValue>({
 })
 
 /**
- * Hook that manages the two-state pattern for motion exit animations.
- *
- * Returns props to spread on the primitive Root (`rootProps`) and a context
- * value to provide via `MotionRootContext.Provider`.
- *
- * The primitive Root receives `open={isOpen || showContent}` so it stays
- * open during the exit animation. When `AnimatePresence` calls
- * `onExitComplete`, `showContent` goes false, which finally closes the Root.
- *
- * @example
- * ```tsx
- * function MotionDialog({ children, open, onOpenChange, ...rest }) {
- *   const { rootProps, contextValue } = useMotionRoot({ open, onOpenChange })
- *   return (
- *     <MotionRootContext.Provider value={contextValue}>
- *       <DialogPrimitive.Root {...rootProps} {...rest}>
- *         {children}
- *       </DialogPrimitive.Root>
- *     </MotionRootContext.Provider>
- *   )
- * }
- * ```
+ * Two-state pattern for motion exit animations. Returns `rootProps` to spread
+ * on the primitive Root and a `contextValue` to provide via
+ * `MotionRootContext.Provider`. The primitive stays open during exit because
+ * Root receives `open={isOpen || showContent}`; `AnimatePresence.onExitComplete`
+ * flips `showContent` false to finally close.
  */
 export function useMotionRoot(props: {
   open?: boolean
@@ -59,34 +41,27 @@ export function useMotionRoot(props: {
 
   const [showContent, setShowContent] = React.useState(!!isOpen)
   const prevOpenRef = React.useRef(!!isOpen)
-  // When re-opening (e.g. dropdown trigger toggle during exit animation),
-  // DismissableLayer fires a close on the same pointerdown event. This ref
-  // tells handleOpenChange to ignore that immediate close.
+  // Re-opening during an exit: DismissableLayer treats the trigger's
+  // pointerdown as an outside-click and fires a close on the same frame.
+  // Swallow that one close.
   const ignoreNextCloseRef = React.useRef(false)
 
   const handleOpenChange = React.useCallback(
     (next: boolean) => {
       if (next) {
-        // Opening: ensure showContent is true so content mounts immediately.
-        // This handles re-opening during an exit animation.
         setShowContent(true)
-        // Ignore the DismissableLayer close that fires on the same event frame.
-        // Dropdown/popover triggers use pointerdown to toggle, and the still-mounted
-        // DismissableLayer catches the same pointerdown as an "outside click".
         ignoreNextCloseRef.current = true
         requestAnimationFrame(() => {
           ignoreNextCloseRef.current = false
         })
       } else {
         if (ignoreNextCloseRef.current) {
-          // This close is from DismissableLayer on the same event as the open - skip it.
           ignoreNextCloseRef.current = false
           return
         }
-        // Closing: immediately restore body pointer events.
-        // DismissableLayer sets body.style.pointerEvents='none' while mounted,
-        // and with forceMount it stays mounted during exit animation.
-        // Without this, the trigger is unclickable until exit completes.
+        // DismissableLayer sets body pointer-events:none while mounted; with
+        // forceMount it stays mounted through exit, so restore immediately
+        // or the trigger is unclickable until the animation completes.
         document.body.style.pointerEvents = ''
       }
       if (!isControlled) setInternalOpen(next)
@@ -113,18 +88,12 @@ export function useMotionRoot(props: {
   return { rootProps, contextValue }
 }
 
-/**
- * Hook to read the motion root context from a content component.
- * Returns `isOpen` and `setShowContent` for driving AnimatePresence.
- */
+/** Read MotionRoot context from a content component. */
 export function useMotionContent() {
   return React.useContext(MotionRootContext)
 }
 
-/**
- * Derives exit duration in milliseconds from a Transition config.
- * Checks `duration` and `visualDuration` (spring) fields.
- */
+/** Exit duration (ms) from a `Transition`. Reads `duration` or spring `visualDuration`. */
 export function getTransitionDurationMs(t?: Transition): number {
   if (!t) return 180
   if ('duration' in t && typeof t.duration === 'number') return t.duration * 1000
@@ -133,38 +102,13 @@ export function getTransitionDurationMs(t?: Transition): number {
 }
 
 /**
- * Hook that manually drives mount/unmount for motion content components that
- * live inside a primitive Portal + Slot boundary.
+ * Manual mount/unmount driver for content inside a `<Portal forceMount><Content asChild>`
+ * boundary, where `AnimatePresence` can't track exits through the non-motion
+ * wrapper. `shouldRender` flips true immediately on open and stays true for
+ * `exitDurationMs` after close so the exit animation plays in place, then unmounts.
  *
- * AnimatePresence can't reliably track exit animations through
- * `<Portal forceMount><Content asChild>...` because its direct child is a
- * non-motion wrapper. This hook gives you a deterministic `shouldRender`
- * boolean that:
- *   1. Becomes `true` immediately when `isOpen` flips to true
- *   2. Stays `true` for `exitDurationMs` after `isOpen` flips to false so the
- *      motion.div can animate its exit in place
- *   3. Becomes `false` after the delay so the component fully unmounts
- *
- * Also restores `document.body.style.pointerEvents` on close so DismissableLayer
- * + RemoveScroll stickiness never blocks clicks on the underlying page.
- *
- * @example
- * ```tsx
- * const { isOpen } = useMotionContent()
- * const shouldRender = useMotionMount(isOpen)
- * if (!shouldRender) return null
- * return (
- *   <Portal forceMount>
- *     <Content forceMount asChild>
- *       <m.div
- *         initial={content.initial}
- *         animate={isOpen ? content.animate : content.exit}
- *         transition={content.transition}
- *       />
- *     </Content>
- *   </Portal>
- * )
- * ```
+ * Also restores `document.body.style.pointerEvents` on close — DismissableLayer +
+ * RemoveScroll otherwise stick `none` on the body and block the underlying page.
  */
 export function useMotionMount(isOpen: boolean, exitDurationMs?: number): boolean {
   const { exitTransition } = useMotionConfig()
@@ -176,8 +120,6 @@ export function useMotionMount(isOpen: boolean, exitDurationMs?: number): boolea
       setShouldRender(true)
       return
     }
-    // Closing: force body pointer events back on immediately so clicks on the
-    // surface underneath register without waiting for the exit animation.
     if (typeof document !== 'undefined' && document.body.style.pointerEvents === 'none') {
       document.body.style.pointerEvents = ''
     }

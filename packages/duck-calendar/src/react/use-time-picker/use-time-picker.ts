@@ -5,11 +5,7 @@ import type { Time } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
 import type { UseTimePicker } from './use-time-picker.types'
 
-// ---------------------------------------------------------------------------
-// Field ordering for tab-through
-// ---------------------------------------------------------------------------
-
-// Pre-computed field orders for all 4 combinations (avoids filter() on every digit press)
+// Pre-computed field orders for all 4 combinations  -  avoids filter() on every digit press.
 const FIELD_ORDERS: Record<string, Time.TimeField[]> = {
   '24_false': ['hour', 'minute'],
   '24_true': ['hour', 'minute', 'second'],
@@ -24,10 +20,6 @@ function nextField(current: Time.TimeField, showSeconds: boolean, hourCycle: '12
   if (idx < 0 || idx >= available.length - 1) return null
   return available[idx + 1] ?? null
 }
-
-// ---------------------------------------------------------------------------
-// ARIA helpers
-// ---------------------------------------------------------------------------
 
 const FIELD_LABELS: Record<Time.TimeField, string> = {
   hour: 'Hour',
@@ -86,10 +78,6 @@ function getFieldText(field: Time.TimeField, value: Time.ITimeValue, hourCycle: 
   }
 }
 
-// ---------------------------------------------------------------------------
-// useTimePicker
-// ---------------------------------------------------------------------------
-
 export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): UseTimePicker.IUseTimePickerReturn {
   const {
     value: controlledValue,
@@ -109,24 +97,18 @@ export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): 
 
   const [focusedField, setFocusedField] = useState<Time.TimeField>('hour')
 
-  // Input buffering
+  // Digit-input buffer for typing 2-char field values; flushed on timeout or on length 2.
   const inputBuffer = useRef<string>('')
   const inputTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Cleanup input timeout on unmount
   useEffect(() => {
     return () => {
       if (inputTimeout.current) clearTimeout(inputTimeout.current)
     }
   }, [])
 
-  // Derived display values (trivial computations  -  no useMemo needed)
   const displayHour = hourCycle === '12' ? to12Hour(value.hour) : value.hour
   const displayAmPm = getAmPm(value.hour)
-
-  // -------------------------------------------------------------------------
-  // Actions
-  // -------------------------------------------------------------------------
 
   const setValue = useCallback(
     (next: Time.ITimeValue) => {
@@ -188,10 +170,6 @@ export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): 
     setFocusedField(field)
   }, [])
 
-  // -------------------------------------------------------------------------
-  // Digit input commit helper
-  // -------------------------------------------------------------------------
-
   const commitBuffer = useCallback(
     (field: Time.TimeField, buffer: string) => {
       const parsed = parseTimeInput(buffer, field, hourCycle)
@@ -199,16 +177,11 @@ export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): 
         setField(field, parsed)
       }
       inputBuffer.current = ''
-      // Move to next field
       const next = nextField(field, showSeconds, hourCycle)
       if (next) setFocusedField(next)
     },
     [hourCycle, showSeconds, setField],
   )
-
-  // -------------------------------------------------------------------------
-  // getFieldProps
-  // -------------------------------------------------------------------------
 
   const getFieldProps = useCallback(
     (field: Time.TimeField): UseTimePicker.ITimeFieldProps => {
@@ -287,10 +260,6 @@ export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): 
     },
     [value, focusedField, hourCycle, increment, decrement, toggleAmPm, commitBuffer, displayAmPm, minTime, maxTime],
   )
-
-  // -------------------------------------------------------------------------
-  // Return
-  // -------------------------------------------------------------------------
 
   return {
     state: {

@@ -32,9 +32,6 @@ export function useDateTime<TDate>(
     onDismiss,
   } = config
 
-  // ---------------------------------------------------------------------------
-  // Internal state  -  tracks the combined datetime
-  // ---------------------------------------------------------------------------
   const isControlled = controlledValue !== undefined
   const [internalValue, setInternalValue] = useState<TDate | null>(defaultValue ?? null)
 
@@ -54,9 +51,7 @@ export function useDateTime<TDate>(
     [isControlled],
   )
 
-  // ---------------------------------------------------------------------------
-  // Extract time from the current value (memoized to avoid new objects each render)
-  // ---------------------------------------------------------------------------
+  // Memoised to avoid new Time objects each render.
   const extractTime = useCallback(
     (date: TDate | null): Time.ITimeValue => {
       if (date == null) return DEFAULT_TIME
@@ -79,9 +74,6 @@ export function useDateTime<TDate>(
     timeRef.current = timeValue
   }, [timeValue])
 
-  // ---------------------------------------------------------------------------
-  // Stable callbacks for sub-hooks
-  // ---------------------------------------------------------------------------
   const currentValueRef = useRef(currentValue)
   useEffect(() => {
     currentValueRef.current = currentValue
@@ -109,9 +101,6 @@ export function useDateTime<TDate>(
     [adapter, setDateTime],
   )
 
-  // ---------------------------------------------------------------------------
-  // useCalendar  -  single mode
-  // ---------------------------------------------------------------------------
   const calendar = useCalendar<TDate, 'single'>({
     adapter,
     mode: 'single',
@@ -127,9 +116,6 @@ export function useDateTime<TDate>(
     onSelect: handleCalendarSelect,
   })
 
-  // ---------------------------------------------------------------------------
-  // useTimePicker
-  // ---------------------------------------------------------------------------
   const timePicker = useTimePicker({
     value: timeValue,
     hourCycle,
@@ -137,9 +123,6 @@ export function useDateTime<TDate>(
     onChange: handleTimeChange,
   })
 
-  // ---------------------------------------------------------------------------
-  // Return
-  // ---------------------------------------------------------------------------
   return {
     calendar,
     timePicker,

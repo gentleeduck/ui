@@ -111,8 +111,6 @@ function createCodeNode(source: string, lang: string) {
   })
 }
 
-// -- ComponentSource ----------------------------------------------------------
-
 export function componentSource({ node }: { node: IUnistNode }) {
   const sourcePath = getNodeAttributeByName(node, 'path')?.value as string | undefined
 
@@ -122,7 +120,7 @@ export function componentSource({ node }: { node: IUnistNode }) {
   }
 
   try {
-    // process.cwd() is apps/duck-ui-docs/, go up to monorepo root
+    // process.cwd() is the docs app; go up to the monorepo root.
     const resolved = path.resolve(process.cwd(), '../../', sourcePath)
 
     if (!fs.existsSync(resolved)) {
@@ -133,7 +131,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
     const stat = fs.statSync(resolved)
 
     if (stat.isDirectory()) {
-      // Directory -- read all files, create a pre/code block for each (tabs)
       const entries = fs.readdirSync(resolved).filter((entry) => {
         const entryPath = path.join(resolved, entry)
         return fs.statSync(entryPath).isFile()
@@ -147,7 +144,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
         return createCodeNode(source, lang)
       })
     } else {
-      // Single file -- one pre/code block
       const lang = getLangFromExt(resolved)
       const fileName = path.basename(resolved)
       const content = fs.readFileSync(resolved, 'utf8')
@@ -158,8 +154,6 @@ export function componentSource({ node }: { node: IUnistNode }) {
     console.error('[ComponentSource]', error)
   }
 }
-
-// -- ComponentPreview ---------------------------------------------------------
 
 export function componentPreview({ node }: { node: IUnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string

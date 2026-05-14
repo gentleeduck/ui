@@ -13,11 +13,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     externalDir: true,
-    // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
   images: {
     remotePatterns: [
       {

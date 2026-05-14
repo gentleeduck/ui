@@ -88,10 +88,10 @@ const ZoomControls = memo(function ZoomControls({
   )
 })
 
-// A generic pan-zoom container. Accepts children or an html string.
-// All transforms bypass React via direct DOM writes for zero re-renders
-// during continuous interactions (drag, wheel, pinch).
-
+/**
+ * Pan-zoom container. Transforms bypass React via direct DOM writes so
+ * continuous interactions (drag, wheel, pinch) cause zero re-renders.
+ */
 const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
   (
     {
@@ -114,8 +114,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
     const containerRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
 
-    // All mutable interaction state lives in a single ref object.
-    // Nothing here triggers React re-renders.
+    // Mutable interaction state; nothing in this ref triggers re-renders
     const s = useRef({
       zoom: initialZoom,
       x: 0,
@@ -132,14 +131,13 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       willChangeTimer: 0,
     })
 
-    // Only React state: the zoom label percentage
+    // The only React state — the zoom label percentage
     const [displayZoom, setDisplayZoom] = useState(initialZoom)
 
-    // Stable ref for the callback so effects never re-subscribe
+    // Ref-shadow so effects never re-subscribe when the callback identity changes
     const onStateChangeRef = useRef(onStateChange)
     onStateChangeRef.current = onStateChange
 
-    // Flush a pending state emission. Called from RAF or directly by button handlers.
     const flushEmit = useCallback(() => {
       if (!s.current.emitPending) return
       s.current.emitPending = false
@@ -150,22 +148,19 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       })
     }, [])
 
-    // Mark state as dirty so the next RAF tick emits it.
-    // For continuous interactions (drag, wheel, pinch) this batches
-    // multiple events into one React state update per frame.
+    // Defer emission to RAF so continuous events batch into one update/frame
     const markDirty = useCallback(() => {
       s.current.emitPending = true
     }, [])
 
-    // Write transform directly to the DOM element.
     const applyTransform = useCallback((animate: boolean) => {
       const el = contentRef.current
       if (!el) return
       const { x, y, zoom } = s.current
       el.style.transform = `translate3d(${x}px,${y}px,0) scale(${zoom})`
       el.style.transition = animate ? 'transform 0.15s ease-out' : 'none'
-      // GPU-composite during interaction, then clear so browser
-      // re-rasterizes at the new zoom for crisp SVG text
+      // GPU-composite during interaction; clear afterwards so the browser
+      // re-rasterizes at the final zoom for crisp SVG text
       el.style.willChange = 'transform'
       clearTimeout(s.current.willChangeTimer)
       s.current.willChangeTimer = window.setTimeout(() => {
@@ -175,8 +170,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }, 200)
     }, [])
 
-    // Batch DOM writes behind a single requestAnimationFrame.
-    // Also flushes any pending state emission in the same frame.
+    // Coalesce DOM writes (and a pending emit) into a single RAF tick
     const scheduleApply = useCallback(() => {
       if (s.current.rafId) return
       s.current.rafId = requestAnimationFrame(() => {
@@ -188,24 +182,21 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
 
     const syncDisplay = useCallback(() => setDisplayZoom(s.current.zoom), [])
 
-    // -- Sync from external state (receives changes from a paired panel) --
-
+    // Receive state from a paired panel
     useEffect(() => {
       if (!syncState) return
       const { zoom, x, y } = syncState
-      // Epsilon check prevents applying our own emitted state back
+      // Epsilon guard avoids ping-pong when our own emission echoes back
       if (Math.abs(s.current.zoom - zoom) < 0.001 && Math.abs(s.current.x - x) < 0.5 && Math.abs(s.current.y - y) < 0.5)
         return
       s.current.zoom = zoom
       s.current.x = x
       s.current.y = y
-      // Apply silently without emitting back to avoid ping-pong
       applyTransform(true)
       syncDisplay()
     }, [syncState, applyTransform, syncDisplay])
 
-    // -- Button handlers (discrete, emit immediately) --
-
+    // Discrete button handlers emit immediately rather than via RAF
     const handleZoomIn = useCallback(() => {
       s.current.zoom = clamp(s.current.zoom + ZOOM_STEP_BUTTON, minZoom, maxZoom)
       applyTransform(true)
@@ -231,8 +222,6 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       markDirty()
       flushEmit()
     }, [applyTransform, syncDisplay, markDirty, flushEmit, initialZoom])
-
-    // -- Pointer drag --
 
     useEffect(() => {
       const el = containerRef.current
@@ -284,8 +273,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }
     }, [markDirty, scheduleApply])
 
-    // -- Wheel zoom (passive: false to preventDefault page scroll) --
-
+    // Wheel zoom — needs passive:false to preventDefault the page scroll
     useEffect(() => {
       const el = containerRef.current
       if (!el) return
@@ -303,8 +291,6 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       el.addEventListener('wheel', onWheel, { passive: false })
       return () => el.removeEventListener('wheel', onWheel)
     }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
-
-    // -- Pinch to zoom (two-finger touch) --
 
     useEffect(() => {
       const el = containerRef.current
@@ -343,7 +329,6 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }
     }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
 
-    // Cleanup on unmount
     useEffect(() => {
       return () => {
         if (s.current.rafId) cancelAnimationFrame(s.current.rafId)
@@ -351,13 +336,11 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }
     }, [])
 
-    // Stable content props - only changes when html/children identity changes
     const contentProps = useMemo(
       () => (html ? { dangerouslySetInnerHTML: { __html: html } } : { children }),
       [html, children],
     )
 
-    // Stable inline style for the container
     const containerStyle = useMemo(
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],

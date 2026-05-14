@@ -8,13 +8,9 @@ import type { INavigationMenu } from './navigation-menu.types'
 
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-/* ----- Constants ----- */
-
 const ROOT_CONTENT_DISMISS = 'navigationMenu.rootContentDismiss'
 const LINK_SELECT = 'navigationMenu.linkSelect'
 const ARROW_KEYS = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown']
-
-/* ----- Utility functions ----- */
 
 function getOpenState(open: boolean) {
   return open ? 'open' : 'closed'
@@ -33,14 +29,8 @@ function whenMouse<E>(handler: React.PointerEventHandler<E>): React.PointerEvent
 }
 
 /**
- * Returns a list of potential tabbable candidates.
- *
- * NOTE: This is only a close approximation. For example it doesn't take into account cases like when
- * elements are not visible. This cannot be worked out easily by just reading a property, but rather
- * necessitate runtime knowledge (computed styles, etc). We deal with these cases separately.
- *
- * See: https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
- * Credit: https://github.com/discord/focus-layers/blob/master/src/util/wrapFocus.tsx#L1
+ * Approximate tabbable candidates. Does NOT consider CSS visibility (computed styles);
+ * handled elsewhere. https://github.com/discord/focus-layers/blob/master/src/util/wrapFocus.tsx#L1
  */
 function getTabbableCandidates(container: HTMLElement) {
   const nodes: HTMLElement[] = []
@@ -49,22 +39,18 @@ function getTabbableCandidates(container: HTMLElement) {
       const el = node as HTMLElement
       const isHiddenInput = el.tagName === 'INPUT' && (el as HTMLInputElement).type === 'hidden'
       if (el.hidden || (el as HTMLInputElement).disabled || isHiddenInput) return NodeFilter.FILTER_SKIP
-      // `.tabIndex` is not the same as the `tabindex` attribute. It works on the
-      // runtime's understanding of tabbability, so this automatically accounts
-      // for any kind of element that could be tabbed to.
+      // `.tabIndex` property (not attribute) covers contenteditable, summary, etc.
       return el.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
     },
   })
   while (walker.nextNode()) nodes.push(walker.currentNode as HTMLElement)
-  // we do not take into account the order of nodes with positive `tabIndex` as it
-  // hinders accessibility to have tab order different from visual order.
+  // positive tabIndex ordering intentionally ignored: visual order is the a11y contract
   return nodes
 }
 
 function focusFirst(candidates: HTMLElement[]) {
   const previouslyFocusedElement = document.activeElement
   return candidates.some((candidate) => {
-    // if focus is already where we want to go, we don't want to keep going through the candidates
     if (candidate === previouslyFocusedElement) return true
     candidate.focus()
     return document.activeElement !== previouslyFocusedElement
@@ -89,13 +75,8 @@ function useResizeObserver(element: HTMLElement | null, onResize: () => void) {
   useLayoutEffect(() => {
     let rAF = 0
     if (element) {
-      /**
-       * Resize Observer will throw an often benign error that says `ResizeObserver loop
-       * completed with undelivered notifications`. This means that ResizeObserver was not
-       * able to deliver all observations within a single animation frame, so we use
-       * `requestAnimationFrame` to ensure we don't deliver unnecessary observations.
-       * Further reading: https://github.com/WICG/resize-observer/issues/38
-       */
+      // coalesce into one rAF to dodge "ResizeObserver loop completed with undelivered
+      // notifications". https://github.com/WICG/resize-observer/issues/38
       const resizeObserver = new ResizeObserver(() => {
         cancelAnimationFrame(rAF)
         rAF = window.requestAnimationFrame(handleResize)
@@ -108,8 +89,6 @@ function useResizeObserver(element: HTMLElement | null, onResize: () => void) {
     }
   }, [element, handleResize])
 }
-
-/* ----- FocusGroup (internal component) ----- */
 
 const FOCUS_GROUP_NAME = 'FocusGroup'
 
@@ -132,8 +111,6 @@ const FocusGroup = React.forwardRef<FocusGroupElement, IFocusGroupProps>(
 )
 
 FocusGroup.displayName = FOCUS_GROUP_NAME
-
-/* ----- FocusGroupItem (internal component) ----- */
 
 const FOCUS_GROUP_ITEM_NAME = 'FocusGroupItem'
 
@@ -166,13 +143,11 @@ const FocusGroupItem = React.forwardRef<INavigationMenu.FocusGroupItemElement, I
                 const currentIndex = candidateNodes.indexOf(event.currentTarget)
                 candidateNodes = candidateNodes.slice(currentIndex + 1)
               }
-              /**
-               * Imperative focus during keydown is risky so we prevent React's batching updates
-               * to avoid potential bugs. See: https://github.com/facebook/react/issues/20332
-               */
+              // defer past React's batched commit; imperative focus inside keydown can fight
+              // rerenders. https://github.com/facebook/react/issues/20332
               setTimeout(() => focusFirst(candidateNodes))
 
-              // Prevent page scroll while navigating
+              // suppress page scroll on arrow keys
               event.preventDefault()
             }
           })}

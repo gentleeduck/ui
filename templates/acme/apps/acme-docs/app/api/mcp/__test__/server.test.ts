@@ -19,8 +19,6 @@ import {
   validateSlug,
 } from '../server'
 
-// -- Stemming ----------------------------------------------------------------
-
 describe('stem', () => {
   test('strips -ing suffix', () => {
     expect(stem('running')).toBe('run')
@@ -62,8 +60,6 @@ describe('stem', () => {
   })
 })
 
-// -- Tokenizer ---------------------------------------------------------------
-
 describe('tokenize', () => {
   test('lowercases and splits on whitespace', () => {
     const tokens = tokenize('Hello World')
@@ -91,7 +87,6 @@ describe('tokenize', () => {
 
   test('applies stemming', () => {
     const tokens = tokenize('running buttons testing')
-    // Stemmed forms should be present
     expect(tokens.some((t) => t === 'runn' || t === 'run')).toBe(true)
     expect(tokens.some((t) => t === 'button')).toBe(true)
     expect(tokens.some((t) => t === 'test')).toBe(true)
@@ -112,8 +107,6 @@ describe('expandSearchTerms', () => {
     expect(terms).toContain('datepicker')
   })
 })
-
-// -- MDX stripping -----------------------------------------------------------
 
 describe('stripMdxSyntax', () => {
   test('removes import statements', () => {
@@ -196,8 +189,6 @@ describe('extractSection', () => {
   })
 })
 
-// -- Edit distance -----------------------------------------------------------
-
 describe('editDistance', () => {
   test('identical strings = 0', () => {
     expect(editDistance('button', 'button')).toBe(0)
@@ -225,8 +216,6 @@ describe('editDistance', () => {
     expect(editDistance('abc', 'xyz')).toBe(3)
   })
 })
-
-// -- Fuzzy matching ----------------------------------------------------------
 
 describe('fuzzyMatch', () => {
   test('exact substring match', () => {
@@ -264,13 +253,10 @@ describe('fuzzyScore', () => {
   })
 })
 
-// -- TF-IDF ------------------------------------------------------------------
-
 describe('computeTf', () => {
   test('computes sublinear TF', () => {
     const tf = computeTf(['hello', 'world', 'hello'])
     expect(tf.get('hello')).toBeGreaterThan(tf.get('world')!)
-    // sublinear: 1 + log(2) > 1 + log(1)
     expect(tf.get('hello')).toBeCloseTo(1 + Math.log(2))
     expect(tf.get('world')).toBeCloseTo(1 + Math.log(1))
   })
@@ -294,9 +280,7 @@ describe('computeIdf', () => {
       ]),
     ]
     const idf = computeIdf(tfMaps, 2)
-    // 'hello' appears in both docs: log(2/2) = 0
     expect(idf.get('hello')).toBeCloseTo(0)
-    // 'world' appears in 1 doc: log(2/1)
     expect(idf.get('world')).toBeCloseTo(Math.log(2))
   })
 
@@ -318,7 +302,6 @@ describe('computeTfidfVector', () => {
     ])
     const vector = computeTfidfVector(tf, idf)
 
-    // Check normalization: magnitude should be ~1
     let mag = 0
     for (const val of vector.values()) mag += val * val
     expect(Math.sqrt(mag)).toBeCloseTo(1.0)
@@ -326,7 +309,7 @@ describe('computeTfidfVector', () => {
 
   test('zero IDF terms are excluded', () => {
     const tf = new Map([['common', 1.0]])
-    const idf = new Map([['common', 0]]) // appears in every doc
+    const idf = new Map([['common', 0]])
     const vector = computeTfidfVector(tf, idf)
     expect(vector.size).toBe(0)
   })
@@ -338,7 +321,7 @@ describe('cosineSimilarity', () => {
       ['a', 0.5],
       ['b', 0.5],
     ])
-    expect(cosineSimilarity(v, v)).toBeCloseTo(0.5) // dot product of normalized vectors
+    expect(cosineSimilarity(v, v)).toBeCloseTo(0.5)
   })
 
   test('orthogonal vectors = 0', () => {
@@ -353,8 +336,6 @@ describe('cosineSimilarity', () => {
     expect(cosineSimilarity(a, b)).toBe(0)
   })
 })
-
-// -- Slug validation ---------------------------------------------------------
 
 describe('validateSlug', () => {
   test('accepts valid slugs', () => {

@@ -1,7 +1,4 @@
 export namespace Parser {
-  /**
-   * A parsed key binding broken down into its components.
-   */
   export interface IParsedKeyBind {
     /** The non-modifier key, lowercased (e.g. 's', 'space', 'enter') */
     key: string
@@ -9,13 +6,10 @@ export namespace Parser {
     shift: boolean
     alt: boolean
     meta: boolean
-    /** Sorted array of active modifier names */
+    /** Active modifiers in canonical order */
     modifiers: Array<'ctrl' | 'alt' | 'meta' | 'shift'>
   }
 
-  /**
-   * Result of validating a key binding string.
-   */
   export interface IValidationResult {
     valid: boolean
     warnings: string[]

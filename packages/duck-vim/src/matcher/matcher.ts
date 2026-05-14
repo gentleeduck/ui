@@ -2,18 +2,14 @@ import { parseKeyBind } from '../parser/parser'
 import type { Parser } from '../parser/parser.types'
 import type { Matcher } from './matcher.types'
 
-/** Tag names that are considered input elements for ignoreInputs */
 const _INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
 
-/** Input types that are considered button-like (not text entry) */
+// button/submit/reset are <input> but not text-entry — bindings should still fire.
 const BUTTON_INPUT_TYPES = new Set(['button', 'submit', 'reset'])
 
 /**
- * Returns true if the given element is an input element where key bindings
- * should typically be ignored (text inputs, textareas, selects, contenteditable).
- *
- * Button-type inputs (button, submit, reset) are NOT considered input elements
- * for this purpose, so key bindings still fire when those are focused.
+ * True for text-entry elements (text inputs, textareas, selects, contenteditable)
+ * where key bindings should be suppressed by `ignoreInputs`.
  */
 export function isInputElement(el: Element | null): boolean {
   if (!el) return false
@@ -22,7 +18,6 @@ export function isInputElement(el: Element | null): boolean {
 
   if (tag === 'INPUT') {
     const inputType = (el as HTMLInputElement).type?.toLowerCase()
-    // Button-type inputs are not text entry
     if (BUTTON_INPUT_TYPES.has(inputType)) return false
     return true
   }
@@ -35,14 +30,7 @@ export function isInputElement(el: Element | null): boolean {
   return false
 }
 
-/**
- * Checks whether a KeyboardEvent matches a parsed key binding.
- *
- * @param parsed - The parsed key binding to match against
- * @param event - The keyboard event to check
- * @param options - Match options
- * @returns true if the event matches the key binding
- */
+/** Returns true if `event` matches `parsed`. Modifier flags must match exactly. */
 export function matchesKeyboardEvent(
   parsed: Parser.IParsedKeyBind,
   event: KeyboardEvent,
@@ -50,36 +38,21 @@ export function matchesKeyboardEvent(
 ): boolean {
   const ignoreCase = options?.ignoreCase ?? true
 
-  // Check modifier flags
   if (parsed.ctrl !== event.ctrlKey) return false
   if (parsed.alt !== event.altKey) return false
   if (parsed.meta !== event.metaKey) return false
   if (parsed.shift !== event.shiftKey) return false
 
-  // Check the non-modifier key
   const eventKey = ignoreCase ? event.key.toLowerCase() : event.key
   const parsedKey = ignoreCase ? parsed.key.toLowerCase() : parsed.key
 
-  // Handle alias matching (space, esc, etc.)
+  // Aliases: parser stores `space`/`esc` but events use ` `/`escape`.
   const normalizedEventKey = eventKey === ' ' ? 'space' : eventKey === 'escape' ? 'esc' : eventKey
 
   return normalizedEventKey === parsedKey
 }
 
-/**
- * Creates a standalone event handler for a single key binding.
- *
- * @param config - The key binding handler configuration
- * @returns An event handler function
- *
- * @example
- * const handler = createKeyBindHandler({
- *   binding: 'Mod+S',
- *   handler: (e) => save(),
- *   options: { preventDefault: true }
- * })
- * document.addEventListener('keydown', handler)
- */
+/** Creates an event handler that fires `config.handler` when `config.binding` matches. */
 export function createKeyBindHandler(config: Matcher.IKeyBindHandlerConfig): (event: KeyboardEvent) => void {
   const parsed = parseKeyBind(config.binding)
 
@@ -99,13 +72,7 @@ export function createKeyBindHandler(config: Matcher.IKeyBindHandlerConfig): (ev
   }
 }
 
-/**
- * Creates a standalone event handler that checks multiple key bindings.
- * First match wins.
- *
- * @param configs - Array of key binding handler configurations
- * @returns An event handler function
- */
+/** Event handler that checks multiple bindings; first match wins. */
 export function createMultiKeyBindHandler(configs: Matcher.IKeyBindHandlerConfig[]): (event: KeyboardEvent) => void {
   const entries = configs.map((config) => ({
     parsed: parseKeyBind(config.binding),
@@ -126,7 +93,7 @@ export function createMultiKeyBindHandler(configs: Matcher.IKeyBindHandlerConfig
       if (opts?.stopPropagation) event.stopPropagation()
 
       config.handler(event)
-      return // First match wins
+      return
     }
   }
 }

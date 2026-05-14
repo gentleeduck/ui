@@ -108,7 +108,6 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'))
 
-      // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat('en-US', {
         currency: 'USD',
         style: 'currency',

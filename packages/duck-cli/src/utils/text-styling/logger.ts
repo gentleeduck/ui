@@ -4,7 +4,6 @@ import type { ILoggerParams, LoggerType } from './text-styling.types'
 
 const { error, warning, info, success } = logSymbols
 
-// Define the logger object with proper types
 export const logger: LoggerType = {
   break: (): LoggerType => {
     console.log('')

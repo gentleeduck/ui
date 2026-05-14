@@ -1,9 +1,6 @@
-// CSS value-space string unions.
-//
-// These are curated subsets of the CSS spec — enough to power most UI
-// toolchains without blowing up type-checker memory.
+// Curated CSS value unions sized to avoid blowing up type-checker memory.
 
-/** CSS wide-keyword values that are accepted by virtually every property. */
+/** CSS wide-keyword values accepted by virtually every property. */
 export type CSSGlobal = 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer'
 
 /** The 147 CSS named colors (level 4). */

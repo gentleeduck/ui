@@ -6,11 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type * as React from 'react'
 import { useConfig } from '~/hooks'
 
-/**
- * Keep the public prop contract local and button-like. The docs app only needs
- * standard trigger props such as `className` and `disabled`, and this avoids
- * brittle declaration inference across package boundaries.
- */
+// Local button-like contract avoids brittle declaration inference across package boundaries.
 export interface IStyleSwitcherProps extends React.ComponentPropsWithoutRef<'button'> {}
 
 export function StyleSwitcher({ className, ...props }: IStyleSwitcherProps) {

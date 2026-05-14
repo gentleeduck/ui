@@ -11,7 +11,6 @@ export const [createDialogContext, createDialogScope] = createContextScope(DIALO
 
 export const [DialogProvider, useDialogContext] = createDialogContext<IDialog.IContext>(DIALOG_NAME)
 
-/** Manages open/closed state and provides context to all child components. */
 const Dialog: React.FC<IDialog.IProps> = (props: IDialog.IScoped<IDialog.IProps>) => {
   const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, dir, modal = true } = props
   const triggerRef = React.useRef<HTMLButtonElement>(null)

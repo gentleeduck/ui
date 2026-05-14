@@ -14,7 +14,6 @@ export const usePopperScope = createPopperScope()
 
 export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<IHoverCard.IContext>(HOVERCARD_NAME)
 
-/** Root HoverCard component that manages open/close state and timing delays. */
 export const HoverCard: React.FC<IHoverCard.IProps> = (props: IHoverCard.IScoped<IHoverCard.IProps>) => {
   const {
     __scopeHoverCard,

@@ -1,10 +1,8 @@
 import { z } from 'zod'
 
-// HSL color schema
 export const hslSchema = z.string() as z.ZodType<Registry.HSL>
 export const radiusSchema = z.string() as z.ZodType<Registry.Radius>
 
-// CSS variables schema
 export const cssVarsSchema = z.object({
   accent: hslSchema,
   'accent-foreground': hslSchema,

@@ -21,9 +21,6 @@ export function applyBuildOptions(command: Command) {
     .option('--verbose', 'show the full error stack', false)
 }
 
-/**
- * Convert CLI flags into the runtime build options consumed by the runner.
- */
 export function toBuildOptions(options: IRegistryBuildCommandOptions): IBuildOptions {
   return {
     changedOnly: options.changedOnly || (options.changed?.length ?? 0) > 0,

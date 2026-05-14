@@ -9,7 +9,7 @@ function pushDoc(out: string[], lines: string[]) {
   else out.push(String(d))
 }
 
-// 🦆 Emit the generated API routes type map.
+/** Writes the generated `ApiRoutes` type map plus per-route helper types to `outFile`. */
 export function emitApiRoutesFile(outFile: string, routes: Route[], imports: ImportMaps) {
   const out: string[] = ['// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.', '']
 

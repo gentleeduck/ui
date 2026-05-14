@@ -46,14 +46,12 @@ const VARIANT_CONTROLS = [
 function VariantsIllustration() {
   return (
     <div className="flex h-full flex-col">
-      {/* preview */}
       <div className="flex flex-1 items-center justify-center bg-muted/10">
         <div className="flex h-9 items-center rounded-md bg-primary px-6 font-medium text-primary-foreground text-sm shadow-md">
           Button
         </div>
       </div>
 
-      {/* controls panel */}
       <div className="border-border/40 border-t bg-muted/20 px-4 py-3">
         <div className="mb-2 flex items-center justify-between">
           <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-widest">Controls</span>

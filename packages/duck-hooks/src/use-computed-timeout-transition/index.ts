@@ -1,9 +1,6 @@
 /**
- * Schedule a callback after the element's CSS transition duration,
- * falling back to `timeout` ms when the element is unavailable or
- * has no explicit transition.
- *
- * Returns a cleanup function that cancels the pending timer.
+ * Schedule `callback` after the element's CSS transition duration,
+ * falling back to `timeout` ms. Returns a cleanup that cancels the timer.
  */
 export function useComputedTimeoutTransition(
   element: HTMLElement | null,

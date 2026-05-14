@@ -27,34 +27,25 @@ export const METADATA: Metadata = {
     shortcut: '/favicon-96x96.png',
   },
   keywords: [
-    // Organization
     'gentleduck',
     'gentleduck org',
     'gentleduck ecosystem',
     'gentleduck packages',
-
-    // @gentleduck/ui
     'gentleduck/ui',
     'React UI library',
     'Tailwind CSS components',
     'styled React components',
     'shadcn alternative',
     'production-ready UI components',
-
-    // @gentleduck/primitives
     'gentleduck/primitives',
     'headless UI components React',
     'accessible React primitives',
     'Radix alternative',
     'unstyled React components',
-
-    // @gentleduck/cli
     'gentleduck/cli',
     'React UI CLI',
     'component scaffolding CLI',
     'install React components CLI',
-
-    // @gentleduck/calendar
     'gentleduck/calendar',
     'React calendar component',
     'headless calendar engine',
@@ -63,77 +54,51 @@ export const METADATA: Metadata = {
     'React Persian calendar',
     'React Hijri calendar',
     'date adapter pattern',
-
-    // @gentleduck/variants
     'gentleduck/variants',
     'cva React',
     'type-safe component variants',
     'class variance authority alternative',
-
-    // @gentleduck/vim
     'gentleduck/vim',
     'React keyboard shortcuts',
     'keyboard command engine',
     'vim keybindings React',
-
-    // @gentleduck/motion
     'gentleduck/motion',
     'React animation library',
     'mount unmount transitions React',
     'reduced motion React',
-
-    // @gentleduck/state
     'gentleduck/state',
     'React atom state management',
     'lightweight React state',
-
-    // @gentleduck/hooks
     'gentleduck/hooks',
     'reusable React hooks',
     'React utility hooks',
-
-    // @gentleduck/libs
     'gentleduck/libs',
     'React utility library',
     'cn utility TypeScript',
-
-    // @gentleduck/lazy
     'gentleduck/lazy',
     'React lazy loading components',
     'deferred React components',
-
-    // @gentleduck/shortcut
     'gentleduck/shortcut',
     'React keyboard shortcut hooks',
     'power-user React interface',
-
-    // @gentleduck/ttlog
     'gentleduck/ttlog',
     'structured logging TypeScript',
     'type-safe terminal logger',
     'pluggable log transports',
-
-    // @gentleduck/upload
     'gentleduck/upload',
     'file upload library TypeScript',
     'multipart upload JavaScript',
     'chunked file upload',
     'presigned URL upload',
-
-    // @gentleduck/iam
     'gentleduck/iam',
     'identity access management TypeScript',
     'role based access control JavaScript',
     'RBAC TypeScript',
     'policy enforcement library',
-
-    // @gentleduck/template
     'gentleduck/template',
     'project scaffolding templates',
     'component template generator',
     'monorepo starter template',
-
-    // General developer intent
     'TypeScript UI library',
     'Next.js UI components',
     'React Server Components',

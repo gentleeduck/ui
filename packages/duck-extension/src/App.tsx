@@ -32,7 +32,6 @@ function Github(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-// Minimal Chrome Extension API type declarations
 declare const chrome:
   | {
       storage: {
@@ -53,8 +52,6 @@ type ChromeTab = {
   id: number
   url?: string
 }
-
-// ---------- Types ----------
 
 type Font = {
   id: string
@@ -80,20 +77,16 @@ type FontContextType = {
 
 const FontContext = React.createContext<FontContextType | null>(null)
 
-// ---------- Helper Functions ----------
-
 function getDomain(input: string): string | null {
   if (!input || typeof input !== 'string') return null
 
-  // Ignore browser-internal pages
+  // Ignore browser-internal pages — chrome.tabs may surface these and they can't host content scripts.
   const forbidden = ['chrome://', 'edge://', 'about:', 'moz-extension://', 'chrome-extension://']
   if (forbidden.some((p) => input.startsWith(p))) {
     return null
   }
 
   let url = input.trim()
-
-  // If no protocol, prepend https://
   if (!/^https?:\/\//i.test(url)) {
     url = `https://${url}`
   }
@@ -102,27 +95,23 @@ function getDomain(input: string): string | null {
     const parsed = new URL(url)
     return parsed.hostname.replace(/^www\./, '')
   } catch {
-    return null // invalid URL
+    return null
   }
 }
 
-// ---------- Provider / Store ----------
-
-// Cache for storage operations
 let storageCache: {
   domainFonts?: Record<string, Font>
   disabledDomains?: string[]
   timestamp?: number
 } = {}
 
-const CACHE_TTL = 1000 // 1 second cache
+const CACHE_TTL = 1000
 
 function FontProvider({ children }: { children: React.ReactNode }) {
   const [currentDomain, setCurrentDomain] = React.useState<string | null>(null)
   const [domainFonts, setDomainFonts] = React.useState<Record<string, Font>>({})
   const [disabledDomains, setDisabledDomains] = React.useState<string[]>([])
 
-  // Load from storage on mount with cache
   React.useEffect(() => {
     const now = Date.now()
     const useCache = storageCache.timestamp && now - storageCache.timestamp < CACHE_TTL
@@ -133,20 +122,17 @@ function FontProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (chrome?.storage?.sync) {
-      // Get current tab domain
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: ChromeTab[]) => {
         const rawUrl = tabs[0]?.url
         const domain = rawUrl ? getDomain(rawUrl) : null
         setCurrentDomain(domain)
 
-        // Load domain fonts and disabled domains
         chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data) => {
           // @ts-expect-error
           const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
           // @ts-expect-error
           const disabled = (data.gentleduck_disabledDomains || []) as string[]
 
-          // Update cache
           storageCache = {
             domainFonts: fonts,
             disabledDomains: disabled,
@@ -158,7 +144,7 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         })
       })
     } else {
-      // Fallback to localStorage for development
+      // localStorage fallback for dev outside the extension host.
       const saved = localStorage.getItem('gentleduck_domainFonts')
       if (saved) {
         const fonts = JSON.parse(saved)
@@ -186,14 +172,11 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         delete newDomainFonts[domain]
       }
 
-      // Update cache
       storageCache.domainFonts = newDomainFonts
       storageCache.timestamp = Date.now()
 
-      // Save to storage (async, don't block)
       if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
-          // Update all tabs
           chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
@@ -216,14 +199,11 @@ function FontProvider({ children }: { children: React.ReactNode }) {
     setDisabledDomains((prev) => {
       const newDisabledDomains = prev.includes(domain) ? prev.filter((d) => d !== domain) : [...prev, domain]
 
-      // Update cache
       storageCache.disabledDomains = newDisabledDomains
       storageCache.timestamp = Date.now()
 
-      // Save to storage (async, don't block)
       if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
-          // Update all tabs
           chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
@@ -247,14 +227,11 @@ function FontProvider({ children }: { children: React.ReactNode }) {
       const newDomainFonts = { ...prev }
       delete newDomainFonts[domain]
 
-      // Update cache
       storageCache.domainFonts = newDomainFonts
       storageCache.timestamp = Date.now()
 
-      // Save to storage (async, don't block)
       if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
-          // Update all tabs
           chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
@@ -271,7 +248,6 @@ function FontProvider({ children }: { children: React.ReactNode }) {
     })
   }, [])
 
-  // Memoize context value to prevent unnecessary re-renders
   const contextValue = React.useMemo(
     () => ({
       currentDomain,
@@ -293,8 +269,6 @@ function useFontStore() {
   return ctx
 }
 
-// ---------- UI Types ----------
-
 type Extension = {
   name: string
   description: string
@@ -304,8 +278,6 @@ const extension: Extension = {
   description: 'Custom fonts per website',
   name: 'gentleduck/extention',
 }
-
-// ---------- Root App ----------
 
 export function App() {
   return (
@@ -318,13 +290,11 @@ export function App() {
 const AppShell = React.memo(function AppShell() {
   const { currentDomain, domainFonts, disabledDomains } = useFontStore()
 
-  // Memoize description to avoid re-computation
   const description = React.useMemo(
     () => (currentDomain ? `Select a font for ${currentDomain}` : 'Select a font for the current website'),
     [currentDomain],
   )
 
-  // Memoize domain count
   const domainCount = React.useMemo(() => Object.keys(domainFonts).length, [domainFonts])
 
   return (
@@ -345,7 +315,6 @@ const AppShell = React.memo(function AppShell() {
               <FieldSeparator />
 
               <FieldGroup className="gap-4">
-                {/* CURRENT DOMAIN FONT PICKER */}
                 {currentDomain && (
                   <>
                     <Field className="flex flex-col! @md/field-group:*:w-full">
@@ -366,7 +335,6 @@ const AppShell = React.memo(function AppShell() {
                   </>
                 )}
 
-                {/* ALL DOMAINS LIST */}
                 <Field className="flex flex-col! @md/field-group:*:w-full">
                   <FieldContent>
                     <FieldLabel>All Websites ({domainCount})</FieldLabel>
@@ -404,14 +372,11 @@ const AppShell = React.memo(function AppShell() {
   )
 })
 
-// ---------- Components ----------
-
 const FontSelector = React.memo(function FontSelector({ domain }: { domain: string }) {
   const { domainFonts, setFontForDomain, disabledDomains } = useFontStore()
   const [fonts, setFonts] = React.useState<Font[] | null>(null)
   const [open, setOpen] = React.useState(false)
 
-  // Memoize derived values
   const currentFont = React.useMemo(() => domainFonts[domain] || null, [domainFonts, domain])
   const isDisabled = React.useMemo(() => disabledDomains.includes(domain), [disabledDomains, domain])
 
@@ -476,7 +441,7 @@ const FontSelector = React.memo(function FontSelector({ domain }: { domain: stri
 const DomainFontsList = React.memo(function DomainFontsList() {
   const { domainFonts, disabledDomains, removeDomainFont, toggleDomain, currentDomain } = useFontStore()
 
-  // Memoize sorted domains: current domain first, then alphabetically
+  // current domain pinned first, then alphabetical.
   const domains = React.useMemo(
     () =>
       Object.keys(domainFonts).sort((a, b) => {
@@ -510,7 +475,6 @@ const DomainFontsList = React.memo(function DomainFontsList() {
               isCurrent && 'border-border',
             )}
             key={domain}>
-            {/* Corner border for current domain */}
             {isCurrent && (
               <div className="pointer-events-none absolute inset-0 rounded-md">
                 <div className="absolute top-0 left-0 h-2 w-2 rounded-tl-md border-primary border-t-2 border-l-2" />

@@ -10,7 +10,6 @@ export const [PortalProvider, usePortalContext] = createHoverCardContext<IHoverC
   forceMount: undefined,
 })
 
-/** Portals hover card content into a specified container or document.body. */
 export const HoverCardPortal: React.FC<IHoverCard.IPortalProps> = (
   props: IHoverCard.IScoped<IHoverCard.IPortalProps>,
 ) => {

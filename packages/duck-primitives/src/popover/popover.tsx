@@ -15,10 +15,6 @@ export const usePopperScope = createPopperScope()
 
 export const [PopoverProvider, usePopoverContext] = createPopoverContext<IPopover.IContext>(POPOVER_NAME)
 
-/**
- * Root popover component. Manages open/closed state and provides context
- * to all child components. Supports both controlled and uncontrolled usage.
- */
 export function Popover(props: IPopover.IScoped<IPopover.IProps>) {
   const { __scopePopover, children, open: openProp, defaultOpen, onOpenChange, dir, modal = false } = props
 

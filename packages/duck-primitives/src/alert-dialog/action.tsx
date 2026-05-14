@@ -7,7 +7,6 @@ const ACTION_NAME = 'AlertDialogAction'
 
 type AlertDialogActionElement = React.ComponentRef<typeof DialogPrimitive.Close>
 
-/** Button that confirms the alert dialog action and closes it. */
 export const AlertDialogAction = React.forwardRef<AlertDialogActionElement, IAlertDialog.IActionProps>(
   (props: IAlertDialog.IScoped<IAlertDialog.IActionProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...actionProps } = props

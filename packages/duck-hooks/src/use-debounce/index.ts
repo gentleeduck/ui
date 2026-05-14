@@ -1,12 +1,6 @@
 /**
- * Hook that returns a debounced version of `callback`.
- *
- * Each call resets the delay timer; the callback fires only after
- * `delay` ms of inactivity.
- *
- * **Note:** because this is a plain factory (no React state), it is
- * suitable for both hook and non-hook contexts. For a non-hook alias
- * see {@link debounce}.
+ * Returns a debounced version of `callback`. Fires after `delay` ms of inactivity.
+ * Plain factory with no React state — safe in non-hook contexts; see also {@link debounce}.
  */
 export const useDebounce = <T extends (...args: unknown[]) => void>(
   callback: T,
@@ -25,12 +19,7 @@ export const useDebounce = <T extends (...args: unknown[]) => void>(
   }
 }
 
-/**
- * Non-hook alias for {@link useDebounce}.
- *
- * Returns a debounced wrapper around `callback` that waits `delay` ms
- * of inactivity before invoking.
- */
+/** Non-hook alias for {@link useDebounce}. */
 export const debounce = <T extends (...args: unknown[]) => void>(
   callback: T,
   delay?: number,

@@ -6,14 +6,12 @@ export function CtaSection({ className }: { className?: string }) {
     <section className={cn('container-wrapper mb-8', className)}>
       <div className="container">
         <div className="relative overflow-hidden rounded-none">
-          {/* Gradient background */}
           <div
             className="relative flex min-h-95 flex-col items-center justify-center px-6 py-24 text-center"
             style={{
               background:
                 'radial-gradient(ellipse 80% 60% at 50% 50%, oklch(0.55 0.25 264 / 0.55) 0%, oklch(0.45 0.22 280 / 0.35) 40%, transparent 75%), oklch(0.12 0.02 264)',
             }}>
-            {/* Noise texture overlay */}
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.04]"
               style={{
@@ -23,7 +21,6 @@ export function CtaSection({ className }: { className?: string }) {
               }}
             />
 
-            {/* Radial glow rings */}
             <div
               className="pointer-events-none absolute inset-0"
               style={{

@@ -88,15 +88,13 @@ export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.
   })
   const triggerPointerDownPosRef = React.useRef<{ x: number; y: number } | null>(null)
 
-  // We set this to true by default so that events bubble to forms without JS (SSR)
+  // default true so SSR forms still bubble events without JS
   const isFormControl = trigger ? form || !!trigger.closest('form') : true
   const [nativeOptionsSet, setNativeOptionsSet] = React.useState(new Set<ISelect.INativeOption>())
 
-  // The native `select` only associates the correct default value if the corresponding
-  // `option` is rendered as a child **at the same time** as itself.
-  // Because it might take a few renders for our items to gather the information to build
-  // the native `option`(s), we generate a key on the `select` to make sure React re-builds it
-  // each time the options change.
+  // Native <select> binds defaultValue only when the matching <option> is mounted at the SAME
+  // commit. Items take a few renders to surface their values; key the <select> so React rebuilds
+  // it whenever the option set changes.
   const nativeSelectKey = Array.from(nativeOptionsSet)
     .map((option) => option.props.value)
     .join(';')
@@ -168,7 +166,7 @@ const BubbleSelect = React.forwardRef<HTMLSelectElement, React.ComponentPropsWit
     const composedRefs = useComposedRefs(forwardedRef, ref)
     const prevValue = usePrevious(value)
 
-    // Bubble value change to parents (e.g form change event)
+    // bubble value change to parents (e.g. form change event)
     React.useEffect(() => {
       const select = ref.current
       if (!select) return

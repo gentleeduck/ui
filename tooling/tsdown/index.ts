@@ -3,7 +3,6 @@ import type { defineConfig } from 'tsdown'
 
 type TsdownConfig = Parameters<typeof defineConfig>[0]
 
-/** @type {TsdownConfig} */
 export const config: TsdownConfig = {
   clean: true,
   dts: true,

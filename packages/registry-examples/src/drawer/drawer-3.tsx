@@ -46,7 +46,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer onOpenChange={setOpen} open={open}>
+    <Drawer onOpenChange={setOpen} open={open} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DrawerTrigger>

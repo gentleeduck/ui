@@ -1,10 +1,6 @@
 import type { ThemeEntry, ThemeName } from './registry-colors.dto'
 
-// ---------------------------------------------------------------------------
-// Single source of truth for all theme color definitions (OKLCH).
-// Zinc values are synced from packages/duck-docs/src/styles/base.css.
-// ---------------------------------------------------------------------------
-
+// All theme colors are OKLCH. `zinc` values mirror packages/duck-docs/src/styles/base.css.
 export const themeRegistry: Record<ThemeName, ThemeEntry> = {
   zinc: {
     label: 'Zinc',

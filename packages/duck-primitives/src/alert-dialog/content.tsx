@@ -19,7 +19,6 @@ type AlertDialogContentElement = React.ComponentRef<typeof DialogPrimitive.Conte
 
 const Slottable = createSlottable('AlertDialogContent')
 
-/** Alert dialog content area with forced modal behavior and accessibility defaults. */
 export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IAlertDialog.IContentProps>(
   (props: IAlertDialog.IScoped<IAlertDialog.IContentProps>, forwardedRef) => {
     const { __scopeAlertDialog, children, ...contentProps } = props

@@ -24,7 +24,7 @@ import { buildPermissionKey } from '../../shared/keys'
 /** Vue injection key for the access control state. */
 export const ACCESS_INJECTION_KEY = Symbol('duck-iam')
 
-// -- Minimal Vue 3 API surface -- no hard dependency on vue --
+// Vue is a peer dep — consumers inject their own Vue via createVueAccess(vue).
 
 /** Minimal Vue ref type. */
 interface VueRef<T> {
@@ -116,7 +116,6 @@ export function createVueAccess<
         const state = createAccessState(permissions)
         app.provide(ACCESS_INJECTION_KEY, state)
 
-        // Make can/cannot available globally
         app.config.globalProperties.$can = state.can
         app.config.globalProperties.$cannot = state.cannot
       },

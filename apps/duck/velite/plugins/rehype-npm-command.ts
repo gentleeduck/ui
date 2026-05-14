@@ -16,7 +16,6 @@ export function rehypeNpmCommand() {
         return
       }
 
-      // npm install.
       if (raw.startsWith('npm install')) {
         props.__npmCommand__ = raw
         props.__yarnCommand__ = raw.replace('npm install', 'yarn add')
@@ -24,7 +23,6 @@ export function rehypeNpmCommand() {
         props.__bunCommand__ = raw.replace('npm install', 'bun add')
       }
 
-      // npx create.
       if (raw.startsWith('npx create-')) {
         props.__npmCommand__ = raw
         props.__yarnCommand__ = raw.replace('npx create-', 'yarn create ')
@@ -32,7 +30,6 @@ export function rehypeNpmCommand() {
         props.__bunCommand__ = raw.replace('npx', 'bunx --bun')
       }
 
-      // npx.
       if (raw.startsWith('npx') && !raw.startsWith('npx create-')) {
         props.__npmCommand__ = raw
         props.__yarnCommand__ = raw.replace('npx', 'yarn dlx')

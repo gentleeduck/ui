@@ -40,13 +40,11 @@ export function OrderForm() {
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
 
-    // Email validation
     if (field === 'email') {
       const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
       setErrors((prev) => ({ ...prev, email: !isValid && value !== '' }))
     }
 
-    // Promo code validation
     if (field === 'promoCode') {
       setPromoValid(value === 'SIMS4YOU')
     }
@@ -59,7 +57,6 @@ export function OrderForm() {
           <CardTitle className="sr-only">Place Your Order</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 px-6">
-          {/* Email Address */}
           <div className="flex flex-col space-y-2">
             <Label htmlFor="email2">Email address</Label>
             <div className="relative">
@@ -84,7 +81,6 @@ export function OrderForm() {
             )}
           </div>
 
-          {/* Full Name */}
           <div className="flex flex-col space-y-2">
             <Label>Full name</Label>
             <div className="grid grid-cols-2 gap-4">
@@ -103,7 +99,6 @@ export function OrderForm() {
             </div>
           </div>
 
-          {/* Address */}
           <div className="flex flex-col space-y-2">
             <Label>Address</Label>
             <Input
@@ -158,7 +153,6 @@ export function OrderForm() {
             </div>
           </div>
 
-          {/* Payment Details */}
           <div className="flex flex-col space-y-2">
             <Label>Payment details</Label>
             <div className="relative">
@@ -203,7 +197,6 @@ export function OrderForm() {
             </div>
           </div>
 
-          {/* Radio Technologies */}
           <div className="flex flex-col space-y-2">
             <Label>What radio technologies are you using?</Label>
             <RadioGroup
@@ -217,7 +210,6 @@ export function OrderForm() {
             </RadioGroup>
           </div>
 
-          {/* Data Usage */}
           <div className="flex flex-col space-y-2">
             <Label>How much data do you expect to use each month?</Label>
             <RadioGroup
@@ -231,7 +223,6 @@ export function OrderForm() {
             </RadioGroup>
           </div>
 
-          {/* Promo Code */}
           <div className="flex flex-col space-y-2">
             <Label htmlFor="promo">Promo code</Label>
             <div className="relative">
@@ -246,7 +237,6 @@ export function OrderForm() {
           </div>
 
           <div className="flex items-center justify-between gap-2">
-            {/* Sign up checkbox */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={formData.signUpOffers}
@@ -258,7 +248,6 @@ export function OrderForm() {
                 Sign me up for annoying offers
               </Label>
             </div>
-            {/* Submit Button */}
             <Button className="w-fit">Place order</Button>
           </div>
         </CardContent>

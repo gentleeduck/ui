@@ -32,7 +32,7 @@ export async function initCommandAction(args: string[], opt: InitOptions) {
 
     if (componentsNames.length === 0 && !options.all) {
       if (options.yes) {
-        // Non-interactive mode with no components specified and no --all: skip component install
+        // `--yes` without `--all` or named components: caller wanted a config-only init, so stop here.
         spinner.succeed('Done.')
         process.exit(0)
       }

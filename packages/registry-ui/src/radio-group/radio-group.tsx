@@ -51,18 +51,16 @@ const RadioGroupItem = React.forwardRef<
       <RadioGroupPrimitive.Item
         id={itemId}
         className={cn(
-          // Base radio styles (uses data-[state=checked]: instead of checked: for button elements)
+          // Underlying primitive is a <button>, so we key off data-[state=checked] instead of :checked
           'relative m-0 flex size-[1em] appearance-none items-center rounded-full p-2',
           'border border-border bg-border text-primary-foreground data-[state=checked]:border-primary data-[state=checked]:bg-primary',
           'ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'data-disabled:cursor-not-allowed data-disabled:opacity-50',
           'after:mask-type-alpha after:mask-contain after:absolute after:block after:size-[1em] after:rounded-[inherit] after:bg-current after:drop-shadow',
           'after:opacity-0 data-[state=checked]:after:opacity-100',
-          // Radio-specific indicator
           'justify-center after:text-[10px]',
           'after:scale-0 data-[state=checked]:after:scale-100',
           indicatorStateClass,
-          // Animation
           'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
           '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
           'rounded-full',

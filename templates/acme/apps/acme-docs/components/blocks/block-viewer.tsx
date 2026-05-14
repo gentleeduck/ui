@@ -198,10 +198,6 @@ function BlockViewerToolbar() {
           {isCopied ? <Check aria-hidden="true" /> : <Terminal aria-hidden="true" />}
           <span className="font-medium">npx @acme/cli add {item.name}</span>
         </Button>
-        {
-          // <Separator className="mx-1 !h-4" orientation="vertical" />
-          // <OpenInV0Button name={item.name} />
-        }
       </div>
     </div>
   )
@@ -256,30 +252,6 @@ function BlockViewerMobile({ children: _children }: { children: React.ReactNode 
         <div className="line-clamp-1 font-medium text-base">{item.description}</div>
         <div className="ml-auto shrink-0 font-mono text-muted-foreground text-xs">{item.name}</div>
       </div>
-      {
-        // item.meta?.mobile === 'component' ? (
-        //         children
-        //       ) : (
-        //         <div className="overflow-hidden rounded-xl border">
-        //           <Image
-        //             src={`/r/styles/new-york-v4/${item.name}-light.png`}
-        //             alt={item.name}
-        //             data-block={item.name}
-        //             width={1440}
-        //             height={900}
-        //             className="object-cover dark:hidden"
-        //           />
-        //           <Image
-        //             src={`/r/styles/new-york-v4/${item.name}-dark.png`}
-        //             alt={item.name}
-        //             data-block={item.name}
-        //             width={1440}
-        //             height={900}
-        //             className="hidden object-cover dark:block"
-        //           />
-        //         </div>
-        //       )
-      }
     </div>
   )
 }

@@ -4,11 +4,6 @@ import { getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-re
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
-// -- Types --
-
-/**
- * A component directory found on disk, optionally matched to a registry entry.
- */
 export type InstalledComponent = {
   name: string
   root_folder: string
@@ -16,11 +11,7 @@ export type InstalledComponent = {
   registryEntry: Registry.Entry | null
 }
 
-/**
- * Diff result for a single file within a component.
- * Status indicates whether the file was modified, added (new in registry),
- * or deleted (only exists locally).
- */
+/** `added` = registry-only, `deleted` = local-only, `modified` = content differs. */
 export type FileDiff = {
   filePath: string
   localContent: string
@@ -28,34 +19,19 @@ export type FileDiff = {
   status: 'modified' | 'added' | 'deleted'
 }
 
-/**
- * Aggregated diff result for an entire component.
- * Contains per-file diffs and an isIdentical flag.
- */
 export type ComponentDiff = {
   name: string
   diffs: FileDiff[]
   isIdentical: boolean
 }
 
-// -- Path resolution --
-
-/**
- * Compute the absolute path where components are installed.
- * Combines the resolved tsconfig alias path with the duck-ui
- * config's aliases.ui subdirectory.
- */
+/** Joins the resolved tsconfig alias path with the duck-ui `aliases.ui` subdir. */
 export function resolveWriteTypePath(duckConfig: DuckUI, writePath: string): string {
   const duckuiWritePath = duckConfig.aliases.ui.split('/').slice(1).join('/')
   return path.resolve(`${writePath}/${duckuiWritePath}`)
 }
 
-// -- Scan installed components --
-
-/**
- * Scan the component install directory for installed components.
- * Each subdirectory is matched against the registry index to populate metadata.
- */
+/** Each subdirectory is matched against the registry index by `root_folder`. */
 export async function scanInstalledComponents(
   writeTypePath: string,
   onProgress?: ProgressCallback,
@@ -93,9 +69,6 @@ export async function scanInstalledComponents(
   }
 }
 
-// -- Remove --
-
-/** Delete a single component's directory from disk. */
 export async function removeComponent(component: InstalledComponent): Promise<ServiceResult<void>> {
   try {
     await fs.remove(component.localPath)
@@ -105,7 +78,6 @@ export async function removeComponent(component: InstalledComponent): Promise<Se
   }
 }
 
-/** Delete multiple components with progress reporting. */
 export async function removeComponents(
   components: InstalledComponent[],
   onProgress?: ProgressCallback,
@@ -122,14 +94,6 @@ export async function removeComponents(
   }
 }
 
-// -- Diff --
-
-/**
- * Compare a locally installed component against its registry entry.
- * Walks local files, compares against registry files, and categorizes
- * each as modified, added (exists only in registry), or deleted
- * (exists only locally).
- */
 export async function diffComponent(
   component: InstalledComponent,
   registryEntry: Registry.Entry,
@@ -139,7 +103,6 @@ export async function diffComponent(
     const registryFiles = registryEntry.files ?? []
     const localFilesSet = new Set<string>()
 
-    // Recursively scan local directory tree to build the set of all local files
     const localDir = component.localPath
     if (fs.existsSync(localDir)) {
       const walk = (dir: string, prefix: string) => {
@@ -156,12 +119,10 @@ export async function diffComponent(
       walk(localDir, '')
     }
 
-    // Compare registry files against local
     for (const file of registryFiles) {
       if (!file.content) continue
 
-      // Registry file paths include root_folder prefix (e.g., "button/button.tsx")
-      // Strip the root_folder prefix to get relative path within the component dir
+      // Registry paths are root_folder-prefixed (e.g. "button/button.tsx"); strip to component-relative.
       const parts = (file.path as string).split('/')
       const relative =
         parts.length > 1 && parts[0] === component.root_folder ? parts.slice(1).join('/') : (file.path as string)
@@ -190,7 +151,6 @@ export async function diffComponent(
       }
     }
 
-    // Files that exist locally but not in registry
     for (const localFile of localFilesSet) {
       const localFilePath = path.join(localDir, localFile)
       const localContent = await fs.readFile(localFilePath, 'utf8')
@@ -215,10 +175,7 @@ export async function diffComponent(
   }
 }
 
-/**
- * Diff multiple components against the registry.
- * Fetches full registry entries (index entries may lack file contents).
- */
+/** Re-fetches each entry via `getRegistryItem` because the index entries may lack file contents. */
 export async function diffComponents(
   components: InstalledComponent[],
   onProgress?: ProgressCallback,
@@ -229,7 +186,6 @@ export async function diffComponents(
     for (const [index, comp] of components.entries()) {
       onProgress?.(`Diffing ${index + 1}/${components.length}: ${comp.name}`)
 
-      // Always fetch the full registry entry (the index entry may lack file contents)
       const entry = await getRegistryItem(comp.name)
       if (!entry) {
         results.push({ name: comp.name, diffs: [], isIdentical: true })

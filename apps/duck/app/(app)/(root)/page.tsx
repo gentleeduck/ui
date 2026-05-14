@@ -51,7 +51,6 @@ export default function Page() {
       </PageHeader>
       <FeaturesSection />
       <OpenSourceSection />
-      {/* <CtaSection /> */}
     </div>
   )
 }

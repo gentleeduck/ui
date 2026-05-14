@@ -4,9 +4,6 @@ import { applyBuildOptions, toBuildOptions } from './build.options'
 import { formatError, formatPhaseSummary, toSerializableResult } from './build.output'
 import type { IRegistryBuildCommandOptions } from './build.types'
 
-/**
- * Execute the build command and normalize CLI-facing success and error output.
- */
 export async function runBuildCommand(options: IRegistryBuildCommandOptions) {
   try {
     const result = await build(toBuildOptions(options))
@@ -28,9 +25,6 @@ export async function runBuildCommand(options: IRegistryBuildCommandOptions) {
   }
 }
 
-/**
- * Create the dedicated `build` subcommand used by the installed CLI binary.
- */
 export function buildCommand() {
   return applyBuildOptions(new Command('build').description('Build the configured registry output')).action(
     async (options: IRegistryBuildCommandOptions) => {

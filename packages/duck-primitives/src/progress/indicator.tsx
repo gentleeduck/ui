@@ -1,4 +1,3 @@
-/** ProgressIndicator - visual indicator for progress state. */
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 import { useProgressContext } from './progress'

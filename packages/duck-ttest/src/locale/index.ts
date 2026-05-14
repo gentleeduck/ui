@@ -1,13 +1,6 @@
-// ISO locale code string unions.
-//
-// These unions are curated subsets of their respective standards — large
-// enough to cover 99% of real-world apps, small enough not to blow up
-// tooltips. If your app needs an esoteric code, it's safe to widen to
-// `string` at the consumer side.
+// Curated ISO/BCP subsets. Widen to `string` at the consumer side for esoteric codes.
 
-/**
- * ISO 639-1 two-letter language codes (most common subset).
- */
+/** ISO 639-1 two-letter language codes (common subset). */
 export type LanguageCode =
   | 'aa'
   | 'ab'
@@ -92,9 +85,7 @@ export type LanguageCode =
   | 'vi'
   | 'zh'
 
-/**
- * ISO 3166-1 alpha-2 country codes (most-used subset).
- */
+/** ISO 3166-1 alpha-2 country codes (common subset). */
 export type CountryCode =
   | 'AD'
   | 'AE'
@@ -234,9 +225,7 @@ export type CountryCode =
   | 'ZM'
   | 'ZW'
 
-/**
- * ISO 4217 currency codes (common subset).
- */
+/** ISO 4217 currency codes (common subset). */
 export type CurrencyCode =
   | 'USD'
   | 'EUR'
@@ -284,19 +273,10 @@ export type CurrencyCode =
   | 'BTC'
   | 'ETH'
 
-/**
- * BCP-47 locale tag — language code optionally followed by a country code.
- *
- * @example
- * const fr: LocaleTag = 'fr-FR'
- * const en: LocaleTag = 'en'
- */
+/** BCP-47 locale tag: language optionally followed by country (`'fr-FR'`, `'en'`). */
 export type LocaleTag = LanguageCode | `${LanguageCode}-${CountryCode}`
 
-/**
- * A subset of common IANA time-zone identifiers. Widen to `string` when
- * you need to accept user-supplied values.
- */
+/** Common IANA time-zone identifiers. Widen to `string` for user-supplied values. */
 export type TimeZone =
   | 'UTC'
   | 'GMT'

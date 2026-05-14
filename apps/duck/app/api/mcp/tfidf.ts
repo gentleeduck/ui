@@ -1,11 +1,4 @@
-/**
- * TF-IDF vector computation and cosine similarity.
- */
-
-/**
- * Compute term frequency for a list of tokens.
- * Uses sublinear TF: 1 + log(count) to prevent long documents from dominating.
- */
+/** Sublinear TF (1 + log(count)) so long docs don't dominate. */
 export function computeTf(tokens: string[]): Map<string, number> {
   const counts = new Map<string, number>()
   for (const token of tokens) {
@@ -18,10 +11,7 @@ export function computeTf(tokens: string[]): Map<string, number> {
   return tf
 }
 
-/**
- * Compute IDF (Inverse Document Frequency) from a corpus of TF maps.
- * IDF = log(N / df) where df = number of documents containing the term.
- */
+/** IDF = log(N / df). */
 export function computeIdf(tfMaps: Map<string, number>[], totalDocs: number): Map<string, number> {
   if (totalDocs === 0) return new Map()
   const df = new Map<string, number>()
@@ -37,10 +27,7 @@ export function computeIdf(tfMaps: Map<string, number>[], totalDocs: number): Ma
   return idf
 }
 
-/**
- * Compute TF-IDF vector from a TF map and global IDF.
- * Returns a normalized vector (unit length) for cosine similarity.
- */
+/** Unit-length TF-IDF vector — cosineSimilarity assumes pre-normalized input. */
 export function computeTfidfVector(tf: Map<string, number>, idf: Map<string, number>): Map<string, number> {
   const vector = new Map<string, number>()
   let magnitude = 0
@@ -64,10 +51,7 @@ export function computeTfidfVector(tf: Map<string, number>, idf: Map<string, num
   return vector
 }
 
-/**
- * Compute cosine similarity between two TF-IDF vectors.
- * Since vectors are pre-normalized, this is just the dot product.
- */
+/** Dot product; inputs must be pre-normalized (see computeTfidfVector). */
 export function cosineSimilarity(a: Map<string, number>, b: Map<string, number>): number {
   let dot = 0
   const [smaller, larger] = a.size <= b.size ? [a, b] : [b, a]

@@ -1,9 +1,6 @@
 import * as React from 'react'
 
-/**
- * Server-safe useLayoutEffect. Returns a no-op on the server to suppress
- * the React warning, since layout effects do not run during SSR.
- */
+/** SSR-safe useLayoutEffect: no-op on the server to silence the React warning. */
 const useLayoutEffect = globalThis?.document ? React.useLayoutEffect : () => {}
 
 export { useLayoutEffect }

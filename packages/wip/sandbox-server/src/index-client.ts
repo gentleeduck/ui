@@ -22,14 +22,12 @@ function clearLine() {
 rl.question('Enter your name: ', (name) => {
   currentUserName = name || 'Anonymous'
 
-  // When connected, send init message
   ws.send(JSON.stringify({ data: { name: currentUserName }, type: 'init' }))
 
   rl.setPrompt(`${chalk.green(currentUserName)} > `)
   rl.prompt()
 })
 
-// Handle messages
 ws.on('message', (data) => {
   try {
     const msg = JSON.parse(data as never as string) as Message
@@ -54,7 +52,6 @@ ws.on('message', (data) => {
   }
 })
 
-// On input, send message
 rl.on('line', (line) => {
   if (line.trim()) {
     ws.send(

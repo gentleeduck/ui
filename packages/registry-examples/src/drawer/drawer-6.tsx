@@ -40,7 +40,7 @@ export default function Demo() {
   const allDone = checked.size === TASKS.length
 
   return (
-    <Drawer>
+    <Drawer shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open checklist</Button>
       </DrawerTrigger>

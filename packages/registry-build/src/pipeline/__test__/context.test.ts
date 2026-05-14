@@ -68,9 +68,6 @@ afterEach(async () => {
   await Promise.all(tempDirs.splice(0).map((dir) => fs.rm(dir, { force: true, recursive: true })))
 })
 
-// ---------------------------------------------------------------------------
-// createOutputPaths
-// ---------------------------------------------------------------------------
 describe('createOutputPaths', () => {
   test('derives all output paths from the resolved config output section', () => {
     const config = createMinimalResolvedConfig()
@@ -106,9 +103,6 @@ describe('createOutputPaths', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// createPathRegistry
-// ---------------------------------------------------------------------------
 describe('createPathRegistry', () => {
   test('creates a registry with named lookups from output paths', () => {
     const config = createMinimalResolvedConfig()
@@ -134,9 +128,6 @@ describe('createPathRegistry', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// createRegistryBuildContext
-// ---------------------------------------------------------------------------
 describe('createRegistryBuildContext', () => {
   test('creates a context with expected properties from a loaded config', async () => {
     const loaded = createLoadedConfig()
@@ -174,7 +165,6 @@ describe('createRegistryBuildContext', () => {
 
     expect(context.changedOnly).toBe(true)
     expect(context.changedPaths).toHaveLength(2)
-    // Paths should be resolved to absolute
     for (const changedPath of context.changedPaths) {
       expect(path.isAbsolute(changedPath)).toBe(true)
     }
@@ -193,9 +183,6 @@ describe('createRegistryBuildContext', () => {
     expect(context.changedPaths[0]).toContain(tempDir)
   })
 
-  // -------------------------------------------------------------------------
-  // Artifact API
-  // -------------------------------------------------------------------------
   describe('artifact API', () => {
     test('getArtifact returns undefined for unknown artifact names', async () => {
       const loaded = createLoadedConfig()
@@ -240,9 +227,6 @@ describe('createRegistryBuildContext', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Output API
-  // -------------------------------------------------------------------------
   describe('output API', () => {
     test('registerOutput adds a new output record', async () => {
       const loaded = createLoadedConfig()
@@ -297,15 +281,12 @@ describe('createRegistryBuildContext', () => {
       expect(list).toHaveLength(2)
       expect(list.map((o) => o.name)).toEqual(['a', 'b'])
 
-      // Verify it is a copy, not the internal array
+      // listOutputs returns a copy.
       list.push({ name: 'c', paths: [] })
       expect(context.listOutputs()).toHaveLength(2)
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Path API
-  // -------------------------------------------------------------------------
   describe('path API', () => {
     test('getPath returns a known path by name', async () => {
       const loaded = createLoadedConfig()
@@ -323,9 +304,6 @@ describe('createRegistryBuildContext', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Integration with resolveRegistryBuildConfig
-  // -------------------------------------------------------------------------
   describe('integration with resolveRegistryBuildConfig', () => {
     test('context from resolveRegistryBuildConfig exposes collections artifact', async () => {
       const tempDir = await createTempDir()

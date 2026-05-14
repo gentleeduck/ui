@@ -9,12 +9,6 @@ export function themeColorsToCssVariables(colors: Record<string, string>): Recor
       )
     : {}
 
-  // for (const key of Array.from({ length: 5 }, (_, index) => index)) {
-  //   cssVars[`--chart-${key + 1}`] =
-  //     cssVars[`--chart-${key + 1}`] ||
-  //     `${cssVars["--primary"]} / ${100 - key * 20}%`
-  // }
-
   return cssVars
 }
 

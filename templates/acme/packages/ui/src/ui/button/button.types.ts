@@ -1,9 +1,6 @@
 import type { Variants } from '@gentleduck/variants'
 import type { buttonVariants } from './button.constants'
 
-/**
- * Props for the Button component, combining native button attributes, variant styles, and custom options.
- */
 export interface IButtonProps
   extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'>,
     Variants.VariantProps<typeof buttonVariants> {
@@ -19,9 +16,6 @@ export interface IButtonProps
   secondIcon?: React.ReactNode
 }
 
-/**
- * Props for components that support optional animated icons.
- */
 export type AnimationIconProps = {
   /** The content inside the icon wrapper */
   children: React.ReactNode

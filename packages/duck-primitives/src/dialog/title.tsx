@@ -7,7 +7,6 @@ const TITLE_NAME = 'DialogTitle'
 
 type DialogTitleElement = React.ComponentRef<typeof Primitive.h2>
 
-/** Accessible title for the dialog. Required for screen readers. */
 export const DialogTitle = React.forwardRef<DialogTitleElement, IDialog.ITitleProps>(
   (props: IDialog.IScoped<IDialog.ITitleProps>, forwardedRef) => {
     const { __scopeDialog, ...titleProps } = props

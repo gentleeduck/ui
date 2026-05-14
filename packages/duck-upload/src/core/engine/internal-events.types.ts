@@ -13,11 +13,7 @@ import type { UploadProgress } from './progress.types'
 
 /**
  * Internal events emitted by effects and consumed by the reducer.
- *
- * These are not the same as public events. They are designed for correctness and state transitions.
- *
- * @typeParam M - Intent map
- * @typeParam C - Cursor map
+ * Distinct from the public event surface — these drive state transitions.
  */
 export type InternalEvent<
   M extends IntentMap,
@@ -47,15 +43,7 @@ export type InternalEvent<
   /** Internal completion for cancel requests. */
   | { type: 'canceled'; localId: string; canceledAt: number }
 
-// ============================================================================
-// UPLOAD ITEM (STATE MACHINE)
-// ============================================================================
-
-/**
- * All possible upload phases.
- *
- * Useful for constraints and UI filtering.
- */
+/** Every upload phase; the `phase` discriminator of {@link UploadItem}. */
 export type UploadPhase =
   | 'validating'
   | 'creating_intent'
@@ -68,15 +56,7 @@ export type UploadPhase =
   | 'error'
   | 'canceled'
 
-/**
- * State of a single upload item.
- *
- * This is a discriminated union on `phase`.
- *
- * @typeParam M - Intent map
- * @typeParam C - Cursor map
- * @typeParam P - Purpose union
- */
+/** Discriminated union on `phase` describing a single upload's state. */
 export type UploadItem<
   M extends IntentMap,
   C extends CursorMap<M>,

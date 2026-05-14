@@ -114,8 +114,6 @@ export class DrizzleAdapter<
     this.and = config.ops.and
   }
 
-  // -- PolicyStore --
-
   /** Returns all policies from the database. */
   async listPolicies(): Promise<Policy<TAction, TResource, TRole>[]> {
     const rows = (await this.db.select().from(this.t.policies)) as unknown as PolicyRow[]
@@ -143,8 +141,6 @@ export class DrizzleAdapter<
     await this.db.delete(this.t.policies).where(this.eq(this.t.policies.id, id))
   }
 
-  // -- RoleStore --
-
   /** Returns all roles from the database. */
   async listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]> {
     const rows = (await this.db.select().from(this.t.roles)) as unknown as RoleRow[]
@@ -171,8 +167,6 @@ export class DrizzleAdapter<
   async deleteRole(id: string): Promise<void> {
     await this.db.delete(this.t.roles).where(this.eq(this.t.roles.id, id))
   }
-
-  // -- SubjectStore --
 
   /** Returns the deduplicated list of role IDs assigned to a subject. */
   async getSubjectRoles(subjectId: string): Promise<TRole[]> {
@@ -229,8 +223,6 @@ export class DrizzleAdapter<
       .onConflictDoUpdate({ target: this.t.attrs.subjectId, set: { data: merged } })
   }
 }
-
-// -- Serialization helpers --
 
 /** Converts a database row into a Policy object, deserializing JSON columns. */
 function parsePolicy(row: PolicyRow): Policy {

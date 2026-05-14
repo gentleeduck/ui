@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useLayoutEffect } from './use-layout-effect'
 
-// Prevent bundlers from trying to optimize the import.
+// space-trick string prevents bundlers from tree-shaking useInsertionEffect on older React
 const useInsertionEffect: typeof useLayoutEffect =
   ((React as Record<string, unknown>)[' useInsertionEffect '.trim().toString()] as typeof useLayoutEffect) ||
   useLayoutEffect
@@ -16,11 +16,7 @@ interface IUseControllableStateParams<T> {
   caller?: string | undefined
 }
 
-/**
- * Manages a value that can be either controlled (via `prop`) or uncontrolled
- * (via `defaultProp`). Warns in development when switching between modes.
- * Returns a [value, setValue] tuple matching React.useState semantics.
- */
+/** [value, setValue] tuple that bridges controlled (`prop`) and uncontrolled (`defaultProp`). Dev-warns on mode swap. */
 export function useControllableState<T>({
   prop,
   defaultProp,
@@ -34,9 +30,8 @@ export function useControllableState<T>({
   const isControlled = prop !== undefined
   const value = isControlled ? prop : uncontrolledProp
 
-  // Warn in development when switching between controlled and uncontrolled.
-  // Hooks are called conditionally here but always in the same environment,
-  // so bundlers can strip this block entirely in production.
+  // dev-only mode-switch warning. NODE_ENV is constant per build so hook order is stable;
+  // production builds strip the whole block.
   /* eslint-disable react-hooks/rules-of-hooks */
   if (process.env.NODE_ENV !== 'production') {
     // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check  -  the condition is static per build so hook order is stable at runtime

@@ -41,7 +41,6 @@ const MotionButton = React.forwardRef<
       ? { ...(content.animate as Record<string, unknown>), opacity: 0.5 }
       : content.animate
 
-    // asChild mode: wrap the slot child in a motion div for entrance + tap animation
     if (asChild) {
       return (
         <LazyMotion features={loadDomAnimation}>

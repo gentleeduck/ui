@@ -141,12 +141,8 @@ export const combiners: Record<CombiningAlgorithm, Combiner> = {
   },
 }
 
-// ---------------------------------------------------------------------------
-// Rule indexing — pre-index rules by action for fast lookup
-// ---------------------------------------------------------------------------
-
 /**
- * A single rule entry within a {@link PolicyRuleIndex}.
+ * A single rule entry within a {@link PolicyRuleIndex}. Rules are pre-indexed by action for fast lookup.
  */
 export interface IndexedRule {
   readonly rule: Rule

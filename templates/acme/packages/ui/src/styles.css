@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 
-/* zinc theme */
 :root {
   --radius: 0.5rem;
   --background: oklch(1 0 0);

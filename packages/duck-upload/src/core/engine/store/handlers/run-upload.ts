@@ -10,7 +10,7 @@ export async function runUpload<
 >(rt: StoreRuntime<M, C, P, R>, localId: string) {
   const item = rt.state.items.get(localId)
 
-  // If the state moved on (or we never had a valid upload), drop any inflight entry.
+  // State moved on (or never valid) — drop any stale inflight entry.
   if (!item || item.phase !== 'uploading' || !hasIntent(item)) {
     rt.inflightUploads.delete(localId)
     return
@@ -39,7 +39,7 @@ export async function runUpload<
     rt.applyInternal({ type: 'paused', localId, cursor, pausedAt: Date.now() })
   }
 
-  // If paused/canceled before the request begins, complete it immediately.
+  // Paused/canceled before the request begins: short-circuit to the right terminal state.
   if (controller.signal.aborted) {
     rt.inflightUploads.delete(localId)
 
@@ -92,7 +92,7 @@ export async function runUpload<
     return
   }
 
-  // Throttle progress events
+  // Throttle progress events to limit re-renders and reducer churn.
   let lastEmit = 0
   const progressThrottle = rt.opts.config.progressThrottleMs
 
@@ -138,16 +138,16 @@ export async function runUpload<
       return
     }
     if (controller.signal.aborted && inflight?.mode === 'pause') {
-      // Paused at the end; reducer expects cursor - if not present, keep last-known or synthesize.
+      // Paused after strategy returned: reducer requires a cursor — synthesize an
+      // empty one if the strategy never persisted progress.
       const cur = rt.state.items.get(localId)
       const cursor = (cur && hasCursor(cur) ? cur.cursor : undefined) || { strategy: strategyId, value: undefined }
       applyPaused(cursor)
       return
     }
 
-    // Normal completion -> completing
+    // 'completing' phase; finalizeUpload runs via scheduleWork().
     rt.applyInternal({ type: 'upload.ok', localId })
-    // finalizeUpload scheduled by scheduleWork() via completing phase
   } catch (err: unknown) {
     rt.inflightUploads.delete(localId)
 
@@ -164,7 +164,7 @@ export async function runUpload<
         return
       }
 
-      // Unknown abort -> treat as cancel
+      // Abort with no mode set: treat as cancel.
       applyCanceled()
       return
     }

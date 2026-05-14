@@ -1,4 +1,3 @@
-/* ======================================================== Atom Types ======================================================== */
 export type Getter = <Value>(atom: IAtom<Value>) => Value
 export type Setter = <Value, Args extends unknown[], Result>(
   atom: IWritableAtom<Value, Args, Result>,
@@ -33,28 +32,20 @@ interface IWithInitValue<Value> {
   initValue: Value
 }
 
-/* ======================================================== Atom Declarations ======================================================== */
-
 /** @internal */
 let keyCount = 0
 
-// writable derived atom
 export function atom<Value, Args extends unknown[], Result>(
   read: Read<Value, SetAtom<Args, Result>>,
   write: Write<Args, Result>,
 ): IWritableAtom<Value, Args, Result>
-// write-only derived atom
 export function atom<Value, Args extends unknown[], Result>(
   init: Value,
   write: Write<Args, Result>,
 ): IWritableAtom<Value, Args, Result> & IWithInitValue<Value>
-// read-only derived atom
 export function atom<TValue>(read: Read<TValue>): PrimitiveAtom<TValue>
-// primitive atom without initial value
 export function atom<TValue>(): PrimitiveAtom<TValue | undefined> & IWithInitValue<TValue | undefined>
-// primitive atom
 export function atom<TValue>(init: TValue): PrimitiveAtom<TValue> & IWithInitValue<TValue>
-/* ======================================================== Atom Implementation ======================================================== */
 export function atom<TValue, Args extends unknown[], Result>(
   read?: TValue | Read<TValue, SetAtom<Args, Result>>,
   write?: Write<Args, Result>,

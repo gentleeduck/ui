@@ -3,39 +3,21 @@ import { isInputElement } from '../matcher/matcher'
 import type { Command } from './command.types'
 
 /**
- * A registry for keyboard command sequences.
- *
- * Maintains a mapping between key combinations (e.g. `ctrl+shift+k`)
- * and their associated commands. Also tracks key sequence prefixes
- * to support multi-key bindings like `g+d`.
+ * Registry mapping key sequences (e.g. `ctrl+shift+k`, `g+d`) to commands.
+ * Tracks prefixes to support multi-key chord bindings.
  */
 export class Registry implements Command.RegistryClass {
   private entries = new Map<string, Command.IRegistryEntry>()
   private prefixes = new Set<string>()
 
-  /**
-   * @param {boolean} debug - Enable debug logging for all registry operations.
-   */
   constructor(public debug: boolean = false) {
     if (this.debug) console.log('[Registry] Initialized')
   }
 
   /**
-   * Registers a new command with a given key sequence.
-   *
-   * @param {string} key - A key sequence like `ctrl+k` or `g+d`.
-   * @param {Command.ICommand} command - A command object containing an `execute()` function.
-   * @param {Command.IKeyBindOptions} [options] - Optional per-binding options.
-   * @returns {Command.IRegistrationHandle} A handle for unregistering and controlling the binding.
-   *
-   * @example
-   * const handle = registry.register('ctrl+k', {
-   *   name: 'Palette',
-   *   execute: () => console.log('Command palette opened')
-   * }, { preventDefault: true })
-   *
-   * // Later:
-   * handle.unregister()
+   * Registers a command for a key sequence.
+   * @param key A key sequence like `ctrl+k` or `g+d`.
+   * @returns Handle for unregistering and toggling the binding.
    */
   public register(
     key: string,
@@ -44,7 +26,6 @@ export class Registry implements Command.RegistryClass {
   ): Command.IRegistrationHandle {
     const opts: Command.IKeyBindOptions = { ...options }
 
-    // Conflict detection
     if (this.entries.has(key)) {
       const behavior = opts.conflictBehavior ?? 'warn'
       if (behavior === 'error') {
@@ -73,12 +54,6 @@ export class Registry implements Command.RegistryClass {
     }
   }
 
-  /**
-   * Unregisters the command at the given key.
-   *
-   * @param {string} key - The key sequence to remove.
-   * @returns {boolean} True if a command was removed.
-   */
   public unregister(key: string): boolean {
     const removed = this.entries.delete(key)
     if (removed) {
@@ -88,44 +63,27 @@ export class Registry implements Command.RegistryClass {
     return removed
   }
 
-  /**
-   * Checks if a command is registered under the specified key sequence.
-   */
   public hasCommand(key: string): boolean {
     return this.entries.has(key)
   }
 
-  /**
-   * Retrieves a registered command for the given key sequence.
-   */
   public getCommand(key: string): Command.ICommand | undefined {
     return this.entries.get(key)?.command
   }
 
-  /**
-   * Retrieves the full registry entry (command + options + state) for a key.
-   */
   public getEntry(key: string): Command.IRegistryEntry | undefined {
     return this.entries.get(key)
   }
 
-  /**
-   * Retrieves the options for a registered key binding.
-   */
   public getOptions(key: string): Command.IKeyBindOptions | undefined {
     return this.entries.get(key)?.options
   }
 
-  /**
-   * Determines whether the given key sequence is a known prefix of any command.
-   */
+  /** True if `key` is a prefix of any registered chord (for multi-key sequences). */
   public isPrefix(key: string): boolean {
     return this.prefixes.has(key)
   }
 
-  /**
-   * Returns all registered commands.
-   */
   public getAllCommands(): Map<string, Command.ICommand> {
     const result = new Map<string, Command.ICommand>()
     for (const [key, entry] of this.entries) {
@@ -134,9 +92,6 @@ export class Registry implements Command.RegistryClass {
     return result
   }
 
-  /**
-   * Removes all registered commands.
-   */
   public clear(): void {
     this.entries.clear()
     this.prefixes.clear()
@@ -155,10 +110,8 @@ export class Registry implements Command.RegistryClass {
 }
 
 /**
- * Handles keyboard input and dispatches commands based on key sequences.
- *
- * Attaches to a DOM element (or `document` by default) and listens for
- * keydown events. Uses a sequence timeout to support multi-key commands.
+ * Listens for keydown events and dispatches commands from a {@link Registry}.
+ * Buffers keystrokes within a timeout window to resolve chord sequences.
  */
 export class KeyHandler {
   private seq: string[] = []
@@ -166,11 +119,6 @@ export class KeyHandler {
   private TIMEOUT_MS: number
   private defaultOptions: Partial<Command.IKeyBindOptions>
 
-  /**
-   * @param {Registry} registry - The command registry to use for key resolution.
-   * @param {number} [timeoutMs=600] - Timeout in milliseconds between key presses in a sequence.
-   * @param {Partial<Command.IKeyBindOptions>} [defaultOptions={}] - Default options merged with per-binding options.
-   */
   constructor(
     private registry: Registry,
     timeoutMs: number = 600,
@@ -180,17 +128,11 @@ export class KeyHandler {
     this.defaultOptions = defaultOptions
   }
 
-  /**
-   * Starts listening for keyboard events on a given target.
-   */
   public attach(target: HTMLElement | Document = document): void {
     target.addEventListener('keydown', this.handleKey as EventListener)
     this.registry.debug && console.log('[KeyHandler] Attached to target')
   }
 
-  /**
-   * Stops listening for keyboard events on a given target.
-   */
   public detach(target: HTMLElement | Document = document): void {
     target.removeEventListener('keydown', this.handleKey as EventListener)
     this.registry.debug && console.log('[KeyHandler] Detached from target')
@@ -204,6 +146,7 @@ export class KeyHandler {
     return lower
   }
 
+  // Modifier order (ctrl+alt+meta+shift) must match parser output for matching.
   private buildKeyDescriptor = (e: KeyboardEvent): string | null => {
     if (['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return null
     const parts: string[] = []
@@ -224,33 +167,21 @@ export class KeyHandler {
     }
   }
 
-  /**
-   * Attempt to execute a matched command, respecting its options.
-   * Returns true if the command was executed.
-   */
   private executeCommand(key: string, e: KeyboardEvent): boolean {
     const entry = this.registry.getEntry(key)
     if (!entry) return false
 
     const opts: Command.IKeyBindOptions = { ...this.defaultOptions, ...entry.options }
 
-    // Check enabled
     if (opts.enabled === false) return false
-
-    // Check ignoreInputs
     if (opts.ignoreInputs && isInputElement(e.target as Element)) return false
-
-    // Check requireReset
     if (opts.requireReset && entry.fired) return false
 
-    // Apply event modifiers
     if (opts.preventDefault) e.preventDefault()
     if (opts.stopPropagation) e.stopPropagation()
 
-    // Execute
     entry.command.execute()
 
-    // Mark as fired for requireReset
     if (opts.requireReset) {
       entry.fired = true
     }
@@ -280,7 +211,7 @@ export class KeyHandler {
       return
     }
 
-    // Retry with only the last key
+    // Sequence dead-end: drop history and retry treating last key as fresh start.
     this.registry.debug && console.log(`[NoMatch] '${joined}', retrying`)
     this.resetSequence()
     this.seq.push(desc)

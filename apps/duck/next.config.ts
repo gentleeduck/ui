@@ -8,9 +8,7 @@ const monorepoRoot = path.join(currentDir, '../..')
 const nextConfig: NextConfig = {
   devIndicators: false,
   outputFileTracingRoot: monorepoRoot,
-  // Trim what the @netlify/plugin-nextjs serverless function ships so it
-  // stays under the 250 MB Lambda limit. Anything not actually imported by
-  // the runtime route handlers gets excluded from file tracing.
+  // Keeps the @netlify/plugin-nextjs Lambda under the 250 MB limit.
   outputFileTracingExcludes: {
     '*': [
       // Build-time toolchains never run at request time.
@@ -47,33 +45,24 @@ const nextConfig: NextConfig = {
       '**/node_modules/@splinetool/**',
       '**/node_modules/@rive-app/**',
       '**/node_modules/@google/generative-ai/**',
-      // Heavy client-only libraries that should never end up in the
-      // server bundle. They are still served as static assets to the
-      // browser via the per-page chunks.
+      // Client-only libraries — still served to the browser via per-page chunks.
       '**/node_modules/recharts/**',
       '**/node_modules/three-stdlib/**',
       '**/node_modules/lucide-react/dist/cjs/**',
-      // Source registries that are transpiled into the build output.
+      // Source registries — transpiled into the build output.
       '**/packages/registry-blocks/**',
       '**/packages/registry-examples/**',
       '**/packages/registry-internals/**',
       '**/packages/registry-ui/**',
-      // Test files that occasionally land in the trace.
       '**/__test__/**',
       '**/*.test.ts',
       '**/*.test.tsx',
-      // Build caches and workspace dirs that aren't shipped.
       '**/.next/cache/**',
-      // The velite collections are already inlined into webpack chunks
-      // (`with { type: 'json' }`); the raw JSON is a duplicate.
+      // velite collections are already inlined via `with { type: 'json' }`.
       '**/.gentleduck/*.json',
       '**/.gentleduck/index.js.map',
-      // `@gentleduck/md` ships every platform's prebuilt `.node` binary
-      // (~95 MB unpacked) plus the whole remark/unified toolchain, and is
-      // imported only by build-time scripts (`scripts/build-docs-content.mjs`,
-      // `duck-md.config.ts`) -- never by a request-time route handler. Drop
-      // it from the function trace entirely so the Lambda bundle stays well
-      // under the 250 MB limit ("Invalid AWS Lambda parameters").
+      // `@gentleduck/md` ships every platform's prebuilt `.node` (~95 MB)
+      // plus the remark/unified toolchain — only used by build-time scripts.
       '**/node_modules/@gentleduck/md/**',
       '**/packages/_oldstuff_refactor/**',
       '**/packages/wip/**',
@@ -82,9 +71,7 @@ const nextConfig: NextConfig = {
       '**/apps/duck-extension/**',
     ],
   },
-  // Keep these packages external in the server bundle so they load from
-  // node_modules at request time instead of being inlined into the Lambda
-  // by Webpack.
+  // Load these from node_modules at request time instead of inlining into the Lambda.
   serverExternalPackages: ['@modelcontextprotocol/sdk', 'lunr', 'puppeteer'],
   turbopack: {
     root: monorepoRoot,
@@ -92,19 +79,13 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.36'],
   experimental: {
     externalDir: true,
-    // Cap parallel page-data workers. The docs site holds ~93 MB of
-    // pre-tokenized MDX in memory per worker, so 31 default forks blow past
-    // the 8 GB Netlify build sandbox and SIGKILL.
+    // Docs site holds ~93 MB of pre-tokenized MDX per worker; 31 default
+    // forks blow past the 8 GB Netlify build sandbox and SIGKILL.
     cpus: 4,
     workerThreads: false,
-    // Inline ALL CSS directly into the HTML. Removes the
-    // render-blocking <link rel="stylesheet"> tags Lighthouse flags.
-    // Trade-off: per-page HTML grows by the size of the route's CSS;
-    // acceptable for a docs site that already pre-renders every page.
+    // Inlines CSS into HTML so no render-blocking <link rel="stylesheet">.
     inlineCss: true,
-    // Rewrite barrel imports for these packages so Next ships only the
-    // referenced symbols. Cuts the "unused JavaScript" Lighthouse hit
-    // on the shared chunks (lucide alone is ~30 KB unused per route).
+    // Rewrites barrel imports to drop unused symbols (lucide alone ~30 KB/route).
     optimizePackageImports: [
       'lucide-react',
       'jotai',
@@ -122,7 +103,6 @@ const nextConfig: NextConfig = {
       'react-markdown',
       '@gentleduck/hooks',
     ],
-    // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
   productionBrowserSourceMaps: false,
   images: {
@@ -258,9 +238,8 @@ const nextConfig: NextConfig = {
   },
   rewrites: async () => {
     return [
-      // Any *.md URL (e.g. /duck-ui/components/calendar.md) serves the
-      // pre-rendered markdown source via the /llm/[...slug] route. Used
-      // by the "View as Markdown" item in the Copy Page dropdown.
+      // *.md URLs serve the pre-rendered markdown via /llm/[...slug]
+      // (used by "View as Markdown" in the Copy Page dropdown).
       {
         source: '/:path*.md',
         destination: '/llm/:path*',

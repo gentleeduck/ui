@@ -2,7 +2,6 @@ import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { THEMES, type Theme } from '~/lib'
 
-/** @internal */
 interface IThemesConfig {
   activeTheme: Theme
 }

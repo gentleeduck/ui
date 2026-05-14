@@ -2,20 +2,17 @@ import { atom } from 'jotai'
 import type { CalendarEvent, CalendarView, FilterMode } from './calendar-1.types'
 import { MOCK_EVENTS } from './calendar-data'
 
-// --- Core state atoms ---
 export const eventsAtom = atom<CalendarEvent[]>(MOCK_EVENTS)
 export const viewedDateAtom = atom<Date>(new Date(2026, 2, 10))
 export const calendarViewAtom = atom<CalendarView>('month')
 export const filterModeAtom = atom<FilterMode>('all')
 
-// --- UI state atoms ---
 export const addEventDateAtom = atom<string | null>(null)
 export const editingEventAtom = atom<CalendarEvent | null>(null)
 export const isAddEventOpenAtom = atom<boolean>(false)
 export const overflowDayAtom = atom<string | null>(null)
 export const commandOpenAtom = atom<boolean>(false)
 
-// --- Derived atoms ---
 export const filteredEventsAtom = atom<CalendarEvent[]>((get) => {
   const events = get(eventsAtom)
   const filter = get(filterModeAtom)

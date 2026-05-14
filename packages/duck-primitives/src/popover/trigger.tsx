@@ -9,10 +9,7 @@ import type { IPopover } from './popover.types'
 
 const TRIGGER_NAME = 'PopoverTrigger'
 
-/**
- * Button that toggles the popover open state.
- * Wraps itself in a PopperAnchor unless a custom anchor is provided.
- */
+/** Toggles open state; auto-wraps in a PopperAnchor unless a custom anchor is provided. */
 export const PopoverTrigger = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
   IPopover.IScoped<IPopover.ITriggerProps>

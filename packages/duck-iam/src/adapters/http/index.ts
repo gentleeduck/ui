@@ -59,8 +59,6 @@ export class HttpAdapter<
     return res.json()
   }
 
-  // -- PolicyStore --
-
   /** Returns all policies from the remote API. */
   async listPolicies(): Promise<Policy<TAction, TResource, TRole>[]> {
     return this.request('/policies')
@@ -81,8 +79,6 @@ export class HttpAdapter<
     await this.request(`/policies/${id}`, { method: 'DELETE' })
   }
 
-  // -- RoleStore --
-
   /** Returns all roles from the remote API. */
   async listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]> {
     return this.request('/roles')
@@ -99,8 +95,6 @@ export class HttpAdapter<
   async deleteRole(id: string): Promise<void> {
     await this.request(`/roles/${id}`, { method: 'DELETE' })
   }
-
-  // -- SubjectStore --
 
   /** Returns the list of role IDs assigned to a subject. */
   async getSubjectRoles(subjectId: string): Promise<TRole[]> {

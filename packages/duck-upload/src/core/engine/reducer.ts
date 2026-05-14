@@ -30,12 +30,11 @@ export function createReducer<
 
     const now = Date.now()
 
-    // Type guard: Commands don't have dots in their type, internal events do (e.g., 'intent.ok')
+    // Commands have no dots in their `type`; internal events do (e.g. 'intent.ok').
     const isCommand = (e: UploadCommand<P> | InternalEvent<M, C, P, R>): e is UploadCommand<P> => {
       return 'type' in e && typeof e.type === 'string' && !e.type.includes('.')
     }
 
-    // Command handling
     if (isCommand(event)) {
       switch (event.type) {
         case 'addFiles': {
@@ -75,15 +74,14 @@ export function createReducer<
           const item = items.get(event.localId)
           if (!item) break
 
-          // If it's queued but not started, revert back to ready.
+          // Queued-but-not-started: revert to ready. Uploading: store aborts and
+          // emits 'paused' internally to move the item.
           if (item.phase === 'queued') {
             set(event.localId, {
               ...item,
               phase: 'ready',
             })
           }
-
-          // If it's uploading, store will abort and an internal 'paused' event will move it.
           break
         }
 
@@ -103,7 +101,7 @@ export function createReducer<
           if (!item.file) break
 
           if (item.intent) {
-            // If we have progress and intent, we were in completing phase - retry completing
+            // Progress at 100% with intent means we failed in 'completing' — retry that phase.
             if (item.progress && item.progress.pct === 100) {
               set(event.localId, {
                 ...item,
@@ -114,7 +112,6 @@ export function createReducer<
                 completingAt: now,
               })
             } else {
-              // Otherwise, retry from ready phase
               set(event.localId, {
                 ...item,
                 file: item.file,
@@ -123,7 +120,7 @@ export function createReducer<
               })
             }
           } else {
-            // For intent creation failures, increment attempt on retry
+            // Intent-creation failure path; bump attempt counter.
             set(event.localId, {
               ...item,
               phase: 'creating_intent',
@@ -163,7 +160,6 @@ export function createReducer<
       return { items }
     }
 
-    // Internal event handling
     switch (event.type) {
       case 'files.added': {
         const ev = event
@@ -390,7 +386,6 @@ export function createReducer<
         const item = items.get(ev.localId)
         if (!item || item.phase !== 'completing') break
 
-        // Increment attempt number for retry tracking
         const nextAttempt = (item.attempt ?? 1) + 1
 
         set(ev.localId, {
@@ -409,7 +404,6 @@ export function createReducer<
   }
 }
 
-// Helpers
 function toCanceled<M extends IntentMap, C extends CursorMap<M>, P extends string, R extends UploadResultBase>(
   item: UploadItem<M, C, P, R>,
   canceledAt: number,

@@ -51,7 +51,6 @@ export async function getRegistryBaseColor(theme: string): Promise<Registry.Them
   }
 }
 
-/** List all available themes from the registry's themes/index.json. */
 export async function getRegistryThemesIndex() {
   try {
     const [result] = await fetchRegistryUrl(['themes/index.json'])
@@ -66,7 +65,6 @@ export async function getRegistryThemesIndex() {
   }
 }
 
-/** Fetch a single theme definition by name from themes/<name>.json. */
 export async function getRegistryTheme(name: string) {
   try {
     const lower = name.toLowerCase()

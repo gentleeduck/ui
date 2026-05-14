@@ -17,18 +17,12 @@ const DEFAULT_TIMEOUT = 600
 let nextId = 0
 
 /**
- * Manages multiple key sequence registrations.
- * Feed keyboard events via handleKeyEvent() and sequences are matched automatically.
+ * Tracks multi-step key sequences (e.g. `g d`). Feed events via
+ * {@link handleKeyEvent}; matching entries advance until completion or timeout.
  */
 export class SequenceManager {
   private entries: IInternalEntry[] = []
 
-  /**
-   * Registers a new key sequence.
-   *
-   * @param registration - The sequence registration
-   * @returns A handle to unregister the sequence
-   */
   register(registration: Sequence.ISequenceRegistration): Sequence.ISequenceHandle {
     const id = nextId++
     const parsedSteps = registration.steps.map((s) => parseKeyBind(s.binding))
@@ -59,14 +53,8 @@ export class SequenceManager {
     }
   }
 
-  /**
-   * Feed a keyboard event to advance matching for all registered sequences.
-   *
-   * @param event - The keyboard event
-   * @returns true if any sequence was fully matched and executed
-   */
+  /** Advances all registered sequences with `event`. Returns true if any completed. */
   handleKeyEvent(event: KeyboardEvent): boolean {
-    // Skip pure modifier key presses
     if (['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) return false
 
     let anyMatched = false
@@ -78,28 +66,24 @@ export class SequenceManager {
       if (!expectedStep) continue
 
       if (matchesKeyboardEvent(expectedStep, event)) {
-        // Step matched, advance
         this.clearEntryTimeout(entry)
         entry.currentStep++
 
         if (entry.currentStep >= entry.parsedSteps.length) {
-          // Full sequence completed
           entry.handler()
           entry.currentStep = 0
           anyMatched = true
         } else {
-          // Start timeout for next step
           entry.timeoutId = setTimeout(() => {
             entry.currentStep = 0
             entry.timeoutId = null
           }, entry.options.timeout)
         }
       } else {
-        // Step did not match
         this.clearEntryTimeout(entry)
         entry.currentStep = 0
 
-        // Retry from step 0 with the current event
+        // Failed mid-chord: try the current event as a fresh first step (e.g. `g g d` on user typing `g x g d`).
         const firstStep = entry.parsedSteps[0]
         if (firstStep && matchesKeyboardEvent(firstStep, event)) {
           entry.currentStep = 1
@@ -120,9 +104,6 @@ export class SequenceManager {
     return anyMatched
   }
 
-  /**
-   * Resets all in-progress sequence matching state.
-   */
   reset(): void {
     for (const entry of this.entries) {
       this.clearEntryTimeout(entry)
@@ -130,10 +111,7 @@ export class SequenceManager {
     }
   }
 
-  /**
-   * Returns the aggregate matching state across all entries.
-   * Reports progress of the most-advanced entry.
-   */
+  /** Aggregate state across all entries; reports progress of the most-advanced one. */
   getState(): Sequence.ISequenceState {
     let maxProgress = 0
     let maxTotal = 0
@@ -156,9 +134,6 @@ export class SequenceManager {
     }
   }
 
-  /**
-   * Clears all registrations and state.
-   */
   destroy(): void {
     for (const entry of this.entries) {
       this.clearEntryTimeout(entry)
@@ -174,14 +149,7 @@ export class SequenceManager {
   }
 }
 
-/**
- * Creates a lightweight standalone sequence matcher for a single sequence.
- *
- * @param steps - Array of key binding strings for each step
- * @param handler - Callback when the full sequence matches
- * @param options - Sequence options
- * @returns An object with feed(), reset(), and getState() methods
- */
+/** Standalone matcher for a single sequence; thin wrapper over {@link SequenceManager}. */
 export function createSequenceMatcher(
   steps: string[],
   handler: () => void,

@@ -1,26 +1,15 @@
-// File-system path types (POSIX-style).
-//
-// These operate on forward-slash paths. If you need Windows backslashes,
-// normalize first with a runtime helper and feed the result through.
+// POSIX path types operate on forward-slash paths. Normalize Windows backslashes
+// at runtime before feeding through.
 
-/**
- * Absolute POSIX-style path: starts with `/`.
- */
+/** Absolute POSIX path: starts with `/`. */
 export type PosixAbsolutePath = `/${string}`
 
-/**
- * Relative POSIX-style path.
- */
+/** Relative POSIX path. */
 export type PosixRelativePath = `${'' | './' | '../'}${string}`
 
-/**
- * POSIX path (absolute or relative).
- */
 export type PosixPath = PosixAbsolutePath | PosixRelativePath
 
-/**
- * Windows path with drive letter (`C:\...`) or UNC (`\\server\share\...`).
- */
+/** Windows path with drive letter (`C:\...`) or UNC (`\\server\share\...`). */
 export type WindowsAbsolutePath = `${Uppercase<string>}:\\${string}` | `\\\\${string}`
 
 /** Windows path (absolute or relative — note: relative uses `\`). */
@@ -146,7 +135,6 @@ type _JoinWith<T extends readonly string[], Sep extends string> = T extends read
     : `${H}${Sep}${_JoinWith<R, Sep>}`
   : ''
 
-// --- Internal segment helpers
 type _LastSegment<S extends string, Sep extends string> = S extends `${string}${Sep}${infer R}`
   ? _LastSegment<R, Sep>
   : S

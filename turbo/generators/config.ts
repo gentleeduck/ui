@@ -53,7 +53,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
     actions: (answers) => {
       if (!answers) return []
 
-      // Sanitize name
       const name = (answers.name as string).replace('@gentleduck/', '').replace('duck-', '')
       answers.name = name
 
@@ -67,7 +66,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       const hasPrimitives = features.includes('primitives')
 
       const actions: PlopTypes.ActionType[] = [
-        // Core files  -  always created
         {
           type: 'add',
           path: 'packages/duck-{{ name }}/package.json',
@@ -105,7 +103,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         },
       ]
 
-      // Vitest  -  add config + example test + test script
       if (hasVitest) {
         actions.push(
           {
@@ -131,20 +128,17 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         )
       }
 
-      // Modify package.json to add selected features
       actions.push({
         type: 'modify',
         path: 'packages/duck-{{ name }}/package.json',
         async transform(content) {
           const pkg = JSON.parse(content) as PackageJson
 
-          // Scripts
           if (hasVitest) {
             pkg.scripts.test = 'vitest run'
             pkg.scripts.dev = 'vitest'
           }
 
-          // Dev dependencies
           if (hasVitest) {
             pkg.devDependencies.vitest = '^4.0.18'
             pkg.devDependencies['@testing-library/jest-dom'] = '^6.8.0'
@@ -154,19 +148,16 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             pkg.devDependencies.zod = '4.3.6'
           }
 
-          // Peer dependencies  -  gentleduck packages
           if (!hasReact) {
             delete pkg.peerDependencies.react
             delete pkg.peerDependencies['react-dom']
           }
 
-          // Workspace dev deps for gentleduck packages
           if (hasLibs) pkg.devDependencies['@gentleduck/libs'] = 'workspace:*'
           if (hasVariants) pkg.devDependencies['@gentleduck/variants'] = 'workspace:*'
           if (hasHooks) pkg.devDependencies['@gentleduck/hooks'] = 'workspace:*'
           if (hasPrimitives) pkg.devDependencies['@gentleduck/primitives'] = 'workspace:*'
 
-          // Extra npm deps from the prompt
           const extraDeps = (answers?.deps as string) || ''
           if (extraDeps.trim()) {
             for (const dep of extraDeps.split(' ').filter(Boolean)) {
@@ -187,7 +178,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             }
           }
 
-          // Sort keys for consistency
           if (pkg.devDependencies) {
             pkg.devDependencies = Object.fromEntries(
               Object.entries(pkg.devDependencies).sort(([a], [b]) => a.localeCompare(b)),
@@ -198,7 +188,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         },
       })
 
-      // Install deps
       actions.push(async () => {
         execSync('bun install', { stdio: 'inherit' })
         const selected = features.length > 0 ? ` with ${features.join(', ')}` : ''

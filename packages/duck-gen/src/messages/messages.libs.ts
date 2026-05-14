@@ -4,12 +4,10 @@ export type DuckgenMessagesTag = {
   groupKey?: string
 }
 
-// 🦆 Parse @duckgen tags on JSDoc, optionally extracting a group key.
-// 🦆 Supported:
-// 🦆 - @duckgen
-// 🦆 - @duckgen messages
-// 🦆 - @duckgen messages auth
-// 🦆 - @duckgen auth
+/**
+ * Reads `@duckgen` JSDoc tags and pulls out the optional group key.
+ * Accepted forms: `@duckgen`, `@duckgen messages`, `@duckgen messages <group>`, `@duckgen <group>`.
+ */
 export function parseDuckgenMessagesTag(node: JSDocableNode): DuckgenMessagesTag | null {
   for (const doc of node.getJsDocs()) {
     for (const tag of doc.getTags()) {

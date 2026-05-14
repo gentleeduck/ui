@@ -1,8 +1,5 @@
 import type { IRegistryEntry } from '../../extensions/ui/ui.registry.types'
 
-/**
- * Shared type contract for framework-specific component-index adapters.
- */
 export interface IRegistryBuildComponentIndexImportOptions {
   componentPath: string
   id: string

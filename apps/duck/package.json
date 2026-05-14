@@ -9,7 +9,7 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/md": "^0.3.1",
+    "@gentleduck/md": "file:/run/media/wildduck/duck1/wildduck/@duck/@duck-md/dmc-napi",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/primitives": "workspace:*",
     "@gentleduck/registers": "workspace:*",

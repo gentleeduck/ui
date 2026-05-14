@@ -1,11 +1,10 @@
 import type { IRegistryBuildCollection, IRegistryBuildSource } from '../types'
 
-/** Merge two optional string arrays, deduplicating entries. */
 export function mergeUniqueStrings<T extends string = string>(left?: T[], right?: T[]) {
   return [...new Set([...(left ?? []), ...(right ?? [])])] as T[]
 }
 
-/** Shallow-merge two values that may be records or strings, with string values taking precedence. */
+// String values are opaque (path references) and take precedence over objects.
 export function mergeRecordOrString<T extends Record<string, unknown> = Record<string, unknown>>(
   baseData?: T | string,
   nextData?: T | string,
@@ -16,7 +15,6 @@ export function mergeRecordOrString<T extends Record<string, unknown> = Record<s
   return undefined
 }
 
-/** Deep-merge two source maps, combining ignore patterns with deduplication. */
 export function mergeSources(
   baseSources?: Record<string, IRegistryBuildSource | undefined>,
   nextSources?: Record<string, IRegistryBuildSource | undefined>,
@@ -58,7 +56,7 @@ export function mergeSources(
   return result
 }
 
-/** Merge collection data values, treating strings as opaque references and objects as shallow-mergeable. */
+// Strings are opaque references; objects are shallow-merged. Arrays are not merged (right wins).
 export function mergeCollectionData(baseData?: unknown | string, nextData?: unknown | string) {
   if (typeof nextData === 'string') {
     return nextData
@@ -78,7 +76,6 @@ export function mergeCollectionData(baseData?: unknown | string, nextData?: unkn
   return nextData ?? baseData
 }
 
-/** Deep-merge two collection maps, combining their sources, metadata, and data. */
 export function mergeCollections(
   baseCollections?: Record<string, IRegistryBuildCollection>,
   nextCollections?: Record<string, IRegistryBuildCollection>,

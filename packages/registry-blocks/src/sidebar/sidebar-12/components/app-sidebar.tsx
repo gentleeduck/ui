@@ -15,7 +15,6 @@ import { Calendars } from './calendars'
 import { DatePicker } from './date-picker'
 import { NavUser } from './nav-user'
 
-// This is sample data.
 const data = {
   calendars: [
     {

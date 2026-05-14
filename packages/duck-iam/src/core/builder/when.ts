@@ -87,10 +87,6 @@ export class When<
     return this
   }
 
-  // ---------------------------------------------------------------------------
-  // Operator shorthands
-  // ---------------------------------------------------------------------------
-
   /**
    * Asserts `field == value`.
    *
@@ -221,10 +217,6 @@ export class When<
     this.items.push({ field, operator: 'matches', value: regex })
     return this
   }
-
-  // ---------------------------------------------------------------------------
-  // Semantic shortcuts
-  // ---------------------------------------------------------------------------
 
   /**
    * Asserts the subject holds the given role.
@@ -393,10 +385,6 @@ export class When<
     return this
   }
 
-  // ---------------------------------------------------------------------------
-  // Nesting
-  // ---------------------------------------------------------------------------
-
   /**
    * Appends a nested ALL-of (AND) condition group.
    *
@@ -472,10 +460,6 @@ export class When<
     this.items.push(nested.buildNone())
     return this
   }
-
-  // ---------------------------------------------------------------------------
-  // Terminal build methods
-  // ---------------------------------------------------------------------------
 
   /**
    * Emits the accumulated conditions as an ALL-of (`{ all: [...] }`) group.

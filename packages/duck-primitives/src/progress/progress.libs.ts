@@ -1,5 +1,3 @@
-/** Pure utility functions and constants for the Progress primitive. */
-
 const DEFAULT_MAX = 100
 
 type ProgressState = 'indeterminate' | 'complete' | 'loading'

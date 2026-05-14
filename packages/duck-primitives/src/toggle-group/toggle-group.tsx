@@ -24,7 +24,6 @@ const ToggleGroup = React.forwardRef<React.ComponentRef<typeof Primitive.div>, I
     if (props.type === 'multiple') {
       return <ToggleGroupMultiple {...(props as IToggleGroup.IScoped<IToggleGroup.IMultiple>)} ref={forwardedRef} />
     }
-    // Fallback to single
     return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
   },
 )

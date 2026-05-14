@@ -86,8 +86,7 @@ function getWorkspacePatterns(pkg: PackageJson): string[] {
   return []
 }
 
-// Minimal parser for the `packages:` list in pnpm-workspace.yaml. We avoid a
-// YAML dependency because the field has a stable, simple shape in practice.
+// Hand-rolled to avoid a YAML dep; only `packages:` list is consumed and its shape is stable.
 export function readPnpmWorkspacePackages(cwd: string): string[] {
   const yamlPath = path.join(cwd, 'pnpm-workspace.yaml')
   if (!fs.existsSync(yamlPath)) return []
@@ -112,7 +111,7 @@ export function readPnpmWorkspacePackages(cwd: string): string[] {
         patterns.push(item[1])
         continue
       }
-      // A non-list, non-indented line means we've left the packages block.
+      // Non-indented, non-list line means we've exited the `packages:` block.
       if (/^\S/.test(line)) {
         inPackages = false
       }

@@ -35,7 +35,7 @@ export default function Demo() {
 
   return (
     <DirectionProvider dir="rtl">
-      <Drawer>
+      <Drawer shouldScaleBackground={false}>
         <DrawerTrigger asChild>
           <Button variant="outline">فتح الدرج</Button>
         </DrawerTrigger>

@@ -1,9 +1,6 @@
 import { z } from 'zod'
 
-// ---------------------------------------------------------------------------
-// Theme CSS variable keys -- the 34 design tokens every theme must define
-// ---------------------------------------------------------------------------
-
+// 34 design tokens every theme must define.
 export const THEME_CSS_VAR_KEYS = [
   // Core (26)
   'background',
@@ -45,10 +42,6 @@ export const THEME_CSS_VAR_KEYS = [
 
 export type ThemeCSSVarKey = (typeof THEME_CSS_VAR_KEYS)[number]
 
-// ---------------------------------------------------------------------------
-// Theme names
-// ---------------------------------------------------------------------------
-
 export const THEME_NAMES = [
   'zinc',
   'slate',
@@ -69,19 +62,11 @@ export const THEME_NAMES = [
 
 export type ThemeName = (typeof THEME_NAMES)[number]
 
-// ---------------------------------------------------------------------------
-// Default radius
-// ---------------------------------------------------------------------------
-
 export const DEFAULT_RADIUS = '0.5rem'
-
-// ---------------------------------------------------------------------------
-// Zod schemas
-// ---------------------------------------------------------------------------
 
 const oklchValueSchema = z.string()
 
-// Build the shape from THEME_CSS_VAR_KEYS so it stays in sync automatically
+// Drive the shape from THEME_CSS_VAR_KEYS so additions there stay in sync.
 const colorSchemeShape = Object.fromEntries(THEME_CSS_VAR_KEYS.map((key) => [key, oklchValueSchema])) as Record<
   ThemeCSSVarKey,
   typeof oklchValueSchema

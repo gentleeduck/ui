@@ -17,7 +17,6 @@ type DialogContentImplElement = React.ComponentRef<typeof DismissableLayer>
 type DialogContentTypeElement = DialogContentImplElement
 type DialogContentElement = DialogContentTypeElement
 
-/** Dialog content area. Delegates to modal or non-modal variant. */
 export const DialogContent = React.forwardRef<DialogContentElement, IDialog.IContentProps>(
   (props: IDialog.IScoped<IDialog.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog)

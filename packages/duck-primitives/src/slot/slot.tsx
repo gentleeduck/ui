@@ -3,7 +3,7 @@ import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
 import type { ISlot } from './slot.types'
 
-// Matches Radix 1.2.4 — unwraps lazy RSC references before any isValidElement check
+// unwrap lazy RSC references before any isValidElement check (matches Radix 1.2.4)
 const REACT_LAZY_TYPE = Symbol.for('react.lazy')
 // biome-ignore lint/suspicious/noExplicitAny: accessing React.use without bundler treeshaking it
 const reactUse = (React as any)[' use '.trim()] as (<T>(p: Promise<T>) => T) | undefined
@@ -104,10 +104,8 @@ const SLOTTABLE_IDENTIFIER = Symbol('gentleduck.slottable')
 
 const Slottable = createSlottable('Slottable')
 
-/** @internal */
 type AnyProps = { ref?: React.Ref<unknown> | undefined; [key: string]: unknown }
 
-/** @internal */
 function isSlottable(child: React.ReactNode): child is React.ReactElement<ISlot.ISlottableProps, typeof Slottable> {
   return (
     React.isValidElement(child) &&
@@ -117,7 +115,6 @@ function isSlottable(child: React.ReactNode): child is React.ReactElement<ISlot.
   )
 }
 
-/** @internal */
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   const overrideProps = { ...childProps }
 
@@ -146,11 +143,8 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   return { ...slotProps, ...overrideProps }
 }
 
-/**
- * @internal
- * Before React 19 accessing `element.props.ref` will throw a warning and suggest using `element.ref`
- * After React 19 accessing `element.ref` does the opposite.
- */
+// React 18 warns on `element.props.ref`; React 19 warns on `element.ref`.
+// Probe descriptors for `isReactWarning` to pick the non-warning accessor.
 function getComponentRef(element: React.ReactElement) {
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning

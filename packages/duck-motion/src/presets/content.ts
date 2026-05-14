@@ -56,11 +56,9 @@ export const blurMount = {
 }
 
 /**
- * Tap press feedback with a built-in 15ms ease-out transition.
- * Use as `whileTap={tapScale}` on buttons, toggles, and interactive elements.
- * The 15ms scoped tween keeps the scale animation fast and deterministic so
- * the full press-release cycle fits inside a single click (~30ms) and rapid
- * click-spam feels crisp without interpolating mid-spring.
+ * Tap press feedback (`whileTap={tapScale}`). 15ms ease-out keeps the full
+ * press-release cycle inside ~30ms so rapid click-spam never interpolates
+ * mid-spring.
  */
 export const tapScale = {
   scale: 0.97,

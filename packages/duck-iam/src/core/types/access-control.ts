@@ -256,10 +256,6 @@ export interface Decision {
   readonly timestamp: number
 }
 
-// ---------------------------------------------------------------------------
-// Engine mode — controls return types and performance characteristics
-// ---------------------------------------------------------------------------
-
 /**
  * Engine execution mode.
  *

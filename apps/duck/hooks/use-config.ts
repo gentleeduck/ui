@@ -2,7 +2,6 @@ import type { Style } from '@gentleduck/registers'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
-/** @internal */
 interface IConfig {
   style: Style['name']
   theme: string

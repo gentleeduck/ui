@@ -25,14 +25,12 @@ type Node = (typeof NODES)[number]
 
 type Primitives = { [E in Node]: IPrimitive.IComponent<E> }
 
-/** @internal */
 function markGentleduckInWindow(): void {
   if (typeof window !== 'undefined') {
     ;(window as unknown as Record<symbol, boolean>)[Symbol.for('gentleduck-ui')] = true
   }
 }
 
-/** @internal */
 function createPrimitive<E extends Node>(node: E): IPrimitive.IComponent<E> {
   const Slot = createSlot(`Primitive.${node}`)
 

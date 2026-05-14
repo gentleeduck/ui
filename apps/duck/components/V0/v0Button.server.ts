@@ -17,8 +17,7 @@ export async function editInV0({ name, description, code }: { name: string; desc
       name,
     })
 
-    // Replace "use client" in the code.
-    // v0 will handle this for us.
+    // v0 injects its own "use client"; strip ours to avoid duplication.
     code = code.replace(`"use client"`, '')
 
     const response = await fetch(`${v0Url}/api/edit`, {

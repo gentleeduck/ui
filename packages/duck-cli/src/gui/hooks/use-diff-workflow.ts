@@ -23,14 +23,10 @@ import { useAsyncTask } from './use-async-task'
 
 type Step = 'loading' | 'select' | 'diffing' | 'results' | 'error'
 
-// Lines of vertical chrome (border, padding, banner, step-indicator,
-// file-tabs, scroll info, status-line, margins) consumed by the
-// results step. The remaining terminal rows display diff content.
+// Vertical rows reserved by chrome (border, padding, banner, step indicator, file tabs, status line).
+// Subtract from terminal rows to get diff viewport height. Update if chrome layout changes.
 const RESULTS_CHROME = 14
 
-/**
- * All state and actions needed by the diff screen for rendering.
- */
 export type DiffWorkflowState = {
   step: Step
   errorMessage: string
@@ -59,13 +55,7 @@ export type DiffWorkflowState = {
   setViewMode: (v: Diff.ViewMode | ((prev: Diff.ViewMode) => Diff.ViewMode)) => void
 }
 
-/**
- * Hook that encapsulates all state management, side effects, and
- * action handlers for the diff screen workflow.
- *
- * The diff screen follows a multi-step state machine:
- *   loading -> select -> diffing -> results | error
- */
+/** State machine: loading -> select -> diffing -> results | error. */
 export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowState {
   const [step, setStep] = useState<Step>('loading')
   const [installed, setInstalled] = useState<InstalledComponent[]>([])
@@ -85,7 +75,6 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
   const [numWidth, setNumWidth] = useState(3)
   const [autoSelected, setAutoSelected] = useState(false)
 
-  // -- Loading: scan installed components --
   useEffect(() => {
     const load = async () => {
       const cwd = process.cwd()
@@ -133,8 +122,6 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
     load()
   }, [])
 
-  // Auto-select component from CLI initial args
-  /** Diff the selected component against the registry. */
   const handleSelect = useCallback(
     async (name: string) => {
       setStep('diffing')
@@ -165,7 +152,7 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
         setDiffResult(result.data)
 
         if (result.data.isIdentical) {
-          // Show a simple "identical" message as a file-header line
+          // Synthesize a single file-header line so the results view still has something to render.
           const identicalLine: Diff.DisplayLine = {
             type: 'file-header',
             oldLineNum: null,
@@ -179,7 +166,6 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
           setHunkOffsetsPerFile([[]])
           setNumWidth(3)
         } else {
-          // Build display lines, side-by-side pairs, and hunk offsets per file
           const allDisplayLines: Diff.DisplayLine[][] = []
           const allSbsPairs: Diff.SideBySidePair[][] = []
           const allHunkOffsets: number[][] = []
@@ -212,7 +198,7 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
     [diffTask, installed],
   )
 
-  // Auto-select component from CLI initial args
+  // Auto-pick the component named on the CLI so `duck-ui diff foo` skips the picker.
   useEffect(() => {
     const initialArg = initialArgs[0]
     if (initialArg && installed.length > 0 && step === 'select' && !autoSelected) {

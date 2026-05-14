@@ -47,11 +47,8 @@ type Uploader<M extends IntentMap, C extends CursorMap<M>, P extends string, R e
 }
 
 /**
- * Stable action surface for React consumers that need imperative store access.
- *
- * This is declared explicitly instead of relying on an inferred object return
- * type so the generated package declarations do not leak the internal generic
- * names created by `store.on.bind(store)`.
+ * Imperative action surface. Declared explicitly (not inferred) so generated
+ * .d.ts files do not leak internal generic names created by `store.on.bind(store)`.
  */
 export type UploaderActions<
   M extends IntentMap,

@@ -1,48 +1,14 @@
 'use client'
 
-/**
- * @fileoverview React context provider for the upload store.
- *
- * Provides the upload store instance to all child components via React Context.
- * This allows components to access the store without prop drilling.
- *
- * @module upload-provider
- */
-
 import { createContext, type ReactNode, useContext } from 'react'
 import { type CursorMap, type IntentMap, isRecord, type UploadResultBase } from '../core'
 import type { UploadStore } from '../core/engine/store'
 
-/**
- * React context for the upload store.
- * Initialized as null and must be provided via UploadProvider.
- *
- * Note: Context cannot be generic at the type level in React, so we use a base type.
- * The useUploadStore hook provides type safety through type assertion which is safe
- * because the provider ensures the correct type is stored.
- */
+// React Context can't carry generics, so the runtime value is `unknown`; the
+// hooks below re-narrow with `isUploadStore`.
 const UploadContext = createContext<unknown | null>(null)
 
-/**
- * Provider component that makes the upload store available to child components.
- *
- * @template M - Intent map type
- * @template C - Cursor map type
- * @template P - Purpose type
- *
- * @param props - Provider props
- * @param props.store - Upload store instance to provide
- * @param props.children - Child components that can access the store
- *
- * @returns {JSX.Element} Context provider wrapping children
- *
- * @example
- * ```tsx
- * <UploadProvider store={store}>
- *   <UploadDropzone purpose="avatar" />
- * </UploadProvider>
- * ```
- */
+/** Provides an upload store to descendants. */
 export function UploadProvider<
   M extends IntentMap,
   C extends CursorMap<M>,
@@ -53,11 +19,9 @@ export function UploadProvider<
 }
 
 /**
- * Hook to access the upload store from React context when present.
- *
- * Some higher-level hooks support either an explicit store argument or context.
- * They use this helper so the context read stays unconditional without throwing
- * when a caller intentionally passes a store instance.
+ * Read the upload store from context if provided. Returns `null` outside a
+ * provider so higher-level hooks can keep their context read unconditional
+ * while still accepting an explicit store argument.
  */
 export function useOptionalUploadStore<
   M extends IntentMap,
@@ -77,22 +41,7 @@ export function useOptionalUploadStore<
   return store
 }
 
-/**
- * Hook to access the upload store from React context.
- *
- * @template M - Intent map type
- * @template C - Cursor map type
- * @template P - Purpose type
- *
- * @returns {UploadStore<M, C, P>} The upload store instance
- * @throws {Error} If called outside of UploadProvider
- *
- * @example
- * ```tsx
- * const store = useUploadStore()
- * const snapshot = store.getSnapshot()
- * ```
- */
+/** Read the upload store from context. Throws when called outside `UploadProvider`. */
 export function useUploadStore<
   M extends IntentMap,
   C extends CursorMap<M>,

@@ -40,7 +40,6 @@ export async function listFiles({
         const subdirectory = await processDirectory(fullPath, depth - 1)
         folderInfo.subdirectories.push(subdirectory)
       } else {
-        // Collect file details
         folderInfo.files.push({
           created_at: entryStats.birthtime,
           modified_at: entryStats.mtime,

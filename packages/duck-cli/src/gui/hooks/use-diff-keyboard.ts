@@ -2,23 +2,8 @@ import { type Key, useInput } from 'ink'
 import type { DiffWorkflowState } from './use-diff-workflow'
 
 /**
- * Keyboard handler for the diff screen.
- *
- * Routes key presses based on the current workflow step:
- *
- * Results step:
- *   j/k or up/down  - scroll through diff lines
- *   n               - jump to next hunk header
- *   p               - jump to previous hunk header
- *   h/l or left/right - switch between files
- *   tab             - toggle unified / side-by-side view
- *   esc             - go back to component selection
- *
- * Select step:
- *   esc             - exit
- *
- * Error step:
- *   esc             - exit
+ * Diff-screen key map (results step): j/k or arrows scroll, n/p jump between hunk headers, h/l
+ * switch files, tab toggles unified vs side-by-side, esc returns to select. Other steps: esc exits.
  */
 export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void): void {
   const {
@@ -37,7 +22,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
   } = workflow
 
   useInput((input: string, key: Key) => {
-    // -- Results step --
     if (step === 'results') {
       if (key.escape) {
         setScrollOffset(0)
@@ -46,13 +30,11 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
         return
       }
 
-      // Scroll up
       if (key.upArrow || input === 'k') {
         setScrollOffset((prev: number) => Math.max(0, prev - 1))
         return
       }
 
-      // Scroll down (clamped to content length)
       if (key.downArrow || input === 'j') {
         const totalLines =
           viewMode === 'unified'
@@ -62,14 +44,12 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
         return
       }
 
-      // Toggle unified / side-by-side view
       if (key.tab) {
         setViewMode((prev: string) => (prev === 'unified' ? 'side-by-side' : 'unified'))
         setScrollOffset(0)
         return
       }
 
-      // Jump to next hunk header
       if (input === 'n') {
         const offsets = hunkOffsetsPerFile[activeFileIndex] ?? []
         const next = offsets.find((o: number) => o > workflow.scrollOffset)
@@ -79,7 +59,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
         return
       }
 
-      // Jump to previous hunk header
       if (input === 'p') {
         const offsets = hunkOffsetsPerFile[activeFileIndex] ?? []
         const candidates = offsets.filter((o: number) => o < workflow.scrollOffset)
@@ -90,7 +69,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
         return
       }
 
-      // Switch to previous file
       if (key.leftArrow || input === 'h') {
         if (activeFileIndex > 0) {
           setActiveFileIndex((prev: number) => prev - 1)
@@ -99,7 +77,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
         return
       }
 
-      // Switch to next file
       if (key.rightArrow || input === 'l') {
         const maxIndex = (diffResult?.diffs.length ?? 1) - 1
         if (activeFileIndex < maxIndex) {
@@ -112,7 +89,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
       return
     }
 
-    // -- Select step --
     if (step === 'select') {
       if (key.escape) {
         onBack()
@@ -120,7 +96,6 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
       }
     }
 
-    // -- Error step --
     if (step === 'error') {
       if (key.escape) {
         onBack()

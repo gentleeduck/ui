@@ -6,10 +6,8 @@ import type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 export type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 
 /**
- * Copy text to the clipboard and track the copied state.
- *
- * Returns an object with `copyToClipboard` and a transient `isCopied` flag
- * that auto-resets after the configured timeout.
+ * Copy text to the clipboard with a transient `isCopied` flag that
+ * auto-resets after `timeout` ms.
  */
 export function useCopyToClipboard({
   timeout = 2000,

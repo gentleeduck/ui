@@ -33,7 +33,7 @@ export default function Demo() {
   }
 
   return (
-    <Drawer modal={false}>
+    <Drawer modal={false} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open New Drawer</Button>
       </DrawerTrigger>

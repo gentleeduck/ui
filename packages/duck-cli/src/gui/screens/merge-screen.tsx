@@ -20,19 +20,6 @@ type MergeScreenProps = {
   onComplete?: ((results: Merge.Result[]) => void) | undefined
 }
 
-/**
- * Interactive merge conflict resolution screen.
- *
- * Workflow steps:
- *   loading  - scan installed components
- *   select   - pick which component to merge
- *   diffing  - compare local vs registry
- *   resolving - resolve hunks one by one (1=local, 2=registry, 3=both)
- *   summary  - review merged preview before writing
- *   writing  - write files to disk
- *   done     - show results
- *   error    - show error message
- */
 export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComplete }: MergeScreenProps) {
   const workflow = useMergeWorkflow({ mergeData, onBack, onComplete })
   useMergeKeyboard(workflow, onBack)
@@ -57,7 +44,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     handleSelect,
   } = workflow
 
-  // -- Loading --
   if (step === 'loading') {
     return (
       <Box flexDirection="column">
@@ -69,7 +55,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Select component --
   if (step === 'select') {
     return (
       <Box flexDirection="column">
@@ -90,7 +75,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Diffing (spinner) --
   if (step === 'diffing') {
     return (
       <Box flexDirection="column">
@@ -103,7 +87,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Resolving hunks --
   if (step === 'resolving' && mergeState) {
     const fileNames = mergeState.files.map((f) => {
       if (f.status === 'added') return `${f.filePath} [NEW]`
@@ -215,7 +198,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Summary / review --
   if (step === 'summary' && mergeState) {
     const previewFile = mergeState.files.find((f) => f.status === 'modified')
     const previewLines = highlightedPreview
@@ -258,7 +240,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Writing --
   if (step === 'writing') {
     return (
       <Box flexDirection="column">
@@ -270,7 +251,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Done --
   if (step === 'done') {
     return (
       <Box flexDirection="column">
@@ -287,7 +267,6 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     )
   }
 
-  // -- Error --
   return (
     <Box flexDirection="column">
       <Banner compact />

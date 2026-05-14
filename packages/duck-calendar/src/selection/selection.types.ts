@@ -1,10 +1,11 @@
 export namespace Selection {
   /**
-   * The three ways a calendar can accept user selection.
+   * The ways a calendar can accept user selection.
    *
-   * - `'single'`  -  one date at a time.
-   * - `'range'`   -  a start date and an optional end date.
-   * - `'multi'`   -  an unordered set of individual dates.
+   * - `'single'`       -  one date at a time.
+   * - `'range'`        -  a start date and an optional end date.
+   * - `'multi'`        -  an unordered set of individual dates.
+   * - `'multi-range'`  -  multiple contiguous ranges.
    */
   export type SelectionMode = 'single' | 'range' | 'multi' | 'multi-range'
 

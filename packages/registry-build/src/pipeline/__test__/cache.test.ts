@@ -22,9 +22,6 @@ afterEach(async () => {
   await Promise.all(tempDirs.splice(0).map((dir) => fs.rm(dir, { force: true, recursive: true })))
 })
 
-// ---------------------------------------------------------------------------
-// createRegistryBuildCache - initialization
-// ---------------------------------------------------------------------------
 describe('createRegistryBuildCache', () => {
   describe('initialization', () => {
     test('creates a cache store with expected properties', async () => {
@@ -123,9 +120,6 @@ describe('createRegistryBuildCache', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Phase data read/write
-  // -------------------------------------------------------------------------
   describe('phase data', () => {
     test('setPhaseData stores and getPhaseData retrieves a value', async () => {
       const tempDir = await createTempDir()
@@ -189,9 +183,6 @@ describe('createRegistryBuildCache', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // File hashing
-  // -------------------------------------------------------------------------
   describe('file hashing', () => {
     test('getFileHash returns the SHA-256 hash of a file', async () => {
       const tempDir = await createTempDir()
@@ -239,7 +230,7 @@ describe('createRegistryBuildCache', () => {
 
       const hash1 = await cache.getFileHash(testFile)
 
-      // Write new content (and wait a tick so mtime differs)
+      // Wait so mtime differs.
       await new Promise((resolve) => setTimeout(resolve, 50))
       await writeFile(testFile, 'export const Button = () => "updated"\n')
 
@@ -250,9 +241,6 @@ describe('createRegistryBuildCache', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Save / persist
-  // -------------------------------------------------------------------------
   describe('save', () => {
     test('save writes the cache manifest to disk when enabled and dirty', async () => {
       const tempDir = await createTempDir()
@@ -309,13 +297,11 @@ describe('createRegistryBuildCache', () => {
 
       const stat1 = await fs.stat(cachePath)
 
-      // Small delay to let mtime differ if a write happens
       await new Promise((resolve) => setTimeout(resolve, 50))
       await cache.save()
 
       const stat2 = await fs.stat(cachePath)
 
-      // The file should not be rewritten since dirty was cleared
       expect(stat2.mtimeMs).toBe(stat1.mtimeMs)
     })
 
@@ -325,7 +311,6 @@ describe('createRegistryBuildCache', () => {
       const testFile = path.join(tempDir, 'src', 'dialog.tsx')
       await writeFile(testFile, 'export const Dialog = () => null\n')
 
-      // First cache: populate and save
       const cache1 = await createRegistryBuildCache({
         enabled: true,
         filePath: cachePath,
@@ -334,7 +319,6 @@ describe('createRegistryBuildCache', () => {
       await cache1.getFileHash(testFile)
       await cache1.save()
 
-      // Second cache: loads persisted data
       const cache2 = await createRegistryBuildCache({
         enabled: true,
         filePath: cachePath,
@@ -342,15 +326,11 @@ describe('createRegistryBuildCache', () => {
 
       expect(cache2.getPhaseData('validate')).toEqual({ passed: true })
 
-      // File hash should be served from cache (same mtime/size)
       const hash = await cache2.getFileHash(testFile)
       expect(hash).toBe(hashString('export const Dialog = () => null\n'))
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Cache invalidation on version mismatch
-  // -------------------------------------------------------------------------
   describe('version-based invalidation', () => {
     test('saves with version 1 and reloading produces valid data', async () => {
       const tempDir = await createTempDir()
@@ -363,11 +343,9 @@ describe('createRegistryBuildCache', () => {
       cache.setPhaseData('test', { value: 42 })
       await cache.save()
 
-      // Verify raw JSON has the correct version
       const raw = JSON.parse(await fs.readFile(cachePath, 'utf8')) as { version: number }
       expect(raw.version).toBe(1)
 
-      // Reload works correctly
       const cache2 = await createRegistryBuildCache({
         enabled: true,
         filePath: cachePath,
@@ -379,7 +357,6 @@ describe('createRegistryBuildCache', () => {
       const tempDir = await createTempDir()
       const cachePath = path.join(tempDir, '.cache', 'build-cache.json')
 
-      // Write a cache file with a future/wrong version
       await writeFile(
         cachePath,
         JSON.stringify({
@@ -394,7 +371,6 @@ describe('createRegistryBuildCache', () => {
         filePath: cachePath,
       })
 
-      // All previous data should be gone
       expect(cache.getPhaseData('stale')).toBeUndefined()
     })
   })

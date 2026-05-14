@@ -70,7 +70,6 @@ export async function processNestJsApiRoutes(
 
         const symbolsToImport = new Set<ts.Symbol>()
 
-        // Request types
         for (const p of m.getParameters()) {
           const pTypeText = getTypeText(p, apiRoutes.normalizeAnyToUnknown)
 
@@ -107,7 +106,7 @@ export async function processNestJsApiRoutes(
           }
         }
 
-        // Return type (emit the inner awaited type, not Promise<T>)
+        // Unwrap `Promise<T>` so the emitted return type matches what callers actually receive.
         const returnType = m.getReturnType()
         if (apiRoutes.normalizeAnyToUnknown && returnType.isAny()) {
           spinner.warn(`[any-return] ${cls.getName() ?? 'Controller'}.${m.getName()} at ${sfPath} is any`)
@@ -116,10 +115,8 @@ export async function processNestJsApiRoutes(
         const awaited = returnType.getAwaitedType() ?? returnType
         const expanded = awaited.getApparentType()
 
-        // include return type symbols so the generated file has the imports it needs
         collectTypeSymbols(expanded, symbolsToImport)
 
-        // emit type-only imports for all referenced symbols (params + return)
         for (const sym of symbolsToImport) {
           const info = symbolToImportInfo(sym)
           if (!info) continue

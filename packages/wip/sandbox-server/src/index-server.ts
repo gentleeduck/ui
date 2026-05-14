@@ -9,12 +9,10 @@ const server = new WebSocketServer({ port: PORT })
 const chat_history_json = path.join(process.cwd(), 'chat-history.json')
 let chat_history: ChatHistory[] = []
 
-// Load chat history
 if (fs.existsSync(chat_history_json)) {
   chat_history = JSON.parse(fs.readFileSync(chat_history_json, 'utf-8'))
 }
 
-// Keep track of connected clients
 const clients = new Map<string, { user_id: string; name: string } | undefined>()
 
 server.on('connection', (ws) => {
@@ -40,7 +38,6 @@ server.on('connection', (ws) => {
           }),
         )
 
-        // Send history
         ws.send(
           JSON.stringify({
             data: chat_history,

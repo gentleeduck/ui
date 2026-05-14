@@ -25,11 +25,6 @@ type PointerDownOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onP
 type FocusOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onFocusOutside']>>[0]
 type InteractOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onInteractOutside']>>[0]
 
-/**
- * Popover content area. Delegates to a modal or non-modal variant based on
- * the root Popover's modal prop. Handles focus trapping, outside interactions,
- * scroll locking (modal), and accessible dismissal.
- */
 export const PopoverContent = React.forwardRef<PopoverContentElement, IPopover.IContentProps>(
   (props: IPopover.IScoped<IPopover.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopePopover)
@@ -49,8 +44,6 @@ export const PopoverContent = React.forwardRef<PopoverContentElement, IPopover.I
 )
 
 PopoverContent.displayName = CONTENT_NAME
-
-// -------------------------------------------------------------------------------------------------
 
 const Slot = createSlot('PopoverContent.RemoveScroll')
 
@@ -89,7 +82,8 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, IPopover.ICo
           onPointerDownOutside={composeEventHandlers(
             props.onPointerDownOutside,
             (event: PointerDownOutsideEvent) => {
-              // Be defensive with typing: originalEvent is user-agent controlled and can vary.
+              // originalEvent is UA-controlled; narrow before reading button/ctrlKey.
+              // Right-click outside must not re-focus the trigger (would dismiss the context menu).
               const originalEvent = event.detail.originalEvent as unknown
 
               if (
@@ -103,13 +97,12 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, IPopover.ICo
                 const isRightClick = ev.button === 2 || ctrlLeftClick
                 isRightClickOutsideRef.current = isRightClick
               } else {
-                // If we cannot interpret it, default to not right click (same net effect as before).
                 isRightClickOutsideRef.current = false
               }
             },
             { checkForDefaultPrevented: false },
           )}
-          // When focus is trapped, focusout can occur; prevent dismiss in that case.
+          // focus trap can trigger focusout during open; suppress dismiss from that path
           onFocusOutside={composeEventHandlers(
             props.onFocusOutside,
             (event: FocusOutsideEvent) => event.preventDefault(),
@@ -141,7 +134,7 @@ const PopoverContentNonModal = React.forwardRef<PopoverContentElement, IPopover.
 
           if (!event.defaultPrevented) {
             if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus()
-            // Always prevent auto-focus; we either focused manually or want UA focus behavior.
+            // either we focused manually above, or the UA should keep its current focus
             event.preventDefault()
           }
 
@@ -160,12 +153,12 @@ const PopoverContentNonModal = React.forwardRef<PopoverContentElement, IPopover.
             }
           }
 
-          // Prevent dismissing when clicking the trigger (avoids close then immediate open).
+          // clicks on the trigger would dismiss then immediately reopen — short-circuit
           const target = event.target as HTMLElement | null
           const targetIsTrigger = !!target && !!context.triggerRef.current?.contains(target)
           if (targetIsTrigger) event.preventDefault()
 
-          // Safari quirk: ignore focusin outside after a pointerdown outside.
+          // Safari fires focusin outside after pointerdown outside; ignore the follow-up
           const originalEvent = event.detail.originalEvent as Event | undefined
           if (originalEvent?.type === 'focusin' && hasPointerDownOutsideRef.current) {
             event.preventDefault()
@@ -177,8 +170,6 @@ const PopoverContentNonModal = React.forwardRef<PopoverContentElement, IPopover.
 )
 
 PopoverContentNonModal.displayName = `${CONTENT_NAME}NonModal`
-
-// -------------------------------------------------------------------------------------------------
 
 const PopoverContentImpl = React.forwardRef<PopoverContentElement, IPopover.IContentImplProps>(
   (props: IPopover.IScoped<IPopover.IContentImplProps>, forwardedRef) => {
@@ -198,7 +189,8 @@ const PopoverContentImpl = React.forwardRef<PopoverContentElement, IPopover.ICon
     const context = usePopoverContext(CONTENT_NAME, __scopePopover)
     const popperScope = usePopperScope(__scopePopover)
 
-    // Ensure focus guards exist even when the popover is portalled and last in the DOM.
+    // when portalled to end of document, browser tab would escape the trap;
+    // sentinel focus guards re-enter the FocusScope on Tab/Shift+Tab at edges
     useFocusGuards()
 
     return (
@@ -227,8 +219,7 @@ const PopoverContentImpl = React.forwardRef<PopoverContentElement, IPopover.ICon
             ref={forwardedRef}
             style={{
               ...contentProps.style,
-              // Re-namespace exposed popper CSS vars for consumers.
-              // Cast is localized to style because CSS custom properties are not strongly typed in TS.
+              // alias popper CSS vars under the popover namespace for consumer ergonomics
               ...({
                 '--gentleduck-popover-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
                 '--gentleduck-popover-content-available-width': 'var(--gentleduck-popper-available-width)',

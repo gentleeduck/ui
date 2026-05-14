@@ -22,9 +22,7 @@ export const CommandList = React.forwardRef<CommandListElement, ICommand.IListPr
       context.inputRef.current?.focus({ preventScroll: true })
     }, [context.inputRef, context.setSelectedItem])
 
-    // Filtering effect (replaces useCommandSearch)
-    // Uses Collection data instead of raw DOM queries.
-    // Skipped when shouldFilter is false (external filtering is handled by consumer).
+    // skip when shouldFilter is false so consumers can apply their own filtering
     React.useEffect(() => {
       if (!context.shouldFilter) return
 
@@ -45,16 +43,14 @@ export const CommandList = React.forwardRef<CommandListElement, ICommand.IListPr
         }
       }
 
-      // Track the first visible item
       const firstVisible = items.find((i) => !i.ref.current?.hidden)
       context.setSelectedItem(firstVisible?.ref.current ?? null)
 
-      // Toggle empty state
       if (emptyRef.current) {
         emptyRef.current.hidden = hiddenCount < items.length
       }
 
-      // Toggle groups based on whether they have visible items
+      // hide groups (and their trailing separator) that have no visible items
       if (listRef.current) {
         const groups = listRef.current.querySelectorAll('[data-slot="command-group"]')
         for (let i = 0; i < groups.length; i++) {

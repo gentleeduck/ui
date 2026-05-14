@@ -1,4 +1,3 @@
-/** Root Progress component with scope, context, and validation. */
 import * as React from 'react'
 import { useDirection } from '../direction'
 import { createContextScope } from '../libs/create-context'

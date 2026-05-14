@@ -21,7 +21,6 @@ import { NavSecondary } from './nav-secondary'
 import { NavWorkspaces } from './nav-workspaces'
 import { TeamSwitcher } from './team-switcher'
 
-// This is sample data.
 const data = {
   favorites: [
     {

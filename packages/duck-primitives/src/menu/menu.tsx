@@ -1,4 +1,3 @@
-/** Menu root component, contexts, collection, and scope setup. */
 import * as React from 'react'
 import { useDirection } from '../direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'

@@ -4,11 +4,8 @@ import { join, relative } from 'node:path'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 
-// `apps/duck/scripts/build-llm-pages.mjs` runs after velite and writes
-// one pre-rendered .md file per doc into `.gentleduck/_llm/<permalink>.md`,
-// with ComponentSource/Preview tags inlined as fenced code blocks.
-// Keeping the heavy work in the build script lets this route be a tiny
-// fs lookup so the Netlify Lambda stays well under its 250 MB cap.
+// Pre-rendered docs come from scripts/build-llm-pages.mjs; keeping this route
+// to a fs lookup keeps the Netlify Lambda under the 250 MB cap.
 const LLM_DIR = join(process.cwd(), '.gentleduck', '_llm')
 
 function listAllSlugs(): string[][] {
@@ -44,9 +41,7 @@ function readDoc(slug: string[]): string | null {
       if (existsSync(file) && statSync(file).isFile()) {
         return readFileSync(file, 'utf8')
       }
-    } catch {
-      // fall through
-    }
+    } catch {}
   }
   return null
 }

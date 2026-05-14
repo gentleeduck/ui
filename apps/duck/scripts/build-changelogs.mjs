@@ -1,12 +1,4 @@
-// Generate per-package changelog MDX files from each packages/*/CHANGELOG.md.
-//
-// Reads every changesets-managed CHANGELOG, maps the package name to its
-// docs-route slug, and writes the body into the matching docs folder so
-// velite picks it up as a regular MDX page. The aggregated /www/changelog
-// page is rewritten as an index that links to each per-package changelog.
-//
-// Newest version sits at the top because changesets writes new entries
-// above older ones.
+// Emit per-package changelog MDX (mapped to docs slug) + /www/changelog index.
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -18,9 +10,7 @@ const REPO_ROOT = path.resolve(APP_ROOT, '../..')
 const PKG_DIR = path.join(REPO_ROOT, 'packages')
 const CONTENT_DIR = path.join(APP_ROOT, 'content/docs')
 
-// Map @gentleduck/<name> → docs-route slug. Packages without a docs route
-// (registers, registry-blocks/internals/examples, docs, extension) are
-// skipped silently.
+// @gentleduck/<name> → docs slug; unmapped packages are skipped.
 const SLUG_BY_NAME = {
   'registry-ui': 'duck-ui',
   primitives: 'duck-primitives',
@@ -56,8 +46,7 @@ async function findChangelogs(dir) {
   return out
 }
 
-// Escape MDX-significant characters outside fenced/inline code so changesets
-// prose renders as literal text instead of being parsed as JSX/expressions.
+// Escape `<`, `{`, `}` outside fenced/inline code so MDX renders changesets prose as text.
 function escapeForMdx(text) {
   const lines = text.split('\n')
   let inFence = false

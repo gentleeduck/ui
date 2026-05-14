@@ -91,7 +91,6 @@ export default function Demo() {
     const pos = getPosition(dates, date)
     const isShift = shiftRef.current
 
-    // --- SHIFT+CLICK on a selected middle cell: exclude it (split range) ---
     if (isShift && selected && pos === 'middle') {
       const owner = findOwnerRange(ranges, date)
       if (owner) {
@@ -104,31 +103,27 @@ export default function Demo() {
       return
     }
 
-    // --- Click anchor again: cancel ---
     if (anchor && adapter.isSameDay(date, anchor)) {
       removeDate(date)
       setAnchor(null)
       return
     }
 
-    // --- Click on a selected cell (no shift) ---
     if (selected && !isShift) {
       setAnchor(null)
 
-      // Start or end of a range -> remove the whole range
       if (pos === 'start' || pos === 'end') {
         const owner = findOwnerRange(ranges, date)
         if (owner) removeRange(owner)
         return
       }
 
-      // Single selected day -> just deselect
       if (pos === 'single') {
         removeDate(date)
         return
       }
 
-      // Middle of a range -> trim: keep from..clicked, remove everything after
+      // trim middle: keep from..clicked, drop the rest
       if (pos === 'middle') {
         const owner = findOwnerRange(ranges, date)
         if (owner) {
@@ -139,7 +134,6 @@ export default function Demo() {
       }
     }
 
-    // --- Anchor is set -> complete range ---
     if (anchor) {
       const range = daysBetween(anchor, date)
       setDates((prev) => {
@@ -153,7 +147,6 @@ export default function Demo() {
       return
     }
 
-    // --- No anchor, unselected cell -> start new range ---
     setDates((prev) => [...prev, date])
     setAnchor(date)
   }

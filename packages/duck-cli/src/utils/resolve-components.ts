@@ -4,10 +4,7 @@ import prompts from 'prompts'
 import { getRegistryIndex, getRegistryItem } from './get-registry'
 import { highlighter } from './text-styling'
 
-/**
- * Resolves components either from explicit names or by prompting the user
- * to select from the registry. Returns a filtered array with no null entries.
- */
+/** Empty `componentNames` triggers an interactive multiselect; the `__install_all__` sentinel expands to every UI entry. */
 export async function resolveComponents(componentNames: string[], spinner: Ora): Promise<RegistryEntry[]> {
   let components: RegistryEntry[] = []
 

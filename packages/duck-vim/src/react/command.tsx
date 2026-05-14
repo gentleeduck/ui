@@ -6,15 +6,8 @@ import type { Command } from '../command/command.types'
 import { SequenceManager } from '../sequence/sequence'
 import type { Vim } from './vim.types'
 
-/**
- * A React context that holds the key command registry and handler.
- * Consumers can register commands and interact with the keyboard system.
- */
 export const KeyContext = React.createContext<Vim.IKeyContextValue | null>(null)
 
-/**
- * Props for the KeyProvider component.
- */
 interface IKeyProviderProps {
   debug?: boolean
   timeoutMs?: number
@@ -22,21 +15,7 @@ interface IKeyProviderProps {
   children: React.ReactNode
 }
 
-/**
- * Provides a `KeyContext` to its children and attaches a global key handler.
- *
- * @param props.debug - Enable debug logging for key events.
- * @param props.timeoutMs - Timeout between key sequence inputs in milliseconds.
- * @param props.defaultOptions - Default key binding options for all registrations.
- * @param props.children - Child components that can access key command functionality.
- *
- * @example
- * ```tsx
- * <KeyProvider debug timeoutMs={500}>
- *   <App />
- * </KeyProvider>
- * ```
- */
+/** Provides {@link KeyContext} and attaches a global keydown handler for descendants. */
 export const KeyProvider: React.FC<IKeyProviderProps> = ({
   debug = false,
   timeoutMs = 600,
@@ -76,26 +55,8 @@ export const KeyProvider: React.FC<IKeyProviderProps> = ({
 }
 
 /**
- * React hook to register one or more key-command mappings using the global key registry.
- *
- * @param commands - A record of key sequences and their corresponding commands.
- * @param options - Optional key binding options applied to all commands in this call.
- *
- * @example
- * ```tsx
- * useKeyCommands({
- *   'g+d': {
- *     name: 'Go to Dashboard',
- *     execute: () => navigate('/dashboard'),
- *   },
- *   'ctrl+k': {
- *     name: 'Open Command Palette',
- *     execute: () => setOpen(true),
- *   }
- * })
- * ```
- *
- * > Note: Must be used within a `KeyProvider`.
+ * Registers a map of key-sequence → command in the ambient {@link KeyProvider}.
+ * Must be used inside a `KeyProvider`. Re-registers whenever `commands` or `options` change.
  */
 export function useKeyCommands(commands: Record<string, Command.ICommand>, options?: Command.IKeyBindOptions): void {
   const ctx = React.useContext(KeyContext)
@@ -107,13 +68,11 @@ export function useKeyCommands(commands: Record<string, Command.ICommand>, optio
       return
     }
 
-    // Clean up previous registrations
     for (const handle of handlesRef.current) {
       handle.unregister()
     }
     handlesRef.current = []
 
-    // Register new commands
     for (const [seq, cmd] of Object.entries(commands)) {
       const handle = ctx.registry.register(seq, cmd, options)
       handlesRef.current.push(handle)

@@ -10,17 +10,10 @@ import type { ICalendarHeaderProps } from './calendar.types'
 
 const defaultAdapter = new NativeAdapter()
 
-/** Height of each dropdown item in pixels. */
 const ITEM_HEIGHT = 28
-/** Number of items visible in the dropdown viewport. */
 const VISIBLE_ITEMS = 9
 const LIST_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS
-/** Extra items rendered above/below the visible area for smooth scrolling. */
 const OVERSCAN = 3
-
-// ---------------------------------------------------------------------------
-// VirtualizedDropdown  -  shared by month and year
-// ---------------------------------------------------------------------------
 
 function VirtualizedDropdown({
   items,
@@ -52,7 +45,6 @@ function VirtualizedDropdown({
   const startIndex = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN)
   const endIndex = Math.min(items.length, Math.ceil((scrollTop + LIST_HEIGHT) / ITEM_HEIGHT) + OVERSCAN)
 
-  // Find the longest label to size the container
   const longestLabel = React.useMemo(
     () => items.reduce((a, b) => (b.label.length > a.length ? b.label : a), ''),
     [items],
@@ -105,10 +97,6 @@ function VirtualizedDropdown({
   )
 }
 
-// ---------------------------------------------------------------------------
-// DropdownTrigger  -  shared trigger button
-// ---------------------------------------------------------------------------
-
 function DropdownTrigger({ label, open, onClick }: { label: string; open: boolean; onClick: () => void }) {
   return (
     <button
@@ -122,10 +110,6 @@ function DropdownTrigger({ label, open, onClick }: { label: string; open: boolea
     </button>
   )
 }
-
-// ---------------------------------------------------------------------------
-// CalendarHeader
-// ---------------------------------------------------------------------------
 
 function NavButton({
   className,
@@ -169,7 +153,7 @@ export function CalendarHeader({
   const [yearOpen, setYearOpen] = React.useState(false)
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
-  // Close dropdowns on click outside (without a fixed backdrop that breaks Popover)
+  // Outside-click without a fixed backdrop, which would block parent Popover
   React.useEffect(() => {
     if (!monthOpen && !yearOpen) return
     function handlePointerDown(e: PointerEvent) {
@@ -220,7 +204,6 @@ export function CalendarHeader({
             {...headerProps}
             className="flex items-center gap-1.5"
             onPointerDown={stopPopoverDismiss}>
-            {/* Month dropdown */}
             <div className="relative">
               <DropdownTrigger
                 label={adapter.format(month, { month: isArabic ? 'long' : 'short' }, formatLocaleTag)}
@@ -243,7 +226,6 @@ export function CalendarHeader({
               </div>
             </div>
 
-            {/* Year dropdown */}
             <div className="relative">
               <DropdownTrigger
                 label={

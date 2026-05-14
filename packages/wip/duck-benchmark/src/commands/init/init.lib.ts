@@ -25,8 +25,5 @@ export async function initCommandAction(opt: InitOptions) {
 
   //TODO: make sure to compile each file in these folders.
   //TODO: get compile result and statics regarding each file in the folder.
-  // logger.info({ args: ['Done.!'] })
-
-  // spinner.succeed('Done!')
   console.dir(entriesJson, { depth: 11 })
 }

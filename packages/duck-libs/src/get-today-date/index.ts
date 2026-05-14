@@ -1,6 +1,4 @@
-/**
- * Return today's date formatted as `YYYY-MM-DD`.
- */
+/** Today formatted as `YYYY-MM-DD`. */
 export function getTodayDate(): string {
   const today = new Date()
   const year = today.getFullYear()

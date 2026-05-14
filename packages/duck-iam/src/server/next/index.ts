@@ -12,10 +12,6 @@ import type { Engine } from '../../core/engine'
 import type { Environment, PermissionCheck, PermissionMap } from '../../core/types'
 import { METHOD_ACTION_MAP } from '../generic'
 
-// ------------------------------------------------------------
-// API Route Handler wrapper
-// ------------------------------------------------------------
-
 /** Next.js route handler context with params. */
 type RouteContext = { params: Promise<Record<string, string>> | Record<string, string> }
 /** Next.js App Router route handler signature. */
@@ -87,10 +83,6 @@ export function withAccess<
   }
 }
 
-// ------------------------------------------------------------
-// Server Component helpers
-// ------------------------------------------------------------
-
 /**
  * Check a single permission in a Server Component or server action.
  */
@@ -136,10 +128,6 @@ export async function getPermissions<
 ): Promise<PermissionMap<TAction, TResource, TScope>> {
   return engine.permissions(subjectId, checks)
 }
-
-// ------------------------------------------------------------
-// Next.js Middleware integration
-// ------------------------------------------------------------
 
 export interface NextMiddlewareOptions<
   TAction extends string = string,

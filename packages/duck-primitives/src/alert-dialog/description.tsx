@@ -7,7 +7,6 @@ const DESCRIPTION_NAME = 'AlertDialogDescription'
 
 type AlertDialogDescriptionElement = React.ComponentRef<typeof DialogPrimitive.Description>
 
-/** Accessible description for the alert dialog content. */
 export const AlertDialogDescription = React.forwardRef<AlertDialogDescriptionElement, IAlertDialog.IDescriptionProps>(
   (props: IAlertDialog.IScoped<IAlertDialog.IDescriptionProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...descriptionProps } = props

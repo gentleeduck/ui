@@ -5,19 +5,8 @@ import { calculateFileChecksum, computeFingerprint } from '../store.libs'
 import type { StoreRuntime } from '../store.types'
 
 /**
- * Handles the `addFiles` command.
- *
- * This function performs fast synchronous work immediately (validation + state insertion)
- * and then schedules additional async work through the runtime effect queue
- * (checksum computation, de-dupe checks, and final validation transitions).
- *
- * @template M - Intent map type
- * @template C - Cursor map type
- * @template P - Purpose string union type
- *
- * @param rt - Store runtime
- * @param files - Files selected by the user
- * @param purpose - Upload purpose used for validation/routing
+ * Sync: validate + insert. Async (queued): checksum, dedupe lookup,
+ * and the final validation transition.
  */
 export function handleAddFiles<
   M extends IntentMap,
@@ -45,26 +34,23 @@ export function handleAddFiles<
     toAdd.push({ localId, purpose, file, fingerprint, createdAt: now })
 
     rt.enqueueEffect(async () => {
-      // Calculate checksum for deduplication
       let checksum: string | undefined
       try {
         checksum = await calculateFileChecksum(file)
-        // Update fingerprint with checksum
         const updatedFingerprint = { ...fingerprint, checksum }
         rt.applyInternal({ type: 'fingerprint.updated', localId, fingerprint: updatedFingerprint })
       } catch (err) {
-        // If checksum calculation fails, continue without checksum
+        // Checksum failure is non-fatal — continue without dedupe.
         if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
           console.warn('[UploadEngine] Failed to calculate checksum:', err)
         }
       }
 
-      // Check for existing file by checksum if available
+      // Dedupe: skip upload entirely when the backend already has the file.
       if (checksum && rt.opts.api.findByChecksum) {
         try {
           const existingFile = await rt.opts.api.findByChecksum({ checksum, purpose })
           if (existingFile) {
-            // File already exists, skip upload and mark as completed
             const currentItem = rt.state.items.get(localId)
             if (currentItem && currentItem.phase === 'validating') {
               rt.applyInternal({ type: 'dedupe.ok', localId, result: existingFile })
@@ -72,21 +58,20 @@ export function handleAddFiles<
             }
           }
         } catch (err) {
-          // If findByChecksum fails, continue with normal upload flow
+          // Dedupe failure is non-fatal — fall through to normal upload.
           if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
             console.warn('[UploadEngine] Failed to check for existing file:', err)
           }
         }
       }
 
-      // Allow extra sync validation hook
       const reason = rt.opts.validateFile?.(file, purpose)
       if (reason) {
         rt.applyInternal({ type: 'validation.failed', localId, reason })
         return
       }
 
-      // Still run config validation per-file (covers case where caller skipped validateFileList)
+      // Re-run config validation per-file in case the caller skipped validateFileList.
       const cfgReason = validateFile(file, purpose, rt.opts.config)
       if (cfgReason) {
         rt.applyInternal({ type: 'validation.failed', localId, reason: cfgReason })

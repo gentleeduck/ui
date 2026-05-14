@@ -1,28 +1,12 @@
 import type { Variants } from './variants.types'
 
-/**
- * Mutable accumulator that collects CSS tokens with first-seen deduplication.
- *
- * `out` is the space-joined result string; `seen` tracks which tokens have
- * already been added so duplicates (across base, variants, compounds, and
- * user-supplied class/className) are silently skipped.
- *
- * @internal
- */
 type Accum = {
   out: string
   seen: Set<string>
-  /** Optional read-only filter of tokens already present in `out`. */
+  /** Read-only filter of tokens already present (lets prelude `seen` be shared without cloning). */
   filter: ReadonlySet<string> | null
 }
 
-/**
- * Appends a single token to an accumulator, deduping against previously
- * added tokens and against any read-only filter set (used to skip tokens
- * already present in a cached prelude without cloning its Set).
- *
- * @internal
- */
 function pushToken(acc: Accum, t: string): void {
   if (t.length === 0) return
   if (acc.seen.has(t)) return
@@ -31,21 +15,8 @@ function pushToken(acc: Accum, t: string): void {
   acc.out = acc.out.length === 0 ? t : `${acc.out} ${t}`
 }
 
-/**
- * Appends tokens from any {@link Variants.ClassValue} onto an accumulator.
- *
- * Supports strings (whitespace-split), numbers/bigints, nested arrays, and
- * `{ className: boolean }` dictionaries. Boolean, null, and undefined inputs
- * are ignored, which makes expressions like `isActive && "active"` safe in
- * class arrays.
- *
- * Fast path: a string with no whitespace bypasses the regex split and goes
- * straight to the accumulator. The vast majority of runtime className values
- * are single tokens (e.g., `"k-42"`, `"custom"`), so the fast path dominates
- * cold-call cost.
- *
- * @internal
- */
+// Fast path: whitespace-free strings skip the regex split — most runtime
+// className values are single tokens, so this dominates cold-call cost.
 function appendClassValue(acc: Accum, input: Variants.ClassValue | undefined): void {
   if (input == null || typeof input === 'boolean') return
 
@@ -84,41 +55,17 @@ function appendClassValue(acc: Accum, input: Variants.ClassValue | undefined): v
 }
 
 /**
- * Creates a Class Variance Authority (CVA) function for composing class names
- * from a base, variants, defaults, and compound variants.
+ * CVA function for composing class names from base + variants + compounds.
  *
- * Two call signatures are supported:
- * - `cva(base, options)`
- * - `cva({ base, ...options })`
+ * Two signatures: `cva(base, options)` or `cva({ base, ...options })`.
  *
- * The variant-only prelude (base + variants + compounds, with no user
- * `class`/`className`) is memoized per variant-prop combination. Dynamic
- * `class`/`className` is appended on top without invalidating the cache, so
- * cold-path calls (unique className each time) only pay for the final merge.
+ * Null/undefined variant props skip the variant (they do NOT fall back to the
+ * default) — passing `{ size: undefined }` produces no `size` classes.
  *
- * Null/undefined variant props override defaults: passing `{ size: undefined }`
- * skips the `size` variant entirely instead of falling back to the default.
- *
- * Output tokens are deduplicated on first-seen order across all sources.
- *
- * @template TVariants - Mapping of variant names to their class option maps.
- * @param baseOrOptions - Either the base class string, or a full config including `base`.
- * @param maybeOptions - The options object when using the two-arg signature.
- * @returns A function that resolves variant props into a class string.
- *
- * @example
- * ```ts
- * const button = cva('btn px-4 py-2', {
- *   variants: {
- *     intent: { primary: 'bg-blue-500 text-white', danger: 'bg-red-500' },
- *     size: { sm: 'text-sm', lg: 'text-lg' },
- *   },
- *   defaultVariants: { intent: 'primary', size: 'sm' },
- *   compoundVariants: [
- *     { intent: ['primary', 'danger'], size: 'lg', className: 'uppercase' },
- *   ],
- * })
- * ```
+ * Tokens are deduplicated first-seen across base, variants, compounds, and
+ * user-supplied class/className. The variant-only prelude is memoized per
+ * variant-prop combination; dynamic class/className is appended without
+ * invalidating the cache.
  */
 export function cva<TVariants extends Variants.VariantDefinitions>(
   baseOrOptions: string | Variants.Config<TVariants>,
@@ -129,8 +76,6 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
 
   const { base = '', variants, defaultVariants, compoundVariants = [] } = config
 
-  // Pre-resolve the base into a deduped string + its seen-set, so the prelude
-  // builder can start from this snapshot without re-walking the base each time.
   const baseAcc: Accum = { out: '', seen: new Set<string>(), filter: null }
   appendClassValue(baseAcc, base)
   const baseString = baseAcc.out
@@ -138,8 +83,8 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
 
   const variantKeys: string[] = variants ? Object.keys(variants) : []
 
-  // Pre-tokenize each variant option so the prelude builder can just iterate
-  // an array of tokens rather than re-flatten a ClassValue every time.
+  // Pre-tokenize each variant option so the prelude builder iterates string[]
+  // rather than re-flattening a ClassValue per call.
   const variantTokens: Record<string, Record<string, string[]>> = {}
   if (variants) {
     for (const k of variantKeys) {
@@ -180,8 +125,8 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
   const defaults = (defaultVariants ?? {}) as Record<string, unknown>
 
   type Prelude = { str: string; seen: Set<string> }
-  // Keyed by variant-prop state only. Dynamic class/className never enters the
-  // key, so a unique user className per call still hits the prelude cache.
+  // Keyed by variant-prop state only — dynamic class/className stays out of
+  // the key so unique user classNames still hit the cache.
   const preludeCache = new Map<string, Prelude>()
 
   return (props: Variants.Props<TVariants> = {} as Variants.Props<TVariants>): string => {
@@ -243,10 +188,8 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
 
     if (!hasDynamic) return prelude.str
 
-    // Fast path: exactly one of class/className is a single-token string
-    // (the overwhelmingly common case in React components passing
-    // `className={someString}`). Skips Accum allocation and the Set for
-    // dynamic tokens.
+    // Fast path: exactly one of class/className is a whitespace-free string
+    // (the common React `className={x}` case). Skips Accum + Set alloc.
     const singleStr =
       typeof dynamicClassName === 'string' && dynamicClass == null
         ? dynamicClassName
@@ -258,8 +201,7 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
       return prelude.str.length === 0 ? singleStr : `${prelude.str} ${singleStr}`
     }
 
-    // General path: use prelude.seen as a read-only filter instead of cloning
-    // it. Only the dynamic tokens need to be tracked in `seen` for per-call dedup.
+    // prelude.seen used as read-only filter — avoids cloning the Set per call.
     const acc: Accum = { out: prelude.str, seen: new Set<string>(), filter: prelude.seen }
     if (dynamicClassName != null) appendClassValue(acc, dynamicClassName as Variants.ClassValue)
     if (dynamicClass != null) appendClassValue(acc, dynamicClass as Variants.ClassValue)

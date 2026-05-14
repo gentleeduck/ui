@@ -8,7 +8,7 @@ declare namespace Reflect {
   function getMetadata(key: string, target: object): unknown
 }
 
-// -- Minimal NestJS types -- no hard dependency on @nestjs/common --
+// NestJS is a peer dep — these are the minimum shapes the guard touches.
 
 /** Minimal NestJS request shape. */
 interface NestRequest {
@@ -32,7 +32,6 @@ interface NestExecutionContext {
 /** Metadata key for the @Authorize decorator. */
 export const ACCESS_METADATA_KEY = 'duck-iam:authorize'
 
-// -- Types for decorator config --
 export interface AuthorizeMeta<
   TAction extends string = string,
   TResource extends string = string,
@@ -67,11 +66,10 @@ export function Authorize<
   meta: AuthorizeMeta<TAction, TResource, TScope> = { infer: true } as AuthorizeMeta<TAction, TResource, TScope>,
 ): MethodDecorator {
   return (_target, _propertyKey, descriptor) => {
-    // Use Reflect.defineMetadata if available, otherwise fallback
+    // Prefer reflect-metadata when present, but also attach directly so the guard works without it.
     if (Reflect?.defineMetadata) {
       Reflect.defineMetadata(ACCESS_METADATA_KEY, meta, descriptor.value as object)
     }
-    // Attach directly as well for guard to read
     if (descriptor.value != null) {
       Object.defineProperty(descriptor.value, '__accessMeta', { value: meta, configurable: true, writable: true })
     }

@@ -62,8 +62,6 @@ interface IIndexedDocEntry {
 
 type DocsIndexLoadSource = 'memory' | 'persistent' | 'incremental' | 'rebuild'
 
-// -- In-memory cache ---------------------------------------------------------
-
 const CACHE_TTL = 60_000 // 1 minute
 
 let cachedIndex: ICachedDocsIndex | null = null
@@ -168,7 +166,7 @@ async function readIndexedDocEntry(source: IDocSourceFile, baseDir: string): Pro
   const { title, description, body } = parseFrontmatter(content)
   const cleanBody = stripMdxSyntax(body)
 
-  // Tokenize with title/description weighted 3x for TF-IDF
+  // Title/description repeated 3x to weight them in the TF-IDF score.
   const titleDesc = `${title} ${title} ${title} ${description} ${description} ${description}`
   const tokens = tokenize(`${titleDesc} ${source.slug.replace(/[/\-_]/g, ' ')} ${cleanBody}`)
 
@@ -221,9 +219,7 @@ export function stripMdxSyntax(body: string): string {
   const unwrapComponents = ['Tabs', 'TabsList', 'TabsTrigger', 'TabsContent', 'Steps', 'Step']
   const removeComponents = ['MermaidDiagram', 'ComponentSource', 'ComponentPreview']
 
-  let stripped = body
-    // Remove import statements
-    .replace(/^import\s+.*$/gm, '')
+  let stripped = body.replace(/^import\s+.*$/gm, '')
 
   for (const component of unwrapComponents) {
     stripped = stripped.replace(new RegExp(`<${component}[^>]*>([\\s\\S]*?)<\\/${component}>`, 'g'), '$1')
@@ -233,21 +229,13 @@ export function stripMdxSyntax(body: string): string {
     stripped = stripped.replace(new RegExp(`<${component}[^>]*>[\\s\\S]*?<\\/${component}>`, 'g'), '')
   }
 
-  return (
-    stripped
-      // Remove self-closing JSX tags like <ComponentPreview ... />
-      .replace(/<\w+[\s\S]*?\/>/g, '')
-      // Remove standalone JSX open/close tags (single line)
-      .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
-      // Collapse 3+ blank lines into 2
-      .replace(/\n{3,}/g, '\n\n')
-      .trim()
-  )
+  return stripped
+    .replace(/<\w+[\s\S]*?\/>/g, '')
+    .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
 }
 
-/**
- * Extract fenced code blocks from the body.
- */
 function extractCodeBlocks(body: string): string[] {
   const blocks: string[] = []
   const regex = /```(\w*)\n([\s\S]*?)```/g
@@ -260,10 +248,6 @@ function extractCodeBlocks(body: string): string[] {
   }
   return blocks
 }
-
-// -- TF-IDF semantic search engine -------------------------------------------
-
-// -- Stemming ----------------------------------------------------------------
 
 /**
  * Simple suffix-stripping stemmer.
@@ -285,7 +269,7 @@ export function stem(word: string): string {
     return value.slice(0, -1)
   }
 
-  // Order matters: longest suffixes first
+  // Longest suffixes must be listed first so the matcher prefers them.
   const suffixes: [string, string][] = [
     ['ational', 'ate'],
     ['tional', 'tion'],
@@ -324,7 +308,7 @@ export function stem(word: string): string {
   for (const [suffix, replacement] of suffixes) {
     if (word.endsWith(suffix)) {
       const base = collapseDoubledConsonant(word.slice(0, -suffix.length) + replacement)
-      // Don't stem too aggressively - keep at least 2 chars
+      // Refuse to stem below 2 chars to avoid pathological collapses.
       if (base.length >= 2) return base
     }
   }
@@ -452,7 +436,6 @@ export function tokenize(text: string): string[] {
     .filter((w) => w.length >= 2 && !STOP_WORDS.has(w))
     .map((w) => stem(w))
 
-  // Add bigrams for phrase-level matching
   const bigrams: string[] = []
   for (let i = 0; i < words.length - 1; i++) {
     bigrams.push(`${words[i]}_${words[i + 1]}`)
@@ -652,7 +635,6 @@ async function getDocsIndex(): Promise<ICachedDocsIndex> {
   const rawDocs = indexedEntries.map((entry) => entry.doc)
   const tfMaps = indexedEntries.map((entry) => entry.tf)
 
-  // Second pass: compute IDF and TF-IDF vectors
   const idf = computeIdf(tfMaps, rawDocs.length)
 
   const docs: ICachedDoc[] = rawDocs.map((doc, i) => ({
@@ -789,9 +771,6 @@ function getDoc(index: ICachedDocsIndex, slug: string): ICachedDoc | undefined {
   return index.docsBySlug.get(slug)
 }
 
-/**
- * Truncate text to MAX_RESPONSE_CHARS with a notice.
- */
 function truncate(text: string): string {
   if (text.length <= MAX_RESPONSE_CHARS) return text
   return (
@@ -898,8 +877,6 @@ function sortChangelogDocs(docs: ICachedDoc[]): ICachedDoc[] {
   return [...docs].sort((a, b) => getChangelogSortKey(b) - getChangelogSortKey(a))
 }
 
-// -- Fuzzy search ------------------------------------------------------------
-
 /**
  * Compute edit distance between two strings (Levenshtein).
  * Used for typo-tolerant matching.
@@ -929,9 +906,9 @@ export function editDistance(a: string, b: string): number {
         row[j] = previousRow[j - 1] ?? 0
       } else {
         row[j] = Math.min(
-          (previousRow[j - 1] ?? 0) + 1, // substitution
-          (row[j - 1] ?? 0) + 1, // insertion
-          (previousRow[j] ?? 0) + 1, // deletion
+          (previousRow[j - 1] ?? 0) + 1,
+          (row[j - 1] ?? 0) + 1,
+          (previousRow[j] ?? 0) + 1,
         )
       }
     }
@@ -947,7 +924,7 @@ export function editDistance(a: string, b: string): number {
  */
 export function fuzzyMatch(term: string, target: string): boolean {
   if (target.includes(term)) return true
-  if (term.length < 3) return false // too short for fuzzy
+  if (term.length < 3) return false
   const words = target.split(/[\s\-_/]+/)
   const maxDist = term.length <= 4 ? 1 : 2
   return words.some((word) => editDistance(term, word) <= maxDist)
@@ -1027,14 +1004,12 @@ export function scoreKeywordQuery({ terms, stemmedTerms = terms, fields, body }:
   return score
 }
 
-// -- Rate limiting -----------------------------------------------------------
-
-const RATE_LIMIT_WINDOW = 60_000 // 1 minute
-const RATE_LIMIT_MAX = 60 // 60 requests per minute per IP
+const RATE_LIMIT_WINDOW = 60_000
+const RATE_LIMIT_MAX = 60
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
 
-// Clean up stale entries every 5 minutes
+// Drop expired buckets periodically so this map cannot grow unbounded.
 setInterval(() => {
   const now = Date.now()
   for (const [key, val] of rateLimitMap) {
@@ -1063,8 +1038,6 @@ export function getRateLimitResponse(ip: string): Response | null {
   })
 }
 
-// -- Slug validation ---------------------------------------------------------
-
 /**
  * Validate and sanitize a slug to prevent path traversal attacks.
  * Rejects slugs containing "..", absolute paths, or non-alphanumeric path characters.
@@ -1075,7 +1048,6 @@ export function validateSlug(slug: string): { valid: boolean; sanitized: string;
     return { valid: false, sanitized: '', error: 'Absolute paths are not allowed.' }
   if (/[<>:"|?*\\]/.test(slug)) return { valid: false, sanitized: '', error: 'Slug contains invalid characters.' }
 
-  // Normalize: trim whitespace, remove leading/trailing slashes, collapse double slashes
   const sanitized = slug
     .trim()
     .replace(/^\/+|\/+$/g, '')
@@ -1085,8 +1057,6 @@ export function validateSlug(slug: string): { valid: boolean; sanitized: string;
   return { valid: true, sanitized }
 }
 
-// -- Request logging ---------------------------------------------------------
-
 function logRequest(tool: string, params: Record<string, unknown>): void {
   const timestamp = new Date().toISOString()
   const paramStr = Object.entries(params)
@@ -1095,8 +1065,6 @@ function logRequest(tool: string, params: Record<string, unknown>): void {
     .join(' ')
   console.log(`[MCP ${timestamp}] ${tool} ${paramStr}`)
 }
-
-// -- Server ------------------------------------------------------------------
 
 const CATEGORY_ENUM = z.enum(['components', 'installation', 'packages', 'changelog', 'dark-theme', 'general', 'all'])
 
@@ -1118,9 +1086,6 @@ export function createMcpServer(): McpServer {
       ].join(' '),
     },
   )
-
-  // -- list_docs --------------------------------------------------------------
-
   server.tool(
     'list_docs',
     'List documentation pages with pagination. Optionally filter by category. Returns slug, title, description  -  compact by default.',
@@ -1156,9 +1121,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- read_doc ---------------------------------------------------------------
-
   server.tool(
     'read_doc',
     'Read a documentation page. Returns clean markdown (MDX syntax stripped). Use mode="summary" for a headings-only overview that saves tokens, or mode="full" for complete content. Responses over 4000 chars are truncated  -  use section parameter to read specific parts.',
@@ -1212,9 +1174,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- search_docs ------------------------------------------------------------
-
   server.tool(
     'search_docs',
     'Search documentation by keyword with typo tolerance. Returns matching pages with context snippets, ranked by relevance. Handles misspellings like "buton" -> "button".',
@@ -1310,9 +1269,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- get_component_api ------------------------------------------------------
-
   server.tool(
     'get_component_api',
     'Get just the API reference / props table for a component. Much more token-efficient than reading the full page when you only need the props.',
@@ -1325,7 +1281,6 @@ export function createMcpServer(): McpServer {
       const slug = `components/${component.toLowerCase().replace(/[^a-z0-9-]/g, '')}`
       const doc = getDoc(index, slug)
       if (!doc) {
-        // Fuzzy fallback: suggest similar component names
         const components = getDocsForCategory(index, 'components')
         const suggestions = components
           .map((d) => ({
@@ -1386,9 +1341,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- get_examples -----------------------------------------------------------
-
   server.tool(
     'get_examples',
     'Get only the code examples from a documentation page. Returns all fenced code blocks without the surrounding prose  -  saves tokens when you just need to see usage patterns.',
@@ -1429,9 +1381,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- get_changelog ----------------------------------------------------------
-
   server.tool(
     'get_changelog',
     'Get changelog entries. Filter by version or component name to see what changed. E.g. version="2.3" or component="button".',
@@ -1523,9 +1472,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- get_installation -------------------------------------------------------
-
   server.tool(
     'get_installation',
     'Get the installation/setup guide for a specific framework. Shortcut that finds the right installation page and returns its content.',
@@ -1537,10 +1483,8 @@ export function createMcpServer(): McpServer {
       const index = await getDocsIndex()
       const fwLower = framework.toLowerCase()
 
-      // Try exact slug match first
       let doc = getDoc(index, `installation/${fwLower}`)
 
-      // Fuzzy fallback: search installation docs
       if (!doc) {
         const installDocs = getDocsForCategory(index, 'installation')
         const match = installDocs.find(
@@ -1572,9 +1516,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- suggest_components -----------------------------------------------------
-
   server.tool(
     'suggest_components',
     'Describe what you need and get ranked component suggestions. E.g. "I need a date picker" or "modal with form" or "dropdown menu". Uses fuzzy matching across titles, descriptions, and content.',
@@ -1645,9 +1586,6 @@ export function createMcpServer(): McpServer {
       }
     },
   )
-
-  // -- semantic_search --------------------------------------------------------
-
   server.tool(
     'semantic_search',
     'Natural language search using TF-IDF vectors and cosine similarity. Better than keyword search for conceptual queries like "how to handle form validation" or "popup overlay component". Understands meaning, not just keywords.',
@@ -1670,7 +1608,6 @@ export function createMcpServer(): McpServer {
       logRequest('semantic_search', { query, category, limit, threshold })
       const index = await getDocsIndex()
 
-      // Build query vector using the same TF-IDF pipeline
       const queryTokens = tokenize(expandSearchText(query))
       const queryTf = computeTf(queryTokens)
       const queryVector = computeTfidfVector(queryTf, index.idf)
@@ -1685,14 +1622,12 @@ export function createMcpServer(): McpServer {
       // with the query, so reuse the inverted index as a safe prefilter.
       const candidateDocs = getCandidateDocs(index, query, category)
 
-      // Score each doc by cosine similarity
       const results: { slug: string; title: string; description: string; similarity: number; snippet: string }[] = []
 
       for (const doc of candidateDocs) {
         const similarity = cosineSimilarity(queryVector, doc.tfidfVector)
         if (similarity < threshold) continue
 
-        // Extract snippet around the most relevant term
         const queryLower = query.toLowerCase()
         const queryTerms = queryLower.split(/\s+/).filter((t) => t.length >= 2)
         const lines = doc.cleanBody.split('\n')

@@ -1,8 +1,5 @@
 import type { Diff } from '~/utils/diff-format'
 
-// -- Language detection --
-
-/** Map file extensions to shiki language identifiers for syntax highlighting. */
 const EXT_TO_LANG: Record<string, string> = {
   '.ts': 'typescript',
   '.tsx': 'tsx',
@@ -25,8 +22,6 @@ export function detectLanguage(filePath: string): string | null {
   return EXT_TO_LANG[ext] ?? null
 }
 
-// -- Singleton highlighter (lazy-initialized, loads languages on demand) --
-
 type ShikiHighlighter = {
   codeToTokensBase: (
     code: string,
@@ -42,11 +37,7 @@ let _highlighter: ShikiHighlighter | null = null
 const _loaded_langs = new Set<string>()
 let _init_promise: Promise<ShikiHighlighter> | null = null
 
-/**
- * Lazy-initialize and cache a shiki highlighter singleton.
- * Uses a promise lock (_init_promise) to prevent concurrent initialization.
- * Loads additional languages on demand via loadLanguage().
- */
+/** `_init_promise` serves as a lock so concurrent first-callers share a single `createHighlighter` call. */
 async function getHighlighter(lang: string): Promise<ShikiHighlighter> {
   if (_highlighter && _loaded_langs.has(lang)) {
     return _highlighter
@@ -79,19 +70,11 @@ async function getHighlighter(lang: string): Promise<ShikiHighlighter> {
   return _highlighter
 }
 
-// -- Token types --
-
 type SyntaxToken = {
   content: string
   color: string
 }
 
-// -- Core tokenization --
-
-/**
- * Tokenize source code into colored token arrays using shiki.
- * Returns a 2D array (line -> token[]) or null on failure.
- */
 async function tokenizeCode(code: string, lang: string): Promise<SyntaxToken[][] | null> {
   try {
     const highlighter = await getHighlighter(lang)
@@ -110,9 +93,7 @@ async function tokenizeCode(code: string, lang: string): Promise<SyntaxToken[][]
   }
 }
 
-// -- Build per-line token lookup (1-based line numbers) --
-
-/** Convert tokenized output into a Map keyed by 1-based line numbers for O(1) lookup. */
+/** Keys are 1-based to match diff line numbers, not the array index. */
 function buildLineTokenMap(tokenLines: SyntaxToken[][]): Map<number, SyntaxToken[]> {
   const map = new Map<number, SyntaxToken[]>()
   for (const [index, line] of tokenLines.entries()) {
@@ -121,23 +102,14 @@ function buildLineTokenMap(tokenLines: SyntaxToken[][]): Map<number, SyntaxToken
   return map
 }
 
-// -- Public API --
-
-/**
- * Pre-warm the shiki highlighter for a given file type.
- * Call this early (fire-and-forget) so tokenization is instant later.
- */
+/** Fire-and-forget on file open so the first diff render does not block on shiki init. */
 export async function warmHighlighter(filePath: string): Promise<void> {
   const lang = detectLanguage(filePath)
   if (!lang) return
   await getHighlighter(lang)
 }
 
-/**
- * Apply syntax highlighting colors to Diff.DisplayLine[].
- * Tokenizes the full code with shiki, then overlays syntax colors
- * onto existing diff segments. Word-level diff highlights are preserved.
- */
+/** Overlays shiki colors on top of diff segments; word-level diff highlights win over syntax colors. */
 export async function highlightDiffLines(
   lines: Diff.DisplayLine[],
   fullCode: string,
@@ -168,18 +140,10 @@ function applyTokensToLine(line: Diff.DisplayLine, tokenMap: Map<number, SyntaxT
   return { ...line, segments: newSegments }
 }
 
-/**
- * Overlay syntax colors from shiki tokens onto existing diff segments.
- * Word-level diff highlights (seg.highlight === true) pass through unchanged.
- * Non-highlighted segments get split at syntax token color boundaries.
- */
 function overlaySyntaxOnSegments(diffSegments: Diff.Segment[], syntaxTokens: SyntaxToken[]): Diff.Segment[] {
-  // Step 1: Reconstruct the full line text from diff segments so we can
-  // build a character-level color map from the shiki tokens.
+  // Build a per-character color map: shiki returns variable-length tokens but diff segments
+  // have their own boundaries, so we go down to char granularity to splice cleanly.
   const lineText = diffSegments.map((s) => s.text).join('')
-
-  // Build a per-character color array from syntax tokens.
-  // Each character gets the hex color from its corresponding shiki token.
   const charColors: string[] = new Array(lineText.length).fill(DEFAULT_COLOR)
   let pos = 0
   for (const token of syntaxTokens) {
@@ -189,16 +153,11 @@ function overlaySyntaxOnSegments(diffSegments: Diff.Segment[], syntaxTokens: Syn
     }
   }
 
-  // Step 2: Walk each diff segment. For highlighted segments (word-level
-  // diff markers), preserve them as-is -- diff highlighting takes priority
-  // over syntax colors. For non-highlighted segments, split at color
-  // boundaries to apply per-character syntax coloring.
   const result: Diff.Segment[] = []
   let charOffset = 0
 
   for (const seg of diffSegments) {
     if (seg.highlight) {
-      // Word-level diff highlight takes priority -- keep as-is
       result.push(seg)
       charOffset += seg.text.length
       continue
@@ -222,7 +181,6 @@ function overlaySyntaxOnSegments(diffSegments: Diff.Segment[], syntaxTokens: Syn
       }
     }
 
-    // Emit final run
     if (runStart < seg.text.length) {
       result.push({
         text: seg.text.slice(runStart),

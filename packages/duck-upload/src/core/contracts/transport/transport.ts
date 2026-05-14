@@ -110,17 +110,16 @@ function xhrRequest(args: {
 }
 
 /**
- * Creates a browser-native XHR transport.
- * We use XMLHttpRequest instead of fetch because fetch does not yet support
- * upload progress events in a standard cross-browser way.
+ * Browser-native XHR transport. Uses `XMLHttpRequest` over `fetch` because
+ * `fetch` lacks cross-browser upload-progress events.
  */
 export function createXHRTransport(): UploadTransport & {
-  // Optional: for tus strategies (PATCH)
+  /** Optional PATCH for tus-style strategies. */
   patch?: (args: XhrCommonArgs & { body: Blob | ArrayBuffer }) => Promise<{ headers: Record<string, string> }>
 } {
   return {
     async postForm(args) {
-      // Note: presigned POST is usually absolute already (MinIO/S3 URL)
+      // Presigned POST URLs are absolute (MinIO/S3).
       const form = new FormData()
       for (const [k, v] of Object.entries(args.fields)) form.append(k, v)
       form.append('file', args.file, args.filename ?? 'file')
@@ -146,11 +145,10 @@ export function createXHRTransport(): UploadTransport & {
         onProgress: args.onProgress,
       })
 
-      // multipart needs ETag from each part
+      // S3 multipart needs the ETag from each part response.
       return { headers: out.headers, etag: out.etag }
     },
 
-    // Optional for tus strategy (PATCH)
     async patch(args) {
       const out = await xhrRequest({
         method: 'PATCH',

@@ -1,13 +1,7 @@
 import { BLUR_CLEAR, BLUR_LIGHT, type DirectionalSide, getAxis } from './_utils'
 import type { IMotionPreset } from './types'
 
-/**
- * Creates a slide preset for edge-anchored panels (sheets, drawers).
- * The panel slides in from 100% off-screen on the given side
- * with a blur and opacity fade.
- *
- * @param side - Which edge the panel is anchored to
- */
+/** Slide preset for edge-anchored panels (sheets/drawers). Slides in from 100% off-screen on `side`. */
 export function createSlideEdge(side: DirectionalSide): IMotionPreset {
   const axis = getAxis(side)
   const offset = side === 'right' || side === 'bottom' ? '100%' : '-100%'

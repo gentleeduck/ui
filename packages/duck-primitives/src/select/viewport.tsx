@@ -25,9 +25,9 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, ISelect.IV
     const prevScrollTopRef = React.useRef(0)
     return (
       <>
-        {/* Hide scrollbars cross-browser and enable momentum scroll for touch devices */}
+        {/* hide scrollbars cross-browser; touch momentum scroll */}
         <style
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled static CSS string for cross-browser scrollbar hiding  -  no user input involved
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static CSS string, no user input
           dangerouslySetInnerHTML={{
             __html: `[data-slot="select-viewport"]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-slot="select-viewport"]::-webkit-scrollbar{display:none}`,
           }}
@@ -41,12 +41,11 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, ISelect.IV
             {...viewportProps}
             ref={composedRefs}
             style={{
-              // we use position: 'relative' here on the `viewport` so that when we call
-              // `selectedItem.offsetTop` in calculations, the offset is relative to the viewport
-              // (independent of the scrollUpButton).
+              // relative so selectedItem.offsetTop is measured against the viewport,
+              // not affected by scrollUpButton offset
               position: 'relative',
               flex: 1,
-              // Viewport should only be scrollable in the vertical direction.
+              // vertical scroll only
               overflow: 'hidden auto',
               ...viewportProps.style,
             }}
@@ -69,7 +68,7 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, ISelect.IV
                     contentWrapper.style.height = `${clampedNextHeight}px`
                     if (contentWrapper.style.bottom === '0px') {
                       viewport.scrollTop = heightDiff > 0 ? heightDiff : 0
-                      // ensure the content stays pinned to the bottom
+                      // pin content to bottom
                       contentWrapper.style.justifyContent = 'flex-end'
                     }
                   }

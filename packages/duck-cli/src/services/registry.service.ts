@@ -1,7 +1,6 @@
 import { getRegistryBaseColor, getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-registry'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
-/** Fetch the full component registry index. */
 export async function fetchRegistry(): Promise<ServiceResult<Registry.Collection>> {
   const index = await getRegistryIndex()
   if (!index || index.length === 0) {
@@ -10,7 +9,6 @@ export async function fetchRegistry(): Promise<ServiceResult<Registry.Collection
   return { ok: true, data: index }
 }
 
-/** Fetch a single component entry from the registry by name. */
 export async function fetchComponent(name: string): Promise<ServiceResult<Registry.Entry>> {
   const item = await getRegistryItem(name)
   if (!item) {
@@ -19,7 +17,6 @@ export async function fetchComponent(name: string): Promise<ServiceResult<Regist
   return { ok: true, data: item }
 }
 
-/** Fetch multiple components by name with progress reporting. */
 export async function fetchComponents(
   names: string[],
   onProgress: ProgressCallback,
@@ -36,7 +33,6 @@ export async function fetchComponents(
   return { ok: true, data: results }
 }
 
-/** Fetch a base color theme definition from the registry. */
 export async function fetchTheme(name: string): Promise<ServiceResult<unknown>> {
   const result = await getRegistryBaseColor(name)
   if (!result) {

@@ -5,7 +5,6 @@ import type { IAlertDialog } from './alert-dialog.types'
 
 const PORTAL_NAME = 'AlertDialogPortal'
 
-/** Renders alert dialog content into a React portal. */
 const AlertDialogPortal: React.FC<IAlertDialog.IPortalProps> = (
   props: IAlertDialog.IScoped<IAlertDialog.IPortalProps>,
 ) => {

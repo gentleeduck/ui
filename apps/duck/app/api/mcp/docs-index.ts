@@ -1,7 +1,3 @@
-/**
- * Documentation index: file system access, index building, caching.
- */
-
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { join, resolve, sep } from 'node:path'
 import {
@@ -14,8 +10,6 @@ import {
 import { extractCodeBlocks, parseFrontmatter, stripMdxSyntax } from './text'
 import { computeIdf, computeTf, computeTfidfVector } from './tfidf'
 import { expandSearchText, tokenize } from './tokenize'
-
-// -- Types -------------------------------------------------------------------
 
 const CONTENT_DIR_ENV_VAR = 'DUCK_UI_DOCS_CONTENT_DIR'
 
@@ -56,12 +50,8 @@ interface IIndexedDocEntry {
 
 type DocsIndexLoadSource = 'memory' | 'persistent' | 'incremental' | 'rebuild'
 
-// -- Constants ---------------------------------------------------------------
-
 export const MAX_RESPONSE_CHARS = 4000
 const CACHE_TTL = 60_000
-
-// -- In-memory cache ---------------------------------------------------------
 
 let cachedIndex: ICachedDocsIndex | null = null
 let cacheTimestamp = 0
@@ -69,8 +59,6 @@ let cachedContentDir: string | null = null
 let lastIndexLoadSource: DocsIndexLoadSource = 'rebuild'
 let lastIndexCacheFilePath: string | null = null
 let lastPersistedEntryCount = 0
-
-// -- File system helpers -----------------------------------------------------
 
 function getContentDirResolved(): string {
   const contentDir = process.env[CONTENT_DIR_ENV_VAR]
@@ -159,8 +147,6 @@ async function getDocSourceFile(
   return null
 }
 
-// -- Doc parsing -------------------------------------------------------------
-
 function inferCategory(slug: string): string {
   const first = slug.split('/')[0] ?? ''
   const categories: Record<string, string> = {
@@ -198,8 +184,6 @@ async function readIndexedDocEntry(source: IDocSourceFile, baseDir: string): Pro
     tf: computeTf(tokens),
   }
 }
-
-// -- Index building ----------------------------------------------------------
 
 export async function getDocsIndex(): Promise<ICachedDocsIndex> {
   const now = Date.now()
@@ -325,8 +309,6 @@ export async function getDocsIndex(): Promise<ICachedDocsIndex> {
   return cachedIndex
 }
 
-// -- Index accessors ---------------------------------------------------------
-
 export function getDoc(index: ICachedDocsIndex, slug: string): ICachedDoc | undefined {
   return index.docsBySlug.get(slug)
 }
@@ -363,8 +345,6 @@ export function truncate(text: string): string {
   )
 }
 
-// -- Changelog helpers -------------------------------------------------------
-
 const CHANGELOG_MONTHS = new Map([
   ['january', 1],
   ['february', 2],
@@ -399,8 +379,6 @@ function getChangelogSortKey(doc: ICachedDoc): number {
 export function sortChangelogDocs(docs: ICachedDoc[]): ICachedDoc[] {
   return [...docs].sort((a, b) => getChangelogSortKey(b) - getChangelogSortKey(a))
 }
-
-// -- Stats & testing ---------------------------------------------------------
 
 export async function getDocsIndexStats(): Promise<{
   docCount: number

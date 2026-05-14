@@ -39,13 +39,12 @@ export const SelectContent = React.forwardRef<SelectContentImplElement, ISelect.
     const context = useSelectContext(CONTENT_NAME, props.__scopeSelect)
     const [fragment, setFragment] = React.useState<DocumentFragment>()
 
-    // setting the fragment in `useLayoutEffect` as `DocumentFragment` doesn't exist on the server
+    // DocumentFragment is not available on the server
     useLayoutEffect(() => {
       setFragment(new DocumentFragment())
     }, [])
 
-    // Render items into a hidden fragment for collection when closed.
-    // This is needed so the native <select> and SSR can access item values.
+    // Render closed items into a hidden fragment so the collection (and native <select>/SSR) can read values.
     const fragmentPortal =
       !context.open && fragment
         ? ReactDOM.createPortal(
@@ -86,7 +85,6 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
       disableOutsidePointerEvents: disableOutsidePointerEventsProp,
       trapFocus: trapFocusProp,
       lockScroll: lockScrollProp,
-      //
       // PopperContent props
       side,
       sideOffset,
@@ -98,7 +96,6 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
       sticky,
       hideWhenDetached,
       avoidCollisions,
-      //
       ...contentProps
     } = props
     const context = useSelectContext(CONTENT_NAME, __scopeSelect)
@@ -114,13 +111,12 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
     const [isPositioned, setIsPositioned] = React.useState(false)
     const firstValidItemFoundRef = React.useRef(false)
 
-    // aria-hide everything except the content (better supported equivalent to setting aria-modal)
+    // aria-hide everything except content (better-supported than aria-modal)
     React.useEffect(() => {
       if (content) return hideOthers(content)
     }, [content])
 
-    // Make sure the whole tree has focus guards as our `Select` may be
-    // the last element in the DOM (because of the `Portal`)
+    // Select may be the last element in the DOM via Portal; guard focus from escaping the tree
     useFocusGuards()
 
     const focusFirstItem = React.useCallback(
@@ -128,8 +124,8 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
         const [firstItem, ...restItems] = getItems().map((item) => item.ref.current)
         const [lastItem] = restItems.slice(-1)
 
-        // Wrap shared focusFirst with viewport-specific scroll logic:
-        // viewport might have padding so scroll to its edges when focusing first/last items.
+        // Viewport may have padding; force scroll to its edges when focusing first/last items
+        // so padding doesn't leave focused items partially obscured.
         const previouslyFocused = document.activeElement
         for (const candidate of candidates) {
           if (candidate === previouslyFocused) return
@@ -148,16 +144,15 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
       [focusFirstItem, selectedItem, content],
     )
 
-    // Since this is not dependent on layout, we want to ensure this runs at the same time as
-    // other effects across components. Hence why we don't call `focusSelectedItem` inside `position`.
+    // Run alongside other effects (not layout-dependent), so do NOT call from `position()`
     React.useEffect(() => {
       if (isPositioned) {
         focusSelectedItem()
       }
     }, [isPositioned, focusSelectedItem])
 
-    // prevent selecting items on `pointerup` in some cases after opening from `pointerdown`
-    // and close on `pointerup` outside.
+    // Open-on-pointerdown shouldn't immediately select on the matching pointerup (drag threshold);
+    // pointerup outside the content closes the menu.
     const { onOpenChange, triggerPointerDownPosRef } = context
     React.useEffect(() => {
       if (content) {
@@ -170,14 +165,11 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
           }
         }
         const handlePointerUp = (event: PointerEvent) => {
-          // If the pointer hasn't moved by a certain threshold then we prevent selecting item on `pointerup`.
+          // Under 10px movement: treat as click-open, not drag-select
           if (pointerMoveDelta.x <= 10 && pointerMoveDelta.y <= 10) {
             event.preventDefault()
-          } else {
-            // otherwise, if the event was outside the content, close.
-            if (!content.contains(event.target as HTMLElement)) {
-              onOpenChange(false)
-            }
+          } else if (!content.contains(event.target as HTMLElement)) {
+            onOpenChange(false)
           }
           document.removeEventListener('pointermove', handlePointerMove)
           triggerPointerDownPosRef.current = null
@@ -242,7 +234,7 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
 
     const SelectPosition = position === 'popper' ? SelectPopperPosition : SelectItemAlignedPosition
 
-    // Silently ignore props that are not supported by `SelectItemAlignedPosition`
+    // SelectItemAlignedPosition silently ignores popper-only props
     const popperContentProps =
       SelectPosition === SelectPopperPosition
         ? {
@@ -278,11 +270,10 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
         <RemoveScroll as={Slot} allowPinchZoom enabled={resolvedLockScroll}>
           <FocusScope
             asChild
-            // we make sure we're not trapping once it's been closed
-            // (closed !== unmounted when animating out)
+            // release trap once closed (closed !== unmounted during exit animation)
             trapped={resolvedTrapFocus}
             onMountAutoFocus={(event) => {
-              // we prevent open autofocus because we manually focus the selected item
+              // suppress default autofocus; we focus the selected item manually
               event.preventDefault()
             }}
             onUnmountAutoFocus={composeEventHandlers(onCloseAutoFocus, (event) => {
@@ -308,22 +299,21 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
                 onPlaced={() => setIsPositioned(true)}
                 ref={composedRefs}
                 style={{
-                  // flex layout so we can place the scroll buttons properly
+                  // flex column so scroll buttons can sit above/below the viewport
                   display: 'flex',
                   flexDirection: 'column',
-                  // reset the outline by default as the content MAY get focused
+                  // content may receive focus; suppress the default outline
                   outline: 'none',
                   ...contentProps.style,
                 }}
                 onKeyDown={composeEventHandlers(contentProps.onKeyDown, (event) => {
                   const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
 
-                  // select should not be navigated using tab key so we prevent it
+                  // Tab must not move focus inside the listbox
                   if (event.key === 'Tab') event.preventDefault()
 
-                  // Vim keybindings (gg -> top, G -> bottom)
                   const enabledItems = getItems().filter((item) => !item.disabled)
-                  // biome-ignore lint/style/noNonNullAssertion: collection items always have mounted refs when the content is open
+                  // biome-ignore lint/style/noNonNullAssertion: collection refs are mounted whenever content is open
                   const nodes = enabledItems.map((item) => item.ref.current!)
                   if (handleVimKey(event, nodes)) return
 
@@ -375,9 +365,6 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
       ) {
         const triggerRect = context.trigger.getBoundingClientRect()
 
-        // -----------------------------------------------------------------------------------------
-        //  Horizontal positioning
-        // -----------------------------------------------------------------------------------------
         const contentRect = content.getBoundingClientRect()
         const valueNodeRect = context.valueNode.getBoundingClientRect()
         const itemTextRect = selectedItemText.getBoundingClientRect()
@@ -406,9 +393,6 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
           contentWrapper.style.right = `${clampedRight}px`
         }
 
-        // -----------------------------------------------------------------------------------------
-        // Vertical positioning
-        // -----------------------------------------------------------------------------------------
         const items = getItems()
         const availableHeight = window.innerHeight - CONTENT_MARGIN * 2
         const itemsHeight = viewport.scrollHeight
@@ -443,7 +427,7 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
           const clampedTriggerMiddleToBottomEdge = Math.max(
             triggerMiddleToBottomEdge,
             selectedItemHalfHeight +
-              // viewport might have padding bottom, include it to avoid a scrollable viewport
+              // include viewport padding-bottom for last item to prevent a scrollable viewport
               (isLastItem ? viewportPaddingBottom : 0) +
               viewportOffsetBottom +
               contentBorderBottomWidth,
@@ -457,7 +441,7 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
             topEdgeToTriggerMiddle,
             contentBorderTopWidth +
               viewport.offsetTop +
-              // viewport might have padding top, include it to avoid a scrollable viewport
+              // include viewport padding-top for first item to prevent a scrollable viewport
               (isFirstItem ? viewportPaddingTop : 0) +
               selectedItemHalfHeight,
           )
@@ -469,12 +453,10 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
         contentWrapper.style.margin = `${CONTENT_MARGIN}px 0`
         contentWrapper.style.minHeight = `${minContentHeight}px`
         contentWrapper.style.maxHeight = `${availableHeight}px`
-        // -----------------------------------------------------------------------------------------
 
         onPlaced?.()
 
-        // we don't want the initial scroll position adjustment to trigger "expand on scroll"
-        // so we explicitly turn it on only after they've registered.
+        // initial scroll adjustment must NOT trigger expand-on-scroll; arm it next frame
         requestAnimationFrame(() => (shouldExpandOnScrollRef.current = true))
       }
     }, [
@@ -492,16 +474,14 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
 
     useLayoutEffect(() => position(), [position])
 
-    // copy z-index from content to wrapper
+    // mirror content z-index onto wrapper (wrapper is the actually-positioned element)
     const [contentZIndex, setContentZIndex] = React.useState<string>()
     useLayoutEffect(() => {
       if (content) setContentZIndex(window.getComputedStyle(content).zIndex)
     }, [content])
 
-    // When the viewport becomes scrollable at the top, the scroll up button will mount.
-    // Because it is part of the normal flow, it will push down the viewport, thus throwing our
-    // trigger => selectedItem alignment off by the amount the viewport was pushed down.
-    // We wait for this to happen and then re-run the positioning logic one more time to account for it.
+    // Scroll-up button mounts in normal flow, pushing the viewport down and breaking the
+    // trigger=>selectedItem alignment. Re-run positioning once it appears.
     const handleScrollButtonChange = React.useCallback(
       (node: HTMLDivElement | null) => {
         if (node && shouldRepositionRef.current === true) {
@@ -533,10 +513,9 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
             {...popperProps}
             ref={composedRefs}
             style={{
-              // When we get the height of the content, it includes borders. If we were to set
-              // the height without having `boxSizing: 'border-box'` it would be too big.
+              // border-box: measured height includes borders; without this the set height overshoots
               boxSizing: 'border-box',
-              // We need to ensure the content doesn't get taller than the wrapper
+              // never exceed the positioned wrapper
               maxHeight: '100%',
               ...popperProps.style,
             }}
@@ -566,10 +545,10 @@ const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, ISele
         align={align}
         collisionPadding={collisionPadding}
         style={{
-          // Ensure border-box for floating-ui calculations
+          // border-box required for floating-ui measurements
           boxSizing: 'border-box',
           ...popperProps.style,
-          // re-namespace exposed content custom properties
+          // expose popper custom props under select-* namespace
           ...({
             '--gentleduck-select-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-select-content-available-width': 'var(--gentleduck-popper-available-width)',

@@ -1,11 +1,6 @@
 /**
- * Parse a human-friendly date string into a `Date` object.
- *
- * Supported inputs include `"today"`, `"tomorrow"`, `"next week"`,
- * `"in N days"`, and any string accepted by the `Date` constructor.
- *
- * @param input - The date string to parse.
- * @returns The resolved `Date`, or `null` if parsing fails.
+ * Parse a human-friendly date: `"today"`, `"tomorrow"`, `"next week"`,
+ * `"in N days"`, or any `Date`-constructor string. Returns `null` on failure.
  */
 export function parseDate(input: string): Date | null {
   const now = new Date()
@@ -35,7 +30,6 @@ export function parseDate(input: string): Date | null {
     }
   }
 
-  // Fallback: delegate to the Date constructor for natural date strings
   const parsed = new Date(input)
   if (!Number.isNaN(parsed.getTime())) {
     return parsed

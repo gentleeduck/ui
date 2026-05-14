@@ -18,14 +18,11 @@ import {
 import { findDuckuiRootCwd } from '~/utils/workspace'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
-// -- TypeScript --
-
-/** Check if tsconfig.json exists at the project root. */
 export async function checkTypescriptInstalled(cwd: string): Promise<boolean> {
   return fs.pathExists(path.resolve(cwd, 'tsconfig.json'))
 }
 
-/** Install TypeScript and write a starter tsconfig.json (Next.js or generic). */
+/** Picks the Next.js tsconfig template when `projectType === 'NEXT_JS'`, otherwise generic. */
 export async function runInstallTypescript(
   cwd: string,
   projectType?: string,
@@ -55,9 +52,7 @@ export async function runInstallTypescript(
   }
 }
 
-// -- TailwindCSS --
-
-/** Detect TailwindCSS by scanning CSS files for the @import 'tailwindcss' directive. */
+/** Tailwind v4 has no config file: detect by scanning CSS for `@import "tailwindcss"`. */
 export async function checkTailwindInstalled(cwd: string): Promise<boolean> {
   try {
     const cssFiles = await fg.async('**.css', {
@@ -81,7 +76,6 @@ export async function checkTailwindInstalled(cwd: string): Promise<boolean> {
   }
 }
 
-/** Install TailwindCSS and its dependencies via the detected package manager. */
 export async function runInstallTailwindcss(
   cwd: string,
   projectType: (typeof PROJECT_TYPE)[number],
@@ -107,9 +101,6 @@ export async function runInstallTailwindcss(
   }
 }
 
-// -- Duck-UI Config --
-
-/** Check if duck-ui.config.json exists in the current directory. */
 export function checkDuckuiConfigExists(cwd: string): boolean {
   const files = fg.sync(['duck-ui.config.json'], {
     cwd,
@@ -119,10 +110,6 @@ export function checkDuckuiConfigExists(cwd: string): boolean {
   return files.length > 0
 }
 
-/**
- * Initialize duck-ui configuration: fetch theme from registry,
- * generate CSS custom properties, and write duck-ui.config.json.
- */
 export async function runInitDuckuiConfig(
   cwd: string,
   options: DuckUI.Prompts,
@@ -142,11 +129,11 @@ export async function runInitDuckuiConfig(
       if (cssExists) {
         const old = await fs.readFile(cssPath, 'utf-8')
         if (old.length <= 50) {
-          // Small file, safe to replace with theme
+          // Treat tiny files as scaffolding-only and replace; preserves content but avoids surprise overwrites.
           const trimmed = old.trim()
           await fs.writeFile(cssPath, trimmed ? `${trimmed}\n\n${css}` : css)
         } else {
-          // Keep existing @ imports (tailwind imports, etc.) and append theme
+          // Preserve only `@`-prefixed lines (tailwind imports, layers) and drop the rest before appending theme.
           const atImports = old
             .split('\n')
             .filter((l) => l.startsWith('@'))
@@ -168,12 +155,7 @@ export async function runInitDuckuiConfig(
   }
 }
 
-// -- Config Reading --
-
-/**
- * Read and validate duck-ui.config.json.
- * Detects legacy config format (pre-workspace field) and provides a migration hint.
- */
+/** Surfaces a migration error for legacy configs missing the `workspace` field added post-monorepo. */
 export async function readDuckuiConfig(cwd: string): Promise<ServiceResult<DuckUI>> {
   try {
     const configRoot = findDuckuiRootCwd(cwd)
@@ -201,7 +183,6 @@ export async function readDuckuiConfig(cwd: string): Promise<ServiceResult<DuckU
   }
 }
 
-/** Read and parse tsconfig.json from the project directory. */
 export async function readTsConfig(cwd: string): Promise<ServiceResult<TsConfig>> {
   try {
     const files = fg.sync(['tsconfig.json'], { cwd, deep: 1, ignore: IGNORED_DIRECTORIES })

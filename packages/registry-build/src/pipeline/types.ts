@@ -3,14 +3,6 @@ import type { ILoadedRegistryBuildConfig, ILoadRegistryBuildConfigOptions } from
 import type { IResolvedRegistryBuildConfig } from '../config/types'
 import type { IRegistryBuildCacheStore } from './cache/cache'
 
-/**
- * Pipeline-owned runtime types live beside the pipeline implementation so the
- * orchestration layer does not depend on a separate shared type bucket.
- */
-
-/**
- * Normalized output paths used by the core pipeline and UI extensions.
- */
 export interface IRegistryBuildOutputPaths {
   baseDir: string
   cacheDir: string
@@ -40,9 +32,6 @@ export interface IRegistryBuildArtifacts {
   [key: string]: unknown
 }
 
-/**
- * Runtime state shared by core phases and extensions.
- */
 export interface IRegistryBuildContext extends Omit<ILoadedRegistryBuildConfig, 'config'> {
   artifacts: IRegistryBuildArtifacts
   cache: IRegistryBuildCacheStore

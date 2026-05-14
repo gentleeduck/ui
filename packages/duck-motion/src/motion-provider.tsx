@@ -39,26 +39,9 @@ export function useMotionConfig(): IMotionConfigContextValue {
 }
 
 /**
- * Wraps `LazyMotion` + `MotionConfig` with duck-ui defaults.
- * Integrates with `useDuckReducedMotion` to override transitions
- * when the user prefers reduced motion.
- *
- * Supports separate `enterTransition` and `exitTransition` for fine-grained
- * control. The `exitTransition` is exposed via `useMotionConfig()` so
- * `useMotionMount` can auto-derive exit duration.
- *
- * @example
- * ```tsx
- * import { MotionProvider } from '@gentleduck/motion/motion-provider'
- *
- * function App() {
- *   return (
- *     <MotionProvider exitTransition={{ duration: 0.32 }}>
- *       <m.div animate={{ opacity: 1 }} />
- *     </MotionProvider>
- *   )
- * }
- * ```
+ * `LazyMotion` + `MotionConfig` with duck-ui defaults. Honors
+ * `useDuckReducedMotion`. `exitTransition` is exposed via `useMotionConfig()`
+ * so `useMotionMount` can derive exit duration without the caller passing it.
  */
 export function MotionProvider({
   children,

@@ -2,19 +2,8 @@ import { MODIFIER_KEYS } from '../parser/parser'
 import type { Recorder } from './recorder.types'
 
 /**
- * Records key combinations for settings UIs.
- *
- * Attach to an element, press keys, and the recorder captures
- * the full key combination (modifiers + key) as a canonical string.
- *
- * @example
- * const recorder = new KeyRecorder({
- *   onRecord: (binding) => console.log('Recorded:', binding),
- * })
- * recorder.start(document)
- * // User presses Ctrl+Shift+K
- * // onRecord called with 'ctrl+shift+k'
- * recorder.stop()
+ * Records a key combination (modifiers + key) as a canonical binding string.
+ * Intended for "press to set shortcut" UIs.
  */
 export class KeyRecorder {
   private options: Recorder.IKeyRecorderOptions
@@ -28,9 +17,6 @@ export class KeyRecorder {
     this.options = options ?? {}
   }
 
-  /**
-   * Start recording key combinations.
-   */
   start(target: HTMLElement | Document = document): void {
     if (this._isRecording) return
 
@@ -49,9 +35,6 @@ export class KeyRecorder {
     this.options.onStart?.()
   }
 
-  /**
-   * Stop recording.
-   */
   stop(): void {
     if (!this._isRecording || !this.target) return
 
@@ -69,9 +52,6 @@ export class KeyRecorder {
     this.options.onStop?.()
   }
 
-  /**
-   * Get the current recorder state.
-   */
   getState(): Recorder.IKeyRecorderState {
     const activeKeys = [...this.heldModifiers]
     if (this.currentKey) activeKeys.push(this.currentKey)
@@ -83,18 +63,12 @@ export class KeyRecorder {
     }
   }
 
-  /**
-   * Clear the recorded key binding.
-   */
   reset(): void {
     this._recorded = null
     this.heldModifiers.clear()
     this.currentKey = null
   }
 
-  /**
-   * Stop and clean up all resources.
-   */
   destroy(): void {
     this.stop()
     this._recorded = null
@@ -106,20 +80,18 @@ export class KeyRecorder {
 
     const key = e.key.toLowerCase()
 
-    // Track modifiers
     if (e.ctrlKey) this.heldModifiers.add('ctrl')
     if (e.altKey) this.heldModifiers.add('alt')
     if (e.metaKey) this.heldModifiers.add('meta')
     if (e.shiftKey) this.heldModifiers.add('shift')
 
-    // If it's a pure modifier press, just track it
+    // Pure modifier press: just keep tracking, don't emit yet.
     if (['shift', 'control', 'alt', 'meta'].includes(key)) return
 
-    // Non-modifier key pressed -- build the key binding string
     this.currentKey = key === ' ' ? 'space' : key === 'escape' ? 'esc' : key
 
+    // Must match parser's MODIFIER_ORDER so recorded strings compare equally.
     const parts: string[] = []
-    // Use alphabetical modifier order
     for (const mod of ['alt', 'ctrl', 'meta', 'shift'] as const) {
       if (this.heldModifiers.has(mod)) parts.push(mod)
     }
@@ -137,32 +109,23 @@ export class KeyRecorder {
     if (key === 'meta') this.heldModifiers.delete('meta')
     if (key === 'shift') this.heldModifiers.delete('shift')
 
-    // Clear current non-modifier key on release
     if (!['shift', 'control', 'alt', 'meta'].includes(key)) {
       this.currentKey = null
     }
   }
 
+  // Window blur can swallow keyup events, leaving modifiers "stuck" — clear them defensively.
   private onBlur = (): void => {
-    // Reset held keys when window loses focus to avoid stuck keys
     this.heldModifiers.clear()
     this.currentKey = null
   }
 }
 
-/**
- * Tracks which keys are currently pressed.
- *
- * Simpler than KeyRecorder -- just real-time key state tracking
- * without recording logic.
- */
+/** Real-time snapshot of currently held keys. No recording logic. */
 export class KeyStateTracker {
   private pressed = new Set<string>()
   private target: HTMLElement | Document | null = null
 
-  /**
-   * Start tracking key state on the given target.
-   */
   attach(target: HTMLElement | Document = document): void {
     this.target = target
     target.addEventListener('keydown', this.onKeyDown as EventListener)
@@ -173,9 +136,6 @@ export class KeyStateTracker {
     }
   }
 
-  /**
-   * Stop tracking.
-   */
   detach(): void {
     if (!this.target) return
 
@@ -190,9 +150,6 @@ export class KeyStateTracker {
     this.target = null
   }
 
-  /**
-   * Get a snapshot of currently pressed keys.
-   */
   getSnapshot(): Recorder.IKeyStateSnapshot {
     let hasModifier = false
     for (const key of this.pressed) {
@@ -208,16 +165,10 @@ export class KeyStateTracker {
     }
   }
 
-  /**
-   * Check if a specific key is currently pressed.
-   */
   isKeyPressed(key: string): boolean {
     return this.pressed.has(key.toLowerCase())
   }
 
-  /**
-   * Stop tracking and clean up.
-   */
   destroy(): void {
     this.detach()
   }

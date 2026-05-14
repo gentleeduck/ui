@@ -27,10 +27,6 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     this.locale = locale
   }
 
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
-
   /** Convert a native Date to its Hijri parts (cached per-instance). */
   private hijri(date: Date): { hy: number; hm: number; hd: number } {
     return hijriCache.get(this, date)
@@ -42,11 +38,6 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(gy, gm - 1, gd)
   }
 
-  // ---------------------------------------------------------------------------
-  // DateAdapter implementation
-  // ---------------------------------------------------------------------------
-
-  /** Returns today's date with time stripped to midnight. */
   today(): Date {
     const d = new Date()
     return new Date(d.getFullYear(), d.getMonth(), d.getDate())
@@ -59,8 +50,8 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
    * @param month - 0-indexed Hijri month (0 = Muharram, 11 = Dhu al-Hijjah)
    * @param day   - Day of the Hijri month (1-30)
    */
+  /** `month` is 0-indexed externally; converted to 1-indexed for the Hijri core. */
   create(year: number, month: number, day: number): Date {
-    // month is 0-indexed externally, 1-indexed internally
     return this.fromHijri(year, month + 1, day)
   }
 
@@ -86,19 +77,16 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     return a.getTime() > b.getTime()
   }
 
-  /** Returns the first day of the Hijri month containing `date`. */
   startOfMonth(date: Date): Date {
     const { hy, hm } = this.hijri(date)
     return this.fromHijri(hy, hm, 1)
   }
 
-  /** Returns the last day of the Hijri month containing `date`. */
   endOfMonth(date: Date): Date {
     const { hy, hm } = this.hijri(date)
     return this.fromHijri(hy, hm, hijriMonthLength(hy, hm))
   }
 
-  /** Walks backward to the given weekStartDay (0=Sunday). */
   startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
@@ -112,27 +100,18 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     return d
   }
 
-  /**
-   * Adds months in the Hijri calendar with day clamping.
-   *
-   * @example adapter.addMonths(date, 1) // next Hijri month
-   */
+  /** Hijri month arithmetic with day clamping for short months. */
   addMonths(date: Date, count: number): Date {
     const { hy, hm, hd } = this.hijri(date)
-    // Total 0-indexed months, then add
     const totalMonths = (hy - 1) * 12 + (hm - 1) + count
     const newYear = Math.floor(totalMonths / 12) + 1
-    // Use ((n % d) + d) % d to handle negative modulo correctly
+    // ((n % d) + d) % d handles negative modulo correctly.
     const newMonth = (((totalMonths % 12) + 12) % 12) + 1
     const maxDay = hijriMonthLength(newYear, newMonth)
     return this.fromHijri(newYear, newMonth, Math.min(hd, maxDay))
   }
 
-  /**
-   * Adds years in the Hijri calendar with day clamping.
-   *
-   * Dhu al-Hijjah 30 in a leap year -> clamped to 29 in a non-leap year.
-   */
+  /** Dhu al-Hijjah 30 in a leap year clamps to 29 in a non-leap year. */
   addYears(date: Date, count: number): Date {
     const { hy, hm, hd } = this.hijri(date)
     const newYear = hy + count
@@ -140,17 +119,15 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     return this.fromHijri(newYear, hm, Math.min(hd, maxDay))
   }
 
-  /** Returns the Hijri year. */
   getYear(date: Date): number {
     return this.hijri(date).hy
   }
 
-  /** Returns the 0-indexed Hijri month (0 = Muharram). */
+  /** 0-indexed Hijri month (0 = Muharram). */
   getMonth(date: Date): number {
     return this.hijri(date).hm - 1
   }
 
-  /** Returns the Hijri day of the month. */
   getDate(date: Date): number {
     return this.hijri(date).hd
   }
@@ -167,12 +144,7 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
-  /**
-   * Formats using `Intl.DateTimeFormat` with the Islamic calendar extension.
-   *
-   * Appends `-u-ca-islamic` to the locale tag so the formatter renders
-   * Islamic month names and year numbering.
-   */
+  /** Appends `-u-ca-islamic` to the locale tag so `Intl` renders Hijri names/numerals. */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
     return formatWithCalendar(date, options, this.locale, 'islamic', locale)
   }

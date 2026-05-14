@@ -13,7 +13,6 @@ import type * as React from 'react'
 import { NavMain } from './nav-main'
 import { SidebarOptInForm } from './sidebar-opt-in-form'
 
-// This is sample data.
 const data = {
   navMain: [
     {

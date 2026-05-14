@@ -1,4 +1,3 @@
-// import va from '@vercel/analytics'
 import { z } from 'zod'
 
 const eventSchema = z.object({
@@ -16,7 +15,6 @@ const eventSchema = z.object({
     'copy_chart_data',
     'copy_color',
   ]),
-  // declare type AllowedPropertyValues = string | number | boolean | null
   properties: z.record(z.string(), z.union([z.string(), z.number(), z.boolean(), z.null()])).optional(),
 })
 

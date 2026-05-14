@@ -44,9 +44,6 @@ export async function getRegistryItem(name: string) {
     })
   }
 
-  // Get meta.
-  // Assume the first file is the main file.
-  // TODO: Get meta from registry.
   let meta = {}
   try {
     const firstFilePath = files[0]?.path
@@ -56,7 +53,6 @@ export async function getRegistryItem(name: string) {
     // Meta extraction is optional -- don't fail the whole item.
   }
 
-  // Fix file paths.
   files = fixFilePaths(files)
 
   const parsed = registryEntrySchema.safeParse({
@@ -90,14 +86,11 @@ async function getFileContent(file: { path: string; type: string }) {
 
   let code = sourceFile.getFullText()
 
-  // Some registry items uses default export.
-  // We want to use named export instead.
-  // TODO: do we really need this?
+  // Registry items use default exports; rewrite to named for inline rendering.
   if (file.type !== 'registry:page') {
     code = code.replaceAll('export default', 'export')
   }
 
-  // Fix imports.
   code = fixImport(code)
 
   return code
@@ -115,16 +108,8 @@ async function getFileMeta(filePath: string, fileType: string) {
     scriptKind: ScriptKind.TSX,
   })
 
-  // const iframeHeight = extractVariable(sourceFile, 'iframeHeight')
-  // const containerClassName = extractVariable(sourceFile, 'containerClassName')
-  // const description = extractVariable(sourceFile, 'description')
-
   return {
     code: sourceFile.getFullText(),
-    // sourceFile,
-    // iframeHeight,
-    // containerClassName,
-    // description,
   }
 }
 
@@ -163,7 +148,6 @@ function fixFilePaths(files: z.infer<typeof registryEntrySchema>['files']) {
     return []
   }
 
-  // Resolve all paths relative to the first file's directory.
   const firstFilePath = files[0]?.path ?? ''
   const firstFilePathDir = path.dirname(firstFilePath)
 
@@ -217,10 +201,8 @@ export function createFileTreeForRegistryItemFiles(files: Array<{ path: string; 
 
       if (existingNode) {
         if (isFile) {
-          // Update existing file node with full path
           existingNode.path = path
         } else {
-          // Move to next level in the tree
           if (!existingNode.children) {
             existingNode.children = []
           }

@@ -11,7 +11,6 @@ interface ICollectionProps extends SlotProps {
 }
 
 function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: string) {
-  // CollectionProvider
   const PROVIDER_NAME = `${name}CollectionProvider`
   const [createCollectionContext, createCollectionScope] = createContextScope(PROVIDER_NAME)
 
@@ -38,7 +37,6 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
 
   CollectionProvider.displayName = PROVIDER_NAME
 
-  // CollectionSlot
   const COLLECTION_SLOT_NAME = `${name}CollectionSlot`
 
   const CollectionSlotImpl = createSlot(COLLECTION_SLOT_NAME)
@@ -51,7 +49,6 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
 
   CollectionSlot.displayName = COLLECTION_SLOT_NAME
 
-  // CollectionItem
   const ITEM_SLOT_NAME = `${name}CollectionItemSlot`
   const ITEM_DATA_ATTR = 'data-collection-item'
 
@@ -81,7 +78,6 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
 
   CollectionItemSlot.displayName = ITEM_SLOT_NAME
 
-  // useCollection
   function useCollection(scope: Scope) {
     const context = useCollectionContext(`${name}CollectionConsumer`, scope)
 

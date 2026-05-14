@@ -29,7 +29,6 @@ async function loadLogo(): Promise<string> {
   return base64Logo
 }
 
-// Logo at given size and opacity
 function Logo({ logoSrc, opacity, size }: { logoSrc: string; opacity: number; size: number }) {
   return (
     // biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image.
