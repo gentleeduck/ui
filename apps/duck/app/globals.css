@@ -80,25 +80,16 @@ html:has(body[data-scroll-locked]) {
     @apply scroll-smooth;
   }
 
-  html[data-font-preset^="mono"] {
+  html {
     --duck-font-family:
-      var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono",
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      var(--font-mono-font, "JetBrains Mono"), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 
-  html[data-font-preset^="sans"] {
-    --duck-font-family: var(--font-sans-font, "Inter"), ui-sans-serif, system-ui, sans-serif;
-  }
-
-  html[data-font-preset^="serif"] {
-    --duck-font-family: var(--font-serif-font, "Inria Serif"), Georgia, "Times New Roman", serif;
-  }
-
-  html[data-font-preset$="italic"] {
+  html[data-font-italic="true"] {
     --duck-font-style: italic;
   }
 
-  html[data-font-preset$="normal"] {
+  html[data-font-italic="false"] {
     --duck-font-style: normal;
   }
 

@@ -2,21 +2,13 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@gentleduck/registry-ui/dropdown-menu'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { Search, Type } from 'lucide-react'
+import { Italic, Search } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React from 'react'
 import { siteConfig } from '~/config/site'
-import { loadDynamicFont } from '~/lib/dynamic-fonts'
 import { HeaderContainer, HeaderRoot } from '../header-shell'
 import { ModeSwitcher } from '../mode-toggle'
 import { MainNav } from './main-nav'
@@ -44,61 +36,12 @@ function Twitter(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-type FontPreset = 'mono-italic' | 'mono-normal' | 'sans-normal' | 'sans-italic' | 'serif-normal' | 'serif-italic'
-const FONT_PRESET_STORAGE_KEY = 'fontPresetV6'
+const FONT_ITALIC_STORAGE_KEY = 'fontItalic'
 
-const DEFAULT_FONT_PRESET: FontPreset = 'mono-normal'
-
-const FONT_PRESET_OPTIONS: Array<{ label: string; value: FontPreset }> = [
-  { label: 'JetBrains Mono Nerd Italic', value: 'mono-italic' },
-  { label: 'JetBrains Mono Nerd Regular', value: 'mono-normal' },
-  { label: 'Inter Regular', value: 'sans-normal' },
-  { label: 'Inter Italic', value: 'sans-italic' },
-  { label: 'Inria Serif Regular', value: 'serif-normal' },
-  { label: 'Inria Serif Italic', value: 'serif-italic' },
-]
-
-const VALID_FONT_PRESETS = new Set<FontPreset>(FONT_PRESET_OPTIONS.map((option) => option.value))
-
-function isFontPreset(value: unknown): value is FontPreset {
-  return typeof value === 'string' && VALID_FONT_PRESETS.has(value as FontPreset)
-}
-
-function applyFontPreset(preset: FontPreset) {
-  // Mono is preloaded via next/font; sans/serif need on-demand @font-face registration.
-  if (preset.startsWith('sans')) {
-    loadDynamicFont('sans')
-  } else if (preset.startsWith('serif')) {
-    loadDynamicFont('serif')
-  }
-
-  const family = preset.startsWith('sans')
-    ? '"Inter", ui-sans-serif, system-ui, sans-serif'
-    : preset.startsWith('serif')
-      ? '"Inria Serif", Georgia, "Times New Roman", serif'
-      : 'var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
-  const familyVar = preset.startsWith('sans')
-    ? '--font-sans-font'
-    : preset.startsWith('serif')
-      ? '--font-serif-font'
-      : '--font-mono-font'
-  const style = preset.endsWith('italic') ? 'italic' : 'normal'
-
-  // Write-only batch — never read getComputedStyle here or it forces sync reflow.
-  const rootStyle = document.documentElement.style
-  document.documentElement.setAttribute('data-font-preset', preset)
-  rootStyle.setProperty('--duck-font-family', family)
-  rootStyle.setProperty('--font-sans', family)
-  rootStyle.setProperty('--font-mono', family)
-  rootStyle.setProperty('font-family', family, 'important')
-  rootStyle.setProperty('font-style', style, 'important')
-  rootStyle.setProperty('--duck-font-style', style)
-  if (document.body) {
-    const bodyStyle = document.body.style
-    bodyStyle.setProperty('font-family', family, 'important')
-    bodyStyle.setProperty('font-style', style, 'important')
-  }
-  void familyVar
+function applyFontItalic(italic: boolean) {
+  const root = document.documentElement
+  root.setAttribute('data-font-italic', italic ? 'true' : 'false')
+  root.style.setProperty('--duck-font-style', italic ? 'italic' : 'normal')
 }
 
 export function SiteHeader() {
@@ -225,98 +168,23 @@ function GitHubStarsButton() {
     </Link>
   )
 }
-const fontPresetAtom = atomWithStorage<FontPreset>(FONT_PRESET_STORAGE_KEY, DEFAULT_FONT_PRESET)
+const fontItalicAtom = atomWithStorage<boolean>(FONT_ITALIC_STORAGE_KEY, false)
 
 export function FontStyleButton() {
-  const [fontPreset, setFontPreset] = useAtom(fontPresetAtom)
+  const [italic, setItalic] = useAtom(fontItalicAtom)
 
   React.useEffect(() => {
-    try {
-      const hasNewPreset = localStorage.getItem(FONT_PRESET_STORAGE_KEY) !== null
-      if (hasNewPreset) {
-        return
-      }
-
-      const rawV5Preset = localStorage.getItem('fontPresetV5')
-      if (rawV5Preset) {
-        const v5Preset = JSON.parse(rawV5Preset)
-        const migratedPreset: FontPreset = isFontPreset(v5Preset)
-          ? (String(v5Preset).replace('-italic', '-normal') as FontPreset)
-          : DEFAULT_FONT_PRESET
-        setFontPreset(migratedPreset)
-        return
-      }
-
-      const rawV2Preset = localStorage.getItem('fontPresetV2')
-      if (rawV2Preset) {
-        const v2Preset = JSON.parse(rawV2Preset)
-        const migratedPreset: FontPreset =
-          isFontPreset(v2Preset) && v2Preset.startsWith('mono') ? v2Preset : DEFAULT_FONT_PRESET
-        setFontPreset(migratedPreset)
-        return
-      }
-
-      const rawOldPreset = localStorage.getItem('fontPreset')
-      if (rawOldPreset) {
-        const oldPreset = JSON.parse(rawOldPreset)
-        const migratedPreset: FontPreset =
-          isFontPreset(oldPreset) && oldPreset.startsWith('mono') ? oldPreset : DEFAULT_FONT_PRESET
-        setFontPreset(migratedPreset)
-        return
-      }
-
-      const rawLegacyType = localStorage.getItem('fontType')
-      if (rawLegacyType) {
-        const legacyType = JSON.parse(rawLegacyType)
-        const migratedPreset: FontPreset = legacyType === 'mono' ? 'mono-normal' : DEFAULT_FONT_PRESET
-        setFontPreset(migratedPreset)
-      }
-    } catch {
-      // Legacy-key migration is best-effort; fall back to defaults on parse error.
-    }
-  }, [setFontPreset])
-
-  React.useEffect(() => {
-    if (!isFontPreset(fontPreset)) {
-      setFontPreset(DEFAULT_FONT_PRESET)
-      return
-    }
-    applyFontPreset(fontPreset)
-  }, [fontPreset, setFontPreset])
+    applyFontItalic(italic)
+  }, [italic])
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          aria-label="Font and style"
-          className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }), 'size-8')}
-          type="button">
-          <Type aria-hidden="true" className="size-4" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-60">
-        <DropdownMenuRadioGroup
-          onValueChange={(value) => {
-            if (!isFontPreset(value)) {
-              return
-            }
-            setFontPreset(value)
-            applyFontPreset(value)
-          }}
-          value={fontPreset}>
-          {FONT_PRESET_OPTIONS.map((option) => (
-            <DropdownMenuRadioItem
-              key={option.value}
-              onSelect={() => {
-                setFontPreset(option.value)
-                applyFontPreset(option.value)
-              }}
-              value={option.value}>
-              {option.label}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      aria-label={italic ? 'Switch to JetBrains Mono regular' : 'Switch to JetBrains Mono italic'}
+      aria-pressed={italic}
+      className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }), 'size-8')}
+      onClick={() => setItalic((v) => !v)}
+      type="button">
+      <Italic aria-hidden="true" className={cn('size-4', italic ? 'text-foreground' : 'text-muted-foreground')} />
+    </button>
   )
 }

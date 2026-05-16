@@ -5,7 +5,6 @@ import './globals.css'
 import { ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
-import localFont from 'next/font/local'
 import { AppClientProviders } from '~/components/app-client-providers'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
@@ -13,117 +12,7 @@ import { ThemeWrapper } from '~/components/themes'
 import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { siteConfig } from '~/config/site'
-
-const JetBrainsMonoNerd = localFont({
-  src: [
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
-      style: 'normal',
-      weight: '100',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
-      style: 'normal',
-      weight: '200',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
-      style: 'normal',
-      weight: '300',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
-      style: 'normal',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
-      style: 'normal',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
-      style: 'normal',
-      weight: '600',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
-      style: 'normal',
-      weight: '700',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
-      style: 'normal',
-      weight: '800',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
-      style: 'normal',
-      weight: '900',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
-      style: 'italic',
-      weight: '100',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
-      style: 'italic',
-      weight: '200',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
-      style: 'italic',
-      weight: '300',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
-      style: 'italic',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
-      style: 'italic',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
-      style: 'italic',
-      weight: '600',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
-      style: 'italic',
-      weight: '700',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
-      style: 'italic',
-      weight: '800',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
-      style: 'italic',
-      weight: '900',
-    },
-  ],
-  variable: '--font-mono-font',
-  display: 'swap',
-  preload: true,
-  fallback: [
-    'JetBrains Mono Nerd Font Mono',
-    'JetBrains Mono Nerd Font',
-    'JetBrains Mono',
-    'ui-monospace',
-    'SFMono-Regular',
-    'Menlo',
-    'Monaco',
-    'Consolas',
-    'Liberation Mono',
-    'Courier New',
-    'monospace',
-  ],
-})
+import { fontMono } from '~/lib/fonts'
 
 export const metadata: Metadata = {
   ...METADATA,
@@ -132,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={JetBrainsMonoNerd.variable}
+      className={fontMono.variable}
       dir="ltr"
       lang="en"
       style={{ overflowY: 'scroll', scrollbarGutter: 'stable' }}
@@ -237,90 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var presetKey = 'fontPresetV6';
-                  var defaultPreset = 'mono-normal';
-                  var allowed = {
-                    'mono-italic': true,
-                    'mono-normal': true,
-                    'sans-normal': true,
-                    'sans-italic': true,
-                    'serif-normal': true,
-                    'serif-italic': true
-                  };
-                  var rawPreset = localStorage.getItem(presetKey);
-                  var preset = rawPreset ? JSON.parse(rawPreset) : null;
-                  if (!preset) {
-                    var rawV5Preset = localStorage.getItem('fontPresetV5');
-                    var v5Preset = rawV5Preset ? JSON.parse(rawV5Preset) : null;
-                    if (allowed[v5Preset]) {
-                      preset = String(v5Preset).replace('-italic', '-normal');
-                    } else {
-                    var rawV2Preset = localStorage.getItem('fontPresetV2');
-                    var v2Preset = rawV2Preset ? JSON.parse(rawV2Preset) : null;
-                    if (allowed[v2Preset] && v2Preset.indexOf('mono-') === 0) {
-                      preset = v2Preset;
-                    } else {
-                      var rawOldPreset = localStorage.getItem('fontPreset');
-                      var oldPreset = rawOldPreset ? JSON.parse(rawOldPreset) : null;
-                      if (allowed[oldPreset] && oldPreset.indexOf('mono-') === 0) {
-                        preset = oldPreset;
-                      } else {
-                        var rawLegacy = localStorage.getItem('fontType');
-                        var legacyType = rawLegacy ? JSON.parse(rawLegacy) : null;
-                        preset = legacyType === 'mono' ? 'mono-normal' : defaultPreset;
-                      }
-                    }
-                    }
-                  }
-
-                  if (!allowed[preset]) {
-                    preset = defaultPreset;
-                  }
-
-                  if (!rawPreset) {
-                    localStorage.setItem(presetKey, JSON.stringify(preset));
-                  }
-
-                  document.documentElement.setAttribute('data-font-preset', preset);
-
-                  var family = '';
-                  var familyVar = '--font-mono-font';
-                  if (preset.indexOf('sans-') === 0) {
-                    family = 'var(--font-sans-font, "Inter"), ui-sans-serif, system-ui, sans-serif';
-                    familyVar = '--font-sans-font';
-                  } else if (preset.indexOf('serif-') === 0) {
-                    family = 'var(--font-serif-font, "Inria Serif"), Georgia, "Times New Roman", serif';
-                    familyVar = '--font-serif-font';
-                  } else {
-                    family = 'var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
-                  }
-                  var style = preset.indexOf('-italic') > -1 ? 'italic' : 'normal';
-                  var applyPresetStyles = function () {
-                    // Write-only batch — reading computed styles here triggers a synchronous reflow.
-                    var rootStyle = document.documentElement.style;
-                    document.documentElement.setAttribute('data-font-preset', preset);
-                    rootStyle.setProperty('--duck-font-family', family);
-                    rootStyle.setProperty('--font-sans', family);
-                    rootStyle.setProperty('--font-mono', family);
-                    rootStyle.setProperty('font-family', family, 'important');
-                    rootStyle.setProperty('font-style', style, 'important');
-                    if (document.body) {
-                      var bodyStyle = document.body.style;
-                      bodyStyle.setProperty('font-family', family, 'important');
-                      bodyStyle.setProperty('font-style', style, 'important');
-                    }
-                  };
-                  applyPresetStyles();
-                  if (!document.body) {
-                    document.addEventListener('DOMContentLoaded', applyPresetStyles, { once: true });
-                  }
-                  document.documentElement.style.setProperty('--duck-font-style', style);
-                } catch (e) {}
-              })();
-            `,
+            __html: `(function(){try{var raw=localStorage.getItem('fontItalic');var italic=raw?JSON.parse(raw)===true:false;document.documentElement.setAttribute('data-font-italic',italic?'true':'false');document.documentElement.style.setProperty('--duck-font-style',italic?'italic':'normal');}catch(e){}})();`,
           }}
         />
       </head>

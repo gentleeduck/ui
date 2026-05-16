@@ -2,24 +2,24 @@ import { ImageResponse } from 'next/og'
 
 export const runtime = 'nodejs'
 
-async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 | 600; style: 'normal' }[]> {
-  const [{ base64Font: normal }, { base64Font: semibold }] = await Promise.all([
-    import('./source-sans-3-regular-woff2.json').then((mod) => mod.default || mod),
-    import('./source-sans-3-semibold-woff2.json').then((mod) => mod.default || mod),
+async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 | 700; style: 'normal' }[]> {
+  const [{ base64Font: regular }, { base64Font: bold }] = await Promise.all([
+    import('./jetbrains-mono-400-woff2.json').then((mod) => mod.default || mod),
+    import('./jetbrains-mono-700-woff2.json').then((mod) => mod.default || mod),
   ])
 
   return [
     {
-      data: Buffer.from(normal, 'base64'),
-      name: 'Source Sans 3',
+      data: Buffer.from(regular, 'base64'),
+      name: 'JetBrains Mono',
       style: 'normal' as const,
       weight: 400 as const,
     },
     {
-      data: Buffer.from(semibold, 'base64'),
-      name: 'Source Sans 3',
+      data: Buffer.from(bold, 'base64'),
+      name: 'JetBrains Mono',
       style: 'normal' as const,
-      weight: 600 as const,
+      weight: 700 as const,
     },
   ]
 }
@@ -51,7 +51,7 @@ export async function GET(request: Request) {
       style={{
         display: 'flex',
         background: '#09090b',
-        fontFamily: 'Source Sans 3, Source Sans Pro, ui-sans-serif, system-ui, sans-serif',
+        fontFamily: 'JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
       }}
       tw="h-full w-full text-white relative overflow-hidden">
       {/* Decorations layer */}
@@ -314,7 +314,7 @@ export async function GET(request: Request) {
             <span
               style={{
                 fontSize: 28,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: '-0.02em',
               }}>
               gentleduck/ui
@@ -339,7 +339,7 @@ export async function GET(request: Request) {
           <div
             style={{
               fontSize: titleSize,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 1.1,
               textAlign: 'left',
