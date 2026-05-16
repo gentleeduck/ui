@@ -16,7 +16,9 @@ export function CodeBlock({ className, __dmcRaw__, ...props }: ICodeProps) {
     return (
       <code
         className={cn(
-          'relative grid min-w-full break-words rounded-none border-0 bg-transparent p-0 font-mono text-sm',
+          // em-based size so a fenced block dropped under a heading
+          // scales off the parent instead of locking to 14px.
+          'relative grid min-w-full break-words rounded-none border-0 bg-transparent p-0 font-mono text-[0.875em]',
           className,
         )}
         {...props}
@@ -26,7 +28,13 @@ export function CodeBlock({ className, __dmcRaw__, ...props }: ICodeProps) {
 
   return (
     <code
-      className={cn('relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm dark:bg-muted', className)}
+      className={cn(
+        // em-based so inline code inside `<h1>`/`<h2>`/… tracks the
+        // heading size; default to the parent's `text-sm` equivalent
+        // when rendered inside a paragraph.
+        'relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-[0.875em] dark:bg-muted',
+        className,
+      )}
       {...props}
     />
   )

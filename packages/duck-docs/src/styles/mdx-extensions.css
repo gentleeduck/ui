@@ -1,5 +1,0 @@
-/* dmc emits its own branded selectors (`data-dmc-fragment`,
- * `data-dmc-title`, `data-dmc-line-highlighted`) and `--dmc-{mode}*`
- * CSS custom properties for theme-aware code blocks. Per-theme
- * resolution lives in `mdx-code.css`. This file is reserved for
- * extension-only presentation tweaks. */
