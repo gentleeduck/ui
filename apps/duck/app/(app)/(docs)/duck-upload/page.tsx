@@ -95,7 +95,7 @@ export default async function DuckUploadPage() {
   })
 
   return (
-    <div className="container py-8">
+    <div className="container pt-24 pb-8">
       <PageHeader>
         <PackageStatusBadge status="wip" />
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">

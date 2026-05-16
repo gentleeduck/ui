@@ -94,7 +94,7 @@ export default async function DuckQueryPage() {
   })
 
   return (
-    <div className="container py-8">
+    <div className="container pt-24 pb-8">
       <PageHeader>
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>

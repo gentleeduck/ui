@@ -150,7 +150,7 @@ export default async function DuckUiPage() {
   })
 
   return (
-    <main className="container py-8">
+    <main className="container pt-24 pb-8">
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
