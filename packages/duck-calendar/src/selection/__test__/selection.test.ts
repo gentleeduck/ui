@@ -14,9 +14,6 @@ describe('selection', () => {
     adapter = new NativeAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay  -  single
-  // ---------------------------------------------------------------------------
   describe('selectDay / single', () => {
     it('selects a date when nothing is selected', () => {
       const result = selectDay(adapter, 'single', null, adapter.create(2026, 2, 15))
@@ -38,9 +35,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay  -  range
-  // ---------------------------------------------------------------------------
   describe('selectDay / range', () => {
     it('1st click sets from, to is null', () => {
       const result = selectDay(adapter, 'range', null, adapter.create(2026, 2, 10)) as Selection.DateRange<Date>
@@ -80,9 +74,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay  -  multi
-  // ---------------------------------------------------------------------------
   describe('selectDay / multi', () => {
     it('adds a date to an empty array', () => {
       const result = selectDay(adapter, 'multi', [], adapter.create(2026, 2, 15)) as Date[]
@@ -116,9 +107,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isInRange
-  // ---------------------------------------------------------------------------
   describe('isInRange', () => {
     it('returns false when to is null', () => {
       expect(isInRange(adapter, adapter.create(2026, 2, 15), { from: adapter.create(2026, 2, 10), to: null })).toBe(
@@ -158,9 +146,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isDateDisabled
-  // ---------------------------------------------------------------------------
   describe('isDateDisabled', () => {
     it('returns false with empty constraints', () => {
       expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), {})).toBe(false)
@@ -217,9 +202,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // applySelection
-  // ---------------------------------------------------------------------------
   describe('applySelection', () => {
     it('sets isSelected for a single selected date', () => {
       const grid = buildCalendarMonth(adapter, march2026, baseConfig)
@@ -301,9 +283,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay / multi-range
-  // ---------------------------------------------------------------------------
   describe('selectDay / multi-range', () => {
     it('starts a new range on first click', () => {
       const result = selectDay(adapter, 'multi-range', [] as Selection.DateRange<Date>[], new Date(2026, 2, 5))
@@ -436,9 +415,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // applySelection / multi-range
-  // ---------------------------------------------------------------------------
   describe('applySelection / multi-range', () => {
     it('highlights multiple ranges correctly', () => {
       const grid = buildCalendarMonth(adapter, march2026, baseConfig)
@@ -466,9 +442,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay / range  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('selectDay / range  -  edge cases', () => {
     it('range with same start and end date has no middle days', () => {
       const partial: Selection.DateRange<Date> = { from: adapter.create(2026, 2, 15), to: null }
@@ -518,9 +491,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay / single  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('selectDay / single  -  edge cases', () => {
     it('selecting null then clicking returns a date (not wrapped)', () => {
       const result = selectDay(adapter, 'single', null, adapter.create(2026, 0, 1))
@@ -544,9 +514,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay / multi  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('selectDay / multi  -  edge cases', () => {
     it('toggling all dates off returns empty array', () => {
       let current = [adapter.create(2026, 2, 1), adapter.create(2026, 2, 2)]
@@ -577,9 +544,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isInRange  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('isInRange / edge cases', () => {
     it('single-day range (from === to) includes that day', () => {
       const range: Selection.DateRange<Date> = {
@@ -629,9 +593,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isDateDisabled  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('isDateDisabled / edge cases', () => {
     it('both fromDate and toDate constrain to a window', () => {
       const constraints = {
@@ -676,9 +637,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // applySelection  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('applySelection / edge cases', () => {
     it('single mode with null selection marks nothing as selected', () => {
       const grid = buildCalendarMonth(adapter, march2026, baseConfig)
@@ -765,9 +723,6 @@ describe('selection', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // selectDay / multi-range  -  additional edge cases
-  // ---------------------------------------------------------------------------
   describe('selectDay / multi-range  -  additional edge cases', () => {
     it('shift+click outside any range does nothing', () => {
       const ranges: Selection.DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]

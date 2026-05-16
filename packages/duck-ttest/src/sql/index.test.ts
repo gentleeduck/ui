@@ -1,14 +1,6 @@
-// -------------------------------------------
-// InferSchema Test Cases
-// -------------------------------------------
-
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 import type { InferSchema, ResolveFields } from '.'
-
-// -------------------------------------------
-// Test 1 – Basic SQL Types
-// -------------------------------------------
 
 type SQLTest_Basic = InferSchema<`
   CREATE TABLE users (
@@ -27,10 +19,6 @@ type Test_InferSchema_Basic = AssertTrue<
   >,
   'Expected id: number and email: string'
 >
-
-// -------------------------------------------
-// Test 2 – Mixed SQL Types
-// -------------------------------------------
 
 type SQLTest_Mixed = InferSchema<`
   CREATE TABLE users (
@@ -54,10 +42,6 @@ type Test_InferSchema_Mixed = AssertTrue<
   'Expected correct mapping for INTEGER, VARCHAR, BOOLEAN, FLOAT'
 >
 
-// -------------------------------------------
-// Test 3 – Extended Types
-// -------------------------------------------
-
 type SQLTest_Extended = InferSchema<`
   CREATE TABLE metrics (
     value DOUBLE PRECISION,
@@ -77,10 +61,6 @@ type Test_InferSchema_Extended = AssertTrue<
   >,
   'Expected DOUBLE PRECISION -> number, DATE -> string, UUID -> string'
 >
-
-// -------------------------------------------
-// Test 4 – Formatting Tolerance
-// -------------------------------------------
 
 type SQLTest_Formatted = InferSchema<`
   CREATE TABLE
@@ -102,10 +82,6 @@ type Test_InferSchema_Formatted = AssertTrue<
   >,
   'Expected parser to handle indents, spaces, and line breaks'
 >
-
-// -------------------------------------------
-// Test 5 – Unsupported SQL Types
-// -------------------------------------------
 
 type SQLTest_Unknown = InferSchema<`
   CREATE TABLE unknowns (
@@ -177,9 +153,6 @@ type ResolvedAnimal = ResolveFields<
   }
 >
 
-// --- Example usage and test types ---
-
-// Test case 1: Basic table with various constraints
 type TestSQL1 = `
   CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -192,7 +165,6 @@ type TestSQL1 = `
   )
 `
 
-// Test case 2: Table with foreign keys and nullable fields
 type TestSQL2 = `
   CREATE TABLE posts (
     id INTEGER PRIMARY KEY,
@@ -204,7 +176,6 @@ type TestSQL2 = `
   )
 `
 
-// Test case 3: Table with no auto-increment primary key
 type TestSQL3 = `
   CREATE TABLE settings (
     key VARCHAR(50) PRIMARY KEY,
@@ -214,7 +185,6 @@ type TestSQL3 = `
   )
 `
 
-// Test the inferred schemas
 type UserSchema = InferSchema<TestSQL1>
 type PostSchema = InferSchema<TestSQL2>
 type SettingsSchema = InferSchema<TestSQL3>

@@ -2,8 +2,6 @@
 
 export type Scope = 'tenant' | 'system'
 
-/* -------------------------------- Permissions ------------------------------- */
-
 const TENANT_IDENTITY_PERMISSIONS = [
   'user:users.read',
   'user:users.manage',
@@ -152,8 +150,6 @@ export type PlatformPermission = SystemPermission
 
 export type PermissionKey = TenantPermission | SystemPermission
 
-/* -------------------------- Permission type utilities ------------------------ */
-
 export type TenantReadPermission = Extract<TenantPermission, `${string}.read`>
 export type SystemReadPermission = Extract<SystemPermission, `${string}.read`>
 
@@ -163,8 +159,6 @@ function isReadPermission<P extends string>(p: P): p is Extract<P, `${string}.re
 
 const TENANT_READ_PERMISSIONS = TENANT_PERMISSIONS.filter(isReadPermission)
 const SYSTEM_READ_PERMISSIONS = SYSTEM_PERMISSIONS.filter(isReadPermission)
-
-/* ---------------------------------- Roles ---------------------------------- */
 
 export type RoleTemplate<S extends Scope, P extends string> = {
   key: string
@@ -287,8 +281,6 @@ export const SYSTEM_ROLE_TEMPLATES = [
 
 // Backwards-compatible alias
 export const PLATFORM_ROLE_TEMPLATES = SYSTEM_ROLE_TEMPLATES
-
-/* ------------------------------- Small helpers ------------------------------ */
 
 export function isTenantPermission(p: PermissionKey): p is TenantPermission {
   return (TENANT_PERMISSIONS as readonly string[]).includes(p)

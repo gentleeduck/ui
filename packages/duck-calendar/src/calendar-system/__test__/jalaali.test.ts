@@ -3,9 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { isLeapJalaaliYear, jalaaliMonthLength, toGregorian, toJalaali } from '../jalaali'
 
 describe('jalaali conversion', () => {
-  // -------------------------------------------------------------------------
-  // Known Gregorian <-> Jalaali pairs
-  // -------------------------------------------------------------------------
   describe('toJalaali', () => {
     it('2025-06-12 -> 1404-03-22 (Khordad 22)', () => {
       expect(toJalaali(2025, 6, 12)).toEqual({ jy: 1404, jm: 3, jd: 22 })
@@ -79,9 +76,6 @@ describe('jalaali conversion', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Leap years
-  // -------------------------------------------------------------------------
   describe('isLeapJalaaliYear', () => {
     it('known leap years', () => {
       // 1399, 1403, 1408 are leap
@@ -97,9 +91,6 @@ describe('jalaali conversion', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Month lengths
-  // -------------------------------------------------------------------------
   describe('jalaaliMonthLength', () => {
     it('months 1-6 have 31 days', () => {
       for (let m = 1; m <= 6; m++) {
@@ -122,9 +113,6 @@ describe('jalaali conversion', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Edge cases
-  // -------------------------------------------------------------------------
   describe('edge cases', () => {
     it('year boundary: last day of Esfand -> first day of Farvardin', () => {
       // 1403 is leap, so Esfand has 30 days

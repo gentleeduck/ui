@@ -10,9 +10,6 @@ import {
 } from '../hebrew'
 
 describe('hebrew conversion', () => {
-  // ---------------------------------------------------------------------------
-  // isLeapHebrewYear
-  // ---------------------------------------------------------------------------
   describe('isLeapHebrewYear', () => {
     it('identifies leap years in the 19-year Metonic cycle (positions 3,6,8,11,14,17,19)', () => {
       // 5784: (5784-1) % 19 + 1 = 5783 % 19 + 1 = 7 + 1 = 8 -> leap
@@ -28,9 +25,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hebrewMonthsInYear
-  // ---------------------------------------------------------------------------
   describe('hebrewMonthsInYear', () => {
     it('leap year has 13 months', () => {
       expect(hebrewMonthsInYear(5784)).toBe(13)
@@ -41,9 +35,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hebrewMonthLength
-  // ---------------------------------------------------------------------------
   describe('hebrewMonthLength', () => {
     it('Tishrei (month 1) always has 30 days', () => {
       expect(hebrewMonthLength(5786, 1)).toBe(30)
@@ -73,9 +64,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hebrewYearLength
-  // ---------------------------------------------------------------------------
   describe('hebrewYearLength', () => {
     it('returns 353, 354, or 355 for common years', () => {
       const len = hebrewYearLength(5786)
@@ -88,9 +76,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // toHebrew
-  // ---------------------------------------------------------------------------
   describe('toHebrew', () => {
     it('converts Rosh Hashanah 5783 (Sep 26 2022) correctly', () => {
       const h = toHebrew(2022, 9, 26)
@@ -114,9 +99,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hebrewToGregorian
-  // ---------------------------------------------------------------------------
   describe('hebrewToGregorian', () => {
     it('converts 1 Tishrei 5786 to Sep 23 2025', () => {
       const g = hebrewToGregorian(5786, 1, 1)
@@ -126,9 +108,6 @@ describe('hebrew conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Round-trip consistency
-  // ---------------------------------------------------------------------------
   describe('round-trip', () => {
     it('toHebrew -> hebrewToGregorian returns the original date', () => {
       const testDates = [

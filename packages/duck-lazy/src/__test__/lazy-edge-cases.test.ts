@@ -72,10 +72,6 @@ async function renderComponent(Component: React.FC) {
   }
 }
 
-// ============================================================
-// useLazyLoad edge cases
-// ============================================================
-
 describe('useLazyLoad edge cases', () => {
   beforeEach(() => {
     observerInstances = []
@@ -250,10 +246,6 @@ describe('useLazyLoad edge cases', () => {
   })
 })
 
-// ============================================================
-// DuckLazyComponent edge cases
-// ============================================================
-
 describe('DuckLazyComponent edge cases', () => {
   beforeEach(() => {
     observerInstances = []
@@ -358,10 +350,6 @@ describe('DuckLazyComponent edge cases', () => {
   })
 })
 
-// ============================================================
-// Multiple lazy components on same page
-// ============================================================
-
 describe('Multiple lazy components on same page', () => {
   beforeEach(() => {
     observerInstances = []
@@ -447,10 +435,6 @@ describe('Multiple lazy components on same page', () => {
     cleanup()
   })
 })
-
-// ============================================================
-// useLazyImage hook
-// ============================================================
 
 describe('useLazyImage', () => {
   beforeEach(() => {
@@ -630,10 +614,6 @@ describe('useLazyImage', () => {
     cleanup()
   })
 })
-
-// ============================================================
-// DuckLazyImage component
-// ============================================================
 
 describe('DuckLazyImage', () => {
   beforeEach(() => {
@@ -904,10 +884,6 @@ describe('DuckLazyImage', () => {
     cleanup()
   })
 })
-
-// ============================================================
-// DuckLazyImage loaded state transitions
-// ============================================================
 
 describe('DuckLazyImage loaded transitions', () => {
   beforeEach(() => {

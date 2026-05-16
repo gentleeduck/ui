@@ -28,9 +28,6 @@ import { ToggleGroup, ToggleGroupItem } from '../toggle-group'
 import { Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { VisuallyHidden } from '../visibility-hidden'
 
-// ---------------------------------------------------------------------------
-// Toggle
-// ---------------------------------------------------------------------------
 describe('Toggle a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -63,9 +60,6 @@ describe('Toggle a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// RadioGroup
-// ---------------------------------------------------------------------------
 describe('RadioGroup a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -106,9 +100,6 @@ describe('RadioGroup a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Progress
-// ---------------------------------------------------------------------------
 describe('Progress a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -145,9 +136,6 @@ describe('Progress a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Slider
-// ---------------------------------------------------------------------------
 describe('Slider a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -201,9 +189,6 @@ describe('Slider a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Dialog (open)
-// ---------------------------------------------------------------------------
 describe('Dialog a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -255,9 +240,6 @@ describe('Dialog a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Pagination
-// ---------------------------------------------------------------------------
 describe('Pagination a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -302,9 +284,6 @@ describe('Pagination a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Tooltip
-// ---------------------------------------------------------------------------
 describe('Tooltip a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -351,9 +330,6 @@ describe('Tooltip a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Popover (trigger only)
-// ---------------------------------------------------------------------------
 describe('Popover a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -370,9 +346,6 @@ describe('Popover a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// DropdownMenu (trigger only)
-// ---------------------------------------------------------------------------
 describe('DropdownMenu a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -389,9 +362,6 @@ describe('DropdownMenu a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// ContextMenu (trigger only)
-// ---------------------------------------------------------------------------
 describe('ContextMenu a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -408,9 +378,6 @@ describe('ContextMenu a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Select (trigger with value)
-// ---------------------------------------------------------------------------
 describe('Select a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -441,9 +408,6 @@ describe('Select a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Command
-// ---------------------------------------------------------------------------
 describe('Command a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -483,9 +447,6 @@ describe('Command a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// InputOTP
-// ---------------------------------------------------------------------------
 describe('InputOTP a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -526,9 +487,6 @@ describe('InputOTP a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// ToggleGroup
-// ---------------------------------------------------------------------------
 describe('ToggleGroup a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -586,9 +544,6 @@ describe('ToggleGroup a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Avatar
-// ---------------------------------------------------------------------------
 describe('Avatar a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -617,9 +572,6 @@ describe('Avatar a11y - axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// VisuallyHidden
-// ---------------------------------------------------------------------------
 describe('VisuallyHidden a11y - axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''

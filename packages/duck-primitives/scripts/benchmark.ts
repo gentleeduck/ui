@@ -17,10 +17,6 @@ const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck-ui-do
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(DOCS_DIR, { recursive: true })
 
-// ---------------------------------------------------------------------------
-// Measure gentleduck primitive sizes from built dist
-// ---------------------------------------------------------------------------
-
 function getGentleduckSizes(): Record<string, number> {
   const distDir = join(import.meta.dirname, '..', 'dist')
   const sizes: Record<string, number> = {}
@@ -53,10 +49,6 @@ function getGentleduckSizes(): Record<string, number> {
 }
 
 const gdSizes = getGentleduckSizes()
-
-// ---------------------------------------------------------------------------
-// Per-component comparison (Radix sizes verified via bundlephobia API 2026-03-22)
-// ---------------------------------------------------------------------------
 
 // Verified via bundlephobia API on 2026-03-25. 0 = not available from that library.
 const perComponent = [
@@ -91,7 +83,6 @@ const perComponent = [
   { name: 'Tooltip', gentleduck: gdSizes.tooltip ?? 0, radix: 15916 },
 ]
 
-// Savings (only where both have data)
 const savings = perComponent
   .filter((c) => c.radix > 0 && c.gentleduck > 0)
   .map((c) => ({
@@ -101,7 +92,6 @@ const savings = perComponent
     savingPercent: Math.round((1 - c.gentleduck / c.radix) * 100),
   }))
 
-// Total sizes
 const totalComparison = [
   { name: 'Headless UI', sizeKB: 35, components: 10 },
   { name: 'Base UI', sizeKB: 45, components: 15 },
@@ -114,14 +104,9 @@ const totalComparison = [
   { name: 'Radix UI', sizeKB: 180, components: 28 },
 ]
 
-// All sizes
 const allSizes = Object.entries(gdSizes)
   .map(([name, size]) => ({ name, sizeBytes: size, sizeKB: +(size / 1024).toFixed(1) }))
   .sort((a, b) => b.sizeBytes - a.sizeBytes)
-
-// ---------------------------------------------------------------------------
-// Write JSON
-// ---------------------------------------------------------------------------
 
 const results = {
   perComponent,

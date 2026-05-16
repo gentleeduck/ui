@@ -2,10 +2,6 @@ import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 import type { CapitalizeWords, SnakeToCamel, Trim, TrimLeft, TrimRight } from '.'
 
-// -------------------------------------------
-// TrimLeft Tests
-// -------------------------------------------
-
 type Test_TrimLeft_Normal = AssertTrue<
   Equal<TrimLeft<'   hello'>, 'hello'>,
   'Expected TrimLeft to remove leading spaces'
@@ -27,10 +23,6 @@ type Test_TrimLeft_NoWhitespace = AssertTrue<
   Equal<TrimLeft<'world'>, 'world'>,
   'Expected TrimLeft to return same string when no leading whitespace'
 >
-
-// -------------------------------------------
-// TrimRight Tests
-// -------------------------------------------
 
 type Test_TrimRight_Normal = AssertTrue<
   Equal<TrimRight<'hello   '>, 'hello'>,
@@ -54,10 +46,6 @@ type Test_TrimRight_NoWhitespace = AssertTrue<
   'Expected TrimRight to return same string when no trailing whitespace'
 >
 
-// -------------------------------------------
-// Trim Tests
-// -------------------------------------------
-
 type Test_Trim_BothEnds = AssertTrue<
   Equal<Trim<'   hello   '>, 'hello'>,
   'Expected Trim to remove whitespace from both ends'
@@ -74,10 +62,6 @@ type Test_Trim_Empty = AssertTrue<
 >
 
 type Test_Trim_None = AssertTrue<Equal<Trim<'clean'>, 'clean'>, 'Expected Trim to leave clean string untouched'>
-
-// -------------------------------------------
-// CapitalizeWords Tests
-// -------------------------------------------
 
 type Test_CapitalizeWords_Simple = AssertTrue<
   Equal<CapitalizeWords<'hello world'>, 'Hello World'>,
@@ -103,10 +87,6 @@ type Test_CapitalizeWords_Empty = AssertTrue<
   Equal<CapitalizeWords<''>, ''>,
   'Expected CapitalizeWords to return empty string when input is empty'
 >
-
-// -------------------------------------------
-// SnakeToCamel Tests
-// -------------------------------------------
 
 type Test_SnakeToCamel_Simple = AssertTrue<
   Equal<SnakeToCamel<'hello_world'>, 'helloWorld'>,

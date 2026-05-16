@@ -22,9 +22,6 @@ function renderCalendar(props: Record<string, unknown> = {}, children?: React.Re
   )
 }
 
-// ---------------------------------------------------------------------------
-// Calendar root
-// ---------------------------------------------------------------------------
 describe('Calendar (root)', () => {
   it('renders with role="application" and aria-label="Calendar"', () => {
     const { container } = renderCalendar({}, <span>child</span>)
@@ -51,9 +48,6 @@ describe('Calendar (root)', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarHeader
-// ---------------------------------------------------------------------------
 describe('CalendarHeader', () => {
   it('renders month/year text by default (March 2026)', () => {
     const { container } = renderCalendar({}, <CalendarHeader />)
@@ -93,9 +87,6 @@ describe('CalendarHeader', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarNav
-// ---------------------------------------------------------------------------
 describe('CalendarNav', () => {
   it('renders prev and next buttons by default', () => {
     const { container } = renderCalendar({}, <CalendarNav />)
@@ -165,9 +156,6 @@ describe('CalendarNav', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarPrevButton / CalendarNextButton (standalone)
-// ---------------------------------------------------------------------------
 describe('CalendarPrevButton / CalendarNextButton', () => {
   it('renders standalone prev button', () => {
     const { container } = renderCalendar({}, <CalendarPrevButton />)
@@ -182,9 +170,6 @@ describe('CalendarPrevButton / CalendarNextButton', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarGrid
-// ---------------------------------------------------------------------------
 describe('CalendarGrid', () => {
   it('has role="grid"', () => {
     const { container } = renderCalendar({}, <CalendarGrid />)
@@ -214,9 +199,6 @@ describe('CalendarGrid', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarWeekdays
-// ---------------------------------------------------------------------------
 describe('CalendarWeekdays', () => {
   it('renders 7 weekday headers', () => {
     const { container } = renderCalendar({}, <CalendarWeekdays />)
@@ -248,17 +230,12 @@ describe('CalendarWeekdays', () => {
   it('custom renderWeekday overrides cell content', () => {
     const { container } = renderCalendar({}, <CalendarWeekdays renderWeekday={(name) => name.toUpperCase()} />)
     const first = container.querySelector('[data-slot="calendar-weekday"]')
-    // Should be uppercase version of the weekday
     expect(first?.textContent).toBe(first?.textContent?.toUpperCase())
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarDay
-// ---------------------------------------------------------------------------
 describe('CalendarDay', () => {
   it('renders as button with data-slot="calendar-day"', () => {
-    // Create a simple day object
     const day = {
       date: new Date(2026, 2, 15),
       isToday: false,
@@ -403,7 +380,6 @@ describe('CalendarDay', () => {
     const btn = container.querySelector('[data-slot="calendar-day"]') as HTMLButtonElement
     fireEvent.click(btn)
     expect(onSelect).toHaveBeenCalledTimes(1)
-    // The selected value should be the day's date
     const selectedDate = onSelect.mock.calls[0][0] as Date
     expect(selectedDate.getFullYear()).toBe(2026)
     expect(selectedDate.getMonth()).toBe(2)
@@ -411,9 +387,6 @@ describe('CalendarDay', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarMonthView
-// ---------------------------------------------------------------------------
 describe('CalendarMonthView', () => {
   it('renders 12 month buttons', () => {
     const { container } = renderCalendar({}, <CalendarMonthView />)
@@ -463,22 +436,16 @@ describe('CalendarMonthView', () => {
         <CalendarMonthView />
       </>,
     )
-    // Click on June (month index 5)
     const juneBtn = container.querySelector('[data-slot="calendar-month"][data-month="5"]') as HTMLButtonElement
     expect(juneBtn).not.toBeNull()
     fireEvent.click(juneBtn)
-    // After click, viewMode should switch to 'days' (data-view on root)
     const root = container.querySelector('[data-slot="calendar"]')
     expect(root?.getAttribute('data-view')).toBe('days')
-    // Header should now show June
     const header = container.querySelector('[data-slot="calendar-header"]')
     expect(header?.textContent).toContain('June')
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarYearView
-// ---------------------------------------------------------------------------
 describe('CalendarYearView', () => {
   it('renders year buttons', () => {
     const { container } = renderCalendar({}, <CalendarYearView />)
@@ -528,22 +495,16 @@ describe('CalendarYearView', () => {
         <CalendarYearView />
       </>,
     )
-    // Click on year 2028
     const yearBtn = container.querySelector('[data-slot="calendar-year"][data-year="2028"]') as HTMLButtonElement
     expect(yearBtn).not.toBeNull()
     fireEvent.click(yearBtn)
-    // After click, viewMode should switch to 'months'
     const root = container.querySelector('[data-slot="calendar"]')
     expect(root?.getAttribute('data-view')).toBe('months')
-    // Header should now show 2028
     const header = container.querySelector('[data-slot="calendar-header"]')
     expect(header?.textContent).toContain('2028')
   })
 })
 
-// ---------------------------------------------------------------------------
-// Integration tests
-// ---------------------------------------------------------------------------
 describe('Calendar integration', () => {
   function FullCalendar(props: {
     onSelect?: (val: unknown) => void
@@ -564,7 +525,6 @@ describe('Calendar integration', () => {
     )
   }
 
-  // Renders all weeks/days from context
   function WeeksRenderer() {
     // Access weeks from CalendarProvider context
     // We use the exported useCalendarContext but it requires scope param.
@@ -621,9 +581,9 @@ describe('Calendar integration', () => {
     const next = container.querySelector('[data-direction="next"]') as HTMLButtonElement
     const header = container.querySelector('[data-slot="calendar-header"]')
 
-    fireEvent.click(next) // April
-    fireEvent.click(next) // May
-    fireEvent.click(next) // June
+    fireEvent.click(next)
+    fireEvent.click(next)
+    fireEvent.click(next)
     expect(header?.textContent).toContain('June')
     expect(header?.textContent).toContain('2026')
   })
@@ -659,18 +619,14 @@ describe('Calendar integration', () => {
         <CalendarMonthView />
       </Calendar>,
     )
-    // Initially at March 2026
     const header = container.querySelector('[data-slot="calendar-header"]')
     expect(header?.textContent).toContain('March')
 
-    // Click on August (month index 7)
     const augustBtn = container.querySelector('[data-slot="calendar-month"][data-month="7"]') as HTMLButtonElement
     fireEvent.click(augustBtn)
 
-    // viewMode should be 'days' now
     const root = container.querySelector('[data-slot="calendar"]')
     expect(root?.getAttribute('data-view')).toBe('days')
-    // Header should show August
     expect(header?.textContent).toContain('August')
   })
 
@@ -684,14 +640,11 @@ describe('Calendar integration', () => {
     const header = container.querySelector('[data-slot="calendar-header"]')
     expect(header?.textContent).toContain('2026')
 
-    // Click on year 2029
     const yearBtn = container.querySelector('[data-slot="calendar-year"][data-year="2029"]') as HTMLButtonElement
     fireEvent.click(yearBtn)
 
-    // viewMode should be 'months'
     const root = container.querySelector('[data-slot="calendar"]')
     expect(root?.getAttribute('data-view')).toBe('months')
-    // Header should show 2029
     expect(header?.textContent).toContain('2029')
   })
 

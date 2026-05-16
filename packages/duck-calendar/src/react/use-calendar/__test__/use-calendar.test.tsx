@@ -12,9 +12,6 @@ describe('useCalendar', () => {
     adapter = new NativeAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // Uncontrolled month
-  // ---------------------------------------------------------------------------
   describe('uncontrolled month', () => {
     it('defaults to today when no defaultMonth provided', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const }))
@@ -50,9 +47,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Controlled month
-  // ---------------------------------------------------------------------------
   describe('controlled month', () => {
     it('uses month prop as the displayed month', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, month: march2026 }))
@@ -80,9 +74,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Single selection
-  // ---------------------------------------------------------------------------
   describe('single selection', () => {
     it('initial value is null', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
@@ -115,9 +106,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Range selection
-  // ---------------------------------------------------------------------------
   describe('range selection', () => {
     it('first click sets from, to is null', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }))
@@ -154,9 +142,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Multi selection
-  // ---------------------------------------------------------------------------
   describe('multi selection', () => {
     it('initial value is empty array', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }))
@@ -186,9 +171,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Disabled dates
-  // ---------------------------------------------------------------------------
   describe('disabled dates', () => {
     it('selectDate on a disabled date does NOT change value', () => {
       const march5 = new Date(2026, 2, 5)
@@ -228,9 +210,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Navigation constraints
-  // ---------------------------------------------------------------------------
   describe('navigation constraints', () => {
     it('canGoNext is false when at toDate boundary', () => {
       const toDate = new Date(2026, 2, 31) // March 31
@@ -301,9 +280,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Prop getters
-  // ---------------------------------------------------------------------------
   describe('prop getters', () => {
     describe('getDayProps', () => {
       it('returns role gridcell', () => {
@@ -487,9 +463,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // State shape
-  // ---------------------------------------------------------------------------
   describe('state shape', () => {
     it('state.weeks is an array of CalendarWeek objects', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
@@ -541,9 +514,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Focus
-  // ---------------------------------------------------------------------------
   describe('focus', () => {
     it('actions.focusDate(date) changes focusedDate', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
@@ -595,9 +565,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Multiple month display (numberOfMonths > 1)
-  // ---------------------------------------------------------------------------
   describe('multiple month display', () => {
     it('state.months contains multiple CalendarMonth entries when numberOfMonths > 1', () => {
       const { result } = renderHook(() =>
@@ -653,9 +620,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Range selection edge cases
-  // ---------------------------------------------------------------------------
   describe('range selection edge cases', () => {
     it('clicking the same date as from (with no to) deselects the range', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }))
@@ -745,9 +709,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Multi-select edge cases
-  // ---------------------------------------------------------------------------
   describe('multi selection edge cases', () => {
     it('can select multiple distinct dates', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }))
@@ -843,9 +804,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Disabled dates edge cases
-  // ---------------------------------------------------------------------------
   describe('disabled dates edge cases', () => {
     it('disabled date array prevents selection in range mode', () => {
       const march5 = new Date(2026, 2, 5)
@@ -965,9 +923,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // fromDate/toDate boundary edge cases
-  // ---------------------------------------------------------------------------
   describe('fromDate/toDate boundary edge cases', () => {
     it('both fromDate and toDate restrict navigation to a single month', () => {
       const { result } = renderHook(() =>
@@ -1017,9 +972,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // fixedWeeks behavior
-  // ---------------------------------------------------------------------------
   describe('fixedWeeks', () => {
     it('fixedWeeks=true always returns exactly 6 weeks', () => {
       const { result } = renderHook(() =>
@@ -1081,9 +1033,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // onSelect callback
-  // ---------------------------------------------------------------------------
   describe('onSelect callback', () => {
     it('onSelect is called when a date is selected in single mode', () => {
       const onSelect = vi.fn()
@@ -1128,9 +1077,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // defaultSelected
-  // ---------------------------------------------------------------------------
   describe('defaultSelected', () => {
     it('defaultSelected pre-selects a date in single mode', () => {
       const march10 = new Date(2026, 2, 10)
@@ -1163,9 +1109,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // showOutsideDays
-  // ---------------------------------------------------------------------------
   describe('showOutsideDays', () => {
     it('showOutsideDays=false marks outside days as hidden', () => {
       const { result } = renderHook(() =>
@@ -1199,9 +1142,6 @@ describe('useCalendar', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Year-boundary navigation
-  // ---------------------------------------------------------------------------
   describe('year boundary navigation', () => {
     it('navigating past December wraps to January of next year', () => {
       const dec2026 = new Date(2026, 11, 1)

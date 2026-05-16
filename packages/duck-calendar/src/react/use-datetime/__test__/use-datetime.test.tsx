@@ -6,9 +6,6 @@ const adapter = new NativeAdapter()
 const march15At1430 = new Date(2026, 2, 15, 14, 30, 0)
 
 describe('useDateTime', () => {
-  // ---------------------------------------------------------------------------
-  // Initial value
-  // ---------------------------------------------------------------------------
   describe('initial value', () => {
     it('extracts date and time from defaultValue', () => {
       const { result } = renderHook(() =>
@@ -35,9 +32,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Selecting a date preserves the time
-  // ---------------------------------------------------------------------------
   describe('date selection preserves time', () => {
     it('selecting a new date keeps the existing time', () => {
       const { result } = renderHook(() =>
@@ -61,9 +55,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Changing time preserves the date
-  // ---------------------------------------------------------------------------
   describe('time change preserves date', () => {
     it('changing time keeps the existing date', () => {
       const { result } = renderHook(() =>
@@ -87,9 +78,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Controlled value follows prop
-  // ---------------------------------------------------------------------------
   describe('controlled value', () => {
     it('follows the controlled value prop', () => {
       const { result, rerender } = renderHook(
@@ -112,9 +100,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // onChange fires with combined datetime
-  // ---------------------------------------------------------------------------
   describe('onChange', () => {
     it('fires with combined datetime when date is selected', () => {
       const onChange = vi.fn()
@@ -161,9 +146,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Sub-returns are accessible
-  // ---------------------------------------------------------------------------
   describe('sub-returns', () => {
     it('calendar sub-return is accessible with expected shape', () => {
       const { result } = renderHook(() =>
@@ -199,9 +181,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Combined date + time selection
-  // ---------------------------------------------------------------------------
   describe('combined date + time selection', () => {
     it('selecting a date when no prior value uses default time (00:00)', () => {
       const { result } = renderHook(() =>
@@ -281,9 +260,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Clearing / deselecting
-  // ---------------------------------------------------------------------------
   describe('clearing selection', () => {
     it('deselecting in calendar (toggle) keeps the last known value since onSelect ignores null', () => {
       const { result } = renderHook(() =>
@@ -331,9 +307,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Time picker extracts time from datetime value
-  // ---------------------------------------------------------------------------
   describe('time extraction', () => {
     it('timePicker state reflects the time portion of the datetime value', () => {
       const { result } = renderHook(() =>
@@ -367,9 +340,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // onChange with both date and time changes
-  // ---------------------------------------------------------------------------
   describe('onChange combined scenarios', () => {
     it('onChange fires once per time change even with rapid increments', () => {
       const onChange = vi.fn()
@@ -409,9 +379,6 @@ describe('useDateTime', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hourCycle passthrough
-  // ---------------------------------------------------------------------------
   describe('hourCycle passthrough', () => {
     it('passes hourCycle to the time picker', () => {
       const { result } = renderHook(() =>

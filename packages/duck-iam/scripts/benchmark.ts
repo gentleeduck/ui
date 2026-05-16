@@ -20,10 +20,6 @@ const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck', 'pu
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(DOCS_DIR, { recursive: true })
 
-// ---------------------------------------------------------------------------
-// Benchmark runner
-// ---------------------------------------------------------------------------
-
 function bench(fn: () => void, warmup = 200, iterations = 2000): number {
   for (let i = 0; i < warmup; i++) fn()
   const start = performance.now()
@@ -37,10 +33,6 @@ async function benchAsync(fn: () => Promise<void>, warmup = 100, iterations = 10
   for (let i = 0; i < iterations; i++) await fn()
   return (performance.now() - start) / iterations
 }
-
-// ---------------------------------------------------------------------------
-// 1. Test fixtures
-// ---------------------------------------------------------------------------
 
 const simplePolicy: Policy = {
   id: 'simple',
@@ -121,10 +113,6 @@ const denyRequest: AccessRequest = {
   resource: { type: 'post', attributes: {} },
 }
 
-// ---------------------------------------------------------------------------
-// 2. Core performance benchmarks
-// ---------------------------------------------------------------------------
-
 const corePerformance = {
   evaluatePolicySimple: {
     label: 'evaluatePolicy (simple rule)',
@@ -151,10 +139,6 @@ const corePerformance = {
     us: +(bench(() => evaluate([simplePolicy], denyRequest)) * 1000).toFixed(2),
   },
 }
-
-// ---------------------------------------------------------------------------
-// 3. Engine benchmarks (async, with caching)
-// ---------------------------------------------------------------------------
 
 const adapter = new MemoryAdapter({
   policies: [simplePolicy, conditionPolicy],
@@ -239,10 +223,6 @@ const enginePerformance = {
     ).toFixed(2),
   },
 }
-
-// ---------------------------------------------------------------------------
-// 4. Bundle size measurements
-// ---------------------------------------------------------------------------
 
 function measureExportSize(entryPath: string): number {
   const distDir = join(import.meta.dirname, '..', 'dist')
@@ -373,10 +353,6 @@ const moduleSizes = [
 
 const coreSizeBytes = moduleSizes.find((m) => m.name === 'Core (full)')?.sizeBytes ?? 0
 
-// ---------------------------------------------------------------------------
-// 5. Bundle size comparison (verified via bundlephobia API 2026-03-30)
-// ---------------------------------------------------------------------------
-
 const bundleComparison = [
   {
     name: '@gentleduck/iam (full)',
@@ -408,10 +384,6 @@ const bundleComparison = [
   },
 ]
 
-// ---------------------------------------------------------------------------
-// 6. Feature comparison
-// ---------------------------------------------------------------------------
-
 const features = [
   { feature: 'RBAC', gentleduck: true, casl: true, casbin: true, accesscontrol: true },
   { feature: 'ABAC (conditions)', gentleduck: true, casl: true, casbin: true, accesscontrol: false },
@@ -433,10 +405,6 @@ const features = [
   { feature: 'Resource hierarchy', gentleduck: true, casl: false, casbin: true, accesscontrol: true },
   { feature: 'Wildcard patterns', gentleduck: true, casl: true, casbin: true, accesscontrol: true },
 ]
-
-// ---------------------------------------------------------------------------
-// 7. Per-library comparisons
-// ---------------------------------------------------------------------------
 
 const vsCasl = {
   name: '@casl/ability',
@@ -527,10 +495,6 @@ const vsAccesscontrol = {
 
 const libraryComparisons = [vsCasl, vsCasbin, vsAccesscontrol]
 
-// ---------------------------------------------------------------------------
-// Write JSON output
-// ---------------------------------------------------------------------------
-
 const results = {
   corePerformance: Object.values(corePerformance),
   enginePerformance: Object.values(enginePerformance),
@@ -544,10 +508,6 @@ const results = {
 const json = JSON.stringify(results, null, 2)
 writeFileSync(join(OUT_DIR, 'results.json'), json)
 writeFileSync(join(DOCS_DIR, 'iam.json'), json)
-
-// ---------------------------------------------------------------------------
-// Console output
-// ---------------------------------------------------------------------------
 
 console.log('IAM benchmarks generated:')
 console.log(`  ${OUT_DIR}/results.json`)

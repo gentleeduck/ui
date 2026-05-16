@@ -50,9 +50,6 @@ describe('useKeyboard', () => {
     onDismiss = vi.fn()
   })
 
-  // ---------------------------------------------------------------------------
-  // Arrow key navigation
-  // ---------------------------------------------------------------------------
   describe('arrow keys', () => {
     it('ArrowLeft moves focus -1 day', () => {
       pressKey(makeConfig(), 'ArrowLeft')
@@ -87,9 +84,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Page navigation
-  // ---------------------------------------------------------------------------
   describe('page keys', () => {
     it('PageUp moves focus -1 month', () => {
       pressKey(makeConfig(), 'PageUp')
@@ -127,9 +121,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Home / End
-  // ---------------------------------------------------------------------------
   describe('Home and End', () => {
     it('Home moves to start of week (weekStartDay=0, Sunday)', () => {
       // March 15 2026 is already Sunday (start of week), so Home returns March 15
@@ -168,9 +159,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Selection: Enter / Space
-  // ---------------------------------------------------------------------------
   describe('selection', () => {
     it('Enter triggers onSelect with focused date', () => {
       pressKey(makeConfig(), 'Enter')
@@ -205,9 +193,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Dismiss: Escape
-  // ---------------------------------------------------------------------------
   describe('dismiss', () => {
     it('Escape triggers onDismiss', () => {
       pressKey(makeConfig(), 'Escape')
@@ -221,9 +206,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Disabled date skipping
-  // ---------------------------------------------------------------------------
   describe('disabled date skipping', () => {
     it('ArrowLeft skips disabled date and lands on next enabled date', () => {
       // March 14 is disabled, so ArrowLeft from March 15 should skip 14 and land on 13
@@ -307,9 +289,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Unknown keys
-  // ---------------------------------------------------------------------------
   describe('unknown keys', () => {
     it('pressing "a" does nothing  -  no callbacks called', () => {
       pressKey(makeConfig(), 'a')
@@ -326,9 +305,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // preventDefault
-  // ---------------------------------------------------------------------------
   describe('preventDefault', () => {
     it('ArrowLeft calls preventDefault', () => {
       const { defaultPrevented } = pressKey(makeConfig(), 'ArrowLeft')
@@ -366,9 +342,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Hook return shape
-  // ---------------------------------------------------------------------------
   describe('hook return', () => {
     it('returns an object with onKeyDown function', () => {
       const { result } = renderHook(() => useKeyboard(makeConfig()))
@@ -376,9 +349,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Arrow key navigation at month boundaries
-  // ---------------------------------------------------------------------------
   describe('arrow keys at month boundaries', () => {
     it('ArrowRight from last day of month moves to first day of next month', () => {
       // March 31 2026 -> April 1 2026
@@ -457,9 +427,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Home / End edge cases
-  // ---------------------------------------------------------------------------
   describe('Home and End edge cases', () => {
     it('Home from a mid-week day moves to correct start of week', () => {
       // March 18 2026 is Wednesday. weekStartDay=0 (Sun) -> March 15
@@ -531,9 +498,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Page Up / Page Down edge cases
-  // ---------------------------------------------------------------------------
   describe('page keys edge cases', () => {
     it('PageUp clamps day when target month is shorter (Mar 31 -> Feb 28)', () => {
       // March 31 2026 - 1 month = Feb 28 2026 (non-leap year, day clamped)
@@ -611,9 +575,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Shift+Page Up / Shift+Page Down edge cases
-  // ---------------------------------------------------------------------------
   describe('shift+page keys edge cases', () => {
     it('Shift+PageUp from Feb 29 leap year clamps to Feb 28 in non-leap year', () => {
       // Feb 29 2028 (leap) - 1 year = Feb 28 2027 (non-leap)
@@ -652,9 +613,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Enter / Space edge cases
-  // ---------------------------------------------------------------------------
   describe('selection edge cases', () => {
     it('Enter passes shiftKey: true when shift is held', () => {
       pressKey(makeConfig(), 'Enter', { shiftKey: true })
@@ -691,9 +649,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Tab key behavior
-  // ---------------------------------------------------------------------------
   describe('tab key', () => {
     it('Tab does not prevent default (allows natural focus movement)', () => {
       const { defaultPrevented } = pressKey(makeConfig(), 'Tab')
@@ -713,9 +668,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Disabled date keyboard interaction - arrow into disabled range
-  // ---------------------------------------------------------------------------
   describe('disabled date interaction via arrows', () => {
     it('ArrowDown skips disabled date at week boundary crossing months', () => {
       // March 29 + 7 = April 5. If April 5 is disabled, should skip to April 12
@@ -789,9 +741,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // weekStartDay variants for Home/End
-  // ---------------------------------------------------------------------------
   describe('Home/End with various weekStartDay values', () => {
     it('Home with weekStartDay=2 (Tuesday)', () => {
       // March 18 2026 is Wednesday. weekStartDay=2 (Tue) -> March 17 (Tuesday)
@@ -828,9 +777,6 @@ describe('useKeyboard', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // preventDefault edge cases
-  // ---------------------------------------------------------------------------
   describe('preventDefault edge cases', () => {
     it('PageDown calls preventDefault', () => {
       const { defaultPrevented } = pressKey(makeConfig(), 'PageDown')

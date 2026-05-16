@@ -2,18 +2,12 @@ import { act, renderHook } from '@testing-library/react'
 import { useTimePicker } from '../use-time-picker'
 
 describe('useTimePicker', () => {
-  // ---------------------------------------------------------------------------
-  // Default value
-  // ---------------------------------------------------------------------------
   it('default value is { hour: 0, minute: 0 }', () => {
     const { result } = renderHook(() => useTimePicker())
 
     expect(result.current.state.value).toEqual({ hour: 0, minute: 0 })
   })
 
-  // ---------------------------------------------------------------------------
-  // Controlled value
-  // ---------------------------------------------------------------------------
   it('controlled value follows prop', () => {
     const controlled = { hour: 14, minute: 30 }
     const { result } = renderHook(() => useTimePicker({ value: controlled }))
@@ -33,9 +27,6 @@ describe('useTimePicker', () => {
     expect(result.current.state.value).toEqual({ hour: 9, minute: 15 })
   })
 
-  // ---------------------------------------------------------------------------
-  // Increment / Decrement
-  // ---------------------------------------------------------------------------
   it('increment("hour") advances by 1', () => {
     const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 10, minute: 0 } }))
 
@@ -76,9 +67,6 @@ describe('useTimePicker', () => {
     expect(result.current.state.value.minute).toBe(59)
   })
 
-  // ---------------------------------------------------------------------------
-  // AM/PM toggle
-  // ---------------------------------------------------------------------------
   it('toggleAmPm flips AM to PM', () => {
     const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 9, minute: 0 }, hourCycle: '12' }))
 
@@ -105,9 +93,6 @@ describe('useTimePicker', () => {
     expect(result.current.state.value.hour).toBe(9)
   })
 
-  // ---------------------------------------------------------------------------
-  // 12-hour display
-  // ---------------------------------------------------------------------------
   it('12h display: hour 0 shows 12', () => {
     const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 0, minute: 0 }, hourCycle: '12' }))
 
@@ -128,9 +113,6 @@ describe('useTimePicker', () => {
     expect(result.current.state.displayHour).toBe(13)
   })
 
-  // ---------------------------------------------------------------------------
-  // getFieldProps
-  // ---------------------------------------------------------------------------
   describe('getFieldProps', () => {
     it('hour returns correct ARIA attrs', () => {
       const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 14, minute: 30 }, hourCycle: '24' }))
@@ -182,9 +164,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Focus field
-  // ---------------------------------------------------------------------------
   it('focusField changes which field has tabIndex=0', () => {
     const { result } = renderHook(() => useTimePicker())
 
@@ -214,9 +193,6 @@ describe('useTimePicker', () => {
     expect(result.current.getFieldProps('minute')['data-focused']).toBe('true')
   })
 
-  // ---------------------------------------------------------------------------
-  // setField
-  // ---------------------------------------------------------------------------
   it('setField updates the specific field', () => {
     const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 0, minute: 0 } }))
 
@@ -239,9 +215,6 @@ describe('useTimePicker', () => {
     expect(result.current.state.value.minute).toBe(45)
   })
 
-  // ---------------------------------------------------------------------------
-  // onChange callback
-  // ---------------------------------------------------------------------------
   it('onChange is called when value changes', () => {
     const onChange = vi.fn()
     const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 0, minute: 0 }, onChange }))
@@ -254,9 +227,6 @@ describe('useTimePicker', () => {
     expect(onChange).toHaveBeenCalledWith({ hour: 1, minute: 0 })
   })
 
-  // ---------------------------------------------------------------------------
-  // 12h mode edge cases
-  // ---------------------------------------------------------------------------
   describe('12h mode edge cases', () => {
     it('12h display: hour 12 (noon) shows 12 PM', () => {
       const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 12, minute: 0 }, hourCycle: '12' }))
@@ -331,9 +301,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // 24h mode edge cases
-  // ---------------------------------------------------------------------------
   describe('24h mode edge cases', () => {
     it('24h display: hour 0 shows 0', () => {
       const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 0, minute: 0 }, hourCycle: '24' }))
@@ -362,9 +329,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Min/max time boundaries
-  // ---------------------------------------------------------------------------
   describe('min/max time boundaries', () => {
     it('increment is clamped at maxTime', () => {
       const { result } = renderHook(() =>
@@ -453,9 +417,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Seconds field
-  // ---------------------------------------------------------------------------
   describe('seconds field', () => {
     it('showSeconds getFieldProps returns second field', () => {
       const { result } = renderHook(() =>
@@ -520,9 +481,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // minuteStep / secondStep
-  // ---------------------------------------------------------------------------
   describe('step increments', () => {
     it('minuteStep=5 increments by 5', () => {
       const { result } = renderHook(() =>
@@ -586,9 +544,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // setValue
-  // ---------------------------------------------------------------------------
   describe('setValue', () => {
     it('setValue replaces the entire time value', () => {
       const { result } = renderHook(() => useTimePicker({ defaultValue: { hour: 0, minute: 0 } }))
@@ -613,9 +568,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // onChange callback edge cases
-  // ---------------------------------------------------------------------------
   describe('onChange callback edge cases', () => {
     it('onChange fires on toggleAmPm', () => {
       const onChange = vi.fn()
@@ -656,9 +608,6 @@ describe('useTimePicker', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hourCycle state
-  // ---------------------------------------------------------------------------
   describe('hourCycle state', () => {
     it('state.hourCycle reflects the configured hourCycle', () => {
       const { result } = renderHook(() => useTimePicker({ hourCycle: '12' }))

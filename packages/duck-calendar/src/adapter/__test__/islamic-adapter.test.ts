@@ -9,9 +9,6 @@ describe('IslamicAdapter', () => {
     adapter = new IslamicAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // create / getYear / getMonth / getDate
-  // ---------------------------------------------------------------------------
   describe('create and getters', () => {
     it('creates a date from Hijri year, 0-indexed month, day', () => {
       // 1 Muharram 1447 (month 0 = Muharram)
@@ -32,9 +29,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // today
-  // ---------------------------------------------------------------------------
   describe('today', () => {
     it('returns a valid date', () => {
       expect(adapter.isValid(adapter.today())).toBe(true)
@@ -48,9 +42,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isValid
-  // ---------------------------------------------------------------------------
   describe('isValid', () => {
     it('returns true for a valid date', () => {
       expect(adapter.isValid(adapter.create(1447, 0, 1))).toBe(true)
@@ -61,9 +52,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isSameDay
-  // ---------------------------------------------------------------------------
   describe('isSameDay', () => {
     it('same Gregorian date returns true', () => {
       const a = adapter.create(1447, 0, 1)
@@ -76,9 +64,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isSameMonth
-  // ---------------------------------------------------------------------------
   describe('isSameMonth', () => {
     it('same Hijri month returns true', () => {
       expect(adapter.isSameMonth(adapter.create(1447, 0, 1), adapter.create(1447, 0, 30))).toBe(true)
@@ -93,9 +78,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isBefore / isAfter
-  // ---------------------------------------------------------------------------
   describe('isBefore', () => {
     it('earlier date is before later date', () => {
       expect(adapter.isBefore(adapter.create(1447, 0, 1), adapter.create(1447, 0, 2))).toBe(true)
@@ -118,9 +100,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // startOfMonth / endOfMonth
-  // ---------------------------------------------------------------------------
   describe('startOfMonth', () => {
     it('returns day 1 of the Hijri month', () => {
       const d = adapter.startOfMonth(adapter.create(1447, 0, 15))
@@ -165,9 +144,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addDays
-  // ---------------------------------------------------------------------------
   describe('addDays', () => {
     it('adds positive days', () => {
       const d = adapter.addDays(adapter.create(1447, 0, 1), 5)
@@ -194,9 +170,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addMonths
-  // ---------------------------------------------------------------------------
   describe('addMonths', () => {
     it('adds 1 Hijri month', () => {
       const d = adapter.addMonths(adapter.create(1447, 0, 15), 1)
@@ -245,9 +218,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addYears
-  // ---------------------------------------------------------------------------
   describe('addYears', () => {
     it('adds 1 Hijri year', () => {
       const d = adapter.addYears(adapter.create(1447, 0, 1), 1)
@@ -276,9 +246,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getDayOfWeek
-  // ---------------------------------------------------------------------------
   describe('getDayOfWeek', () => {
     it('returns correct weekday for a known date', () => {
       // 1 Muharram 1447 = June 27, 2025 = Friday (5)
@@ -287,9 +254,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // toDate / fromDate roundtrip
-  // ---------------------------------------------------------------------------
   describe('toDate / fromDate', () => {
     it('toDate returns a native Date', () => {
       const d = adapter.create(1447, 0, 1)
@@ -303,9 +267,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // format
-  // ---------------------------------------------------------------------------
   describe('format', () => {
     it('formats with Islamic calendar by default', () => {
       const d = adapter.create(1447, 0, 1)
@@ -329,9 +290,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // startOfWeek
-  // ---------------------------------------------------------------------------
   describe('startOfWeek', () => {
     it('walks back to the target weekday', () => {
       // 1 Muharram 1447 = June 27, 2025 = Friday (5)
@@ -348,9 +306,6 @@ describe('IslamicAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // setTime
-  // ---------------------------------------------------------------------------
   describe('setTime', () => {
     it('preserves date and sets time', () => {
       const d = adapter.create(1447, 0, 1)

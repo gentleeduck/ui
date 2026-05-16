@@ -14,9 +14,6 @@ import { applySelection, selectDay } from '../selection'
 import type { Time } from '../time'
 import { clampTime, incrementField, parseTimeInput } from '../time'
 
-// ---------------------------------------------------------------------------
-// Selection.CalendarValue conditional type
-// ---------------------------------------------------------------------------
 describe('Selection.CalendarValue conditional type', () => {
   it('resolves to TDate | null for single mode', () => {
     expectTypeOf<Selection.CalendarValue<Date, 'single'>>().toEqualTypeOf<Date | null>()
@@ -50,9 +47,6 @@ describe('Selection.CalendarValue conditional type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Selection.DateRange type
-// ---------------------------------------------------------------------------
 describe('Selection.DateRange type', () => {
   it('has from (required) and to (nullable)', () => {
     expectTypeOf<Selection.DateRange<Date>>().toHaveProperty('from')
@@ -62,9 +56,6 @@ describe('Selection.DateRange type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// DateAdapter generic flow
-// ---------------------------------------------------------------------------
 describe('DateAdapter generic flow', () => {
   it('NativeAdapter implements DateAdapter<Date>', () => {
     expectTypeOf<NativeAdapter>().toMatchTypeOf<IDateAdapter<Date>>()
@@ -122,9 +113,6 @@ describe('DateAdapter generic flow', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarConfig type
-// ---------------------------------------------------------------------------
 describe('CalendarConfig type', () => {
   it('selected type matches mode', () => {
     type SingleConfig = Calendar.ICalendarConfig<Date, 'single'>
@@ -160,9 +148,6 @@ describe('CalendarConfig type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseCalendarReturn type
-// ---------------------------------------------------------------------------
 describe('UseCalendarReturn type', () => {
   it('state.value type matches mode', () => {
     type SingleReturn = UseCalendar.IUseCalendarReturn<Date, 'single'>
@@ -210,9 +195,6 @@ describe('UseCalendarReturn type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// DayProps type
-// ---------------------------------------------------------------------------
 describe('DayProps type', () => {
   it('has correct ARIA attributes', () => {
     expectTypeOf<UseCalendar.IDayProps['role']>().toEqualTypeOf<'gridcell'>()
@@ -238,9 +220,6 @@ describe('DayProps type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// GridProps type
-// ---------------------------------------------------------------------------
 describe('GridProps type', () => {
   it('has correct ARIA attributes', () => {
     expectTypeOf<UseCalendar.IGridProps['role']>().toEqualTypeOf<'grid'>()
@@ -249,9 +228,6 @@ describe('GridProps type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// TimeValue type
-// ---------------------------------------------------------------------------
 describe('TimeValue type', () => {
   it('has hour and minute required, second optional', () => {
     expectTypeOf<Time.ITimeValue['hour']>().toEqualTypeOf<number>()
@@ -260,9 +236,6 @@ describe('TimeValue type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Time.TimeField type
-// ---------------------------------------------------------------------------
 describe('Time.TimeField type', () => {
   it('is a union of field names', () => {
     expectTypeOf<'hour'>().toMatchTypeOf<Time.TimeField>()
@@ -272,9 +245,6 @@ describe('Time.TimeField type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Time.HourCycle type
-// ---------------------------------------------------------------------------
 describe('Time.HourCycle type', () => {
   it('is 12 or 24', () => {
     expectTypeOf<'12'>().toMatchTypeOf<Time.HourCycle>()
@@ -282,9 +252,6 @@ describe('Time.HourCycle type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Pure function return types
-// ---------------------------------------------------------------------------
 describe('Pure function return types', () => {
   it('selectDay returns Selection.CalendarValue matching mode', () => {
     const adapter = new NativeAdapter()
@@ -327,9 +294,6 @@ describe('Pure function return types', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseTimePickerReturn type
-// ---------------------------------------------------------------------------
 describe('UseTimePickerReturn type', () => {
   it('state has correct shape', () => {
     type Return = UseTimePicker.IUseTimePickerReturn
@@ -350,9 +314,6 @@ describe('UseTimePickerReturn type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseDateTimeReturn type
-// ---------------------------------------------------------------------------
 describe('UseDateTimeReturn type', () => {
   it('has calendar and timePicker sub-returns', () => {
     type Return = UseDateTime.IUseDateTimeReturn<Date>
@@ -371,9 +332,6 @@ describe('UseDateTimeReturn type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarDay type
-// ---------------------------------------------------------------------------
 describe('CalendarDay type', () => {
   it('date is generic TDate', () => {
     expectTypeOf<Grid.ICalendarDay<Date>['date']>().toEqualTypeOf<Date>()
@@ -400,9 +358,6 @@ describe('CalendarDay type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Mode-narrowed callback types
-// ---------------------------------------------------------------------------
 describe('Mode-narrowed callback types', () => {
   it('onSelect for single mode accepts Date | null', () => {
     type SingleConfig = Calendar.ICalendarConfig<Date, 'single'>
@@ -455,9 +410,6 @@ describe('Mode-narrowed callback types', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Adapter generic constraints
-// ---------------------------------------------------------------------------
 describe('Adapter generic constraints', () => {
   it('DateAdapter methods are constrained to TDate', () => {
     type BrandedDate = { _brand: 'branded'; ts: number }
@@ -499,9 +451,6 @@ describe('Adapter generic constraints', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseCalendarReturn exhaustive type assertions
-// ---------------------------------------------------------------------------
 describe('UseCalendarReturn exhaustive type assertions', () => {
   it('actions.selectDate accepts TDate and optional options', () => {
     type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
@@ -556,9 +505,6 @@ describe('UseCalendarReturn exhaustive type assertions', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseTimePickerReturn exhaustive type assertions
-// ---------------------------------------------------------------------------
 describe('UseTimePickerReturn exhaustive type assertions', () => {
   it('actions.setValue accepts TimeValue', () => {
     type Return = UseTimePicker.IUseTimePickerReturn
@@ -603,9 +549,6 @@ describe('UseTimePickerReturn exhaustive type assertions', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Invalid mode type errors
-// ---------------------------------------------------------------------------
 describe('Invalid mode type errors', () => {
   it('CalendarConfig rejects invalid mode', () => {
     // @ts-expect-error - 'weekly' is not a valid Selection.SelectionMode
@@ -629,9 +572,6 @@ describe('Invalid mode type errors', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Navigation types
-// ---------------------------------------------------------------------------
 describe('Navigation types', () => {
   it('Navigation.Direction is prev | next', () => {
     expectTypeOf<'prev'>().toMatchTypeOf<Navigation.Direction>()
@@ -656,9 +596,6 @@ describe('Navigation types', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// SelectionConstraints type
-// ---------------------------------------------------------------------------
 describe('SelectionConstraints type', () => {
   it('all fields are optional', () => {
     expectTypeOf<Selection.ISelectionConstraints<Date>>().toMatchTypeOf<{}>()
@@ -682,9 +619,6 @@ describe('SelectionConstraints type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// CalendarLocaleConfig type
-// ---------------------------------------------------------------------------
 describe('CalendarLocaleConfig type', () => {
   it('locale is optional string', () => {
     expectTypeOf<Calendar.ICalendarLocaleConfig['locale']>().toEqualTypeOf<string | undefined>()
@@ -699,9 +633,6 @@ describe('CalendarLocaleConfig type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseCalendarConfig extends CalendarConfig
-// ---------------------------------------------------------------------------
 describe('UseCalendarConfig type', () => {
   it('extends CalendarConfig with defaultSelected', () => {
     type Config = UseCalendar.IUseCalendarConfig<Date, 'single'>
@@ -719,9 +650,6 @@ describe('UseCalendarConfig type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// TimePickerConfig type
-// ---------------------------------------------------------------------------
 describe('TimePickerConfig type', () => {
   it('value and defaultValue are optional TimeValue', () => {
     expectTypeOf<Time.ITimePickerConfig['value']>().toEqualTypeOf<Time.ITimeValue | undefined>()
@@ -748,9 +676,6 @@ describe('TimePickerConfig type', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// UseDateTimeConfig type
-// ---------------------------------------------------------------------------
 describe('UseDateTimeConfig type', () => {
   it('adapter is DateAdapter<TDate>', () => {
     type Config = UseDateTime.IUseDateTimeConfig<Date>

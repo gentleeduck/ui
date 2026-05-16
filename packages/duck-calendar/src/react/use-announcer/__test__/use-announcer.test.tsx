@@ -7,9 +7,6 @@ import {
   useAnnouncer,
 } from '../use-announcer'
 
-// ---------------------------------------------------------------------------
-// Message builder functions
-// ---------------------------------------------------------------------------
 describe('message builders', () => {
   it('buildMonthNavigationMessage returns "month year"', () => {
     expect(buildMonthNavigationMessage('March', '2026')).toBe('March 2026')
@@ -28,9 +25,6 @@ describe('message builders', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// useAnnouncer hook
-// ---------------------------------------------------------------------------
 describe('useAnnouncer', () => {
   beforeEach(() => {
     vi.useFakeTimers()

@@ -163,10 +163,6 @@ export namespace Adapter {
      */
     format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
 
-    // -------------------------------------------------------------------------
-    // Time accessors (for datetime picker support)
-    // -------------------------------------------------------------------------
-
     /** Extracts the hour (0-23). */
     getHours(date: TDate): number
 

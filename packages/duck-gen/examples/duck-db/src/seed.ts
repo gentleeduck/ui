@@ -263,10 +263,6 @@ async function main() {
     `)
   }
 
-  // ---------------------------------------------------------------------------
-  // USERS + IDENTITIES
-  // ---------------------------------------------------------------------------
-
   console.log('seeding users + identities...')
 
   const userIds: Id[] = []
@@ -318,10 +314,6 @@ async function main() {
   await insertInChunks(db, users, userRows, CFG.insertChunkSize)
   await insertInChunks(db, userIdentities, identityRows, CFG.insertChunkSize)
 
-  // ---------------------------------------------------------------------------
-  // TENANTS + DOMAINS
-  // ---------------------------------------------------------------------------
-
   console.log('seeding tenants + domains...')
 
   const tenantIds: Id[] = []
@@ -360,10 +352,6 @@ async function main() {
 
   await insertInChunks(db, tenants, tenantRows, CFG.insertChunkSize)
   if (domainRows.length) await insertInChunks(db, tenantDomains, domainRows, CFG.insertChunkSize)
-
-  // ---------------------------------------------------------------------------
-  // ROLES (system + per-tenant)
-  // ---------------------------------------------------------------------------
 
   console.log('seeding roles...')
 
@@ -433,10 +421,6 @@ async function main() {
   }
 
   await insertInChunks(db, roles, roleRows, CFG.insertChunkSize, { onConflict: true })
-
-  // ---------------------------------------------------------------------------
-  // PERMISSIONS + ROLE_PERMISSIONS
-  // ---------------------------------------------------------------------------
 
   console.log('seeding permissions + role_permissions...')
 
@@ -518,10 +502,6 @@ async function main() {
 
   await insertInChunks(db, rolePermissions, rolePermRows, CFG.insertChunkSize, { onConflict: true })
 
-  // ---------------------------------------------------------------------------
-  // MEMBERSHIPS + MEMBERSHIP_ROLES (multi-role SaaS)
-  // ---------------------------------------------------------------------------
-
   console.log('seeding memberships + membership_roles...')
 
   const userTenantMap = new Map<Id, Id[]>()
@@ -588,10 +568,6 @@ async function main() {
   await insertInChunks(db, memberships, membershipRows, CFG.insertChunkSize)
   await insertInChunks(db, membershipRoles, membershipRoleRows, CFG.insertChunkSize, { onConflict: true })
 
-  // ---------------------------------------------------------------------------
-  // TENANT INVITES + INVITE ROLES
-  // ---------------------------------------------------------------------------
-
   console.log('seeding tenant_invites + tenant_invite_roles...')
 
   const inviteRows: Array<typeof tenantInvites.$inferInsert> = []
@@ -645,10 +621,6 @@ async function main() {
   await insertInChunks(db, tenantInvites, inviteRows, CFG.insertChunkSize, { onConflict: true })
   await insertInChunks(db, tenantInviteRoles, inviteRoleRows, CFG.insertChunkSize, { onConflict: true })
 
-  // ---------------------------------------------------------------------------
-  // SESSIONS + ACCESS TOKENS
-  // ---------------------------------------------------------------------------
-
   console.log('seeding sessions + access_tokens...')
 
   const sessionRows: Array<typeof sessions.$inferInsert> = []
@@ -691,10 +663,6 @@ async function main() {
   }
 
   await insertInChunks(db, sessions, sessionRows, CFG.insertChunkSize)
-
-  // ---------------------------------------------------------------------------
-  // SHORT-LIVED TOKENS (OTP / RESET / MFA)
-  // ---------------------------------------------------------------------------
 
   console.log('seeding tokens (otp/reset/mfa)...')
 
@@ -779,10 +747,6 @@ async function main() {
 
   await insertInChunks(db, tokens, tokenRows, CFG.insertChunkSize, { onConflict: true })
 
-  // ---------------------------------------------------------------------------
-  // API KEYS (tenant-scoped)
-  // ---------------------------------------------------------------------------
-
   console.log('seeding api_keys...')
 
   const apiKeyRows: Array<typeof apiKeys.$inferInsert> = []
@@ -803,10 +767,6 @@ async function main() {
     }
   }
   if (apiKeyRows.length) await insertInChunks(db, apiKeys, apiKeyRows, CFG.insertChunkSize, { onConflict: true })
-
-  // ---------------------------------------------------------------------------
-  // BILLING (hooks)
-  // ---------------------------------------------------------------------------
 
   console.log('seeding billing...')
 
@@ -846,10 +806,6 @@ async function main() {
 
   if (billingCustomerRows.length) await insertInChunks(db, billingCustomers, billingCustomerRows, CFG.insertChunkSize)
   if (subscriptionRows.length) await insertInChunks(db, subscriptions, subscriptionRows, CFG.insertChunkSize)
-
-  // ---------------------------------------------------------------------------
-  // AUDIT LOGS
-  // ---------------------------------------------------------------------------
 
   console.log('seeding audit_logs...')
 

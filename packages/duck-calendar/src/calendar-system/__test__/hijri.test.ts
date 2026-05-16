@@ -3,9 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { hijriMonthLength, hijriYearLength, isLeapHijriYear, toGregorian, toHijri } from '../hijri'
 
 describe('hijri conversion', () => {
-  // ---------------------------------------------------------------------------
-  // isLeapHijriYear
-  // ---------------------------------------------------------------------------
   describe('isLeapHijriYear', () => {
     it('identifies leap years in the 30-year cycle', () => {
       // Years 2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29 of each cycle
@@ -39,9 +36,6 @@ describe('hijri conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hijriMonthLength
-  // ---------------------------------------------------------------------------
   describe('hijriMonthLength', () => {
     it('odd months (1,3,5,7,9,11) have 30 days', () => {
       expect(hijriMonthLength(1447, 1)).toBe(30)
@@ -74,9 +68,6 @@ describe('hijri conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // hijriYearLength
-  // ---------------------------------------------------------------------------
   describe('hijriYearLength', () => {
     it('leap year has 355 days', () => {
       expect(hijriYearLength(1447)).toBe(355)
@@ -87,9 +78,6 @@ describe('hijri conversion', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // toHijri / toGregorian
-  // ---------------------------------------------------------------------------
   describe('toHijri', () => {
     it('converts 1 Muharram 1447 correctly', () => {
       // 1 Muharram 1447 AH ≈ June 27, 2025 (tabular)

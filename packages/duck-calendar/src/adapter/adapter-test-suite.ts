@@ -24,9 +24,6 @@ export function runAdapterTests<TDate>(
       adapter = createAdapter()
     })
 
-    // -----------------------------------------------------------------------
-    // today()
-    // -----------------------------------------------------------------------
     describe('today', () => {
       it('returns a valid date', () => {
         expect(adapter.isValid(adapter.today())).toBe(true)
@@ -48,9 +45,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // create() / isValid()
-    // -----------------------------------------------------------------------
     describe('create', () => {
       it('creates a valid date from year, month, day', () => {
         const d = adapter.create(2026, 2, 17)
@@ -83,9 +77,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // isSameDay()
-    // -----------------------------------------------------------------------
     describe('isSameDay', () => {
       it('same date returns true', () => {
         const a = adapter.create(2026, 2, 17)
@@ -112,9 +103,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // isSameMonth()
-    // -----------------------------------------------------------------------
     describe('isSameMonth', () => {
       it('same month returns true', () => {
         expect(adapter.isSameMonth(adapter.create(2026, 2, 1), adapter.create(2026, 2, 31))).toBe(true)
@@ -133,9 +121,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // isBefore() / isAfter()
-    // -----------------------------------------------------------------------
     describe('isBefore', () => {
       it('earlier date isBefore later date', () => {
         expect(adapter.isBefore(adapter.create(2026, 0, 1), adapter.create(2026, 0, 2))).toBe(true)
@@ -182,9 +167,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // startOfMonth() / endOfMonth()
-    // -----------------------------------------------------------------------
     describe('startOfMonth', () => {
       it('returns day 1', () => {
         const d = adapter.startOfMonth(adapter.create(2026, 2, 17))
@@ -229,9 +211,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // startOfWeek()
-    // -----------------------------------------------------------------------
     describe('startOfWeek', () => {
       // 2026-03-17 is a Tuesday (dayOfWeek = 2)
 
@@ -268,9 +247,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // addDays()
-    // -----------------------------------------------------------------------
     describe('addDays', () => {
       it('adds positive days', () => {
         const d = adapter.addDays(adapter.create(2026, 2, 17), 5)
@@ -308,9 +284,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // addMonths()
-    // -----------------------------------------------------------------------
     describe('addMonths', () => {
       it('adds 1 month', () => {
         const d = adapter.addMonths(adapter.create(2026, 0, 15), 1)
@@ -361,9 +334,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // addYears()
-    // -----------------------------------------------------------------------
     describe('addYears', () => {
       it('adds 1 year', () => {
         const d = adapter.addYears(adapter.create(2026, 2, 17), 1)
@@ -403,9 +373,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // getYear() / getMonth() / getDate() / getDayOfWeek()
-    // -----------------------------------------------------------------------
     describe('getYear', () => {
       it('returns the full year', () => {
         expect(adapter.getYear(adapter.create(2026, 2, 17))).toBe(2026)
@@ -459,9 +426,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // getMonthsInYear() (optional)
-    // -----------------------------------------------------------------------
     describe('getMonthsInYear', () => {
       it('returns 12 by default (or adapter-specific count)', () => {
         const d = adapter.create(2026, 0, 1)
@@ -471,9 +435,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // getHours() / getMinutes() / getSeconds()
-    // -----------------------------------------------------------------------
     describe('getHours', () => {
       it('returns correct hour from datetime', () => {
         const d = createDate(2026, 2, 17, 14, 30, 45)
@@ -510,9 +471,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // setTime()
-    // -----------------------------------------------------------------------
     describe('setTime', () => {
       it('preserves date, changes time', () => {
         const d = adapter.create(2026, 2, 17)
@@ -540,9 +498,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // toDate() / fromDate()
-    // -----------------------------------------------------------------------
     describe('toDate', () => {
       it('returns a native Date instance', () => {
         const d = adapter.create(2026, 2, 17)
@@ -593,9 +548,6 @@ export function runAdapterTests<TDate>(
       })
     })
 
-    // -----------------------------------------------------------------------
-    // format()
-    // -----------------------------------------------------------------------
     describe('format', () => {
       it('format with { month: "long" } in en-US returns "March"', () => {
         const d = adapter.create(2026, 2, 17)

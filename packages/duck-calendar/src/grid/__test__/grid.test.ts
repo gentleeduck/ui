@@ -10,9 +10,6 @@ describe('grid', () => {
     adapter = new NativeAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarMonth
-  // ---------------------------------------------------------------------------
   describe('buildCalendarMonth', () => {
     const march2026 = new Date(2026, 2, 1) // March 1 2026  -  starts on Sunday
 
@@ -148,9 +145,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarYear
-  // ---------------------------------------------------------------------------
   describe('buildCalendarYear', () => {
     it('returns exactly 12 entries', () => {
       const result = buildCalendarYear(adapter, new Date(2026, 0, 1))
@@ -196,9 +190,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildDecadeView
-  // ---------------------------------------------------------------------------
   describe('buildDecadeView', () => {
     it('returns exactly 12 entries', () => {
       const result = buildDecadeView(adapter, new Date(2026, 0, 1))
@@ -234,9 +225,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getLocalizedWeekdays
-  // ---------------------------------------------------------------------------
   describe('getLocalizedWeekdays', () => {
     it('returns 7 entries', () => {
       const result = getLocalizedWeekdays(adapter, 'en-US', 0)
@@ -280,9 +268,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getLocalizedMonthNames
-  // ---------------------------------------------------------------------------
   describe('getLocalizedMonthNames', () => {
     it('returns 12 entries', () => {
       const result = getLocalizedMonthNames(adapter, 2025, 'en-US')
@@ -315,9 +300,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getWeekNumber
-  // ---------------------------------------------------------------------------
   describe('getWeekNumber', () => {
     it('Jan 1 2026 is in week 1', () => {
       // Jan 1 2026 is a Thursday -> week 1
@@ -355,9 +337,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarMonth  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('buildCalendarMonth / edge cases', () => {
     const baseConfig = {
       showOutsideDays: true,
@@ -531,9 +510,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildMultiMonth
-  // ---------------------------------------------------------------------------
   describe('buildMultiMonth', () => {
     const baseConfig = {
       showOutsideDays: true,
@@ -589,9 +565,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildDecadeView  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('buildDecadeView / edge cases', () => {
     it('decade for year 2000 starts at 1999', () => {
       const result = buildDecadeView(adapter, new Date(2000, 0, 1))
@@ -620,9 +593,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarYear  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('buildCalendarYear / edge cases', () => {
     it('returns entries for a far-future year (3000)', () => {
       const result = buildCalendarYear(adapter, new Date(3000, 0, 1), 'en-US')
@@ -638,9 +608,6 @@ describe('grid', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getWeekNumber  -  edge cases
-  // ---------------------------------------------------------------------------
   describe('getWeekNumber / edge cases', () => {
     it('Feb 29 of a leap year returns a valid week number', () => {
       const wn = getWeekNumber(adapter, new Date(2024, 1, 29))

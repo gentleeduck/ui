@@ -122,10 +122,6 @@ export function jalaaliMonthLength(jy: number, jm: number): number {
   return isLeapJalaaliYear(jy) ? 30 : 29
 }
 
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
 /** Gregorian date -> Julian Day Number */
 function g2d(gy: number, gm: number, gd: number): number {
   let d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408

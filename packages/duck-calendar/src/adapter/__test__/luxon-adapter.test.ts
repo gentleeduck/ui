@@ -10,9 +10,6 @@ describe('LuxonAdapter', () => {
     adapter = new LuxonAdapter()
   })
 
-  // -------------------------------------------------------------------------
-  // today
-  // -------------------------------------------------------------------------
   describe('today', () => {
     it('returns a DateTime', () => {
       expect(adapter.today()).toBeInstanceOf(DateTime)
@@ -35,9 +32,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // create
-  // -------------------------------------------------------------------------
   describe('create', () => {
     it('creates a date from parts (0-indexed month)', () => {
       const d = adapter.create(2026, 2, 17) // March 17 2026
@@ -57,9 +51,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isValid
-  // -------------------------------------------------------------------------
   describe('isValid', () => {
     it('returns true for a valid date', () => {
       expect(adapter.isValid(adapter.create(2026, 2, 17))).toBe(true)
@@ -70,9 +61,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isSameDay
-  // -------------------------------------------------------------------------
   describe('isSameDay', () => {
     it('returns true for the same calendar day', () => {
       const a = adapter.create(2026, 2, 17)
@@ -99,9 +87,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isSameMonth
-  // -------------------------------------------------------------------------
   describe('isSameMonth', () => {
     it('returns true for dates in the same month', () => {
       expect(adapter.isSameMonth(adapter.create(2026, 2, 1), adapter.create(2026, 2, 31))).toBe(true)
@@ -116,9 +101,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isBefore / isAfter
-  // -------------------------------------------------------------------------
   describe('isBefore', () => {
     it('returns true when a is before b', () => {
       expect(adapter.isBefore(adapter.create(2026, 0, 1), adapter.create(2026, 0, 2))).toBe(true)
@@ -149,9 +131,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // startOfMonth / endOfMonth
-  // -------------------------------------------------------------------------
   describe('startOfMonth', () => {
     it('returns the 1st of the month', () => {
       const d = adapter.startOfMonth(adapter.create(2026, 2, 17))
@@ -183,9 +162,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // startOfWeek
-  // -------------------------------------------------------------------------
   describe('startOfWeek', () => {
     // 2026-03-17 is a Tuesday
     const tuesday = DateTime.local(2026, 3, 17)
@@ -215,9 +191,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addDays
-  // -------------------------------------------------------------------------
   describe('addDays', () => {
     it('adds positive days', () => {
       const d = adapter.addDays(adapter.create(2026, 2, 17), 5)
@@ -249,9 +222,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addMonths
-  // -------------------------------------------------------------------------
   describe('addMonths', () => {
     it('adds months', () => {
       const d = adapter.addMonths(adapter.create(2026, 0, 15), 2)
@@ -283,9 +253,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addYears
-  // -------------------------------------------------------------------------
   describe('addYears', () => {
     it('adds years', () => {
       const d = adapter.addYears(adapter.create(2026, 2, 17), 2)
@@ -313,9 +280,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // getters
-  // -------------------------------------------------------------------------
   describe('getYear', () => {
     it('returns the full year', () => {
       expect(adapter.getYear(adapter.create(2026, 2, 17))).toBe(2026)
@@ -349,9 +313,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // toDate / fromDate
-  // -------------------------------------------------------------------------
   describe('toDate', () => {
     it('returns a native JS Date', () => {
       const original = adapter.create(2026, 2, 17)
@@ -387,9 +348,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // format
-  // -------------------------------------------------------------------------
   describe('format', () => {
     const d = DateTime.local(2026, 3, 17) // March 17
 
@@ -408,9 +366,6 @@ describe('LuxonAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // time accessors
-  // -------------------------------------------------------------------------
   describe('getHours', () => {
     it('returns the hour', () => {
       const d = DateTime.local(2026, 3, 17, 14, 30, 45)

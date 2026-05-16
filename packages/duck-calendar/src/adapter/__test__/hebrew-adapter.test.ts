@@ -9,9 +9,6 @@ describe('HebrewAdapter', () => {
     adapter = new HebrewAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // create / getYear / getMonth / getDate
-  // ---------------------------------------------------------------------------
   describe('create and getters', () => {
     it('creates a date from Hebrew year, 0-indexed month, day', () => {
       // 1 Tishrei 5786 (month 0 = Tishrei)
@@ -41,9 +38,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // today
-  // ---------------------------------------------------------------------------
   describe('today', () => {
     it('returns a valid date', () => {
       expect(adapter.isValid(adapter.today())).toBe(true)
@@ -57,9 +51,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isValid
-  // ---------------------------------------------------------------------------
   describe('isValid', () => {
     it('returns true for a valid date', () => {
       expect(adapter.isValid(adapter.create(5786, 0, 1))).toBe(true)
@@ -70,9 +61,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isSameDay / isSameMonth
-  // ---------------------------------------------------------------------------
   describe('isSameDay', () => {
     it('same date returns true', () => {
       const a = adapter.create(5786, 0, 1)
@@ -99,9 +87,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isBefore / isAfter
-  // ---------------------------------------------------------------------------
   describe('isBefore / isAfter', () => {
     it('earlier date is before later date', () => {
       expect(adapter.isBefore(adapter.create(5786, 0, 1), adapter.create(5786, 0, 2))).toBe(true)
@@ -122,9 +107,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // startOfMonth / endOfMonth
-  // ---------------------------------------------------------------------------
   describe('startOfMonth', () => {
     it('returns day 1 of the Hebrew month', () => {
       const d = adapter.startOfMonth(adapter.create(5786, 0, 15))
@@ -146,9 +128,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addDays
-  // ---------------------------------------------------------------------------
   describe('addDays', () => {
     it('adds positive days', () => {
       const d = adapter.addDays(adapter.create(5786, 0, 1), 10)
@@ -167,9 +146,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addMonths
-  // ---------------------------------------------------------------------------
   describe('addMonths', () => {
     it('advances one month', () => {
       const d = adapter.addMonths(adapter.create(5786, 0, 15), 1)
@@ -195,9 +171,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // addYears
-  // ---------------------------------------------------------------------------
   describe('addYears', () => {
     it('adds one year', () => {
       const d = adapter.addYears(adapter.create(5786, 0, 1), 1)
@@ -211,9 +184,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getDayOfWeek / startOfWeek
-  // ---------------------------------------------------------------------------
   describe('getDayOfWeek', () => {
     it('returns 0-6', () => {
       const d = adapter.create(5786, 0, 1)
@@ -229,9 +199,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // format
-  // ---------------------------------------------------------------------------
   describe('format', () => {
     it('formats with Hebrew calendar extension', () => {
       const d = adapter.create(5786, 0, 1)
@@ -253,9 +220,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Leap year handling
-  // ---------------------------------------------------------------------------
   describe('leap years', () => {
     // 5784 is a leap year (cycle position 8)
     it('leap year has 13 months', () => {
@@ -284,9 +248,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Round-trip: full year validation against Intl
-  // ---------------------------------------------------------------------------
   describe('round-trip validation', () => {
     it('round-trips correctly for an entire Hebrew year', () => {
       const fmt = new Intl.DateTimeFormat('en-US-u-ca-hebrew', { day: 'numeric' })
@@ -302,9 +263,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // toDate / fromDate
-  // ---------------------------------------------------------------------------
   describe('toDate / fromDate', () => {
     it('round-trips through native Date', () => {
       const original = adapter.create(5786, 5, 15)
@@ -314,9 +272,6 @@ describe('HebrewAdapter', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Time accessors
-  // ---------------------------------------------------------------------------
   describe('time', () => {
     it('setTime preserves date', () => {
       const d = adapter.create(5786, 0, 15)

@@ -16,7 +16,6 @@ import { CalendarYearView } from '../year-view'
 const adapter = new NativeAdapter()
 const march2026 = new Date(2026, 2, 1)
 
-// Build calendar month data to render actual day cells
 function getWeeks(viewDate: Date = march2026) {
   const month = buildCalendarMonth(adapter, viewDate, {
     showOutsideDays: true,
@@ -50,9 +49,6 @@ function FullDaysCalendar(props: Partial<ICalendarRootProps> & { weeks?: ReturnT
   )
 }
 
-// ---------------------------------------------------------------------------
-// Axe automated tests  -  zero violations target
-// ---------------------------------------------------------------------------
 describe('Calendar a11y  -  axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -116,7 +112,6 @@ describe('Calendar a11y  -  axe automated checks', () => {
 
   it('days view with disabled dates has no axe violations', async () => {
     const weeks = getWeeks()
-    // Mark the 15th as disabled
     for (const week of weeks) {
       for (const day of week.days) {
         if (day.date.getDate() === 15 && day.date.getMonth() === 2) {
@@ -131,7 +126,6 @@ describe('Calendar a11y  -  axe automated checks', () => {
 
   it('days view with selection has no axe violations', async () => {
     const weeks = getWeeks()
-    // Mark the 10th as selected
     for (const week of weeks) {
       for (const day of week.days) {
         if (day.date.getDate() === 10 && day.date.getMonth() === 2) {
@@ -145,9 +139,6 @@ describe('Calendar a11y  -  axe automated checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// Structural a11y tests  -  manual assertions
-// ---------------------------------------------------------------------------
 describe('Calendar a11y  -  structural assertions', () => {
   it('day buttons have aria-label with full date string', () => {
     const { container } = render(<FullDaysCalendar />)
@@ -157,10 +148,7 @@ describe('Calendar a11y  -  structural assertions', () => {
     for (const btn of dayButtons) {
       const label = btn.getAttribute('aria-label')
       expect(label).not.toBeNull()
-      // Full date string should contain month name, day number, and year
-      // e.g. "Sunday, March 1, 2026"
       expect(label!.length).toBeGreaterThan(5)
-      // Should not just be the day number
       expect(Number.isNaN(Number(label))).toBe(true)
     }
   })

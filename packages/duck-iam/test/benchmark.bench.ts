@@ -29,10 +29,6 @@ import { Engine } from '../src/core/engine/engine'
 import { evaluate, evaluateFast, evaluatePolicy, evaluatePolicyFast } from '../src/core/evaluate'
 import type { AccessRequest, Policy } from '../src/core/types'
 
-// ===========================================================================
-// 1. DUCK IAM SETUP
-// ===========================================================================
-
 const simplePolicy: Policy = {
   id: 'simple',
   algorithm: 'deny-overrides',
@@ -119,10 +115,6 @@ const engine = new Engine({ adapter, defaultEffect: 'deny' })
 await engine.can('user-1', 'read', { type: 'post', attributes: {} })
 await engine.can('admin-1', 'delete', { type: 'post', attributes: {} })
 
-// ===========================================================================
-// 2. CASL SETUP — conditions use subject() for real evaluation
-// ===========================================================================
-
 function buildCaslAbility() {
   const { can, build } = new AbilityBuilder(createMongoAbility)
   can('read', 'Post')
@@ -133,10 +125,6 @@ function buildCaslAbility() {
 const caslAbility = buildCaslAbility()
 const caslPostForCondition = subject('Post', { ownerId: 'user-1', status: 'draft' })
 const caslPostForAdmin = subject('Post', { role: 'admin' })
-
-// ===========================================================================
-// 3. CASBIN SETUP — real RBAC model with role inheritance
-// ===========================================================================
 
 const casbinModel = newModel()
 casbinModel.addDef('r', 'r', 'sub, obj, act')
@@ -149,27 +137,15 @@ const casbinPolicy = new StringAdapter(
 )
 const casbinEnforcer = await newEnforcer(casbinModel, casbinPolicy)
 
-// ===========================================================================
-// 4. ACCESSCONTROL SETUP — fluent grants, RBAC only
-// ===========================================================================
-
 const ac = new AccessControl()
 ac.grant('viewer').readAny('post')
 ac.grant('editor').extend('viewer').updateOwn('post')
 ac.grant('admin').extend('editor').deleteAny('post').createAny('post')
 
-// ===========================================================================
-// 5. ROLE-ACL SETUP — role + conditions
-// ===========================================================================
-
 const roleAcl = new RoleAcl.AccessControl()
 roleAcl.grant('viewer').execute('read').on('post')
 roleAcl.grant('editor').extend('viewer').execute('update').on('post')
 roleAcl.grant('admin').extend('editor').execute('delete').on('post').execute('write').on('post')
-
-// ===========================================================================
-// 6. @RBAC/RBAC SETUP — hierarchical RBAC
-// ===========================================================================
 
 const rbacRbac = RBAC({ enableLogger: false })({
   viewer: { can: ['post:read'] },
@@ -177,25 +153,13 @@ const rbacRbac = RBAC({ enableLogger: false })({
   admin: { can: ['post:read', 'post:update', 'post:delete', 'post:write'], inherits: ['editor'] },
 })
 
-// ===========================================================================
-// 7. EASY-RBAC SETUP — simple hierarchical RBAC
-// ===========================================================================
-
 const easyRbac = new EasyRBAC({
   viewer: { can: ['post:read'] },
   editor: { can: ['post:read', 'post:update'], inherits: ['viewer'] },
   admin: { can: ['post:read', 'post:update', 'post:delete', 'post:write'], inherits: ['editor'] },
 })
 
-// ===========================================================================
-// BENCHMARKS
-// ===========================================================================
-
 const N = 3
-
-// ---------------------------------------------------------------------------
-// 1. Simple RBAC: "can viewer read post?"
-// ---------------------------------------------------------------------------
 
 describe('Simple RBAC: can viewer read post?', () => {
   bench('@gentleduck/iam — evaluateFast() [PROD]', () => {
@@ -239,11 +203,6 @@ describe('Simple RBAC: can viewer read post?', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 2. ABAC condition: "can owner update own draft?"
-//    Only libs with real condition evaluation are included.
-// ---------------------------------------------------------------------------
-
 describe('ABAC condition: can owner update own draft?', () => {
   bench('@gentleduck/iam — evaluateFast() [PROD]', () => {
     for (let i = 0; i < N; i++) evaluateFast([conditionPolicy], conditionRequest)
@@ -259,10 +218,6 @@ describe('ABAC condition: can owner update own draft?', () => {
 
   // accesscontrol, casbin RBAC model, @rbac/rbac, easy-rbac: no ABAC conditions
 })
-
-// ---------------------------------------------------------------------------
-// 3. Role + condition: "can admin delete post?"
-// ---------------------------------------------------------------------------
 
 describe('Role + condition: can admin delete post?', () => {
   bench('@gentleduck/iam', () => {
@@ -294,10 +249,6 @@ describe('Role + condition: can admin delete post?', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 4. Deny path: "viewer cannot delete post"
-// ---------------------------------------------------------------------------
-
 describe('Deny path: viewer cannot delete', () => {
   const denyRequest: AccessRequest = { ...simpleRequest, action: 'delete' }
 
@@ -326,10 +277,6 @@ describe('Deny path: viewer cannot delete', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 5. Target optimization (duck-iam only)
-// ---------------------------------------------------------------------------
-
 describe('Target optimization (duck-iam only)', () => {
   bench('target match — evaluates rules', () => {
     for (let i = 0; i < N; i++) evaluatePolicy(policyWithTargets, simpleRequest)
@@ -339,10 +286,6 @@ describe('Target optimization (duck-iam only)', () => {
     for (let i = 0; i < N; i++) evaluatePolicy(policyWithTargets, adminRequest)
   })
 })
-
-// ---------------------------------------------------------------------------
-// 6. Batch: 20 permission checks
-// ---------------------------------------------------------------------------
 
 describe('Batch: 20 permission checks', () => {
   const actions = ['read', 'write', 'update', 'delete'] as const
@@ -397,19 +340,11 @@ describe('Batch: 20 permission checks', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 7. Engine.can() cached (duck-iam only)
-// ---------------------------------------------------------------------------
-
 describe('Engine.can() — cached (duck-iam only)', () => {
   bench('@gentleduck/iam — engine.can()', async () => {
     for (let i = 0; i < N; i++) await engine.can('user-1', 'read', { type: 'post', attributes: {} })
   })
 })
-
-// ---------------------------------------------------------------------------
-// 8. Cold start: build + first check
-// ---------------------------------------------------------------------------
 
 describe('Cold start: build + first check', () => {
   bench('@gentleduck/iam', async () => {

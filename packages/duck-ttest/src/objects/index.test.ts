@@ -1,11 +1,8 @@
-// ===== Import Test Helpers =====
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 
-// ===== Import Utility Types =====
 import type { Diff, Expand, Merge, OmitByValue, PickByValue } from '.'
 
-// ===== Test: Expand =====
 type Expand_Input = { a: 1 } & { b: 2 }
 type Expand_Expected = { a: 1; b: 2 }
 
@@ -14,7 +11,6 @@ type Test_Expand = AssertTrue<
   'Expected Expand to flatten intersection type to a single object'
 >
 
-// ===== Test: Merge =====
 type Merge_A = { a: 1; b: 2 }
 type Merge_B = { b: 3; c: 4 }
 type Merge_Expected = { a: 1; b: 3; c: 4 }
@@ -24,7 +20,6 @@ type Test_Merge = AssertTrue<
   'Expected Merge to override shared keys and combine properties'
 >
 
-// ===== Test: Diff =====
 type Diff_A = { a: 1; b: 2; c: 3 }
 type Diff_B = { b: any; d: any }
 type Diff_Expected = { a: 1; c: 3 }
@@ -34,7 +29,6 @@ type Test_Diff = AssertTrue<
   'Expected Diff to remove keys present in second type from first'
 >
 
-// ===== Test: PickByValue =====
 type PBV_Input = { a: 1; b: 's'; c: 2 }
 type PBV_Expected = { a: 1; c: 2 }
 
@@ -43,7 +37,6 @@ type Test_PickByValue = AssertTrue<
   'Expected PickByValue to extract properties of matching value type'
 >
 
-// ===== Test: OmitByValue =====
 type OBV_Input = { a: 1; b: 's'; c: 2 }
 type OBV_Expected = { b: 's' }
 

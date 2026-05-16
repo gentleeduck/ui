@@ -3,10 +3,8 @@ import { describe, expect, it } from 'vitest'
 import type { IDateAdapter, WeekStartDay } from '../adapter.types'
 import { NativeAdapter } from '../native-adapter'
 
-// ---------------------------------------------------------------------------
 // Try to import optional peer-dep adapters. If a peer dependency is missing
 // the adapter is silently excluded from the consistency matrix.
-// ---------------------------------------------------------------------------
 interface IAdapterEntry {
   name: string
   create: () => IDateAdapter<unknown>
@@ -55,10 +53,6 @@ try {
   // luxon not installed - skip
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 /** Extract y/m/d triple from any adapter date via the adapter itself. */
 function triple(adapter: IDateAdapter<unknown>, date: unknown): [number, number, number] {
   return [adapter.getYear(date), adapter.getMonth(date), adapter.getDate(date)]
@@ -69,9 +63,6 @@ function label(t: [number, number, number]): string {
   return `${t[0]}-${String(t[1] + 1).padStart(2, '0')}-${String(t[2]).padStart(2, '0')}`
 }
 
-// ---------------------------------------------------------------------------
-// Build the reference adapter (Native) once.
-// ---------------------------------------------------------------------------
 const ref = new NativeAdapter()
 
 // Only run cross-adapter tests when at least one non-native adapter is loaded.
@@ -83,9 +74,6 @@ describe('Cross-adapter consistency', () => {
     return
   }
 
-  // -----------------------------------------------------------------------
-  // today()
-  // -----------------------------------------------------------------------
   describe('today()', () => {
     for (const entry of others) {
       it(`${entry.name} matches NativeAdapter`, () => {
@@ -97,9 +85,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // addDays()
-  // -----------------------------------------------------------------------
   describe('addDays()', () => {
     const cases: Array<{ base: [number, number, number]; days: number; label: string }> = [
       { base: [2026, 2, 17], days: 5, label: '+5 days from Mar 17' },
@@ -123,9 +108,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // addMonths()
-  // -----------------------------------------------------------------------
   describe('addMonths()', () => {
     const cases: Array<{ base: [number, number, number]; months: number; label: string }> = [
       { base: [2026, 0, 15], months: 1, label: 'Jan 15 + 1 month' },
@@ -150,9 +132,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // startOfMonth()
-  // -----------------------------------------------------------------------
   describe('startOfMonth()', () => {
     const dates: Array<[number, number, number]> = [
       [2026, 2, 17],
@@ -173,9 +152,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // endOfMonth()
-  // -----------------------------------------------------------------------
   describe('endOfMonth()', () => {
     const dates: Array<[number, number, number]> = [
       [2026, 2, 17], // March -> 31
@@ -197,9 +173,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // getDaysInMonth (derived from endOfMonth().getDate())
-  // -----------------------------------------------------------------------
   describe('getDaysInMonth (via endOfMonth)', () => {
     // Test every month in 2026 plus Feb in leap year 2024
     const months: Array<[number, number]> = [
@@ -230,9 +203,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // getYear / getMonth / getDate
-  // -----------------------------------------------------------------------
   describe('getYear / getMonth / getDate', () => {
     const dates: Array<[number, number, number]> = [
       [2026, 0, 1],
@@ -255,9 +225,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // getDayOfWeek
-  // -----------------------------------------------------------------------
   describe('getDayOfWeek', () => {
     // Known weekdays: 2026-03-17 = Tuesday(2), 2026-03-15 = Sunday(0), 2026-03-14 = Saturday(6)
     const cases: Array<{ date: [number, number, number]; expected: number; day: string }> = [
@@ -280,9 +247,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // isSameDay
-  // -----------------------------------------------------------------------
   describe('isSameDay', () => {
     const cases: Array<{
       a: [number, number, number]
@@ -310,9 +274,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // isBefore / isAfter
-  // -----------------------------------------------------------------------
   describe('isBefore / isAfter', () => {
     const pairs: Array<{
       a: [number, number, number]
@@ -344,9 +305,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // startOfWeek with different weekStartDay values
-  // -----------------------------------------------------------------------
   describe('startOfWeek', () => {
     // 2026-03-17 is Tuesday (day 2)
     const weekStarts: WeekStartDay[] = [0, 1, 2, 3, 4, 5, 6]
@@ -375,9 +333,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // addYears (cross-adapter)
-  // -----------------------------------------------------------------------
   describe('addYears()', () => {
     const cases: Array<{ base: [number, number, number]; years: number; label: string }> = [
       { base: [2026, 2, 17], years: 1, label: 'Mar 17 + 1 year' },
@@ -398,9 +353,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // toDate / fromDate roundtrip consistency
-  // -----------------------------------------------------------------------
   describe('toDate / fromDate roundtrip', () => {
     const dates: Array<[number, number, number]> = [
       [2026, 2, 17],
@@ -422,9 +374,6 @@ describe('Cross-adapter consistency', () => {
     }
   })
 
-  // -----------------------------------------------------------------------
-  // format consistency
-  // -----------------------------------------------------------------------
   describe('format()', () => {
     const cases: Array<{
       date: [number, number, number]

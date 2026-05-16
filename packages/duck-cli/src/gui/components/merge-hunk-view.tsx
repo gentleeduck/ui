@@ -116,7 +116,6 @@ export const MergeHunkView = memo(function MergeHunkView({
         </Box>
       )}
 
-      {/* ======= separator */}
       <Box>
         <Text color={THEME.ring} bold>
           {'  '}

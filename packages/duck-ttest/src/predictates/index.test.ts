@@ -2,18 +2,10 @@ import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 import type { IsMutable, IsPartial, IsReadonly, IsRequired } from '.'
 
-// -------------------------------------------
-// Test Types
-// -------------------------------------------
-
 type FullyMutable = { a: number; b: string }
 type FullyReadonly = { readonly a: number; readonly b: string }
 type PartiallyOptional = { a?: number; b?: string }
 type FullyRequired = { a: number; b: string }
-
-// -------------------------------------------
-// IsMutable Tests
-// -------------------------------------------
 
 type Test_IsMutable_True = AssertTrue<
   Equal<IsMutable<FullyMutable>, true>,
@@ -30,10 +22,6 @@ type Test_IsMutable_Mixed = AssertTrue<
   'Expected IsMutable to return false when some properties are readonly'
 >
 
-// -------------------------------------------
-// IsReadonly Tests
-// -------------------------------------------
-
 type Test_IsReadonly_True = AssertTrue<
   Equal<IsReadonly<FullyReadonly>, true>,
   'Expected IsReadonly to return true for fully readonly object'
@@ -49,10 +37,6 @@ type Test_IsReadonly_Mixed = AssertTrue<
   'Expected IsReadonly to return false when not all properties are readonly'
 >
 
-// -------------------------------------------
-// IsPartial Tests
-// -------------------------------------------
-
 type Test_IsPartial_True = AssertTrue<
   Equal<IsPartial<PartiallyOptional>, true>,
   'Expected IsPartial to return true for partially optional object'
@@ -67,10 +51,6 @@ type Test_IsPartial_Empty = AssertTrue<
   Equal<IsPartial<object>, true>,
   'Expected IsPartial to return true for empty object (all keys optional)'
 >
-
-// -------------------------------------------
-// IsRequired Tests
-// -------------------------------------------
 
 type Test_IsRequired_True = AssertTrue<
   Equal<IsRequired<FullyRequired>, true>,

@@ -18,10 +18,6 @@ import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from '../radio-group'
 import { Select, SelectContent, SelectItem, SelectPortal, SelectTrigger, SelectValue } from '../select'
 import { Toggle } from '../toggle'
 
-// ---------------------------------------------------------------------------
-// 1. Toggle keyboard
-// ---------------------------------------------------------------------------
-
 describe('Toggle keyboard', () => {
   it('Space key toggles pressed state', () => {
     const handler = mock(() => {})
@@ -84,10 +80,6 @@ describe('Toggle keyboard', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 2. RadioGroup keyboard
-// ---------------------------------------------------------------------------
-
 describe('RadioGroup keyboard', () => {
   function renderRadioGroup(props: Record<string, unknown> = {}) {
     return render(
@@ -110,7 +102,6 @@ describe('RadioGroup keyboard', () => {
     const group = container.querySelector('[role="radiogroup"]')!
     const items = container.querySelectorAll('[data-slot="radio-group-item"]')
 
-    // First item is checked
     expect(items[0]!.getAttribute('aria-checked')).toBe('true')
 
     // Fire ArrowDown on the group -- the roving focus mechanism uses
@@ -118,7 +109,6 @@ describe('RadioGroup keyboard', () => {
     // synchronously to set the isNavigationKeyPressedRef flag.
     fireEvent.keyDown(group, { key: 'ArrowDown' })
 
-    // The group received the key event without error
     expect(group.getAttribute('role')).toBe('radiogroup')
   })
 
@@ -128,7 +118,6 @@ describe('RadioGroup keyboard', () => {
 
     fireEvent.keyDown(group, { key: 'ArrowUp' })
 
-    // The group received the key event without error
     expect(group.getAttribute('role')).toBe('radiogroup')
   })
 
@@ -158,19 +147,13 @@ describe('RadioGroup keyboard', () => {
     const { container } = renderRadioGroup({ defaultValue: 'apple' })
     const group = container.querySelector('[role="radiogroup"]')!
 
-    // Fire all navigation keys to verify they are accepted
     for (const key of ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Home', 'End']) {
       fireEvent.keyDown(group, { key })
     }
 
-    // Group still renders correctly after all navigation keys
     expect(container.querySelectorAll('[data-slot="radio-group-item"]').length).toBe(3)
   })
 })
-
-// ---------------------------------------------------------------------------
-// 3. DropdownMenu keyboard
-// ---------------------------------------------------------------------------
 
 describe('DropdownMenu keyboard', () => {
   function renderDropdown(props: Record<string, unknown> = {}) {
@@ -276,10 +259,6 @@ describe('DropdownMenu keyboard', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 4. Dialog keyboard
-// ---------------------------------------------------------------------------
-
 describe('Dialog keyboard', () => {
   function renderDialog(props: Record<string, unknown> = {}) {
     return render(
@@ -325,10 +304,6 @@ describe('Dialog keyboard', () => {
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
   })
 })
-
-// ---------------------------------------------------------------------------
-// 5. Select keyboard
-// ---------------------------------------------------------------------------
 
 describe('Select keyboard', () => {
   function renderSelect(props: Record<string, unknown> = {}) {
@@ -407,10 +382,6 @@ describe('Select keyboard', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 6. Popover keyboard
-// ---------------------------------------------------------------------------
-
 describe('Popover keyboard', () => {
   function renderPopover(props: Record<string, unknown> = {}) {
     return render(
@@ -456,16 +427,13 @@ describe('Popover keyboard', () => {
     const { container } = renderPopover()
     const trigger = container.querySelector('[data-slot="popover-trigger"]')!
 
-    // Closed
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
     expect(trigger.getAttribute('aria-controls')).toBeTruthy()
 
-    // Open
     fireEvent.click(trigger)
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
 
-    // Closed again
     fireEvent.click(trigger)
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
   })

@@ -5,9 +5,6 @@ import { PersianAdapter } from '../persian-adapter'
 describe('PersianAdapter', () => {
   const adapter = new PersianAdapter()
 
-  // -------------------------------------------------------------------------
-  // create() and get*()  -  Persian calendar parts
-  // -------------------------------------------------------------------------
   describe('create', () => {
     it('create(1404, 0, 1) -> Farvardin 1, 1404 = Gregorian 2025-03-21', () => {
       const d = adapter.create(1404, 0, 1)
@@ -36,9 +33,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Known conversions via getYear/getMonth/getDate
-  // -------------------------------------------------------------------------
   describe('known conversions', () => {
     it('Gregorian 2025-06-12 = Persian 1404-03-22 (Khordad 22)', () => {
       const d = new Date(2025, 5, 12) // June 12
@@ -62,9 +56,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Month lengths via startOfMonth / endOfMonth
-  // -------------------------------------------------------------------------
   describe('month lengths', () => {
     it('months 1-6 (Farvardin-Shahrivar) have 31 days', () => {
       for (let m = 0; m < 6; m++) {
@@ -93,9 +84,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // startOfMonth
-  // -------------------------------------------------------------------------
   describe('startOfMonth', () => {
     it('returns correct Gregorian date for Persian month start', () => {
       // Khordad (month 3, 0-indexed 2) 1404 starts on Gregorian 2025-05-22
@@ -113,9 +101,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // endOfMonth
-  // -------------------------------------------------------------------------
   describe('endOfMonth', () => {
     it('returns correct Gregorian date for Persian month end', () => {
       const d = adapter.create(1404, 0, 15) // Farvardin 15
@@ -126,9 +111,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addMonths
-  // -------------------------------------------------------------------------
   describe('addMonths', () => {
     it('Farvardin + 1 = Ordibehesht', () => {
       const d = adapter.addMonths(adapter.create(1404, 0, 15), 1)
@@ -168,9 +150,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addYears
-  // -------------------------------------------------------------------------
   describe('addYears', () => {
     it('adds 1 year', () => {
       const d = adapter.addYears(adapter.create(1404, 2, 15), 1)
@@ -194,9 +173,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isSameMonth  -  compares Persian months
-  // -------------------------------------------------------------------------
   describe('isSameMonth', () => {
     it('same Persian month returns true', () => {
       const a = adapter.create(1404, 0, 1)
@@ -217,9 +193,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isSameDay
-  // -------------------------------------------------------------------------
   describe('isSameDay', () => {
     it('same Gregorian date returns true', () => {
       const a = adapter.create(1404, 0, 1)
@@ -232,9 +205,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isBefore / isAfter
-  // -------------------------------------------------------------------------
   describe('isBefore / isAfter', () => {
     it('earlier date isBefore later', () => {
       expect(adapter.isBefore(adapter.create(1404, 0, 1), adapter.create(1404, 0, 2))).toBe(true)
@@ -251,9 +221,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // isValid
-  // -------------------------------------------------------------------------
   describe('isValid', () => {
     it('returns true for valid date', () => {
       expect(adapter.isValid(adapter.create(1404, 0, 1))).toBe(true)
@@ -264,9 +231,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // today
-  // -------------------------------------------------------------------------
   describe('today', () => {
     it('returns a valid date with time stripped', () => {
       const t = adapter.today()
@@ -277,9 +241,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // format  -  Persian calendar output
-  // -------------------------------------------------------------------------
   describe('format', () => {
     it('outputs Persian month names with default locale', () => {
       const d = adapter.create(1404, 0, 1) // Farvardin 1
@@ -303,9 +264,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // toDate / fromDate
-  // -------------------------------------------------------------------------
   describe('toDate / fromDate', () => {
     it('toDate returns a native Date', () => {
       const d = adapter.create(1404, 0, 1)
@@ -325,9 +283,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // setTime
-  // -------------------------------------------------------------------------
   describe('setTime', () => {
     it('preserves date, changes time', () => {
       const d = adapter.create(1404, 0, 1)
@@ -341,9 +296,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // addDays (universal)
-  // -------------------------------------------------------------------------
   describe('addDays', () => {
     it('crosses Persian month boundary', () => {
       // Farvardin has 31 days. Day 31 + 1 = Ordibehesht 1
@@ -359,9 +311,6 @@ describe('PersianAdapter', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // getDayOfWeek / startOfWeek (universal)
-  // -------------------------------------------------------------------------
   describe('getDayOfWeek', () => {
     it('returns correct weekday', () => {
       // 2025-03-21 (Nowruz 1404) is a Friday = 5

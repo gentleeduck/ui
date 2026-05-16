@@ -14,9 +14,6 @@ import {
   jalaaliMonthLength,
 } from '../index'
 
-// =============================================================================
-// Islamic (Hijri) adapter + grid + selection integration
-// =============================================================================
 describe('Islamic adapter integration', () => {
   const adapter = new IslamicAdapter('en-US')
 
@@ -29,9 +26,6 @@ describe('Islamic adapter integration', () => {
     locale: { weekStartDay: 0 as const },
   }
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarMonth produces valid grid
-  // ---------------------------------------------------------------------------
   describe('buildCalendarMonth', () => {
     it('produces a valid grid for Muharram 1447', () => {
       const result = buildCalendarMonth(adapter, muharram1447, baseConfig)
@@ -81,9 +75,6 @@ describe('Islamic adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Year values match the calendar system
-  // ---------------------------------------------------------------------------
   describe('year values', () => {
     it('year is approximately 1447 for dates around June 2025', () => {
       const year = adapter.getYear(muharram1447)
@@ -96,9 +87,6 @@ describe('Islamic adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Navigation (next/prev month)
-  // ---------------------------------------------------------------------------
   describe('navigation', () => {
     it('addMonths(+1) moves to the next Hijri month', () => {
       const next = adapter.addMonths(muharram1447, 1)
@@ -136,9 +124,6 @@ describe('Islamic adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Selection with non-Gregorian dates
-  // ---------------------------------------------------------------------------
   describe('selection', () => {
     it('single selection works on a Hijri date', () => {
       const day = adapter.create(1447, 0, 10)
@@ -199,9 +184,6 @@ describe('Islamic adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Leap year handling
-  // ---------------------------------------------------------------------------
   describe('leap year handling', () => {
     it('1447 is a leap year (Dhu al-Hijjah has 30 days)', () => {
       expect(isLeapHijriYear(1447)).toBe(true)
@@ -228,9 +210,6 @@ describe('Islamic adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getDaysInMonth returns correct values
-  // ---------------------------------------------------------------------------
   describe('hijriMonthLength', () => {
     it('returns correct values for all 12 months of 1447', () => {
       const expected = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30]
@@ -248,9 +227,6 @@ describe('Islamic adapter integration', () => {
   })
 })
 
-// =============================================================================
-// Hebrew adapter + grid + selection integration
-// =============================================================================
 describe('Hebrew adapter integration', () => {
   const adapter = new HebrewAdapter('en-US')
 
@@ -263,9 +239,6 @@ describe('Hebrew adapter integration', () => {
     locale: { weekStartDay: 0 as const },
   }
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarMonth produces valid grid
-  // ---------------------------------------------------------------------------
   describe('buildCalendarMonth', () => {
     it('produces a valid grid for Tishrei 5786', () => {
       const result = buildCalendarMonth(adapter, tishrei5786, baseConfig)
@@ -309,9 +282,6 @@ describe('Hebrew adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Year values match the calendar system
-  // ---------------------------------------------------------------------------
   describe('year values', () => {
     it('year is 5786 for dates around Sep 2025', () => {
       expect(adapter.getYear(tishrei5786)).toBe(5786)
@@ -323,9 +293,6 @@ describe('Hebrew adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Navigation (next/prev month)
-  // ---------------------------------------------------------------------------
   describe('navigation', () => {
     it('addMonths(+1) moves to the next Hebrew month', () => {
       const next = adapter.addMonths(tishrei5786, 1)
@@ -365,9 +332,6 @@ describe('Hebrew adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Selection with non-Gregorian dates
-  // ---------------------------------------------------------------------------
   describe('selection', () => {
     it('single selection works on a Hebrew date', () => {
       const day = adapter.create(5786, 0, 10)
@@ -428,9 +392,6 @@ describe('Hebrew adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Leap year handling
-  // ---------------------------------------------------------------------------
   describe('leap year handling', () => {
     it('5784 is a leap year with 13 months', () => {
       expect(isLeapHebrewYear(5784)).toBe(true)
@@ -477,9 +438,6 @@ describe('Hebrew adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getDaysInMonth returns correct values
-  // ---------------------------------------------------------------------------
   describe('hebrewMonthLength', () => {
     it('Tishrei (month 1) always has 30 days', () => {
       expect(hebrewMonthLength(5786, 1)).toBe(30)
@@ -501,9 +459,6 @@ describe('Hebrew adapter integration', () => {
   })
 })
 
-// =============================================================================
-// Persian (Jalaali) adapter + grid + selection integration
-// =============================================================================
 describe('Persian adapter integration', () => {
   const adapter = new PersianAdapter('en-US')
 
@@ -516,9 +471,6 @@ describe('Persian adapter integration', () => {
     locale: { weekStartDay: 0 as const },
   }
 
-  // ---------------------------------------------------------------------------
-  // buildCalendarMonth produces valid grid
-  // ---------------------------------------------------------------------------
   describe('buildCalendarMonth', () => {
     it('produces a valid grid for Farvardin 1404', () => {
       const result = buildCalendarMonth(adapter, farvardin1404, baseConfig)
@@ -567,9 +519,6 @@ describe('Persian adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Year values match the calendar system
-  // ---------------------------------------------------------------------------
   describe('year values', () => {
     it('year is 1404 for dates around March 2025', () => {
       expect(adapter.getYear(farvardin1404)).toBe(1404)
@@ -581,9 +530,6 @@ describe('Persian adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Navigation (next/prev month)
-  // ---------------------------------------------------------------------------
   describe('navigation', () => {
     it('addMonths(+1) moves to the next Persian month', () => {
       const next = adapter.addMonths(farvardin1404, 1)
@@ -618,9 +564,6 @@ describe('Persian adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Selection with non-Gregorian dates
-  // ---------------------------------------------------------------------------
   describe('selection', () => {
     it('single selection works on a Persian date', () => {
       const day = adapter.create(1404, 0, 10)
@@ -681,9 +624,6 @@ describe('Persian adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Leap year handling
-  // ---------------------------------------------------------------------------
   describe('leap year handling', () => {
     it('1403 is a leap year (Esfand has 30 days)', () => {
       expect(isLeapJalaaliYear(1403)).toBe(true)
@@ -710,9 +650,6 @@ describe('Persian adapter integration', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getDaysInMonth returns correct values
-  // ---------------------------------------------------------------------------
   describe('jalaaliMonthLength', () => {
     it('months 1-6 have 31 days', () => {
       for (let m = 1; m <= 6; m++) {
@@ -736,9 +673,6 @@ describe('Persian adapter integration', () => {
   })
 })
 
-// =============================================================================
-// Cross-calendar: all three adapters share consistent grid behavior
-// =============================================================================
 describe('cross-calendar consistency', () => {
   const islamic = new IslamicAdapter('en-US')
   const hebrew = new HebrewAdapter('en-US')

@@ -2,7 +2,6 @@ import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 import type { ExcludeKeys, Only, OverlappingKeys, UnionToIntersection, XOR } from '.'
 
-// ===== Test: UnionToIntersection =====
 type UTI_Input = { a: number } | { b: string }
 type UTI_Result = UnionToIntersection<UTI_Input>
 type UTI_Expected = { a: number } & { b: string }
@@ -12,7 +11,6 @@ type Test_UnionToIntersection = AssertTrue<
   'Expected UnionToIntersection to convert union into intersection type'
 >
 
-// ===== Test: ExcludeKeys =====
 type EK_Input = { a: string; b: number; c: boolean }
 type EK_Result = ExcludeKeys<EK_Input, 'a' | 'c'>
 type EK_Expected = { b: number }
@@ -22,7 +20,6 @@ type Test_ExcludeKeys = AssertTrue<
   'Expected ExcludeKeys to remove specified keys from object type'
 >
 
-// ===== Test: OverlappingKeys =====
 type OK_A = { a: number; b: string; c: boolean }
 type OK_B = { b: boolean; c: number; d: string }
 type OK_Result = OverlappingKeys<OK_A, OK_B>
@@ -33,7 +30,6 @@ type Test_OverlappingKeys = AssertTrue<
   'Expected OverlappingKeys to return keys present in both types'
 >
 
-// ===== Test: Only =====
 type OnlyA = { a: number; b: string }
 type OnlyB = { b: boolean; c: string }
 type Only_Result = Only<OnlyA, OnlyB>
@@ -44,7 +40,6 @@ type Test_Only = AssertTrue<
   'Expected Only to return properties exclusive to first type'
 >
 
-// ===== Test: XOR =====
 type XOR_A = { a: string; b: number }
 type XOR_B = { b: number; c: boolean }
 type XOR_Result = XOR<XOR_A, XOR_B>

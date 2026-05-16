@@ -2,10 +2,6 @@ import type { AssertTrue } from '~/assert'
 import type { Equal, ShallowEqual } from '~/equality'
 import type { HexColor, Jsonify, RgbColorString, UuidString } from '.'
 
-// -------------------------------
-// ✅ Jsonify
-// -------------------------------
-
 type RawUser = {
   id: number
   name: string
@@ -53,19 +49,11 @@ type Test_JsonifyRecursive = AssertTrue<
   'Jsonify should recursively strip functions and Dates in arrays'
 >
 
-// -------------------------------
-// ✅ HexColor
-// -------------------------------
-
 declare const validHexColor: HexColor
 // const testHex2: HexColor = 'ffffff'  // ❌ compile-time error
 
 const testHex1: HexColor = '#ffffff'
 type Test_HexColor = AssertTrue<Equal<typeof testHex1, `#${string}`>, 'HexColor should start with #'>
-
-// -------------------------------
-// ✅ RgbColorString
-// -------------------------------
 
 declare const rgb1: RgbColorString
 const testRgb: RgbColorString = 'rgb(255, 0, 100)'
@@ -75,10 +63,6 @@ type Test_RgbColor = AssertTrue<
   Equal<typeof testRgb, `rgb(${number}, ${number}, ${number})`>,
   "RgbColorString should follow 'rgb(R, G, B)' format"
 >
-
-// -------------------------------
-// ✅ UuidString
-// -------------------------------
 
 const uuid: UuidString = '550e8400-e29b-41d4-a716-446655440000'
 // const uuidInvalid: UuidString = 'not-a-uuid'  // ❌ compile-time error

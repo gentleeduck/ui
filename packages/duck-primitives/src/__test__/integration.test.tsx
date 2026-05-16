@@ -24,10 +24,6 @@ import { Select, SelectTrigger, SelectValue } from '../select'
 import { Slider, SliderRange, SliderThumb, SliderTrack } from '../slider'
 import { ToggleGroup, ToggleGroupItem } from '../toggle-group'
 
-// ---------------------------------------------------------------------------
-// 1. Dialog full lifecycle
-// ---------------------------------------------------------------------------
-
 describe('Dialog full lifecycle', () => {
   function renderFullDialog(props: Record<string, unknown> = {}) {
     return render(
@@ -49,11 +45,9 @@ describe('Dialog full lifecycle', () => {
     const { container, baseElement } = renderFullDialog()
     const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
 
-    // Initially closed
     expect(trigger.getAttribute('data-state')).toBe('closed')
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
 
-    // Click to open
     fireEvent.click(trigger)
     expect(trigger.getAttribute('data-state')).toBe('open')
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
@@ -64,15 +58,12 @@ describe('Dialog full lifecycle', () => {
     const { baseElement } = renderFullDialog({ defaultOpen: true })
     const content = baseElement.querySelector('[role="dialog"]')!
 
-    // Verify title exists and ARIA links to it
     const titleId = content.getAttribute('aria-labelledby')
     expect(titleId).toBeTruthy()
 
-    // Verify description exists and ARIA links to it
     const descId = content.getAttribute('aria-describedby')
     expect(descId).toBeTruthy()
 
-    // Verify both IDs point to real elements
     expect(content.querySelector(`[id="${titleId}"]`)).not.toBeNull()
     expect(content.querySelector(`[id="${descId}"]`)).not.toBeNull()
   })
@@ -109,10 +100,8 @@ describe('Dialog full lifecycle', () => {
     const { container } = renderFullDialog()
     const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
 
-    // Closed -- overlay Presence should not render
     expect(trigger.getAttribute('data-state')).toBe('closed')
 
-    // Open -- overlay Presence should render (trigger proves open state)
     fireEvent.click(trigger)
     expect(trigger.getAttribute('data-state')).toBe('open')
   })
@@ -123,10 +112,6 @@ describe('Dialog full lifecycle', () => {
     expect(baseElement.querySelector('[data-slot="dialog-description"]')).not.toBeNull()
   })
 })
-
-// ---------------------------------------------------------------------------
-// 2. Popover with close button
-// ---------------------------------------------------------------------------
 
 describe('Popover with close button', () => {
   function renderPopover(props: Record<string, unknown> = {}) {
@@ -187,7 +172,6 @@ describe('Popover with close button', () => {
     const { container } = renderPopover()
     const trigger = container.querySelector('[data-slot="popover-trigger"]')!
 
-    // aria-controls is always set (points to the content id)
     const controlsId = trigger.getAttribute('aria-controls')
     expect(controlsId).toBeTruthy()
   })
@@ -200,16 +184,11 @@ describe('Popover with close button', () => {
     fireEvent.click(trigger)
     expect(handler).toHaveBeenCalledWith(true)
 
-    // Close by toggling the trigger again
     fireEvent.click(trigger)
     expect(handler).toHaveBeenCalledWith(false)
     expect(handler).toHaveBeenCalledTimes(2)
   })
 })
-
-// ---------------------------------------------------------------------------
-// 3. RadioGroup with Indicator
-// ---------------------------------------------------------------------------
 
 describe('RadioGroup with Indicator', () => {
   function renderRadioGroup(props: Record<string, unknown> = {}) {
@@ -265,10 +244,8 @@ describe('RadioGroup with Indicator', () => {
     const { container } = renderRadioGroup()
     const items = container.querySelectorAll('[data-slot="radio-group-item"]')
 
-    // Initially no indicators visible (none checked)
     expect(container.querySelectorAll('[data-slot="radio-group-indicator"]').length).toBe(0)
 
-    // Check first item
     fireEvent.click(items[0]!)
     const indicators = container.querySelectorAll('[data-slot="radio-group-indicator"]')
     expect(indicators.length).toBe(1)
@@ -285,7 +262,6 @@ describe('RadioGroup with Indicator', () => {
     fireEvent.click(items[1]!)
     const indicators = container.querySelectorAll('[data-slot="radio-group-indicator"]')
     expect(indicators.length).toBe(1)
-    // The indicator should be inside the second item
     expect(items[1]!.querySelector('[data-slot="radio-group-indicator"]')).not.toBeNull()
     expect(items[0]!.querySelector('[data-slot="radio-group-indicator"]')).toBeNull()
   })
@@ -298,7 +274,6 @@ describe('RadioGroup with Indicator', () => {
     expect(items[1]!.getAttribute('aria-checked')).toBe('true')
     expect(items[2]!.getAttribute('aria-checked')).toBe('false')
 
-    // Indicator should be present for the default-checked item
     expect(items[1]!.querySelector('[data-slot="radio-group-indicator"]')).not.toBeNull()
   })
 
@@ -323,15 +298,10 @@ describe('RadioGroup with Indicator', () => {
     fireEvent.click(items[0]!)
     expect(items[0]!.getAttribute('aria-checked')).toBe('true')
 
-    // Click the same item again
     fireEvent.click(items[0]!)
     expect(items[0]!.getAttribute('aria-checked')).toBe('true')
   })
 })
-
-// ---------------------------------------------------------------------------
-// 4. ToggleGroup with mixed values
-// ---------------------------------------------------------------------------
 
 describe('ToggleGroup single mode', () => {
   it('clicking an item activates it and deactivates others', () => {
@@ -432,7 +402,6 @@ describe('ToggleGroup multiple mode', () => {
     const items = container.querySelectorAll('[data-slot="toggle-group-item"]')
     expect(items[0]!.getAttribute('aria-pressed')).toBe('true')
     expect(items[1]!.getAttribute('aria-pressed')).toBe('false')
-    // Should not have role="radio" or aria-checked in multiple mode
     expect(items[0]!.getAttribute('role')).toBeNull()
     expect(items[0]!.getAttribute('aria-checked')).toBeNull()
   })
@@ -458,10 +427,6 @@ describe('ToggleGroup multiple mode', () => {
     expect(handler).toHaveBeenCalledWith(['c'])
   })
 })
-
-// ---------------------------------------------------------------------------
-// 5. DropdownMenu trigger keyboard
-// ---------------------------------------------------------------------------
 
 describe('DropdownMenu trigger keyboard', () => {
   function renderDropdown(props: Record<string, unknown> = {}) {
@@ -542,10 +507,6 @@ describe('DropdownMenu trigger keyboard', () => {
     expect(handler).not.toHaveBeenCalled()
   })
 })
-
-// ---------------------------------------------------------------------------
-// 6. Command compound
-// ---------------------------------------------------------------------------
 
 describe('Command compound', () => {
   function renderCommand() {
@@ -669,10 +630,6 @@ describe('Command compound', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 7. Menubar compound
-// ---------------------------------------------------------------------------
-
 describe('Menubar compound', () => {
   function renderMenubar(props: Record<string, unknown> = {}) {
     return render(
@@ -787,10 +744,6 @@ describe('Menubar compound', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 8. Select compound
-// ---------------------------------------------------------------------------
-
 describe('Select compound', () => {
   function renderSelect(props: Record<string, unknown> = {}) {
     return render(
@@ -884,10 +837,6 @@ describe('Select compound', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// 9. Slider compound
-// ---------------------------------------------------------------------------
-
 describe('Slider compound', () => {
   function renderSlider(props: Record<string, unknown> = {}) {
     return render(
@@ -938,7 +887,6 @@ describe('Slider compound', () => {
     const { container } = renderSlider({ defaultValue: [25] })
     const range = container.querySelector('[data-slot="slider-range"]') as HTMLElement
 
-    // With value=25, min=0, max=100: start=0%, end=75%
     expect(range.style.left).toBe('0%')
     expect(range.style.right).toBe('75%')
   })
@@ -960,7 +908,6 @@ describe('Slider compound', () => {
     expect(thumbs[0]!.getAttribute('role')).toBe('slider')
     expect(thumbs[1]!.getAttribute('role')).toBe('slider')
 
-    // First thumb = value 20, second thumb = value 80
     expect(thumbs[0]!.getAttribute('aria-valuenow')).toBe('20')
     expect(thumbs[1]!.getAttribute('aria-valuenow')).toBe('80')
   })
@@ -977,7 +924,6 @@ describe('Slider compound', () => {
     )
     const range = container.querySelector('[data-slot="slider-range"]') as HTMLElement
 
-    // With values [20, 80]: start=20%, end=20%
     expect(range.style.left).toBe('20%')
     expect(range.style.right).toBe('20%')
   })

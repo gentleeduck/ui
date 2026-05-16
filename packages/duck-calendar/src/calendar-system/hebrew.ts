@@ -139,10 +139,6 @@ export function hebrewMonthLength(hy: number, hm: number): number {
   return hm % 2 === 1 ? 30 : 29
 }
 
-// ---------------------------------------------------------------------------
-// Fixed-day (R.D.) conversions  -  Reingold/Dershowitz epoch = Jan 1, 1 CE
-// ---------------------------------------------------------------------------
-
 /** Number of days in a Gregorian month (for input validation). */
 function gregorianMonthLength(gy: number, gm: number): number {
   const lengths = [31, isGregorianLeap(gy) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

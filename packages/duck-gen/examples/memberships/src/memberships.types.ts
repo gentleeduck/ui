@@ -7,10 +7,6 @@ import { z } from 'zod/v4'
 // If these are used here, keep them. Otherwise remove.
 // import { MembershipsMessages, safeMembershipAdminSelect, safeMembershipClientSelect } from "./memberships.constants";
 
-// -----------------------------
-// Shared Zod primitives/helpers
-// -----------------------------
-
 export const string = z.string(zodErr('ZOD_EXPECTED_STRING'))
 export const uuid = z.uuid(zodErr('ZOD_EXPECTED_UUID'))
 export const number = z.number(zodErr('ZOD_EXPECTED_NUMBER'))
@@ -45,10 +41,6 @@ export const paginationSchema = strictObj({
   query: string.optional(),
 })
 
-// -----------------------------
-// Memberships schemas (Admin)
-// -----------------------------
-
 export const membershipStatus = z.enum(MEMBERSHIP_STATUS_VALUES, zodErr('ZOD_EXPECTED_ENUM'))
 
 export const MembershipsAdminListSchema = paginationSchema.extend({
@@ -76,10 +68,6 @@ export const MembershipsAdminUpdateSchema = strictObj({
   status: membershipStatus.optional(),
   deleted: boolean.optional(),
 })
-
-// -----------------------------
-// Zod message keys + mapping
-// -----------------------------
 
 export const ZOD_MESSAGES = [
   'ZOD_EXPECTED_STRING',
@@ -141,12 +129,6 @@ export const ZodMessages = Object.fromEntries(ZOD_MESSAGES.map((key) => [key, 40
   400
 >
 
-// -----------------------------
-// DTOs + Types (if used here)
-// -----------------------------
-// These require your local utilities/types.
-// Uncomment when this file actually has access to them.
-
 import { createZodDto } from 'nestjs-zod'
 import { zodErr } from 'zod'
 import type {
@@ -176,10 +158,6 @@ export type MembershipsAdminGetResponse = {
   ok: true
   code: 'MEMBERSHIPS_GET_SUCCESS'
 }
-
-// -----------------------------
-// DB types
-// -----------------------------
 
 export type Tx = Parameters<NodePgDatabase<typeof schema>['transaction']>[0] extends (tx: infer T) => any ? T : any
 

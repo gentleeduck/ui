@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildCalendarLocaleTag, createConversionCache, formatWithCalendar } from '../adapter.utils'
 
-// ---------------------------------------------------------------------------
-// buildCalendarLocaleTag
-// ---------------------------------------------------------------------------
 describe('buildCalendarLocaleTag', () => {
   it('appends -u-ca-<calendar> to a bare locale', () => {
     expect(buildCalendarLocaleTag('en', 'gregory')).toBe('en-u-ca-gregory')
@@ -34,9 +31,6 @@ describe('buildCalendarLocaleTag', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// createConversionCache
-// ---------------------------------------------------------------------------
 describe('createConversionCache', () => {
   it('calls the convert function on first access', () => {
     let callCount = 0
@@ -114,9 +108,6 @@ describe('createConversionCache', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// formatWithCalendar
-// ---------------------------------------------------------------------------
 describe('formatWithCalendar', () => {
   it('formats a date with the given calendar system', () => {
     const date = new Date(2026, 2, 15) // March 15, 2026

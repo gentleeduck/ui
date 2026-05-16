@@ -4,10 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { KeyProvider } from '../command'
 import { useKeyBind, useKeyRecorder, useKeySequence } from '../hooks'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 function fireKey(key: string, options: Partial<KeyboardEvent> = {}, target: EventTarget = document) {
   const event = new KeyboardEvent('keydown', {
     key,
@@ -34,15 +30,7 @@ function wrapper({ children }: { children: React.ReactNode }) {
   return <KeyProvider timeoutMs={300}>{children}</KeyProvider>
 }
 
-// ===========================================================================
-// useKeyBind
-// ===========================================================================
-
 describe('useKeyBind', () => {
-  // -------------------------------------------------------------------------
-  // Standalone mode (no KeyProvider context)
-  // -------------------------------------------------------------------------
-
   describe('standalone (no context)', () => {
     it('fires handler on matching keydown', async () => {
       const handler = vi.fn()
@@ -170,10 +158,6 @@ describe('useKeyBind', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // With KeyProvider context
-  // -------------------------------------------------------------------------
-
   describe('with KeyProvider context', () => {
     it('fires handler via context registry', async () => {
       const handler = vi.fn()
@@ -258,10 +242,6 @@ describe('useKeyBind', () => {
     })
   })
 
-  // -------------------------------------------------------------------------
-  // Options
-  // -------------------------------------------------------------------------
-
   describe('options', () => {
     it('preventDefault calls event.preventDefault', async () => {
       const handler = vi.fn()
@@ -307,10 +287,6 @@ describe('useKeyBind', () => {
     })
   })
 })
-
-// ===========================================================================
-// useKeySequence
-// ===========================================================================
 
 describe('useKeySequence', () => {
   describe('standalone (no context)', () => {
@@ -558,10 +534,6 @@ describe('useKeySequence', () => {
     })
   })
 })
-
-// ===========================================================================
-// useKeyRecorder
-// ===========================================================================
 
 describe('useKeyRecorder', () => {
   it('returns initial idle state', () => {

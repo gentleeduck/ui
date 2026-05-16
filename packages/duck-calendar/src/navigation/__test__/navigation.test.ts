@@ -9,9 +9,6 @@ describe('navigation', () => {
     adapter = new NativeAdapter()
   })
 
-  // ---------------------------------------------------------------------------
-  // navigate
-  // ---------------------------------------------------------------------------
   describe('navigate', () => {
     describe('month', () => {
       it('next month advances by 1', () => {
@@ -65,9 +62,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // canNavigate
-  // ---------------------------------------------------------------------------
   describe('canNavigate', () => {
     it('returns true with no constraints', () => {
       expect(canNavigate(adapter, adapter.create(2026, 2, 1), 'prev', 'month')).toBe(true)
@@ -157,9 +151,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // convenience wrappers
-  // ---------------------------------------------------------------------------
   describe('goToNextMonth', () => {
     it('advances by 1 month', () => {
       const result = goToNextMonth(adapter, adapter.create(2026, 2, 1))
@@ -226,9 +217,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: year-boundary navigation
-  // ---------------------------------------------------------------------------
   describe('navigate – year boundary edge cases', () => {
     it('Dec 31 -> next month -> Jan 1 of next year', () => {
       const result = navigate(adapter, adapter.create(2026, 11, 31), 'next', 'month')
@@ -267,9 +255,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: day clamping across month boundaries
-  // ---------------------------------------------------------------------------
   describe('navigate – day clamping', () => {
     it('Jan 31 -> next month clamps to Feb 28 (non-leap)', () => {
       const result = navigate(adapter, adapter.create(2026, 0, 31), 'next', 'month')
@@ -297,9 +282,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: canNavigate with constraints at exact boundaries
-  // ---------------------------------------------------------------------------
   describe('canNavigate – tight boundary constraints', () => {
     it('cannot go prev month when fromDate is start of current month', () => {
       const result = canNavigate(adapter, adapter.create(2026, 5, 1), 'prev', 'month', {
@@ -381,9 +363,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: goToMonth boundary months
-  // ---------------------------------------------------------------------------
   describe('goToMonth – edge cases', () => {
     it('going to Feb from a 31-day month gives Feb 1', () => {
       const result = goToMonth(adapter, adapter.create(2026, 0, 31), 1)
@@ -398,9 +377,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: goToYear leap year and distant years
-  // ---------------------------------------------------------------------------
   describe('goToYear – edge cases', () => {
     it('handles leap year source: Feb keeps month when going to non-leap year', () => {
       const result = goToYear(adapter, adapter.create(2028, 1, 29), 2026)
@@ -429,9 +405,6 @@ describe('navigation', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // edge cases: consecutive navigation
-  // ---------------------------------------------------------------------------
   describe('consecutive navigation', () => {
     it('12 next months returns to same month, next year', () => {
       let date = adapter.create(2026, 3, 15)

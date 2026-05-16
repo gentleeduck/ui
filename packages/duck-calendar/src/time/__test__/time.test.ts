@@ -3,9 +3,6 @@ import { clampTime, incrementField, isValidTime, parseTimeInput } from '../time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../time.libs'
 
 describe('time', () => {
-  // ---------------------------------------------------------------------------
-  // isValidTime
-  // ---------------------------------------------------------------------------
   describe('isValidTime', () => {
     it('valid: { hour: 0, minute: 0 }', () => {
       expect(isValidTime({ hour: 0, minute: 0 })).toBe(true)
@@ -52,9 +49,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // clampTime
-  // ---------------------------------------------------------------------------
   describe('clampTime', () => {
     it('within bounds returns no change', () => {
       const time = { hour: 10, minute: 30 }
@@ -114,9 +108,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // incrementField
-  // ---------------------------------------------------------------------------
   describe('incrementField', () => {
     it('hour: increments normally', () => {
       const result = incrementField({ hour: 10, minute: 0 }, 'hour', 1)
@@ -220,9 +211,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // parseTimeInput
-  // ---------------------------------------------------------------------------
   describe('parseTimeInput', () => {
     it('valid "14" for hour (24h) returns 14', () => {
       expect(parseTimeInput('14', 'hour', '24')).toBe(14)
@@ -301,9 +289,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // formatTimeField
-  // ---------------------------------------------------------------------------
   describe('formatTimeField', () => {
     it('0 returns "00"', () => {
       expect(formatTimeField(0)).toBe('00')
@@ -326,9 +311,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // getAmPm
-  // ---------------------------------------------------------------------------
   describe('getAmPm', () => {
     it('hour 0 returns AM', () => {
       expect(getAmPm(0)).toBe('AM')
@@ -355,9 +337,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // to12Hour
-  // ---------------------------------------------------------------------------
   describe('to12Hour', () => {
     it('0 returns 12 (midnight)', () => {
       expect(to12Hour(0)).toBe(12)
@@ -384,9 +363,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // to24Hour
-  // ---------------------------------------------------------------------------
   describe('to24Hour', () => {
     it('(12, AM) returns 0 (midnight)', () => {
       expect(to24Hour(12, 'AM')).toBe(0)
@@ -413,13 +389,6 @@ describe('time', () => {
     })
   })
 
-  // ===========================================================================
-  // EDGE CASE TESTS
-  // ===========================================================================
-
-  // ---------------------------------------------------------------------------
-  // clampTime – exact boundary and contradictory constraints
-  // ---------------------------------------------------------------------------
   describe('clampTime – edge cases', () => {
     it('time exactly at min with seconds is not clamped', () => {
       const time = { hour: 8, minute: 0, second: 0 }
@@ -483,9 +452,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // incrementField – wrapping at full boundary (23:59:59 + 1)
-  // ---------------------------------------------------------------------------
   describe('incrementField – boundary wrapping', () => {
     it('hour 23 + 1 wraps to 0, minute and second unchanged', () => {
       const result = incrementField({ hour: 23, minute: 59, second: 59 }, 'hour', 1)
@@ -551,9 +517,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // incrementField – ampm toggle edge cases
-  // ---------------------------------------------------------------------------
   describe('incrementField – ampm toggle edge cases', () => {
     it('ampm toggle at midnight (0) goes to noon (12)', () => {
       const result = incrementField({ hour: 0, minute: 0, second: 0 }, 'ampm', 1)
@@ -595,9 +558,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // incrementField – clamping with minTime / maxTime
-  // ---------------------------------------------------------------------------
   describe('incrementField – min/max clamping interactions', () => {
     it('hour decrement past min clamps to min', () => {
       const result = incrementField({ hour: 9, minute: 0 }, 'hour', -1, {
@@ -634,9 +594,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // 12h <-> 24h conversion – round-trip edge cases
-  // ---------------------------------------------------------------------------
   describe('12h <-> 24h round-trip conversions', () => {
     it('all 24 hours survive to12Hour -> to24Hour round-trip', () => {
       for (let h = 0; h < 24; h++) {
@@ -690,9 +647,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // formatTimeField – edge cases
-  // ---------------------------------------------------------------------------
   describe('formatTimeField – edge cases', () => {
     it('10 returns "10" (no padding needed)', () => {
       expect(formatTimeField(10)).toBe('10')
@@ -707,9 +661,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // parseTimeInput – malformed and edge input
-  // ---------------------------------------------------------------------------
   describe('parseTimeInput – malformed and edge input', () => {
     it('whitespace-only string returns null', () => {
       expect(parseTimeInput('   ', 'hour', '24')).toBeNull()
@@ -774,9 +725,6 @@ describe('time', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // isValidTime – additional edge cases
-  // ---------------------------------------------------------------------------
   describe('isValidTime – additional edge cases', () => {
     it('max valid time { hour: 23, minute: 59, second: 59 } is valid', () => {
       expect(isValidTime({ hour: 23, minute: 59, second: 59 })).toBe(true)

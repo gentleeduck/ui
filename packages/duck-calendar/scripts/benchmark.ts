@@ -22,20 +22,12 @@ const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck-ui-do
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(DOCS_DIR, { recursive: true })
 
-// ---------------------------------------------------------------------------
-// Benchmark runner
-// ---------------------------------------------------------------------------
-
 function bench(fn: () => void, warmup = 200, iterations = 2000): number {
   for (let i = 0; i < warmup; i++) fn()
   const start = performance.now()
   for (let i = 0; i < iterations; i++) fn()
   return (performance.now() - start) / iterations
 }
-
-// ---------------------------------------------------------------------------
-// 1. Core engine benchmarks
-// ---------------------------------------------------------------------------
 
 const native = new NativeAdapter()
 const march2026 = new Date(2026, 2, 1)
@@ -74,10 +66,6 @@ const corePerformance = {
   },
 }
 
-// ---------------------------------------------------------------------------
-// 2. Adapter benchmarks
-// ---------------------------------------------------------------------------
-
 const islamic = new IslamicAdapter()
 const persian = new PersianAdapter()
 const hebrew = new HebrewAdapter()
@@ -104,10 +92,6 @@ const adapterPerformance = adapterList.map(({ name, adapter }) => {
   }
 })
 
-// ---------------------------------------------------------------------------
-// 3. Bundle size comparison (competitor data from bundlephobia/npm)
-// ---------------------------------------------------------------------------
-
 const bundleSize = [
   { name: '@gentleduck/calendar', sizeKB: 4.9, deps: 0, cssKB: 0, calendars: 4 },
   { name: 'react-day-picker v9', sizeKB: 20.0, deps: 1, cssKB: 3.0, calendars: 1 },
@@ -115,10 +99,6 @@ const bundleSize = [
   { name: 'react-datepicker', sizeKB: 32.0, deps: 3, cssKB: 8.0, calendars: 1 },
   { name: 'react-calendar', sizeKB: 15.0, deps: 0, cssKB: 5.0, calendars: 1 },
 ]
-
-// ---------------------------------------------------------------------------
-// 4. Feature comparison
-// ---------------------------------------------------------------------------
 
 const features = [
   { feature: 'Tree-shakeable', gentleduck: true, rdp: false, reactAria: false, datepicker: false, reactCal: false },
@@ -129,10 +109,6 @@ const features = [
   { feature: 'ARIA Compliant', gentleduck: true, rdp: true, reactAria: true, datepicker: false, reactCal: false },
   { feature: 'Keyboard Nav', gentleduck: true, rdp: true, reactAria: true, datepicker: false, reactCal: false },
 ]
-
-// ---------------------------------------------------------------------------
-// 4b. Per-library detailed comparison
-// ---------------------------------------------------------------------------
 
 const vsReactDayPicker = {
   name: 'react-day-picker',
@@ -205,10 +181,6 @@ const totalCost = bundleSize.map((b) => ({
   total: +(b.sizeKB + b.cssKB).toFixed(1),
 }))
 
-// ---------------------------------------------------------------------------
-// 5. Module sizes (measured from dist)
-// ---------------------------------------------------------------------------
-
 function getModuleSizes(): { name: string; sizeKB: number }[] {
   const distDir = join(import.meta.dirname, '..', 'dist')
   const sizes: { name: string; sizeKB: number }[] = []
@@ -237,10 +209,6 @@ function getModuleSizes(): { name: string; sizeKB: number }[] {
 }
 
 const moduleSizes = getModuleSizes()
-
-// ---------------------------------------------------------------------------
-// Write JSON output
-// ---------------------------------------------------------------------------
 
 const results = {
   corePerformance: Object.values(corePerformance),
