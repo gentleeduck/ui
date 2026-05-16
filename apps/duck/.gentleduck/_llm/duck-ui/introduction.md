@@ -49,4 +49,4 @@ Duck UI is the styled layer on top of the gentleduck stack:
 | `duck-variants` | `cva()` variant system |
 | `duck-motion` | Animation tokens |
 | `duck-cli` | Component scaffolding CLI |
-| **Duck UI** | **Styled components (this package)** |
+| `duck-ui` | Styled components (this package) |

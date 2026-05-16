@@ -229,7 +229,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-vim/api/index",
     "permalink": "duck-vim/api/index",
-    "slug": "docs/duck-vim/api/index",
+    "slug": "docs/duck-vim/api",
     "sourceFileDir": "duck-vim/api",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-vim/api/index.mdx"
@@ -1623,7 +1623,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-vim/course/index",
     "permalink": "duck-vim/course/index",
-    "slug": "docs/duck-vim/course/index",
+    "slug": "docs/duck-vim/course",
     "sourceFileDir": "duck-vim/course",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-vim/course/index.mdx"
@@ -1779,7 +1779,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-vim/guides/index",
     "permalink": "duck-vim/guides/index",
-    "slug": "docs/duck-vim/guides/index",
+    "slug": "docs/duck-vim/guides",
     "sourceFileDir": "duck-vim/guides",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-vim/guides/index.mdx"

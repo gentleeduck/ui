@@ -93,9 +93,7 @@ const WwwPage = async ({ params }: { params: Promise<{ slug?: string[] }> }) => 
               </div>
             </div>
             <div className="space-y-2">
-              <h1 className={cn('scroll-m-20 font-bold text-2xl capitalize tracking-tight sm:text-3xl')}>
-                {doc.title.split('-').join(' ')}
-              </h1>
+              <h1 className={cn('scroll-m-20 font-bold text-2xl tracking-tight sm:text-3xl')}>{doc.title}</h1>
               {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
             </div>
           </header>

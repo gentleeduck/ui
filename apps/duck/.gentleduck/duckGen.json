@@ -724,7 +724,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-gen/course/index",
     "permalink": "duck-gen/course/index",
-    "slug": "docs/duck-gen/course/index",
+    "slug": "docs/duck-gen/course",
     "sourceFileDir": "duck-gen/course",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-gen/course/index.mdx"
@@ -1296,7 +1296,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-gen/guides/index",
     "permalink": "duck-gen/guides/index",
-    "slug": "docs/duck-gen/guides/index",
+    "slug": "docs/duck-gen/guides",
     "sourceFileDir": "duck-gen/guides",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-gen/guides/index.mdx"
@@ -1365,7 +1365,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-gen/installation/index",
     "permalink": "duck-gen/installation/index",
-    "slug": "docs/duck-gen/installation/index",
+    "slug": "docs/duck-gen/installation",
     "sourceFileDir": "duck-gen/installation",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-gen/installation/index.mdx"

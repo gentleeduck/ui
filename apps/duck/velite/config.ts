@@ -34,6 +34,10 @@ const docSchema = () =>
         .pop()
         ?.replace(/\.mdx$/, '')
         .replace(/^\/+/, '')
+        // `<dir>/index.mdx` routes as `/<dir>` in Next; drop the trailing
+        // `/index` segment from the canonical slug so consumers building
+        // URLs off this field land on a valid route.
+        .replace(/\/index$/, '')
       return {
         ...data,
         permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),

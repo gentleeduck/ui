@@ -281,7 +281,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/core/index",
     "permalink": "duck-upload/core/index",
-    "slug": "docs/duck-upload/core/index",
+    "slug": "docs/duck-upload/core",
     "sourceFileDir": "duck-upload/core",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/core/index.mdx"
@@ -907,7 +907,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/course/index",
     "permalink": "duck-upload/course/index",
-    "slug": "docs/duck-upload/course/index",
+    "slug": "docs/duck-upload/course",
     "sourceFileDir": "duck-upload/course",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/course/index.mdx"
@@ -965,7 +965,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/design/index",
     "permalink": "duck-upload/design/index",
-    "slug": "docs/duck-upload/design/index",
+    "slug": "docs/duck-upload/design",
     "sourceFileDir": "duck-upload/design",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/design/index.mdx"
@@ -1040,7 +1040,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/guides/index",
     "permalink": "duck-upload/guides/index",
-    "slug": "docs/duck-upload/guides/index",
+    "slug": "docs/duck-upload/guides",
     "sourceFileDir": "duck-upload/guides",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/guides/index.mdx"
@@ -1099,7 +1099,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/installation/index",
     "permalink": "duck-upload/installation/index",
-    "slug": "docs/duck-upload/installation/index",
+    "slug": "docs/duck-upload/installation",
     "sourceFileDir": "duck-upload/installation",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/installation/index.mdx"
@@ -1201,7 +1201,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/react/index",
     "permalink": "duck-upload/react/index",
-    "slug": "docs/duck-upload/react/index",
+    "slug": "docs/duck-upload/react",
     "sourceFileDir": "duck-upload/react",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/react/index.mdx"
@@ -1325,7 +1325,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-upload/strategies/index",
     "permalink": "duck-upload/strategies/index",
-    "slug": "docs/duck-upload/strategies/index",
+    "slug": "docs/duck-upload/strategies",
     "sourceFileDir": "duck-upload/strategies",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-upload/strategies/index.mdx"

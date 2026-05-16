@@ -38,5 +38,5 @@ export default {
   // `html: false` drops the pre-rendered HTML string the app never reads
   // (pages use `<Mdx code={doc.body} />`, copy uses `doc.content`); halves the
   // output size.
-  output: { ...cfg.output, data: '.gentleduck', html: false, clean: true },
+  output: { ...cfg.output, data: '.gentleduck', html: false, clean: false },
 }

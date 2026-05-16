@@ -2191,7 +2191,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-primitives/api/index",
     "permalink": "duck-primitives/api/index",
-    "slug": "docs/duck-primitives/api/index",
+    "slug": "docs/duck-primitives/api",
     "sourceFileDir": "duck-primitives/api",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-primitives/api/index.mdx"
@@ -3364,7 +3364,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-primitives/course/index",
     "permalink": "duck-primitives/course/index",
-    "slug": "docs/duck-primitives/course/index",
+    "slug": "docs/duck-primitives/course",
     "sourceFileDir": "duck-primitives/course",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-primitives/course/index.mdx"
@@ -3636,7 +3636,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-primitives/guides/index",
     "permalink": "duck-primitives/guides/index",
-    "slug": "docs/duck-primitives/guides/index",
+    "slug": "docs/duck-primitives/guides",
     "sourceFileDir": "duck-primitives/guides",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-primitives/guides/index.mdx"

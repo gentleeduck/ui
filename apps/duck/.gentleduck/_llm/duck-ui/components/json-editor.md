@@ -316,8 +316,6 @@ export default function Demo() {
           label="Payment Payload"
           name="payload"
           onExpandEditor={({ name, rawText }) => {
-            // In a real app you would open your own editor modal here.
-            // This demo just logs to the console.
             console.log(`[onExpandEditor] field "${name}"`, rawText)
           }}
           rows={12}

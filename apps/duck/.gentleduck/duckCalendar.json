@@ -102,7 +102,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-calendar/api/index",
     "permalink": "duck-calendar/api/index",
-    "slug": "docs/duck-calendar/api/index",
+    "slug": "docs/duck-calendar/api",
     "sourceFileDir": "duck-calendar/api",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-calendar/api/index.mdx"
@@ -964,7 +964,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-calendar/course/index",
     "permalink": "duck-calendar/course/index",
-    "slug": "docs/duck-calendar/course/index",
+    "slug": "docs/duck-calendar/course",
     "sourceFileDir": "duck-calendar/course",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-calendar/course/index.mdx"
@@ -1127,7 +1127,7 @@
     "contentType": "mdx",
     "flattenedPath": "docs/duck-calendar/guides/index",
     "permalink": "duck-calendar/guides/index",
-    "slug": "docs/duck-calendar/guides/index",
+    "slug": "docs/duck-calendar/guides",
     "sourceFileDir": "duck-calendar/guides",
     "sourceFileName": "index.mdx",
     "sourceFilePath": "/run/media/wildduck/duck1/wildduck/@duck/@duck-ui/apps/duck/content/docs/duck-calendar/guides/index.mdx"

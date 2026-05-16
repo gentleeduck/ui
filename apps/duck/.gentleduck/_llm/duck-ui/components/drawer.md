@@ -832,7 +832,7 @@ export default function Demo() {
         </DrawerHeader>
         <div className="no-scrollbar flex-1 overflow-y-auto px-4">
           {Array.from({ length: 20 }).map((_, index) => (
-            <p className="mb-4 leading-normal text-sm" key={index}>
+            <p className="mb-4 text-sm leading-normal" key={index}>
               <strong>Section {index + 1}.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
               exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
