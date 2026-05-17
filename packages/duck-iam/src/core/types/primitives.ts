@@ -1,23 +1,26 @@
-/**
- * A single scalar value that can appear in attribute maps and condition values.
- *
- * Scalars are the leaf values of the duck-iam type system. They cover every
- * JSON-compatible primitive that the condition engine can compare.
- */
-export type Scalar = string | number | boolean | null
+export namespace Primitives {
+  /**
+   * Single scalar value: every JSON-compatible primitive the condition engine
+   * can compare. Leaf of the duck-iam type system.
+   *
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  export type Scalar = string | number | boolean | null
 
-/**
- * Any value that can be stored in an attribute map or used as a condition operand.
- *
- * An `AttributeValue` is either a single {@link Scalar} or an array of scalars.
- * Arrays are used with set operators like `in`, `nin`, `subset_of`, and `superset_of`.
- */
-export type AttributeValue = Scalar | Scalar[]
+  /**
+   * Any value storable in an attribute map or usable as a condition operand  -
+   * a single {@link Scalar} or an array of scalars. Arrays drive set operators
+   * (`in`, `nin`, `subset_of`, `superset_of`).
+   *
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  export type AttributeValue = Scalar | Scalar[]
 
-/**
- * A string-keyed record of {@link AttributeValue} entries.
- *
- * Used throughout duck-iam for subject attributes, resource attributes,
- * environment properties, and role/rule metadata.
- */
-export type Attributes = Record<string, AttributeValue>
+  /**
+   * String-keyed record of {@link AttributeValue} entries. Used for subject
+   * attributes, resource attributes, environment, and metadata bags.
+   *
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  export type Attributes = Record<string, AttributeValue>
+}
