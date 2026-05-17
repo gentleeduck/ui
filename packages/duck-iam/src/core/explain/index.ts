@@ -1,10 +1,2 @@
 export { explainEvaluation } from './explain'
-export type {
-  ConditionGroupTrace,
-  ConditionLeafTrace,
-  ConditionTrace,
-  ExplainResult,
-  ExplainSubjectInfo,
-  PolicyTrace,
-  RuleTrace,
-} from './explain.types'
+export type { Explain } from './explain.types'

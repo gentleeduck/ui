@@ -1,18 +1,20 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: index iteration guarded by length check. */
+
 import { evaluateOperator, resolveConditionValue } from '../conditions'
 import { matchesAction, matchesResource, matchesResourceHierarchical, resolve } from '../resolve'
-import type { AccessRequest, CombiningAlgorithm, Condition, ConditionGroup, Effect, Policy, Rule } from '../types'
-import type { ConditionGroupTrace, ConditionLeafTrace, ConditionTrace, PolicyTrace, RuleTrace } from './explain.types'
+import type { AccessControl, Request } from '../types'
+import type { Explain } from './explain.types'
 
 /** Maximum nesting depth for traced condition groups. */
 const MAX_TRACE_DEPTH = 10
 
-/** Type guard that distinguishes a flat `Condition` from a nested `ConditionGroup`. */
-function isCondition(item: Condition | ConditionGroup): item is Condition {
+/** Type guard that distinguishes a flat {@link AccessControl.ICondition} from a nested {@link AccessControl.IConditionGroup}. */
+function isCondition(item: AccessControl.ICondition | AccessControl.IConditionGroup): item is AccessControl.ICondition {
   return 'field' in item
 }
 
 /** Trace a single leaf condition, capturing actual vs expected values and the result. */
-function traceLeaf(req: AccessRequest, cond: Condition): ConditionLeafTrace {
+function traceLeaf(req: Request.IAccessRequest, cond: AccessControl.ICondition): Explain.ILeafTrace {
   const actual = resolve(req, cond.field)
   const expected = resolveConditionValue(req, cond.value ?? null)
   const result = evaluateOperator(cond.operator, actual, expected)
@@ -20,12 +22,16 @@ function traceLeaf(req: AccessRequest, cond: Condition): ConditionLeafTrace {
 }
 
 /** Trace a single condition item, dispatching to leaf or group tracer. */
-function traceItem(req: AccessRequest, item: Condition | ConditionGroup, depth: number): ConditionTrace {
+function traceItem(
+  req: Request.IAccessRequest,
+  item: AccessControl.ICondition | AccessControl.IConditionGroup,
+  depth: number,
+): Explain.Trace {
   return isCondition(item) ? traceLeaf(req, item) : traceGroup(req, item, depth)
 }
 
 /** Recursively trace a condition group, producing child traces for each item. */
-function traceGroup(req: AccessRequest, group: ConditionGroup, depth = 0): ConditionGroupTrace {
+function traceGroup(req: Request.IAccessRequest, group: AccessControl.IConditionGroup, depth = 0): Explain.IGroupTrace {
   if (depth >= MAX_TRACE_DEPTH) {
     return { type: 'group', logic: 'all', result: false, children: [] }
   }
@@ -49,7 +55,7 @@ function traceGroup(req: AccessRequest, group: ConditionGroup, depth = 0): Condi
 }
 
 /** Trace a single rule evaluation: action match, resource match, and condition tree. */
-function traceRule(rule: Rule, req: AccessRequest): RuleTrace {
+function traceRule(rule: AccessControl.IRule, req: Request.IAccessRequest): Explain.IRuleTrace {
   const actionMatch = rule.actions.some((a) => matchesAction(a, req.action))
 
   const resourceMatch = rule.resources.some((r) => {
@@ -76,10 +82,10 @@ function traceRule(rule: Rule, req: AccessRequest): RuleTrace {
 
 /** Apply a combining algorithm to matched rule traces, mirroring the evaluate module logic. */
 function applyCombiner(
-  algorithm: CombiningAlgorithm,
-  matched: readonly RuleTrace[],
-  defaultEffect: Effect,
-): { effect: Effect; reason: string; decidingRuleId?: string } {
+  algorithm: AccessControl.CombiningAlgorithm,
+  matched: readonly Explain.IRuleTrace[],
+  defaultEffect: AccessControl.Effect,
+): { effect: AccessControl.Effect; reason: string; decidingRuleId?: string } {
   switch (algorithm) {
     case 'deny-overrides': {
       const deny = matched.find((r) => r.effect === 'deny')
@@ -96,15 +102,17 @@ function applyCombiner(
       return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
     }
     case 'first-match': {
-      const first = matched[0]
-      if (first) {
-        return {
-          effect: first.effect,
-          reason: `First match: rule "${first.ruleId}" (${first.effect})`,
-          decidingRuleId: first.ruleId,
-        }
+      if (matched.length === 0) return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      let first = matched[0]!
+      for (let i = 1; i < matched.length; i++) {
+        const cur = matched[i]!
+        if (cur.priority > first.priority) first = cur
       }
-      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      return {
+        effect: first.effect,
+        reason: `First match: rule "${first.ruleId}" (${first.effect})`,
+        decidingRuleId: first.ruleId,
+      }
     }
     case 'highest-priority': {
       if (matched.length > 0) {
@@ -122,7 +130,7 @@ function applyCombiner(
 }
 
 /** Check whether a policy's target constraints match the request. */
-function policyTargetsMatch(policy: Policy, req: AccessRequest): boolean {
+function policyTargetsMatch(policy: AccessControl.IPolicy, req: Request.IAccessRequest): boolean {
   if (!policy.targets) return true
   const { actions, resources, roles } = policy.targets
   if (actions?.length && !actions.some((a) => matchesAction(a, req.action))) return false
@@ -131,8 +139,21 @@ function policyTargetsMatch(policy: Policy, req: AccessRequest): boolean {
   return true
 }
 
-/** Trace a full policy evaluation: target matching, rule traces, and combining algorithm result. */
-export function tracePolicy(policy: Policy, req: AccessRequest, defaultEffect: Effect): PolicyTrace {
+/**
+ * Trace a full policy evaluation: target matching, rule traces, and combining
+ * algorithm result.
+ *
+ * @param policy        - The policy to trace.
+ * @param req           - The access request being evaluated.
+ * @param defaultEffect - Effect to record when no rule fires.
+ * @returns An {@link Explain.IPolicyTrace} describing the policy's outcome.
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
+export function tracePolicy(
+  policy: AccessControl.IPolicy,
+  req: Request.IAccessRequest,
+  defaultEffect: AccessControl.Effect,
+): Explain.IPolicyTrace {
   const targetMatch = policyTargetsMatch(policy, req)
 
   if (!targetMatch) {
@@ -150,6 +171,7 @@ export function tracePolicy(policy: Policy, req: AccessRequest, defaultEffect: E
   const ruleTraces = policy.rules.map((rule) => traceRule(rule, req))
   const matched = ruleTraces.filter((r) => r.matched)
   const { effect, reason, decidingRuleId } = applyCombiner(policy.algorithm, matched, defaultEffect)
+  const decidingRule = decidingRuleId ? policy.rules.find((r) => r.id === decidingRuleId) : undefined
 
   return {
     policyId: policy.id,
@@ -160,5 +182,6 @@ export function tracePolicy(policy: Policy, req: AccessRequest, defaultEffect: E
     result: effect,
     reason,
     decidingRuleId,
+    decidingRule,
   }
 }
