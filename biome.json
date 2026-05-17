@@ -30,7 +30,8 @@
       "!packages/_oldstuff_refactor",
       "!packages/duck-benchmark",
       "!templates",
-      "!**/__fixtures__"
+      "!**/__fixtures__",
+      "!**/tmp/**"
     ]
   },
   "formatter": {
@@ -59,7 +60,8 @@
       "!packages/___/**",
       "!./apps/duck-ui-docs/__ui_registry__/**",
       "!packages/_oldstuff_refactor/**",
-      "!packages/duck-benchmark/**"
+      "!packages/duck-benchmark/**",
+      "!**/tmp/**"
     ],
     "indentStyle": "space",
     "indentWidth": 2,
@@ -113,7 +115,8 @@
       "!**/duck-state/**",
       "!**/upload/**",
       "!**/table/**",
-      "!**/combobox.tsx"
+      "!**/combobox.tsx",
+      "!**/tmp/**"
     ],
     "rules": {
       "recommended": true,

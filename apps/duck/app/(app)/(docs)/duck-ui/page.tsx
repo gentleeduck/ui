@@ -53,8 +53,12 @@ async function loadCatalog(): Promise<[string, ICatalogItem[]][]> {
   }
   const groups = new Map<string, ICatalogItem[]>()
   for (const it of items) {
-    if (!groups.has(it.section)) groups.set(it.section, [])
-    groups.get(it.section)!.push(it)
+    let bucket = groups.get(it.section)
+    if (!bucket) {
+      bucket = []
+      groups.set(it.section, bucket)
+    }
+    bucket.push(it)
   }
   for (const list of groups.values()) {
     list.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title))

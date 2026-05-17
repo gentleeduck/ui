@@ -100,14 +100,14 @@ function SidebarItem({
       {depth === 0 ? (
         <div className="border-l-2">
           <ul>
-            {item.items!.map((child) => (
+            {item.items?.map((child) => (
               <SidebarItem depth={1} item={child} key={getSidebarItemKey(child)} pathname={pathname} />
             ))}
           </ul>
         </div>
       ) : (
         <ul className="ml-3 border-l">
-          {item.items!.map((child) => (
+          {item.items?.map((child) => (
             <SidebarItem depth={depth + 1} item={child} key={getSidebarItemKey(child)} pathname={pathname} />
           ))}
         </ul>
