@@ -1,7 +1,7 @@
-import type { Role } from '../types'
-import { VALID_ALGORITHMS, validateRuleShape } from './validate.libs'
-import type { ValidationIssue, ValidationResult } from './validate.types'
-
+import { MAX_INHERITANCE_DEPTH } from '../rbac'
+import type { AccessControl } from '../types'
+import { POLICY_LIMITS, VALID_ALGORITHMS, validateRuleShape } from './validate.libs'
+import type { Validate } from './validate.types'
 /**
  * Validate role definitions for common configuration mistakes.
  *
@@ -10,9 +10,18 @@ import type { ValidationIssue, ValidationResult } from './validate.types'
  * - Dangling `inherits` references (role inherits from non-existent role)
  * - Circular inheritance chains (detected and reported as warnings since they're handled at runtime)
  * - Roles with no permissions and no inheritance
+ *
+ * @param roles - The role definitions to validate.
+ * @returns A {@link Validate.IResult} listing any issues found.
+ * @example
+ * ```ts
+ * const result = validateRoles(roles)
+ * if (!result.valid) console.error(result.issues)
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function validateRoles(roles: readonly Role[]): ValidationResult {
-  const issues: ValidationIssue[] = []
+export function validateRoles(roles: readonly AccessControl.IRole[]): Validate.IResult {
+  const issues: Validate.IIssue[] = []
   const roleIds = new Set<string>()
 
   for (const role of roles) {
@@ -82,10 +91,50 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
     }
   }
 
+  // Depth bound: chains deeper than MAX_INHERITANCE_DEPTH silently truncate at
+  // runtime, dropping permissions invisibly. Surface as error so the operator
+  // catches it before deploy instead of debugging missing permissions later.
+  for (const role of roles) {
+    const depth = longestInheritanceDepth(role.id, rolesMap)
+    if (depth > MAX_INHERITANCE_DEPTH) {
+      issues.push({
+        type: 'error',
+        code: 'INHERITANCE_TOO_DEEP',
+        message: `Role "${role.id}" has an inheritance chain ${depth} deep; the runtime caps at ${MAX_INHERITANCE_DEPTH} and silently drops anything past it`,
+        roleId: role.id,
+      })
+    }
+  }
+
   return {
     valid: issues.every((i) => i.type !== 'error'),
     issues,
   }
+}
+
+/**
+ * Longest path from `roleId` up through `inherits`. Single mutable `seen` set
+ * with pop-on-return - O(nodes) allocations instead of O(nodes^2) for the
+ * naive copy-the-set approach. Cycles are cut by `seen`; depth is capped at
+ * `MAX_INHERITANCE_DEPTH + 1` to keep validation cheap on hostile input.
+ */
+function longestInheritanceDepth(roleId: string, rolesMap: Map<string, AccessControl.IRole>): number {
+  const seen = new Set<string>()
+  function walk(id: string, depth: number): number {
+    if (seen.has(id)) return depth
+    if (depth > MAX_INHERITANCE_DEPTH + 1) return depth
+    const role = rolesMap.get(id)
+    if (!role?.inherits?.length) return depth
+    seen.add(id)
+    let max = depth
+    for (const parent of role.inherits) {
+      const d = walk(parent, depth + 1)
+      if (d > max) max = d
+    }
+    seen.delete(id)
+    return max
+  }
+  return walk(roleId, 0)
 }
 
 /**
@@ -102,10 +151,19 @@ export function validateRoles(roles: readonly Role[]): ValidationResult {
  *
  *   const result = validatePolicy(jsonFromDatabase);
  *   if (!result.valid) throw new Error(result.issues.map(i => i.message).join(', '));
- *   engine.admin.savePolicy(jsonFromDatabase as Policy);
+ *   engine.admin.savePolicy(jsonFromDatabase as AccessControl.IPolicy);
+ *
+ * @param input - The candidate policy object (typically parsed JSON or an admin form payload).
+ * @returns A {@link Validate.IResult} with `valid: false` when any error issue was emitted.
+ * @example
+ * ```ts
+ * const result = validatePolicy(jsonFromDatabase)
+ * if (!result.valid) throw new Error(result.issues.map(i => i.message).join(', '))
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function validatePolicy(input: unknown): ValidationResult {
-  const issues: ValidationIssue[] = []
+export function validatePolicy(input: unknown): Validate.IResult {
+  const issues: Validate.IIssue[] = []
 
   if (typeof input !== 'object' || input === null || Array.isArray(input)) {
     issues.push({ type: 'error', code: 'INVALID_TYPE', message: 'Policy must be a non-null object', path: '' })
@@ -153,6 +211,14 @@ export function validatePolicy(input: unknown): ValidationResult {
   if (!Array.isArray(p.rules)) {
     issues.push({ type: 'error', code: 'MISSING_FIELD', message: 'Policy must have a "rules" array', path: 'rules' })
   } else {
+    if (p.rules.length > POLICY_LIMITS.rulesPerPolicy) {
+      issues.push({
+        type: 'error',
+        code: 'LIMIT_EXCEEDED',
+        message: `Policy has ${p.rules.length} rules; limit is ${POLICY_LIMITS.rulesPerPolicy}`,
+        path: 'rules',
+      })
+    }
     for (const [i, rule] of (p.rules as unknown[]).entries()) {
       validateRuleShape(rule, `rules[${i}]`, issues)
     }

@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import type { Role } from '../../types'
+import type { MAX_INHERITANCE_DEPTH } from '../..'
+import type { AccessControl } from '../../types'
 import { validatePolicy, validateRoles } from '../validate'
 
 describe('validateRoles()', () => {
   it('valid roles return valid=true', () => {
-    const roles: Role[] = [
+    const roles: AccessControl.IRole[] = [
       { id: 'viewer', name: 'Viewer', permissions: [{ action: 'read', resource: 'post' }] },
       { id: 'editor', name: 'Editor', inherits: ['viewer'], permissions: [{ action: 'write', resource: 'post' }] },
     ]
@@ -14,7 +15,7 @@ describe('validateRoles()', () => {
   })
 
   it('detects duplicate role IDs', () => {
-    const roles: Role[] = [
+    const roles: AccessControl.IRole[] = [
       { id: 'viewer', name: 'Viewer', permissions: [] },
       { id: 'viewer', name: 'Viewer 2', permissions: [] },
     ]
@@ -24,14 +25,14 @@ describe('validateRoles()', () => {
   })
 
   it('detects dangling inherits references', () => {
-    const roles: Role[] = [{ id: 'editor', name: 'Editor', inherits: ['nonexistent'], permissions: [] }]
+    const roles: AccessControl.IRole[] = [{ id: 'editor', name: 'Editor', inherits: ['nonexistent'], permissions: [] }]
     const result = validateRoles(roles)
     expect(result.valid).toBe(false)
     expect(result.issues.some((i) => i.code === 'DANGLING_INHERIT')).toBe(true)
   })
 
   it('detects circular inheritance (warning)', () => {
-    const roles: Role[] = [
+    const roles: AccessControl.IRole[] = [
       { id: 'a', name: 'A', inherits: ['b'], permissions: [{ action: 'read', resource: 'post' }] },
       { id: 'b', name: 'B', inherits: ['a'], permissions: [{ action: 'write', resource: 'post' }] },
     ]
@@ -41,13 +42,13 @@ describe('validateRoles()', () => {
   })
 
   it('warns about empty roles (no permissions, no inheritance)', () => {
-    const roles: Role[] = [{ id: 'empty', name: 'Empty', permissions: [] }]
+    const roles: AccessControl.IRole[] = [{ id: 'empty', name: 'Empty', permissions: [] }]
     const result = validateRoles(roles)
     expect(result.issues.some((i) => i.code === 'EMPTY_ROLE')).toBe(true)
   })
 
   it('does not warn about roles with inheritance but no permissions', () => {
-    const roles: Role[] = [
+    const roles: AccessControl.IRole[] = [
       { id: 'viewer', name: 'Viewer', permissions: [{ action: 'read', resource: 'post' }] },
       { id: 'inheritor', name: 'Inheritor', inherits: ['viewer'], permissions: [] },
     ]
@@ -59,7 +60,7 @@ describe('validateRoles()', () => {
 describe('validatePolicy()', () => {
   const validPolicy = {
     id: 'p1',
-    name: 'Test Policy',
+    name: 'Test AccessControl.IPolicy',
     algorithm: 'deny-overrides',
     rules: [
       {
@@ -221,5 +222,263 @@ describe('validatePolicy()', () => {
   it('accepts numeric version', () => {
     const result = validatePolicy({ ...validPolicy, version: 2 })
     expect(result.valid).toBe(true)
+  })
+
+  it('warns on unresolvable condition field (silent-null at runtime)', () => {
+    // A condition.field that doesn't start with subject/resource/environment
+    // (or action/scope shorthand) silently resolves to null at runtime,
+    // which means the rule never matches. Surface as warning at validate time.
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: ['read'],
+          resources: ['post'],
+          conditions: { all: [{ field: 'user.attributes.role', operator: 'eq', value: 'admin' }] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'UNRESOLVABLE_FIELD')).toBe(true)
+  })
+
+  it('warns on unresolvable $-prefixed condition value', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: ['read'],
+          resources: ['post'],
+          conditions: { all: [{ field: 'subject.id', operator: 'eq', value: '$user.id' }] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'UNRESOLVABLE_VALUE')).toBe(true)
+  })
+
+  it('accepts resolvable shorthand condition fields (action, scope)', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: ['read'],
+          resources: ['post'],
+          conditions: { all: [{ field: 'action', operator: 'eq', value: 'read' }] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'UNRESOLVABLE_FIELD')).toBe(false)
+  })
+
+  it('rejects rule with too many actions (DoS bound)', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: Array.from({ length: 101 }, (_, i) => `a${i}`),
+          resources: ['post'],
+          conditions: { all: [] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.valid).toBe(false)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.path?.endsWith('actions'))).toBe(true)
+  })
+
+  it('rejects rule with too many resources (DoS bound)', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: ['read'],
+          resources: Array.from({ length: 101 }, (_, i) => `r${i}`),
+          conditions: { all: [] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.valid).toBe(false)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.path?.endsWith('resources'))).toBe(true)
+  })
+
+  it('rejects rule with too-large actionxresource cartesian', () => {
+    // 50 x 50 = 2500 > 1000 cartesian cap.
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r1',
+          effect: 'allow',
+          priority: 10,
+          actions: Array.from({ length: 50 }, (_, i) => `a${i}`),
+          resources: Array.from({ length: 50 }, (_, i) => `r${i}`),
+          conditions: { all: [] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.valid).toBe(false)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.message.includes('cartesian'))).toBe(true)
+  })
+
+  it('rejects policy with too many rules', () => {
+    const policy = {
+      ...validPolicy,
+      rules: Array.from({ length: 1001 }, (_, i) => ({
+        id: `r${i}`,
+        effect: 'allow',
+        priority: 10,
+        actions: ['read'],
+        resources: ['post'],
+        conditions: { all: [] },
+      })),
+    }
+    const result = validatePolicy(policy)
+    expect(result.valid).toBe(false)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.path === 'rules')).toBe(true)
+  })
+
+  it('warns on overly broad allow (*/*/no conditions)', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r-broad',
+          effect: 'allow',
+          priority: 10,
+          actions: ['*'],
+          resources: ['*'],
+          conditions: { all: [] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'BROAD_ALLOW')).toBe(true)
+    // Warning, not error - broad-allow may be intentional (super-admin).
+    expect(result.valid).toBe(true)
+  })
+
+  it('does not warn on broad allow when conditions narrow it', () => {
+    const policy = {
+      ...validPolicy,
+      rules: [
+        {
+          id: 'r-conditional-broad',
+          effect: 'allow',
+          priority: 10,
+          actions: ['*'],
+          resources: ['*'],
+          conditions: { all: [{ field: 'subject.attributes.admin', operator: 'eq', value: true }] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'BROAD_ALLOW')).toBe(false)
+  })
+})
+
+describe('validateRoles() - inheritance depth', () => {
+  it('errors when inheritance chain exceeds MAX_INHERITANCE_DEPTH', async () => {
+    const { MAX_INHERITANCE_DEPTH } = await import('../../rbac')
+    const { validateRoles } = await import('../validate')
+    const roles: AccessControl.IRole[] = []
+    for (let i = 0; i <= MAX_INHERITANCE_DEPTH + 1; i++) {
+      roles.push({
+        id: `r${i}`,
+        name: `R${i}`,
+        permissions: [],
+        ...(i > 0 ? { inherits: [`r${i - 1}`] } : {}),
+      })
+    }
+    const result = validateRoles(roles)
+    expect(result.valid).toBe(false)
+    expect(result.issues.some((i) => i.code === 'INHERITANCE_TOO_DEEP')).toBe(true)
+  })
+
+  it('accepts inheritance chain at exactly MAX_INHERITANCE_DEPTH', async () => {
+    const { MAX_INHERITANCE_DEPTH } = await import('../../rbac')
+    const { validateRoles } = await import('../validate')
+    const roles: AccessControl.IRole[] = []
+    for (let i = 0; i <= MAX_INHERITANCE_DEPTH; i++) {
+      roles.push({
+        id: `r${i}`,
+        name: `R${i}`,
+        permissions: [],
+        ...(i > 0 ? { inherits: [`r${i - 1}`] } : {}),
+      })
+    }
+    const result = validateRoles(roles)
+    expect(result.issues.some((i) => i.code === 'INHERITANCE_TOO_DEEP')).toBe(false)
+  })
+})
+
+describe('condition validator bounds (H1, H2)', () => {
+  it('refuses condition fields longer than MAX_FIELD_LENGTH', () => {
+    const longField = `subject.${'a'.repeat(300)}`
+    const policy: AccessControl.IPolicy = {
+      id: 'p',
+      name: 'P',
+      algorithm: 'deny-overrides',
+      rules: [
+        {
+          id: 'r',
+          effect: 'allow',
+          priority: 0,
+          actions: ['read'],
+          resources: ['post'],
+          conditions: { all: [{ field: longField, operator: 'eq', value: 'x' }] },
+        },
+      ],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && (i.path ?? '').endsWith('.field'))).toBe(true)
+  })
+
+  it('refuses condition trees nested beyond MAX_CONDITION_DEPTH', () => {
+    let group: AccessControl.IConditionGroup = {
+      all: [{ field: 'subject.id', operator: 'eq', value: 'u' }],
+    }
+    for (let i = 0; i < 15; i++) group = { all: [group] }
+    const policy: AccessControl.IPolicy = {
+      id: 'p',
+      name: 'P',
+      algorithm: 'deny-overrides',
+      rules: [{ id: 'r', effect: 'allow', priority: 0, actions: ['read'], resources: ['post'], conditions: group }],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.message.includes('nesting'))).toBe(true)
+  })
+
+  it('accepts trees at MAX_CONDITION_DEPTH', () => {
+    let group: AccessControl.IConditionGroup = {
+      all: [{ field: 'subject.id', operator: 'eq', value: 'u' }],
+    }
+    for (let i = 0; i < 5; i++) group = { all: [group] }
+    const policy: AccessControl.IPolicy = {
+      id: 'p',
+      name: 'P',
+      algorithm: 'deny-overrides',
+      rules: [{ id: 'r', effect: 'allow', priority: 0, actions: ['read'], resources: ['post'], conditions: group }],
+    }
+    const result = validatePolicy(policy)
+    expect(result.issues.some((i) => i.code === 'LIMIT_EXCEEDED' && i.message.includes('nesting'))).toBe(false)
   })
 })

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import type { AccessRequest } from '../../types'
+import type { Request } from '../../types'
 import { matchesAction, matchesResource, matchesResourceHierarchical, matchesScope, resolve } from '../resolve'
 
-const baseRequest: AccessRequest = {
+const baseRequest: Request.IAccessRequest = {
   subject: {
     id: 'user-1',
     roles: ['editor', 'viewer'],

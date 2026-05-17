@@ -1,1 +1,1 @@
-export { resolveEffectiveRoles, rolesToPolicy } from './rbac'
+export * from './rbac'

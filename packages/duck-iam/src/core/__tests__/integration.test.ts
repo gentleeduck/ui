@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { MemoryAdapter } from '../../adapters/memory'
 import { createAccessConfig } from '../config'
 
-describe('Integration: config → engine → evaluate', () => {
+describe('Integration: config -> engine -> evaluate', () => {
   const access = createAccessConfig({
     actions: ['create', 'read', 'update', 'delete'] as const,
     resources: ['post', 'comment'] as const,
@@ -29,7 +29,7 @@ describe('Integration: config → engine → evaluate', () => {
     .grantCRUD('comment')
     .build()
 
-  it('full flow: roles → engine → can/check/explain', async () => {
+  it('full flow: roles -> engine -> can/check/explain', async () => {
     const adapter = new MemoryAdapter({
       roles: [viewer, editor, admin],
       assignments: {

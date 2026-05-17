@@ -126,4 +126,38 @@ describe('LRUCache', () => {
       expect(cache.get('a')).toBeUndefined()
     })
   })
+
+  describe('stats', () => {
+    it('counts hits and misses', () => {
+      const cache = new LRUCache<string>(10, 60000)
+      cache.set('a', '1')
+      cache.get('a') // hit
+      cache.get('a') // hit
+      cache.get('missing') // miss
+      expect(cache.stats).toEqual({ hits: 2, misses: 1, size: 1 })
+    })
+
+    it('counts expired reads as misses', () => {
+      vi.useFakeTimers()
+      try {
+        const cache = new LRUCache<string>(10, 100)
+        cache.set('a', '1')
+        vi.advanceTimersByTime(150)
+        cache.get('a') // expired -> miss
+        expect(cache.stats.misses).toBe(1)
+        expect(cache.stats.hits).toBe(0)
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    it('resetStats zeroes counters', () => {
+      const cache = new LRUCache<string>(10, 60000)
+      cache.set('a', '1')
+      cache.get('a')
+      cache.get('missing')
+      cache.resetStats()
+      expect(cache.stats).toEqual({ hits: 0, misses: 0, size: 1 })
+    })
+  })
 })

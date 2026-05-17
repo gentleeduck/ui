@@ -1,45 +1,52 @@
-import type { AccessRequest, AttributeValue } from '../types'
+import type { Primitives, Request } from '../types'
+/**
+ * Top-level path prefixes accepted by {@link resolve}.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
+export const ALLOWED_ROOTS = new Set(['subject', 'resource', 'environment'])
 
-/** Allowed top-level path prefixes for field resolution */
-const ALLOWED_ROOTS = new Set(['subject', 'resource', 'environment'])
-
-/** Property names that must never be traversed */
+/** Property names refused at any segment - blocks prototype-pollution lookups. */
 const BLOCKED_SEGMENTS = new Set(['__proto__', 'constructor', 'prototype'])
 
-/** Cache for validated, split path segments. */
+/**
+ * Hard cap for {@link pathCache}. Each entry is at most ~200 bytes
+ * (path string + segment array), so 10k entries ~ 2 MB worst case.
+ * Insertion-order eviction (FIFO) when the cap is hit.
+ */
+const PATH_CACHE_MAX = 10_000
 const pathCache = new Map<string, string[] | null>()
 
+function rememberPath(path: string, value: string[] | null): string[] | null {
+  if (pathCache.size >= PATH_CACHE_MAX) {
+    const oldest = pathCache.keys().next().value
+    if (oldest !== undefined) pathCache.delete(oldest)
+  }
+  pathCache.set(path, value)
+  return value
+}
+
 /**
- * Splits and validates a dot-path, caching the result.
- * Returns `null` for invalid paths (bad root or blocked segments).
+ * Splits and validates a dot-path, memoizing the result.
+ * Returns `null` for paths with an unknown root or a blocked segment.
  */
 function getSegments(path: string): string[] | null {
-  let cached = pathCache.get(path)
+  const cached = pathCache.get(path)
   if (cached !== undefined) return cached
 
   const segments = path.split('.')
 
-  // Validate root path is an allowed prefix
-  if (!segments[0] || !ALLOWED_ROOTS.has(segments[0])) {
-    pathCache.set(path, null)
-    return null
-  }
+  if (!segments[0] || !ALLOWED_ROOTS.has(segments[0])) return rememberPath(path, null)
 
-  // Check for blocked segments once at cache time
   for (const seg of segments) {
-    if (BLOCKED_SEGMENTS.has(seg)) {
-      pathCache.set(path, null)
-      return null
-    }
+    if (BLOCKED_SEGMENTS.has(seg)) return rememberPath(path, null)
   }
 
-  pathCache.set(path, segments)
-  cached = segments
-  return cached
+  return rememberPath(path, segments)
 }
 
 /**
- * Resolves dot-path field references against an AccessRequest.
+ * Resolves dot-path field references against an {@link Request.IAccessRequest}.
  *
  * Supported paths:
  *   subject.id, subject.roles, subject.attributes.*
@@ -50,8 +57,13 @@ function getSegments(path: string): string[] | null {
  *
  * Security: only allows traversal under subject/resource/environment.
  * Blocks __proto__, constructor, and prototype access.
+ *
+ * @param request - The access request providing root data.
+ * @param path    - Dot-path string starting with an allowed root or shorthand.
+ * @returns The resolved attribute value, or `null` when the path is invalid or missing.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function resolve(request: AccessRequest, path: string): AttributeValue {
+export function resolve(request: Request.IAccessRequest, path: string): Primitives.AttributeValue {
   if (path === 'action') return request.action
   if (path === 'scope') return request.scope ?? null
 
@@ -65,12 +77,17 @@ export function resolve(request: AccessRequest, path: string): AttributeValue {
     node = (node as Record<string, unknown>)[seg]
   }
 
-  return node === undefined ? null : (node as AttributeValue)
+  return node === undefined ? null : (node as Primitives.AttributeValue)
 }
 
 /**
  * Tests if an action matches a pattern.
  * Supports wildcards: "*" matches all, "posts:*" matches "posts:read", "posts:write"
+ *
+ * @param pattern - Action pattern from a rule (may include `'*'` or `'foo:*'`).
+ * @param action  - The literal action from the request.
+ * @returns `true` when the request action matches the pattern.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export function matchesAction(pattern: string, action: string): boolean {
   if (pattern === '*') return true
@@ -87,6 +104,11 @@ export function matchesAction(pattern: string, action: string): boolean {
 /**
  * Tests if a resource type matches a pattern (colon-based hierarchy).
  * Supports hierarchical matching: "org:*" matches "org:project", "org:project:doc"
+ *
+ * @param pattern      - Resource pattern from a rule.
+ * @param resourceType - The literal resource type from the request.
+ * @returns `true` when the request resource type matches the pattern.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export function matchesResource(pattern: string, resourceType: string): boolean {
   if (pattern === '*') return true
@@ -110,6 +132,11 @@ export function matchesResource(pattern: string, resourceType: string): boolean 
  * - "dashboard" matches "dashboard", "dashboard.users", "dashboard.users.settings"
  * - "dashboard.*" matches any child: "dashboard.users", "dashboard.users.settings" (NOT "dashboard" itself)
  * - "dashboard.users" matches "dashboard.users", "dashboard.users.settings"
+ *
+ * @param pattern      - Resource pattern from a rule (dot-notation).
+ * @param resourceType - The literal resource type from the request.
+ * @returns `true` when the request resource type matches the pattern.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export function matchesResourceHierarchical(pattern: string, resourceType: string): boolean {
   if (pattern === '*') return true
@@ -132,6 +159,11 @@ export function matchesResourceHierarchical(pattern: string, resourceType: strin
  * - undefined/null pattern or "*" matches any scope (global permission)
  * - If request has no scope, only global patterns match
  * - Otherwise exact match
+ *
+ * @param pattern - Scope pattern from a rule (may be `undefined`, `null`, or `'*'`).
+ * @param scope   - The request's scope (may be `undefined` or `null`).
+ * @returns `true` when the request scope matches the pattern.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export function matchesScope(pattern: string | undefined | null, scope: string | undefined | null): boolean {
   if (!pattern || pattern === '*') return true
