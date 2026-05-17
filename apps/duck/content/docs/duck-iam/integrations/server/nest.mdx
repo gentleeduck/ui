@@ -16,7 +16,7 @@ import {
 } from '@gentleduck/iam/server/nest'
 ```
 
-Zero hard dependency on `@nestjs/common` — uses minimal duck-typed interfaces. `reflect-metadata` is used when available, with a direct property fallback so the decorator works without it.
+Zero hard dependency on `@nestjs/common` - uses minimal duck-typed interfaces. `reflect-metadata` is used when available, with a direct property fallback so the decorator works without it.
 
 ---
 
@@ -101,7 +101,7 @@ const Auth = createTypedAuthorize<Action, Resource, Scope>()
 // This compiles:
 @Auth({ action: 'delete', resource: 'post' })
 
-// This is a compile error — "craete" is not in Action:
+// This is a compile error - "craete" is not in Action:
 @Auth({ action: 'craete', resource: 'post' })
 ```
 
@@ -133,7 +133,7 @@ import {
 export class AppModule {}
 ```
 
-The engine factory can be async — return a `Promise<Engine>` to support adapter setup that requires `await`.
+The engine factory can be async - return a `Promise<Engine>` to support adapter setup that requires `await`.
 
 ---
 
@@ -163,3 +163,63 @@ The engine factory can be async — return a `Promise<Engine>` to support adapte
 | --- | --- | --- |
 | `ACCESS_ENGINE_TOKEN` | `string` (`'ACCESS_ENGINE'`) | DI token for the engine |
 | `ACCESS_METADATA_KEY` | `string` (`'duck-iam:authorize'`) | Reflect metadata key for the decorator |
+
+---
+
+## Admin operations
+
+NestJS routes via controllers, so duck-iam ships gated admin *operations* (not a router factory). `createAdminOperations` returns a record of pre-gated functions to plug into your controller methods. The `authorize` callback is **required** - the factory throws if it's missing.
+
+```typescript
+import { Controller, Get, Put, Post, Delete, Inject, Req, Body, Param } from '@nestjs/common'
+import { ACCESS_ENGINE_TOKEN, createAdminOperations } from '@gentleduck/iam/server/nest'
+
+@Controller('admin')
+export class IamAdminController {
+  private readonly h
+
+  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine) {
+    this.h = createAdminOperations(engine, {
+      authorize: (req) => req.user?.role === 'platform-admin',
+    })
+  }
+
+  @Get('policies')        listPolicies(@Req() req) { return this.h.listPolicies(req) }
+  @Get('roles')           listRoles(@Req() req)    { return this.h.listRoles(req) }
+  @Put('policies')        savePolicy(@Req() req, @Body() body) { return this.h.savePolicy(req, body) }
+  @Put('roles')           saveRole(@Req() req, @Body() body)   { return this.h.saveRole(req, body) }
+
+  @Post('subjects/:id/roles')
+  assignRole(@Req() req, @Param('id') id, @Body() body) { return this.h.assignRole(req, id, body) }
+
+  @Delete('subjects/:id/roles/:roleId')
+  revokeRole(@Req() req, @Param('id') id, @Param('roleId') roleId) { return this.h.revokeRole(req, id, roleId) }
+}
+```
+
+Every operation throws `Error & { status: 401 }` when `authorize` returns false - wire your Nest exception filter to map that to a `401` response, or call `authorize` yourself inside a `@UseGuards()` and skip this helper.
+
+The admin operations options object conforms to `Nest.IAdminOptions` with `authorize` of shape `Nest.IAdminAuthorize`. The metadata read by the guard from `@Authorize` conforms to `Nest.IAuthorizeMeta`, and the guard factory accepts `Nest.IGuardOptions`.
+
+---
+
+## Types
+
+All types live under the `Nest` namespace at `@gentleduck/iam/server/nest`. Type-only - zero bundle cost.
+
+- `Nest.IAuthorizeMeta` - shape of the metadata stamped onto a handler by `@Authorize` and `createTypedAuthorize`.
+- `Nest.IGuardOptions` - options for `nestAccessGuard` (`getUserId`, `getEnvironment`, `getResourceId`, `getScope`, `onError`).
+- `Nest.IAdminAuthorize` - signature of the required `authorize` callback for `createAdminOperations`.
+- `Nest.IAdminOptions` - options for `createAdminOperations`.
+
+```typescript
+import type { Nest } from '@gentleduck/iam/server/nest'
+
+const guardOpts: Nest.IGuardOptions = {
+  getUserId: (req) => req.user?.id ?? req.user?.sub,
+}
+
+const meta: Nest.IAuthorizeMeta = { action: 'delete', resource: 'post' }
+```
+
+Deprecated bare aliases (`IAuthorizeMeta`, `IGuardOptions`, `IAdminAuthorize`, `IAdminOptions`) remain for back-compat and will be removed in 3.0.

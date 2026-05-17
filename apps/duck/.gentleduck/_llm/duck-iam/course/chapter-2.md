@@ -243,7 +243,7 @@ interface Role {
 }
 ```
 
-It's serializable — store it in a database, send it over HTTP, or log it.
+It's serializable - store it in a database, send it over HTTP, or log it.
 
 ## Wildcards
 

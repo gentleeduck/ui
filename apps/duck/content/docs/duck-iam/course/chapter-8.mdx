@@ -752,7 +752,7 @@ The engine uses four LRU caches to minimize adapter calls:
         SC["subjectCache (size: maxCacheSize)<br/>Key: subjectId -> Subject"]
     end
 
-    subgraph Config["EngineConfig"]
+    subgraph Config["EngineTypes.IConfig"]
         TTL["cacheTTL: 60 (seconds)"]
         MAX["maxCacheSize: 1000"]
     end
@@ -979,7 +979,7 @@ a blocked name returns `null`:
 // resource.attributes.constructor -- blocked segment
 ```
 
-Additionally, only three top-level roots are allowed: `subject`, `resource`, and
+Only three top-level roots are allowed: `subject`, `resource`, and
 `environment`. Paths like `process.env.SECRET` or `global.something` return `null`.
 
 The special shortcuts `action` and `scope` are handled before the path split:
@@ -1255,7 +1255,7 @@ and loaded the policies yourself.
     ```
 
     Set `cacheTTL: 0` in tests to disable caching and ensure fresh evaluations.
-    Note that `engine.can()` returns `boolean`, not `Decision`.
+    `engine.can()` returns `boolean`, not `Decision`.
   </Step>
 
   <Step>
@@ -1605,22 +1605,20 @@ and loaded the policies yourself.
 
 Before shipping BlogDuck:
 
-- [ ] Set `mode: 'production'` on high-traffic production servers
-- [ ] Use `createAccessConfig` with `as const` for type safety
-- [ ] Replace `MemoryAdapter` with `PrismaAdapter` or `DrizzleAdapter`
-- [ ] Call `validateRoles()` and `validatePolicy()` at startup
-- [ ] Set appropriate `cacheTTL` (default 60s is good for most apps)
-- [ ] Set `maxCacheSize` based on your concurrent user count
-- [ ] Add `afterEvaluate` hook for audit logging
-- [ ] Add `onDeny` hook for security monitoring
-- [ ] Add `onError` hook for error monitoring
-- [ ] Protect admin API endpoints with authorization
-- [ ] Validate dynamic policies with `validatePolicy()` before saving
-- [ ] Write tests for every role, policy, and scoped permission
-- [ ] Test both allowed and denied cases
-- [ ] Server enforces permissions on every request (Chapter 6)
-- [ ] Client uses permission maps for UI only (Chapter 7)
-- [ ] Never trust client-side permission checks for security
+- [ ] Set `mode: 'production'` on high-traffic servers; use `createAccessConfig` with `as const`
+- [ ] Replace `MemoryAdapter` with `PrismaAdapter`, `DrizzleAdapter`, or `HttpAdapter`
+- [ ] Call `validateRoles()` and `validatePolicy()` at startup and fail fast on errors
+- [ ] Call `engine.preload()` at boot to warm the policy + role caches before serving traffic
+- [ ] Wire `engine.healthCheck()` to a `/healthz` endpoint so the platform can gate rollouts
+- [ ] Call `engine.dispose()` on `SIGTERM` to flush queued metrics and abort in-flight reads
+- [ ] In multi-node deployments, configure `IConfig.invalidator` so cache busts propagate
+- [ ] Register `hooks.onMetrics` + `hooks.onPolicyError` for evaluation telemetry and per-policy errors
+- [ ] Expose `engine.stats()` on an internal endpoint to watch cache hit rate, evictions, and adapter latency
+- [ ] Use `engine.admin.export()` / `engine.admin.import()` to promote roles + policies between environments
+- [ ] If using `HttpAdapter`, set `retries` and `circuitBreakerThreshold` to survive flaky upstreams
+- [ ] Protect the admin router with your own authorization check; validate dynamic policies before saving
+- [ ] Server enforces permissions on every request (Chapter 6); client uses permission maps for UI hints only (Chapter 7)
+- [ ] Write tests for every role, policy, and scoped permission - both allowed and denied paths
 
 ## Complete Production Setup
 

@@ -5,7 +5,7 @@ section: Core
 ---
 ## What rolesToPolicy does
 
-`rolesToPolicy()` turns role definitions into one ABAC policy. The engine calls this internally — you almost never invoke it directly, but understanding the conversion helps debug evaluation behavior.
+`rolesToPolicy()` turns role definitions into one ABAC policy. The engine calls this internally - you almost never invoke it directly, but understanding the conversion helps debug evaluation behavior.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Input["Role Definitions"]
@@ -19,11 +19,11 @@ section: Core
 
     subgraph Generated["Generated Rules (allow-overrides)"]
         direction TB
-        R1["rbac.viewer.read.post\ncondition: roles contains 'viewer'"]
-        R2["rbac.viewer.read.comment\ncondition: roles contains 'viewer'"]
-        R3["rbac.editor.create.post\ncondition: roles contains 'editor'"]
-        R4["rbac.editor.update.post\ncondition: roles contains 'editor'"]
-        R5["rbac.editor.read.post (inherited)\ncondition: roles contains 'editor'"]
+        R1["__rbac__#0\ncondition: roles contains 'viewer'"]
+        R2["__rbac__#1\ncondition: roles contains 'viewer'"]
+        R3["__rbac__#2\ncondition: roles contains 'editor'"]
+        R4["__rbac__#3\ncondition: roles contains 'editor'"]
+        R5["__rbac__#4 (inherited)\ncondition: roles contains 'editor'"]
     end
 
     RULES --> Generated
@@ -34,6 +34,7 @@ For each role, the function:
 1. **Flattens** the inheritance chain into all permissions (own and inherited)
 2. **Creates a Rule per permission** with:
    - `effect: 'allow'`
+   - `id: '__rbac__#N'` - opaque sequential counter, not derived from role / action / resource
    - `actions` and `resources` from the permission
    - `subject.roles contains "<roleId>"` as a condition
    - `scope eq "<scope>"` when the permission or role is scoped
@@ -58,13 +59,13 @@ const viewer = defineRole('viewer')
 Becomes:
 
 ```typescript
-{
+const policy: AccessControl.IPolicy = {
   id: '__rbac__',
   name: 'RBAC Policies',
   algorithm: 'allow-overrides',
   rules: [
     {
-      id: 'rbac.viewer.read.post.0',
+      id: '__rbac__#0',
       effect: 'allow',
       actions: ['read'],
       resources: ['post'],
@@ -73,7 +74,7 @@ Becomes:
       }
     },
     {
-      id: 'rbac.viewer.read.comment.1',
+      id: '__rbac__#1',
       effect: 'allow',
       actions: ['read'],
       resources: ['comment'],
@@ -84,6 +85,8 @@ Becomes:
   ]
 }
 ```
+
+Rule IDs are opaque counters (`__rbac__#N`) - never derived from role / action / resource. Don't pattern-match against them or build admin tooling that assumes the old dotted shape.
 
 ---
 
@@ -96,10 +99,10 @@ Becomes:
 await engine.admin.assignRole('user-1', 'viewer')
 await engine.admin.assignRole('user-1', 'commenter')
 
-// Either role granting an action is enough — union, not intersection
+// Either role granting an action is enough - union, not intersection
 ```
 
-This is the natural RBAC contract — adding a role only grants more access, never restricts it.
+This is the natural RBAC contract - adding a role only grants more access, never restricts it.
 
 To restrict access, use a separate policy with `deny-overrides` semantics. The engine cross-policy AND-combines, so a deny in any policy wins regardless of how many allow rules fire in `__rbac__`.
 
@@ -114,7 +117,7 @@ The engine caches the result of `rolesToPolicy()` to avoid recomputing on every 
 - `engine.invalidateRoles()` is called manually
 - The role-load TTL expires (configurable via `cacheTTL`)
 
-In production, this means role evaluations hit a hot in-process cache, not the adapter. See [engine caching](/docs/duck-iam/advanced/engine).
+In production, this means role evaluations hit a hot in-process cache, not the adapter. See [engine caching](/duck-iam/advanced/engine).
 
 ---
 
@@ -135,16 +138,16 @@ Useful for:
 - Testing without spinning up an engine
 - Pre-computing policies in build steps for very large role sets
 
-The output is just data — pure JSON, no engine reference.
+The output is just data - pure JSON, no engine reference.
 
 ---
 
 ## Why the inflated rule count?
 
-A role hierarchy with N roles each granting M permissions produces up to N × M rules in `__rbac__` (worst case, with deep inheritance). This is intentional:
+A role hierarchy with N roles each granting M permissions produces up to N x M rules in `__rbac__` (worst case, with deep inheritance). This is intentional:
 
 - Each rule is gated by `subject.roles contains "<roleId>"` so the engine can skip irrelevant rules in O(1) via the precomputed index
 - Inherited permissions are flattened (not chained at eval time) so each role's effective permissions are independently checkable
-- The cost is policy-load time only, not per-evaluation — caching makes this cheap
+- The cost is policy-load time only, not per-evaluation - caching makes this cheap
 
 For very large role sets (1000+ roles, 10+ permissions each), monitor the policy-load time. The fast-path evaluator (`evaluatePolicyFast`) handles 10k+ rules with sub-microsecond lookups in the precomputed map.

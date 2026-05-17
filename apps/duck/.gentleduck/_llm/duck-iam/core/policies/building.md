@@ -27,8 +27,8 @@ const weekendDeny = policy('deny-weekends')
 | `name(n)` | Human-readable name for the policy |
 | `desc(d)` | Optional description |
 | `version(v)` | Version number for tracking changes |
-| `algorithm(a)` | Combining algorithm — see [combining algorithms](/docs/duck-iam/core/policies/combining-algorithms) |
-| `target(t)` | Scope the policy to specific actions, resources, or roles — see [policy targets](/docs/duck-iam/core/policies/targets) |
+| `algorithm(a)` | Combining algorithm - see [combining algorithms](/duck-iam/core/policies/combining-algorithms) |
+| `target(t)` | Scope the policy to specific actions, resources, or roles - see [policy targets](/duck-iam/core/policies/targets) |
 | `rule(id, fn)` | Add a rule using an inline builder |
 | `addRule(rule)` | Add a pre-built `Rule` object |
 | `build()` | Produce the final `Policy` object |
@@ -94,7 +94,7 @@ const myPolicy = policy('my-policy')
   .build()
 ```
 
-See [rules](/docs/duck-iam/core/policies/rules) for the full rule builder API.
+See [rules](/duck-iam/core/policies/rules) for the full rule builder API.
 
 ***
 
@@ -127,4 +127,4 @@ Resources also support hierarchical matching. A rule targeting `"dashboard"` mat
 )
 ```
 
-Hierarchical matching applies to **rule resources only**. Policy targets use direct matching — see [policy targets](/docs/duck-iam/core/policies/targets).
+Hierarchical matching applies to **rule resources only**. Policy targets use direct matching - see [policy targets](/duck-iam/core/policies/targets).

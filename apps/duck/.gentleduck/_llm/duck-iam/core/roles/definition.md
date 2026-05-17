@@ -74,13 +74,13 @@ const orgViewer = defineRole('org-viewer')
   .build()
 ```
 
-Equivalent to `grant('read', 'post', 'org-1')` — the scope-first form is just stylistic.
+Equivalent to `grant('read', 'post', 'org-1')` - the scope-first form is just stylistic.
 
 ***
 
 ## Metadata
 
-Attach arbitrary data via `meta()`. Ignored during evaluation — for application code like admin dashboards, audit logs, and UI labels:
+Attach arbitrary data via `meta()`. Ignored during evaluation - for application code like admin dashboards, audit logs, and UI labels:
 
 ```typescript
 const role = defineRole('beta-tester')
@@ -93,7 +93,7 @@ console.log(role.metadata)
 // { createdBy: 'system', tier: 'beta', maxSeats: 10 }
 ```
 
-Metadata round-trips through every adapter — Prisma, Drizzle, Redis, HTTP all preserve it as a JSON column / blob.
+Metadata round-trips through every adapter - Prisma, Drizzle, Redis, HTTP all preserve it as a JSON column / blob.
 
 ***
 

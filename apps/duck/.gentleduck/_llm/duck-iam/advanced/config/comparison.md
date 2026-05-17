@@ -7,7 +7,7 @@
 | Misspelled role ID | Silent runtime fail (`unknown role`) | Compile error |
 | Wrong scope value | Silent runtime fail | Compile error |
 | Wrong field path in conditions | Silent runtime fail (resolves to null) | With typed context: compile error |
-| Wrong value type (e.g. string for number field) | Silent — operator returns false | With typed context: compile error |
+| Wrong value type (e.g. string for number field) | Silent - operator returns false | With typed context: compile error |
 | `engine.can()` arg validation | None | Constrained to declared schema |
 | `engine.permissions()` batch validation | None | Constrained via `access.checks()` |
 | Setup verbosity | Minimal | Slightly more |
@@ -41,7 +41,7 @@ The typed version catches mistakes during the edit/build cycle. The untyped vers
 * Concurrent attribute write races
 * Permissions modeled at the wrong granularity
 
-For logic bugs, write tests. For caching, see [engine caching](/docs/duck-iam/advanced/engine/caching).
+For logic bugs, write tests. For caching, see [engine caching](/duck-iam/advanced/engine/caching).
 
 ***
 
@@ -51,7 +51,7 @@ For logic bugs, write tests. For caching, see [engine caching](/docs/duck-iam/ad
 import { defineRole, Engine, MemoryAdapter, policy } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
-  .grant('raed', 'post') // typo: "raed" instead of "read" — NO error
+  .grant('raed', 'post') // typo: "raed" instead of "read" - NO error
   .build()
 
 const restrictPolicy = policy('restrict')
@@ -60,7 +60,7 @@ const restrictPolicy = policy('restrict')
       .deny()
       .on('approval') // typo? Or a real custom action? Untyped can't tell
       .of('budget')
-      .when((w) => w.attr('departmnt', 'eq', 'eng')), // typo in 'department' — NO error
+      .when((w) => w.attr('departmnt', 'eq', 'eng')), // typo in 'department' - NO error
   )
   .build()
 
@@ -104,7 +104,7 @@ Pros:
 
 * Typos are immediate compile errors
 * Autocomplete shows valid options at every call site
-* Refactoring is safe — rename a role and TypeScript flags every reference
+* Refactoring is safe - rename a role and TypeScript flags every reference
 * Single source of truth: the config defines the schema once
 
 Cons:
@@ -146,7 +146,7 @@ const viewer = access.defineRole('viewer').grant('read', 'post').build()
 const engine = access.createEngine({ adapter })
 ```
 
-The role/policy data shape is unchanged — adapters, evaluation, and serialization all work the same. You just change the builder entry points.
+The role/policy data shape is unchanged - adapters, evaluation, and serialization all work the same. You just change the builder entry points.
 
 ***
 

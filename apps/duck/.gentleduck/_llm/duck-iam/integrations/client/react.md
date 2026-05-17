@@ -164,7 +164,7 @@ The hook returns:
 
 The hook handles race conditions internally: if the component unmounts or the dependency array changes before the fetch completes, stale results are discarded.
 
-`usePermissions` does **not** abort in-flight requests — it only ignores late results. If you need true cancellation, use the standalone checker with your own `AbortController` flow.
+`usePermissions` does **not** abort in-flight requests - it only ignores late results. If you need true cancellation, use the standalone checker with your own `AbortController` flow.
 
 ***
 
@@ -181,7 +181,7 @@ checker.cannot('manage', 'team') // boolean
 checker.permissions // the original PermissionMap
 ```
 
-Use this when you don't need React context — for example, in route loaders, form validators, or analytics event handlers.
+Use this when you don't need React context - for example, in route loaders, form validators, or analytics event handlers.
 
 ***
 
@@ -206,4 +206,4 @@ import { AccessProvider } from '@gentleduck/iam/client/react'
 // ...
 ```
 
-For server-side checks inside RSC/Server Actions, use [`checkAccess`](/docs/duck-iam/integrations/server/next) from `@gentleduck/iam/server/next` instead — that hits the engine directly without touching client context.
+For server-side checks inside RSC/Server Actions, use [`checkAccess`](/duck-iam/integrations/server/next) from `@gentleduck/iam/server/next` instead - that hits the engine directly without touching client context.

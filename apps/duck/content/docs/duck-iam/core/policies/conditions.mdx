@@ -1,6 +1,6 @@
 ---
 title: conditions
-description: The When builder — operators, semantic shortcuts, and field paths for ABAC condition logic.
+description: The When builder - operators, semantic shortcuts, and field paths for ABAC condition logic.
 section: Core
 ---
 ## The When builder
@@ -16,7 +16,7 @@ The `When` builder defines conditions for rules (and for `grantWhen()` on roles)
 // All three must be true
 ```
 
-For OR/NOT/nested logic, see [nesting and/or/not](/docs/duck-iam/core/policies/nesting).
+For OR/NOT/nested logic, see [nesting and/or/not](/duck-iam/core/policies/nesting).
 
 ---
 
@@ -86,7 +86,7 @@ Domain-specific helpers for common patterns:
   **Typed dot-paths:** By default, `.attr()`, `.resourceAttr()`, `.env()`, and `.check()`
   accept any string. Pass a `context` phantom field to `createAccessConfig()` to get full
   autocompletion and type-checked values. See the
-  [type-safe config](/docs/duck-iam/advanced/config) docs.
+  [type-safe config](/duck-iam/advanced/config) docs.
 </Callout>
 
 ---
@@ -117,18 +117,18 @@ Domain-specific helpers for common patterns:
 
 ## Operator edge cases
 
-- **Numeric operators** (`gt`, `gte`, `lt`, `lte`) — field and value must both be numbers. Anything else returns `false`.
-- **String operators** (`starts_with`, `ends_with`, `matches`) — field and value must both be strings. Anything else returns `false`.
-- **`in` with arrays** — when the field is an array (e.g. `subject.roles`), checks for any overlap with the value array. When the field is a scalar, checks membership.
-- **`contains` with strings vs arrays** — arrays use `Array.includes()`; strings use `String.includes()`. Other types return `false`.
-- **`subset_of` / `superset_of`** — both must be arrays. Non-arrays return `false`.
-- **Missing fields** — a path that resolves to `null` or `undefined` compares against `null` for `eq`, `gt`, etc. Use `exists` / `not_exists` to test presence.
+- **Numeric operators** (`gt`, `gte`, `lt`, `lte`) - field and value must both be numbers. Anything else returns `false`.
+- **String operators** (`starts_with`, `ends_with`, `matches`) - field and value must both be strings. Anything else returns `false`.
+- **`in` with arrays** - when the field is an array (e.g. `subject.roles`), checks for any overlap with the value array. When the field is a scalar, checks membership.
+- **`contains` with strings vs arrays** - arrays use `Array.includes()`; strings use `String.includes()`. Other types return `false`.
+- **`subset_of` / `superset_of`** - both must be arrays. Non-arrays return `false`.
+- **Missing fields** - a path that resolves to `null` or `undefined` compares against `null` for `eq`, `gt`, etc. Use `exists` / `not_exists` to test presence.
 
 ---
 
 ## Field resolution
 
-Conditions reference fields using dot-notation paths resolved against the `AccessRequest` at evaluation time.
+Conditions reference fields using dot-notation paths resolved against the `Request.IAccessRequest` at evaluation time.
 
 ### Supported paths
 
@@ -148,4 +148,4 @@ Conditions reference fields using dot-notation paths resolved against the `Acces
 
 The resolver only allows traversal under `subject`, `resource`, and `environment`. Access to `__proto__`, `constructor`, and `prototype` is **blocked** to prevent prototype pollution.
 
-A bad field path doesn't throw — it resolves to `null`. The condition fails closed, evaluation continues. This keeps misconfigured rules from crashing entire requests.
+A bad field path doesn't throw - it resolves to `null`. The condition fails closed, evaluation continues. This keeps misconfigured rules from crashing entire requests.

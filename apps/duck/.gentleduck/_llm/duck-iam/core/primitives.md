@@ -6,7 +6,7 @@ Every authorization check assembles an `AccessRequest`:
 
 ## Subject
 
-The entity making the request — usually a user or service account.
+The entity making the request - usually a user or service account.
 
 ```typescript
 interface Subject {
@@ -17,15 +17,15 @@ interface Subject {
 }
 ```
 
-A subject carries an `id`, assigned roles, and arbitrary attributes — department, plan tier, clearance level, or whatever the domain requires.
+A subject carries an `id`, assigned roles, and arbitrary attributes - department, plan tier, clearance level, or whatever the domain requires.
 
-The engine resolves a subject from `subjectId` on every check (cached after the first resolution). You don't construct `Subject` objects directly — pass the ID and the engine handles it.
+The engine resolves a subject from `subjectId` on every check (cached after the first resolution). You don't construct `Subject` objects directly - pass the ID and the engine handles it.
 
 ***
 
 ## Resource
 
-The thing being accessed — a post, document, settings page.
+The thing being accessed - a post, document, settings page.
 
 ```typescript
 interface Resource {
@@ -45,18 +45,18 @@ Resource types use **dot-separated hierarchical matching**. A rule targeting `"d
 
 A string describing the operation: `"read"`, `"create"`, `"update"`, `"delete"`, or any custom action. Actions support wildcards:
 
-* `"*"` — matches everything
-* Custom prefixes — define your own (e.g. `"posts:read"`, `"posts:write"`)
+* `"*"` - matches everything
+* Custom prefixes - define your own (e.g. `"posts:read"`, `"posts:write"`)
 
-There's nothing magical about the four CRUD verbs — they're convention, not built-in. Pick action names that fit your domain.
+There's nothing magical about the four CRUD verbs - they're convention, not built-in. Pick action names that fit your domain.
 
 ***
 
 ## Scope
 
-An optional namespace for multi-tenant isolation. With `scope: "org-1"`, only roles and rules matching that scope apply. Any string works — org IDs, workspace slugs, project keys.
+An optional namespace for multi-tenant isolation. With `scope: "org-1"`, only roles and rules matching that scope apply. Any string works - org IDs, workspace slugs, project keys.
 
-See [scoped roles](/docs/duck-iam/core/roles/scoped) for the three scoping mechanisms.
+See [scoped roles](/duck-iam/core/roles/scoped) for the three scoping mechanisms.
 
 ***
 
@@ -91,7 +91,7 @@ interface AccessRequest {
 }
 ```
 
-`engine.can()` and `engine.check()` build this object internally — you supply the parts. `engine.authorize()` accepts a pre-built `AccessRequest` directly for advanced use.
+`engine.can()` and `engine.check()` build this object internally - you supply the parts. `engine.authorize()` accepts a pre-built `AccessRequest` directly for advanced use.
 
 ***
 
@@ -111,7 +111,7 @@ interface Decision {
 }
 ```
 
-In **production mode**, `engine.authorize()` returns a plain `boolean` — no `Decision` allocation. `engine.can()` always returns boolean regardless of mode (it's the simple-API method).
+In **production mode**, `engine.authorize()` returns a plain `boolean` - no `Decision` allocation. `engine.can()` always returns boolean regardless of mode (it's the simple-API method).
 
 ***
 
@@ -135,7 +135,7 @@ interface Policy {
 }
 ```
 
-See [policies](/docs/duck-iam/core/policies) for the full builder API and combining algorithm details.
+See [policies](/duck-iam/core/policies) for the full builder API and combining algorithm details.
 
 ***
 
@@ -155,7 +155,7 @@ interface Rule {
 }
 ```
 
-A rule fires when the action matches, the resource matches, and all conditions pass. See [rule matching](/docs/duck-iam/core/rule-matching) for the match flow.
+A rule fires when the action matches, the resource matches, and all conditions pass. See [rule matching](/duck-iam/core/rule-matching) for the match flow.
 
 ***
 
@@ -182,4 +182,4 @@ type ConditionGroup =
 
 Groups nest up to 10 levels. Past that, evaluation returns `false` (fail closed).
 
-See [conditions](/docs/duck-iam/core/policies/conditions) and [nesting](/docs/duck-iam/core/policies/nesting) for the full builder.
+See [conditions](/duck-iam/core/policies/conditions) and [nesting](/duck-iam/core/policies/nesting) for the full builder.

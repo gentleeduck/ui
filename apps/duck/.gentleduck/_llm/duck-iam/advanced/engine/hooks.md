@@ -35,13 +35,13 @@ hooks: {
 
 Common use cases:
 
-* **Server-side timestamps** — clients can't be trusted with time
-* **Computed environment** — derive `dayOfWeek`, `hour`, `isWeekend` from `Date.now()`
-* **Geo-IP** — look up `country` / `region` from `ip`
-* **Feature flags** — pull from a flag service before evaluation
-* **Tenant resolution** — translate `subdomain` → `tenantId`
+* **Server-side timestamps** - clients can't be trusted with time
+* **Computed environment** - derive `dayOfWeek`, `hour`, `isWeekend` from `Date.now()`
+* **Geo-IP** - look up `country` / `region` from `ip`
+* **Feature flags** - pull from a flag service before evaluation
+* **Tenant resolution** - translate `subdomain` -> `tenantId`
 
-Keep hook work cheap. `beforeEvaluate` runs on every check — slow lookups should be cached or moved to subject resolution.
+Keep hook work cheap. `beforeEvaluate` runs on every check - slow lookups should be cached or moved to subject resolution.
 
 ***
 
@@ -119,7 +119,7 @@ Triggered on:
 * `beforeEvaluate` throws
 * Internal evaluation throws (rare, indicates a bug)
 
-`onError` itself should never throw — see "Hook errors" below.
+`onError` itself should never throw - see "Hook errors" below.
 
 ***
 
@@ -128,7 +128,7 @@ Triggered on:
 For `authorize()` / `can()` / `check()`:
 
 ```
-beforeEvaluate → evaluate → afterEvaluate → onDeny (if denied) → onError (on exception)
+beforeEvaluate -> evaluate -> afterEvaluate -> onDeny (if denied) -> onError (on exception)
 ```
 
 For `permissions()` batch checks:
@@ -147,10 +147,10 @@ Keep hooks side-effect-only. In the current implementation, a thrown `beforeEval
 
 If `onError` itself throws, the surrounding call can reject. So:
 
-* ✅ `try/catch` inside hooks if you don't want errors to affect the decision
-* ✅ Use `Promise.resolve().then(() => doThing())` for fire-and-forget async work
-* ❌ Don't `throw` from `afterEvaluate` to "abort" a request — use `beforeEvaluate` to modify the request shape instead
-* ❌ Don't write blocking I/O in `beforeEvaluate` — every check pays the cost
+* yes `try/catch` inside hooks if you don't want errors to affect the decision
+* yes Use `Promise.resolve().then(() => doThing())` for fire-and-forget async work
+* no Don't `throw` from `afterEvaluate` to "abort" a request - use `beforeEvaluate` to modify the request shape instead
+* no Don't write blocking I/O in `beforeEvaluate` - every check pays the cost
 
 ```typescript
 hooks: {

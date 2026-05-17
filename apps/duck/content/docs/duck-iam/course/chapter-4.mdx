@@ -32,7 +32,7 @@ enrichment and logging, caching, batch permission checks, the explain API, and t
 ### engine.can() and engine.check()
 
 ```typescript
-// Boolean check -- most common
+// Boolean check - most common
 const allowed = await engine.can('bob', 'update', {
   type: 'post',
   id: 'post-1',
@@ -61,12 +61,12 @@ await engine.can('bob', 'update',
 
 ### engine.authorize()
 
-The low-level method takes a full `AccessRequest` object:
+The low-level method takes a full `Request.IAccessRequest` object:
 
 ```typescript
-import type { AccessRequest } from '@gentleduck/iam'
+import type { Request } from '@gentleduck/iam'
 
-const request: AccessRequest = {
+const request: Request.IAccessRequest = {
   subject: {
     id: 'bob',
     roles: ['editor', 'viewer'],
@@ -99,10 +99,10 @@ Production mode strips that overhead and returns booleans.
 ```typescript
 import { Engine } from '@gentleduck/iam'
 
-// Development mode (default) -- rich Decision objects, explain() available
+// Development mode (default) - rich Decision objects, explain() available
 const devEngine = new Engine({ adapter })
 
-// Production mode -- fast booleans, no explain()
+// Production mode - fast booleans, no explain()
 const prodEngine = new Engine({ adapter, mode: 'production' })
 ```
 
@@ -228,28 +228,41 @@ Hooks run at key points in the evaluation lifecycle.
 ### Hook Type Signatures
 
 ```typescript
-interface EngineHooks {
+interface EngineTypes.IHooks {
   // Runs before evaluation. Can modify the request (enrich with DB data).
   beforeEvaluate?(
-    request: AccessRequest,
-  ): AccessRequest | Promise<AccessRequest>
+    request: Request.IAccessRequest,
+  ): Request.IAccessRequest | Promise<Request.IAccessRequest>
 
   // Runs after evaluation, regardless of outcome.
   afterEvaluate?(
-    request: AccessRequest,
-    decision: Decision,
+    request: Request.IAccessRequest,
+    decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs only when the decision is deny.
   onDeny?(
-    request: AccessRequest,
-    decision: Decision,
+    request: Request.IAccessRequest,
+    decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs if any error occurs during evaluation.
   onError?(
     error: Error,
-    request: AccessRequest,
+    request: Request.IAccessRequest,
+  ): void | Promise<void>
+
+  // Per-evaluation timing + cache-hit telemetry (fires in both modes).
+  onMetrics?(
+    metrics: EngineTypes.IMetrics,
+  ): void | Promise<void>
+
+  // Per-policy error capture - fires when a single policy throws,
+  // evaluation continues with remaining policies.
+  onPolicyError?(
+    error: Error,
+    policyId: string,
+    request: Request.IAccessRequest,
   ): void | Promise<void>
 }
 ```
@@ -513,7 +526,7 @@ DENIED: "bob" -> update on post
 
 ```typescript
 interface ExplainResult {
-  decision: Decision                // the final decision
+  decision: AccessControl.IDecision // the final decision
   request: {
     action: string
     resourceType: string
@@ -759,8 +772,8 @@ export const engine = new Engine({
     <AccordionTrigger>Should I ever change defaultEffect from 'deny'?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Almost never. `'deny'` means unmatched requests are denied (fail-closed). Changing to
-      `'allow'` means any request that doesn't match a rule is permitted, a significant
-      security risk. The only valid use case is development environments where you want to
+      `'allow'` means any request that doesn't match a rule is permitted, a security risk.
+      The only valid use case is development environments where you want to
       log denials without blocking requests.
     </AccordionContent>
   </AccordionItem>

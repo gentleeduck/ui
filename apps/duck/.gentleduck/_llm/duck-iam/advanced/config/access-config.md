@@ -31,7 +31,7 @@ interface AccessConfigInput<TActions, TResources, TScopes, TRoles, TContext> {
 | `resources` | yes | `grant(_, resource)`, `r.of(resource)`, resource targets |
 | `scopes` | no | `forScope(scope)`, scoped `grant`, `engine.can(... scope)` |
 | `roles` | no | `defineRole(id)`, `inherits(id)`, `w.role(id)`, `w.roles(...ids)` |
-| `context` | no | Phantom field — see [typed context](/docs/duck-iam/advanced/config/context) |
+| `context` | no | Phantom field - see [typed context](/duck-iam/advanced/config/context) |
 
 If you omit `scopes` or `roles`, the config still works. Those parameters accept `string` without constraint. When `roles` is provided, `defineRole()`, `when().role()`, and all builders that reference roles are constrained to the declared role IDs.
 
@@ -42,11 +42,11 @@ If you omit `scopes` or `roles`, the config still works. Those parameters accept
 TypeScript's `as const` assertion is required for type safety. Without it, arrays are widened:
 
 ```typescript
-// Without as const — types are string[]
+// Without as const - types are string[]
 const actions = ['create', 'read', 'update']
 // typeof actions = string[]
 
-// With as const — types are literal tuples
+// With as const - types are literal tuples
 const actions = ['create', 'read', 'update'] as const
 // typeof actions = readonly ['create', 'read', 'update']
 ```
@@ -80,13 +80,13 @@ These union types flow through all builders, constraining every parameter: actio
 | `access.validateRoles(roles)` | Runtime validation, same as standalone `validateRoles()` |
 | `access.validatePolicy(p)` | Runtime validation for untrusted policy objects |
 
-See [methods reference](/docs/duck-iam/advanced/config/methods) for full details.
+See [methods reference](/duck-iam/advanced/config/methods) for full details.
 
 ***
 
 ## Inferring types from the config
 
-Sometimes you need the union types elsewhere — e.g. defining types in a shared module. Extract them from the config:
+Sometimes you need the union types elsewhere - e.g. defining types in a shared module. Extract them from the config:
 
 ```typescript
 const access = createAccessConfig({
@@ -129,7 +129,7 @@ const access = createAccessConfig({
   // no roles
 })
 
-access.defineRole('any-string-here') // OK — no constraint
+access.defineRole('any-string-here') // OK - no constraint
 access.when().role('any-string') // OK
 ```
 
@@ -144,13 +144,13 @@ const access = createAccessConfig({
   // no scopes
 })
 
-access.defineRole('viewer').grant('read', 'post', 'any-scope') // OK — no constraint
+access.defineRole('viewer').grant('read', 'post', 'any-scope') // OK - no constraint
 ```
 
-Same — without `scopes`, scope params accept any string.
+Same - without `scopes`, scope params accept any string.
 
 ### Without `context`
 
 The condition builder accepts any string for `.attr()`, `.resourceAttr()`, `.env()`, and `.check()` field paths, with `AttributeValue` for values. You lose dot-path autocomplete and value narrowing but the runtime behavior is identical.
 
-See [typed context](/docs/duck-iam/advanced/config/context) for what `context` adds.
+See [typed context](/duck-iam/advanced/config/context) for what `context` adds.

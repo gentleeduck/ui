@@ -30,7 +30,7 @@ const adminPolicy = policy('admin-only')
 | `resources` | Only evaluate if the request resource matches one of these |
 | `roles` | Only evaluate if the subject has one of these roles |
 
-Every field is optional — unset fields match everything. Set fields combine with **AND**.
+Every field is optional - unset fields match everything. Set fields combine with **AND**.
 
 ***
 
@@ -38,7 +38,7 @@ Every field is optional — unset fields match everything. Set fields combine wi
 
 `targets.resources` uses **direct** matching, not the hierarchical matcher used by rule resources. A target of `"dashboard"` doesn't match `"dashboard.users"` unless you also list `"dashboard.users"` or use a wildcard at the rule layer.
 
-For hierarchical matching, see [building policies](/docs/duck-iam/core/policies/building#hierarchical-resource-matching).
+For hierarchical matching, see [building policies](/duck-iam/core/policies/building#hierarchical-resource-matching).
 
 ***
 
@@ -77,7 +77,7 @@ When a policy is skipped on target mismatch, the engine uses `defaultEffect` for
 * Ensure another policy allows the request when this one is skipped
 
 ```typescript
-// Conditional restriction — when targets don't match, falls through to defaultEffect.
+// Conditional restriction - when targets don't match, falls through to defaultEffect.
 // If defaultEffect is 'deny', a target mismatch denies. To avoid:
 //   - Set engine defaultEffect: 'allow', OR
 //   - Add a separate baseline-allow policy
@@ -101,4 +101,4 @@ const restriction = policy('weekend-block')
 | Policy is resource-type-specific | Target `resources` |
 | Filtering depends on attributes / context | Rule conditions |
 
-Targets are a **fast pre-filter** — the engine skips the entire policy before inspecting individual rules. This makes large policy sets cheaper to evaluate and easier to reason about. Use targets for broad preconditions; use conditions for fine-grained logic.
+Targets are a **fast pre-filter** - the engine skips the entire policy before inspecting individual rules. This makes large policy sets cheaper to evaluate and easier to reason about. Use targets for broad preconditions; use conditions for fine-grained logic.

@@ -1,6 +1,6 @@
 ---
 title: policies overview
-description: When and why to use ABAC policies — time, IP, attribute, and dynamic deny rules that go beyond what RBAC roles can express.
+description: When and why to use ABAC policies - time, IP, attribute, and dynamic deny rules that go beyond what RBAC roles can express.
 section: Core
 ---
 ## When to Use Policies
@@ -28,13 +28,13 @@ Roles cover the common case: "editors can update posts." Some requirements need 
     RBAC_Only -.- SIMPLE["Simple role-permission mapping"]
     Need_ABAC -.- COMPLEX["Attribute-based conditions required"]`} />
 
-- **Time-based restrictions** — deny writes on weekends or outside business hours
-- **IP/geo-fencing** — allow access only from trusted networks
-- **Cross-attribute checks** — allow updates only when subject and resource share a department
-- **Dynamic deny rules** — block specific users or flag suspicious behavior without changing role assignments
-- **Maintenance mode** — deny all writes globally when a feature flag is on
+- **Time-based restrictions** - deny writes on weekends or outside business hours
+- **IP/geo-fencing** - allow access only from trusted networks
+- **Cross-attribute checks** - allow updates only when subject and resource share a department
+- **Dynamic deny rules** - block specific users or flag suspicious behavior without changing role assignments
+- **Maintenance mode** - deny all writes globally when a feature flag is on
 
-ABAC policies share the role evaluation pipeline. The engine **AND-combines policies** — a deny from any policy is final.
+ABAC policies share the role evaluation pipeline. The engine **AND-combines policies** - a deny from any policy is final.
 
 ---
 
@@ -44,14 +44,14 @@ Each topic has its own page:
 
 | Page | Covers |
 | --- | --- |
-| [building policies](/docs/duck-iam/core/policies/building) | `policy()` builder, `defineRule()`, wildcards, hierarchical resources |
-| [rules](/docs/duck-iam/core/policies/rules) | Rule structure, effect, priority, scopes, metadata |
-| [conditions](/docs/duck-iam/core/policies/conditions) | The `When` builder — operators, semantic shortcuts, field paths |
-| [`$`-variable references](/docs/duck-iam/core/policies/dollar-variables) | Compare two fields on the same request via `$subject.id` etc. |
-| [nesting and/or/not](/docs/duck-iam/core/policies/nesting) | Compose AND/OR/NOT groups, `whenAny()`, depth limit |
-| [policy targets](/docs/duck-iam/core/policies/targets) | Pre-filter policies by action, resource, or role |
-| [combining algorithms](/docs/duck-iam/core/policies/combining-algorithms) | `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority` |
-| [layered example](/docs/duck-iam/core/policies/example-layered) | Full RBAC + ABAC example, evaluation walkthrough |
+| [building policies](/duck-iam/core/policies/building) | `policy()` builder, `defineRule()`, wildcards, hierarchical resources |
+| [rules](/duck-iam/core/policies/rules) | Rule structure, effect, priority, scopes, metadata |
+| [conditions](/duck-iam/core/policies/conditions) | The `When` builder - operators, semantic shortcuts, field paths |
+| [`$`-variable references](/duck-iam/core/policies/dollar-variables) | Compare two fields on the same request via `$subject.id` etc. |
+| [nesting and/or/not](/duck-iam/core/policies/nesting) | Compose AND/OR/NOT groups, `whenAny()`, depth limit |
+| [policy targets](/duck-iam/core/policies/targets) | Pre-filter policies by action, resource, or role |
+| [combining algorithms](/duck-iam/core/policies/combining-algorithms) | `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority` |
+| [layered example](/duck-iam/core/policies/example-layered) | Full RBAC + ABAC example, evaluation walkthrough |
 
 ---
 
@@ -77,9 +77,9 @@ const weekendDeny = policy('deny-weekends')
 
 This policy:
 
-- Has algorithm `deny-overrides` (any deny rule that matches → policy returns deny)
+- Has algorithm `deny-overrides` (any deny rule that matches -> policy returns deny)
 - Targets writes only (not reads)
-- Uses `env('dayOfWeek', 'in', [0, 6])` — Sunday or Saturday → deny
+- Uses `env('dayOfWeek', 'in', [0, 6])` - Sunday or Saturday -> deny
 
 ---
 

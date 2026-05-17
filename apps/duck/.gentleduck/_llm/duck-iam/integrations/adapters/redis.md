@@ -16,10 +16,10 @@ bun add redis
 
 ## When to use
 
-* **Multi-instance deploys** — share policy/role state across nodes
-* **Edge / serverless** — Upstash Redis, Cloudflare KV (behind a `RedisLike` shim), Vercel KV
-* **Pair with Engine LRU cache** — Redis = source of truth, in-process LRU = hot reads
-* **Cross-tenant SaaS** — `keyPrefix` isolates tenants in a shared Redis
+* **Multi-instance deploys** - share policy/role state across nodes
+* **Edge / serverless** - Upstash Redis, Cloudflare KV (behind a `RedisLike` shim), Vercel KV
+* **Pair with Engine LRU cache** - Redis = source of truth, in-process LRU = hot reads
+* **Cross-tenant SaaS** - `keyPrefix` isolates tenants in a shared Redis
 
 ***
 
@@ -64,7 +64,7 @@ const redis = Redis.fromEnv()
 const adapter = new RedisAdapter({ client: redis, keyPrefix: 'iam:' })
 ```
 
-Upstash's client implements the same surface duck-iam needs — drop in directly.
+Upstash's client implements the same surface duck-iam needs - drop in directly.
 
 ***
 
@@ -77,7 +77,7 @@ Upstash's client implements the same surface duck-iam needs — drop in directly
 | `${prefix}assignments:${subjectId}` | Set | `roleId\sscope` strings (scope empty when unscoped) |
 | `${prefix}attrs:${subjectId}` | String | JSON-encoded attribute object |
 
-Set semantics make `assignRole` idempotent — calling it twice with the same `(subjectId, roleId, scope)` is a no-op.
+Set semantics make `assignRole` idempotent - calling it twice with the same `(subjectId, roleId, scope)` is a no-op.
 
 ***
 
@@ -119,7 +119,7 @@ Use `keyPrefix` to share a Redis instance across tenants without cross-talk:
 const tenant1 = new RedisAdapter({ client, keyPrefix: 'iam:tenant1:' })
 const tenant2 = new RedisAdapter({ client, keyPrefix: 'iam:tenant2:' })
 
-// Same tenant, different prefix → fully isolated
+// Same tenant, different prefix -> fully isolated
 await tenant1.savePolicy({ id: 'p1', /* ... */ })
 await tenant2.getPolicy('p1') // null
 ```
@@ -144,15 +144,15 @@ Hot reads stay in-process. After TTL expiry or `engine.invalidate()`, the next r
 
 ## Notes & caveats
 
-* **`assignRole` is idempotent** — Redis sets dedup automatically.
-* **`setSubjectAttributes` is read-merge-write** — same race risk as Prisma/Drizzle. For high-contention attribute writes, wrap in a Lua script or use Redis `WATCH/MULTI/EXEC`.
-* **Memory pressure** — Redis stores everything in RAM. For 1000s of policies and large rule trees, monitor memory usage.
-* **Persistence** — configure Redis with AOF or RDB snapshots if you don't want data loss on restart.
+* **`assignRole` is idempotent** - Redis sets dedup automatically.
+* **`setSubjectAttributes` is read-merge-write** - same race risk as Prisma/Drizzle. For high-contention attribute writes, wrap in a Lua script or use Redis `WATCH/MULTI/EXEC`.
+* **Memory pressure** - Redis stores everything in RAM. For 1000s of policies and large rule trees, monitor memory usage.
+* **Persistence** - configure Redis with AOF or RDB snapshots if you don't want data loss on restart.
 
 ***
 
 ## When NOT to use
 
-* Single-instance apps — `MemoryAdapter` is faster and free
-* Massive policy sets (>100k rules) — relational adapters scale better with proper indexes
-* No Redis already in stack — adds infra burden; consider Postgres adapter instead
+* Single-instance apps - `MemoryAdapter` is faster and free
+* Massive policy sets (>100k rules) - relational adapters scale better with proper indexes
+* No Redis already in stack - adds infra burden; consider Postgres adapter instead

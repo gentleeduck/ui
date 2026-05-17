@@ -15,7 +15,7 @@ Default: `cacheTTL: 60` seconds, `maxCacheSize: 1000` subjects.
 
 ## Why this shape?
 
-Policies and roles are loaded as **whole collections**, so one cached entry per cache is enough. The engine reloads everything if any policy changes — this is fine because the cache key is just `'all'` and overwrites on save.
+Policies and roles are loaded as **whole collections**, so one cached entry per cache is enough. The engine reloads everything if any policy changes - this is fine because the cache key is just `'all'` and overwrites on save.
 
 Subjects are resolved **individually**, so the engine keeps a separate cache entry per subject ID. This is what lets a hot user (e.g. a service account hitting 1000s of endpoints) avoid repeated DB hits.
 
@@ -37,7 +37,7 @@ engine.invalidatePolicies()
 engine.invalidateRoles()
 ```
 
-`invalidateRoles()` clears the subject cache too because resolved subjects include role names from the role definitions — if a role is renamed/deleted, every cached subject is potentially stale.
+`invalidateRoles()` clears the subject cache too because resolved subjects include role names from the role definitions - if a role is renamed/deleted, every cached subject is potentially stale.
 
 ***
 
@@ -58,7 +58,7 @@ You only need to call invalidation methods manually if you modify data outside t
 
 ## Multi-instance deployments
 
-The LRU cache is **per-process**. In a multi-node deployment, when one node mutates via `engine.admin.*`, the other nodes don't know — they keep serving stale decisions until their TTL expires.
+The LRU cache is **per-process**. In a multi-node deployment, when one node mutates via `engine.admin.*`, the other nodes don't know - they keep serving stale decisions until their TTL expires.
 
 Solutions:
 
@@ -71,11 +71,11 @@ Set `cacheTTL: 5` (or less) so stale data has a small window. Trade-off: more ad
 Broadcast invalidation events on policy/role changes:
 
 ```typescript
-// Node A — after a write
+// Node A - after a write
 await engine.admin.saveRole(updatedRole)
 await redis.publish('iam:invalidate', JSON.stringify({ kind: 'roles' }))
 
-// Node B — listener
+// Node B - listener
 redis.subscribe('iam:invalidate', (msg) => {
   const { kind } = JSON.parse(msg)
   if (kind === 'roles') engine.invalidateRoles()
@@ -84,11 +84,11 @@ redis.subscribe('iam:invalidate', (msg) => {
 })
 ```
 
-This pattern works with any pub/sub layer — Redis, NATS, Kafka, AMQP, etc.
+This pattern works with any pub/sub layer - Redis, NATS, Kafka, AMQP, etc.
 
 ### Versioned policies
 
-Tag policies with a `version` number. Increment on writes. On read, compare versions and refetch if stale. duck-iam doesn't ship this — implement at the adapter layer if you need strong consistency.
+Tag policies with a `version` number. Increment on writes. On read, compare versions and refetch if stale. duck-iam doesn't ship this - implement at the adapter layer if you need strong consistency.
 
 ***
 
@@ -99,7 +99,7 @@ For high-traffic applications:
 ```typescript
 const engine = new Engine({
   adapter,
-  cacheTTL: 300, // 5 minutes — policies/roles change infrequently
+  cacheTTL: 300, // 5 minutes - policies/roles change infrequently
   maxCacheSize: 10000, // 10k subjects in memory
 })
 ```
@@ -109,7 +109,7 @@ For real-time permission changes:
 ```typescript
 const engine = new Engine({
   adapter,
-  cacheTTL: 5, // 5 seconds — near real-time
+  cacheTTL: 5, // 5 seconds - near real-time
   maxCacheSize: 500,
 })
 ```
@@ -119,11 +119,11 @@ For development:
 ```typescript
 const engine = new Engine({
   adapter,
-  cacheTTL: 0, // No caching — always hit the adapter
+  cacheTTL: 0, // No caching - always hit the adapter
 })
 ```
 
-`cacheTTL: 0` means entries expire immediately — useful in tests where you want every check to see fresh adapter state without manual invalidation.
+`cacheTTL: 0` means entries expire immediately - useful in tests where you want every check to see fresh adapter state without manual invalidation.
 
 ***
 
@@ -131,10 +131,10 @@ const engine = new Engine({
 
 A rough rule:
 
-* **Subject cache** — ~1 KB per cached subject (depends on attribute size)
-* **Role cache** — ~500 B per role (depends on permissions count)
-* **Policy cache** — ~2 KB per policy (depends on rules)
-* **RBAC policy cache** — single entry, sized to N×M (roles × permissions)
+* **Subject cache** - ~1 KB per cached subject (depends on attribute size)
+* **Role cache** - ~500 B per role (depends on permissions count)
+* **Policy cache** - ~2 KB per policy (depends on rules)
+* **RBAC policy cache** - single entry, sized to NxM (roles x permissions)
 
 For 10,000 subjects + 100 roles + 50 policies, expect ~12 MB of cache memory. The fast-path index for `evaluatePolicyFast` adds another ~5 MB depending on rule count.
 

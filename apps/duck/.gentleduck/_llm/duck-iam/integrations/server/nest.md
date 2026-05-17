@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/iam/server/nest'
 ```
 
-Zero hard dependency on `@nestjs/common` — uses minimal duck-typed interfaces. `reflect-metadata` is used when available, with a direct property fallback so the decorator works without it.
+Zero hard dependency on `@nestjs/common` - uses minimal duck-typed interfaces. `reflect-metadata` is used when available, with a direct property fallback so the decorator works without it.
 
 ***
 
@@ -96,7 +96,7 @@ const Auth = createTypedAuthorize<Action, Resource, Scope>()
 // This compiles:
 @Auth({ action: 'delete', resource: 'post' })
 
-// This is a compile error — "craete" is not in Action:
+// This is a compile error - "craete" is not in Action:
 @Auth({ action: 'craete', resource: 'post' })
 ```
 
@@ -128,7 +128,7 @@ import {
 export class AppModule {}
 ```
 
-The engine factory can be async — return a `Promise<Engine>` to support adapter setup that requires `await`.
+The engine factory can be async - return a `Promise<Engine>` to support adapter setup that requires `await`.
 
 ***
 

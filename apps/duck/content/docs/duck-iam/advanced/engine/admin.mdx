@@ -1,6 +1,6 @@
 ---
 title: admin API
-description: engine.admin.* — runtime CRUD for policies, roles, role assignments, and subject attributes. Automatically invalidates caches.
+description: engine.admin.* - runtime CRUD for policies, roles, role assignments, and subject attributes. Automatically invalidates caches.
 section: Advanced
 ---
 ## What admin does
@@ -54,7 +54,7 @@ await engine.admin.savePolicy({
 await engine.admin.deletePolicy('office-hours')
 ```
 
-`savePolicy` is upsert semantics in every shipped adapter — saving an existing ID updates it.
+`savePolicy` is upsert semantics in every shipped adapter - saving an existing ID updates it.
 
 ---
 
@@ -115,7 +115,7 @@ Assignment idempotency depends on the adapter:
 | Memory | yes (in-memory check) |
 | Redis | yes (set semantics) |
 | Drizzle | yes (`onConflictDoNothing`) |
-| Prisma | **no** — throws on duplicate against the unique constraint |
+| Prisma | **no** - throws on duplicate against the unique constraint |
 | HTTP | depends on backend |
 
 For the Prisma adapter, wrap in try/catch or check existence first:
@@ -148,11 +148,11 @@ const attrs = await engine.admin.getAttributes('user-1')
 
 The exact merge/replace behavior depends on the adapter implementation:
 
-- **Memory** — shallow-merges new attributes into existing
-- **Prisma** — read-merge-write (race risk under concurrent writes)
-- **Drizzle** — same as Prisma
-- **Redis** — same as above
-- **HTTP** — depends on backend (the built-in HTTP adapter sends PATCH which most servers interpret as merge)
+- **Memory** - shallow-merges new attributes into existing
+- **Prisma** - read-merge-write (race risk under concurrent writes)
+- **Drizzle** - same as Prisma
+- **Redis** - same as above
+- **HTTP** - depends on backend (the built-in HTTP adapter sends PATCH which most servers interpret as merge)
 
 To remove an attribute, set it to `null`. The merge will replace the existing value with `null`.
 
@@ -173,7 +173,7 @@ await prisma.$transaction(async (tx) => {
 })
 ```
 
-The built-in adapters don't wrap reads + merges in transactions — concurrent writes may lose data. For Redis, use `WATCH/MULTI/EXEC` or a Lua script.
+The built-in adapters don't wrap reads + merges in transactions - concurrent writes may lose data. For Redis, use `WATCH/MULTI/EXEC` or a Lua script.
 
 ---
 
@@ -186,7 +186,7 @@ The built-in adapters don't wrap reads + merges in transactions — concurrent w
 | `assignRole` / `revokeRole` | Specific subject |
 | `setAttributes` | Specific subject |
 
-See [caching](/docs/duck-iam/advanced/engine/caching) for full details.
+See [caching](/duck-iam/advanced/engine/caching) for full details.
 
 ---
 
@@ -200,25 +200,49 @@ The admin API is the right surface for:
 
 Don't use it for:
 
-- Data migrations — write directly to the adapter database for speed, then call `engine.invalidate()`
-- Bulk imports — same reason; admin's per-item cache invalidation is overhead
-- Read-only data export — call the adapter directly to skip cache machinery
+- Data migrations - write directly to the adapter database for speed, then call `engine.invalidate()`
+- Bulk imports - same reason; admin's per-item cache invalidation is overhead
+- Read-only data export - call the adapter directly to skip cache machinery
 
 ---
 
 ## Securing the admin surface
 
-`engine.admin` is **not authenticated**. It's a programmatic interface — anyone with a reference to `engine` can call it.
-
-If you expose admin endpoints over HTTP (e.g. via the [Express admin router](/docs/duck-iam/integrations/server/express)), wrap them in your own admin-only auth check:
+`engine.admin` is **not authenticated** at the programmatic level - anyone with a reference to `engine` can call it. The shipped HTTP admin routers, on the other hand, refuse to construct without an `authorize` callback:
 
 ```typescript
+import { adminRouter } from '@gentleduck/iam/server/express'
+
 app.use(
   '/api/access-admin',
   requireAuth(), // your auth middleware
-  requireRole('platform-admin'), // your authz check
-  adminRouter(engine)(() => express.Router()),
+  adminRouter(engine, {
+    authorize: (req) => req.user?.role === 'platform-admin',
+  })(() => express.Router()),
 )
 ```
 
-Same for Hono, Nest, Next, etc. The shipped admin routers don't ship with auth baked in — that's a deliberate separation of concerns.
+Mounting an admin router unauthenticated is no longer possible - the factory throws at boot when `authorize` is missing. Same secure-by-default contract on the Hono `bindAdminRouter`, Next.js `createAdminHandlers`, and NestJS `createAdminOperations` factories.
+
+---
+
+## Snapshot export / import
+
+`engine.admin.export()` returns a schema-versioned `ISnapshot` of policies + roles (subject assignments are intentionally excluded - they're user data, not config). `engine.admin.import(snapshot, { mode })` applies one back.
+
+```typescript
+// Export from staging
+const snapshot = await stagingEngine.admin.export()
+writeFileSync('iam-snapshot.json', JSON.stringify(snapshot, null, 2))
+
+// Import to prod
+const snapshot = JSON.parse(readFileSync('iam-snapshot.json', 'utf8'))
+const result = await prodEngine.admin.import(snapshot, { mode: 'replace' })
+// -> { policiesAdded, policiesDeleted, rolesAdded, rolesDeleted }
+```
+
+- `mode: 'merge'` (default) - upserts every entry; existing rows not in the snapshot are untouched.
+- `mode: 'replace'` - deletes every existing policy / role *not* present in the snapshot, then upserts. Use for full sync from a source of truth.
+- Unknown `schemaVersion` throws *before* any write - snapshots never half-apply.
+
+Use for environment promotion (staging -> prod), GitOps-style policy review, disaster recovery, or `git`-tracked policy bundles.

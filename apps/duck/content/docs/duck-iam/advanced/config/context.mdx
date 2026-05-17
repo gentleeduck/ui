@@ -73,7 +73,7 @@ access
   .build()
 ```
 
-The `context` field is a **phantom type** — its runtime value is never used. The `{} as unknown as AppContext` cast is safe because the value is discarded; only the type information flows through to the builders.
+The `context` field is a **phantom type** - its runtime value is never used. The `{} as unknown as AppContext` cast is safe because the value is discarded; only the type information flows through to the builders.
 
 ---
 
@@ -165,7 +165,7 @@ The typed context system uses several TypeScript utility types that work togethe
 | Type | Purpose |
 | --- | --- |
 | `DotPaths<T>` | Generates all valid dot-separated paths through `T` (e.g. `'subject.attributes.status'`). Arrays are treated as leaf paths and functions are skipped. Bails to `never` for string-indexed types to avoid polluting the union with `string`. |
-| `FlexibleDotPaths<T>` | Smart wrapper: returns `DotPaths<T> \| (string & {})` when `T` has open-ended attribute bags (like `DefaultContext`), giving autocomplete for known structural paths while accepting arbitrary strings. For fully typed contexts, returns strict `DotPaths<T>` only. |
+| `FlexibleDotPaths<T>` | Wrapper: returns `DotPaths<T> \| (string & {})` when `T` has open-ended attribute bags (like `DefaultContext`), giving autocomplete for known structural paths while accepting arbitrary strings. For fully typed contexts, returns strict `DotPaths<T>` only. |
 | `PathValue<T, P>` | Resolves the value type at path `P` within `T` |
 | `FieldValue<T, P>` | Like `PathValue` but wraps the result in `ConditionValue` to add `$`-reference support |
 | `ConditionValue<T, V>` | Adapts a value type for condition builders. Non-string values pass through unchanged; string values add `DollarPaths<T>` for `$`-reference autocomplete. Prevents type widening so `env('hour', 'lt', '')` correctly errors when `hour` is `number`. |

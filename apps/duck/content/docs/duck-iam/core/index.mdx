@@ -5,7 +5,7 @@ section: Core
 ---
 ## What is duck-iam?
 
-A hybrid access control engine. Roles (RBAC) and policies (ABAC) feed the **same evaluation pipeline** — no separate paths.
+A hybrid access control engine. Roles (RBAC) and policies (ABAC) feed the **same evaluation pipeline** - no separate paths.
 
 Roles convert to ABAC policies internally. Every check runs through one evaluator.
 
@@ -40,12 +40,12 @@ Roles convert to ABAC policies internally. Every check runs through one evaluato
 
 | Page | Covers |
 | --- | --- |
-| [evaluation pipeline](/docs/duck-iam/core/evaluation) | Step-by-step request → decision flow, dev vs prod modes |
-| [primitives](/docs/duck-iam/core/primitives) | Subject, Resource, Action, Scope, Environment, AccessRequest, Decision |
-| [rule matching](/docs/duck-iam/core/rule-matching) | When a rule fires — action match, resource match, conditions |
-| [cross-policy combination](/docs/duck-iam/core/cross-policy) | AND across policies, default effect, defense in depth |
-| [roles](/docs/duck-iam/core/roles) | RBAC — defining, inheritance, scoped, conditional |
-| [policies](/docs/duck-iam/core/policies) | ABAC — building, conditions, targets, combining algorithms |
+| [evaluation pipeline](/duck-iam/core/evaluation) | Step-by-step request -> decision flow, dev vs prod modes |
+| [primitives](/duck-iam/core/primitives) | Subject, Resource, Action, Scope, Environment, AccessRequest, Decision |
+| [rule matching](/duck-iam/core/rule-matching) | When a rule fires - action match, resource match, conditions |
+| [cross-policy combination](/duck-iam/core/cross-policy) | AND across policies, default effect, defense in depth |
+| [roles](/duck-iam/core/roles) | RBAC - defining, inheritance, scoped, conditional |
+| [policies](/duck-iam/core/policies) | ABAC - building, conditions, targets, combining algorithms |
 
 ---
 
@@ -55,7 +55,7 @@ Roles convert to ABAC policies internally. Every check runs through one evaluato
 Subject + Action + Resource + Scope + Environment
         |
         v
-[ RBAC roles → __rbac__ policy ]   [ Custom ABAC policies ]
+[ RBAC roles -> __rbac__ policy ]   [ Custom ABAC policies ]
         |                                    |
         +--------- evaluate each ------------+
                        |
@@ -66,7 +66,7 @@ Subject + Action + Resource + Scope + Environment
               Decision (allow / deny)
 ```
 
-A deny from any policy is final. The cross-policy combiner is fixed engine behavior — no per-policy tuning to override it.
+A deny from any policy is final. The cross-policy combiner is fixed engine behavior - no per-policy tuning to override it.
 
 ---
 

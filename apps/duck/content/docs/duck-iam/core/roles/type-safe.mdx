@@ -18,7 +18,7 @@ const access = createAccessConfig({
 })
 ```
 
-`as const` is required — without it, TypeScript widens the arrays to `string[]` and you lose the constraint.
+`as const` is required - without it, TypeScript widens the arrays to `string[]` and you lose the constraint.
 
 ---
 
@@ -50,7 +50,7 @@ const ownerPolicy = access
   .build()
 ```
 
-`access.defineRole()`, `access.policy()`, `access.defineRule()`, and `access.when()` return builders constrained to the declared actions, resources, scopes, and roles. Types flow through the chain — from `grantWhen()` callbacks to `whenAny()` conditions.
+`access.defineRole()`, `access.policy()`, `access.defineRule()`, and `access.when()` return builders constrained to the declared actions, resources, scopes, and roles. Types flow through the chain - from `grantWhen()` callbacks to `whenAny()` conditions.
 
 ---
 
@@ -86,17 +86,17 @@ The validator checks for:
 
 Issues come in two severity levels:
 
-- `error` — blocking (the model is broken)
-- `warning` — suspicious but survivable (e.g. cycles, empty roles)
+- `error` - blocking (the model is broken)
+- `warning` - suspicious but survivable (e.g. cycles, empty roles)
 
 ---
 
 ## Edge cases
 
-- **Empty permissions** — a role with no permissions and no inheritance is valid but grants nothing. Flagged as a warning.
-- **Deep inheritance chains** — resolved by walking the tree recursively, with a visited set to break cycles. Performance is linear in role count — 10-level chains resolve in microseconds.
-- **Removing inherited permissions** — not supported. Use a deny rule instead. See [inheritance](/docs/duck-iam/core/roles/inheritance).
-- **Wildcard scope** — `scope: '*'` matches every scope, including unscoped requests. Use for global permissions.
+- **Empty permissions** - a role with no permissions and no inheritance is valid but grants nothing. Flagged as a warning.
+- **Deep inheritance chains** - resolved by walking the tree recursively, with a visited set to break cycles. Performance is linear in role count - 10-level chains resolve in microseconds.
+- **Removing inherited permissions** - not supported. Use a deny rule instead. See [inheritance](/duck-iam/core/roles/inheritance).
+- **Wildcard scope** - `scope: '*'` matches every scope, including unscoped requests. Use for global permissions.
 
 ---
 
@@ -128,7 +128,7 @@ const editor = access
   .build()
 ```
 
-The same builder calls produce different autocomplete suggestions based on which resource you're targeting. See the [type-safe config](/docs/duck-iam/advanced/config) docs for the full schema.
+The same builder calls produce different autocomplete suggestions based on which resource you're targeting. See the [type-safe config](/duck-iam/advanced/config) docs for the full schema.
 
 ---
 

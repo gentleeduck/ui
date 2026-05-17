@@ -58,7 +58,7 @@ const businessHours = access
   .build()
 ```
 
-Targets the policy to writes only — read requests skip it entirely.
+Targets the policy to writes only - read requests skip it entirely.
 
 ***
 
@@ -118,7 +118,7 @@ const allowed = await engine.can(
   'user-1',
   'update',
   { type: 'post', id: 'post-42', attributes: { ownerId: 'user-1' } },
-  { hour: 14 }, // 2 PM — within business hours
+  { hour: 14 }, // 2 PM - within business hours
 )
 // true: editor role allows update, business hours allows, content safety allows
 ```
@@ -129,10 +129,10 @@ const allowed = await engine.can(
 
 The engine evaluates each policy then AND-combines the results.
 
-1. **RBAC policy** (`allow-overrides`) — editor role grants `update` on `post` → **allow**.
-2. **business-hours** (`first-match`) — hour is 14, so `deny-off-hours` condition (`hour < 9 OR hour >= 17`) is false; the rule does not match. Next rule `allow-in-hours` has no conditions, so it matches → **allow**.
-3. **content-safety** (`deny-overrides`) — user is not banned (`status` is not `'banned'`); the `owner-delete-only` rule targets `delete` but the request is `update`, so no deny rules match, no allow rules to fire → falls through to `defaultEffect`.
-4. **Cross-policy AND** — RBAC allows, business-hours allows, content-safety uses default. All must allow → **ALLOWED**.
+1. **RBAC policy** (`allow-overrides`) - editor role grants `update` on `post` -> **allow**.
+2. **business-hours** (`first-match`) - hour is 14, so `deny-off-hours` condition (`hour < 9 OR hour >= 17`) is false; the rule does not match. Next rule `allow-in-hours` has no conditions, so it matches -> **allow**.
+3. **content-safety** (`deny-overrides`) - user is not banned (`status` is not `'banned'`); the `owner-delete-only` rule targets `delete` but the request is `update`, so no deny rules match, no allow rules to fire -> falls through to `defaultEffect`.
+4. **Cross-policy AND** - RBAC allows, business-hours allows, content-safety uses default. All must allow -> **ALLOWED**.
 
 ***
 
@@ -160,7 +160,7 @@ const trace = await engine.explain('user-1', 'update', {
 }, { hour: 14 })
 
 console.log(trace.summary)
-// → "ALLOWED — editor role grants update on post (RBAC), business-hours allow-in-hours matched, content-safety used defaultEffect"
+// -> "ALLOWED - editor role grants update on post (RBAC), business-hours allow-in-hours matched, content-safety used defaultEffect"
 ```
 
-See [explain and debug](/docs/duck-iam/advanced/explain) for the full trace API.
+See [explain and debug](/duck-iam/advanced/explain) for the full trace API.

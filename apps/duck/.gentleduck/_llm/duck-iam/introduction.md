@@ -128,7 +128,7 @@ await engine.can("user-1", "delete", { type: "post", attributes: {} });
 
 | Section | What it covers |
 | --- | --- |
-| [Installation](/duck-ui/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
+| [Installation](/duck-iam/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
 | [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
 | [Core Concepts](/duck-iam/core) | Deep dive into roles, policies, rules, conditions, and combining algorithms. |
 | [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |

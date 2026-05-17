@@ -2,13 +2,13 @@
 
 | Adapter | Use case | Persistence | Peer dep | Idempotent assign | Native scoped roles |
 | --- | --- | --- | --- | --- | --- |
-| [Memory](/docs/duck-iam/integrations/adapters/memory) | Dev, testing | None | None | yes (in-memory check) | yes |
-| [Prisma](/docs/duck-iam/integrations/adapters/prisma) | Prisma apps | Any DB | `@prisma/client` | **no** (throws on dup) | yes |
-| [Drizzle](/docs/duck-iam/integrations/adapters/drizzle) | Drizzle apps | PG/MySQL/SQLite | `drizzle-orm` | yes (`onConflictDoNothing`) | yes |
-| [Redis](/docs/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis | `ioredis` or `redis` | yes (set semantics) | yes |
-| [HTTP](/docs/duck-iam/integrations/adapters/http) | Microservice split | Remote API | None | depends on backend | yes |
+| [Memory](/duck-iam/integrations/adapters/memory) | Dev, testing | None | None | yes (in-memory check) | yes |
+| [Prisma](/duck-iam/integrations/adapters/prisma) | Prisma apps | Any DB | `@prisma/client` | **no** (throws on dup) | yes |
+| [Drizzle](/duck-iam/integrations/adapters/drizzle) | Drizzle apps | PG/MySQL/SQLite | `drizzle-orm` | yes (`onConflictDoNothing`) | yes |
+| [Redis](/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis | `ioredis` or `redis` | yes (set semantics) | yes |
+| [HTTP](/duck-iam/integrations/adapters/http) | Microservice split | Remote API | None | depends on backend | yes |
 
-All adapters are interchangeable. Engine, builder, and middleware code stays the same — migration is data movement only.
+All adapters are interchangeable. Engine, builder, and middleware code stays the same - migration is data movement only.
 
 ***
 
@@ -16,16 +16,16 @@ All adapters are interchangeable. Engine, builder, and middleware code stays the
 
 ```
 Are you in production?
-│
-├─ No → MemoryAdapter
-│
-└─ Yes
-   │
-   ├─ Already use Prisma? → PrismaAdapter
-   ├─ Already use Drizzle? → DrizzleAdapter
-   ├─ Need distributed cache + multi-instance? → RedisAdapter
-   ├─ Splitting auth across services? → HttpAdapter (consume centrally)
-   └─ Custom backend? → Implement Adapter (see "Custom" doc)
+|
++- No -> MemoryAdapter
+|
++- Yes
+   |
+   +- Already use Prisma? -> PrismaAdapter
+   +- Already use Drizzle? -> DrizzleAdapter
+   +- Need distributed cache + multi-instance? -> RedisAdapter
+   +- Splitting auth across services? -> HttpAdapter (consume centrally)
+   +- Custom backend? -> Implement Adapter (see "Custom" doc)
 ```
 
 ***
@@ -56,11 +56,11 @@ How do PrismaAdapter and DrizzleAdapter differ in practice?
 
 Prisma expects named models and lets Prisma handle JSON columns natively. Drizzle expects you to wire the tables and
 query operators explicitly, and the adapter serializes or parses JSON fields for you. Drizzle ships pre-built
-schema modules for Postgres, MySQL, and SQLite — Prisma ships a single reference <code>schema.prisma</code> snippet.
+schema modules for Postgres, MySQL, and SQLite - Prisma ships a single reference <code>schema.prisma</code> snippet.
 
 When should I pick RedisAdapter over Prisma or Drizzle?
 
-Redis is best when you need distributed cache semantics — multiple app instances reading the same authorization
+Redis is best when you need distributed cache semantics - multiple app instances reading the same authorization
 state with sub-millisecond latency. For tens of thousands of policies or complex audit/history requirements,
 relational adapters scale better. Many production deployments use both: Redis as the engine adapter for hot reads,
 Postgres as a separate audit/source-of-truth store synced via background jobs.
@@ -73,7 +73,7 @@ attributes without rewriting the entire stored object.
 How are duplicate role assignments handled?
 
 Memory and Redis are idempotent (in-memory check / set semantics). Drizzle uses <code>onConflictDoNothing</code>.
-Prisma currently uses <code>create</code> and will throw on a duplicate against the unique constraint — wrap in a
+Prisma currently uses <code>create</code> and will throw on a duplicate against the unique constraint - wrap in a
 try/catch or check existence first if you can't guarantee unique calls.
 
 Does HttpAdapter move policy evaluation to the server?
@@ -118,7 +118,7 @@ beyond the stock router. Treat the router as a starting point, not a drop-in bac
 Does RedisAdapter set a TTL on stored keys?
 
 No. Stored values are persistent. Engine-level caching is handled by the in-process LRU with its <code>cacheTTL</code>
-option — Redis is the source of truth, not a TTL cache. Configure Redis persistence (AOF/RDB) if you don't want
+option - Redis is the source of truth, not a TTL cache. Configure Redis persistence (AOF/RDB) if you don't want
 data loss on restart.
 
 How do I isolate tenants in a shared Redis?

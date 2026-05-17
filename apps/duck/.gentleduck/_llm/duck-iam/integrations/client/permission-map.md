@@ -1,6 +1,6 @@
 ## What is a PermissionMap?
 
-A `PermissionMap` is a flat object — keys encode the permission, values are booleans. It is the wire format every client library consumes.
+A `PermissionMap` is a flat object - keys encode the permission, values are booleans. It is the wire format every client library consumes.
 
 ```typescript
 {
@@ -33,7 +33,7 @@ Generate it on the server with `engine.permissions()` or the `getPermissions` he
 | Scope + action + resource | `scope:action:resource` | `org-1:manage:billing` |
 | Full | `scope:action:resource:resourceId` | `org-1:update:post:post-42` |
 
-The shape is determined by which fields you pass when generating the map (or calling `can()` on the client). The client-side `can()` uses the **same encoding** — pass a `resourceId` or `scope` only when the server included one.
+The shape is determined by which fields you pass when generating the map (or calling `can()` on the client). The client-side `can()` uses the **same encoding** - pass a `resourceId` or `scope` only when the server included one.
 
 ***
 
@@ -53,7 +53,7 @@ buildPermissionKey('update', 'post', 'post-42', 'org-1')
 
 Order: `(action, resource, resourceId?, scope?)`. The serialized key always reorders as `scope:action:resource:resourceId` so server and client agree.
 
-You rarely call `buildPermissionKey()` directly — the React, Vue, and vanilla clients call it internally. Reach for it when:
+You rarely call `buildPermissionKey()` directly - the React, Vue, and vanilla clients call it internally. Reach for it when:
 
 * Writing tests that assert specific keys
 * Building custom permission map endpoints
@@ -108,12 +108,12 @@ Permissions change when:
 * A feature flag flips
 * An attribute changes (e.g. account verification, plan tier)
 
-The client cannot detect these — refresh the map from the server when you know one happened. See [refreshing permissions](/docs/duck-iam/integrations/client) in the client overview.
+The client cannot detect these - refresh the map from the server when you know one happened. See [refreshing permissions](/duck-iam/integrations/client) in the client overview.
 
 ***
 
 ## Notes & caveats
 
 * **Don't mix scopes in one map.** Generate per-scope maps when scope materially changes the answer; mixing creates ambiguous keys for "global" lookups.
-* **`resourceId` keys are dense.** Don't pre-generate every possible `(action, resource, id)` combination — generate them lazily for visible records.
+* **`resourceId` keys are dense.** Don't pre-generate every possible `(action, resource, id)` combination - generate them lazily for visible records.
 * **Client-side maps are not a security boundary.** They drive UI gates only. Always re-check on the server when the action mutates state.

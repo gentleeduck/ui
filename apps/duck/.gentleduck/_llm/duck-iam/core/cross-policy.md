@@ -2,16 +2,16 @@
 
 Decisions are produced in two stages:
 
-1. **Inside a policy** — the policy's [combining algorithm](/docs/duck-iam/core/policies/combining-algorithms) (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`) folds matching rules into one effect.
-2. **Across policies** — the engine **AND-combines** results. Every policy must allow for the final result to be `allow`.
+1. **Inside a policy** - the policy's [combining algorithm](/duck-iam/core/policies/combining-algorithms) (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`) folds matching rules into one effect.
+2. **Across policies** - the engine **AND-combines** results. Every policy must allow for the final result to be `allow`.
 
-The cross-policy step is **not configurable** — it's fixed engine behavior.
+The cross-policy step is **not configurable** - it's fixed engine behavior.
 
 ***
 
 ## Strict AND across policies
 
-A combining algorithm resolves conflicts within one policy. Across policies, duck-iam uses strict AND — every policy must allow for the final result to be `allow`.
+A combining algorithm resolves conflicts within one policy. Across policies, duck-iam uses strict AND - every policy must allow for the final result to be `allow`.
 
 ```typescript
 // Policy A: RBAC-generated, allows editors to update posts
@@ -36,13 +36,13 @@ Layer policies for tiered restrictions:
 
 Each policy evaluates independently. A deny from any one is final.
 
-This shape composes well — adding a new restriction never weakens existing ones. It also makes auditing easier: each policy file represents one concern.
+This shape composes well - adding a new restriction never weakens existing ones. It also makes auditing easier: each policy file represents one concern.
 
 ***
 
 ## The default effect
 
-When no rules match inside a policy, the engine falls back to `defaultEffect` — `'deny'` by default (fail closed):
+When no rules match inside a policy, the engine falls back to `defaultEffect` - `'deny'` by default (fail closed):
 
 ```typescript
 const engine = new Engine({
@@ -65,8 +65,8 @@ Choose `defaultEffect: 'allow'` only if your policies are explicitly written as 
 
 duck-iam intentionally doesn't ship a cross-policy `OR` combiner. Two reasons:
 
-1. **Security ergonomics** — AND-combination means adding a policy can only restrict access. New deny rules can't accidentally weaken existing ones.
-2. **Policy independence** — each policy is auditable on its own. With OR, you'd need to consider all policies together to understand any single decision.
+1. **Security ergonomics** - AND-combination means adding a policy can only restrict access. New deny rules can't accidentally weaken existing ones.
+2. **Policy independence** - each policy is auditable on its own. With OR, you'd need to consider all policies together to understand any single decision.
 
 If you want OR semantics for a specific scenario, encode it inside one policy with `allow-overrides` rather than splitting across two.
 
@@ -104,6 +104,6 @@ const geoFence = policy('geo-fence')
   .build()
 ```
 
-A request must satisfy all four. Each policy handles one concern. Order doesn't matter — AND is commutative.
+A request must satisfy all four. Each policy handles one concern. Order doesn't matter - AND is commutative.
 
-See the [layered example](/docs/duck-iam/core/policies/example-layered) for a complete walkthrough.
+See the [layered example](/duck-iam/core/policies/example-layered) for a complete walkthrough.

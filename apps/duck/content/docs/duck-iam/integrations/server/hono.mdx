@@ -9,7 +9,7 @@ section: Integrations
 import { accessMiddleware, guard } from '@gentleduck/iam/server/hono'
 ```
 
-Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge — anywhere Hono runs.
+Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge - anywhere Hono runs.
 
 ---
 
@@ -87,10 +87,10 @@ accessMiddleware(engine, {
 
 The Hono integration imports zero Node-specific APIs. It works in:
 
-- **Cloudflare Workers** — pair with `RedisAdapter` against Upstash Redis or a KV adapter
-- **Deno Deploy** — works with deno-friendly adapters
-- **Bun** — full Node compatibility plus Hono's edge optimizations
-- **Vercel Edge Functions** — bundle the adapter as part of the Edge build
+- **Cloudflare Workers** - pair with `RedisAdapter` against Upstash Redis or a KV adapter
+- **Deno Deploy** - works with deno-friendly adapters
+- **Bun** - full Node compatibility plus Hono's edge optimizations
+- **Vercel Edge Functions** - bundle the adapter as part of the Edge build
 
 For database-backed adapters at the edge, ensure your driver supports the runtime (Neon serverless for Postgres, planetscale for MySQL, etc.).
 
@@ -107,3 +107,44 @@ For database-backed adapters at the edge, ensure your driver supports the runtim
 | `getScope` | `(c) -> string or undefined` | `undefined` | Extract scope from the request |
 | `onDenied` | `(c) -> Response` | 403 JSON | Custom denial response |
 | `onError` | `(err, c) -> Response` | 500 JSON | Custom error handler |
+
+---
+
+## Admin router
+
+Bind admin CRUD endpoints onto a Hono router. The `authorize` callback is **required** - the factory throws if it's missing.
+
+```typescript
+import { Hono } from 'hono'
+import { bindAdminRouter } from '@gentleduck/iam/server/hono'
+
+const admin = new Hono()
+bindAdminRouter(admin, engine, {
+  authorize: (c) => c.req.header('x-admin-token') === process.env.ADMIN_TOKEN,
+})
+
+app.route('/api/access-admin', admin)
+```
+
+Exposes the same six endpoints as the Express router (GET / PUT `/policies` + `/roles`, POST/DELETE `/subjects/:id/roles[/:roleId]`). Options conform to `Hono.IAdminOptions` with `authorize` (required) of shape `Hono.IAdminAuthorize`, plus `onUnauthorized` and `onError`. `bindAdminRouter` is generic over `Hono.IRouterLike` so it accepts any router implementing the minimal `.get/.put/.post/.delete` surface.
+
+---
+
+## Types
+
+All types live under the `Hono` namespace at `@gentleduck/iam/server/hono`. Type-only - zero bundle cost.
+
+- `Hono.IOptions` - options for `accessMiddleware` and `guard`.
+- `Hono.IAdminAuthorize` - signature of the required admin `authorize` callback.
+- `Hono.IAdminOptions` - options for `bindAdminRouter` (`authorize`, `onUnauthorized`, `onError`).
+- `Hono.IRouterLike` - minimal router shape `bindAdminRouter` accepts.
+
+```typescript
+import type { Hono } from '@gentleduck/iam/server/hono'
+
+const opts: Hono.IOptions = {
+  getUserId: (c) => c.req.header('x-user-id'),
+}
+```
+
+Deprecated bare aliases (`IHonoOptions`, `IAdminAuthorize`, `IAdminOptions`, `IRouterLike`) remain for back-compat and will be removed in 3.0.

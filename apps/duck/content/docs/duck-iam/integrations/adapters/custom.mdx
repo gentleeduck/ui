@@ -1,6 +1,6 @@
 ---
 title: custom adapter
-description: Implement the Adapter interface to connect duck-iam to any storage backend — DynamoDB, MongoDB, Firestore, Supabase, or your in-house DB.
+description: Implement the Adapter interface to connect duck-iam to any storage backend - DynamoDB, MongoDB, Firestore, Supabase, or your in-house DB.
 section: Integrations
 ---
 ## The Adapter interface
@@ -8,32 +8,39 @@ section: Integrations
 Any object satisfying this interface can plug into `Engine`:
 
 ```typescript
-import type { Adapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
+import type { Adapter, AccessControl, Request, Attributes } from '@gentleduck/iam'
 
-interface Adapter<TAction, TResource, TRole, TScope> {
+interface Adapter.IAdapter<TAction, TResource, TRole, TScope> {
   // PolicyStore
-  listPolicies(): Promise<Policy<TAction, TResource, TRole>[]>
-  getPolicy(id: string): Promise<Policy<TAction, TResource, TRole> | null>
-  savePolicy(policy: Policy<TAction, TResource, TRole>): Promise<void>
+  listPolicies(opts?: Adapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole>[]>
+  getPolicy(id: string, opts?: Adapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole> | null>
+  savePolicy(policy: AccessControl.IPolicy<TAction, TResource, TRole>): Promise<void>
   deletePolicy(id: string): Promise<void>
 
   // RoleStore
-  listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]>
-  getRole(id: string): Promise<Role<TAction, TResource, TRole, TScope> | null>
-  saveRole(role: Role<TAction, TResource, TRole, TScope>): Promise<void>
+  listRoles(opts?: Adapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope>[]>
+  getRole(id: string, opts?: Adapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope> | null>
+  saveRole(role: AccessControl.IRole<TAction, TResource, TRole, TScope>): Promise<void>
   deleteRole(id: string): Promise<void>
 
   // SubjectStore
-  getSubjectRoles(subjectId: string): Promise<TRole[]>
-  getSubjectScopedRoles?(subjectId: string): Promise<ScopedRole<TRole, TScope>[]>
+  getSubjectRoles(subjectId: string, opts?: Adapter.IReadOptions): Promise<TRole[]>
+  getSubjectScopedRoles?(subjectId: string, opts?: Adapter.IReadOptions): Promise<Request.IScopedRole<TRole, TScope>[]>
   assignRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
   revokeRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
-  getSubjectAttributes(subjectId: string): Promise<Attributes>
+  getSubjectAttributes(subjectId: string, opts?: Adapter.IReadOptions): Promise<Attributes>
   setSubjectAttributes(subjectId: string, attrs: Attributes): Promise<void>
 }
 ```
 
 `getSubjectScopedRoles` is **optional**. If your application doesn't use scoped roles, omit it. When absent, the engine treats scoped assignments as empty and continues with global role evaluation only.
+
+<Callout type="info" title="opts?: Adapter.IReadOptions">
+  Adapter read methods now accept an optional `opts?: Adapter.IReadOptions` argument carrying a `signal?: AbortSignal`.
+  The engine uses it to honor `adapterTimeoutMs` and to abort in-flight reads when an invalidation arrives.
+  Custom adapters can either forward the signal to the underlying client (recommended for network/DB calls) or safely
+  ignore it - the engine treats both as valid.
+</Callout>
 
 ---
 
@@ -122,7 +129,7 @@ export class MongoAdapter implements Adapter {
 
 If you store scoped and unscoped assignments together, `getSubjectRoles` should return **only unscoped assignments**, and `getSubjectScopedRoles` should return only scoped. The engine merges them based on request scope.
 
-The `MemoryAdapter` actually returns both from `getSubjectRoles` (which then gets deduplicated by the engine) — both shapes work. The cleaner contract is split.
+The `MemoryAdapter` returns both from `getSubjectRoles` (which then gets deduplicated by the engine) - both shapes work. The cleaner contract is split.
 
 ### Attribute merging
 
@@ -182,4 +189,4 @@ The built-in adapters' test files (`src/adapters/*/__tests__/*.test.ts`) make a 
 
 ## Publishing your adapter
 
-If your adapter is general-purpose, consider publishing it as a separate npm package (e.g. `@your-org/duck-iam-adapter-foo`). The duck-iam team welcomes upstream contributions for popular databases — open a PR with tests + docs.
+If your adapter is general-purpose, consider publishing it as a separate npm package (e.g. `@your-org/duck-iam-adapter-foo`). The duck-iam team welcomes upstream contributions for popular databases - open a PR with tests + docs.

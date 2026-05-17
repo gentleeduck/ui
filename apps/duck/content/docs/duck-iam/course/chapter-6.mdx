@@ -231,7 +231,12 @@ returns boolean either way, the rest of your code stays the same.
     import { Router } from 'express'
     import { adminRouter } from '@gentleduck/iam/server/express'
 
-    app.use('/api/access-admin', adminRouter(engine)(() => Router()))
+    app.use(
+      '/api/access-admin',
+      adminRouter(engine, {
+        authorize: (req) => /* your check, e.g. req.user?.roles.includes('admin') */ true,
+      })(() => Router()),
+    )
     ```
 
     **Exposed endpoints:**

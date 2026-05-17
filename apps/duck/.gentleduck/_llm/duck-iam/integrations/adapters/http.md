@@ -115,5 +115,5 @@ A `Content-Type: application/json` header is sent on every request. If `headers`
 
 ## Notes
 
-* `HttpAdapter` fetches authorization data over HTTP, but the consuming engine still evaluates permissions **locally**. It is not an outsourcing-evaluation adapter — it just moves storage behind a service boundary.
-* For server-side evaluation across services, expose `engine.permissions()` as an endpoint and consume the resulting `PermissionMap` on clients via the [client integrations](/docs/duck-iam/integrations/client).
+* `HttpAdapter` fetches authorization data over HTTP, but the consuming engine still evaluates permissions **locally**. It is not an outsourcing-evaluation adapter - it just moves storage behind a service boundary.
+* For server-side evaluation across services, expose `engine.permissions()` as an endpoint and consume the resulting `PermissionMap` on clients via the [client integrations](/duck-iam/integrations/client).

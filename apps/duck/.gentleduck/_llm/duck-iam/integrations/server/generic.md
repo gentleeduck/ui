@@ -20,13 +20,13 @@ Use the generic helpers when the framework wrappers are too opinionated, or when
 | `generatePermissionMap` | `(engine, subjectId, checks, environment?)` | Wraps `engine.permissions()` for server-to-client hydration |
 | `createSubjectCan` | `(engine, subjectId, environment?)` | Returns a subject-bound `can(action, resource, resourceId?, scope?)` |
 | `extractEnvironment` | `(req)` | Builds the default `{ ip, userAgent, timestamp }` from common request shapes |
-| `METHOD_ACTION_MAP` | `Record<string, string>` | Read-only CRUD map (GET → read, POST → create, etc.) used by every built-in integration |
+| `METHOD_ACTION_MAP` | `Record<string, string>` | Read-only CRUD map (GET -> read, POST -> create, etc.) used by every built-in integration |
 
 ***
 
 ## Bind a subject
 
-`createSubjectCan` is the workhorse — bind a user once, then run multiple checks without repeating the subject ID:
+`createSubjectCan` is the workhorse - bind a user once, then run multiple checks without repeating the subject ID:
 
 ```typescript
 import { createSubjectCan, extractEnvironment } from '@gentleduck/iam/server/generic'
@@ -62,7 +62,7 @@ return new Response(JSON.stringify({ permissions }), {
 })
 ```
 
-The result is a `Record<string, boolean>` keyed by `${scope}:${action}:${resource}` (scope omitted when undefined). Hydrate it with the [client libraries](/docs/duck-iam/integrations/client).
+The result is a `Record<string, boolean>` keyed by `${scope}:${action}:${resource}` (scope omitted when undefined). Hydrate it with the [client libraries](/duck-iam/integrations/client).
 
 ***
 
@@ -72,7 +72,7 @@ The result is a `Record<string, boolean>` keyed by `${scope}:${action}:${resourc
 
 ```typescript
 const env = extractEnvironment(req)
-// → { ip, userAgent, timestamp }
+// -> { ip, userAgent, timestamp }
 ```
 
 * `ip` from `req.ip`, `x-forwarded-for`, or `x-real-ip` (in that order)

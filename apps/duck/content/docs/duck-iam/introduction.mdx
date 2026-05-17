@@ -39,18 +39,17 @@ are converted into policies internally, so one condition engine handles everythi
 
 | Feature | Description |
 | --- | --- |
-| Unified RBAC + ABAC | Roles and policies coexist in one evaluation pipeline. |
-| Type-safe config | `createAccessConfig()` locks down actions, resources, and scopes at the type level. |
-| Fluent builders | `defineRole()`, `defineRule()`, `policy()`, `when()`: chainable, readable, type-checked. |
-| Combining algorithms | `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority` per policy. |
+| Unified RBAC + ABAC | Roles and policies share one evaluation pipeline. RBAC roles convert to a synthetic `__rbac__` policy at load time. |
+| Type-safe config | `createAccessConfig()` constrains actions, resources, scopes, and role IDs at the type level. |
+| Combining algorithms | Four in-policy algorithms (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`); three cross-policy modes (`and`, `allow-overrides`, `first-applicable`) via `EngineTypes.IConfig.policyCombine`. |
 | Multi-tenant scopes | Scoped role assignments: different roles per organization, workspace, or project. |
-| Server integrations | Express middleware, Hono middleware, NestJS guard + decorator, Next.js route wrappers. |
-| Client libraries | React provider + hooks, Vue plugin + composables, framework-agnostic vanilla client. |
-| Pluggable adapters | Memory (built-in), Prisma, Drizzle, HTTP -- or write your own by implementing the `Adapter` interface. |
-| Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` -- intercept and observe every decision. |
-| Dev/Prod mode | Rich diagnostics in development, fast booleans in production. [Benchmarks](/duck-iam/benchmarks). |
-| Explain / debug | `engine.explain()` produces a detailed trace of every policy, rule, and condition evaluated. |
-| Validation | `validateRoles()` and `validatePolicy()` catch config mistakes like dangling inherits and cycles. |
+| Pluggable adapters | Memory, File, Prisma, Drizzle, Redis, HTTP - or write your own by implementing `Adapter.IAdapter`. `Adapter.IReadOptions.signal` supports per-call `AbortSignal` cancellation. |
+| Server + client integrations | Express, Hono, Nest, Next middleware; React + Vue + vanilla clients. Each module ships its own typed namespace (`Express.IOptions`, `ReactClient.IContextValue`, ...). |
+| Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics` - observe / transform every decision. `onMetrics` is primitive-only and fires in both modes. |
+| Dev/Prod mode | Development returns rich `AccessControl.IDecision` objects + `explain()`; production returns plain `boolean` with zero allocation. See [benchmarks](/duck-iam/benchmarks) and the [production guide](/duck-iam/guides/production). |
+| Explain / debug | `engine.explain()` returns `Explain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
+| Validation + limits | `validateRoles()` and `validatePolicy()` emit `Validate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
+| Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
 
 ## Architecture Overview
 
@@ -67,18 +66,20 @@ duck-iam has four core concepts:
         direction TB
         ENGINE["Engine"]
         ENGINE --> EVAL["Evaluation Pipeline"]
-        EVAL --> RBAC_EVAL["RBAC: Roles -> Policy"]
+        EVAL --> RBAC_EVAL["RBAC: Roles -> __rbac__ policy"]
         EVAL --> ABAC_EVAL["ABAC: User-defined Policies"]
-        RBAC_EVAL --> COMBINE["AND-Combine Results"]
+        RBAC_EVAL --> COMBINE["Cross-policy combine (policyCombine)"]
         ABAC_EVAL --> COMBINE
-        COMBINE --> DECISION["Decision: allow / deny"]
+        COMBINE --> DECISION["AccessControl.IDecision: allow / deny"]
     end
 
     subgraph Storage["Storage Adapters"]
         direction TB
         MEM["MemoryAdapter\n(dev/testing)"]
+        FILE_AD["FileAdapter\n(JSON on disk)"]
         PRISMA["PrismaAdapter\n(production DB)"]
         DRIZZLE["DrizzleAdapter\n(production DB)"]
+        REDIS["RedisAdapter\n(distributed cache)"]
         HTTP_AD["HttpAdapter\n(remote service)"]
     end
 
@@ -87,7 +88,7 @@ duck-iam has four core concepts:
     ENGINE --> PERM_MAP["PermissionMap"]
     PERM_MAP --> CLIENT`} />
 
-**Engine**: The evaluator. Create an `Engine` with an adapter, then call `engine.can()`,
+**Engine**: The evaluator. Create an `Engine` with an `EngineTypes.IConfig`, then call `engine.can()`,
 `engine.check()`, `engine.permissions()`, or `engine.explain()`. The engine loads roles and
 policies from the adapter, resolves the subject, and runs evaluation.
 
@@ -123,21 +124,21 @@ When an authorization request comes in, the engine follows this pipeline:
     J --> K["Match rules: action + resource + conditions"]
     K --> L["Apply combining algorithm per policy"]
 
-    L --> M["4. AND-Combine Across Policies"]
+    L --> M["4. Cross-policy combine (default: AND)"]
     M --> N{"Any deny?"}
     N -- "Yes" --> O["DENIED"]
     N -- "No" --> P["ALLOWED"]
 
-    O --> Q["5. Return Decision"]
+    O --> Q["5. Return AccessControl.IDecision"]
     P --> Q
-    Q --> R["Decision: allowed, effect, rule, policy, reason, duration"]`} />
+    Q --> R["allowed, effect, rule, policy, reason, duration"]`} />
 
 1. **Resolve subject**: Load the user's roles, scoped roles, and attributes from the adapter.
 2. **Enrich scoped roles**: If the request has a scope (`org-1`, for example), merge in roles assigned to that scope.
 3. **Load policies**: Fetch ABAC policies from the adapter. Convert RBAC roles into a synthetic policy.
 4. **Evaluate**: For each policy, check if it applies to the request. For each matching rule, evaluate conditions against the request context. Apply the policy's combining algorithm to produce a per-policy decision.
-5. **Combine**: A deny from any policy means the overall result is deny.
-6. **Return decision**: The `Decision` object contains `allowed`, `effect`, the matching `rule` and `policy`, a `reason` string, and timing information.
+5. **Combine**: Apply `policyCombine` across policy results. With the default `'and'`, any deny is final. NotApplicable policies (targets miss) are skipped, not folded as default-deny.
+6. **Return decision**: In development mode the engine returns an `AccessControl.IDecision` with `allowed`, `effect`, the matching `rule` and `policy`, a `reason` string, and timing. In production it returns a plain `boolean`.
 
 ## Quick Example
 
@@ -188,9 +189,10 @@ await engine.can("user-1", "delete", { type: "post", attributes: {} });
 
 | Section | What it covers |
 | --- | --- |
-| [Installation](/duck-ui/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
+| [Installation](/duck-iam/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
 | [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
-| [Core Concepts](/duck-iam/core) | Deep dive into roles, policies, rules, conditions, and combining algorithms. |
+| [Production deployment](/duck-iam/guides/production) | SRE playbook: TTL trade-offs, multi-node invalidation, hooks, retry / circuit breaker, health probe, metrics. |
+| [Core Concepts](/duck-iam/core) | Roles, policies, rules, conditions, and combining algorithms. |
 | [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
 | [Advanced](/duck-iam/advanced/config) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
 | [Benchmarks](/duck-iam/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |

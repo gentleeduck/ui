@@ -144,7 +144,7 @@ const engine = new Engine({ adapter, cacheTTL: 60 })
 | `ops.eq` | `(col, val) -> condition` | Drizzle `eq` operator |
 | `ops.and` | `(...conditions) -> condition` | Drizzle `and` operator |
 
-You can swap in your own table definitions if you need extra columns or a different naming scheme — only the column names listed in the schema files are required.
+You can swap in your own table definitions if you need extra columns or a different naming scheme - only the column names listed in the schema files are required.
 
 ***
 
@@ -152,9 +152,9 @@ You can swap in your own table definitions if you need extra columns or a differ
 
 The Drizzle adapter handles JSON serialization automatically:
 
-* **PostgreSQL** — `jsonb` columns pass through as parsed objects
-* **MySQL** — `json` columns pass through as parsed objects
-* **SQLite** — `text` columns are JSON.parse'd on read and JSON.stringify'd on write
+* **PostgreSQL** - `jsonb` columns pass through as parsed objects
+* **MySQL** - `json` columns pass through as parsed objects
+* **SQLite** - `text` columns are JSON.parse'd on read and JSON.stringify'd on write
 
 Inherits arrays follow the same pattern: native `text[]` on PG, JSON-stringified array on MySQL/SQLite.
 
@@ -162,9 +162,9 @@ Inherits arrays follow the same pattern: native `text[]` on PG, JSON-stringified
 
 ## Notes & caveats
 
-* **`assignRole` uses `onConflictDoNothing`** — already idempotent, calling twice is safe.
-* **`setSubjectAttributes` is read-merge-write** — same race risk as Prisma. Wrap in a transaction for high-contention writes.
-* **Custom column names** — if you rename columns in the table definition, the adapter still works as long as the keys passed in `tables.*` match. Drizzle's table inference handles the rest.
+* **`assignRole` uses `onConflictDoNothing`** - already idempotent, calling twice is safe.
+* **`setSubjectAttributes` is read-merge-write** - same race risk as Prisma. Wrap in a transaction for high-contention writes.
+* **Custom column names** - if you rename columns in the table definition, the adapter still works as long as the keys passed in `tables.*` match. Drizzle's table inference handles the rest.
 
 ***
 
@@ -174,4 +174,4 @@ Inherits arrays follow the same pattern: native `text[]` on PG, JSON-stringified
 * SQL-first teams that want zero runtime overhead
 * Edge runtimes (Drizzle works on Cloudflare D1, Neon serverless, etc.)
 
-For ORM-style queries with relation modeling, see [Prisma](/docs/duck-iam/integrations/adapters/prisma).
+For ORM-style queries with relation modeling, see [Prisma](/duck-iam/integrations/adapters/prisma).

@@ -42,7 +42,7 @@ By the end of this chapter, Alice can read blog posts but not delete them.
     ```
 
     `defineRole()` returns a builder. Chain `.grant(action, resource)` to add permissions.
-    `.build()` returns a plain `Role` object — serializable, no methods, no hidden state.
+    `.build()` returns a plain `Role` object - serializable, no methods, no hidden state.
   </Step>
 
   <Step>
@@ -162,7 +162,7 @@ engine.check(subjectId, action, resource, environment?, scope?)
 
 When you call `engine.can('alice', 'read', { type: 'post', attributes: {} })`:
 
-1. **resolveSubject**: loads Alice's roles from the adapter — `['viewer']`. Also
+1. **resolveSubject**: loads Alice's roles from the adapter - `['viewer']`. Also
    resolves inheritance (Chapter 2) and loads her attributes.
 2. **rolesToPolicy**: converts her roles into a synthetic policy `__rbac__` with the
    `allow-overrides` algorithm. Each permission becomes a rule.
@@ -202,13 +202,13 @@ RBAC and ABAC share one evaluation pipeline. Roles are shorthand for policies.
 
 ## The Decision Object
 
-`engine.check()` returns a `Decision`:
+`engine.check()` returns a `AccessControl.IDecision`:
 
 ```typescript
-interface Decision {
+interface AccessControl.IDecision {
   allowed: boolean        // true or false
   effect: 'allow' | 'deny'  // same as allowed, as a string
-  rule?: Rule             // the rule that decided (if any)
+  rule?: AccessControl.IRule  // the rule that decided (if any)
   policy?: string         // the policy ID that decided
   reason: string          // human-readable explanation
   duration: number        // how long evaluation took (ms)
@@ -260,7 +260,7 @@ interface Resource {
 ```
 
 `type` matches against role permissions. `id` identifies a specific instance.
-`attributes` feed policy conditions (Chapter 3) — pass `{}` for now.
+`attributes` feed policy conditions (Chapter 3) - pass `{}` for now.
 
 Resource types support **hierarchical matching** with dots: a permission on
 `dashboard` also covers `dashboard.users` and `dashboard.settings`. See Chapter 5.
@@ -281,7 +281,7 @@ const engine = new Engine({
 | Parameter | Default | Description |
 | --- | --- | --- |
 | `adapter` | required | Data source for roles, policies, assignments. |
-| `mode` | `'development'` | `'development'` or `'production'` — controls verbosity and debug behavior. |
+| `mode` | `'development'` | `'development'` or `'production'` - controls verbosity and debug behavior. |
 | `defaultEffect` | `'deny'` | What to return when no rule matches. Stay with `'deny'` for security. |
 | `cacheTTL` | `60` | Cache lifetime in seconds. Set `0` in tests. |
 | `maxCacheSize` | `1000` | Max subjects cached in memory. LRU eviction. |

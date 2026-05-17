@@ -6,7 +6,7 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here.
 
 ## The honest verdict
 
-**CASL is faster than us.** On simple RBAC checks, CASL is ~2x faster in production mode — it pre-compiles rules into a hash-map index at build time. duck-iam can't match that while keeping runtime-updatable policies.
+**CASL is faster than us.** On simple RBAC checks, CASL is ~2x faster in production mode - it pre-compiles rules into a hash-map index at build time. duck-iam can't match that while keeping runtime-updatable policies.
 
 **We are faster than everyone else.** In production mode, duck-iam beats easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl.
 
@@ -154,7 +154,7 @@ Only libraries with real ABAC condition support. CASL uses `subject()` so condit
 | 2 | @gentleduck/iam `evaluateFast()` \[PROD] | 1,177,000 | 3.3x slower |
 | 3 | @gentleduck/iam `evaluate()` \[DEV] | 648,000 | 6x slower |
 
-Others excluded — no attribute-based condition support.
+Others excluded - no attribute-based condition support.
 
 ### Role + condition: "can admin delete post?"
 
@@ -212,9 +212,9 @@ Others excluded — no attribute-based condition support.
 
 CASL and duck-iam solve authorization at different engine levels:
 
-**CASL: pre-compiled lookup table.** `build()` iterates every rule once and produces an index keyed by `[action, subjectType]`. Every `can()` call is a single hash-map lookup — O(1), ~0.012 us. Rules are frozen after `build()` and can't change at runtime.
+**CASL: pre-compiled lookup table.** `build()` iterates every rule once and produces an index keyed by `[action, subjectType]`. Every `can()` call is a single hash-map lookup - O(1), ~0.012 us. Rules are frozen after `build()` and can't change at runtime.
 
-**duck-iam: dynamic policy engine.** Policies load from databases, update at runtime through adapters, and invalidate via the LRU cache. Each evaluation does: WeakMap index lookup, Map.get by `action:resource`, condition evaluation, combining algorithm. Even with rule indexing, each check costs ~0.12 us — about 2x a single hash lookup.
+**duck-iam: dynamic policy engine.** Policies load from databases, update at runtime through adapters, and invalidate via the LRU cache. Each evaluation does: WeakMap index lookup, Map.get by `action:resource`, condition evaluation, combining algorithm. Even with rule indexing, each check costs ~0.12 us - about 2x a single hash lookup.
 
 ### Where the ~2x gap comes from (profiled)
 
@@ -240,11 +240,11 @@ Every optimization that keeps the dynamic policy model is applied:
 
 1. **Rule indexing**: pre-built `Map<action:resource, Rule[]>` per policy, cached via WeakMap. Removes the linear scan over all rules.
 2. **Unconditional rule flag**: rules with empty conditions skip `evalConditionGroup()`.
-3. **Inlined combiners**: `deny-overrides` and `allow-overrides` inline into the evaluation loop — no array allocation, no function calls.
+3. **Inlined combiners**: `deny-overrides` and `allow-overrides` inline into the evaluation loop - no array allocation, no function calls.
 4. **Path cache**: condition field paths like `subject.attributes.role` split once and cache forever.
 5. **Production mode**: no `performance.now()`, no `Date.now()`, no Decision allocation, no reason strings.
 
-Closing the last ~2x gap means dropping dynamic policies and pre-compiling at init like CASL. That breaks adapters, runtime policy updates, and the LRU cache — the features that make duck-iam a policy engine instead of a lookup table.
+Closing the last ~2x gap means dropping dynamic policies and pre-compiling at init like CASL. That breaks adapters, runtime policy updates, and the LRU cache - the features that make duck-iam a policy engine instead of a lookup table.
 
 ### Why it doesn't matter in practice
 
@@ -258,7 +258,7 @@ Authorization isn't the bottleneck. A typical API request:
 | **duck-iam check (prod)** | **0.12 us** |
 | **CASL check** | **0.06 us** |
 
-The gap is 60 nanoseconds. At 100 checks per request, that's 6 us — 0.00012% of a 50 ms request.
+The gap is 60 nanoseconds. At 100 checks per request, that's 6 us - 0.00012% of a 50 ms request.
 
 ***
 
@@ -287,7 +287,7 @@ const allowed = await prodEngine.check('user-1', 'read', post)
 
 ### Does production mode reduce bundle size?
 
-**The `mode` flag alone does not reduce bundle size.** It's a runtime check. Import patterns do — the package is tree-shakeable, so bundlers drop unused code:
+**The `mode` flag alone does not reduce bundle size.** It's a runtime check. Import patterns do - the package is tree-shakeable, so bundlers drop unused code:
 
 ```ts
 // Smallest production bundle -- import only the fast evaluator
@@ -679,7 +679,7 @@ const request: AccessRequest<Action, Resource> = {
 const allowed = evaluatePolicyFast(policy, request) // boolean
 ```
 
-The package is fully tree-shakeable. Anything you don't import drops out: Engine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry — pay only for what you use.
+The package is fully tree-shakeable. Anything you don't import drops out: Engine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry - pay only for what you use.
 
 Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `evaluateFast`, `evaluatePolicy`, and the condition operators. Mix and match for the exact surface area you need.
 
@@ -688,7 +688,7 @@ Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `eval
 ## Methodology
 
 * **@gentleduck/iam**: bundle sizes from `dist/` via `gzip -c | wc -c`. Performance via `vitest bench` with N=3 inner loops. Production mode uses `evaluateFast()` with rule indexing (WeakMap-cached per policy, Map lookup by `action:resource`).
-* **@casl/ability**: condition benchmarks use `subject()` for real condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading numbers — we don't do that.
+* **@casl/ability**: condition benchmarks use `subject()` for real condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading numbers - we don't do that.
 * **casbin**: real RBAC model (`newModel()` + `StringAdapter`) with role inheritance via grouping rules.
 * **accesscontrol, @rbac/rbac, easy-rbac**: excluded from ABAC benchmarks (no condition support).
 * Competitor sizes from [bundlephobia.com](https://bundlephobia.com), verified 2026-03-30.

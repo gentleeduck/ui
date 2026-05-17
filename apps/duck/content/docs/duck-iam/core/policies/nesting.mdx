@@ -49,7 +49,7 @@ Use `and()`, `or()`, and `not()` for nested groups.
 
 ---
 
-## OR — any condition must be true
+## OR - any condition must be true
 
 ```typescript
 .when((w) => w
@@ -63,7 +63,7 @@ Use `and()`, `or()`, and `not()` for nested groups.
 
 ---
 
-## AND — all conditions must be true (explicit nesting)
+## AND - all conditions must be true (explicit nesting)
 
 ```typescript
 .when((w) => w
@@ -79,7 +79,7 @@ Top-level conditions are already AND'd, so `.and(...)` is mainly useful inside o
 
 ---
 
-## NOT — none of the conditions must be true
+## NOT - none of the conditions must be true
 
 ```typescript
 .when((w) => w
@@ -91,7 +91,7 @@ Top-level conditions are already AND'd, so `.and(...)` is mainly useful inside o
 // Allowed if subject is NOT banned AND NOT suspended
 ```
 
-`not()` is `none` semantics — every child must be false.
+`not()` is `none` semantics - every child must be false.
 
 ---
 
@@ -157,7 +157,7 @@ Evaluation tree:
 
 Nesting caps at **10 levels**. Past that the condition evaluates to `false` (fail closed). This protects against accidental infinite recursion or stack overflow from generated rules.
 
-If you genuinely need more than 10 levels of nesting, refactor — split logic into separate policies and let the [combining algorithm](/docs/duck-iam/core/policies/combining-algorithms) compose them.
+If you genuinely need more than 10 levels of nesting, refactor - split logic into separate policies and let the [combining algorithm](/duck-iam/core/policies/combining-algorithms) compose them.
 
 ---
 
@@ -171,7 +171,7 @@ Empty arrays follow standard logic:
 | `{ any: [] }` | `false` (no conditions to satisfy) |
 | `{ none: [] }` | `true` (no conditions violated) |
 
-This matches mathematical logic and SQL conventions. An empty `when()` block is equivalent to no `when()` at all — the rule matches unconditionally.
+This matches mathematical logic and SQL conventions. An empty `when()` block is equivalent to no `when()` at all - the rule matches unconditionally.
 
 ---
 

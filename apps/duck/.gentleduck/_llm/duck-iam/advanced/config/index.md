@@ -4,8 +4,8 @@ duck-iam provides two ways to define permissions:
 
 | Approach | Best for |
 | --- | --- |
-| **Untyped builders** — `defineRole()`, `policy()`, `defineRule()`, `when()` from the root | Quick prototypes, scripts, library code |
-| **Typed config** — `createAccessConfig()` | Production apps, anywhere typos cost real money |
+| **Untyped builders** - `defineRole()`, `policy()`, `defineRule()`, `when()` from the root | Quick prototypes, scripts, library code |
+| **Typed config** - `createAccessConfig()` | Production apps, anywhere typos cost real money |
 
 For production applications, use the typed config. It prevents an entire class of bugs where a permission check silently fails because of a typo in an action or resource name.
 
@@ -15,11 +15,11 @@ For production applications, use the typed config. It prevents an entire class o
 
 | Page | Covers |
 | --- | --- |
-| [createAccessConfig](/docs/duck-iam/advanced/config/access-config) | Factory, input shape, optional fields |
-| [typed context](/docs/duck-iam/advanced/config/context) | Per-resource attribute narrowing, `DotPaths`, value autocomplete |
-| [`$`-references with types](/docs/duck-iam/advanced/config/dollar-paths) | `DollarPaths` autocomplete on values |
-| [methods reference](/docs/duck-iam/advanced/config/methods) | `defineRole`, `policy`, `defineRule`, `when`, `createEngine`, `checks`, `validateRoles`, `validatePolicy` |
-| [comparison](/docs/duck-iam/advanced/config/comparison) | Typed vs untyped — what each catches, what each doesn't |
+| [createAccessConfig](/duck-iam/advanced/config/access-config) | Factory, input shape, optional fields |
+| [typed context](/duck-iam/advanced/config/context) | Per-resource attribute narrowing, `DotPaths`, value autocomplete |
+| [`$`-references with types](/duck-iam/advanced/config/dollar-paths) | `DollarPaths` autocomplete on values |
+| [methods reference](/duck-iam/advanced/config/methods) | `defineRole`, `policy`, `defineRule`, `when`, `createEngine`, `checks`, `validateRoles`, `validatePolicy` |
+| [comparison](/duck-iam/advanced/config/comparison) | Typed vs untyped - what each catches, what each doesn't |
 
 ***
 
@@ -31,7 +31,7 @@ For production applications, use the typed config. It prevents an entire class o
 import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
-  .grant('raed', 'post') // typo: "raed" instead of "read" — NO error
+  .grant('raed', 'post') // typo: "raed" instead of "read" - NO error
   .build()
 
 const engine = new Engine({ adapter })
@@ -71,7 +71,7 @@ const access = createAccessConfig({
   roles: ['viewer', 'editor', 'admin'] as const,
 })
 
-// Typed builders — invalid actions/resources/roles are compile errors
+// Typed builders - invalid actions/resources/roles are compile errors
 const viewer = access.defineRole('viewer').grant('read', 'post').build()
 const engine = access.createEngine({ adapter })
 

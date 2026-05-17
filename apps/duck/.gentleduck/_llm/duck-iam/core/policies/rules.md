@@ -2,10 +2,10 @@
 
 A rule has four core pieces:
 
-* **Effect** — `allow` or `deny`
-* **Match set** — actions and resources the rule applies to
-* **Priority** — used by the `highest-priority` combining algorithm
-* **Conditions** — contextual checks via the `When` builder (see [conditions](/docs/duck-iam/core/policies/conditions))
+* **Effect** - `allow` or `deny`
+* **Match set** - actions and resources the rule applies to
+* **Priority** - used by the `highest-priority` combining algorithm
+* **Conditions** - contextual checks via the `When` builder (see [conditions](/duck-iam/core/policies/conditions))
 
 ***
 
@@ -37,7 +37,7 @@ defineRule('owner-allow').allow().on('update').of('post').when((w) => w.isOwner(
 defineRule('banned-deny').deny().on('*').of('*').when((w) => w.attr('status', 'eq', 'banned')).build()
 ```
 
-`allow()` is the default effect — calling it explicitly is for clarity.
+`allow()` is the default effect - calling it explicitly is for clarity.
 
 ***
 
@@ -52,7 +52,7 @@ Pass one or many. Wildcards (`'*'`) match all:
 .of('*')                            // all resources
 ```
 
-See [building policies](/docs/duck-iam/core/policies/building) for hierarchical resource matching (`dashboard` matches `dashboard.users`).
+See [building policies](/duck-iam/core/policies/building) for hierarchical resource matching (`dashboard` matches `dashboard.users`).
 
 ***
 
@@ -110,7 +110,7 @@ defineRule('gdpr-consent-required')
   .build()
 ```
 
-Metadata is preserved through serialization and surfaces in [`engine.explain()`](/docs/duck-iam/advanced/explain) traces.
+Metadata is preserved through serialization and surfaces in [`engine.explain()`](/duck-iam/advanced/explain) traces.
 
 ***
 
@@ -118,8 +118,8 @@ Metadata is preserved through serialization and surfaces in [`engine.explain()`]
 
 | Shape | Behavior |
 | --- | --- |
-| `r.allow().on('read').of('post')` (no `when`) | Always matches — fast path in the engine |
-| `r.allow().on('read').of('post').when((w) => w)` (empty when) | Same — vacuously true |
+| `r.allow().on('read').of('post')` (no `when`) | Always matches - fast path in the engine |
+| `r.allow().on('read').of('post').when((w) => w)` (empty when) | Same - vacuously true |
 | `r.allow().on('read').of('post').when((w) => w.eq('x', 'y'))` | Conditional |
 
 The fast-path engine cache (`evaluatePolicyFast`) pre-computes results for unconditional rules at policy-load time. This is the main reason `r.on('read').of('post')` (no `when`) outperforms `r.on('read').of('post').when((w) => w)` even though they're semantically identical.

@@ -103,7 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 ```
 
-See [client/react](/docs/duck-iam/integrations/client/react) for the consuming side.
+See [client/react](/duck-iam/integrations/client/react) for the consuming side.
 
 ***
 
@@ -144,8 +144,8 @@ When no rule matches a request path, the middleware returns `null` and the reque
 
 ### Rule patterns
 
-* **String pattern** — simple prefix match (`/api/posts` matches `/api/posts`, `/api/posts/42`, `/api/posts/foo/bar`)
-* **RegExp pattern** — full regex test against `pathname` (use for stricter matching, optional segments, glob-like behavior)
+* **String pattern** - simple prefix match (`/api/posts` matches `/api/posts`, `/api/posts/42`, `/api/posts/foo/bar`)
+* **RegExp pattern** - full regex test against `pathname` (use for stricter matching, optional segments, glob-like behavior)
 
 ***
 
@@ -158,7 +158,7 @@ When no rule matches a request path, the middleware returns `null` and the reque
 | `checkAccess` | Server (RSC, Server Action) | Single check, full control |
 | `getPermissions` | Server (Layout, RSC) | Batch generation for hydration |
 
-`createNextMiddleware()` is the cheapest — it runs at the edge and never touches the database adapter unless you wire one in. `withAccess()` runs in the function context with full subject resolution. `checkAccess()` and `getPermissions()` are explicit calls inside server logic.
+`createNextMiddleware()` is the cheapest - it runs at the edge and never touches the database adapter unless you wire one in. `withAccess()` runs in the function context with full subject resolution. `checkAccess()` and `getPermissions()` are explicit calls inside server logic.
 
 ***
 

@@ -152,7 +152,7 @@ export const businessHoursPolicy = access
 await engine.admin.savePolicy(businessHoursPolicy);
 ```
 
-The `first-match` algorithm evaluates rules in order: the deny rule fires for writes outside 9--18 UTC, and the catch-all allow rule handles everything else.
+The `first-match` algorithm evaluates rules in order: the deny rule fires for writes outside 9-18 UTC, and the catch-all allow rule handles everything else.
 
 ## Step 5: Owner-Only Conditions
 
@@ -439,7 +439,8 @@ console.log(trace.policies);
 
 ## Next Steps
 
-- [Core Concepts](/duck-iam/core): deep dive into policies, rules, conditions, and combining algorithms.
+- [Production deployment guide](/duck-iam/guides/production): cache TTL trade-offs, multi-node invalidation, fail-closed defaults, hook set, adapter retry / circuit breaker tuning, health checks, metrics aggregator, snapshot env-promotion - the SRE playbook for going live.
+- [Core Concepts](/duck-iam/core): policies, rules, conditions, and combining algorithms.
 - [Integrations](/duck-iam/integrations/adapters): detailed API reference for every server and client integration.
 - [Advanced](/duck-iam/advanced/config): evaluation hooks, custom adapters, caching configuration, and validation.
 - [FAQs](/www/faqs): common questions and troubleshooting tips.

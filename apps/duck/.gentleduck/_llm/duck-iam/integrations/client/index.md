@@ -4,8 +4,8 @@ duck-iam ships client libraries for browser permission checks. The recommended p
 
 Every client library supports the same core operations:
 
-* `can(action, resource, resourceId?, scope?)` — returns `true` when the permission is granted
-* `cannot(action, resource, resourceId?, scope?)` — returns `true` when the permission is denied
+* `can(action, resource, resourceId?, scope?)` - returns `true` when the permission is granted
+* `cannot(action, resource, resourceId?, scope?)` - returns `true` when the permission is denied
 
 Client checks are **synchronous lookups** against the pre-computed map. No network requests during checks.
 
@@ -15,20 +15,20 @@ Client checks are **synchronous lookups** against the pre-computed map. No netwo
 
 | Framework | Doc | Subpath |
 | --- | --- | --- |
-| React | [client/react](/docs/duck-iam/integrations/client/react) | `@gentleduck/iam/client/react` |
-| Vue | [client/vue](/docs/duck-iam/integrations/client/vue) | `@gentleduck/iam/client/vue` |
-| Vanilla JS | [client/vanilla](/docs/duck-iam/integrations/client/vanilla) | `@gentleduck/iam/client/vanilla` |
+| React | [client/react](/duck-iam/integrations/client/react) | `@gentleduck/iam/client/react` |
+| Vue | [client/vue](/duck-iam/integrations/client/vue) | `@gentleduck/iam/client/vue` |
+| Vanilla JS | [client/vanilla](/duck-iam/integrations/client/vanilla) | `@gentleduck/iam/client/vanilla` |
 
-Use the [PermissionMap reference](/docs/duck-iam/integrations/client/permission-map) for the wire format, key encoding, and `buildPermissionKey()` helper.
+Use the [PermissionMap reference](/duck-iam/integrations/client/permission-map) for the wire format, key encoding, and `buildPermissionKey()` helper.
 
 ***
 
 ## Server-driven pattern
 
-* **Security** — Permission logic runs on the server where policies and roles are stored. The client only sees the final boolean results.
-* **Performance** — Client-side checks are instant object lookups. No async, no network, no engine evaluation.
-* **Consistency** — The server is the single source of truth.
-* **Simplicity** — The client libraries are thin wrappers around a flat object.
+* **Security** - Permission logic runs on the server where policies and roles are stored. The client only sees the final boolean results.
+* **Performance** - Client-side checks are instant object lookups. No async, no network, no engine evaluation.
+* **Consistency** - The server is the single source of truth.
+* **Simplicity** - The client libraries are thin wrappers around a flat object.
 
 ***
 

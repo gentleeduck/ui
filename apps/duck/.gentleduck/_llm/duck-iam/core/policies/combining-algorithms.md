@@ -34,7 +34,7 @@ Evaluation logic:
 3. Else if any has `effect: 'allow'`, the policy result is **allow**
 4. Else fall back to `defaultEffect`
 
-Use this for restriction policies — a single deny blocks access regardless of how many allow rules match.
+Use this for restriction policies - a single deny blocks access regardless of how many allow rules match.
 
 ***
 
@@ -147,11 +147,11 @@ Use this when rules have clear priority tiers and definition order shouldn't mat
 Across policies, the engine **AND-combines** results. A deny from any policy is final regardless of what each policy's combining algorithm chose.
 
 ```
-Policy A (allow-overrides) → ALLOW
-Policy B (deny-overrides)  → DENY
-Policy C (first-match)     → ALLOW
+Policy A (allow-overrides) -> ALLOW
+Policy B (deny-overrides)  -> DENY
+Policy C (first-match)     -> ALLOW
 
 Final result: DENY (Policy B's deny is final)
 ```
 
-This is fixed engine-level behavior — you can't change it with a per-policy algorithm. To make a policy purely advisory, scope it tightly with [targets](/docs/duck-iam/core/policies/targets).
+This is fixed engine-level behavior - you can't change it with a per-policy algorithm. To make a policy purely advisory, scope it tightly with [targets](/duck-iam/core/policies/targets).

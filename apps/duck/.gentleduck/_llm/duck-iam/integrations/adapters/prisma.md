@@ -124,9 +124,9 @@ The adapter uses `upsert` for save operations, so calling `savePolicy` or `saveR
 
 ## Notes & caveats
 
-* **`assignRole` is not idempotent** — it uses `create`, so a duplicate `(subjectId, roleId, scope)` will throw on the unique constraint. Catch the conflict in your application or check `getSubjectRoles` first.
-* **`setSubjectAttributes` is read-merge-write** — concurrent writes can lose updates. For high-contention attribute writes, wrap in a Prisma transaction with `SELECT ... FOR UPDATE` semantics.
-* **JSON columns** — Prisma handles `Json` natively. No manual stringify needed.
+* **`assignRole` is not idempotent** - it uses `create`, so a duplicate `(subjectId, roleId, scope)` will throw on the unique constraint. Catch the conflict in your application or check `getSubjectRoles` first.
+* **`setSubjectAttributes` is read-merge-write** - concurrent writes can lose updates. For high-contention attribute writes, wrap in a Prisma transaction with `SELECT ... FOR UPDATE` semantics.
+* **JSON columns** - Prisma handles `Json` natively. No manual stringify needed.
 
 ***
 
@@ -136,4 +136,4 @@ The adapter uses `upsert` for save operations, so calling `savePolicy` or `saveR
 * Multi-database support (Postgres, MySQL, SQLite, MongoDB, SQL Server, CockroachDB)
 * Want type-safe SQL via Prisma Client
 
-For pure SQL with stronger types and zero runtime, see [Drizzle](/docs/duck-iam/integrations/adapters/drizzle).
+For pure SQL with stronger types and zero runtime, see [Drizzle](/duck-iam/integrations/adapters/drizzle).

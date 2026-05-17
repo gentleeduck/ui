@@ -4,7 +4,7 @@
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 ```
 
-Stores everything in `Map` instances. Zero dependencies. **Data does not survive process restarts** — use a database adapter for production.
+Stores everything in `Map` instances. Zero dependencies. **Data does not survive process restarts** - use a database adapter for production.
 
 ***
 
@@ -111,25 +111,25 @@ const adapter = new MemoryAdapter({
 
 ## Behavior details
 
-* **Duplicate assignments** — `assignRole` checks for existing entries and silently skips duplicates. Calling `assignRole('user-1', 'editor')` twice has no effect the second time.
-* **Attribute merging** — `setSubjectAttributes` shallow-merges new attributes into existing ones. To remove an attribute, set it to `null`.
-* **Scoped vs unscoped roles** — stored in the same array. `getSubjectRoles` filters for entries without a scope; `getSubjectScopedRoles` filters for entries with a scope.
+* **Duplicate assignments** - `assignRole` checks for existing entries and silently skips duplicates. Calling `assignRole('user-1', 'editor')` twice has no effect the second time.
+* **Attribute merging** - `setSubjectAttributes` shallow-merges new attributes into existing ones. To remove an attribute, set it to `null`.
+* **Scoped vs unscoped roles** - stored in the same array. `getSubjectRoles` filters for entries without a scope; `getSubjectScopedRoles` filters for entries with a scope.
 
 ***
 
 ## When to use
 
-* **Unit tests** — seed known roles and assignments, assert engine behavior
-* **Development** — get started without a database
-* **Prototyping** — explore the policy model before committing to a schema
-* **CI pipelines** — run integration tests without external dependencies
+* **Unit tests** - seed known roles and assignments, assert engine behavior
+* **Development** - get started without a database
+* **Prototyping** - explore the policy model before committing to a schema
+* **CI pipelines** - run integration tests without external dependencies
 
 ***
 
 ## When NOT to use
 
-* **Production** — process restarts wipe all data
-* **Multi-instance deploys** — each node has its own isolated map
-* **Persistent state across deployments** — every deploy resets
+* **Production** - process restarts wipe all data
+* **Multi-instance deploys** - each node has its own isolated map
+* **Persistent state across deployments** - every deploy resets
 
-For production, switch to [Prisma](/docs/duck-iam/integrations/adapters/prisma), [Drizzle](/docs/duck-iam/integrations/adapters/drizzle), or [Redis](/docs/duck-iam/integrations/adapters/redis).
+For production, switch to [Prisma](/duck-iam/integrations/adapters/prisma), [Drizzle](/duck-iam/integrations/adapters/drizzle), or [Redis](/duck-iam/integrations/adapters/redis).

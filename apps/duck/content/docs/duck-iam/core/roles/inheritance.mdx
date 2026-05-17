@@ -1,6 +1,6 @@
 ---
 title: inheritance
-description: inherits() — single and multi-parent inheritance, cycle handling, deep chains.
+description: inherits() - single and multi-parent inheritance, cycle handling, deep chains.
 section: Core
 ---
 ## Inheriting permissions
@@ -64,7 +64,7 @@ Chain: `viewer -> editor -> admin`. An admin gets everything an editor can do (i
     CHECK -- "Yes (cycle)" --> SKIP["Skip"]
     CHECK2 -- "Yes (cycle)" --> SKIP`} />
 
-The engine calls `resolveEffectiveRoles()` when loading a subject. For a user with `editor`, the function walks the inheritance tree and returns `['editor', 'viewer']` — the effective role set.
+The engine calls `resolveEffectiveRoles()` when loading a subject. For a user with `editor`, the function walks the inheritance tree and returns `['editor', 'viewer']` - the effective role set.
 
 `rolesToPolicy()` flattens the inheritance chain when generating the ABAC policy. The editor role's rules include its own and viewer's permissions, each gated by a `subject.roles contains "editor"` condition.
 
@@ -72,7 +72,7 @@ The engine calls `resolveEffectiveRoles()` when loading a subject. For a user wi
 
 ## Cycles are safe
 
-If role A inherits from B which inherits from A, the visited set breaks the recursion. The engine doesn't throw or hang — it just stops descending once it hits a role it's already visited.
+If role A inherits from B which inherits from A, the visited set breaks the recursion. The engine doesn't throw or hang - it just stops descending once it hits a role it's already visited.
 
 `validateRoles()` flags cycles as warnings (not errors) because the runtime handles them safely, but circular inheritance is almost always a modeling mistake worth fixing.
 
@@ -120,12 +120,12 @@ const restriction = policy('restrict-editor-deletes')
   .build()
 ```
 
-The `deny-overrides` semantics in cross-policy AND-combination ensure the deny wins. See [combining algorithms](/docs/duck-iam/core/policies/combining-algorithms).
+The `deny-overrides` semantics in cross-policy AND-combination ensure the deny wins. See [combining algorithms](/duck-iam/core/policies/combining-algorithms).
 
 ---
 
 ## Deep chains
 
-Resolved by walking the tree recursively, with a visited set to break cycles. Performance is **linear in the role count** — 10-level chains resolve in microseconds.
+Resolved by walking the tree recursively, with a visited set to break cycles. Performance is **linear in the role count** - 10-level chains resolve in microseconds.
 
-There's no hard cap on chain depth, but for clarity prefer flat hierarchies (≤3-4 levels). Deep chains hide where permissions actually originate.
+There's no hard cap on chain depth, but for clarity prefer flat hierarchies (<=3-4 levels). Deep chains hide where permissions actually originate.

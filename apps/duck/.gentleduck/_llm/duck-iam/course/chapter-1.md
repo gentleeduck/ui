@@ -32,7 +32,7 @@ export const viewer = defineRole('viewer')
 ```
 
 `defineRole()` returns a builder. Chain `.grant(action, resource)` to add permissions.
-`.build()` returns a plain `Role` object — serializable, no methods, no hidden state.
+`.build()` returns a plain `Role` object - serializable, no methods, no hidden state.
 
 **Create an adapter and engine**
 
@@ -144,7 +144,7 @@ grant read on post"]
 
 When you call `engine.can('alice', 'read', { type: 'post', attributes: {} })`:
 
-1. **resolveSubject**: loads Alice's roles from the adapter — `['viewer']`. Also
+1. **resolveSubject**: loads Alice's roles from the adapter - `['viewer']`. Also
    resolves inheritance (Chapter 2) and loads her attributes.
 2. **rolesToPolicy**: converts her roles into a synthetic policy `__rbac__` with the
    `allow-overrides` algorithm. Each permission becomes a rule.
@@ -242,7 +242,7 @@ interface Resource {
 ```
 
 `type` matches against role permissions. `id` identifies a specific instance.
-`attributes` feed policy conditions (Chapter 3) — pass `{}` for now.
+`attributes` feed policy conditions (Chapter 3) - pass `{}` for now.
 
 Resource types support **hierarchical matching** with dots: a permission on
 `dashboard` also covers `dashboard.users` and `dashboard.settings`. See Chapter 5.
@@ -263,7 +263,7 @@ const engine = new Engine({
 | Parameter | Default | Description |
 | --- | --- | --- |
 | `adapter` | required | Data source for roles, policies, assignments. |
-| `mode` | `'development'` | `'development'` or `'production'` — controls verbosity and debug behavior. |
+| `mode` | `'development'` | `'development'` or `'production'` - controls verbosity and debug behavior. |
 | `defaultEffect` | `'deny'` | What to return when no rule matches. Stay with `'deny'` for security. |
 | `cacheTTL` | `60` | Cache lifetime in seconds. Set `0` in tests. |
 | `maxCacheSize` | `1000` | Max subjects cached in memory. LRU eviction. |

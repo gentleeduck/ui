@@ -4,7 +4,7 @@ Creates a typed role builder. Actions, resources, and the role ID are constraine
 
 ```typescript
 const viewer = access
-  .defineRole('viewer') // ok — 'viewer' is in roles
+  .defineRole('viewer') // ok - 'viewer' is in roles
   .grant('read', 'post') // ok
   .grant('read', 'comment') // ok
   // .grant('read', 'invoice') // ERROR: 'invoice' is not in resources
@@ -30,7 +30,7 @@ const admin = access
   .build()
 ```
 
-See [roles](/docs/duck-iam/core/roles) for the full role builder API.
+See [roles](/duck-iam/core/roles) for the full role builder API.
 
 ***
 
@@ -62,7 +62,7 @@ const ownerPolicy = access
   .build()
 ```
 
-See [policies](/docs/duck-iam/core/policies) for the full policy builder API.
+See [policies](/duck-iam/core/policies) for the full policy builder API.
 
 ***
 
@@ -102,11 +102,11 @@ const isAdmin = access
 
 const isAdminOrOwner = access
   .when()
-  .role('admin') // ok — 'admin' is in roles
+  .role('admin') // ok - 'admin' is in roles
   // .role('superuser')       // ERROR: 'superuser' is not in roles
   .isOwner()
   .buildAny()
-// { any: [...] } — either condition is sufficient
+// { any: [...] } - either condition is sufficient
 ```
 
 These `ConditionGroup` objects can be reused inside `r.when()`/`r.whenAny()` callbacks or assembled by hand into rule definitions.
@@ -154,7 +154,7 @@ await engine.can('user-1', 'read', { type: 'post', attributes: {} })
 // ERROR: 'invoice' is not assignable to 'post' | 'comment' | 'user' | 'dashboard'
 ```
 
-See [engine modes](/docs/duck-iam/advanced/engine/modes) for the dev/prod trade-offs.
+See [engine modes](/duck-iam/advanced/engine/modes) for the dev/prod trade-offs.
 
 ***
 
@@ -176,7 +176,7 @@ const perms = await engine.permissions('user-1', uiChecks)
 // { 'create:post': true, 'update:post:post-1': true, ... }
 ```
 
-`access.checks()` is purely a type assertion at compile time — it has zero runtime cost. It just helps TypeScript validate every action, resource, and scope in the batch before you pass it to `engine.permissions()`.
+`access.checks()` is purely a type assertion at compile time - it has zero runtime cost. It just helps TypeScript validate every action, resource, and scope in the batch before you pass it to `engine.permissions()`.
 
 ***
 
@@ -215,7 +215,7 @@ if (!result.valid) {
 }
 ```
 
-Use this when policies come from outside your codebase (admin UI, external API, dynamic config) — TypeScript type checking can't verify runtime data.
+Use this when policies come from outside your codebase (admin UI, external API, dynamic config) - TypeScript type checking can't verify runtime data.
 
 Checks for:
 

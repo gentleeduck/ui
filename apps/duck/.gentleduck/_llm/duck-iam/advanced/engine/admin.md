@@ -49,7 +49,7 @@ await engine.admin.savePolicy({
 await engine.admin.deletePolicy('office-hours')
 ```
 
-`savePolicy` is upsert semantics in every shipped adapter — saving an existing ID updates it.
+`savePolicy` is upsert semantics in every shipped adapter - saving an existing ID updates it.
 
 ***
 
@@ -110,7 +110,7 @@ Assignment idempotency depends on the adapter:
 | Memory | yes (in-memory check) |
 | Redis | yes (set semantics) |
 | Drizzle | yes (`onConflictDoNothing`) |
-| Prisma | **no** — throws on duplicate against the unique constraint |
+| Prisma | **no** - throws on duplicate against the unique constraint |
 | HTTP | depends on backend |
 
 For the Prisma adapter, wrap in try/catch or check existence first:
@@ -143,11 +143,11 @@ const attrs = await engine.admin.getAttributes('user-1')
 
 The exact merge/replace behavior depends on the adapter implementation:
 
-* **Memory** — shallow-merges new attributes into existing
-* **Prisma** — read-merge-write (race risk under concurrent writes)
-* **Drizzle** — same as Prisma
-* **Redis** — same as above
-* **HTTP** — depends on backend (the built-in HTTP adapter sends PATCH which most servers interpret as merge)
+* **Memory** - shallow-merges new attributes into existing
+* **Prisma** - read-merge-write (race risk under concurrent writes)
+* **Drizzle** - same as Prisma
+* **Redis** - same as above
+* **HTTP** - depends on backend (the built-in HTTP adapter sends PATCH which most servers interpret as merge)
 
 To remove an attribute, set it to `null`. The merge will replace the existing value with `null`.
 
@@ -168,7 +168,7 @@ await prisma.$transaction(async (tx) => {
 })
 ```
 
-The built-in adapters don't wrap reads + merges in transactions — concurrent writes may lose data. For Redis, use `WATCH/MULTI/EXEC` or a Lua script.
+The built-in adapters don't wrap reads + merges in transactions - concurrent writes may lose data. For Redis, use `WATCH/MULTI/EXEC` or a Lua script.
 
 ***
 
@@ -181,7 +181,7 @@ The built-in adapters don't wrap reads + merges in transactions — concurrent w
 | `assignRole` / `revokeRole` | Specific subject |
 | `setAttributes` | Specific subject |
 
-See [caching](/docs/duck-iam/advanced/engine/caching) for full details.
+See [caching](/duck-iam/advanced/engine/caching) for full details.
 
 ***
 
@@ -195,17 +195,17 @@ The admin API is the right surface for:
 
 Don't use it for:
 
-* Data migrations — write directly to the adapter database for speed, then call `engine.invalidate()`
-* Bulk imports — same reason; admin's per-item cache invalidation is overhead
-* Read-only data export — call the adapter directly to skip cache machinery
+* Data migrations - write directly to the adapter database for speed, then call `engine.invalidate()`
+* Bulk imports - same reason; admin's per-item cache invalidation is overhead
+* Read-only data export - call the adapter directly to skip cache machinery
 
 ***
 
 ## Securing the admin surface
 
-`engine.admin` is **not authenticated**. It's a programmatic interface — anyone with a reference to `engine` can call it.
+`engine.admin` is **not authenticated**. It's a programmatic interface - anyone with a reference to `engine` can call it.
 
-If you expose admin endpoints over HTTP (e.g. via the [Express admin router](/docs/duck-iam/integrations/server/express)), wrap them in your own admin-only auth check:
+If you expose admin endpoints over HTTP (e.g. via the [Express admin router](/duck-iam/integrations/server/express)), wrap them in your own admin-only auth check:
 
 ```typescript
 app.use(
@@ -216,4 +216,4 @@ app.use(
 )
 ```
 
-Same for Hono, Nest, Next, etc. The shipped admin routers don't ship with auth baked in — that's a deliberate separation of concerns.
+Same for Hono, Nest, Next, etc. The shipped admin routers don't ship with auth baked in - that's a deliberate separation of concerns.

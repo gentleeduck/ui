@@ -7,13 +7,14 @@ section: Integrations
 
 | Adapter | Use case | Persistence | Peer dep | Idempotent assign | Native scoped roles |
 | --- | --- | --- | --- | --- | --- |
-| [Memory](/docs/duck-iam/integrations/adapters/memory) | Dev, testing | None | None | yes (in-memory check) | yes |
-| [Prisma](/docs/duck-iam/integrations/adapters/prisma) | Prisma apps | Any DB | `@prisma/client` | **no** (throws on dup) | yes |
-| [Drizzle](/docs/duck-iam/integrations/adapters/drizzle) | Drizzle apps | PG/MySQL/SQLite | `drizzle-orm` | yes (`onConflictDoNothing`) | yes |
-| [Redis](/docs/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis | `ioredis` or `redis` | yes (set semantics) | yes |
-| [HTTP](/docs/duck-iam/integrations/adapters/http) | Microservice split | Remote API | None | depends on backend | yes |
+| [Memory](/duck-iam/integrations/adapters/memory) | Dev, testing | None | None | yes (in-memory check) | yes |
+| [File](/duck-iam/integrations/adapters/file) | CLIs, dev fixtures, single-process | JSON on disk | `node:fs/promises` (pluggable) | yes (in-memory check) | yes |
+| [Prisma](/duck-iam/integrations/adapters/prisma) | Prisma apps | Any DB | `@prisma/client` | **no** (throws on dup) | yes |
+| [Drizzle](/duck-iam/integrations/adapters/drizzle) | Drizzle apps | PG/MySQL/SQLite | `drizzle-orm` | yes (`onConflictDoNothing`) | yes |
+| [Redis](/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis | `ioredis` or `redis` | yes (set semantics) | yes |
+| [HTTP](/duck-iam/integrations/adapters/http) | Microservice split | Remote API | None | depends on backend | yes |
 
-All adapters are interchangeable. Engine, builder, and middleware code stays the same — migration is data movement only.
+All adapters are interchangeable. Engine, builder, and middleware code stays the same - migration is data movement only.
 
 ---
 
@@ -21,16 +22,19 @@ All adapters are interchangeable. Engine, builder, and middleware code stays the
 
 ```
 Are you in production?
-│
-├─ No → MemoryAdapter
-│
-└─ Yes
-   │
-   ├─ Already use Prisma? → PrismaAdapter
-   ├─ Already use Drizzle? → DrizzleAdapter
-   ├─ Need distributed cache + multi-instance? → RedisAdapter
-   ├─ Splitting auth across services? → HttpAdapter (consume centrally)
-   └─ Custom backend? → Implement Adapter (see "Custom" doc)
+|
++- No
+|  +- Need persistence between runs? -> FileAdapter
+|  +- Otherwise                      -> MemoryAdapter
+|
++- Yes
+   |
+   +- CLI / single-process daemon? -> FileAdapter
+   +- Already use Prisma?           -> PrismaAdapter
+   +- Already use Drizzle?          -> DrizzleAdapter
+   +- Need distributed cache + multi-instance? -> RedisAdapter
+   +- Splitting auth across services? -> HttpAdapter (consume centrally)
+   +- Custom backend?               -> Implement Adapter.IAdapter (see "Custom" doc)
 ```
 
 ---
@@ -75,14 +79,14 @@ Are you in production?
     <AccordionContent className="text-muted-foreground">
       Prisma expects named models and lets Prisma handle JSON columns natively. Drizzle expects you to wire the tables and
       query operators explicitly, and the adapter serializes or parses JSON fields for you. Drizzle ships pre-built
-      schema modules for Postgres, MySQL, and SQLite — Prisma ships a single reference <code>schema.prisma</code> snippet.
+      schema modules for Postgres, MySQL, and SQLite - Prisma ships a single reference <code>schema.prisma</code> snippet.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="redis-vs-relational">
     <AccordionTrigger>When should I pick RedisAdapter over Prisma or Drizzle?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Redis is best when you need distributed cache semantics — multiple app instances reading the same authorization
+      Redis is best when you need distributed cache semantics - multiple app instances reading the same authorization
       state with sub-millisecond latency. For tens of thousands of policies or complex audit/history requirements,
       relational adapters scale better. Many production deployments use both: Redis as the engine adapter for hot reads,
       Postgres as a separate audit/source-of-truth store synced via background jobs.
@@ -101,7 +105,7 @@ Are you in production?
     <AccordionTrigger>How are duplicate role assignments handled?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Memory and Redis are idempotent (in-memory check / set semantics). Drizzle uses <code>onConflictDoNothing</code>.
-      Prisma currently uses <code>create</code> and will throw on a duplicate against the unique constraint — wrap in a
+      Prisma currently uses <code>create</code> and will throw on a duplicate against the unique constraint - wrap in a
       try/catch or check existence first if you can't guarantee unique calls.
     </AccordionContent>
   </AccordionItem>
@@ -161,8 +165,11 @@ Are you in production?
   <AccordionItem value="httphandler-surface">
     <AccordionTrigger>Does the Express admin router fully satisfy HttpAdapter?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      No. It is a useful management surface, but the HTTP adapter expects additional read endpoints and subject surfaces
-      beyond the stock router. Treat the router as a starting point, not a drop-in backend for the full adapter contract.
+      No. The admin router exposes <code>/policies</code>, <code>/roles</code>, and subject role-assignment endpoints, but
+      HttpAdapter also expects subject-attribute reads (<code>/subjects/:id/attributes</code>) and scoped-role reads
+      (<code>/subjects/:id/scoped-roles</code>). Treat the router as a starting point and add the remaining endpoints
+      yourself. Same applies to the Hono <code>bindAdminRouter</code>, Next.js <code>createAdminHandlers</code>, and
+      NestJS <code>createAdminOperations</code> factories.
     </AccordionContent>
   </AccordionItem>
 
@@ -170,7 +177,7 @@ Are you in production?
     <AccordionTrigger>Does RedisAdapter set a TTL on stored keys?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       No. Stored values are persistent. Engine-level caching is handled by the in-process LRU with its <code>cacheTTL</code>
-      option — Redis is the source of truth, not a TTL cache. Configure Redis persistence (AOF/RDB) if you don't want
+      option - Redis is the source of truth, not a TTL cache. Configure Redis persistence (AOF/RDB) if you don't want
       data loss on restart.
     </AccordionContent>
   </AccordionItem>

@@ -94,7 +94,7 @@ The composable returns:
 | `cannot` | `(action, resource, resourceId?, scope?) -> boolean` | Check if denied |
 | `update` | `(newPerms) -> void` | Replace the permission map (triggers reactivity) |
 
-`useAccess` **throws** when no provider/plugin is found. This is intentional — it surfaces missing setup immediately instead of silently rendering a locked-down UI.
+`useAccess` **throws** when no provider/plugin is found. This is intentional - it surfaces missing setup immediately instead of silently rendering a locked-down UI.
 
 ***
 
@@ -164,7 +164,7 @@ This is returned from `createVueAccess()` alongside the other exports. Combine i
 
 ## ACCESS\_INJECTION\_KEY
 
-Exported `Symbol` used by `provideAccess`/`useAccess` internally. You can re-use it if you need to bypass the helpers and call `provide(ACCESS_INJECTION_KEY, state)` yourself — for example, when wiring duck-iam into a custom plugin pipeline.
+Exported `Symbol` used by `provideAccess`/`useAccess` internally. You can re-use it if you need to bypass the helpers and call `provide(ACCESS_INJECTION_KEY, state)` yourself - for example, when wiring duck-iam into a custom plugin pipeline.
 
 ```typescript
 import { provide } from 'vue'

@@ -9,7 +9,7 @@ section: Integrations
 import { accessMiddleware, guard, adminRouter } from '@gentleduck/iam/server/express'
 ```
 
-No runtime dependency on Express — the integration is typed against minimal req/res/next interfaces and works with Express 4, Express 5, and any compatible router.
+No runtime dependency on Express - the integration is typed against minimal req/res/next interfaces and works with Express 4, Express 5, and any compatible router.
 
 ---
 
@@ -63,13 +63,13 @@ Use `guard` on individual routes when the action and resource are known at defin
 ```typescript
 import { guard } from '@gentleduck/iam/server/express'
 
-// Basic guard — action and resource are fixed
+// Basic guard - action and resource are fixed
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), (req, res) => {
   // Only reached if engine.can() returns true
   res.json({ deleted: true })
 })
 
-// Scoped guard — restrict to a specific scope
+// Scoped guard - restrict to a specific scope
 app.post('/admin/users', guard(engine, 'manage', 'user', { scope: 'admin' }), (req, res) => {
   res.json({ created: true })
 })
@@ -95,8 +95,8 @@ app.get(
 
 Error handling differs between the two:
 
-- `guard` catches errors and passes them to `next(err)` — they reach Express's error-handling middleware.
-- `accessMiddleware` catches errors and calls the `onError` option — defaults to a 500 JSON response.
+- `guard` catches errors and passes them to `next(err)` - they reach Express's error-handling middleware.
+- `accessMiddleware` catches errors and calls the `onError` option - defaults to a 500 JSON response.
 
 <Callout type="info">
 The Express `guard()` helper reads the resource instance ID from `req.params.id`. If your
@@ -109,15 +109,19 @@ once you have the real resource ID and attributes.
 
 ## Admin router
 
-Mount a pre-built admin API for managing policies, roles, and assignments.
+Mount a pre-built admin API for managing policies, roles, and assignments. The `authorize` callback is **required** - the factory throws at boot if it's missing.
 
 ```typescript
 import express from 'express'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
-const createRouter = adminRouter(engine)
+const createRouter = adminRouter(engine, {
+  authorize: (req) => req.user?.role === 'platform-admin',
+})
 app.use('/api/access-admin', createRouter(() => express.Router()))
 ```
+
+Every endpoint (read + write) runs `authorize(req)` before dispatching. Falsy returns produce `401 Unauthorized`; thrown errors route through `onError` (default `500`).
 
 <Callout type="warning" title="Scoped revoke caveat">
   The built-in delete route revokes by `subjectId` + `roleId` only. If you store both global and
@@ -136,7 +140,13 @@ This exposes:
 | POST | `/subjects/:id/roles` | Assign a role to a subject |
 | DELETE | `/subjects/:id/roles/:roleId` | Revoke a role from a subject |
 
-The admin router does **not** secure itself — mount it behind your own admin-only authentication.
+`adminRouter` options:
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `authorize` | `(req) -> boolean \| Promise<boolean>` | **required** | Per-request guard. Mounting unauthenticated is impossible. |
+| `onUnauthorized` | `(req, res) -> void` | `401` JSON | Custom unauthorized response |
+| `onError` | `(err, req, res) -> void` | `500` JSON | Custom error handler |
 
 ---
 
@@ -151,3 +161,28 @@ The admin router does **not** secure itself — mount it behind your own admin-o
 | `getScope` | `(req) -> string or undefined` | `undefined` | Extract scope (e.g. org ID, team ID) |
 | `onDenied` | `(req, res) -> void` | 403 JSON | Custom denial response |
 | `onError` | `(err, req, res, next) -> void` | 500 JSON | Custom error handler |
+
+The full options object conforms to `Express.IOptions`. The admin router options conform to `Express.IAdminRouterOptions`, and the required `authorize` callback signature is `Express.IAdminAuthorize`.
+
+---
+
+## Types
+
+All types live under the `Express` namespace at `@gentleduck/iam/server/express`. Type-only - zero bundle cost.
+
+- `Express.IOptions` - options for `accessMiddleware` and `guard` (identity, action, resource, scope, environment, and failure handlers).
+- `Express.IAdminAuthorize` - signature of the required `authorize` callback for `adminRouter`.
+- `Express.IAdminRouterOptions` - options for `adminRouter` (`authorize`, `onUnauthorized`, `onError`).
+
+```typescript
+import type { Express } from '@gentleduck/iam/server/express'
+
+const opts: Express.IOptions = {
+  getUserId: (req) => req.user?.id,
+  getScope: (req) => req.headers['x-org-id'] as string | undefined,
+}
+
+const adminAuth: Express.IAdminAuthorize = (req) => req.user?.role === 'platform-admin'
+```
+
+Deprecated bare aliases (`IExpressOptions`, `IAdminAuthorize`, `IAdminRouterOptions`) remain for back-compat and will be removed in 3.0.

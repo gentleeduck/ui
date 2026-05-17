@@ -1,6 +1,6 @@
 ---
 title: roles overview
-description: RBAC in duck-iam — roles convert to ABAC policies internally and run through the same evaluation pipeline.
+description: RBAC in duck-iam - roles convert to ABAC policies internally and run through the same evaluation pipeline.
 section: Core
 ---
 ## What roles do
@@ -18,7 +18,7 @@ const viewer = defineRole('viewer')
   .build()
 ```
 
-`defineRole()` returns a `RoleBuilder`. `.build()` produces the plain `Role` object.
+`defineRole()` returns a `RoleBuilder`. `.build()` produces the plain `AccessControl.IRole` object.
 
 ---
 
@@ -26,37 +26,37 @@ const viewer = defineRole('viewer')
 
 | Page | Covers |
 | --- | --- |
-| [definition](/docs/duck-iam/core/roles/definition) | `defineRole()`, `grant()`, shorthand methods, `meta()` |
-| [inheritance](/docs/duck-iam/core/roles/inheritance) | `inherits()`, multi-parent, cycle handling, depth |
-| [scoped roles](/docs/duck-iam/core/roles/scoped) | Multi-tenancy — role-level scope, permission-level scope, scoped assignments |
-| [conditional permissions](/docs/duck-iam/core/roles/conditional) | `grantWhen()` — attribute-aware grants on roles |
-| [type-safe roles](/docs/duck-iam/core/roles/type-safe) | `createAccessConfig()` constraints, validation, edge cases |
-| [rolesToPolicy](/docs/duck-iam/core/roles/roles-to-policy) | How roles become an ABAC policy under the hood |
+| [definition](/duck-iam/core/roles/definition) | `defineRole()`, `grant()`, shorthand methods, `meta()` |
+| [inheritance](/duck-iam/core/roles/inheritance) | `inherits()`, multi-parent, cycle handling, depth |
+| [scoped roles](/duck-iam/core/roles/scoped) | Multi-tenancy - role-level scope, permission-level scope, scoped assignments |
+| [conditional permissions](/duck-iam/core/roles/conditional) | `grantWhen()` - attribute-aware grants on roles |
+| [type-safe roles](/duck-iam/core/roles/type-safe) | `createAccessConfig()` constraints, validation, edge cases |
+| [rolesToPolicy](/duck-iam/core/roles/roles-to-policy) | How roles become an ABAC policy under the hood |
 
 ---
 
 ## Role object structure
 
 ```typescript
-interface Role {
+interface AccessControl.IRole {
   id: string
   name: string
   description?: string
-  permissions: readonly Permission[]
+  permissions: readonly AccessControl.IPermission[]
   inherits?: readonly string[]
   scope?: string
-  metadata?: Record<string, AttributeValue>
+  metadata?: Readonly<Primitives.Attributes>
 }
 
-interface Permission {
+interface AccessControl.IPermission {
   action: string | '*'
   resource: string | '*'
   scope?: string | '*'
-  conditions?: ConditionGroup
+  conditions?: AccessControl.IConditionGroup
 }
 ```
 
-Each permission is an action/resource pair with optional scope and conditions. Roles are stored as plain JSON in the adapter — no runtime classes.
+Each permission is an action/resource pair with optional scope and conditions. Roles are stored as plain JSON in the adapter - no runtime classes. See [types & namespaces](/duck-iam/types) for the full namespace map.
 
 ---
 
@@ -76,4 +76,4 @@ Each permission is an action/resource pair with optional scope and conditions. R
     R --> Internal
     Internal --> P`} />
 
-The engine doesn't have a separate "RBAC" path. It calls `rolesToPolicy()` to turn role definitions into one synthetic ABAC policy with `id: '__rbac__'`, then evaluates that alongside your custom policies. See [rolesToPolicy](/docs/duck-iam/core/roles/roles-to-policy) for the conversion details.
+The engine doesn't have a separate "RBAC" path. It calls `rolesToPolicy()` to turn role definitions into one synthetic ABAC policy with `id: '__rbac__'`, then evaluates that alongside your custom policies. See [rolesToPolicy](/duck-iam/core/roles/roles-to-policy) for the conversion details.

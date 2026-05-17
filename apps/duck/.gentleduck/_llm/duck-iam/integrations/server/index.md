@@ -2,7 +2,7 @@
 
 duck-iam ships server integrations for Express, NestJS, Hono, and Next.js. Every one follows the same pattern: extract the user identity, map the HTTP method to an action, infer the resource from the route, and call `engine.can()`.
 
-Every integration is a thin adapter over `engine.can()`. No runtime framework dependency — duck-iam defines its own minimal type interfaces, so no extra packages sneak in.
+Every integration is a thin adapter over `engine.can()`. No runtime framework dependency - duck-iam defines its own minimal type interfaces, so no extra packages sneak in.
 
 ***
 
@@ -10,11 +10,11 @@ Every integration is a thin adapter over `engine.can()`. No runtime framework de
 
 | Framework | Doc | Subpath |
 | --- | --- | --- |
-| Express | [server/express](/docs/duck-iam/integrations/server/express) | `@gentleduck/iam/server/express` |
-| Hono | [server/hono](/docs/duck-iam/integrations/server/hono) | `@gentleduck/iam/server/hono` |
-| NestJS | [server/nest](/docs/duck-iam/integrations/server/nest) | `@gentleduck/iam/server/nest` |
-| Next.js App Router | [server/next](/docs/duck-iam/integrations/server/next) | `@gentleduck/iam/server/next` |
-| Generic helpers | [server/generic](/docs/duck-iam/integrations/server/generic) | `@gentleduck/iam/server/generic` |
+| Express | [server/express](/duck-iam/integrations/server/express) | `@gentleduck/iam/server/express` |
+| Hono | [server/hono](/duck-iam/integrations/server/hono) | `@gentleduck/iam/server/hono` |
+| NestJS | [server/nest](/duck-iam/integrations/server/nest) | `@gentleduck/iam/server/nest` |
+| Next.js App Router | [server/next](/duck-iam/integrations/server/next) | `@gentleduck/iam/server/next` |
+| Generic helpers | [server/generic](/duck-iam/integrations/server/generic) | `@gentleduck/iam/server/generic` |
 
 All five share the same building blocks: identity extraction, action mapping, resource inference, scope resolution, and decision callbacks. The framework-specific docs cover each one's idioms.
 
@@ -89,7 +89,7 @@ const permissions = await engine.permissions(userId, [
 ])
 ```
 
-See [client integrations](/docs/duck-iam/integrations/client) for hydration on the consumer side.
+See [client integrations](/duck-iam/integrations/client) for hydration on the consumer side.
 
 ***
 
@@ -97,7 +97,7 @@ See [client integrations](/docs/duck-iam/integrations/client) for hydration on t
 
 | Condition | Status | Override |
 | --- | --- | --- |
-| Missing user identity | 401 | None — fail closed |
+| Missing user identity | 401 | None - fail closed |
 | Engine returns deny | 403 | `onDenied` |
 | Engine throws | 500 | `onError` |
 

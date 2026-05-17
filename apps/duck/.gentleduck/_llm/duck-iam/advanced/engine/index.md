@@ -20,11 +20,11 @@ const engine = new Engine({ adapter })
 
 | Page | Covers |
 | --- | --- |
-| [methods](/docs/duck-iam/advanced/engine/methods) | `can`, `check`, `authorize`, `permissions`, `explain` |
-| [hooks](/docs/duck-iam/advanced/engine/hooks) | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` |
-| [caching](/docs/duck-iam/advanced/engine/caching) | The four LRU caches, invalidation, tuning |
-| [admin API](/docs/duck-iam/advanced/engine/admin) | `engine.admin.*` for runtime CRUD |
-| [modes](/docs/duck-iam/advanced/engine/modes) | Development vs production mode, performance trade-offs |
+| [methods](/duck-iam/advanced/engine/methods) | `can`, `check`, `authorize`, `permissions`, `explain` |
+| [hooks](/duck-iam/advanced/engine/hooks) | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` |
+| [caching](/duck-iam/advanced/engine/caching) | The four LRU caches, invalidation, tuning |
+| [admin API](/duck-iam/advanced/engine/admin) | `engine.admin.*` for runtime CRUD |
+| [modes](/duck-iam/advanced/engine/modes) | Development vs production mode, performance trade-offs |
 
 ***
 
@@ -49,8 +49,8 @@ interface EngineConfig {
 | `defaultEffect` | `'allow' \| 'deny'` | `'deny'` | Decision when no rules match |
 | `cacheTTL` | `number` | `60` | How long cached data lives, in seconds |
 | `maxCacheSize` | `number` | `1000` | Max subjects in the LRU cache |
-| `mode` | `'development' \| 'production'` | `'development'` | Evaluation mode — see [modes](/docs/duck-iam/advanced/engine/modes) |
-| `hooks` | `EngineHooks` | `{}` | Lifecycle hooks — see [hooks](/docs/duck-iam/advanced/engine/hooks) |
+| `mode` | `'development' \| 'production'` | `'development'` | Evaluation mode - see [modes](/duck-iam/advanced/engine/modes) |
+| `hooks` | `EngineHooks` | `{}` | Lifecycle hooks - see [hooks](/duck-iam/advanced/engine/hooks) |
 
 ***
 
@@ -121,7 +121,7 @@ interface Decision {
 }
 ```
 
-**Denied — no rules matched:**
+**Denied - no rules matched:**
 
 ```typescript
 {
@@ -147,7 +147,7 @@ interface Decision {
 }
 ```
 
-In production mode, `engine.authorize()` returns a plain `boolean` — no Decision allocation. See [modes](/docs/duck-iam/advanced/engine/modes).
+In production mode, `engine.authorize()` returns a plain `boolean` - no Decision allocation. See [modes](/duck-iam/advanced/engine/modes).
 
 ***
 
@@ -160,7 +160,7 @@ import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
 ```
 
 * `buildPermissionKey(action, resource, resourceId?, scope?)` matches the exact key format used by `engine.permissions()` and all client libraries
-* `LRUCache` is the small TTL cache implementation the engine uses internally — import only if you want the same eviction semantics in neighboring application code
+* `LRUCache` is the small TTL cache implementation the engine uses internally - import only if you want the same eviction semantics in neighboring application code
 
 ***
 

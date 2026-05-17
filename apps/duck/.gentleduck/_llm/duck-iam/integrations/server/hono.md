@@ -4,7 +4,7 @@
 import { accessMiddleware, guard } from '@gentleduck/iam/server/hono'
 ```
 
-Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge — anywhere Hono runs.
+Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge - anywhere Hono runs.
 
 ***
 
@@ -80,10 +80,10 @@ accessMiddleware(engine, {
 
 The Hono integration imports zero Node-specific APIs. It works in:
 
-* **Cloudflare Workers** — pair with `RedisAdapter` against Upstash Redis or a KV adapter
-* **Deno Deploy** — works with deno-friendly adapters
-* **Bun** — full Node compatibility plus Hono's edge optimizations
-* **Vercel Edge Functions** — bundle the adapter as part of the Edge build
+* **Cloudflare Workers** - pair with `RedisAdapter` against Upstash Redis or a KV adapter
+* **Deno Deploy** - works with deno-friendly adapters
+* **Bun** - full Node compatibility plus Hono's edge optimizations
+* **Vercel Edge Functions** - bundle the adapter as part of the Edge build
 
 For database-backed adapters at the edge, ensure your driver supports the runtime (Neon serverless for Postgres, planetscale for MySQL, etc.).
 

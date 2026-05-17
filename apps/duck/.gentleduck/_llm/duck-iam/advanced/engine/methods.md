@@ -26,7 +26,7 @@ engine.can(
 ): Promise<boolean>
 ```
 
-`can()` always returns boolean regardless of engine mode. It's the simple-API method — use it when you don't need the full decision metadata.
+`can()` always returns boolean regardless of engine mode. It's the simple-API method - use it when you don't need the full decision metadata.
 
 ***
 
@@ -47,7 +47,7 @@ if (!decision.allowed) {
 }
 ```
 
-In production mode, `check()` returns a plain `boolean` — same as `can()`. The Decision object is a development-mode feature.
+In production mode, `check()` returns a plain `boolean` - same as `can()`. The Decision object is a development-mode feature.
 
 Use `check()` when you want to log/audit the deciding policy and rule, not just the outcome.
 
@@ -137,15 +137,15 @@ const perms = await engine.permissions('user-1', [
 
 ### Performance note
 
-`permissions()` resolves the subject and policies **once**, then evaluates each requested permission with its own scope and hooks. It's much faster than calling `can()` in a loop — single DB hit, single subject resolution, batch evaluation.
+`permissions()` resolves the subject and policies **once**, then evaluates each requested permission with its own scope and hooks. It's much faster than calling `can()` in a loop - single DB hit, single subject resolution, batch evaluation.
 
-For large arrays (50+ checks), `permissions()` outperforms a loop by 10×+.
+For large arrays (50+ checks), `permissions()` outperforms a loop by 10x+.
 
 ***
 
 ## engine.explain()
 
-Returns a full evaluation trace. **Development mode only** — calling in production mode throws.
+Returns a full evaluation trace. **Development mode only** - calling in production mode throws.
 
 ```typescript
 const result = await engine.explain('user-1', 'delete', {
@@ -159,11 +159,11 @@ console.log(result.policies) // per-policy breakdowns
 console.log(result.rules) // per-rule match details with actual vs expected values
 ```
 
-`explain()` runs the same pipeline as `check()` but builds a richer trace object instead of a `Decision`. Side-effect hooks (`afterEvaluate`, `onDeny`, `onError`) **do not fire** — it's read-only.
+`explain()` runs the same pipeline as `check()` but builds a richer trace object instead of a `Decision`. Side-effect hooks (`afterEvaluate`, `onDeny`, `onError`) **do not fire** - it's read-only.
 
 `beforeEvaluate` does run, since it can affect the evaluation (e.g. adding timestamp to the environment).
 
-See [explain and debug](/docs/duck-iam/advanced/explain) for the full trace API.
+See [explain and debug](/duck-iam/advanced/explain) for the full trace API.
 
 ***
 

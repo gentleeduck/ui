@@ -1,6 +1,6 @@
 ---
 title: typed $-references
-description: DollarPaths utility — typed $-prefixed value autocomplete for dynamic cross-field comparisons.
+description: DollarPaths utility - typed $-prefixed value autocomplete for dynamic cross-field comparisons.
 section: Advanced
 ---
 ## DollarPaths utility
@@ -67,8 +67,8 @@ The `& {}` intersection trick is used internally so that even when the literal t
 | `attr(key, op, value)` | yes |
 | `resourceAttr(key, op, value)` | yes |
 | `env(key, op, value)` | yes |
-| `gt`, `gte`, `lt`, `lte` (numbers) | yes — `$path` resolving to a number works |
-| `in`, `nin` (array values) | array literals only — `$path` to an array isn't auto-supported |
+| `gt`, `gte`, `lt`, `lte` (numbers) | yes - `$path` resolving to a number works |
+| `in`, `nin` (array values) | array literals only - `$path` to an array isn't auto-supported |
 | `contains`, `not_contains` | yes |
 | `starts_with`, `ends_with`, `matches` | yes (string-resolving paths) |
 | `exists`, `not_exists` | no value parameter |
@@ -130,11 +130,11 @@ const access = createAccessConfig({
   context: {} as AppContext,
 })
 
-// OK — both sides resolve to 'free' | 'pro'
+// OK - both sides resolve to 'free' | 'pro'
 access.when().check('resource.attributes.tier', 'eq', '$subject.attributes.tier')
 
 // In practice the type system can't always cross-validate $-paths against field types
-// — it relies on the union at the method signature level
+// - it relies on the union at the method signature level
 ```
 
 For strong cross-path type checking, define narrow attribute types and avoid `string`/`AttributeValue` fallbacks where you care.
@@ -149,4 +149,4 @@ The `attr/resourceAttr/env` shortcuts are typed against narrow attribute keys. F
 .when((w) => w.check('environment.region', 'eq', '$subject.attributes.homeRegion'))
 ```
 
-This compiles even when `region` and `homeRegion` aren't typed in your context — `check()` accepts any string path. You lose the dot-path autocomplete but gain flexibility.
+This compiles even when `region` and `homeRegion` aren't typed in your context - `check()` accepts any string path. You lose the dot-path autocomplete but gain flexibility.

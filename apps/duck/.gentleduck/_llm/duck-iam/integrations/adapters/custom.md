@@ -117,7 +117,7 @@ export class MongoAdapter implements Adapter {
 
 If you store scoped and unscoped assignments together, `getSubjectRoles` should return **only unscoped assignments**, and `getSubjectScopedRoles` should return only scoped. The engine merges them based on request scope.
 
-The `MemoryAdapter` actually returns both from `getSubjectRoles` (which then gets deduplicated by the engine) — both shapes work. The cleaner contract is split.
+The `MemoryAdapter` actually returns both from `getSubjectRoles` (which then gets deduplicated by the engine) - both shapes work. The cleaner contract is split.
 
 ### Attribute merging
 
@@ -177,4 +177,4 @@ The built-in adapters' test files (`src/adapters/*/__tests__/*.test.ts`) make a 
 
 ## Publishing your adapter
 
-If your adapter is general-purpose, consider publishing it as a separate npm package (e.g. `@your-org/duck-iam-adapter-foo`). The duck-iam team welcomes upstream contributions for popular databases — open a PR with tests + docs.
+If your adapter is general-purpose, consider publishing it as a separate npm package (e.g. `@your-org/duck-iam-adapter-foo`). The duck-iam team welcomes upstream contributions for popular databases - open a PR with tests + docs.

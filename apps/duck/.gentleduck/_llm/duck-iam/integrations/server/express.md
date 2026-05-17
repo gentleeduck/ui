@@ -4,7 +4,7 @@
 import { accessMiddleware, guard, adminRouter } from '@gentleduck/iam/server/express'
 ```
 
-No runtime dependency on Express — the integration is typed against minimal req/res/next interfaces and works with Express 4, Express 5, and any compatible router.
+No runtime dependency on Express - the integration is typed against minimal req/res/next interfaces and works with Express 4, Express 5, and any compatible router.
 
 ***
 
@@ -58,13 +58,13 @@ Use `guard` on individual routes when the action and resource are known at defin
 ```typescript
 import { guard } from '@gentleduck/iam/server/express'
 
-// Basic guard — action and resource are fixed
+// Basic guard - action and resource are fixed
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), (req, res) => {
   // Only reached if engine.can() returns true
   res.json({ deleted: true })
 })
 
-// Scoped guard — restrict to a specific scope
+// Scoped guard - restrict to a specific scope
 app.post('/admin/users', guard(engine, 'manage', 'user', { scope: 'admin' }), (req, res) => {
   res.json({ created: true })
 })
@@ -90,8 +90,8 @@ app.get(
 
 Error handling differs between the two:
 
-* `guard` catches errors and passes them to `next(err)` — they reach Express's error-handling middleware.
-* `accessMiddleware` catches errors and calls the `onError` option — defaults to a 500 JSON response.
+* `guard` catches errors and passes them to `next(err)` - they reach Express's error-handling middleware.
+* `accessMiddleware` catches errors and calls the `onError` option - defaults to a 500 JSON response.
 
 The Express `guard()` helper reads the resource instance ID from `req.params.id`. If your
 route uses a different param name such as `:postId`, either use `accessMiddleware()` with a
@@ -127,7 +127,7 @@ This exposes:
 | POST | `/subjects/:id/roles` | Assign a role to a subject |
 | DELETE | `/subjects/:id/roles/:roleId` | Revoke a role from a subject |
 
-The admin router does **not** secure itself — mount it behind your own admin-only authentication.
+The admin router does **not** secure itself - mount it behind your own admin-only authentication.
 
 ***
 

@@ -2,7 +2,7 @@
 
 When a permission check returns the wrong answer, duck-iam ships two debugging tools:
 
-* **engine.explain()**: a full evaluation trace — every policy, every rule, every
+* **engine.explain()**: a full evaluation trace - every policy, every rule, every
   condition, with exact match/fail results.
 * **validatePolicy() / validateRoles()**: runtime validation for untrusted or dynamic
   configuration data.

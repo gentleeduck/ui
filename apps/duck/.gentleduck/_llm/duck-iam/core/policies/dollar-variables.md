@@ -13,7 +13,7 @@ Dollar-prefixed values resolve at evaluation time instead of being literals. Use
 
 ## isOwner shortcut
 
-The most common pattern — owner check — has a built-in helper:
+The most common pattern - owner check - has a built-in helper:
 
 ```typescript
 // These are equivalent:
@@ -32,7 +32,7 @@ Custom owner field name:
 
 ## Where `$`-references work
 
-`$`-references work anywhere a value is accepted — `.check()`, `.attr()`, `.resourceAttr()`, `.env()`, and the shorthand operator methods (`.eq`, `.neq`, etc.):
+`$`-references work anywhere a value is accepted - `.check()`, `.attr()`, `.resourceAttr()`, `.env()`, and the shorthand operator methods (`.eq`, `.neq`, etc.):
 
 ```typescript
 // Compare resource owner to current user
@@ -64,11 +64,11 @@ Custom owner field name:
 
 The same roots that field paths can use:
 
-* `$subject.*` — `$subject.id`, `$subject.attributes.foo`, `$subject.roles`
-* `$resource.*` — `$resource.id`, `$resource.type`, `$resource.attributes.foo`
-* `$environment.*` — `$environment.ip`, `$environment.timestamp`, `$environment.foo`
-* `$action` — shorthand for the action string
-* `$scope` — shorthand for the scope string
+* `$subject.*` - `$subject.id`, `$subject.attributes.foo`, `$subject.roles`
+* `$resource.*` - `$resource.id`, `$resource.type`, `$resource.attributes.foo`
+* `$environment.*` - `$environment.ip`, `$environment.timestamp`, `$environment.foo`
+* `$action` - shorthand for the action string
+* `$scope` - shorthand for the scope string
 
 ***
 
@@ -96,7 +96,7 @@ access.policy('post-tier').rule('match-tier', (r) =>
 )
 ```
 
-Internally, the `& {}` intersection trick is used so that even when the literal type is `string`, autocomplete still shows `$`-prefixed suggestions. See the [type-safe config](/docs/duck-iam/advanced/config) docs.
+Internally, the `& {}` intersection trick is used so that even when the literal type is `string`, autocomplete still shows `$`-prefixed suggestions. See the [type-safe config](/duck-iam/advanced/config) docs.
 
 ***
 

@@ -1,6 +1,6 @@
 ---
 title: scoped roles (multi-tenancy)
-description: Three scoping mechanisms — role-level scope, permission-level scope, and scoped role assignments. Pick the right one for your tenancy model.
+description: Three scoping mechanisms - role-level scope, permission-level scope, and scoped role assignments. Pick the right one for your tenancy model.
 section: Core
 ---
 ## Three scoping mechanisms
@@ -63,7 +63,7 @@ Scope individual permissions by passing an optional third argument to `grant()`:
 ```typescript
 const hybridRole = defineRole('hybrid')
   .name('Hybrid Role')
-  .grant('read', 'post')               // global — no scope restriction
+  .grant('read', 'post')               // global - no scope restriction
   .grant('update', 'post', 'org-1')    // only in org-1
   .grant('create', 'comment', 'org-2') // only in org-2
   .build()
@@ -71,7 +71,7 @@ const hybridRole = defineRole('hybrid')
 
 `read` works everywhere; `update` only in `org-1`; `create` only in `org-2`.
 
-`grantScoped(scope, action, resource)` does the same thing with scope first — pure stylistic preference.
+`grantScoped(scope, action, resource)` does the same thing with scope first - pure stylistic preference.
 
 ---
 
@@ -116,7 +116,7 @@ Request behavior:
 | `'org-other'` | `['viewer']` (admin scope doesn't match) |
 | `undefined` | `['viewer']` (global only) |
 
-This is the recommended pattern for multi-tenant SaaS — one global "platform user" role + tenant-specific admin roles per org.
+This is the recommended pattern for multi-tenant SaaS - one global "platform user" role + tenant-specific admin roles per org.
 
 ---
 
@@ -124,7 +124,7 @@ This is the recommended pattern for multi-tenant SaaS — one global "platform u
 
 Inherited permissions keep honoring scope constraints. If `org-editor` (scoped to `org-1`) inherits from `org-viewer` (scoped to `org-1`), the inherited viewer permissions also only fire in `org-1`.
 
-Scope doesn't propagate up — a scoped role inheriting from a global role keeps the global role's permissions global. Inheritance flattens permissions, but scope constraints attached to those permissions travel with them.
+Scope doesn't propagate up - a scoped role inheriting from a global role keeps the global role's permissions global. Inheritance flattens permissions, but scope constraints attached to those permissions travel with them.
 
 ---
 
@@ -151,4 +151,4 @@ Quick decision guide:
 - **Whole role is inherently tenant-bound?** Role-level scope (`defineRole(...).scope('org-1')`).
 - **Mostly-global role with a few scoped grants?** Permission-level scope (`grant(action, resource, 'org-1')`).
 
-Prefer scoped assignments when permission shape is the same across tenants. Tenant-specific role IDs become hard to maintain — every permission change has to be replicated across all tenant role definitions.
+Prefer scoped assignments when permission shape is the same across tenants. Tenant-specific role IDs become hard to maintain - every permission change has to be replicated across all tenant role definitions.

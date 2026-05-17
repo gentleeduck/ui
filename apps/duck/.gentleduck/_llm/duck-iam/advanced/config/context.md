@@ -68,7 +68,7 @@ access
   .build()
 ```
 
-The `context` field is a **phantom type** — its runtime value is never used. The `{} as unknown as AppContext` cast is safe because the value is discarded; only the type information flows through to the builders.
+The `context` field is a **phantom type** - its runtime value is never used. The `{} as unknown as AppContext` cast is safe because the value is discarded; only the type information flows through to the builders.
 
 ***
 

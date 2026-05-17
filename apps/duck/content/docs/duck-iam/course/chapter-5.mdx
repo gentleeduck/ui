@@ -50,7 +50,7 @@ BlogDuck serves multiple organizations. Alice is an admin in Acme Corp but only 
 
     export const engine = new Engine({
       adapter,
-      // mode: 'production',  // optional -- defaults to 'development'
+      // mode: 'production',  // optional - defaults to 'development'
     })
     ```
 
@@ -114,14 +114,14 @@ BlogDuck serves multiple organizations. Alice is an admin in Acme Corp but only 
 
 When a scope is passed to `engine.can()`:
 
-1. **Load base roles** -- `resolveSubject()` gets Alice's assigned roles: `['viewer']`
-2. **Load scoped roles** -- the adapter returns Alice's scoped assignments via
+1. **Load base roles** - `resolveSubject()` gets Alice's assigned roles: `['viewer']`
+2. **Load scoped roles** - the adapter returns Alice's scoped assignments via
    `getSubjectScopedRoles()`, stored as a `ScopedRole[]` array.
-3. **Merge** -- `enrichSubjectWithScopedRoles()` filters scoped roles matching the request
+3. **Merge** - `enrichSubjectWithScopedRoles()` filters scoped roles matching the request
    scope (`acme`) and merges them in. Duplicates are removed.
-4. **Resolve inheritance** -- `['viewer', 'admin']` is expanded. Admin inherits editor which
+4. **Resolve inheritance** - `['viewer', 'admin']` is expanded. Admin inherits editor which
    inherits viewer, so all three are in effect.
-5. **Build RBAC policy** -- the `__rbac__` policy includes rules for all resolved permissions.
+5. **Build RBAC policy** - the `__rbac__` policy includes rules for all resolved permissions.
 
 ### The ScopedRole Type
 
@@ -220,7 +220,7 @@ const acmeEditor = defineRole('acme-editor')
   .build()
 ```
 
-`.scope('acme')` makes all permissions in this role scoped to `acme` -- shorthand for
+`.scope('acme')` makes all permissions in this role scoped to `acme` - shorthand for
 calling `.grantScoped('acme', ...)` on every permission.
 
 ### When to Use Each Level
@@ -260,13 +260,13 @@ const manager = defineRole('manager')
 
 // This also grants access to dashboard.users, dashboard.settings, etc.
 await engine.can('user-1', 'read', { type: 'dashboard.users', attributes: {} })
-// true -- because 'dashboard' is a parent of 'dashboard.users'
+// true - because 'dashboard' is a parent of 'dashboard.users'
 
 await engine.can('user-1', 'read', { type: 'dashboard.settings', attributes: {} })
-// true -- same parent match
+// true - same parent match
 
 await engine.can('user-1', 'read', { type: 'analytics', attributes: {} })
-// false -- not a child of 'dashboard'
+// false - not a child of 'dashboard'
 ```
 
 ### Dot-Based Matching Rules
@@ -393,7 +393,7 @@ const tenantPolicy = policy('tenant-isolation')
     <AccordionTrigger>What happens if I do not pass a scope?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Only base roles are used. A user who is admin only within a specific org will not have
-      admin permissions without the scope parameter. Scoped permissions are also skipped --
+      admin permissions without the scope parameter. Scoped permissions are also skipped -
       only global (unscoped) permissions are evaluated.
     </AccordionContent>
   </AccordionItem>
@@ -428,7 +428,7 @@ const tenantPolicy = policy('tenant-isolation')
   <AccordionItem value="c5-hierarchical-when">
     <AccordionTrigger>When should I use hierarchical resources?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      When resource types form a natural hierarchy -- a dashboard with sub-sections, or a
+      When resource types form a natural hierarchy - a dashboard with sub-sections, or a
       project with sub-resources. Granting access to the parent covers all children, reducing
       the number of permissions to manage. Dots read better for this: `dashboard.users` vs
       `dashboard:users`.
