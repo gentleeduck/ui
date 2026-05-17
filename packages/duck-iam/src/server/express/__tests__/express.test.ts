@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryAdapter } from '../../../adapters/memory'
 import { Engine } from '../../../core/engine'
-import type { Role } from '../../../core/types'
+import type { AccessControl } from '../../../core/types'
 import { accessMiddleware, adminRouter, guard } from '../index'
 
 type Action = 'read' | 'create' | 'update' | 'delete'
-type Resource = 'post' | 'comment'
+type ResourceType = 'post' | 'comment'
 type RoleId = 'viewer' | 'editor'
 type Scope = 'org-1'
 
-const viewerRole: Role<Action, Resource, RoleId, Scope> = {
+const viewerRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'viewer',
   name: 'Viewer',
   permissions: [
@@ -18,7 +18,7 @@ const viewerRole: Role<Action, Resource, RoleId, Scope> = {
   ],
 }
 
-const editorRole: Role<Action, Resource, RoleId, Scope> = {
+const editorRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'editor',
   name: 'Editor',
   inherits: ['viewer'],
@@ -30,11 +30,11 @@ const editorRole: Role<Action, Resource, RoleId, Scope> = {
 }
 
 function makeEngine() {
-  const adapter = new MemoryAdapter<Action, Resource, RoleId, Scope>({
+  const adapter = new MemoryAdapter<Action, ResourceType, RoleId, Scope>({
     roles: [viewerRole, editorRole],
     assignments: { 'user-viewer': ['viewer'], 'user-editor': ['editor'] },
   })
-  return new Engine<Action, Resource, RoleId, Scope>({ adapter, cacheTTL: 0 })
+  return new Engine<Action, ResourceType, RoleId, Scope>({ adapter, cacheTTL: 0 })
 }
 
 interface MockRes {
@@ -60,7 +60,7 @@ function makeRes(): MockRes {
 }
 
 describe('accessMiddleware (express)', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -142,7 +142,7 @@ describe('accessMiddleware (express)', () => {
 
   it('passes scope when getScope provided', async () => {
     const can = vi.spyOn(engine, 'can').mockResolvedValue(true)
-    const mw = accessMiddleware<Action, Resource, RoleId, Scope>(engine, {
+    const mw = accessMiddleware<Action, ResourceType, RoleId, Scope>(engine, {
       getUserId: () => 'user-x',
       getScope: () => 'org-1',
     })
@@ -192,7 +192,7 @@ describe('accessMiddleware (express)', () => {
 })
 
 describe('guard (express)', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -232,7 +232,7 @@ describe('guard (express)', () => {
 
   it('passes resourceId from params and scope', async () => {
     const can = vi.spyOn(engine, 'can').mockResolvedValue(true)
-    const mw = guard<Action, Resource, RoleId, Scope>(engine, 'update', 'post', {
+    const mw = guard<Action, ResourceType, RoleId, Scope>(engine, 'update', 'post', {
       getUserId: () => 'u',
       scope: 'org-1',
     })
@@ -261,9 +261,9 @@ describe('guard (express)', () => {
 })
 
 describe('adminRouter (express)', () => {
-  it('wires CRUD endpoints to engine.admin', async () => {
-    const engine = makeEngine()
-    type RouteHandler = (req: never, res: never) => Promise<void> | void
+  type RouteHandler = (req: never, res: never) => Promise<void> | void
+
+  const makeRouter = () => {
     const handlers: Record<string, RouteHandler> = {}
     const record = (key: string) => (path: string, h: RouteHandler) => {
       handlers[`${key} ${path}`] = h
@@ -274,8 +274,14 @@ describe('adminRouter (express)', () => {
       post: vi.fn(record('POST')),
       delete: vi.fn(record('DELETE')),
     }
+    return { router, handlers }
+  }
 
-    const mounted = adminRouter(engine)(() => router as never)
+  it('wires CRUD endpoints to engine.admin when authorize returns true', async () => {
+    const engine = makeEngine()
+    const { router, handlers } = makeRouter()
+
+    const mounted = adminRouter(engine, { authorize: () => true })(() => router as never)
     expect(mounted).toBe(router as unknown)
 
     const res = makeRes()
@@ -301,5 +307,61 @@ describe('adminRouter (express)', () => {
 
     await call('DELETE /subjects/:id/roles/:roleId', { params: { id: 'user-1', roleId: 'editor' } })
     expect((res.body as { ok: boolean }).ok).toBe(true)
+  })
+
+  it('rejects construction without an authorize callback', () => {
+    const engine = makeEngine()
+    expect(() => adminRouter(engine, undefined as never)).toThrow(/authorize/)
+    expect(() => adminRouter(engine, {} as never)).toThrow(/authorize/)
+  })
+
+  it('returns 401 when authorize returns false', async () => {
+    const engine = makeEngine()
+    const { router, handlers } = makeRouter()
+    adminRouter(engine, { authorize: () => false })(() => router as never)
+    const res = makeRes()
+
+    await handlers['PUT /policies']!({ body: {} } as never, res as never)
+    expect(res.statusCode).toBe(401)
+    expect((res.body as { error: string }).error).toBe('Unauthorized')
+  })
+
+  it('passes the request to authorize so it can inspect headers/user', async () => {
+    const engine = makeEngine()
+    const { router, handlers } = makeRouter()
+    const seen: Array<{ user?: { id: string; role?: string } }> = []
+    adminRouter(engine, {
+      authorize: (req) => {
+        seen.push(req as { user?: { id: string; role?: string } })
+        return (req as { user?: { role?: string } }).user?.role === 'admin'
+      },
+    })(() => router as never)
+    const res = makeRes()
+
+    await handlers['PUT /roles']!(
+      { body: { id: 'r', name: 'r', permissions: [] }, user: { id: 'u', role: 'admin' } } as never,
+      res as never,
+    )
+    expect((res.body as { ok: boolean }).ok).toBe(true)
+    expect(seen[0]?.user?.id).toBe('u')
+  })
+
+  it('surfaces handler errors via onError without leaking authorize result', async () => {
+    const engine = makeEngine()
+    const { router, handlers } = makeRouter()
+    const boom = new Error('boom')
+    adminRouter(engine, {
+      authorize: () => true,
+      onError: (err, _req, res) => res.status(500).json({ error: err.message }),
+    })(() => router as never)
+    const original = engine.admin.savePolicy
+    engine.admin.savePolicy = async () => {
+      throw boom
+    }
+    const res = makeRes()
+    await handlers['PUT /policies']!({ body: {} } as never, res as never)
+    expect(res.statusCode).toBe(500)
+    expect((res.body as { error: string }).error).toBe('boom')
+    engine.admin.savePolicy = original
   })
 })

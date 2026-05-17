@@ -1,47 +1,47 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { PermissionMap } from '../../../core/types'
+import type { Client } from '../../../core/types'
 import { AccessClient } from '../index'
 
 type Action = 'read' | 'create' | 'update' | 'delete'
-type Resource = 'post' | 'comment'
+type ResourceType = 'post' | 'comment'
 type Scope = 'org-1'
 
-/** Cast a plain permission record to the typed PermissionMap. */
-function perms(map: Record<string, boolean>): PermissionMap<Action, Resource, Scope> {
-  return map as PermissionMap<Action, Resource, Scope>
+/** Cast a plain permission record to the typed Client.PermissionMap. */
+function perms(map: Record<string, boolean>): Client.PermissionMap<Action, ResourceType, Scope> {
+  return map as Client.PermissionMap<Action, ResourceType, Scope>
 }
 
 describe('AccessClient', () => {
   it('can() returns true for allowed permissions', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': true, 'create:post': false }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': true, 'create:post': false }))
     expect(client.can('read', 'post')).toBe(true)
     expect(client.can('create', 'post')).toBe(false)
   })
 
   it('can() returns false for unknown permissions', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({}))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({}))
     expect(client.can('read', 'post')).toBe(false)
   })
 
   it('cannot() is the negation of can()', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': true }))
     expect(client.cannot('read', 'post')).toBe(false)
     expect(client.cannot('create', 'post')).toBe(true)
   })
 
   it('can() works with scoped keys', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'org-1:read:post': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'org-1:read:post': true }))
     expect(client.can('read', 'post', undefined, 'org-1')).toBe(true)
   })
 
   it('can() works with resourceId keys', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post:post-42': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post:post-42': true }))
     expect(client.can('read', 'post', 'post-42')).toBe(true)
   })
 
   it('permissions getter returns the permissions map', () => {
     const p = perms({ 'read:post': true })
-    const client = new AccessClient<Action, Resource, Scope>(p)
+    const client = new AccessClient<Action, ResourceType, Scope>(p)
     expect(client.permissions).toEqual(p)
   })
 
@@ -51,7 +51,7 @@ describe('AccessClient', () => {
   })
 
   it('update() replaces permissions and notifies subscribers', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({}))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({}))
     const listener = vi.fn()
     client.subscribe(listener)
 
@@ -63,14 +63,14 @@ describe('AccessClient', () => {
   })
 
   it('merge() merges new permissions into existing', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': true }))
     client.merge(perms({ 'create:post': true }))
     expect(client.can('read', 'post')).toBe(true)
     expect(client.can('create', 'post')).toBe(true)
   })
 
   it('subscribe() returns an unsubscribe function', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({}))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({}))
     const listener = vi.fn()
     const unsub = client.subscribe(listener)
 
@@ -83,7 +83,7 @@ describe('AccessClient', () => {
   })
 
   it('allowedActions() returns exact allowed actions for a resource', () => {
-    const client = new AccessClient<Action, Resource, Scope>(
+    const client = new AccessClient<Action, ResourceType, Scope>(
       perms({ 'read:post': true, 'create:post': true, 'delete:post': false, 'read:comment': true }),
     )
     const actions = client.allowedActions('post')
@@ -93,7 +93,7 @@ describe('AccessClient', () => {
   })
 
   it('allowedActions() handles scoped keys', () => {
-    const client = new AccessClient<Action, Resource, Scope>(
+    const client = new AccessClient<Action, ResourceType, Scope>(
       perms({ 'org-1:read:post': true, 'org-1:create:post': true }),
     )
     const actions = client.allowedActions('post')
@@ -102,24 +102,24 @@ describe('AccessClient', () => {
   })
 
   it('allowedActions() deduplicates actions', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': true, 'org-1:read:post': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': true, 'org-1:read:post': true }))
     const actions = client.allowedActions('post')
     expect(actions).toEqual(['read'])
   })
 
   it('hasAnyOn() returns true when any permission exists on resource', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': true }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': true }))
     expect(client.hasAnyOn('post')).toBe(true)
     expect(client.hasAnyOn('comment')).toBe(false)
   })
 
   it('hasAnyOn() returns false when all permissions are false', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({ 'read:post': false, 'create:post': false }))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({ 'read:post': false, 'create:post': false }))
     expect(client.hasAnyOn('post')).toBe(false)
   })
 
   it('listener errors do not prevent other listeners from firing', () => {
-    const client = new AccessClient<Action, Resource, Scope>(perms({}))
+    const client = new AccessClient<Action, ResourceType, Scope>(perms({}))
     const results: string[] = []
     client.subscribe(() => {
       results.push('first')

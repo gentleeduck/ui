@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { PermissionMap } from '../../../core/types'
+import type { Client } from '../../../core/types'
 import { ACCESS_INJECTION_KEY, createVueAccess } from '../index'
 
 type A = 'read' | 'create' | 'delete'
@@ -37,11 +37,11 @@ function makeFakeVue() {
   return { vue, provided }
 }
 
-const map: PermissionMap<A, R, S> = {
+const map: Client.PermissionMap<A, R, S> = {
   'read:post': true,
   'create:post': false,
   'org-1:delete:post': true,
-} as unknown as PermissionMap<A, R, S>
+} as unknown as Client.PermissionMap<A, R, S>
 
 describe('createVueAccess - createAccessState', () => {
   it('can returns map values', () => {
@@ -71,16 +71,16 @@ describe('createVueAccess - createAccessState', () => {
   it('update mutates reactive permissions', () => {
     const { vue } = makeFakeVue()
     const { createAccessState } = createVueAccess<A, R, S>(vue)
-    const state = createAccessState({} as PermissionMap<A, R, S>)
+    const state = createAccessState({} as Client.PermissionMap<A, R, S>)
     expect(state.can('read', 'post')).toBe(false)
-    state.update({ 'read:post': true } as unknown as PermissionMap<A, R, S>)
+    state.update({ 'read:post': true } as unknown as Client.PermissionMap<A, R, S>)
     expect(state.can('read', 'post')).toBe(true)
   })
 
   it('missing key resolves false', () => {
     const { vue } = makeFakeVue()
     const { createAccessState } = createVueAccess<A, R, S>(vue)
-    const state = createAccessState({} as PermissionMap<A, R, S>)
+    const state = createAccessState({} as Client.PermissionMap<A, R, S>)
     expect(state.can('read', 'post')).toBe(false)
   })
 })

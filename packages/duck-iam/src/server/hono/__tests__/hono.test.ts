@@ -1,20 +1,20 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryAdapter } from '../../../adapters/memory'
 import { Engine } from '../../../core/engine'
-import type { Role } from '../../../core/types'
-import { accessMiddleware, guard } from '../index'
+import type { AccessControl } from '../../../core/types'
+import { accessMiddleware, bindAdminRouter, guard } from '../index'
 
 type Action = 'read' | 'create' | 'update' | 'delete'
-type Resource = 'post' | 'comment'
+type ResourceType = 'post' | 'comment'
 type RoleId = 'viewer' | 'editor'
 type Scope = 'org-1'
 
-const viewerRole: Role<Action, Resource, RoleId, Scope> = {
+const viewerRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'viewer',
   name: 'Viewer',
   permissions: [{ action: 'read', resource: 'post' }],
 }
-const editorRole: Role<Action, Resource, RoleId, Scope> = {
+const editorRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'editor',
   name: 'Editor',
   inherits: ['viewer'],
@@ -25,11 +25,11 @@ const editorRole: Role<Action, Resource, RoleId, Scope> = {
 }
 
 function makeEngine() {
-  const adapter = new MemoryAdapter<Action, Resource, RoleId, Scope>({
+  const adapter = new MemoryAdapter<Action, ResourceType, RoleId, Scope>({
     roles: [viewerRole, editorRole],
     assignments: { 'user-viewer': ['viewer'], 'user-editor': ['editor'] },
   })
-  return new Engine<Action, Resource, RoleId, Scope>({ adapter, cacheTTL: 0 })
+  return new Engine<Action, ResourceType, RoleId, Scope>({ adapter, cacheTTL: 0 })
 }
 
 interface RecordedJson {
@@ -79,7 +79,7 @@ function makeContext(opts: {
 }
 
 describe('accessMiddleware (hono)', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -196,7 +196,7 @@ describe('accessMiddleware (hono)', () => {
 
   it('getScope passed to engine', async () => {
     const can = vi.spyOn(engine, 'can').mockResolvedValue(true)
-    const mw = accessMiddleware<Action, Resource, RoleId, Scope>(engine, {
+    const mw = accessMiddleware<Action, ResourceType, RoleId, Scope>(engine, {
       getUserId: () => 'u',
       getScope: () => 'org-1',
     })
@@ -211,7 +211,7 @@ describe('accessMiddleware (hono)', () => {
 })
 
 describe('guard (hono)', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -267,5 +267,63 @@ describe('guard (hono)', () => {
       vi.fn(async () => undefined),
     )
     expect(json[0]?.status).toBe(599)
+  })
+})
+
+describe('bindAdminRouter (hono)', () => {
+  it('refuses construction without an authorize callback', () => {
+    const engine = makeEngine()
+    const fakeRouter = { get: vi.fn(), put: vi.fn(), post: vi.fn(), delete: vi.fn() }
+    expect(() => bindAdminRouter(fakeRouter, engine, undefined as never)).toThrow(/authorize/)
+  })
+
+  it('gates handlers behind authorize and dispatches when allowed', async () => {
+    const engine = makeEngine()
+    type Handler = (c: unknown) => Promise<Response> | Response
+    const handlers: Record<string, Handler> = {}
+    const router = {
+      get: vi.fn((path: string, h: Handler) => {
+        handlers[`GET ${path}`] = h
+      }),
+      put: vi.fn((path: string, h: Handler) => {
+        handlers[`PUT ${path}`] = h
+      }),
+      post: vi.fn((path: string, h: Handler) => {
+        handlers[`POST ${path}`] = h
+      }),
+      delete: vi.fn((path: string, h: Handler) => {
+        handlers[`DELETE ${path}`] = h
+      }),
+    }
+    bindAdminRouter(router, engine, { authorize: () => true })
+
+    const ctxAllow = {
+      req: { param: () => undefined, json: async () => [] },
+      json: (data: unknown, status?: number) => ({ data, status: status ?? 200 }) as unknown as Response,
+    }
+    const res = (await handlers['GET /policies']!(ctxAllow)) as unknown as { status: number }
+    expect(res.status).toBe(200)
+  })
+
+  it('returns 401 when authorize rejects', async () => {
+    const engine = makeEngine()
+    type Handler = (c: unknown) => Promise<Response> | Response
+    const handlers: Record<string, Handler> = {}
+    const router = {
+      get: vi.fn((path: string, h: Handler) => {
+        handlers[`GET ${path}`] = h
+      }),
+      put: vi.fn(),
+      post: vi.fn(),
+      delete: vi.fn(),
+    }
+    bindAdminRouter(router, engine, { authorize: () => false })
+    const ctxDeny = {
+      req: { param: () => undefined, json: async () => ({}) },
+      json: (data: unknown, status?: number) => ({ data, status: status ?? 200 }) as unknown as Response,
+    }
+    const res = (await handlers['GET /policies']!(ctxDeny)) as unknown as { status: number; data: unknown }
+    expect(res.status).toBe(401)
+    expect((res.data as { error: string }).error).toBe('Unauthorized')
   })
 })

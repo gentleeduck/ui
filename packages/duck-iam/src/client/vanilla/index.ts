@@ -26,38 +26,62 @@
  *   });
  */
 
-import type { PermissionMap } from '../../core/types'
+import type { Client } from '../../core/types'
 import { buildPermissionKey } from '../../shared/keys'
 
 /** Callback invoked when permissions are updated via {@link AccessClient.update} or {@link AccessClient.merge}. */
 type Listener<TAction extends string = string, TResource extends string = string, TScope extends string = string> = (
-  permissions: PermissionMap<TAction, TResource, TScope>,
+  permissions: Client.PermissionMap<TAction, TResource, TScope>,
 ) => void
 
 /**
- * Framework-agnostic client-side access control.
+ * Provides framework-agnostic client-side access control.
  *
- * Wraps a {@link PermissionMap} (typically fetched from the server) and provides
- * simple `.can()` / `.cannot()` checks. Supports reactive updates via `.subscribe()`.
+ * Wraps a {@link Client.PermissionMap} (typically fetched from the server) and
+ * exposes `.can()` / `.cannot()` checks. Supports reactive updates via
+ * `.subscribe()`.
  *
- * @template TAction   - Union of valid action strings
- * @template TResource - Union of valid resource strings
- * @template TScope    - Union of valid scope strings
+ * @template TAction - Constrains valid action strings.
+ * @template TResource - Constrains valid resource strings.
+ * @template TScope - Constrains valid scope strings.
+ * @example
+ * ```ts
+ * const access = new AccessClient(permissionsFromServer)
+ * if (access.can('delete', 'post')) deleteIt()
+ * const unsub = access.subscribe(() => rerender())
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class AccessClient<
   TAction extends string = string,
   TResource extends string = string,
   TScope extends string = string,
 > {
-  private _permissions: PermissionMap<TAction, TResource, TScope>
+  private _permissions: Client.PermissionMap<TAction, TResource, TScope>
   private _listeners = new Set<Listener<TAction, TResource, TScope>>()
 
-  /** @param permissions - Initial permission map (optional, can be set later via `.update()`). */
-  constructor(permissions?: PermissionMap<TAction, TResource, TScope>) {
-    this._permissions = permissions ?? ({} as PermissionMap<TAction, TResource, TScope>)
+  /**
+   * Creates a new client wrapping the given permission map.
+   *
+   * @param permissions - Optional initial permission map (set later via `update`).
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  constructor(permissions?: Client.PermissionMap<TAction, TResource, TScope>) {
+    this._permissions = permissions ?? ({} as Client.PermissionMap<TAction, TResource, TScope>)
   }
 
-  /** Fetch permissions from a server endpoint */
+  /**
+   * Fetches a permission map from `url` and returns a populated client.
+   *
+   * @template TA - Constrains valid action strings.
+   * @template TR - Constrains valid resource strings.
+   * @template TS - Constrains valid scope strings.
+   * @param url - Specifies the endpoint that returns a JSON permission map.
+   * @param init - Optional `fetch` init (auth headers, signal, etc.).
+   * @returns A populated {@link AccessClient}.
+   * @throws Error when the response status is non-2xx.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   static async fromServer<TA extends string = string, TR extends string = string, TS extends string = string>(
     url: string,
     init?: RequestInit,
@@ -67,57 +91,102 @@ export class AccessClient<
       headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     })
     if (!res.ok) throw new Error(`Failed to fetch permissions: ${res.status}`)
-    const perms: PermissionMap<TA, TR, TS> = await res.json()
+    const perms: Client.PermissionMap<TA, TR, TS> = await res.json()
     return new AccessClient<TA, TR, TS>(perms)
   }
 
-  /** Returns a readonly view of the current permission map. */
-  get permissions(): Readonly<PermissionMap<TAction, TResource, TScope>> {
+  /**
+   * Returns a readonly view of the current permission map.
+   *
+   * @returns Readonly map of action/resource keys to boolean grants.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  get permissions(): Readonly<Client.PermissionMap<TAction, TResource, TScope>> {
     return this._permissions
   }
 
-  /** Returns `true` if the permission map grants the specified action on the resource. */
+  /**
+   * Returns whether the action is granted on the resource.
+   *
+   * @param action - Specifies the action being checked.
+   * @param resource - Specifies the resource type.
+   * @param resourceId - Optional resource instance ID.
+   * @param scope - Optional scope binding the check.
+   * @returns `true` when the permission map grants the combination.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   can(action: TAction, resource: TResource, resourceId?: string, scope?: TScope): boolean {
     const key = buildPermissionKey(action, resource, resourceId, scope)
     return (this._permissions as Record<string, boolean>)[key] ?? false
   }
 
-  /** Returns `true` if the permission map does NOT grant the specified action on the resource. */
+  /**
+   * Returns whether the action is denied on the resource.
+   *
+   * @param action - Specifies the action being checked.
+   * @param resource - Specifies the resource type.
+   * @param resourceId - Optional resource instance ID.
+   * @param scope - Optional scope binding the check.
+   * @returns `true` when the permission map does not grant the combination.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   cannot(action: TAction, resource: TResource, resourceId?: string, scope?: TScope): boolean {
     return !this.can(action, resource, resourceId, scope)
   }
 
-  /** Update permissions and notify listeners */
-  update(permissions: PermissionMap<TAction, TResource, TScope>): void {
+  /**
+   * Replaces the current permission map and notifies subscribers.
+   *
+   * Listener errors are caught so one failing handler cannot block others.
+   *
+   * @param permissions - Provides the new permission map.
+   * @returns Nothing.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  update(permissions: Client.PermissionMap<TAction, TResource, TScope>): void {
     this._permissions = permissions
     for (const fn of this._listeners) {
       try {
         fn(permissions)
       } catch {
-        // Listener errors must not prevent other listeners from being notified
+        // Listener errors must not prevent other listeners from being notified.
       }
     }
   }
 
-  /** Merge new permissions into existing */
-  merge(permissions: PermissionMap<TAction, TResource, TScope>): void {
+  /**
+   * Shallow-merges the given map into the current permissions and notifies subscribers.
+   *
+   * @param permissions - Provides the partial permission patch.
+   * @returns Nothing.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  merge(permissions: Client.PermissionMap<TAction, TResource, TScope>): void {
     this.update({ ...this._permissions, ...permissions })
   }
 
-  /** Subscribe to permission changes. Returns unsubscribe function. */
+  /**
+   * Registers a listener to run on every permission change.
+   *
+   * @param fn - Listener invoked with the new permission map.
+   * @returns An unsubscribe function.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   subscribe(fn: Listener<TAction, TResource, TScope>): () => void {
     this._listeners.add(fn)
     return () => this._listeners.delete(fn)
   }
 
   /**
-   * Get all allowed actions for a resource type.
+   * Lists every action allowed against the given resource type.
    *
-   * Handles all key formats:
-   *   - "action:resource" (2 parts)
-   *   - "action:resource:resourceId" (3 parts)
-   *   - "scope:action:resource" (3 parts)
-   *   - "scope:action:resource:resourceId" (4 parts)
+   * Handles all key formats produced by `buildPermissionKey`:
+   * `action:resource`, `action:resource:resourceId`, `scope:action:resource`,
+   * and `scope:action:resource:resourceId`.
+   *
+   * @param resource - Specifies the resource type to filter by.
+   * @returns Deduplicated array of actions allowed on `resource`.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   allowedActions(resource: TResource): TAction[] {
     const actions: TAction[] = []
@@ -129,7 +198,13 @@ export class AccessClient<
     return [...new Set(actions)]
   }
 
-  /** Check if the user has any permission on a resource */
+  /**
+   * Returns whether at least one action is allowed on the resource.
+   *
+   * @param resource - Specifies the resource type to probe.
+   * @returns `true` when any granted key targets the resource.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   hasAnyOn(resource: TResource): boolean {
     return Object.entries(this._permissions).some(([key, allowed]) => {
       if (!allowed) return false
@@ -159,8 +234,8 @@ function extractAction(key: string, resource: string): string | null {
       if (parts[1] === resource) return parts[0] as string
       return null
     case 3:
-      // Could be action:resource:resourceId OR scope:action:resource
-      // Check both: resource at index 1 (unscoped) or index 2 (scoped)
+      // Could be action:resource:resourceId OR scope:action:resource.
+      // Check both: resource at index 1 (unscoped) or index 2 (scoped).
       if (parts[1] === resource) return parts[0] as string
       if (parts[2] === resource) return parts[1] as string
       return null

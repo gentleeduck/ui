@@ -1,20 +1,20 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryAdapter } from '../../../adapters/memory'
 import { Engine } from '../../../core/engine'
-import type { Role } from '../../../core/types'
+import type { AccessControl } from '../../../core/types'
 import { checkAccess, createNextMiddleware, getPermissions, withAccess } from '../index'
 
 type Action = 'read' | 'create' | 'update' | 'delete'
-type Resource = 'post' | 'comment'
+type ResourceType = 'post' | 'comment'
 type RoleId = 'viewer' | 'editor'
 type Scope = 'org-1'
 
-const viewerRole: Role<Action, Resource, RoleId, Scope> = {
+const viewerRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'viewer',
   name: 'Viewer',
   permissions: [{ action: 'read', resource: 'post' }],
 }
-const editorRole: Role<Action, Resource, RoleId, Scope> = {
+const editorRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'editor',
   name: 'Editor',
   inherits: ['viewer'],
@@ -26,11 +26,11 @@ const editorRole: Role<Action, Resource, RoleId, Scope> = {
 }
 
 function makeEngine() {
-  const adapter = new MemoryAdapter<Action, Resource, RoleId, Scope>({
+  const adapter = new MemoryAdapter<Action, ResourceType, RoleId, Scope>({
     roles: [viewerRole, editorRole],
     assignments: { 'user-viewer': ['viewer'], 'user-editor': ['editor'] },
   })
-  return new Engine<Action, Resource, RoleId, Scope>({ adapter, cacheTTL: 0 })
+  return new Engine<Action, ResourceType, RoleId, Scope>({ adapter, cacheTTL: 0 })
 }
 
 function makeRequest(opts: { url?: string; method?: string; headers?: Record<string, string> } = {}): Request {
@@ -41,7 +41,7 @@ function makeRequest(opts: { url?: string; method?: string; headers?: Record<str
 }
 
 describe('withAccess', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -92,7 +92,7 @@ describe('withAccess', () => {
   it('passes scope option', async () => {
     const can = vi.spyOn(engine, 'can').mockResolvedValue(true)
     const handler = vi.fn(async () => Response.json({ ok: true }))
-    const wrapped = withAccess<Action, Resource, RoleId, Scope>(engine, 'delete', 'post', handler, {
+    const wrapped = withAccess<Action, ResourceType, RoleId, Scope>(engine, 'delete', 'post', handler, {
       getUserId: () => 'u',
       scope: 'org-1',
     })
@@ -163,7 +163,7 @@ describe('getPermissions', () => {
 })
 
 describe('createNextMiddleware', () => {
-  let engine: Engine<Action, Resource, RoleId, Scope>
+  let engine: Engine<Action, ResourceType, RoleId, Scope>
 
   beforeEach(() => {
     engine = makeEngine()
@@ -227,7 +227,7 @@ describe('createNextMiddleware', () => {
 
   it('passes scope from rule', async () => {
     const can = vi.spyOn(engine, 'can').mockResolvedValue(true)
-    const mw = createNextMiddleware<Action, Resource, RoleId, Scope>(engine, {
+    const mw = createNextMiddleware<Action, ResourceType, RoleId, Scope>(engine, {
       rules: [{ pattern: '/post', resource: 'post', action: 'read', scope: 'org-1' }],
       getUserId: () => 'u',
     })

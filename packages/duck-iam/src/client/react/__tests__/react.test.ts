@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { PermissionMap } from '../../../core/types'
+import type { Client } from '../../../core/types'
 import { createAccessControl, createPermissionChecker } from '../index'
 
 type A = 'read' | 'create' | 'delete'
@@ -89,12 +89,12 @@ function makeFakeReact() {
 }
 
 describe('createAccessControl', () => {
-  const map: PermissionMap<A, R, S> = {
+  const map: Client.PermissionMap<A, R, S> = {
     'read:post': true,
     'create:post': false,
     'org-1:delete:post': true,
     'delete:post:abc': true,
-  } as unknown as PermissionMap<A, R, S>
+  } as unknown as Client.PermissionMap<A, R, S>
 
   it('exposes can returning true/false from map', () => {
     const { React } = makeFakeReact()
@@ -183,7 +183,7 @@ describe('createAccessControl', () => {
       const { React, runEffects, beginRender } = makeFakeReact()
       const { usePermissions } = createAccessControl<A, R, S>(React as never)
 
-      const fetcher = vi.fn(async () => ({ 'read:post': true }) as unknown as PermissionMap<A, R, S>)
+      const fetcher = vi.fn(async () => ({ 'read:post': true }) as unknown as Client.PermissionMap<A, R, S>)
 
       beginRender()
       const result1 = usePermissions(fetcher)
@@ -208,13 +208,13 @@ describe('createAccessControl', () => {
       })
 
       beginRender()
-      usePermissions(fetcher as unknown as () => Promise<PermissionMap<A, R, S>>)
+      usePermissions(fetcher as unknown as () => Promise<Client.PermissionMap<A, R, S>>)
 
       await runEffects()
       await new Promise((r) => setTimeout(r, 0))
 
       beginRender()
-      const r = usePermissions(fetcher as unknown as () => Promise<PermissionMap<A, R, S>>)
+      const r = usePermissions(fetcher as unknown as () => Promise<Client.PermissionMap<A, R, S>>)
       expect(r.error?.message).toBe('fail')
       expect(r.loading).toBe(false)
     })
@@ -226,26 +226,26 @@ describe('createPermissionChecker', () => {
     const checker = createPermissionChecker<A, R, S>({
       'read:post': true,
       'create:post': false,
-    } as unknown as PermissionMap<A, R, S>)
+    } as unknown as Client.PermissionMap<A, R, S>)
     expect(checker.can('read', 'post')).toBe(true)
     expect(checker.can('create', 'post')).toBe(false)
   })
 
   it('missing key returns false', () => {
-    const checker = createPermissionChecker<A, R, S>({} as unknown as PermissionMap<A, R, S>)
+    const checker = createPermissionChecker<A, R, S>({} as unknown as Client.PermissionMap<A, R, S>)
     expect(checker.can('read', 'post')).toBe(false)
   })
 
   it('cannot inverts can', () => {
     const checker = createPermissionChecker<A, R, S>({
       'read:post': true,
-    } as unknown as PermissionMap<A, R, S>)
+    } as unknown as Client.PermissionMap<A, R, S>)
     expect(checker.cannot('read', 'post')).toBe(false)
     expect(checker.cannot('create', 'post')).toBe(true)
   })
 
   it('exposes original permissions', () => {
-    const map = { 'read:post': true } as unknown as PermissionMap<A, R, S>
+    const map = { 'read:post': true } as unknown as Client.PermissionMap<A, R, S>
     const checker = createPermissionChecker<A, R, S>(map)
     expect(checker.permissions).toBe(map)
   })
@@ -253,7 +253,7 @@ describe('createPermissionChecker', () => {
   it('respects scope key', () => {
     const checker = createPermissionChecker<A, R, S>({
       'org-1:delete:post': true,
-    } as unknown as PermissionMap<A, R, S>)
+    } as unknown as Client.PermissionMap<A, R, S>)
     expect(checker.can('delete', 'post', undefined, 'org-1')).toBe(true)
     expect(checker.can('delete', 'post')).toBe(false)
   })

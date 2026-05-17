@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { MemoryAdapter } from '../../../adapters/memory'
 import { Engine } from '../../../core/engine'
-import type { Role } from '../../../core/types'
+import type { AccessControl } from '../../../core/types'
 import { createSubjectCan, extractEnvironment, generatePermissionMap, METHOD_ACTION_MAP } from '../index'
 
 type Action = 'read' | 'create' | 'update' | 'delete'
-type Resource = 'post' | 'comment'
+type ResourceType = 'post' | 'comment'
 type RoleId = 'viewer' | 'editor'
 type Scope = 'org-1'
 
-const viewerRole: Role<Action, Resource, RoleId, Scope> = {
+const viewerRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'viewer',
   name: 'Viewer',
   permissions: [
@@ -18,7 +18,7 @@ const viewerRole: Role<Action, Resource, RoleId, Scope> = {
   ],
 }
 
-const editorRole: Role<Action, Resource, RoleId, Scope> = {
+const editorRole: AccessControl.IRole<Action, ResourceType, RoleId, Scope> = {
   id: 'editor',
   name: 'Editor',
   inherits: ['viewer'],
@@ -29,14 +29,14 @@ const editorRole: Role<Action, Resource, RoleId, Scope> = {
 }
 
 function createEngine() {
-  const adapter = new MemoryAdapter<Action, Resource, RoleId, Scope>({
+  const adapter = new MemoryAdapter<Action, ResourceType, RoleId, Scope>({
     roles: [viewerRole, editorRole],
     assignments: {
       'user-viewer': ['viewer'],
       'user-editor': ['editor'],
     },
   })
-  return new Engine<Action, Resource, RoleId, Scope>({ adapter, cacheTTL: 0 })
+  return new Engine<Action, ResourceType, RoleId, Scope>({ adapter, cacheTTL: 0 })
 }
 
 describe('generatePermissionMap()', () => {

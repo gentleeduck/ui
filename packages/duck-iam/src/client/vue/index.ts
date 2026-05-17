@@ -18,13 +18,17 @@
  *   <button v-if="can('delete', 'post')">Delete</button>
  */
 
-import type { PermissionMap } from '../../core/types'
+import type { Client } from '../../core/types'
 import { buildPermissionKey } from '../../shared/keys'
 
-/** Vue injection key for the access control state. */
+/**
+ * Vue injection key for the access control state.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
 export const ACCESS_INJECTION_KEY = Symbol('duck-iam')
 
-// Vue is a peer dep — consumers inject their own Vue via createVueAccess(vue).
+// Vue is a peer dep; consumers inject their own Vue via createVueAccess(vue).
 
 /** Minimal Vue ref type. */
 interface VueRef<T> {
@@ -53,15 +57,25 @@ interface VueApp {
 }
 
 /**
- * Create the Vue access control system.
- * Pass your Vue's reactive utilities to avoid hard dependency.
+ * Builds the Vue 3 access control surface (composable, plugin, components).
  *
- *   import { ref, computed, inject, provide } from "vue";
- *   import { createVueAccess } from "duck-iam/client/vue";
+ * Pass Vue's reactive utilities to avoid a hard dependency on the framework.
  *
- *   export const { useAccess, provideAccess, createAccessPlugin } = createVueAccess({
- *     ref, computed, inject, provide,
- *   });
+ * @template TAction - Constrains valid action strings.
+ * @template TResource - Constrains valid resource strings.
+ * @template TScope - Constrains valid scope strings.
+ * @param vue - Provides the host Vue module so we never bundle our own copy.
+ * @returns `{ createAccessState, provideAccess, useAccess, createAccessPlugin, Can, Cannot, ACCESS_INJECTION_KEY }`.
+ * @example
+ * ```ts
+ * import { ref, computed, inject, provide, defineComponent, h } from 'vue'
+ * import { createVueAccess } from 'duck-iam/client/vue'
+ *
+ * export const { useAccess, createAccessPlugin } = createVueAccess({
+ *   ref, computed, inject, provide, defineComponent, h,
+ * })
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export function createVueAccess<
   TAction extends string = string,
@@ -71,8 +85,8 @@ export function createVueAccess<
   const { ref, inject, provide, defineComponent } = vue
 
   /** Create reactive access control state with can/cannot helpers. */
-  function createAccessState(initialPermissions: PermissionMap<TAction, TResource, TScope>) {
-    const permissions = ref(initialPermissions as PermissionMap<TAction, TResource, TScope>)
+  function createAccessState(initialPermissions: Client.PermissionMap<TAction, TResource, TScope>) {
+    const permissions = ref(initialPermissions as Client.PermissionMap<TAction, TResource, TScope>)
 
     const can = (action: TAction, resource: TResource, resourceId?: string, scope?: TScope): boolean => {
       const key = buildPermissionKey(action, resource, resourceId, scope)
@@ -83,7 +97,7 @@ export function createVueAccess<
       return !can(action, resource, resourceId, scope)
     }
 
-    const update = (newPerms: PermissionMap<TAction, TResource, TScope>) => {
+    const update = (newPerms: Client.PermissionMap<TAction, TResource, TScope>) => {
       permissions.value = newPerms
     }
 
@@ -91,7 +105,7 @@ export function createVueAccess<
   }
 
   /** Provide access control state to child components via Vue's provide/inject. */
-  function provideAccess(permissions: PermissionMap<TAction, TResource, TScope>) {
+  function provideAccess(permissions: Client.PermissionMap<TAction, TResource, TScope>) {
     const state = createAccessState(permissions)
     provide(ACCESS_INJECTION_KEY, state)
     return state
@@ -110,7 +124,7 @@ export function createVueAccess<
   }
 
   /** Create a Vue plugin that installs access control globally. */
-  function createAccessPlugin(permissions: PermissionMap<TAction, TResource, TScope>) {
+  function createAccessPlugin(permissions: Client.PermissionMap<TAction, TResource, TScope>) {
     return {
       install(app: VueApp) {
         const state = createAccessState(permissions)
@@ -123,7 +137,7 @@ export function createVueAccess<
   }
 
   /**
-   * Declarative component: renders slot content only when permission is granted.
+   * Declarative component that renders slot content only when the permission is granted.
    *
    *   <Can action="delete" resource="post">
    *     <button>Delete</button>
@@ -158,7 +172,7 @@ export function createVueAccess<
   })
 
   /**
-   * Declarative component: renders slot content only when permission is denied.
+   * Declarative component that renders slot content only when the permission is denied.
    *
    *   <Cannot action="read" resource="analytics">
    *     <div>Upgrade to access this feature</div>
