@@ -1,8 +1,8 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: hot-path index iteration is guarded by `i < arr.length`. */
 import { evalConditionGroup } from '../conditions'
 import { matchesAction, matchesResource, matchesResourceHierarchical } from '../resolve'
-import type { AccessRequest, CombiningAlgorithm, Effect, Policy, Rule } from '../types'
-import type { Combiner } from './evaluate.types'
-
+import type { AccessControl, Request } from '../types'
+import type { Evaluate } from './evaluate.types'
 /**
  * Checks whether a single rule applies to the given access request.
  *
@@ -13,12 +13,13 @@ import type { Combiner } from './evaluate.types'
  * @param rule - The rule to test
  * @param req  - The incoming access request
  * @returns `true` if the rule matches the request
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function ruleApplies(rule: Rule, req: AccessRequest): boolean {
+export function ruleApplies(rule: AccessControl.IRule, req: Request.IAccessRequest): boolean {
   const actionMatch = rule.actions.some((a) => matchesAction(a, req.action))
   if (!actionMatch) return false
 
-  // Hoist the dot check — compute once before the .some() loop
+  // Hoist the dot check - compute once before the .some() loop
   const resourceHasDot = req.resource.type.includes('.')
 
   const resourceMatch = rule.resources.some((r) => {
@@ -38,13 +39,14 @@ export function ruleApplies(rule: Rule, req: AccessRequest): boolean {
  *
  * If the policy has no targets defined, it applies to all requests.
  * Otherwise, each target dimension (actions, resources, roles) is checked
- * independently — all specified dimensions must match.
+ * independently - all specified dimensions must match.
  *
  * @param policy - The policy whose targets to check
  * @param req    - The incoming access request
  * @returns `true` if the policy should be evaluated for this request
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function policyApplies(policy: Policy, req: AccessRequest): boolean {
+export function policyApplies(policy: AccessControl.IPolicy, req: Request.IAccessRequest): boolean {
   if (!policy.targets) return true
 
   const { actions, resources, roles } = policy.targets
@@ -65,17 +67,16 @@ export function policyApplies(policy: Policy, req: AccessRequest): boolean {
 }
 
 /**
- * Record of all supported combining algorithm implementations.
+ * Combining-algorithm implementations. Each picks one matched rule's effect:
  *
- * Each algorithm determines how multiple matching rules within a policy
- * are combined into a single decision:
+ * - `deny-overrides`   - any deny wins; otherwise first allow wins.
+ * - `allow-overrides`  - any allow wins; otherwise first deny wins.
+ * - `first-match`      - highest-priority match wins; ties resolved by source order.
+ * - `highest-priority` - highest-priority match wins (alias of `first-match` once ties tie-break by priority alone).
  *
- * - `deny-overrides`   — Any deny wins; otherwise first allow wins.
- * - `allow-overrides`  — Any allow wins; otherwise first deny wins.
- * - `first-match`      — The first matching rule wins regardless of effect.
- * - `highest-priority`  — The rule with the highest priority value wins.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export const combiners: Record<CombiningAlgorithm, Combiner> = {
+export const combiners: Record<AccessControl.CombiningAlgorithm, Evaluate.Combiner> = {
   'deny-overrides': (matched, defaultEffect) => {
     const deny = matched.find((m) => m.effect === 'deny')
     if (deny) {
@@ -117,15 +118,20 @@ export const combiners: Record<CombiningAlgorithm, Combiner> = {
   },
 
   'first-match': (matched, defaultEffect) => {
-    const first = matched[0]
-    if (first) {
-      return {
-        rule: first.rule,
-        effect: first.effect,
-        reason: `First match: rule "${first.rule.id}" (${first.effect})`,
-      }
+    if (matched.length === 0) {
+      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
     }
-    return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+    // Highest priority first; stable on ties preserves source order
+    let first = matched[0]!
+    for (let i = 1; i < matched.length; i++) {
+      const cur = matched[i]!
+      if (cur.rule.priority > first.rule.priority) first = cur
+    }
+    return {
+      rule: first.rule,
+      effect: first.effect,
+      reason: `First match: rule "${first.rule.id}" (${first.effect})`,
+    }
   },
 
   'highest-priority': (matched, defaultEffect) => {
@@ -142,76 +148,63 @@ export const combiners: Record<CombiningAlgorithm, Combiner> = {
 }
 
 /**
- * A single rule entry within a {@link PolicyRuleIndex}. Rules are pre-indexed by action for fast lookup.
+ * True when a pattern matches more than its own literal value (`'*'`, `'foo:*'`,
+ * `'foo.*'`). Such patterns can't be served by the literal-keyed `byActionResource`
+ * map and must be checked via the wildcardAny scan.
  */
-export interface IndexedRule {
-  readonly rule: Rule
-  readonly actions: Set<string>
-  readonly resources: Set<string>
-  readonly hasWildcardAction: boolean
-  readonly hasWildcardResource: boolean
-}
-
-/**
- * Pre-computed index over a policy's rules for O(1) candidate lookup.
- */
-export interface PolicyRuleIndex {
-  readonly byAction: Map<string, IndexedRule[]>
-  readonly wildcardRules: IndexedRule[]
-  /** Combined action\0resource key for O(1) exact-match lookup (fast path). */
-  readonly byActionResource: Map<string, IndexedRule[]>
-  /** Rules with wildcard action OR wildcard resource (need full matching). */
-  readonly wildcardAny: IndexedRule[]
-  /**
-   * Pre-computed results for unconditional rules (CASL-like O(1) path).
-   * Nested map: action → resource → boolean. Avoids string concat per lookup.
-   * Only populated when ALL matching rules for a key have no conditions
-   * and no wildcard rules exist that could interfere.
-   */
-  readonly precomputed: Map<string, Map<string, boolean>>
+function isExpansivePattern(p: string): boolean {
+  return p.includes('*')
 }
 
 /** WeakMap so indexes are GC'd when the policy is no longer referenced. */
-const indexCache = new WeakMap<Policy, PolicyRuleIndex>()
+const indexCache = new WeakMap<AccessControl.IPolicy, Evaluate.IPolicyRuleIndex>()
 
 /**
  * Build (or retrieve from cache) a rule index for a policy.
+ *
+ * @param policy - The policy whose rules should be indexed.
+ * @returns The cached or freshly built {@link Evaluate.IPolicyRuleIndex}.
+ * @author wildduck2 <https://github.com/wildduck2>
  */
-export function indexPolicy(policy: Policy): PolicyRuleIndex {
+export function indexPolicy(policy: AccessControl.IPolicy): Evaluate.IPolicyRuleIndex {
   const cached = indexCache.get(policy)
   if (cached) return cached
 
-  const byAction = new Map<string, IndexedRule[]>()
-  const byActionResource = new Map<string, IndexedRule[]>()
-  const wildcardRules: IndexedRule[] = []
-  const wildcardAny: IndexedRule[] = []
+  const byActionResource = new Map<string, Evaluate.IIndexedRule[]>()
+  const wildcardAny: Evaluate.IIndexedRule[] = []
 
   for (const rule of policy.rules) {
     const actions = new Set(rule.actions as string[])
     const resources = new Set(rule.resources as string[])
-    const hasWildcardAction = actions.has('*')
-    const hasWildcardResource = resources.has('*')
-
-    const entry: IndexedRule = { rule, actions, resources, hasWildcardAction, hasWildcardResource }
-
-    if (hasWildcardAction || hasWildcardResource) {
-      wildcardAny.push(entry)
-      if (hasWildcardAction) wildcardRules.push(entry)
-    }
-
-    // Populate action-only index (existing)
-    if (!hasWildcardAction) {
-      for (const a of actions) {
-        let bucket = byAction.get(a)
-        if (!bucket) {
-          bucket = []
-          byAction.set(a, bucket)
-        }
-        bucket.push(entry)
+    let hasWildcardAction = false
+    for (const a of actions) {
+      if (isExpansivePattern(a)) {
+        hasWildcardAction = true
+        break
       }
     }
+    let hasWildcardResource = false
+    for (const r of resources) {
+      if (isExpansivePattern(r)) {
+        hasWildcardResource = true
+        break
+      }
+    }
+    const c = rule.conditions
+    const hasConditions = !!c && ('all' in c || 'any' in c || 'none' in c)
+    const entry: Evaluate.IIndexedRule = {
+      rule,
+      actions,
+      resources,
+      hasWildcardAction,
+      hasWildcardResource,
+      hasConditions,
+    }
 
-    // Populate combined action+resource index (new fast path)
+    if (hasWildcardAction || hasWildcardResource) wildcardAny.push(entry)
+
+    // Only rules with literal actions AND resources go into the exact-key index;
+    // expansive patterns (`*`, `foo:*`, `foo.*`) are handled by the wildcardAny scan.
     if (!hasWildcardAction && !hasWildcardResource) {
       for (const a of actions) {
         for (const r of resources) {
@@ -235,17 +228,17 @@ export function indexPolicy(policy: Policy): PolicyRuleIndex {
   if (wildcardAny.length === 0 && (algo === 'deny-overrides' || algo === 'allow-overrides' || algo === 'first-match')) {
     for (const rule of policy.rules) {
       const c = rule.conditions
-      if ('all' in c || 'any' in c || 'none' in c) continue // skip conditional rules
-      if (rule.actions.includes('*') || rule.resources.includes('*')) continue
+      if ('all' in c || 'any' in c || 'none' in c) continue
+      if (rule.actions.some(isExpansivePattern) || rule.resources.some(isExpansivePattern)) continue
 
       for (const a of rule.actions) {
         for (const r of rule.resources) {
-          // Get all rules matching this action+resource
           const arKey = `${a}\0${r}`
           const entries = byActionResource.get(arKey)
           if (!entries) continue
 
-          // All entries for this key must be unconditional
+          // Only precompute when every entry in this bucket is unconditional  -
+          // otherwise the result depends on the request and can't be cached.
           let allUnconditional = true
           for (const e of entries) {
             const ec = e.rule.conditions
@@ -279,7 +272,12 @@ export function indexPolicy(policy: Policy): PolicyRuleIndex {
             }
             if (result === undefined && hasDeny) result = false
           } else if (algo === 'first-match' && entries.length > 0) {
-            result = entries[0]?.rule.effect === 'allow'
+            let best = entries[0]!
+            for (let i = 1; i < entries.length; i++) {
+              const cur = entries[i]!
+              if (cur.rule.priority > best.rule.priority) best = cur
+            }
+            result = best.rule.effect === 'allow'
           }
 
           if (result !== undefined) {
@@ -295,54 +293,7 @@ export function indexPolicy(policy: Policy): PolicyRuleIndex {
     }
   }
 
-  const idx: PolicyRuleIndex = { byAction, wildcardRules, byActionResource, wildcardAny, precomputed }
+  const idx: Evaluate.IPolicyRuleIndex = { byActionResource, wildcardAny, precomputed }
   indexCache.set(policy, idx)
   return idx
-}
-
-/**
- * Get candidate indexed rules that could match a given action.
- */
-export function getIndexedCandidates(idx: PolicyRuleIndex, action: string): IndexedRule[] {
-  const exact = idx.byAction.get(action)
-  if (exact) {
-    return idx.wildcardRules.length > 0 ? [...exact, ...idx.wildcardRules] : exact
-  }
-  return idx.wildcardRules
-}
-
-/**
- * Get all indexed rules that fully match a request (action + resource + conditions).
- */
-export function getIndexedMatches(idx: PolicyRuleIndex, req: AccessRequest): Array<{ rule: Rule; effect: Effect }> {
-  const candidates = getIndexedCandidates(idx, req.action)
-  const matched: Array<{ rule: Rule; effect: Effect }> = []
-  const resourceHasDot = req.resource.type.includes('.')
-
-  for (const entry of candidates) {
-    // Action match — already narrowed by index, but check prefix patterns
-    if (!entry.hasWildcardAction && !entry.actions.has(req.action)) {
-      // Could be a prefix pattern like "posts:*"
-      const actionMatch = entry.rule.actions.some((a) => matchesAction(a, req.action))
-      if (!actionMatch) continue
-    }
-
-    // Resource match
-    if (!entry.hasWildcardResource) {
-      const resourceMatch = entry.rule.resources.some((r) => {
-        if (resourceHasDot || r.includes('.')) {
-          return matchesResourceHierarchical(r, req.resource.type)
-        }
-        return matchesResource(r, req.resource.type)
-      })
-      if (!resourceMatch) continue
-    }
-
-    // Condition match
-    if (!evalConditionGroup(req, entry.rule.conditions)) continue
-
-    matched.push({ rule: entry.rule, effect: entry.rule.effect })
-  }
-
-  return matched
 }
