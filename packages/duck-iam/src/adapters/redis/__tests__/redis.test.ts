@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import type { Policy, Role } from '../../../core/types'
-import { RedisAdapter, type RedisLike } from '../index'
+import type { Engine } from '../../../core'
+import type { AccessControl, Adapter } from '../../../core/types'
+import { type Redis, RedisAdapter } from '../index'
 
 type A = 'read' | 'write'
 type R = 'post' | 'comment'
 type Ro = 'viewer' | 'editor'
 type S = 'org-1' | 'org-2'
 
-class FakeRedis implements RedisLike {
+class FakeRedis implements Redis.ILike {
   private strings = new Map<string, string>()
   private hashes = new Map<string, Map<string, string>>()
   private sets = new Map<string, Set<string>>()
@@ -97,8 +98,8 @@ describe('RedisAdapter', () => {
     adapter = new RedisAdapter<A, R, Ro, S>({ client: redis })
   })
 
-  describe('PolicyStore', () => {
-    const policy: Policy<A, R, Ro> = {
+  describe('Adapter.IPolicyStore', () => {
+    const policy: AccessControl.IPolicy<A, R, Ro> = {
       id: 'p1',
       name: 'Test',
       description: 'desc',
@@ -149,8 +150,8 @@ describe('RedisAdapter', () => {
     })
   })
 
-  describe('RoleStore', () => {
-    const role: Role<A, R, Ro, S> = {
+  describe('Adapter.IRoleStore', () => {
+    const role: AccessControl.IRole<A, R, Ro, S> = {
       id: 'editor',
       name: 'Editor',
       description: 'Can edit',
@@ -195,7 +196,7 @@ describe('RedisAdapter', () => {
     })
   })
 
-  describe('SubjectStore', () => {
+  describe('Adapter.ISubjectStore', () => {
     it('getSubjectRoles empty when none assigned', async () => {
       expect(await adapter.getSubjectRoles('user-1')).toEqual([])
     })
@@ -318,6 +319,21 @@ describe('RedisAdapter', () => {
 
       const denied = await engine.can('user-1', 'read', { type: 'post', attributes: {} })
       expect(denied).toBe(false)
+    })
+  })
+
+  describe('NUL byte guard on role/scope', () => {
+    // The encoded set member uses `\0` as separator. A caller smuggling a NUL
+    // through `as TRole` would corrupt the assignment silently - the guard
+    // throws instead.
+    it('assignRole rejects roleId containing NUL', async () => {
+      const adapter = new RedisAdapter<A, R, Ro, S>({ client: new FakeRedis() })
+      await expect(adapter.assignRole('user-1', 'view\0er' as Ro)).rejects.toThrow(/NUL/)
+    })
+
+    it('assignRole rejects scope containing NUL', async () => {
+      const adapter = new RedisAdapter<A, R, Ro, S>({ client: new FakeRedis() })
+      await expect(adapter.assignRole('user-1', 'viewer' as Ro, 'org\0-1' as S)).rejects.toThrow(/NUL/)
     })
   })
 })

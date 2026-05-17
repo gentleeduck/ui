@@ -1,147 +1,263 @@
-import type { Adapter, Attributes, Policy, Role, ScopedRole } from '../../core/types'
+import type { AccessControl, Adapter, Primitives, Request } from '../../core/types'
 
-/**
- * Initialization options for the {@link MemoryAdapter}.
- *
- * @template TAction   - Union of valid action strings
- * @template TResource - Union of valid resource strings
- * @template TRole     - Union of valid role strings
- * @template TScope    - Union of valid scope strings
- */
-export interface MemoryAdapterInit<
-  TAction extends string = string,
-  TResource extends string = string,
-  TRole extends string = string,
-  TScope extends string = string,
-> {
-  /** Initial policies to seed the adapter with. */
-  policies?: Policy<TAction, TResource, TRole>[]
-  /** Initial roles to seed the adapter with. */
-  roles?: Role<TAction, TResource, TRole, TScope>[]
-  /** Initial role assignments, keyed by subject ID. */
-  assignments?: Record<string, TRole[]>
-  /** Initial subject attributes, keyed by subject ID. */
-  attributes?: Record<string, Attributes>
+export namespace Memory {
+  /**
+   * Describes initial seed data for {@link MemoryAdapter}.
+   *
+   * @template TAction - Constrains valid action strings.
+   * @template TResource - Constrains valid resource strings.
+   * @template TRole - Constrains valid role strings.
+   * @template TScope - Constrains valid scope strings.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  export interface IInit<
+    TAction extends string = string,
+    TResource extends string = string,
+    TRole extends string = string,
+    TScope extends string = string,
+  > {
+    /** Seeds the adapter with these policies on construction. */
+    policies?: AccessControl.IPolicy<TAction, TResource, TRole>[]
+    /** Seeds the adapter with these roles on construction. */
+    roles?: AccessControl.IRole<TAction, TResource, TRole, TScope>[]
+    /** Maps subject IDs to their initial unscoped roles. */
+    assignments?: Record<string, TRole[]>
+    /** Maps subject IDs to their initial attribute bag. */
+    attributes?: Record<string, Primitives.Attributes>
+  }
 }
 
 /**
- * In-memory implementation of the {@link Adapter} interface.
+ * Provides an in-memory {@link Adapter.IAdapter} backed by `Map` storage.
  *
- * Stores all data in `Map` objects. Useful for testing, prototyping, and
- * applications that do not need persistent storage. For production, implement
- * a database-backed adapter instead.
+ * Suited to tests, prototypes, and single-process apps without persistence
+ * needs. Replace with a database-backed adapter for production.
  *
- * @template TAction   - Union of valid action strings
- * @template TResource - Union of valid resource strings
- * @template TRole     - Union of valid role strings
- * @template TScope    - Union of valid scope strings
+ * @template TAction - Constrains valid action strings.
+ * @template TResource - Constrains valid resource strings.
+ * @template TRole - Constrains valid role strings.
+ * @template TScope - Constrains valid scope strings.
+ * @example
+ * ```ts
+ * const adapter = new MemoryAdapter({
+ *   policies: [policy],
+ *   roles: [role],
+ *   assignments: { 'user-1': ['admin'] },
+ * })
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class MemoryAdapter<
   TAction extends string = string,
   TResource extends string = string,
   TRole extends string = string,
   TScope extends string = string,
-> implements Adapter<TAction, TResource, TRole, TScope>
+> implements Adapter.IAdapter<TAction, TResource, TRole, TScope>
 {
-  private policies = new Map<string, Policy<TAction, TResource, TRole>>()
-  private roles = new Map<string, Role<TAction, TResource, TRole, TScope>>()
-  private assignments = new Map<string, Array<{ role: TRole; scope?: TScope }>>()
-  private attributes = new Map<string, Attributes>()
+  private _policies = new Map<string, AccessControl.IPolicy<TAction, TResource, TRole>>()
+  private _roles = new Map<string, AccessControl.IRole<TAction, TResource, TRole, TScope>>()
+  private _assignments = new Map<string, Array<{ role: TRole; scope?: TScope }>>()
+  private _attributes = new Map<string, Primitives.Attributes>()
 
-  /** Creates a new in-memory adapter, optionally seeded with initial data. */
-  constructor(init?: MemoryAdapterInit<TAction, TResource, TRole, TScope>) {
-    for (const p of init?.policies ?? []) this.policies.set(p.id, p)
-    for (const r of init?.roles ?? []) this.roles.set(r.id, r)
+  /**
+   * Creates a new in-memory adapter, optionally seeded with initial data.
+   *
+   * @param init - Provides optional seed policies, roles, assignments, and attributes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  constructor(init?: Memory.IInit<TAction, TResource, TRole, TScope>) {
+    for (const p of init?.policies ?? []) this._policies.set(p.id, p)
+    for (const r of init?.roles ?? []) this._roles.set(r.id, r)
     for (const [uid, roles] of Object.entries(init?.assignments ?? {})) {
-      this.assignments.set(
+      this._assignments.set(
         uid,
         (roles as TRole[]).map((r) => ({ role: r })),
       )
     }
     for (const [uid, attrs] of Object.entries(init?.attributes ?? {})) {
-      this.attributes.set(uid, attrs)
+      this._attributes.set(uid, attrs)
     }
   }
 
-  /** Returns all stored policies. */
-  async listPolicies(): Promise<Policy<TAction, TResource, TRole>[]> {
-    return [...this.policies.values()]
+  /**
+   * Lists every stored policy.
+   *
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns All policies currently held in memory.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async listPolicies(_opts?: Adapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole>[]> {
+    return [...this._policies.values()]
   }
 
-  /** Returns a policy by ID, or `null` if not found. */
-  async getPolicy(id: string): Promise<Policy<TAction, TResource, TRole> | null> {
-    return this.policies.get(id) ?? null
+  /**
+   * Fetches a single policy by ID.
+   *
+   * @param id - Identifies the policy to look up.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The matching policy or `null` when absent.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getPolicy(
+    id: string,
+    _opts?: Adapter.IReadOptions,
+  ): Promise<AccessControl.IPolicy<TAction, TResource, TRole> | null> {
+    return this._policies.get(id) ?? null
   }
 
-  /** Creates or overwrites a policy. */
-  async savePolicy(p: Policy<TAction, TResource, TRole>): Promise<void> {
-    this.policies.set(p.id, p)
+  /**
+   * Stores or overwrites a policy keyed by its ID.
+   *
+   * @param p - Provides the policy to persist.
+   * @returns Resolves once the write completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async savePolicy(p: AccessControl.IPolicy<TAction, TResource, TRole>): Promise<void> {
+    this._policies.set(p.id, p)
   }
 
-  /** Deletes a policy by ID. */
+  /**
+   * Removes a policy by ID.
+   *
+   * @param id - Identifies the policy to delete.
+   * @returns Resolves once the entry is removed (no-op when absent).
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async deletePolicy(id: string): Promise<void> {
-    this.policies.delete(id)
+    this._policies.delete(id)
   }
 
-  /** Returns all stored roles. */
-  async listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]> {
-    return [...this.roles.values()]
+  /**
+   * Lists every stored role.
+   *
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns All roles currently held in memory.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async listRoles(_opts?: Adapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope>[]> {
+    return [...this._roles.values()]
   }
 
-  /** Returns a role by ID, or `null` if not found. */
-  async getRole(id: string): Promise<Role<TAction, TResource, TRole, TScope> | null> {
-    return this.roles.get(id) ?? null
+  /**
+   * Fetches a single role by ID.
+   *
+   * @param id - Identifies the role to look up.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The matching role or `null` when absent.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getRole(
+    id: string,
+    _opts?: Adapter.IReadOptions,
+  ): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope> | null> {
+    return this._roles.get(id) ?? null
   }
 
-  /** Creates or overwrites a role. */
-  async saveRole(r: Role<TAction, TResource, TRole, TScope>): Promise<void> {
-    this.roles.set(r.id, r)
+  /**
+   * Stores or overwrites a role keyed by its ID.
+   *
+   * @param r - Provides the role to persist.
+   * @returns Resolves once the write completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async saveRole(r: AccessControl.IRole<TAction, TResource, TRole, TScope>): Promise<void> {
+    this._roles.set(r.id, r)
   }
 
-  /** Deletes a role by ID. */
+  /**
+   * Removes a role by ID.
+   *
+   * @param id - Identifies the role to delete.
+   * @returns Resolves once the entry is removed (no-op when absent).
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async deleteRole(id: string): Promise<void> {
-    this.roles.delete(id)
+    this._roles.delete(id)
   }
 
-  /** Returns the unscoped (global) roles assigned to a subject. */
-  async getSubjectRoles(id: string): Promise<TRole[]> {
-    const entries = this.assignments.get(id) ?? []
-    // Only return unscoped (global) role assignments
+  /**
+   * Lists unscoped (global) roles assigned to a subject.
+   *
+   * @param id - Identifies the subject whose global roles are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns Deduplicated array of role IDs without any scope binding.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectRoles(id: string, _opts?: Adapter.IReadOptions): Promise<TRole[]> {
+    const entries = this._assignments.get(id) ?? []
     return [...new Set(entries.filter((e) => e.scope == null).map((e) => e.role))]
   }
 
-  /** Returns the scoped role assignments for a subject. */
-  async getSubjectScopedRoles(id: string): Promise<ScopedRole<TRole, TScope>[]> {
-    return (this.assignments.get(id) ?? [])
+  /**
+   * Lists the scoped role assignments for a subject.
+   *
+   * @param id - Identifies the subject whose scoped roles are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns Array of `(role, scope)` pairs for scoped assignments only.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectScopedRoles(id: string, _opts?: Adapter.IReadOptions): Promise<Request.IScopedRole<TRole, TScope>[]> {
+    return (this._assignments.get(id) ?? [])
       .filter((e) => e.scope != null)
       .map((e) => ({ role: e.role, scope: e.scope as TScope }))
   }
 
-  /** Assigns a role to a subject, optionally within a scope. Duplicate assignments are ignored. */
+  /**
+   * Grants a role to a subject, optionally restricted to a scope.
+   *
+   * Duplicate `(role, scope)` pairs are silently ignored.
+   *
+   * @param id - Identifies the subject receiving the role.
+   * @param roleId - Specifies the role being granted.
+   * @param scope - Optional scope binding the assignment.
+   * @returns Resolves once the assignment is recorded.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async assignRole(id: string, roleId: TRole, scope?: TScope): Promise<void> {
-    if (!this.assignments.has(id)) this.assignments.set(id, [])
-    const entries = this.assignments.get(id) as Array<{ role: TRole; scope?: TScope }>
-    // Prevent duplicate assignments
+    if (!this._assignments.has(id)) this._assignments.set(id, [])
+    const entries = this._assignments.get(id) as Array<{ role: TRole; scope?: TScope }>
     if (!entries.some((e) => e.role === roleId && e.scope === scope)) {
       entries.push({ role: roleId, scope })
     }
   }
 
-  /** Revokes a role from a subject, optionally within a specific scope. */
+  /**
+   * Removes a role assignment from a subject.
+   *
+   * @param id - Identifies the subject losing the role.
+   * @param roleId - Specifies the role being revoked.
+   * @param scope - Optional scope to match; omit to revoke unscoped only.
+   * @returns Resolves once the assignment is removed.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async revokeRole(id: string, roleId: TRole, scope?: TScope): Promise<void> {
-    const entries = this.assignments.get(id)
+    const entries = this._assignments.get(id)
     if (!entries) return
     const filtered = entries.filter((e) => !(e.role === roleId && e.scope === scope))
-    this.assignments.set(id, filtered)
+    this._assignments.set(id, filtered)
   }
 
-  /** Returns the attributes map for a subject, or an empty object if none exist. */
-  async getSubjectAttributes(id: string): Promise<Attributes> {
-    return this.attributes.get(id) ?? {}
+  /**
+   * Fetches the attribute bag stored for a subject.
+   *
+   * @param id - Identifies the subject whose attributes are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The subject's attributes or `{}` when none are recorded.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectAttributes(id: string, _opts?: Adapter.IReadOptions): Promise<Primitives.Attributes> {
+    return this._attributes.get(id) ?? {}
   }
 
-  /** Merges the given attributes into the subject's existing attributes. */
-  async setSubjectAttributes(id: string, attrs: Attributes): Promise<void> {
-    this.attributes.set(id, { ...(this.attributes.get(id) ?? {}), ...attrs })
+  /**
+   * Shallow-merges new attributes into the subject's existing bag.
+   *
+   * @param id - Identifies the subject whose attributes are written.
+   * @param attrs - Provides the partial attribute patch to merge in.
+   * @returns Resolves once the merge completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async setSubjectAttributes(id: string, attrs: Primitives.Attributes): Promise<void> {
+    this._attributes.set(id, { ...(this._attributes.get(id) ?? {}), ...attrs })
   }
 }

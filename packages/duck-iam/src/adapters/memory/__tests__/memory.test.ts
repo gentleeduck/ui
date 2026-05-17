@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import type { Policy, Role } from '../../../core/types'
+import type { AccessControl, Adapter } from '../../../core/types'
 import { MemoryAdapter } from '../index'
 
 type A = 'read' | 'write'
@@ -14,10 +14,10 @@ describe('MemoryAdapter', () => {
     adapter = new MemoryAdapter<A, R, Ro, S>()
   })
 
-  describe('PolicyStore', () => {
-    const policy: Policy<A, R, Ro> = {
+  describe('Adapter.IPolicyStore', () => {
+    const policy: AccessControl.IPolicy<A, R, Ro> = {
       id: 'p1',
-      name: 'Test Policy',
+      name: 'Test AccessControl.IPolicy',
       algorithm: 'deny-overrides',
       rules: [],
     }
@@ -51,8 +51,8 @@ describe('MemoryAdapter', () => {
     })
   })
 
-  describe('RoleStore', () => {
-    const role: Role<A, R, Ro, S> = {
+  describe('Adapter.IRoleStore', () => {
+    const role: AccessControl.IRole<A, R, Ro, S> = {
       id: 'viewer',
       name: 'Viewer',
       permissions: [{ action: 'read', resource: 'post' }],
@@ -80,7 +80,7 @@ describe('MemoryAdapter', () => {
     })
   })
 
-  describe('SubjectStore', () => {
+  describe('Adapter.ISubjectStore', () => {
     it('getSubjectRoles returns empty for unknown subject', async () => {
       expect(await adapter.getSubjectRoles('unknown')).toEqual([])
     })

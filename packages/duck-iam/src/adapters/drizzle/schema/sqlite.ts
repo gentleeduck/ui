@@ -4,11 +4,18 @@ import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqli
 /**
  * SQLite schema for duck-iam Drizzle adapter.
  *
- * SQLite has no native JSON or array type — JSON columns (rules, permissions,
+ * SQLite has no native JSON or array type - JSON columns (rules, permissions,
  * targets, metadata, inherits, data) are stored as TEXT and the adapter
  * serializes/deserializes them automatically.
  */
 
+/**
+ * Defines the Drizzle SQLite table for stored policies.
+ *
+ * JSON payloads are TEXT and parsed by the adapter.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
 export const accessPolicies = sqliteTable('access_policies', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
@@ -24,6 +31,13 @@ export const accessPolicies = sqliteTable('access_policies', {
     .$onUpdate(() => new Date()),
 })
 
+/**
+ * Defines the Drizzle SQLite table for stored roles.
+ *
+ * `inherits` is JSON TEXT defaulting to `'[]'`.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
 export const accessRoles = sqliteTable('access_roles', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
@@ -39,6 +53,13 @@ export const accessRoles = sqliteTable('access_roles', {
     .$onUpdate(() => new Date()),
 })
 
+/**
+ * Defines the Drizzle SQLite table for subject-to-role assignments.
+ *
+ * Unique on `(subject_id, role_id, scope)`.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
 export const accessAssignments = sqliteTable(
   'access_assignments',
   {
@@ -58,6 +79,13 @@ export const accessAssignments = sqliteTable(
   ],
 )
 
+/**
+ * Defines the Drizzle SQLite table for per-subject attribute bags.
+ *
+ * JSON TEXT stored under `data`.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
 export const accessSubjectAttrs = sqliteTable('access_subject_attrs', {
   subjectId: text('subject_id').primaryKey(),
   data: text('data').notNull(),

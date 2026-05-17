@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Policy, Role } from '../../../core/types'
-import { DrizzleAdapter, type DrizzleConfig } from '../index'
+import type { AccessControl, Adapter } from '../../../core/types'
+import { type Drizzle, DrizzleAdapter } from '../index'
 
 type A = 'read' | 'write'
 type R = 'post' | 'comment'
@@ -35,7 +35,7 @@ function rowMatches(row: Row, cond: unknown): boolean {
 }
 
 function makeDrizzleMock(): {
-  config: DrizzleConfig
+  config: Drizzle.IConfig
   tables: { policies: Row[]; roles: Row[]; assignments: Row[]; attrs: Row[] }
 } {
   const tables = {
@@ -45,7 +45,7 @@ function makeDrizzleMock(): {
     attrs: [] as Row[],
   }
 
-  const tableRefs: DrizzleConfig['tables'] = {
+  const tableRefs: Drizzle.IConfig['tables'] = {
     policies: { id: { name: 'id' } },
     roles: { id: { name: 'id' } },
     assignments: {
@@ -89,16 +89,16 @@ function makeDrizzleMock(): {
     return chain
   }
 
-  const config: DrizzleConfig = {
+  const config: Drizzle.IConfig = {
     db: {
       select: vi.fn(() => ({
         from: (tableRef: unknown) =>
-          buildSelect(tableForRef(tableRef)) as unknown as ReturnType<DrizzleConfig['db']['select']>['from'] extends (
+          buildSelect(tableForRef(tableRef)) as unknown as ReturnType<Drizzle.IConfig['db']['select']>['from'] extends (
             ...a: any
           ) => infer X
             ? X
             : never,
-      })) as unknown as DrizzleConfig['db']['select'],
+      })) as unknown as Drizzle.IConfig['db']['select'],
       insert: vi.fn((tableRef: unknown) => {
         const table = tableForRef(tableRef)
         return {
@@ -119,7 +119,7 @@ function makeDrizzleMock(): {
             }
           },
         }
-      }) as unknown as DrizzleConfig['db']['insert'],
+      }) as unknown as Drizzle.IConfig['db']['insert'],
       delete: vi.fn((tableRef: unknown) => {
         const table = tableForRef(tableRef)
         return {
@@ -130,7 +130,7 @@ function makeDrizzleMock(): {
             return Promise.resolve(undefined)
           },
         }
-      }) as unknown as DrizzleConfig['db']['delete'],
+      }) as unknown as Drizzle.IConfig['db']['delete'],
     },
     tables: tableRefs,
     ops: {
@@ -151,10 +151,10 @@ describe('DrizzleAdapter', () => {
     adapter = new DrizzleAdapter<A, R, Ro, S>(mock.config)
   })
 
-  describe('PolicyStore', () => {
-    const policy: Policy<A, R, Ro> = {
+  describe('Adapter.IPolicyStore', () => {
+    const policy: AccessControl.IPolicy<A, R, Ro> = {
       id: 'p1',
-      name: 'Test Policy',
+      name: 'Test AccessControl.IPolicy',
       description: 'desc',
       version: 2,
       algorithm: 'deny-overrides',
@@ -229,8 +229,8 @@ describe('DrizzleAdapter', () => {
     })
   })
 
-  describe('RoleStore', () => {
-    const role: Role<A, R, Ro, S> = {
+  describe('Adapter.IRoleStore', () => {
+    const role: AccessControl.IRole<A, R, Ro, S> = {
       id: 'editor',
       name: 'Editor',
       description: 'desc',
@@ -297,7 +297,7 @@ describe('DrizzleAdapter', () => {
     })
   })
 
-  describe('SubjectStore', () => {
+  describe('Adapter.ISubjectStore', () => {
     it('assignRole + getSubjectRoles dedups', async () => {
       await adapter.assignRole('user-1', 'editor' as Ro)
       await adapter.assignRole('user-1', 'editor' as Ro, 'org-1')

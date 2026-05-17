@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Policy, Role } from '../../../core/types'
+import type { AccessControl, Adapter } from '../../../core/types'
 import { PrismaAdapter } from '../index'
 
 type A = 'read' | 'write'
@@ -127,10 +127,10 @@ describe('PrismaAdapter', () => {
     adapter = new PrismaAdapter<A, R, Ro, S>(prisma)
   })
 
-  describe('PolicyStore', () => {
-    const policy: Policy<A, R, Ro> = {
+  describe('Adapter.IPolicyStore', () => {
+    const policy: AccessControl.IPolicy<A, R, Ro> = {
       id: 'p1',
-      name: 'Test Policy',
+      name: 'Test AccessControl.IPolicy',
       description: 'desc',
       version: 1,
       algorithm: 'deny-overrides',
@@ -196,8 +196,8 @@ describe('PrismaAdapter', () => {
     })
   })
 
-  describe('RoleStore', () => {
-    const role: Role<A, R, Ro, S> = {
+  describe('Adapter.IRoleStore', () => {
+    const role: AccessControl.IRole<A, R, Ro, S> = {
       id: 'editor',
       name: 'Editor',
       description: 'Can edit',
@@ -256,7 +256,7 @@ describe('PrismaAdapter', () => {
     })
   })
 
-  describe('SubjectStore', () => {
+  describe('Adapter.ISubjectStore', () => {
     it('getSubjectRoles returns deduplicated list', async () => {
       await adapter.assignRole('user-1', 'editor' as Ro)
       await adapter.assignRole('user-1', 'editor' as Ro, 'org-1')

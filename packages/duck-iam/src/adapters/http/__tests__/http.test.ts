@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Policy, Role } from '../../../core/types'
+import type { AccessControl, Adapter } from '../../../core/types'
 import { HttpAdapter } from '../index'
 
 type A = 'read' | 'write'
@@ -84,8 +84,8 @@ describe('HttpAdapter', () => {
     })
   })
 
-  describe('PolicyStore', () => {
-    const policy: Policy<A, R, Ro> = { id: 'p1', name: 'P', algorithm: 'deny-overrides', rules: [] }
+  describe('Adapter.IPolicyStore', () => {
+    const policy: AccessControl.IPolicy<A, R, Ro> = { id: 'p1', name: 'P', algorithm: 'deny-overrides', rules: [] }
 
     it('listPolicies GET /policies', async () => {
       const { fetch, calls } = makeFetch(() => jsonResponse([policy]))
@@ -101,6 +101,18 @@ describe('HttpAdapter', () => {
       const out = await adapter.getPolicy('p1')
       expect(out).toEqual(policy)
       expect(calls[0]?.url).toBe('https://x/policies/p1')
+    })
+
+    it('getPolicy returns null on 404', async () => {
+      const { fetch } = makeFetch(() => jsonResponse('not found', false, 404))
+      const adapter = new HttpAdapter<A, R, Ro, S>({ baseUrl: 'https://x', fetch })
+      await expect(adapter.getPolicy('missing')).resolves.toBeNull()
+    })
+
+    it('getPolicy still throws on 5xx', async () => {
+      const { fetch } = makeFetch(() => jsonResponse('boom', false, 503))
+      const adapter = new HttpAdapter<A, R, Ro, S>({ baseUrl: 'https://x', fetch })
+      await expect(adapter.getPolicy('p1')).rejects.toThrow(/duck-iam HTTP 503/)
     })
 
     it('savePolicy PUT /policies', async () => {
@@ -121,8 +133,8 @@ describe('HttpAdapter', () => {
     })
   })
 
-  describe('RoleStore', () => {
-    const role: Role<A, R, Ro, S> = { id: 'editor', name: 'Editor', permissions: [] }
+  describe('Adapter.IRoleStore', () => {
+    const role: AccessControl.IRole<A, R, Ro, S> = { id: 'editor', name: 'Editor', permissions: [] }
 
     it('listRoles GET /roles', async () => {
       const { fetch, calls } = makeFetch(() => jsonResponse([role]))
@@ -137,6 +149,12 @@ describe('HttpAdapter', () => {
       const adapter = new HttpAdapter<A, R, Ro, S>({ baseUrl: 'https://x', fetch })
       await adapter.getRole('editor')
       expect(calls[0]?.url).toBe('https://x/roles/editor')
+    })
+
+    it('getRole returns null on 404', async () => {
+      const { fetch } = makeFetch(() => jsonResponse('not found', false, 404))
+      const adapter = new HttpAdapter<A, R, Ro, S>({ baseUrl: 'https://x', fetch })
+      await expect(adapter.getRole('missing')).resolves.toBeNull()
     })
 
     it('saveRole PUT /roles', async () => {
@@ -156,7 +174,7 @@ describe('HttpAdapter', () => {
     })
   })
 
-  describe('SubjectStore', () => {
+  describe('Adapter.ISubjectStore', () => {
     it('getSubjectRoles GET /subjects/:id/roles', async () => {
       const { fetch, calls } = makeFetch(() => jsonResponse(['editor']))
       const adapter = new HttpAdapter<A, R, Ro, S>({ baseUrl: 'https://x', fetch })
@@ -212,6 +230,85 @@ describe('HttpAdapter', () => {
       await adapter.setSubjectAttributes('user-1', { team: 'A' })
       expect(calls[0]?.init?.method).toBe('PATCH')
       expect(JSON.parse(calls[0]?.init?.body as string)).toEqual({ team: 'A' })
+    })
+  })
+
+  describe('retry + circuit breaker (N8)', () => {
+    it('retries on 5xx and succeeds within budget', async () => {
+      let calls = 0
+      const fetch = vi.fn(async () => {
+        calls++
+        return calls < 3 ? jsonResponse('boom', false, 503) : jsonResponse([])
+      }) as unknown as typeof globalThis.fetch
+      const adapter = new HttpAdapter<A, R, Ro, S>({
+        baseUrl: 'https://x',
+        fetch,
+        retries: 3,
+        backoffMs: 1,
+        timeoutMs: 0,
+      })
+      const out = await adapter.listPolicies()
+      expect(out).toEqual([])
+      expect(calls).toBe(3)
+    })
+
+    it('does not retry on 4xx', async () => {
+      let calls = 0
+      const fetch = vi.fn(async () => {
+        calls++
+        return jsonResponse('nope', false, 403)
+      }) as unknown as typeof globalThis.fetch
+      const adapter = new HttpAdapter<A, R, Ro, S>({
+        baseUrl: 'https://x',
+        fetch,
+        retries: 3,
+        backoffMs: 1,
+        timeoutMs: 0,
+      })
+      await expect(adapter.listPolicies()).rejects.toThrow(/403/)
+      expect(calls).toBe(1)
+    })
+
+    it('opens the circuit after N consecutive transient failures and rejects fast', async () => {
+      const fetch = vi.fn(async () => jsonResponse('boom', false, 503)) as unknown as typeof globalThis.fetch
+      const adapter = new HttpAdapter<A, R, Ro, S>({
+        baseUrl: 'https://x',
+        fetch,
+        retries: 0,
+        timeoutMs: 0,
+        circuitBreakerThreshold: 2,
+        circuitBreakerCooldownMs: 1_000,
+      })
+      await expect(adapter.listPolicies()).rejects.toThrow(/503/)
+      await expect(adapter.listPolicies()).rejects.toThrow(/503/)
+      // Third attempt: circuit open, rejects before fetch is touched.
+      const beforeCalls = (fetch as unknown as { mock: { calls: unknown[] } }).mock.calls.length
+      await expect(adapter.listPolicies()).rejects.toThrow(/circuit open/)
+      const afterCalls = (fetch as unknown as { mock: { calls: unknown[] } }).mock.calls.length
+      expect(afterCalls).toBe(beforeCalls)
+    })
+
+    it('closes the circuit on the first half-open success', async () => {
+      let nextResponseOk = false
+      const fetch = vi.fn(async () =>
+        nextResponseOk ? jsonResponse([]) : jsonResponse('boom', false, 503),
+      ) as unknown as typeof globalThis.fetch
+      const adapter = new HttpAdapter<A, R, Ro, S>({
+        baseUrl: 'https://x',
+        fetch,
+        retries: 0,
+        timeoutMs: 0,
+        circuitBreakerThreshold: 1,
+        circuitBreakerCooldownMs: 5,
+      })
+      await expect(adapter.listPolicies()).rejects.toThrow(/503/) // open
+      await expect(adapter.listPolicies()).rejects.toThrow(/circuit open/) // still open
+      await new Promise((r) => setTimeout(r, 10)) // cooldown elapses
+      nextResponseOk = true
+      const out = await adapter.listPolicies() // half-open probe succeeds -> closed
+      expect(out).toEqual([])
+      const out2 = await adapter.listPolicies() // closed, normal traffic
+      expect(out2).toEqual([])
     })
   })
 })

@@ -1,4 +1,4 @@
-import type { Adapter, Attributes, Policy, Role, ScopedRole } from '../../core/types'
+import type { AccessControl, Adapter, Primitives, Request } from '../../core/types'
 
 /**
  * Row shapes returned by Drizzle queries.
@@ -37,27 +37,44 @@ interface AttrRow {
   data: string | unknown
 }
 
-/** Configuration required to initialize a {@link DrizzleAdapter}. */
-export interface DrizzleConfig {
-  /** Drizzle database instance providing select, insert, and delete operations. */
-  db: {
-    select: () => { from: (table: unknown) => DrizzleQuery }
-    insert: (table: unknown) => { values: (data: Record<string, unknown>) => DrizzleInsert }
-    delete: (table: unknown) => { where: (condition: unknown) => Promise<unknown> }
-  }
-  /** References to the four Drizzle table schemas used by the adapter. */
-  tables: {
-    policies: DrizzleTable
-    roles: DrizzleTable
-    assignments: DrizzleTable
-    attrs: DrizzleTable
-  }
-  /** Drizzle operator functions for building WHERE clauses. */
-  ops: {
-    eq: (col: unknown, val: unknown) => unknown
-    and: (...conditions: unknown[]) => unknown
+/**
+ * Drizzle adapter integration types. Type-only namespace - zero bundle cost.
+ *
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
+export namespace Drizzle {
+  /**
+   * Describes the wiring required to instantiate a {@link DrizzleAdapter}.
+   *
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  export interface IConfig {
+    /** Provides the Drizzle database instance with select/insert/delete builders. */
+    db: {
+      select: () => { from: (table: unknown) => DrizzleQuery }
+      insert: (table: unknown) => { values: (data: Record<string, unknown>) => DrizzleInsert }
+      delete: (table: unknown) => { where: (condition: unknown) => Promise<unknown> }
+    }
+    /** Provides references to the four Drizzle table schemas used by the adapter. */
+    tables: {
+      policies: DrizzleTable
+      roles: DrizzleTable
+      assignments: DrizzleTable
+      attrs: DrizzleTable
+    }
+    /** Provides Drizzle operator functions for building WHERE clauses. */
+    ops: {
+      eq: (col: unknown, val: unknown) => unknown
+      and: (...conditions: unknown[]) => unknown
+    }
   }
 }
+
+/**
+ * @deprecated Use {@link Drizzle.IConfig}. Will be removed in 3.0.
+ * @author wildduck2 <https://github.com/wildduck2>
+ */
+export type IDrizzleConfig = Drizzle.IConfig
 
 /** Minimal shape of a Drizzle table object with optional column references. */
 interface DrizzleTable {
@@ -83,166 +100,286 @@ interface DrizzleInsert {
 }
 
 /**
- * Drizzle ORM adapter for duck-iam.
+ * Persists the access store via Drizzle ORM queries.
  *
- * Implements the {@link Adapter} interface backed by Drizzle queries.
- * Requires four tables: policies, roles, assignments, and subject attributes.
- * JSON columns (rules, permissions, targets, metadata) are serialized/deserialized automatically.
+ * Requires four tables (policies, roles, assignments, subject attributes). JSON
+ * columns (rules, permissions, targets, metadata) are serialized on write and
+ * parsed on read automatically.
  *
- * @template TAction   - Union of valid action strings
- * @template TResource - Union of valid resource strings
- * @template TRole     - Union of valid role strings
- * @template TScope    - Union of valid scope strings
+ * @template TAction - Constrains valid action strings.
+ * @template TResource - Constrains valid resource strings.
+ * @template TRole - Constrains valid role strings.
+ * @template TScope - Constrains valid scope strings.
+ * @example
+ * ```ts
+ * import { drizzle } from 'drizzle-orm/node-postgres'
+ * import { eq, and } from 'drizzle-orm'
+ * const adapter = new DrizzleAdapter({ db: drizzle(pool), tables, ops: { eq, and } })
+ * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class DrizzleAdapter<
   TAction extends string = string,
   TResource extends string = string,
   TRole extends string = string,
   TScope extends string = string,
-> implements Adapter<TAction, TResource, TRole, TScope>
+> implements Adapter.IAdapter<TAction, TResource, TRole, TScope>
 {
-  private db: DrizzleConfig['db']
-  private t: DrizzleConfig['tables']
-  private eq: DrizzleConfig['ops']['eq']
-  private and: DrizzleConfig['ops']['and']
+  private _db: Drizzle.IConfig['db']
+  private _t: Drizzle.IConfig['tables']
+  private _eq: Drizzle.IConfig['ops']['eq']
+  private _and: Drizzle.IConfig['ops']['and']
 
-  /** Creates a new DrizzleAdapter from the given Drizzle config. */
-  constructor(config: DrizzleConfig) {
-    this.db = config.db
-    this.t = config.tables
-    this.eq = config.ops.eq
-    this.and = config.ops.and
+  /**
+   * Creates a new Drizzle adapter.
+   *
+   * @param config - Provides the Drizzle db, tables, and operator functions.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  constructor(config: Drizzle.IConfig) {
+    this._db = config.db
+    this._t = config.tables
+    this._eq = config.ops.eq
+    this._and = config.ops.and
   }
 
-  /** Returns all policies from the database. */
-  async listPolicies(): Promise<Policy<TAction, TResource, TRole>[]> {
-    const rows = (await this.db.select().from(this.t.policies)) as unknown as PolicyRow[]
-    return rows.map(parsePolicy) as Policy<TAction, TResource, TRole>[]
+  /**
+   * Lists every policy in the database.
+   *
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns All policies parsed from the policies table.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async listPolicies(_opts?: Adapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole>[]> {
+    const rows = (await this._db.select().from(this._t.policies)) as unknown as PolicyRow[]
+    return rows.map(parsePolicy) as AccessControl.IPolicy<TAction, TResource, TRole>[]
   }
 
-  /** Returns a single policy by ID, or null if not found. */
-  async getPolicy(id: string): Promise<Policy<TAction, TResource, TRole> | null> {
-    const rows = (await this.db
+  /**
+   * Fetches a single policy by ID.
+   *
+   * @param id - Identifies the policy to look up.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The matching policy or `null` when absent.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getPolicy(
+    id: string,
+    _opts?: Adapter.IReadOptions,
+  ): Promise<AccessControl.IPolicy<TAction, TResource, TRole> | null> {
+    const rows = (await this._db
       .select()
-      .from(this.t.policies)
-      .where(this.eq(this.t.policies.id, id))
+      .from(this._t.policies)
+      .where(this._eq(this._t.policies.id, id))
       .limit(1)) as unknown as PolicyRow[]
-    return rows[0] ? (parsePolicy(rows[0]) as Policy<TAction, TResource, TRole>) : null
+    return rows[0] ? (parsePolicy(rows[0]) as AccessControl.IPolicy<TAction, TResource, TRole>) : null
   }
 
-  /** Upserts a policy (inserts or updates on conflict). */
-  async savePolicy(p: Policy<TAction, TResource, TRole>): Promise<void> {
+  /**
+   * Upserts a policy (inserts or updates on conflict).
+   *
+   * @param p - Provides the policy to persist.
+   * @returns Resolves once the upsert completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async savePolicy(p: AccessControl.IPolicy<TAction, TResource, TRole>): Promise<void> {
     const data = serializePolicy(p)
-    await this.db.insert(this.t.policies).values(data).onConflictDoUpdate({ target: this.t.policies.id, set: data })
+    await this._db.insert(this._t.policies).values(data).onConflictDoUpdate({ target: this._t.policies.id, set: data })
   }
 
-  /** Deletes a policy by ID. */
+  /**
+   * Removes a policy by ID.
+   *
+   * @param id - Identifies the policy to delete.
+   * @returns Resolves once the delete completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async deletePolicy(id: string): Promise<void> {
-    await this.db.delete(this.t.policies).where(this.eq(this.t.policies.id, id))
+    await this._db.delete(this._t.policies).where(this._eq(this._t.policies.id, id))
   }
 
-  /** Returns all roles from the database. */
-  async listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]> {
-    const rows = (await this.db.select().from(this.t.roles)) as unknown as RoleRow[]
-    return rows.map(parseRole) as Role<TAction, TResource, TRole, TScope>[]
+  /**
+   * Lists every role in the database.
+   *
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns All roles parsed from the roles table.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async listRoles(_opts?: Adapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope>[]> {
+    const rows = (await this._db.select().from(this._t.roles)) as unknown as RoleRow[]
+    return rows.map(parseRole) as AccessControl.IRole<TAction, TResource, TRole, TScope>[]
   }
 
-  /** Returns a single role by ID, or null if not found. */
-  async getRole(id: string): Promise<Role<TAction, TResource, TRole, TScope> | null> {
-    const rows = (await this.db
+  /**
+   * Fetches a single role by ID.
+   *
+   * @param id - Identifies the role to look up.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The matching role or `null` when absent.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getRole(
+    id: string,
+    _opts?: Adapter.IReadOptions,
+  ): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope> | null> {
+    const rows = (await this._db
       .select()
-      .from(this.t.roles)
-      .where(this.eq(this.t.roles.id, id))
+      .from(this._t.roles)
+      .where(this._eq(this._t.roles.id, id))
       .limit(1)) as unknown as RoleRow[]
-    return rows[0] ? (parseRole(rows[0]) as Role<TAction, TResource, TRole, TScope>) : null
+    return rows[0] ? (parseRole(rows[0]) as AccessControl.IRole<TAction, TResource, TRole, TScope>) : null
   }
 
-  /** Upserts a role (inserts or updates on conflict). */
-  async saveRole(r: Role<TAction, TResource, TRole, TScope>): Promise<void> {
+  /**
+   * Upserts a role (inserts or updates on conflict).
+   *
+   * @param r - Provides the role to persist.
+   * @returns Resolves once the upsert completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async saveRole(r: AccessControl.IRole<TAction, TResource, TRole, TScope>): Promise<void> {
     const data = serializeRole(r)
-    await this.db.insert(this.t.roles).values(data).onConflictDoUpdate({ target: this.t.roles.id, set: data })
+    await this._db.insert(this._t.roles).values(data).onConflictDoUpdate({ target: this._t.roles.id, set: data })
   }
 
-  /** Deletes a role by ID. */
+  /**
+   * Removes a role by ID.
+   *
+   * @param id - Identifies the role to delete.
+   * @returns Resolves once the delete completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async deleteRole(id: string): Promise<void> {
-    await this.db.delete(this.t.roles).where(this.eq(this.t.roles.id, id))
+    await this._db.delete(this._t.roles).where(this._eq(this._t.roles.id, id))
   }
 
-  /** Returns the deduplicated list of role IDs assigned to a subject. */
-  async getSubjectRoles(subjectId: string): Promise<TRole[]> {
-    const rows = (await this.db
+  /**
+   * Lists deduplicated role IDs assigned to a subject.
+   *
+   * @param subjectId - Identifies the subject whose roles are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns Deduplicated array of role IDs.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectRoles(subjectId: string, _opts?: Adapter.IReadOptions): Promise<TRole[]> {
+    const rows = (await this._db
       .select()
-      .from(this.t.assignments)
-      .where(this.eq(this.t.assignments.subjectId, subjectId))) as unknown as AssignmentRow[]
+      .from(this._t.assignments)
+      .where(this._eq(this._t.assignments.subjectId, subjectId))) as unknown as AssignmentRow[]
     return [...new Set(rows.map((r) => r.roleId as TRole))]
   }
 
-  /** Returns scoped role assignments for a subject (excludes unscoped assignments). */
-  async getSubjectScopedRoles(subjectId: string): Promise<ScopedRole<TRole, TScope>[]> {
-    const rows = (await this.db
+  /**
+   * Lists scoped role assignments for a subject (excludes unscoped).
+   *
+   * @param subjectId - Identifies the subject whose scoped roles are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns Array of `(role, scope)` pairs.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectScopedRoles(
+    subjectId: string,
+    _opts?: Adapter.IReadOptions,
+  ): Promise<Request.IScopedRole<TRole, TScope>[]> {
+    const rows = (await this._db
       .select()
-      .from(this.t.assignments)
-      .where(this.eq(this.t.assignments.subjectId, subjectId))) as unknown as AssignmentRow[]
+      .from(this._t.assignments)
+      .where(this._eq(this._t.assignments.subjectId, subjectId))) as unknown as AssignmentRow[]
     return rows.filter((r) => r.scope != null).map((r) => ({ role: r.roleId as TRole, scope: r.scope as TScope }))
   }
 
-  /** Assigns a role to a subject, optionally scoped. No-ops on duplicate. */
+  /**
+   * Grants a role to a subject, optionally restricted to a scope.
+   *
+   * No-ops on duplicate `(subject, role, scope)` rows.
+   *
+   * @param subjectId - Identifies the subject receiving the role.
+   * @param roleId - Specifies the role being granted.
+   * @param scope - Optional scope binding the assignment.
+   * @returns Resolves once the insert completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async assignRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void> {
-    await this.db
-      .insert(this.t.assignments)
+    await this._db
+      .insert(this._t.assignments)
       .values({ subjectId, roleId, scope: scope ?? null })
       .onConflictDoNothing()
   }
 
-  /** Revokes a role from a subject, optionally filtering by scope. */
+  /**
+   * Removes role assignments matching the given filters.
+   *
+   * @param subjectId - Identifies the subject losing the role.
+   * @param roleId - Specifies the role being revoked.
+   * @param scope - Optional scope filter to narrow the delete.
+   * @returns Resolves once the delete completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
   async revokeRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void> {
-    const conditions = [this.eq(this.t.assignments.subjectId, subjectId), this.eq(this.t.assignments.roleId, roleId)]
-    if (scope) conditions.push(this.eq(this.t.assignments.scope, scope))
-    await this.db.delete(this.t.assignments).where(this.and(...conditions))
+    const conditions = [
+      this._eq(this._t.assignments.subjectId, subjectId),
+      this._eq(this._t.assignments.roleId, roleId),
+    ]
+    if (scope) conditions.push(this._eq(this._t.assignments.scope, scope))
+    await this._db.delete(this._t.assignments).where(this._and(...conditions))
   }
 
-  /** Returns the attributes for a subject, or an empty object if none exist. */
-  async getSubjectAttributes(subjectId: string): Promise<Attributes> {
-    const rows = (await this.db
+  /**
+   * Fetches the attribute bag stored for a subject.
+   *
+   * @param subjectId - Identifies the subject whose attributes are read.
+   * @param _opts - Ignored read options accepted for interface compatibility.
+   * @returns The subject's attributes or `{}` when none are recorded.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async getSubjectAttributes(subjectId: string, _opts?: Adapter.IReadOptions): Promise<Primitives.Attributes> {
+    const rows = (await this._db
       .select()
-      .from(this.t.attrs)
-      .where(this.eq(this.t.attrs.subjectId, subjectId))
+      .from(this._t.attrs)
+      .where(this._eq(this._t.attrs.subjectId, subjectId))
       .limit(1)) as unknown as AttrRow[]
     if (!rows[0]) return {}
     const data = rows[0].data
-    return typeof data === 'string' ? JSON.parse(data) : ((data as Attributes) ?? {})
+    return typeof data === 'string' ? JSON.parse(data) : ((data as Primitives.Attributes) ?? {})
   }
 
-  /** Merges the given attributes into the subject's existing attributes (upsert). */
-  async setSubjectAttributes(subjectId: string, attrs: Attributes): Promise<void> {
+  /**
+   * Shallow-merges new attributes into the subject's existing bag (upsert).
+   *
+   * @param subjectId - Identifies the subject whose attributes are written.
+   * @param attrs - Provides the partial attribute patch to merge in.
+   * @returns Resolves once the upsert completes.
+   * @author wildduck2 <https://github.com/wildduck2>
+   */
+  async setSubjectAttributes(subjectId: string, attrs: Primitives.Attributes): Promise<void> {
     const existing = await this.getSubjectAttributes(subjectId)
     const merged = JSON.stringify({ ...existing, ...attrs })
-    await this.db
-      .insert(this.t.attrs)
+    await this._db
+      .insert(this._t.attrs)
       .values({ subjectId, data: merged })
-      .onConflictDoUpdate({ target: this.t.attrs.subjectId, set: { data: merged } })
+      .onConflictDoUpdate({ target: this._t.attrs.subjectId, set: { data: merged } })
   }
 }
 
 /** Converts a database row into a Policy object, deserializing JSON columns. */
-function parsePolicy(row: PolicyRow): Policy {
+function parsePolicy(row: PolicyRow): AccessControl.IPolicy {
   return {
     id: row.id,
     name: row.name,
     description: row.description ?? undefined,
     version: row.version,
-    algorithm: row.algorithm as Policy['algorithm'],
-    rules: typeof row.rules === 'string' ? JSON.parse(row.rules) : (row.rules as Policy['rules']),
+    algorithm: row.algorithm as AccessControl.IPolicy['algorithm'],
+    rules: typeof row.rules === 'string' ? JSON.parse(row.rules) : (row.rules as AccessControl.IPolicy['rules']),
     targets: row.targets
       ? typeof row.targets === 'string'
         ? JSON.parse(row.targets)
-        : (row.targets as Policy['targets'])
+        : (row.targets as AccessControl.IPolicy['targets'])
       : undefined,
   }
 }
 
 /** Converts a Policy object into a flat record with JSON-stringified columns for storage. */
-function serializePolicy(p: Policy): Record<string, unknown> {
+function serializePolicy(p: AccessControl.IPolicy): Record<string, unknown> {
   return {
     id: p.id,
     name: p.name,
@@ -255,25 +392,27 @@ function serializePolicy(p: Policy): Record<string, unknown> {
 }
 
 /** Converts a database row into a Role object, deserializing JSON columns. */
-function parseRole(row: RoleRow): Role {
+function parseRole(row: RoleRow): AccessControl.IRole {
   return {
     id: row.id,
     name: row.name,
     description: row.description ?? undefined,
     permissions:
-      typeof row.permissions === 'string' ? JSON.parse(row.permissions) : (row.permissions as Role['permissions']),
+      typeof row.permissions === 'string'
+        ? JSON.parse(row.permissions)
+        : (row.permissions as AccessControl.IRole['permissions']),
     inherits: typeof row.inherits === 'string' ? JSON.parse(row.inherits) : ((row.inherits as string[]) ?? []),
     scope: row.scope ?? undefined,
     metadata: row.metadata
       ? typeof row.metadata === 'string'
         ? JSON.parse(row.metadata)
-        : (row.metadata as Role['metadata'])
+        : (row.metadata as AccessControl.IRole['metadata'])
       : undefined,
   }
 }
 
 /** Converts a Role object into a flat record with JSON-stringified columns for storage. */
-function serializeRole(r: Role): Record<string, unknown> {
+function serializeRole(r: AccessControl.IRole): Record<string, unknown> {
   return {
     id: r.id,
     name: r.name,
