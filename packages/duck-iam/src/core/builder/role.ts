@@ -1,13 +1,13 @@
-import type { Attributes, DefaultContext, Permission, Role } from '../types'
+import type { AccessControl, DotPath, Primitives } from '../types'
 import { When } from './when'
 
 /**
- * Fluent builder for constructing {@link Role} objects in duck-iam.
+ * Fluent builder for constructing {@link AccessControl.IRole} objects in duck-iam.
  *
  * Roles are the RBAC side of duck-iam. Each role holds a set of
  * action/resource permissions and an optional inheritance chain. At evaluation
  * time, `rolesToPolicy()` converts every role into ABAC rules that flow through
- * the same engine as hand-written policies, so RBAC and ABAC compose naturally.
+ * the same engine as hand-written policies, so RBAC and ABAC compose.
  *
  * Prefer the {@link defineRole} factory (or `access.defineRole()` for type-safe
  * variants) over instantiating `RoleBuilder` directly.
@@ -29,25 +29,27 @@ import { When } from './when'
  *
  * @template TAction   - Union of valid action strings (e.g. `'read' | 'write'`)
  * @template TResource - Union of valid resource strings (e.g. `'post' | 'comment'`)
- * @template TId       - Literal string type of the role ID (inferred by {@link defineRole})
+ * @template TRole       - Literal string type of the role ID (inferred by {@link defineRole})
  * @template TScope    - Union of valid scope strings (e.g. `'org-1' | 'org-2'`)
+ * @template TContext  - Shape of the full evaluation context for typed dot-paths
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class RoleBuilder<
   TAction extends string = string,
   TResource extends string = string,
-  TId extends string = string,
+  TRole extends string = string,
   TScope extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
 > {
-  private _id: TId
+  private _id: TRole
   private _name: string
   private _description?: string
-  private _permissions: Permission<TAction, TResource, TScope>[] = []
-  private _inherits: string[] = []
+  private _permissions: AccessControl.IPermission<TAction, TResource, TScope>[] = []
+  private _inherits: (TRole | (string & {}))[] = []
   private _scope?: TScope
-  private _metadata?: Attributes
+  private _metadata?: Primitives.Attributes
 
-  constructor(id: TId) {
+  constructor(id: TRole) {
     this._id = id
     this._name = id
   }
@@ -60,6 +62,7 @@ export class RoleBuilder<
    *
    * @param n - Display name (e.g. `'Content Editor'`)
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   name(n: string): this {
     this._name = n
@@ -69,11 +72,12 @@ export class RoleBuilder<
   /**
    * Attaches a human-readable description to the role.
    *
-   * Stored on the {@link Role} object for documentation purposes.
+   * Stored on the {@link AccessControl.IRole} object for documentation purposes.
    * Not used during policy evaluation.
    *
    * @param d - Description text
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   desc(d: string): this {
     this._description = d
@@ -85,7 +89,7 @@ export class RoleBuilder<
    *
    * The role receives all permissions from every listed parent, resolved
    * recursively. Multiple parents are supported. Inheritance cycles are
-   * handled safely via a visited set — cycles are skipped rather than
+   * handled safely via a visited set - cycles are skipped rather than
    * causing infinite recursion.
    *
    * Note: inherited permissions cannot be selectively removed. To restrict
@@ -102,8 +106,9 @@ export class RoleBuilder<
    *
    * @param roleIds - IDs of the parent roles to inherit from
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  inherits(...roleIds: string[]): this {
+  inherits(...roleIds: (TRole | (string & {}))[]): this {
     this._inherits = roleIds
     return this
   }
@@ -129,6 +134,7 @@ export class RoleBuilder<
    *
    * @param s - The scope string to restrict all permissions to
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   scope(s: TScope): this {
     this._scope = s
@@ -159,6 +165,7 @@ export class RoleBuilder<
    * @param resource - The resource to permit, or `'*'` for all resources
    * @param scope    - Optional scope to restrict this permission to
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grant(action: TAction | '*', resource: TResource | '*', scope?: TScope): this {
     this._permissions.push(scope ? { action, resource, scope } : { action, resource })
@@ -183,6 +190,7 @@ export class RoleBuilder<
    * @param action   - The action to permit, or `'*'` for all actions
    * @param resource - The resource to permit, or `'*'` for all resources
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grantScoped(scope: TScope, action: TAction | '*', resource: TResource | '*'): this {
     this._permissions.push({ action, resource, scope })
@@ -215,13 +223,16 @@ export class RoleBuilder<
    * @param resource - The resource to permit conditionally
    * @param fn       - Callback that builds the condition using a {@link When} builder
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grantWhen<R extends TResource | '*'>(
     action: TAction | '*',
     resource: R,
-    fn: (w: When<TAction, TResource, TId, TScope, TContext, R>) => When<TAction, TResource, TId, TScope, TContext, R>,
+    fn: (
+      w: When<TAction, TResource, TRole, TScope, TContext, R>,
+    ) => When<TAction, TResource, TRole, TScope, TContext, R>,
   ): this {
-    const w = new When<TAction, TResource, TId, TScope, TContext, R>()
+    const w = new When<TAction, TResource, TRole, TScope, TContext, R>()
     fn(w)
     this._permissions.push({ action, resource, conditions: w.buildAll() })
     return this
@@ -242,6 +253,7 @@ export class RoleBuilder<
    *
    * @param resource - The resource to grant all actions on, or `'*'` for all resources
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grantAll(resource: TResource | '*'): this {
     return this.grant('*', resource)
@@ -261,6 +273,7 @@ export class RoleBuilder<
    *
    * @param resources - One or more resource strings to grant read access on
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grantRead(...resources: (TResource | '*')[]): this {
     for (const r of resources) this.grant('read' as TAction | '*', r)
@@ -270,7 +283,7 @@ export class RoleBuilder<
   /**
    * Grants `create`, `read`, `update`, and `delete` on a resource.
    *
-   * More explicit than {@link grantAll} — does not include custom actions
+   * More explicit than {@link grantAll} - does not include custom actions
    * like `publish` or `archive`. Equivalent to four separate `.grant()` calls.
    *
    * @example
@@ -282,6 +295,7 @@ export class RoleBuilder<
    *
    * @param resource - The resource to grant CRUD access on
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   grantCRUD(resource: TResource | '*'): this {
     for (const a of ['create', 'read', 'update', 'delete'] as (TAction | '*')[]) {
@@ -293,7 +307,7 @@ export class RoleBuilder<
   /**
    * Attaches arbitrary metadata to the role.
    *
-   * Metadata is stored on the {@link Role} object but is never consulted
+   * Metadata is stored on the {@link AccessControl.IRole} object but is never consulted
    * during policy evaluation. Use it for admin dashboards, audit logs,
    * UI labels, or any other application-level bookkeeping.
    *
@@ -306,21 +320,23 @@ export class RoleBuilder<
    *
    * @param m - Key-value map of metadata attributes
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  meta(m: Attributes): this {
+  meta(m: Primitives.Attributes): this {
     this._metadata = m
     return this
   }
 
   /**
-   * Finalises the builder and returns a plain {@link Role} object.
+   * Finalises the builder and returns a plain {@link AccessControl.IRole} object.
    *
    * The returned object is a plain data record with no builder methods.
    * Pass it to `engine.admin.saveRole()` or `access.validateRoles()`.
    *
-   * @returns A fully constructed {@link Role}
+   * @returns A fully constructed {@link AccessControl.IRole}
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  build(): Role<TAction, TResource, TId, TScope> {
+  build(): AccessControl.IRole<TAction, TResource, TRole, TScope> {
     return {
       id: this._id,
       name: this._name,
@@ -362,13 +378,15 @@ export class RoleBuilder<
  * @template TAction   - Union of valid action strings (defaults to `string`)
  * @template TResource - Union of valid resource strings (defaults to `string`)
  * @template TScope    - Union of valid scope strings (defaults to `string`)
+ * @template TContext  - Shape of the full evaluation context for typed dot-paths
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export const defineRole = <
-  const TId extends string,
+  const TRole extends string,
   const TAction extends string = string,
   const TResource extends string = string,
   const TScope extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
 >(
-  id: TId,
-) => new RoleBuilder<TAction, TResource, TId, TScope, TContext>(id)
+  id: TRole,
+) => new RoleBuilder<TAction, TResource, TRole, TScope, TContext>(id)

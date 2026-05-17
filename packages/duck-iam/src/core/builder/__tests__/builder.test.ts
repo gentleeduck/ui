@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { DefaultContext } from '../../types'
+import type { DotPath } from '../../types'
 import { defineRole, defineRule, PolicyBuilder, policy, RoleBuilder, RuleBuilder, When, when } from '..'
 
 interface TypedBuilderContext {
@@ -29,7 +29,7 @@ interface TypedBuilderContext {
 
 describe('When (condition builder)', () => {
   it('builds an all-group from chained conditions', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .eq('action', 'read')
       .contains('subject.roles', 'editor')
       .buildAll()
@@ -42,7 +42,7 @@ describe('When (condition builder)', () => {
   })
 
   it('builds an any-group', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .eq('action', 'read')
       .eq('action', 'write')
       .buildAny()
@@ -50,7 +50,7 @@ describe('When (condition builder)', () => {
   })
 
   it('builds a none-group', () => {
-    const group = new When<string, string, string, string, DefaultContext>().eq('action', 'delete').buildNone()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>().eq('action', 'delete').buildNone()
     expect('none' in group).toBe(true)
   })
 
@@ -65,7 +65,7 @@ describe('When (condition builder)', () => {
   })
 
   it('isOwner adds $subject.id condition', () => {
-    const group = new When<string, string, string, string, DefaultContext>().isOwner().buildAll()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>().isOwner().buildAll()
     expect(group.all[0]).toEqual({
       field: 'resource.attributes.ownerId',
       operator: 'eq',
@@ -74,7 +74,7 @@ describe('When (condition builder)', () => {
   })
 
   it('isOwner accepts custom field', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .isOwner('resource.attributes.authorId')
       .buildAll()
     expect(group.all[0]).toMatchObject({ field: 'resource.attributes.authorId', operator: 'eq' })
@@ -91,19 +91,21 @@ describe('When (condition builder)', () => {
   })
 
   it('attr() prefixes with subject.attributes', () => {
-    const group = new When<string, string, string, string, DefaultContext>().attr('level', 'gte', 5).buildAll()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>().attr('level', 'gte', 5).buildAll()
     expect(group.all[0]).toMatchObject({ field: 'subject.attributes.level', operator: 'gte', value: 5 })
   })
 
   it('resourceAttr() prefixes with resource.attributes', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .resourceAttr('status', 'eq', 'published')
       .buildAll()
     expect(group.all[0]).toMatchObject({ field: 'resource.attributes.status', operator: 'eq', value: 'published' })
   })
 
   it('env() prefixes with environment', () => {
-    const group = new When<string, string, string, string, DefaultContext>().env('ip', 'eq', '127.0.0.1').buildAll()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
+      .env('ip', 'eq', '127.0.0.1')
+      .buildAll()
     expect(group.all[0]).toMatchObject({ field: 'environment.ip', operator: 'eq', value: '127.0.0.1' })
   })
 
@@ -144,7 +146,7 @@ describe('When (condition builder)', () => {
   })
 
   it('nested and/or/not groups', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .eq('action', 'read')
       .or((w) => w.eq('subject.id', 'admin').role('super-admin'))
       .buildAll()
@@ -154,7 +156,7 @@ describe('When (condition builder)', () => {
   })
 
   it('nested not group', () => {
-    const group = new When<string, string, string, string, DefaultContext>()
+    const group = new When<string, string, string, string, DotPath.IDefaultContext>()
       .not((w) => w.eq('action', 'delete'))
       .buildAll()
 
@@ -250,8 +252,8 @@ describe('PolicyBuilder', () => {
   })
 
   it('name() sets name', () => {
-    const p = new PolicyBuilder('p1').name('My Policy').build()
-    expect(p.name).toBe('My Policy')
+    const p = new PolicyBuilder('p1').name('My AccessControl.IPolicy').build()
+    expect(p.name).toBe('My AccessControl.IPolicy')
   })
 
   it('algorithm() sets combining algorithm', () => {

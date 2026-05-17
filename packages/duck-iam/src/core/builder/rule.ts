@@ -1,8 +1,8 @@
-import type { Attributes, Condition, ConditionGroup, DefaultContext, Effect, Rule } from '../types'
+import type { AccessControl, DotPath, Primitives } from '../types'
 import { When } from './when'
 
 /**
- * Fluent builder for constructing {@link Rule} objects in duck-iam.
+ * Fluent builder for constructing {@link AccessControl.IRule} objects in duck-iam.
  *
  * Rules are the atomic unit of an ABAC policy. Each rule declares an effect
  * (`allow` or `deny`), the actions and resources it covers, an optional scope
@@ -27,28 +27,31 @@ import { When } from './when'
  *   .build()
  * ```
  *
- * @template TAction   - Union of valid action strings (e.g. `'read' | 'write'`)
- * @template TResource - Union of valid resource strings (e.g. `'post' | 'comment'`)
- * @template TScope    - Union of valid scope strings (e.g. `'org-1' | 'org-2'`)
- * @template TRole     - Union of valid role ID strings (e.g. `'viewer' | 'admin'`)
+ * @template TAction         - Union of valid action strings (e.g. `'read' | 'write'`)
+ * @template TResource       - Union of valid resource strings (e.g. `'post' | 'comment'`)
+ * @template TScope          - Union of valid scope strings (e.g. `'org-1' | 'org-2'`)
+ * @template TRole           - Union of valid role ID strings (e.g. `'viewer' | 'admin'`)
+ * @template TContext        - Shape of the full evaluation context for typed dot-paths
+ * @template TActiveResource - The narrowed resource selected via `.of()` (used by typed `resourceAttr`)
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class RuleBuilder<
   TAction extends string = string,
   TResource extends string = string,
   TScope extends string = string,
   TRole extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
   TActiveResource extends string = string,
 > {
   private _id: string
-  private _effect: Effect = 'allow'
+  private _effect: AccessControl.Effect = 'allow'
   private _description?: string
   private _priority = 10
   private _actions: (TAction | '*')[] = ['*']
   private _resources: (TResource | '*')[] = ['*']
-  private _conditions: ConditionGroup = { all: [] }
-  private _metadata?: Attributes
-  private _scopeCondition?: Condition
+  private _conditions: AccessControl.IConditionGroup = { all: [] }
+  private _metadata?: Primitives.Attributes
+  private _scopeCondition?: AccessControl.ICondition
 
   constructor(id: string) {
     this._id = id
@@ -57,10 +60,11 @@ export class RuleBuilder<
   /**
    * Sets the rule effect to `allow`.
    *
-   * This is the default effect — you only need to call this explicitly when
+   * This is the default effect - you only need to call this explicitly when
    * overriding a previous `.deny()` call on the same builder instance.
    *
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   allow(): this {
     this._effect = 'allow'
@@ -75,6 +79,7 @@ export class RuleBuilder<
    * rule matches.
    *
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   deny(): this {
     this._effect = 'deny'
@@ -84,11 +89,12 @@ export class RuleBuilder<
   /**
    * Attaches a human-readable description to the rule.
    *
-   * Descriptions are stored on the {@link Rule} object and surfaced by the
+   * Descriptions are stored on the {@link AccessControl.IRule} object and surfaced by the
    * engine's explain/debug output. They have no effect on evaluation.
    *
    * @param d - Description text
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   desc(d: string): this {
     this._description = d
@@ -99,11 +105,12 @@ export class RuleBuilder<
    * Sets the rule's evaluation priority.
    *
    * Higher numbers are evaluated first. The default priority is `10`.
-   * Priority matters when the policy algorithm is `highest-priority` — the
+   * Priority matters when the policy algorithm is `highest-priority` - the
    * matching rule with the highest priority number wins.
    *
    * @param p - Priority value (higher = evaluated earlier)
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   priority(p: number): this {
     this._priority = p
@@ -124,6 +131,7 @@ export class RuleBuilder<
    *
    * @param actions - One or more action strings, or `'*'` for all actions
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   on(...actions: (TAction | '*')[]): this {
     this._actions = actions
@@ -144,9 +152,11 @@ export class RuleBuilder<
    *
    * @param resources - One or more resource strings, or `'*'` for all resources
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   of<R extends TResource | '*'>(...resources: R[]): RuleBuilder<TAction, TResource, TScope, TRole, TContext, R> {
-    this._resources = resources as (TResource | '*')[]
+    this._resources = resources
+    /** : This cast to get intellisense working for the specified resource type */
     return this as unknown as RuleBuilder<TAction, TResource, TScope, TRole, TContext, R>
   }
 
@@ -155,7 +165,7 @@ export class RuleBuilder<
    *
    * A scope typically represents a tenant, organization, or workspace.
    * When a scope is set, the engine only fires the rule when the request's
-   * scope matches. Passing `'*'` is a no-op — use no scope restriction for
+   * scope matches. Passing `'*'` is a no-op - use no scope restriction for
    * global rules instead.
    *
    * Scope conditions compose correctly with `.when()` and `.whenAny()`.
@@ -171,6 +181,7 @@ export class RuleBuilder<
    *
    * @param scopes - One or more scope strings to restrict this rule to
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   forScope(...scopes: (TScope | '*')[]): this {
     const nonWild = scopes.filter((s) => s !== '*') as string[]
@@ -186,7 +197,7 @@ export class RuleBuilder<
    * Attaches an ALL-of condition group to the rule using a {@link When} builder.
    *
    * Every condition added inside the callback must hold (`AND` semantics) for
-   * the rule to match. Composes with `.forScope()` — the scope check is
+   * the rule to match. Composes with `.forScope()` - the scope check is
    * prepended to the condition list automatically at build time.
    *
    * @example
@@ -203,6 +214,7 @@ export class RuleBuilder<
    *
    * @param fn - Callback that receives a {@link When} builder and returns it after chaining conditions
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   when(
     fn: (
@@ -235,6 +247,7 @@ export class RuleBuilder<
    *
    * @param fn - Callback that receives a {@link When} builder and returns it after chaining conditions
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   whenAny(
     fn: (
@@ -250,33 +263,38 @@ export class RuleBuilder<
   /**
    * Attaches arbitrary metadata to the rule.
    *
-   * Metadata is stored on the {@link Rule} object but is never used during
+   * Metadata is stored on the {@link AccessControl.IRule} object but is never used during
    * policy evaluation. Use it for audit logs, admin dashboards, or any
    * application-level bookkeeping.
    *
    * @param m - Key-value map of metadata attributes
    * @returns `this` for chaining
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  meta(m: Attributes): this {
+  meta(m: Primitives.Attributes): this {
     this._metadata = m
     return this
   }
 
   /**
-   * Finalises the builder and returns a plain {@link Rule} object.
+   * Finalises the builder and returns a plain {@link AccessControl.IRule} object.
    *
    * Any scope condition set via `.forScope()` is merged into the condition
    * group here so that `.forScope()` and `.when()` / `.whenAny()` always
    * compose correctly regardless of call order.
    *
-   * @returns A fully constructed, immutable {@link Rule}
+   * @returns A fully constructed, immutable {@link AccessControl.IRule}
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  build(): Rule<TAction, TResource> {
+  build(): AccessControl.IRule<TAction, TResource> {
     let conditions = this._conditions
+
     if (this._scopeCondition) {
-      const existing = 'all' in conditions ? [...conditions.all] : [conditions]
-      conditions = { all: [this._scopeCondition, ...existing] }
+      conditions = {
+        all: 'all' in conditions ? [this._scopeCondition, ...conditions.all] : [this._scopeCondition, conditions],
+      }
     }
+
     return {
       id: this._id,
       effect: this._effect,
@@ -314,13 +332,16 @@ export class RuleBuilder<
  * @template TAction   - Union of valid action strings
  * @template TResource - Union of valid resource strings
  * @template TScope    - Union of valid scope strings
+ * @template TRole     - Union of valid role ID strings
+ * @template TContext  - Shape of the full evaluation context for typed dot-paths
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export const defineRule = <
   TAction extends string = string,
   TResource extends string = string,
   TScope extends string = string,
   TRole extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
 >(
   id: string,
 ) => new RuleBuilder<TAction, TResource, TScope, TRole, TContext>(id)

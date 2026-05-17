@@ -1,15 +1,16 @@
-import type { CombiningAlgorithm, DefaultContext, Policy, Rule } from '../types'
+import type { AccessControl, DotPath } from '../types'
 import { RuleBuilder } from './rule'
 
 /**
- * Fluent builder for constructing ABAC {@link Policy} objects.
+ * Fluent builder for constructing ABAC {@link AccessControl.IPolicy} objects.
  *
  * Policies define attribute-based access control rules that go beyond simple
  * role-permission mappings. Use them for time-based restrictions, IP/geo-fencing,
  * cross-attribute checks, dynamic deny rules, and maintenance-mode guards.
  *
- * The engine AND-combines all policies: a deny from any single policy is final,
- * regardless of what other policies allow.
+ * The combining algorithm chosen via `.algorithm(...)` controls *intra*-policy
+ * rule conflicts. Decisions across multiple policies are merged by the engine's
+ * configured `policyCombine` (defaults to `'and'`; see {@link AccessControl.PolicyCombine}).
  *
  * @template TAction   - Union of valid action strings.
  * @template TResource - Union of valid resource strings.
@@ -34,20 +35,21 @@ import { RuleBuilder } from './rule'
  *   )
  *   .build()
  * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export class PolicyBuilder<
   TAction extends string = string,
   TResource extends string = string,
   TRole extends string = string,
   TScope extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
 > {
   private _id: string
   private _name: string
   private _description?: string
-  private _algorithm: CombiningAlgorithm = 'deny-overrides'
-  private _rules: Rule<TAction, TResource>[] = []
-  private _targets?: Policy<TAction, TResource, TRole>['targets']
+  private _algorithm: AccessControl.CombiningAlgorithm = 'deny-overrides'
+  private _rules: AccessControl.IRule<TAction, TResource>[] = []
+  private _targets?: AccessControl.IPolicy<TAction, TResource, TRole>['targets']
   private _version?: number
 
   constructor(id: string) {
@@ -61,6 +63,8 @@ export class PolicyBuilder<
    * Defaults to the policy `id` if not called.
    *
    * @param n - Display name.
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   name(n: string): this {
     this._name = n
@@ -71,6 +75,8 @@ export class PolicyBuilder<
    * Sets an optional description for the policy.
    *
    * @param d - Description text.
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   desc(d: string): this {
     this._description = d
@@ -81,6 +87,8 @@ export class PolicyBuilder<
    * Sets a version number for tracking policy changes over time.
    *
    * @param v - Version number.
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   version(v: number): this {
     this._version = v
@@ -101,8 +109,10 @@ export class PolicyBuilder<
    * Defaults to `'deny-overrides'`.
    *
    * @param a - Combining algorithm.
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  algorithm(a: CombiningAlgorithm): this {
+  algorithm(a: AccessControl.CombiningAlgorithm): this {
     this._algorithm = a
     return this
   }
@@ -111,7 +121,7 @@ export class PolicyBuilder<
    * Scopes this policy to specific actions, resources, or roles.
    *
    * If an incoming request does not match all specified targets, the policy is
-   * skipped entirely — its rules are not evaluated. This is useful for
+   * skipped entirely - its rules are not evaluated. This is useful for
    * restriction policies that only apply to a subset of operations.
    *
    * @param t - Target constraints to match against.
@@ -124,8 +134,10 @@ export class PolicyBuilder<
    *     resources: ['post', 'comment'],
    *   })
    * ```
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  target(t: NonNullable<Policy<TAction, TResource, TRole>['targets']>): this {
+  target(t: NonNullable<AccessControl.IPolicy<TAction, TResource, TRole>['targets']>): this {
     this._targets = t
     return this
   }
@@ -150,6 +162,8 @@ export class PolicyBuilder<
    *     .when(w => w.env('ip', 'in', ['10.0.0.99', '10.0.0.100']))
    *   )
    * ```
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
   rule(
     id: string,
@@ -165,7 +179,7 @@ export class PolicyBuilder<
   }
 
   /**
-   * Adds a pre-built {@link Rule} object directly to the policy.
+   * Adds a pre-built {@link AccessControl.IRule} object directly to the policy.
    *
    * Use this when you have rules defined separately via `defineRule` and want
    * to compose them into a policy without the inline callback form.
@@ -185,21 +199,24 @@ export class PolicyBuilder<
    *
    * policy('post-access').addRule(denyDrafts)
    * ```
+   * @returns `this` for chaining.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  addRule(rule: Rule<TAction, TResource>): this {
+  addRule(rule: AccessControl.IRule<TAction, TResource>): this {
     this._rules.push(rule)
     return this
   }
 
   /**
-   * Produces the final {@link Policy} object.
+   * Produces the final {@link AccessControl.IPolicy} object.
    *
    * Call this after all builder methods have been chained. The resulting object
    * can be passed to an adapter or registered with the engine directly.
    *
    * @returns The constructed `Policy`.
+   * @author wildduck2 <https://github.com/wildduck2>
    */
-  build(): Policy<TAction, TResource, TRole> {
+  build(): AccessControl.IPolicy<TAction, TResource, TRole> {
     return {
       id: this._id,
       name: this._name,
@@ -222,6 +239,7 @@ export class PolicyBuilder<
  * @template TResource - Union of valid resource strings.
  * @template TRole     - Union of valid role strings.
  * @template TScope    - Union of valid scope strings.
+ * @template TContext  - Shape of the full evaluation context for typed dot-paths.
  *
  * @param id - Unique identifier for the policy. Also used as the default name.
  * @returns A new `PolicyBuilder` instance.
@@ -242,13 +260,14 @@ export class PolicyBuilder<
  *   )
  *   .build()
  * ```
+ * @author wildduck2 <https://github.com/wildduck2>
  */
 export const policy = <
   TAction extends string = string,
   TResource extends string = string,
   TRole extends string = string,
   TScope extends string = string,
-  TContext extends object = DefaultContext,
+  TContext extends object = DotPath.IDefaultContext,
 >(
   id: string,
 ) => new PolicyBuilder<TAction, TResource, TRole, TScope, TContext>(id)
