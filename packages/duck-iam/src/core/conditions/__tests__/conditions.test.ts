@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import type { AccessRequest, ConditionGroup } from '../../types'
+import type { AccessControl, Request } from '../../types'
 import { evalConditionGroup } from '../conditions'
 
-function makeReq(overrides: Partial<AccessRequest> = {}): AccessRequest {
+function makeReq(overrides: Partial<Request.IAccessRequest> = {}): Request.IAccessRequest {
   return {
     subject: {
       id: 'user-1',
@@ -245,7 +245,7 @@ describe('condition groups', () => {
   const req = makeReq()
 
   it('all: requires every condition to pass', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [
         { field: 'action', operator: 'eq', value: 'read' },
         { field: 'subject.id', operator: 'eq', value: 'user-1' },
@@ -255,7 +255,7 @@ describe('condition groups', () => {
   })
 
   it('all: fails if any condition fails', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [
         { field: 'action', operator: 'eq', value: 'read' },
         { field: 'subject.id', operator: 'eq', value: 'user-999' },
@@ -265,7 +265,7 @@ describe('condition groups', () => {
   })
 
   it('any: passes if at least one condition passes', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       any: [
         { field: 'action', operator: 'eq', value: 'write' },
         { field: 'action', operator: 'eq', value: 'read' },
@@ -275,7 +275,7 @@ describe('condition groups', () => {
   })
 
   it('any: fails if all conditions fail', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       any: [
         { field: 'action', operator: 'eq', value: 'write' },
         { field: 'action', operator: 'eq', value: 'delete' },
@@ -285,7 +285,7 @@ describe('condition groups', () => {
   })
 
   it('none: passes if no conditions pass', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       none: [
         { field: 'action', operator: 'eq', value: 'write' },
         { field: 'action', operator: 'eq', value: 'delete' },
@@ -295,7 +295,7 @@ describe('condition groups', () => {
   })
 
   it('none: fails if any condition passes', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       none: [
         { field: 'action', operator: 'eq', value: 'read' },
         { field: 'action', operator: 'eq', value: 'delete' },
@@ -305,7 +305,7 @@ describe('condition groups', () => {
   })
 
   it('nested groups work', () => {
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [
         { field: 'action', operator: 'eq', value: 'read' },
         {
@@ -324,7 +324,7 @@ describe('$-variable resolution in condition values', () => {
   it('resolves $subject.id to the actual subject id', () => {
     const req = makeReq()
     // isOwner check: resource.attributes.ownerId eq $subject.id
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }],
     }
     expect(evalConditionGroup(req, group)).toBe(true)
@@ -338,7 +338,7 @@ describe('$-variable resolution in condition values', () => {
         attributes: { ownerId: 'user-other', published: true },
       },
     })
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }],
     }
     expect(evalConditionGroup(req, group)).toBe(false)
@@ -347,7 +347,7 @@ describe('$-variable resolution in condition values', () => {
   it('resolves $ references for other paths', () => {
     const req = makeReq()
     // Check if resource.attributes.ownerId is in subject.roles (nonsensical but tests resolution)
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [{ field: 'subject.id', operator: 'eq', value: '$resource.attributes.ownerId' }],
     }
     expect(evalConditionGroup(req, group)).toBe(true)
@@ -355,9 +355,61 @@ describe('$-variable resolution in condition values', () => {
 
   it('non-$ values are used literally', () => {
     const req = makeReq()
-    const group: ConditionGroup = {
+    const group: AccessControl.IConditionGroup = {
       all: [{ field: 'action', operator: 'eq', value: 'read' }],
     }
     expect(evalConditionGroup(req, group)).toBe(true)
+  })
+})
+
+describe('matches operator safety (C2)', () => {
+  it('refuses $-resolved patterns regardless of attribute content', () => {
+    // Even a benign-looking attribute is refused: the regex source must be
+    // literal in the policy, not pulled from request data.
+    const req = makeReq({
+      subject: { id: 'u', roles: [], attributes: { pattern: '^hello$' } },
+    })
+    const group: AccessControl.IConditionGroup = {
+      all: [{ field: 'subject.id', operator: 'matches', value: '$subject.attributes.pattern' }],
+    }
+    expect(evalConditionGroup(req, group)).toBe(false)
+  })
+
+  it('accepts literal patterns', () => {
+    const req = makeReq({ subject: { id: 'hello', roles: [], attributes: {} } })
+    const group: AccessControl.IConditionGroup = {
+      all: [{ field: 'subject.id', operator: 'matches', value: '^hello$' }],
+    }
+    expect(evalConditionGroup(req, group)).toBe(true)
+  })
+
+  it('blocks catastrophic regex even if the attribute looks safe', () => {
+    // A user-controlled attribute can never reach the regex engine: we refuse
+    // the $-resolved value upfront, so the well-known
+    // `(a+)+$` ReDoS pattern never even gets compiled.
+    const req = makeReq({
+      subject: { id: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!', roles: [], attributes: { p: '^(a+)+$' } },
+    })
+    const start = performance.now()
+    const group: AccessControl.IConditionGroup = {
+      all: [{ field: 'subject.id', operator: 'matches', value: '$subject.attributes.p' }],
+    }
+    expect(evalConditionGroup(req, group)).toBe(false)
+    expect(performance.now() - start).toBeLessThan(50)
+  })
+})
+
+describe('regex cache LRU (M1)', () => {
+  it('a hot pattern survives REGEX_CACHE_MAX cold compiles after it', async () => {
+    const { getCachedRegex, regexCache, REGEX_CACHE_MAX } = await import('../conditions.libs')
+    regexCache.clear()
+    const hot = 'hot-pattern-[a-z]+'
+    getCachedRegex(hot)
+    for (let i = 0; i < REGEX_CACHE_MAX; i++) getCachedRegex(`cold-${i}`)
+    // Touch hot in between so it stays warm
+    getCachedRegex(hot)
+    for (let i = REGEX_CACHE_MAX; i < REGEX_CACHE_MAX * 2 - 1; i++) getCachedRegex(`cold-${i}`)
+    expect(regexCache.has(hot)).toBe(true)
+    regexCache.clear()
   })
 })
