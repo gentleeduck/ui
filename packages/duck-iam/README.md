@@ -70,15 +70,29 @@ const allowed = evaluatePolicyFast(policy, request) // boolean
 ## Features
 
 - **RBAC + ABAC** combined in one engine
-- **Policy engine** with 4 combining algorithms (deny-overrides, allow-overrides, first-match, highest-priority)
+- **Policy engine** with 4 intra-policy algorithms (deny-overrides, allow-overrides, first-match, highest-priority) and 3 cross-policy combine modes (and / allow-overrides / first-applicable)
 - **18 condition operators** (eq, neq, gt, lt, in, contains, starts_with, matches, exists, subset_of, and more)
 - **Scoped roles** for multi-tenant systems
 - **Dev/prod mode**: rich Decision objects in development, plain booleans in production
 - **Explain API**: full evaluation trace showing exactly why a permission was granted or denied
-- **Lifecycle hooks**: beforeEvaluate, afterEvaluate, onDeny, onError
-- **LRU caching** with configurable TTL
-- **Rule indexing** with pre-computed results for unconditional rules
+- **Lifecycle hooks**: `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics`
 - **Type-safe config**: actions, resources, roles, and scopes are validated at compile time
+
+### SRE primitives
+
+- **`engine.preload()`** - warm cache at boot
+- **`engine.healthCheck()`** - `/healthz`-ready probe with adapter latency + cache hit rate
+- **`engine.stats()` / `resetStats()`** - cache hit / miss counters per cache
+- **`engine.admin.export()` / `import(snapshot, { mode })`** - schema-versioned policy + role snapshots for env promotion
+- **`engine.dispose()`** - release the cross-instance invalidator subscription on shutdown
+- **`IConfig.adapterTimeoutMs`** - `AbortController`-driven timeout on every adapter read (default 5 s)
+- **`IConfig.maxPolicies` / `maxRoles`** - load-time caps that fail closed
+- **`IConfig.allowFailOpen`** - explicit opt-in required to combine `mode: 'production'` with `defaultEffect: 'allow'`
+- **`IConfig.invalidator`** - cross-instance cache-invalidation broadcaster
+- **`createRedisInvalidator`** at `@gentleduck/iam/invalidators/redis` - pub/sub helper with self-echo filter
+- **`createMetricsAggregator`** at `@gentleduck/iam/observability/metrics` - p50 / p95 / p99 over `onMetrics` events
+- **HttpAdapter retry + per-request timeout + circuit breaker** (retries, backoff, threshold, cooldown)
+- **Required `authorize` callback** on every admin router (Express, Hono, Next, Nest)
 
 ## Integrations
 
@@ -86,19 +100,21 @@ const allowed = evaluatePolicyFast(policy, request) // boolean
 
 ```typescript
 // Express
-import { guard } from '@gentleduck/iam/server/express'
+import { guard, adminRouter } from '@gentleduck/iam/server/express'
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), handler)
+app.use('/admin', adminRouter(engine, { authorize: (req) => isAdmin(req) })(() => express.Router()))
 
 // Hono
-import { guard } from '@gentleduck/iam/server/hono'
+import { guard, bindAdminRouter } from '@gentleduck/iam/server/hono'
 app.delete('/posts/:id', guard(engine, 'delete', 'post'), handler)
+bindAdminRouter(adminApp, engine, { authorize: (c) => isAdmin(c) })
 
 // NestJS
-import { nestAccessGuard, Authorize } from '@gentleduck/iam/server/nest'
+import { nestAccessGuard, Authorize, createAdminOperations } from '@gentleduck/iam/server/nest'
 @Authorize({ action: 'delete', resource: 'post' })
 
 // Next.js
-import { withAccess } from '@gentleduck/iam/server/next'
+import { withAccess, createAdminHandlers } from '@gentleduck/iam/server/next'
 export const DELETE = withAccess(engine, 'delete', 'post', handler)
 ```
 
@@ -123,10 +139,32 @@ client.can('read', 'post') // boolean
 
 ```typescript
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { FileAdapter } from '@gentleduck/iam/adapters/file'
 import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
 import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
 import { HttpAdapter } from '@gentleduck/iam/adapters/http'
 ```
+
+### Operability
+
+```typescript
+import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+
+const metrics = createMetricsAggregator()
+const engine = new Engine({
+  adapter,
+  invalidator: createRedisInvalidator({ client: redis }),
+  hooks: { onMetrics: metrics.record },
+})
+
+await engine.preload()
+app.get('/healthz', async (_, res) => res.json(await engine.healthCheck()))
+app.get('/metrics', (_, res) => res.json(metrics.snapshot()))
+```
+
+See the [production deployment guide](https://iam.gentleduck.org/duck-iam/guides/production) for cache TTL trade-offs, multi-node invalidation patterns, fail-closed defaults, and SLO targets.
 
 ## Module sizes (gzipped)
 

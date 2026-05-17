@@ -1,12 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/iam",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "publishConfig": {
     "access": "public"
   },
   "description": "Modern ABAC/RBAC access control engine. Framework-agnostic core with integrations for Express, NestJS, Hono, Next.js, React, and Vue.",
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,6 +40,16 @@
       "require": {
         "types": "./dist/adapters/memory/index.d.cts",
         "default": "./dist/adapters/memory/index.cjs"
+      }
+    },
+    "./adapters/file": {
+      "import": {
+        "types": "./dist/adapters/file/index.d.ts",
+        "default": "./dist/adapters/file/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/file/index.d.cts",
+        "default": "./dist/adapters/file/index.cjs"
       }
     },
     "./adapters/prisma": {
@@ -109,6 +120,26 @@
       "require": {
         "types": "./dist/adapters/http/index.d.cts",
         "default": "./dist/adapters/http/index.cjs"
+      }
+    },
+    "./invalidators/redis": {
+      "import": {
+        "types": "./dist/invalidators/redis/index.d.ts",
+        "default": "./dist/invalidators/redis/index.js"
+      },
+      "require": {
+        "types": "./dist/invalidators/redis/index.d.cts",
+        "default": "./dist/invalidators/redis/index.cjs"
+      }
+    },
+    "./observability/metrics": {
+      "import": {
+        "types": "./dist/observability/metrics/index.d.ts",
+        "default": "./dist/observability/metrics/index.js"
+      },
+      "require": {
+        "types": "./dist/observability/metrics/index.d.cts",
+        "default": "./dist/observability/metrics/index.cjs"
       }
     },
     "./server/express": {
@@ -195,7 +226,9 @@
   "files": [
     "dist",
     "src",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
   ],
   "scripts": {
     "bench": "vitest bench",

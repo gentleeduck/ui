@@ -7,6 +7,7 @@ export default defineConfig({
 
     // Adapters
     'adapters/memory/index': 'src/adapters/memory/index.ts',
+    'adapters/file/index': 'src/adapters/file/index.ts',
     'adapters/prisma/index': 'src/adapters/prisma/index.ts',
     'adapters/drizzle/index': 'src/adapters/drizzle/index.ts',
     'adapters/drizzle/schema/pg': 'src/adapters/drizzle/schema/pg.ts',
@@ -14,6 +15,12 @@ export default defineConfig({
     'adapters/drizzle/schema/sqlite': 'src/adapters/drizzle/schema/sqlite.ts',
     'adapters/http/index': 'src/adapters/http/index.ts',
     'adapters/redis/index': 'src/adapters/redis/index.ts',
+
+    // Invalidators
+    'invalidators/redis/index': 'src/invalidators/redis/index.ts',
+
+    // Observability
+    'observability/metrics/index': 'src/observability/metrics/index.ts',
 
     // Server
     'server/express/index': 'src/server/express/index.ts',

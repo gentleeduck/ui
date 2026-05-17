@@ -2,13 +2,13 @@
  * Benchmark: @gentleduck/iam vs every JS authorization library
  *
  * Libraries tested (7 total):
- *   1. @gentleduck/iam  — policy engine (ABAC+RBAC)
- *   2. @casl/ability     — ability-based (ABAC)
- *   3. casbin            — model-file (PERM DSL)
- *   4. accesscontrol     — fluent grants (RBAC)
- *   5. role-acl          — role + conditions (RBAC+ABAC)
- *   6. @rbac/rbac        — hierarchical RBAC
- *   7. easy-rbac         — simple hierarchical RBAC
+ *   1. @gentleduck/iam  - policy engine (ABAC+RBAC)
+ *   2. @casl/ability     - ability-based (ABAC)
+ *   3. casbin            - model-file (PERM DSL)
+ *   4. accesscontrol     - fluent grants (RBAC)
+ *   5. role-acl          - role + conditions (RBAC+ABAC)
+ *   6. @rbac/rbac        - hierarchical RBAC
+ *   7. easy-rbac         - simple hierarchical RBAC
  *
  * METHODOLOGY:
  * - Each library solves the SAME authorization problem
@@ -162,19 +162,19 @@ const easyRbac = new EasyRBAC({
 const N = 3
 
 describe('Simple RBAC: can viewer read post?', () => {
-  bench('@gentleduck/iam — evaluateFast() [PROD]', () => {
+  bench('@gentleduck/iam - evaluateFast() [PROD]', () => {
     for (let i = 0; i < N; i++) evaluateFast([simplePolicy], simpleRequest)
   })
 
-  bench('@gentleduck/iam — evaluatePolicyFast() [PROD]', () => {
+  bench('@gentleduck/iam - evaluatePolicyFast() [PROD]', () => {
     for (let i = 0; i < N; i++) evaluatePolicyFast(simplePolicy, simpleRequest)
   })
 
-  bench('@gentleduck/iam — evaluate() [DEV]', () => {
+  bench('@gentleduck/iam - evaluate() [DEV]', () => {
     for (let i = 0; i < N; i++) evaluate([simplePolicy], simpleRequest)
   })
 
-  bench('@gentleduck/iam — evaluatePolicy() [DEV]', () => {
+  bench('@gentleduck/iam - evaluatePolicy() [DEV]', () => {
     for (let i = 0; i < N; i++) evaluatePolicy(simplePolicy, simpleRequest)
   })
 
@@ -204,15 +204,15 @@ describe('Simple RBAC: can viewer read post?', () => {
 })
 
 describe('ABAC condition: can owner update own draft?', () => {
-  bench('@gentleduck/iam — evaluateFast() [PROD]', () => {
+  bench('@gentleduck/iam - evaluateFast() [PROD]', () => {
     for (let i = 0; i < N; i++) evaluateFast([conditionPolicy], conditionRequest)
   })
 
-  bench('@gentleduck/iam — evaluate() [DEV]', () => {
+  bench('@gentleduck/iam - evaluate() [DEV]', () => {
     for (let i = 0; i < N; i++) evaluate([conditionPolicy], conditionRequest)
   })
 
-  bench('@casl/ability — subject()', () => {
+  bench('@casl/ability - subject()', () => {
     for (let i = 0; i < N; i++) caslAbility.can('update', caslPostForCondition)
   })
 
@@ -224,7 +224,7 @@ describe('Role + condition: can admin delete post?', () => {
     for (let i = 0; i < N; i++) evaluate([simplePolicy], adminRequest)
   })
 
-  bench('@casl/ability — subject()', () => {
+  bench('@casl/ability - subject()', () => {
     for (let i = 0; i < N; i++) caslAbility.can('delete', caslPostForAdmin)
   })
 
@@ -278,11 +278,11 @@ describe('Deny path: viewer cannot delete', () => {
 })
 
 describe('Target optimization (duck-iam only)', () => {
-  bench('target match — evaluates rules', () => {
+  bench('target match - evaluates rules', () => {
     for (let i = 0; i < N; i++) evaluatePolicy(policyWithTargets, simpleRequest)
   })
 
-  bench('target skip — skips entire policy', () => {
+  bench('target skip - skips entire policy', () => {
     for (let i = 0; i < N; i++) evaluatePolicy(policyWithTargets, adminRequest)
   })
 })
@@ -296,11 +296,11 @@ describe('Batch: 20 permission checks', () => {
     action,
   }))
 
-  bench('@gentleduck/iam — evaluateFast() x20 [PROD]', () => {
+  bench('@gentleduck/iam - evaluateFast() x20 [PROD]', () => {
     for (let i = 0; i < 20; i++) evaluateFast([simplePolicy], batchRequests[i]!)
   })
 
-  bench('@gentleduck/iam — evaluate() x20 [DEV]', () => {
+  bench('@gentleduck/iam - evaluate() x20 [DEV]', () => {
     for (let i = 0; i < 20; i++) evaluate([simplePolicy], batchRequests[i]!)
   })
 
@@ -340,8 +340,8 @@ describe('Batch: 20 permission checks', () => {
   })
 })
 
-describe('Engine.can() — cached (duck-iam only)', () => {
-  bench('@gentleduck/iam — engine.can()', async () => {
+describe('Engine.can() - cached (duck-iam only)', () => {
+  bench('@gentleduck/iam - engine.can()', async () => {
     for (let i = 0; i < N; i++) await engine.can('user-1', 'read', { type: 'post', attributes: {} })
   })
 })
