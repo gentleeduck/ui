@@ -331,11 +331,11 @@ export class When<
    * @returns `this` for chaining
    * @author wildduck2 <https://github.com/wildduck2>
    */
-  attr<K extends keyof DotPath.SubjectAttrs<TContext> & string>(
+  attr<K extends DotPath.SubjectAttrs<TContext> & string>(
     path: K,
     op: AccessControl.Operator,
     value?:
-      | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.SubjectAttrs<TContext>, K>>
+      | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.SubjectAttrShape<TContext>, K>>
       | DotPath.FlexibleDollarPaths<TContext>,
   ): this {
     this._items.push({ field: `subject.attributes.${path}`, operator: op, value })
@@ -359,8 +359,8 @@ export class When<
    * @returns `this` for chaining
    * @author wildduck2 <https://github.com/wildduck2>
    */
-  resourceAttr<K extends keyof DotPath.ResolvedResourceAttrs<TContext, TActiveResource> & string>(
-    path: K,
+  resourceAttr<K extends DotPath.ResolvedResourceAttrPaths<TContext, TActiveResource> & string>(
+    path: TActiveResource,
     op: AccessControl.Operator,
     value?:
       | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.ResolvedResourceAttrs<TContext, TActiveResource>, K>>
@@ -388,11 +388,11 @@ export class When<
    * @returns `this` for chaining
    * @author wildduck2 <https://github.com/wildduck2>
    */
-  env<K extends keyof DotPath.EnvAttrs<TContext> & string>(
+  env<K extends DotPath.EnvAttrs<TContext> & string>(
     path: K,
     op: AccessControl.Operator,
     value?:
-      | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.EnvAttrs<TContext>, K>>
+      | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.EnvAttrShape<TContext>, K>>
       | DotPath.FlexibleDollarPaths<TContext>,
   ): this {
     this._items.push({ field: `environment.${path}`, operator: op, value })
