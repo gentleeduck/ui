@@ -1,0 +1,5 @@
+tmp/
+.claude/
+.turbo/
+dist/
+node_modules/
