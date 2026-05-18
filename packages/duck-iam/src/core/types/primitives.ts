@@ -14,7 +14,7 @@ export namespace Primitives {
    *
    * @author wildduck2 <https://github.com/wildduck2>
    */
-  export type AttributeValue = Scalar | Scalar[]
+  export type AttributeValue = Scalar | Scalar[] | Record<string, Scalar>
 
   /**
    * String-keyed record of {@link AttributeValue} entries. Used for subject

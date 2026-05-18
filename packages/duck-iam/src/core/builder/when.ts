@@ -360,7 +360,7 @@ export class When<
    * @author wildduck2 <https://github.com/wildduck2>
    */
   resourceAttr<K extends DotPath.ResolvedResourceAttrPaths<TContext, TActiveResource> & string>(
-    path: TActiveResource,
+    path: K,
     op: AccessControl.Operator,
     value?:
       | DotPath.ConditionValue<TContext, DotPath.AttrValue<DotPath.ResolvedResourceAttrs<TContext, TActiveResource>, K>>
