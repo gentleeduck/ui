@@ -1,0 +1,179 @@
+/*
+ * BlockNote theme overrides — loaded AFTER BlockNote's own CSS
+ * so these variable assignments win by source order.
+ * All values reference the current theme's CSS custom properties.
+ */
+
+.bn-container,
+.bn-container[data-color-scheme="dark"],
+.bn-container[data-color-scheme="light"] {
+  --bn-colors-editor-background: var(--background);
+  --bn-colors-editor-text: var(--foreground);
+  --bn-colors-menu-background: var(--popover);
+  --bn-colors-menu-text: var(--popover-foreground);
+  --bn-colors-tooltip-background: var(--background);
+  --bn-colors-tooltip-text: var(--foreground);
+  --bn-colors-hovered-background: var(--accent);
+  --bn-colors-hovered-text: var(--accent-foreground);
+  --bn-colors-selected-background: var(--primary);
+  --bn-colors-selected-text: var(--primary-foreground);
+  --bn-colors-disabled-background: var(--muted);
+  --bn-colors-disabled-text: var(--muted-foreground);
+  --bn-colors-shadow: var(--border);
+  --bn-colors-border: var(--border);
+  --bn-colors-side-menu: var(--muted-foreground);
+  --bn-font-family: var(--font-sans);
+}
+
+/* Unified theme transition for all BlockNote elements */
+.bn-container *,
+.bn-container *::before,
+.bn-container *::after {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    fill 0.2s ease,
+    stroke 0.2s ease;
+}
+
+/* Editor full width */
+.bn-editor {
+  width: 100%;
+}
+
+/* Suggestion menu, toolbar, popover styling */
+.bn-container .bn-suggestion-menu,
+.bn-container .bn-drag-handle-menu,
+.bn-container .bn-table-handle-menu,
+.bn-container .bn-grid-suggestion-menu {
+  background: var(--bn-colors-menu-background);
+  border-color: var(--bn-colors-border);
+}
+
+.bn-container .bn-suggestion-menu-label,
+.bn-container .bn-mt-suggestion-menu-item-subtitle {
+  color: var(--muted-foreground);
+}
+
+.bn-container .bn-suggestion-menu-item,
+.bn-container .bn-grid-suggestion-menu-item {
+  color: var(--foreground);
+  background: transparent;
+}
+
+.bn-container .bn-suggestion-menu-item:hover,
+.bn-container .bn-suggestion-menu-item[aria-selected="true"],
+.bn-container .bn-grid-suggestion-menu-item:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Toolbar */
+.bn-container .bn-toolbar,
+.bn-container .bn-action-toolbar {
+  background: var(--popover);
+  border-color: var(--border);
+}
+
+/* Mantine action icons */
+.bn-container .mantine-ActionIcon-root {
+  color: var(--foreground);
+  background: transparent;
+  border-color: transparent;
+}
+
+.bn-container .mantine-ActionIcon-root:hover {
+  background: var(--accent);
+}
+
+.bn-container .mantine-ActionIcon-root[data-active="true"],
+.bn-container .mantine-ActionIcon-root[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Mantine buttons */
+.bn-container .mantine-Button-root {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-color: var(--border);
+}
+
+.bn-container .mantine-Button-root:hover {
+  background: var(--accent);
+}
+
+/* Mantine menu dropdowns */
+.bn-container .mantine-Menu-dropdown {
+  background: var(--popover);
+  border-color: var(--border);
+}
+
+.bn-container .mantine-Menu-item {
+  color: var(--popover-foreground);
+}
+
+.bn-container .mantine-Menu-item:hover,
+.bn-container .mantine-Menu-item[data-hovered] {
+  background: var(--accent);
+}
+
+.bn-container .mantine-Menu-label {
+  color: var(--muted-foreground);
+}
+
+/* Mantine popovers */
+.bn-container .mantine-Popover-dropdown {
+  background: var(--popover);
+  border-color: var(--border);
+}
+
+/* Mantine inputs */
+.bn-container .mantine-TextInput-input,
+.bn-container .mantine-FileInput-input {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--input);
+}
+
+.bn-container .mantine-TextInput-input::placeholder,
+.bn-container .mantine-FileInput-placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Mantine tabs */
+.bn-container .mantine-Tabs-list {
+  border-color: var(--border);
+}
+
+.bn-container .mantine-Tabs-tab {
+  color: var(--muted-foreground);
+}
+
+.bn-container .mantine-Tabs-tab:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.bn-container .mantine-Tabs-tab[data-active] {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Form popovers & panels */
+.bn-container .bn-form-popover,
+.bn-container .bn-panel {
+  background: var(--popover);
+  border-color: var(--border);
+}
+
+/* Side menu */
+.bn-container .bn-side-menu {
+  color: var(--muted-foreground);
+}
+
+.bn-container .bn-side-menu:hover {
+  color: var(--foreground);
+}

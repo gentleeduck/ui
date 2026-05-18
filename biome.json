@@ -31,7 +31,8 @@
       "!packages/duck-benchmark",
       "!templates",
       "!**/__fixtures__",
-      "!**/tmp/**"
+      "!**/tmp",
+      "!packages/duck-iam/examples"
     ]
   },
   "formatter": {

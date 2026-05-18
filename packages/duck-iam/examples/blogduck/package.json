@@ -1,0 +1,9 @@
+{
+  "name": "blogduck",
+  "private": true,
+  "scripts": {
+    "setup": "cd packages/shared && bun run db:seed",
+    "dev:api": "cd packages/api && bun run dev",
+    "dev:web": "cd packages/web && bun run dev"
+  }
+}

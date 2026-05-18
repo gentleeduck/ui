@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@import "../components/ui/styles.css";
+
+@source "../components/ui/";
+
+@theme {
+  --font-sans: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: var(--font-inria-serif), "Inria Serif", Georgia, serif;
+}
+
+/* Bun theme (default - dark) */
+:root {
+  --background: #14151a;
+  --foreground: #e5e7eb;
+  --card: #1c1d24;
+  --card-foreground: #e5e7eb;
+  --popover: #1c1d24;
+  --popover-foreground: #e5e7eb;
+  --muted: #282a36;
+  --muted-foreground: #9ca3af;
+  --border: #3b3f4b;
+  --input: #3b3f4b;
+  --primary: #f472b6;
+  --primary-foreground: #14151a;
+  --secondary: #282a36;
+  --secondary-foreground: #e5e7eb;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --accent: #282a36;
+  --accent-foreground: #e5e7eb;
+  --ring: #f472b6;
+  --sidebar: #14151a;
+  --sidebar-foreground: #e5e7eb;
+  --sidebar-border: #3b3f4b;
+  --sidebar-accent: #282a36;
+  --sidebar-accent-foreground: #e5e7eb;
+  --radius: 0.5rem;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --ring: #18181b;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #09090b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

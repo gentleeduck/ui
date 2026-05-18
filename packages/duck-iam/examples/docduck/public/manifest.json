@@ -1,0 +1,21 @@
+{
+  "name": "DocDuck",
+  "short_name": "DocDuck",
+  "description": "Collaborative Document Editor",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14151a",
+  "theme_color": "#f472b6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

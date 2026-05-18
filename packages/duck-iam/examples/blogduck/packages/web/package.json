@@ -1,0 +1,22 @@
+{
+  "name": "@blogduck/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3003",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@gentleduck/iam": "workspace:*",
+    "next": "^16.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "5.9.3"
+  }
+}

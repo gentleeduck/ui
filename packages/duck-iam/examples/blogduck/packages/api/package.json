@@ -1,0 +1,24 @@
+{
+  "name": "@blogduck/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/main.ts",
+    "start": "bun src/main.ts"
+  },
+  "dependencies": {
+    "@blogduck/shared": "workspace:*",
+    "@gentleduck/iam": "workspace:*",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "drizzle-orm": "^0.44.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "bun-types": "^1.3.10",
+    "typescript": "5.9.3"
+  }
+}
