@@ -6,7 +6,8 @@
     "exactOptionalPropertyTypes": false,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitOverride": false,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "jsx": "react-jsx"
   },
   "exclude": ["node_modules", "dist", "examples.ts"],
   "extends": "@gentleduck/typescript-config/internal-package.json",

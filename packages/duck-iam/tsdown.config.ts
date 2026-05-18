@@ -33,6 +33,9 @@ export default defineConfig({
     'client/react/index': 'src/client/react/index.ts',
     'client/vue/index': 'src/client/vue/index.ts',
     'client/vanilla/index': 'src/client/vanilla/index.ts',
+
+    // Devtools (React)
+    'dt/index': 'src/dt/index.ts',
   },
   format: ['esm', 'cjs'],
   dts: true,
@@ -61,5 +64,8 @@ export default defineConfig({
     'next/server',
     'ioredis',
     'redis',
+    /^@gentleduck\/registry-ui($|\/)/,
+    /^@gentleduck\/libs($|\/)/,
+    /^@gentleduck\/variants($|\/)/,
   ],
 })
