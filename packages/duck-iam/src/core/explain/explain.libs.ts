@@ -92,17 +92,18 @@ function applyCombiner(
       if (deny) return { effect: 'deny', reason: `Denied by rule "${deny.ruleId}"`, decidingRuleId: deny.ruleId }
       const allow = matched.find((r) => r.effect === 'allow')
       if (allow) return { effect: 'allow', reason: `Allowed by rule "${allow.ruleId}"`, decidingRuleId: allow.ruleId }
-      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
     }
     case 'allow-overrides': {
       const allow = matched.find((r) => r.effect === 'allow')
       if (allow) return { effect: 'allow', reason: `Allowed by rule "${allow.ruleId}"`, decidingRuleId: allow.ruleId }
       const deny = matched.find((r) => r.effect === 'deny')
       if (deny) return { effect: 'deny', reason: `Denied by rule "${deny.ruleId}"`, decidingRuleId: deny.ruleId }
-      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
     }
     case 'first-match': {
-      if (matched.length === 0) return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      if (matched.length === 0)
+        return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
       let first = matched[0]!
       for (let i = 1; i < matched.length; i++) {
         const cur = matched[i]!
@@ -124,7 +125,7 @@ function applyCombiner(
           decidingRuleId: top.ruleId,
         }
       }
-      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
     }
   }
 }
@@ -164,7 +165,7 @@ export function tracePolicy(
       targetMatch: false,
       rules: [],
       result: defaultEffect,
-      reason: `Policy "${policy.id}" targets don't match -> ${defaultEffect}`,
+      reason: `Policy "${policy.id}" targets do not match. Defaulted to ${defaultEffect}`,
     }
   }
 

@@ -94,7 +94,7 @@ export const combiners: Record<AccessControl.CombiningAlgorithm, Evaluate.Combin
         reason: `Allowed by rule "${allow.rule.id}"`,
       }
     }
-    return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+    return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
   },
 
   'allow-overrides': (matched, defaultEffect) => {
@@ -114,12 +114,12 @@ export const combiners: Record<AccessControl.CombiningAlgorithm, Evaluate.Combin
         reason: `Denied by rule "${deny.rule.id}"`,
       }
     }
-    return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+    return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
   },
 
   'first-match': (matched, defaultEffect) => {
     if (matched.length === 0) {
-      return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+      return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
     }
     // Highest priority first; stable on ties preserves source order
     let first = matched[0]!
@@ -143,7 +143,7 @@ export const combiners: Record<AccessControl.CombiningAlgorithm, Evaluate.Combin
         reason: `Highest priority: rule "${top.rule.id}" (p=${top.rule.priority})`,
       }
     }
-    return { effect: defaultEffect, reason: `No matching rules -> ${defaultEffect}` }
+    return { effect: defaultEffect, reason: `No matching rules. Defaulted to ${defaultEffect}` }
   },
 }
 

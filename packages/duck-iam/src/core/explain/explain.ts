@@ -113,8 +113,8 @@ function decideFinal(
     effect: defaultEffect,
     reason:
       applicable.length === 0
-        ? `No applicable policy across ${traces.length} policies -> ${defaultEffect}`
-        : `No matching rules across ${applicable.length} applicable policies -> ${defaultEffect}`,
+        ? `No applicable policy across ${traces.length} policies. Defaulted to ${defaultEffect}`
+        : `No matching rules across ${applicable.length} applicable policies. Defaulted to ${defaultEffect}`,
   }
 }
 
@@ -130,7 +130,7 @@ function buildSummary(
 
   // Header
   parts.push(
-    `${verb}: "${info.subjectId}" -> ${req.action} on ${req.resource.type}${req.scope ? ` [scope: ${req.scope}]` : ''}`,
+    `${verb}: "${info.subjectId}" attempting ${req.action} on ${req.resource.type}${req.scope ? ` [scope: ${req.scope}]` : ''}`,
   )
 
   // Roles
@@ -151,7 +151,9 @@ function buildSummary(
     } else if (pt.decidingRuleId) {
       parts.push(`  ${pt.policyId} [${pt.algorithm}]: ${pt.reason} (${matched}/${total} rules matched)`)
     } else {
-      parts.push(`  ${pt.policyId} [${pt.algorithm}]: no matching rules -> ${pt.result} (0/${total} rules evaluated)`)
+      parts.push(
+        `  ${pt.policyId} [${pt.algorithm}]: no matching rules. Defaulted to ${pt.result} (0/${total} rules evaluated)`,
+      )
     }
   }
 

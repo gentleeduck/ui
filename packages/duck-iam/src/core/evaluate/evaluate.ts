@@ -101,7 +101,7 @@ export function evaluatePolicy(
       allowed: defaultEffect === 'allow',
       effect: defaultEffect,
       policy: policy.id,
-      reason: `Policy "${policy.id}" targets don't match -> not applicable`,
+      reason: `Policy "${policy.id}" targets do not match. Not applicable.`,
       duration: performance.now() - start,
       timestamp: Date.now(),
       applicable: false,
@@ -206,7 +206,7 @@ export function evaluate(
       return {
         allowed: defaultEffect === 'allow',
         effect: defaultEffect,
-        reason: `No policy applicable -> ${defaultEffect}`,
+        reason: `No policy applicable. Defaulted to ${defaultEffect}`,
         duration: performance.now() - start,
         timestamp: Date.now(),
       }
@@ -228,7 +228,7 @@ export function evaluate(
       return {
         allowed: defaultEffect === 'allow',
         effect: defaultEffect,
-        reason: `No policy applicable -> ${defaultEffect}`,
+        reason: `No policy applicable. Defaulted to ${defaultEffect}`,
         duration: performance.now() - start,
         timestamp: Date.now(),
       }
@@ -244,7 +244,7 @@ export function evaluate(
   return {
     allowed: defaultEffect === 'allow',
     effect: defaultEffect,
-    reason: `No policy was applicable -> ${defaultEffect}`,
+    reason: `No policy was applicable. Defaulted to ${defaultEffect}`,
     duration: performance.now() - start,
     timestamp: Date.now(),
   }
