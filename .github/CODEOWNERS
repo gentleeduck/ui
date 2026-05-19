@@ -1,0 +1,15 @@
+# Default owners for the whole repo.
+# Any PR requires review from one of these users unless overridden below.
+*                              @wildduck2
+
+# Tooling and CI.
+/.github/                      @wildduck2
+/tooling/                      @wildduck2
+/turbo.json                    @wildduck2
+/biome.json                    @wildduck2
+/package.json                  @wildduck2
+
+# Packages — fine-grained ownership can be added here as the team grows.
+/packages/registry-ui/         @wildduck2
+/packages/duck-primitives/     @wildduck2
+/packages/duck-docs/           @wildduck2

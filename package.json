@@ -5,7 +5,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
-    "@changesets/cli": "^2.30.0",
+    "@changesets/cli": "^2.31.0",
     "@gentleduck/vim": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -13,7 +13,7 @@
     "husky": "^9.1.7",
     "motion": "^12.26.2",
     "sherif": "1.11.0",
-    "turbo": "^2.8.14",
+    "turbo": "^2.9.14",
     "typescript": "6.0.2",
     "vercel": "^50.28.0"
   },
@@ -76,7 +76,7 @@
     "catalog": {
       "next": "^16.1.1",
       "lucide-react": "1.6.0",
-      "@changesets/cli": "^2.29.8",
+      "@changesets/cli": "^2.31.0",
       "@tabler/icons-react": "3.40.0",
       "@tanstack/react-query": "^5.90.15",
       "@trpc/client": "^11.8.1",
