@@ -56,10 +56,10 @@ jobs:
         run: bunx turbo run build --filter='./packages/*'
 
       - name: Type check
-        run: bunx turbo run check-types --filter='./packages/*' --filter='!@gentleduck/ttest'
+        run: bun run check-types
 
       - name: Test
-        run: bunx turbo run test --filter='./packages/*' --filter='!@gentleduck/ttest'
+        run: bun run test
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
