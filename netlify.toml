@@ -1,9 +1,0 @@
-[build]
-command = "turbo run build --filter @gentleduck/ui-docs"
-publish = "apps/duck/.next"
-
-[build.environment]
-# Cap V8 heap below Netlify's 8 GB build sandbox so GC fires before SIGKILL.
-# Webpack build of the docs site (large MDX graph + velite JSON) needs
-# headroom above the default 4 GB.
-NODE_OPTIONS = "--max-old-space-size=7168"

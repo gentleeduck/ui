@@ -23,8 +23,6 @@
     "@shikijs/compat": "1.12.1",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.24",
-    "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0",
     "culori": "^4.0.2",
     "date-fns": "^4.1.0",
     "hast": "^1.0.0",
