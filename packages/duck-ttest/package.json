@@ -32,7 +32,7 @@
     "!**/*.test.*",
     "!**/*.spec.*"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-gen/tree/master/packages/duck-ttest#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "type",
     "testing",

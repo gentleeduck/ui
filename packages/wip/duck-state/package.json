@@ -31,7 +31,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-state#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "react",

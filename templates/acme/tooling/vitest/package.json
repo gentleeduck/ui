@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@acme/vitest-config",
-  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/vitest#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },

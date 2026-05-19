@@ -1,4 +1,27 @@
-# `🦆 @gentleduck/ttest`
+<p align="center">
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/ttest" width="120"/>
+</p>
+
+<h1 align="center">@gentleduck/ttest</h1>
+
+<p align="center">
+  Compile-time type testing utilities for TypeScript.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/ttest"><img src="https://img.shields.io/npm/v/@gentleduck/ttest.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/ttest"><img src="https://img.shields.io/npm/dm/@gentleduck/ttest.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/ttest.svg" alt="MIT"/></a>
+</p>
+
+---
 
 > **TypeScript Type-Level Test Framework.**
 > Assert your types like you mean it, at compile time.

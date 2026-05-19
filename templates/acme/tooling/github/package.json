@@ -9,7 +9,7 @@
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },
-  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/github#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/acme/acme-ui.git",

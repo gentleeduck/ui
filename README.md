@@ -12,7 +12,7 @@
   <a href="./LICENSE">MIT</a> -
   <a href="./CHANGELOG.md">Changelog</a> -
   <a href="./CONTRIBUTING.md">Contributing</a> -
-  <a href="https://ui.gentleduck.org">Docs</a>
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
 </p>
 
 <p align="center">
@@ -69,7 +69,7 @@ WIP / deprecated lives under `packages/wip/` and `packages/deprecated/`.
 
 | Path | Role |
 | --- | --- |
-| [`apps/duck`](apps/duck) | Docs site at [ui.gentleduck.org](https://ui.gentleduck.org) |
+| [`apps/duck`](apps/duck) | Docs site at [gentleduck.org/duck-ui](https://gentleduck.org/duck-ui) |
 
 ## Templates
 
@@ -88,7 +88,7 @@ bunx turbo run check-types --filter='./packages/*'
 
 ## Docs
 
-- Site: [ui.gentleduck.org](https://ui.gentleduck.org)
+- Site: [gentleduck.org/duck-ui](https://gentleduck.org/duck-ui)
 - Component docs: `apps/duck/content/docs/<package>/`
 - Sibling repos: [`@gentleduck/iam`](https://github.com/gentleeduck/duck-iam), [`@gentleduck/upload`](https://github.com/gentleeduck/duck-upload), [`@gentleduck/md`](https://github.com/gentleeduck/duck-md)
 

@@ -1,10 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/calendar" width="120"/>
 </p>
 
-# @gentleduck/calendar
+<h1 align="center">@gentleduck/calendar</h1>
 
-Headless, framework-agnostic calendar engine with date adapter pattern, React hooks, and compound components.
+<p align="center">
+  Headless, framework-agnostic calendar engine with date adapter pattern, React hooks, and compound components.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/calendar"><img src="https://img.shields.io/npm/v/@gentleduck/calendar.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/calendar"><img src="https://img.shields.io/npm/dm/@gentleduck/calendar.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/calendar.svg" alt="MIT"/></a>
+</p>
+
+---
 
 **75% smaller than react-day-picker**  -  ~5 KB gzipped vs ~20 KB. Zero dependencies. Full keyboard navigation and ARIA compliance.
 

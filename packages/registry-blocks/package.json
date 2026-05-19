@@ -33,7 +33,7 @@
   "name": "@gentleduck/registry-blocks",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-blocks#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/gentleeduck/gentleduck/issues"
   },

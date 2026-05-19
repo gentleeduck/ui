@@ -11,7 +11,7 @@
   "author": "acme contributors",
   "license": "MIT",
   "name": "@acme/tailwind-config",
-  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/tailwind#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },

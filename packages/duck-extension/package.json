@@ -54,7 +54,7 @@
     "tsconfig.app.json",
     "tsconfig.node.json"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-extension#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "browser-extension",

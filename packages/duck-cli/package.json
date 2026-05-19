@@ -55,7 +55,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-cli#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "components",
     "ui",

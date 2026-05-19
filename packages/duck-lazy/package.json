@@ -32,7 +32,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-lazy#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "lazy-loading",

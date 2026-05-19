@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/libs" width="120"/>
 </p>
 
-# @gentleduck/libs
+<h1 align="center">@gentleduck/libs</h1>
+
+<p align="center">
+  Tiny, framework-agnostic utility functions for gentleduck/ui.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/libs"><img src="https://img.shields.io/npm/v/@gentleduck/libs.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/libs"><img src="https://img.shields.io/npm/dm/@gentleduck/libs.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/libs.svg" alt="MIT"/></a>
+</p>
+
+---
 
 Shared utilities for the gentleduck ecosystem.
 

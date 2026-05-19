@@ -166,7 +166,7 @@ Before merging a skill change:
 
 ## MCP Integration
 
-The docs site exposes an MCP server at `https://ui.gentleduck.org/api/mcp` with 9 tools for searching docs, reading component APIs, getting examples, and suggesting components. The `.mcp.json` at the repo root configures this for local development.
+The docs site exposes an MCP server at `https://gentleduck.org/duck-ui/api/mcp` with 9 tools for searching docs, reading component APIs, getting examples, and suggesting components. The `.mcp.json` at the repo root configures this for local development.
 
 Skills reference MCP tools by their fully qualified names in the instruction body. The MCP server itself is configured in `.mcp.json`, not in skill frontmatter.
 

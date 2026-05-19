@@ -3,8 +3,16 @@ name: Coverage
 on:
   pull_request:
     branches: [master]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**/*.md'
+      - 'docs/**'
   push:
     branches: [master]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**/*.md'
+      - 'docs/**'
 
 permissions:
   contents: read
@@ -19,6 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -29,6 +39,16 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Cache Bun install
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
 
       - name: Install
         run: bun install --frozen-lockfile

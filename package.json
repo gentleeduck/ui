@@ -22,7 +22,7 @@
   "description": "gentleduck/ui monorepo for UI components, tools, and related packages.",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://ui.gentleduck.org",
+  "homepage": "https://gentleduck.org/duck-ui",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gentleeduck/gentleduck.git"

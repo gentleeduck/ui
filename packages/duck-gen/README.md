@@ -1,4 +1,27 @@
-# @gentleduck/gen
+<p align="center">
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/gen" width="120"/>
+</p>
+
+<h1 align="center">@gentleduck/gen</h1>
+
+<p align="center">
+  Type-safe API and message generator for TypeScript projects (deprecated).
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/gen"><img src="https://img.shields.io/npm/v/@gentleduck/gen.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/gen"><img src="https://img.shields.io/npm/dm/@gentleduck/gen.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/gen.svg" alt="MIT"/></a>
+</p>
+
+---
 
 > [!WARNING]
 > **`@gentleduck/gen` is deprecated and no longer maintained.** Use the

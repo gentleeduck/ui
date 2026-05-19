@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/duck-extension" width="120"/>
 </p>
 
-# @gentleduck/extention
+<h1 align="center">@gentleduck/duck-extension</h1>
+
+<p align="center">
+  Browser extension for font customization and typography control.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/duck-extension"><img src="https://img.shields.io/npm/v/@gentleduck/duck-extension.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/duck-extension"><img src="https://img.shields.io/npm/dm/@gentleduck/duck-extension.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/duck-extension.svg" alt="MIT"/></a>
+</p>
+
+---
 
 A browser extension that allows you to apply custom fonts to any website. Set different fonts for different domains and toggle the extension on/off per website with a simple floating button.
 

@@ -11,7 +11,7 @@
   "name": "@acme/biome-config",
   "author": "acme contributors",
   "license": "MIT",
-  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/biome#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },

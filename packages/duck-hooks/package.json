@@ -32,7 +32,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-hooks#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "description": "React hooks for Duck UI.",
   "keywords": [
     "gentleduck",

@@ -9,7 +9,7 @@
   "bugs": {
     "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/tooling/github#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gentleeduck/gentleduck.git",

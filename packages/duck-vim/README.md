@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/vim" width="120"/>
 </p>
 
-# @gentleduck/vim
+<h1 align="center">@gentleduck/vim</h1>
+
+<p align="center">
+  Keyboard command engine with hotkey parsing, sequences, recording, and React hooks.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/vim"><img src="https://img.shields.io/npm/v/@gentleduck/vim.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/vim"><img src="https://img.shields.io/npm/dm/@gentleduck/vim.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/vim.svg" alt="MIT"/></a>
+</p>
+
+---
 
 Keyboard command engine for React.
 

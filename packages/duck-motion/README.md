@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/motion" width="120"/>
 </p>
 
-# @gentleduck/motion
+<h1 align="center">@gentleduck/motion</h1>
+
+<p align="center">
+  Motion primitives for gentleduck/ui components.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/motion"><img src="https://img.shields.io/npm/v/@gentleduck/motion.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/motion"><img src="https://img.shields.io/npm/dm/@gentleduck/motion.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/motion.svg" alt="MIT"/></a>
+</p>
+
+---
 
 Animation tokens, presets, and reduced motion support for the gentleduck ecosystem. Optionally integrates with the motion library for rich enter/exit animations.
 

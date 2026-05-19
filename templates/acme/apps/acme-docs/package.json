@@ -49,7 +49,7 @@
   "name": "@acme/docs",
   "author": "acme contributors",
   "license": "MIT",
-  "homepage": "https://www.acme.com",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },

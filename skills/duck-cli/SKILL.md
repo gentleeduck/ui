@@ -90,7 +90,7 @@ Each command has five files. See [COMMAND-PATTERN.md](references/COMMAND-PATTERN
 
 ## Registry API
 
-The registry URL defaults to `https://ui.gentleduck.org/r` and can be overridden with the `COMPONENTS_REGISTRY_URL` env var. Defined in `src/main/main.constants.ts` as `REGISTRY_URL`.
+The registry URL defaults to `https://gentleduck.org/duck-ui/r` and can be overridden with the `COMPONENTS_REGISTRY_URL` env var. Defined in `src/main/main.constants.ts` as `REGISTRY_URL`.
 
 ## Local Development
 

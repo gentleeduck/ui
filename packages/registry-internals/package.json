@@ -42,7 +42,7 @@
   "name": "@gentleduck/registry-internals",
   "author": "gentleduck contributors",
   "license": "MIT",
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-internals#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/gentleeduck/gentleduck/issues"
   },

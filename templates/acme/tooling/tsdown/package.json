@@ -17,7 +17,7 @@
   "license": "MIT",
   "main": "dist/index.mjs",
   "name": "@acme/tsdown-config",
-  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/tsdown#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },

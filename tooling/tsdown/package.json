@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "dist/index.mjs",
   "name": "@gentleduck/tsdown-config",
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/tooling/tsdown#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "bugs": {
     "url": "https://github.com/gentleeduck/gentleduck/issues"
   },

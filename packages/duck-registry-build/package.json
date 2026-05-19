@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/gentleeduck/gentleduck/issues"
   },
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-build#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "license": "MIT",
   "main": "./dist/index.mjs",
   "name": "@gentleduck/registry-build",

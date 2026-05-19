@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gentleeduck/gentleduck/master/public/logo-dark.svg" alt="gentleduck" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/variants" width="120"/>
 </p>
 
-# @gentleduck/variants
+<h1 align="center">@gentleduck/variants</h1>
+
+<p align="center">
+  Type-safe component variants with `cva()`.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/variants"><img src="https://img.shields.io/npm/v/@gentleduck/variants.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/variants"><img src="https://img.shields.io/npm/dm/@gentleduck/variants.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/variants.svg" alt="MIT"/></a>
+</p>
+
+---
 
 Type-safe component variants with `cva()`.
 

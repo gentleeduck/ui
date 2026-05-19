@@ -60,7 +60,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-vim#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "vim",

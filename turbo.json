@@ -6,11 +6,13 @@
       "cache": true,
       "dependsOn": ["^build"],
       "env": ["OPENROUTER_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY", "CHAT_MODEL"],
+      "inputs": ["src/**", "package.json", "tsconfig*.json", "tsdown.config.*", "next.config.*", "tailwind.config.*", "postcss.config.*"],
       "outputs": [".next/**", "dist/**", ".cache/tsbuildinfo.json"]
     },
     "check-types": {
       "cache": true,
-      "dependsOn": ["^check-types"]
+      "dependsOn": ["^check-types"],
+      "inputs": ["src/**", "package.json", "tsconfig*.json"]
     },
     "dev": {
       "cache": false,
@@ -18,7 +20,8 @@
     },
     "test": {
       "cache": true,
-      "dependsOn": ["^build", "^test"]
+      "dependsOn": ["^build", "^test"],
+      "inputs": ["src/**", "package.json", "tsconfig*.json", "vitest.config.*", "test/**", "tests/**", "__tests__/**"]
     },
     "benchmark": {
       "cache": false,
@@ -29,7 +32,8 @@
       "outputLogs": "new-only"
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "biome.json", ".eslintrc*", "eslint.config.*"]
     }
   },
   "remoteCache": { "enabled": false }

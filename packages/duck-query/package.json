@@ -25,7 +25,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-gen/tree/master/packages/duck-query#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "duck-query",

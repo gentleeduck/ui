@@ -70,7 +70,7 @@
     "tsconfig.json",
     "src/css/index.css"
   ],
-  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-motion#readme",
+  "homepage": "https://gentleduck.org/duck-ui",
   "keywords": [
     "gentleduck",
     "motion",

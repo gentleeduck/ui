@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://ui.gentleduck.org
+    url: https://gentleduck.org/duck-ui
     about: Check the docs before opening an issue.
   - name: Community Discussions
     url: https://github.com/gentleeduck/gentleduck/discussions

@@ -1,8 +1,27 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="../../public/logo-dark.svg" alt="@gentleduck/hooks" width="120"/>
 </p>
 
-# @gentleduck/hooks
+<h1 align="center">@gentleduck/hooks</h1>
+
+<p align="center">
+  React hooks for Duck UI.
+</p>
+
+<p align="center">
+  <a href="../../LICENSE">MIT</a> -
+  <a href="../../CHANGELOG.md">Changelog</a> -
+  <a href="../../CONTRIBUTING.md">Contributing</a> -
+  <a href="https://gentleduck.org/duck-ui">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@gentleduck/hooks"><img src="https://img.shields.io/npm/v/@gentleduck/hooks.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/@gentleduck/hooks"><img src="https://img.shields.io/npm/dm/@gentleduck/hooks.svg" alt="downloads"/></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/npm/l/@gentleduck/hooks.svg" alt="MIT"/></a>
+</p>
+
+---
 
 React utility hooks.
 
