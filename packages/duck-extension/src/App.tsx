@@ -128,9 +128,7 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         setCurrentDomain(domain)
 
         chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data) => {
-          // @ts-expect-error
           const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
-          // @ts-expect-error
           const disabled = (data.gentleduck_disabledDomains || []) as string[]
 
           storageCache = {

@@ -11,6 +11,7 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "@types/react": "catalog:react19",
     "motion": "^12.26.2",
     "tsdown": "catalog:"
