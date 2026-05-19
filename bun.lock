@@ -201,7 +201,7 @@
       "name": "@gentleduck/docs",
       "version": "2.0.0",
       "dependencies": {
-        "@gentleduck/md": "^0.3.1",
+        "@gentleduck/md": "^0.4.0",
         "@shikijs/compat": "1.12.1",
         "@tanstack/react-virtual": "^3.13.24",
         "@types/unist": "^3.0.3",
@@ -436,7 +436,7 @@
         "react-remove-scroll": "^2.7.2",
       },
       "devDependencies": {
-        "@changesets/cli": "^2.30.0",
+        "@changesets/cli": "^2.31.0",
         "@floating-ui/react": "^0.27.16",
         "@gentleduck/hooks": "workspace:*",
         "@gentleduck/libs": "workspace:*",
