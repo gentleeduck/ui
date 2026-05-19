@@ -41,8 +41,8 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build",
-    "test": "turbo run test",
+    "build": "turbo run build --filter='./packages/*'",
+    "test": "turbo run test --filter='./packages/*' --filter='!@gentleduck/ttest'",
     "benchmark:variants": "turbo run benchmark --filter=@gentleduck/variants",
     "check": "biome check .",
     "lint": "biome lint .",

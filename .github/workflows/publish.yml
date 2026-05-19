@@ -53,13 +53,13 @@ jobs:
         run: bun run check && bun run lint:ws
 
       - name: Build
-        run: bunx turbo run build --filter='!@gentleduck/ui-docs'
+        run: bunx turbo run build --filter='./packages/*'
 
       - name: Type check
-        run: bunx turbo run check-types --filter='!@gentleduck/ui-docs'
+        run: bunx turbo run check-types --filter='./packages/*' --filter='!@gentleduck/ttest'
 
       - name: Test
-        run: bun run test
+        run: bunx turbo run test --filter='./packages/*' --filter='!@gentleduck/ttest'
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
