@@ -10,7 +10,7 @@
     "sherif": "1.10.0",
     "turbo": "^2.8.14",
     "typescript": "5.9.3",
-    "vercel": "^50.28.0"
+    "vercel": "^54.2.0"
   },
   "name": "duck-ui",
   "description": "gentleduck/ui monorepo for UI components, tools, and related packages.",
