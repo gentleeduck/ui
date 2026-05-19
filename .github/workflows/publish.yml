@@ -30,6 +30,7 @@ env:
   NEXT_PUBLIC_APP_URL: https://gentleduck.org/duck-ui
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  HUSKY: "0"
 
 jobs:
   release-pr:

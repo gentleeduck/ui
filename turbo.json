@@ -6,7 +6,15 @@
       "cache": true,
       "dependsOn": ["^build"],
       "env": ["OPENROUTER_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY", "CHAT_MODEL"],
-      "inputs": ["src/**", "package.json", "tsconfig*.json", "tsdown.config.*", "next.config.*", "tailwind.config.*", "postcss.config.*"],
+      "inputs": [
+        "src/**",
+        "package.json",
+        "tsconfig*.json",
+        "tsdown.config.*",
+        "next.config.*",
+        "tailwind.config.*",
+        "postcss.config.*"
+      ],
       "outputs": [".next/**", "dist/**", ".cache/tsbuildinfo.json"]
     },
     "check-types": {
