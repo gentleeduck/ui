@@ -56,9 +56,9 @@
   },
   "peerDependencies": {
     "@excalidraw/excalidraw": "^0.18.0",
-    "@gentleduck/hooks": "^0.2.1",
-    "@gentleduck/libs": "^0.2.1",
-    "@gentleduck/vim": "^0.2.1",
+    "@gentleduck/hooks": "^0.2.2",
+    "@gentleduck/libs": "^0.2.2",
+    "@gentleduck/vim": "^0.2.2",
     "jotai": "^2.14.0",
     "lucide-react": "1.6.0",
     "next": "^16.1.1",
@@ -168,5 +168,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "2.0.0"
+  "version": "2.0.1"
 }

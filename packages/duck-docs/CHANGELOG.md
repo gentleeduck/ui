@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 2.0.1
+
+### Patch Changes
+
+- 95dbbce: Standardize README headers across all packages: centered logo, h1, tagline, nav links, and npm badges (matching the @duck-md template). Replace per-repo `*.gentleduck.org` subdomain refs with path-based `gentleduck.org/duck-<name>` URLs. No runtime code changes.
+- Updated dependencies [95dbbce]
+  - @gentleduck/hooks@0.2.2
+  - @gentleduck/libs@0.2.2
+  - @gentleduck/vim@0.2.2
+
 ## 2.0.0
 
 ### Major Changes

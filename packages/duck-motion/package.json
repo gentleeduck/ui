@@ -81,7 +81,7 @@
   "name": "@gentleduck/motion",
   "packageManager": "bun@1.3.10",
   "peerDependencies": {
-    "@gentleduck/variants": "^0.1.23",
+    "@gentleduck/variants": "^0.1.24",
     "motion": ">=12.0.0",
     "react": "^18 || ^19"
   },
@@ -113,5 +113,5 @@
     "./dist/**/*.css"
   ],
   "types": "./dist/index.d.ts",
-  "version": "0.3.3"
+  "version": "0.3.4"
 }
