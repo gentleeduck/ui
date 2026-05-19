@@ -5,7 +5,7 @@ import type { EmitArgs, Emitter, EventAction, EventNames, EventPayload, Handlers
 type Events = {
   click: { x: number; y: number }
   keypress: { key: string }
-  close: void
+  close: undefined
 }
 
 // EventPayload / EventNames

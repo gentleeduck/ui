@@ -20,7 +20,7 @@
     "url": "git+https://github.com/acme/acme-ui.git",
     "directory": "tooling/tailwind"
   },
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": true,
   "scripts": {
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",

@@ -28,7 +28,7 @@
     "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "tooling/tsdown"
   },
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": true,
   "scripts": {
     "build": "tsdown index.ts --format esm --dts",

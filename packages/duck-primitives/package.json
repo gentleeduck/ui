@@ -55,7 +55,7 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/primitives",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",

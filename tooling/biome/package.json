@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@biomejs/biome": "2.4.14"
+    "@biomejs/biome": "2.4.15"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -20,7 +20,7 @@
     "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "tooling/biome"
   },
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": true,
   "scripts": {},
   "type": "module",

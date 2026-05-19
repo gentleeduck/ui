@@ -20,7 +20,7 @@ export type IsUnknown<T> = unknown extends T ? (IsAny<T> extends true ? false : 
 export type IfUnknown<T, Then, Else = T> = IsUnknown<T> extends true ? Then : Else
 
 /** `true` iff `T` is `void`. Does not consider `undefined` to be `void`. */
-export type IsVoid<T> = [T] extends [void] ? ([void] extends [T] ? true : false) : false
+export type IsVoid<T> = [T] extends [undefined] ? ([undefined] extends [T] ? true : false) : false
 
 /** Inverse of `IsAny`. */
 export type NotAny<T> = IsAny<T> extends true ? false : true

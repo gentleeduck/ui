@@ -1,5 +1,0 @@
-export * from './adapters.indexeddb'
-export * from './adapters.local'
-export * from './adapters.memory'
-export * from './persistence'
-export * from './persistence.types'

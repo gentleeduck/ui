@@ -15,7 +15,7 @@
     "url": "git+https://github.com/gentleeduck/gentleduck.git",
     "directory": "tooling/github"
   },
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": true,
   "version": "0.1.0"
 }

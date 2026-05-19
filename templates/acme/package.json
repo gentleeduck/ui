@@ -31,7 +31,7 @@
     "ui",
     "react"
   ],
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": true,
   "scripts": {
     "dev": "turbo run dev",

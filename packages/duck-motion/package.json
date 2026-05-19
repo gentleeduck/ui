@@ -78,7 +78,7 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/motion",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "peerDependencies": {
     "@gentleduck/variants": "^0.1.23",
     "motion": ">=12.0.0",

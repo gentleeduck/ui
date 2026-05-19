@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "author": "gentleduck contributors",
+  "bin": {
+    "registry-build": "dist/cli.mjs"
+  },
+  "description": "Config-driven registry and index builder CLI.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.1",
+    "fast-glob": "^3.3.3",
+    "jiti": "^2.6.1",
+    "kleur": "^4.1.5",
+    "ts-morph": "^27.0.2",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@gentleduck/registers": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/*.tsbuildinfo"
+  ],
+  "bugs": {
+    "url": "https://github.com/gentleeduck/gentleduck/issues"
+  },
+  "homepage": "https://github.com/gentleeduck/gentleduck/tree/master/packages/registry-build#readme",
+  "license": "MIT",
+  "main": "./dist/index.mjs",
+  "name": "@gentleduck/registry-build",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/gentleduck.git",
+    "directory": "packages/registry-build"
+  },
+  "packageManager": "bun@1.3.10",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "start": "node dist/cli.mjs",
+    "start:dev": "bun ./index.ts",
+    "dev": "tsdown --watch",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "test": "bun test",
+    "test:pack": "bun ./scripts/pack-smoke.ts"
+  },
+  "type": "module",
+  "types": "./dist/index.d.mts",
+  "version": "0.2.2",
+  "keywords": [
+    "gentleduck",
+    "react",
+    "registry",
+    "build"
+  ]
+}

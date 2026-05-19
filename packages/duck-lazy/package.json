@@ -50,7 +50,7 @@
   "types": "./dist/index.d.ts",
   "sideEffects": false,
   "name": "@gentleduck/lazy",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "peerDependencies": {
     "next": "^16.1.1",
     "react": ">=18.0.0"

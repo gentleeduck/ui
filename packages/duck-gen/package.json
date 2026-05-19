@@ -59,7 +59,7 @@
   "license": "MIT",
   "name": "@gentleduck/gen",
   "types": "./dist/index.d.mts",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.10",
   "private": false,
   "publishConfig": {
     "access": "public"
