@@ -34,7 +34,7 @@ env:
 jobs:
   release-pr:
     name: Open / refresh version PR
-    if: ${{ github.event.head_commit.message != 'chore: version packages' }}
+    if: "github.event.head_commit.message != 'chore: version packages'"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -97,7 +97,7 @@ jobs:
 
   publish:
     name: Publish to npm
-    if: ${{ github.event.head_commit.message == 'chore: version packages' || github.event_name == 'workflow_dispatch' }}
+    if: "github.event.head_commit.message == 'chore: version packages' || github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     environment: npm
     steps:
