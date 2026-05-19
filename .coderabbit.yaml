@@ -66,6 +66,16 @@ reviews:
   tools:
     biome:
       enabled: true
+    gitleaks:
+      enabled: true
+    semgrep:
+      enabled: true
+    actionlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    markdownlint:
+      enabled: true
 
 chat:
   auto_reply: true
