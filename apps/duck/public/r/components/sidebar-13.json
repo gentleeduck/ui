@@ -1,0 +1,29 @@
+{
+  "categories": [
+    "sidebar"
+  ],
+  "files": [
+    {
+      "content": "import { SettingsDialog } from './components/settings-dialog'\n\nexport default function Page() {\n  return (\n    <div className=\"flex h-svh items-center justify-center\">\n      <SettingsDialog />\n    </div>\n  )\n}\n",
+      "path": "sidebar/sidebar-13/sidebar-13.tsx",
+      "target": "components/sidebar-13.tsx",
+      "type": "registry:block"
+    },
+    {
+      "content": "'use client'\n\nimport {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from '@gentleduck/registry-ui/breadcrumb'\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@gentleduck/registry-ui/dialog'\nimport {\n  Sidebar,\n  SidebarContent,\n  SidebarGroup,\n  SidebarGroupContent,\n  SidebarMenu,\n  SidebarMenuButton,\n  SidebarMenuItem,\n  SidebarProvider,\n} from '@gentleduck/registry-ui/sidebar'\nimport {\n  Bell,\n  Check,\n  Globe,\n  Home,\n  Keyboard,\n  Link,\n  Lock,\n  Menu,\n  MessageCircle,\n  Paintbrush,\n  Settings,\n  Video,\n} from 'lucide-react'\nimport * as React from 'react'\n\nconst data = {\n  nav: [\n    { icon: Bell, name: 'Notifications' },\n    { icon: Menu, name: 'Navigation' },\n    { icon: Home, name: 'Home' },\n    { icon: Paintbrush, name: 'Appearance' },\n    { icon: MessageCircle, name: 'Messages & media' },\n    { icon: Globe, name: 'Language & region' },\n    { icon: Keyboard, name: 'Accessibility' },\n    { icon: Check, name: 'Mark as read' },\n    { icon: Video, name: 'Audio & video' },\n    { icon: Link, name: 'Connected accounts' },\n    { icon: Lock, name: 'Privacy & visibility' },\n    { icon: Settings, name: 'Advanced' },\n  ],\n}\n\nexport function SettingsDialog() {\n  const [open, setOpen] = React.useState(true)\n\n  return (\n    <Dialog onOpenChange={setOpen} open={open}>\n      <DialogTrigger asChild>\n        <Button size=\"sm\">Open Dialog</Button>\n      </DialogTrigger>\n      <DialogContent className=\"overflow-hidden p-0 md:max-h-[500px] md:max-w-[700px] lg:max-w-[800px]\">\n        <DialogTitle className=\"sr-only\">Settings</DialogTitle>\n        <DialogDescription className=\"sr-only\">Customize your settings here.</DialogDescription>\n        <SidebarProvider className=\"items-start\">\n          <Sidebar className=\"hidden md:flex\" collapsible=\"none\">\n            <SidebarContent>\n              <SidebarGroup>\n                <SidebarGroupContent>\n                  <SidebarMenu>\n                    {data.nav.map((item) => (\n                      <SidebarMenuItem key={item.name}>\n                        <SidebarMenuButton asChild isActive={item.name === 'Messages & media'}>\n                          {/* biome-ignore lint/a11y/useValidAnchor: demo block with placeholder href */}\n                          <a href=\"#\">\n                            <item.icon aria-hidden=\"true\" />\n                            <span>{item.name}</span>\n                          </a>\n                        </SidebarMenuButton>\n                      </SidebarMenuItem>\n                    ))}\n                  </SidebarMenu>\n                </SidebarGroupContent>\n              </SidebarGroup>\n            </SidebarContent>\n          </Sidebar>\n          <main className=\"flex h-[480px] flex-1 flex-col overflow-hidden\">\n            <header className=\"flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12\">\n              <div className=\"flex items-center gap-2 px-4\">\n                <Breadcrumb>\n                  <BreadcrumbList>\n                    <BreadcrumbItem className=\"hidden md:block\">\n                      <BreadcrumbLink href=\"#\">Settings</BreadcrumbLink>\n                    </BreadcrumbItem>\n                    <BreadcrumbSeparator className=\"hidden md:block\" />\n                    <BreadcrumbItem>\n                      <BreadcrumbPage>Messages & media</BreadcrumbPage>\n                    </BreadcrumbItem>\n                  </BreadcrumbList>\n                </Breadcrumb>\n              </div>\n            </header>\n            <div className=\"flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0\">\n              {Array.from({ length: 10 }).map((_, i) => (\n                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder elements\n                <div className=\"aspect-video max-w-3xl rounded-xl bg-muted/50\" key={i} />\n              ))}\n            </div>\n          </main>\n        </SidebarProvider>\n      </DialogContent>\n    </Dialog>\n  )\n}\n",
+      "path": "sidebar/sidebar-13/components/settings-dialog.tsx",
+      "target": "components/settings-dialog.tsx",
+      "type": "registry:block"
+    }
+  ],
+  "name": "sidebar-13",
+  "registryDependencies": [
+    "sidebar",
+    "breadcrumb",
+    "button",
+    "dialog"
+  ],
+  "root_folder": "sidebar/sidebar-13",
+  "source": "/registry-blocks/src/sidebar/sidebar-13",
+  "type": "registry:block"
+}

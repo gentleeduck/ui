@@ -1,0 +1,40 @@
+The React layer is thin on purpose — context and subscription helpers only. Upload
+logic stays in the core engine.
+
+## Provider
+
+Wrap the app with `UploadProvider` so components can reach the store:
+
+```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
+
+<UploadProvider store={store}>
+  <App />
+</UploadProvider>
+```
+
+## Hooks
+
+| Hook | Description |
+| --- | --- |
+| `useUploader()` | Returns items, dispatch, and event helpers |
+| `useUploaderActions()` | Returns dispatch/on plus direct store access |
+
+## Typical Flow
+
+1. Render upload lists and progress with `useUploader`.
+2. Add files with `dispatch({ type: 'addFiles' })`.
+3. Subscribe to `upload.completed` for results.
+
+```tsx
+const { items, dispatch, on } = useUploader()
+
+React.useEffect(() => {
+  return on('upload.completed', ({ localId, result }) => {
+    console.log(localId, result)
+  })
+}, [on])
+```
+
+See [UploadProvider](/duck-upload/react/upload-provider) and
+[useUploader](/duck-upload/react/use-uploader) for the API.

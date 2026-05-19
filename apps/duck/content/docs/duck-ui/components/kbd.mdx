@@ -1,0 +1,149 @@
+---
+title: kbd
+description: Used to display textual user input from keyboard.
+component: true
+section: Data Display
+order: 10
+---
+<ComponentPreview name="kbd-1" description="Individual keyboard keys and a key combination displayed with KbdGroup." />
+
+<Callout icon={<Lightbulb />}>
+
+**Rewritten version:**
+**Note:** You might wonder why we don't use the `CommandShortcut` component from the `command` module.
+The reason is that we want to give you the flexibility to use the `kbd` component in any context, not just within a command.
+Additionally, the `CommandShortcut` component is specifically designed to represent a keyboard shortcut associated with a command, not a plain HTML element.
+As a result, it has a different API and does not require certain props like `keys` or `onKeyPress`.
+
+</Callout>
+
+## Philosophy
+
+Keyboard shortcuts deserve visual prominence. The Kbd component renders key combinations with consistent styling, making shortcut discovery a natural part of the UI rather than something hidden in documentation. We pair it with `@gentleduck/vim` for actual key binding  -  Kbd handles the display, vim handles the logic.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add kbd
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/kbd" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Kbd } from "@/components/ui/kbd"
+```
+
+```tsx
+<Kbd>Ctrl</Kbd>
+```
+
+## Examples
+
+### Group
+
+Use the `KbdGroup` component to group keyboard keys together.
+
+<ComponentPreview name="kbd-2" description="A KbdGroup used inline within a paragraph of text." />
+
+### Button
+
+Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
+
+<ComponentPreview name="kbd-3" description="Kbd elements placed inside buttons to show associated keyboard shortcuts." />
+
+### Tooltip
+
+You can use the `Kbd` component inside a `Tooltip` component to display a tooltip with a keyboard key.
+
+<ComponentPreview name="kbd-4" description="Kbd elements displayed inside tooltip content for undo and redo buttons." />
+
+### Input Group
+
+You can use the `Kbd` component inside a `InputGroupAddon` component to display a keyboard key inside an input group.
+
+<ComponentPreview name="kbd-5" description="Kbd elements used inside an input group addon to show a search shortcut." />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="kbd-6"
+  description="A keyboard shortcut with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionKbd` for staggered fade+blur entrance on keyboard shortcuts powered by [motion](https://motion.dev).
+
+<ComponentPreview name="kbd-7" description="Keyboard shortcuts with motion-powered staggered entrance." />
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionKbd` instead of `Kbd`. Pass `index` for stagger order.
+</Callout>
+
+## API Reference
+
+### Kbd
+
+Displays an individual keyboard key with consistent styling.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional class names for the kbd element |
+| `children` | `React.ReactNode` | - | Key label text or icon |
+| `...props` | `React.HTMLProps<HTMLElement>` | - | Additional props to spread to the kbd element |
+
+### KbdGroup
+
+Groups multiple `Kbd` components together in an inline layout.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional class names for the group |
+| `children` | `React.ReactNode` | - | `Kbd` elements to group together |
+| `...props` | `React.ComponentPropsWithoutRef<'div'>` | - | Additional props to spread to the group element (renders as a `kbd`) |
+
+### MotionKbd
+
+Same props as `Kbd` plus an optional `index` prop for stagger delay (30ms per index). Adds fade+blur entrance. Requires the `motion` package.

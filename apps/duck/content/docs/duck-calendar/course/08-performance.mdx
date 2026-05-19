@@ -1,0 +1,100 @@
+---
+title: "Lesson 8: Performance"
+description: "Benchmarks, bundle size comparisons, and optimization strategies."
+section: Course
+order: 8
+---
+<Callout icon={<Zap />}>
+
+**Lesson 8 of 8**: how `@gentleduck/calendar` compares to other React calendar libraries, plus optimization tips.
+
+</Callout>
+
+## Bundle size
+
+We replaced `react-day-picker` with `@gentleduck/calendar`. Comparison against the major React calendar libraries:
+
+### Bundle size — all competitors
+
+| Library | Bundle (gzipped) | Improvement |
+| :--- | :--- | :--- |
+| **@gentleduck/calendar** | **4.9 KB** | **Winner** |
+| react-calendar | 15.0 KB | 3.1x larger |
+| react-day-picker v9 | 20.0 KB | 4.1x larger |
+| react-datepicker | 32.0 KB | 6.5x larger |
+| react-aria DatePicker | 45.0 KB | 9.2x larger |
+
+### Dependencies
+
+| Library | Runtime Dependencies |
+| :--- | :--- |
+| **@gentleduck/calendar** | **0** |
+| react-calendar | 0 |
+| react-day-picker | 1 (date-fns) |
+| react-datepicker | 3 |
+| react-aria | 8 |
+
+---
+
+## Render performance
+
+Core function benchmarks (average of 2000 iterations):
+
+| Operation | Time |
+| :--- | :--- |
+| `buildCalendarMonth` | ~8 us |
+| `buildMultiMonth(3)` | ~22 us |
+| `buildMultiMonth(12)` | ~78 us |
+| `applySelection` | ~11 us |
+
+Generate benchmarks locally:
+
+```bash
+cd packages/duck-calendar && bun run benchmark
+```
+
+---
+
+## Package quality
+
+| Tool | Result |
+| :--- | :--- |
+| publint | All good |
+| attw (are-the-types-wrong) | Types correct for node10, node16, bundler |
+| ESM | Pure ESM, `"type": "module"` |
+
+---
+
+## Optimizations
+
+These are the changes that took the core bundle from 7.0 KB down to 4.9 KB gzipped (75% smaller than react-day-picker):
+
+- **Intl.DateTimeFormat caching** — formatters cached per locale+options, avoiding expensive re-instantiation.
+- **React.memo on day cells** — prevents re-rendering 42 unchanged cells on selection change.
+- **Stable keyboard callback** — `configRef` pattern, zero recreation cost.
+- **Pre-computed time field orders** — 4 static arrays replace `Array.filter()` on every keystroke.
+- **Frozen selection constants** — one `UNSELECTED` object shared across unselected days.
+- **Dev JSX elimination** — production build uses `createElement` directly, no `jsxDEV` metadata.
+
+---
+
+## Why it's fast
+
+- **Pure functions** — grid building and selection allocate no closures and hold no subscriptions.
+- **No date library dependency** — `NativeAdapter` uses native `Date` and `Intl.DateTimeFormat`.
+- **Tree-shakeable** — import only what you need; if it's just `buildCalendarMonth`, the rest goes.
+- **Minimal React overhead** — hooks use `useMemo` to avoid rebuilding grids on every render.
+- **No CSS runtime** — no CSS-in-JS overhead, no stylesheet injection.
+
+---
+
+## Optimization tips
+
+<Callout icon={<Lightbulb />}>
+
+- Wrap day cells in `React.memo` to skip re-renders on unchanged days.
+- Use `numberOfMonths: 1` unless you need multi-month views.
+- Use `fixedWeeks: false` to render fewer day cells.
+- Memoize the adapter instance outside the component — it's stateless.
+
+</Callout>

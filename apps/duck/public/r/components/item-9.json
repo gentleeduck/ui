@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui/item'\nimport { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-4\">\n      <Item asChild>\n        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}\n        <a href=\"#\">\n          <ItemContent>\n            <ItemTitle>API Reference</ItemTitle>\n            <ItemDescription>Explore endpoints, parameters, and response schemas.</ItemDescription>\n          </ItemContent>\n          <ItemActions>\n            <ChevronRightIcon className=\"size-4\" />\n          </ItemActions>\n        </a>\n      </Item>\n      <Item asChild variant=\"outline\">\n        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}\n        <a href=\"#\" rel=\"noopener noreferrer\" target=\"_blank\">\n          <ItemContent>\n            <ItemTitle>Changelog - February 2026</ItemTitle>\n            <ItemDescription>See what shipped this month across all packages.</ItemDescription>\n          </ItemContent>\n          <ItemActions>\n            <ExternalLinkIcon className=\"size-4\" />\n          </ItemActions>\n        </a>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-9.tsx",
+      "target": "components/item-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-9",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

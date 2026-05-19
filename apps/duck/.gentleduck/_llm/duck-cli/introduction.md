@@ -1,0 +1,71 @@
+## What this CLI does
+
+Most component CLIs only add components. gentleduck/cli also updates them with an interactive merge, removes them cleanly, diffs them against the registry with syntax highlighting, and manages theme tokens.
+
+The **update** command matters most. When you update a component you have modified locally, the CLI opens an interactive merge screen in your terminal. Each change appears as a hunk and you choose per-hunk what to keep:
+
+* Press **1** to keep your local version
+* Press **2** to take the registry version
+* Press **3** to keep both
+* Navigate with **h/l** between files, **j/k** between hunks
+* Press **N/P** to jump to the next/previous unresolved hunk
+* Preview the merged result before writing
+* Press **Enter** to confirm, **Esc** to abort
+
+No git merge markers. No manual conflict resolution. No diff tool required.
+
+| Feature | gentleduck/cli | shadcn CLI |
+|---|---|---|
+| `init` | Yes | Yes |
+| `add` | Yes | Yes |
+| `diff` with TUI | Syntax-highlighted side-by-side view | Plain text diff |
+| `update` with merge | Interactive hunk-by-hunk merge TUI | Not available |
+| `remove` | Clean uninstall with dep cleanup | Not available |
+| `list` | Filter by type, JSON output | Not available |
+| `theme` | List, inspect, install themes from registry | Not available |
+| Template scaffolding | `--template` flag for full project scaffold | Not available |
+| Monorepo support | `--monorepo` flag, workspace-aware config | Not available |
+
+***
+
+## Install
+
+```bash
+bun add -D @gentleduck/cli
+# or
+npm install -D @gentleduck/cli
+```
+
+***
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| [`init`](/duck-cli/commands/init) | Initialize project config, optionally install components |
+| [`add`](/duck-cli/commands/add) | Install components from the registry |
+| [`update`](/duck-cli/commands/update) | Update installed components with the interactive merge TUI |
+| [`remove`](/duck-cli/commands/remove) | Remove components and clean up unused dependencies |
+| [`diff`](/duck-cli/commands/diff) | Show diffs between local copies and registry versions |
+| [`list`](/duck-cli/commands/list) | List available components from the registry |
+| [`theme`](/duck-cli/commands/theme) | Manage theme tokens (list, info, add) |
+
+Each command has its own page with full options and examples.
+
+***
+
+## Migration from shadcn CLI
+
+The commands map directly:
+
+```bash
+# shadcn
+npx shadcn@latest add button
+npx shadcn@latest diff button
+
+# gentleduck
+npx @gentleduck/cli add button
+npx @gentleduck/cli diff button
+```
+
+After switching, you get `update`, `remove`, `list`, and `theme`, which shadcn does not provide. `update` with interactive merge lets teams pull upstream changes into customized components without losing local edits.

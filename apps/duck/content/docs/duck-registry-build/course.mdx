@@ -1,0 +1,90 @@
+---
+title: "Course"
+description: "Guided learning path for using registry-build as a generic index-building core."
+section: Course
+order: 0
+---
+<Callout icon={<Zap />}>
+
+The generic side of `registry-build`, beyond the UI registry path. The main project is an Arch-style package index so you see how collections and extensions work outside a UI.
+
+</Callout>
+
+## What you will build
+
+By the end you can use `registry-build` to produce:
+
+- a repo database per package repository
+- a package-file manifest per repository
+- a search index for downstream tools
+- a cache-friendly local build loop
+
+You will also understand where the core stops and where custom extensions should begin.
+
+---
+
+## Who this is for
+
+- people building package catalogs or search indexes
+- people migrating away from hardcoded scripts
+- people who want to understand the generic core before touching UI compatibility fields
+- people evaluating whether `registry-build` fits a non-UI use case
+
+---
+
+## Course map
+
+<Steps>
+
+<Step>Understand the target shape</Step>
+
+You will define one named collection called `packages` with data, metadata, and a related source tree.
+
+<Step>Configure a generic build</Step>
+
+You will create a `registry-build.config.ts` that disables the UI-oriented core phases and enables one custom extension.
+
+<Step>Write an Arch-style repository extension</Step>
+
+You will read the `packages` collection, group packages by repo, emit repo artifacts, and register outputs.
+
+<Step>Run and harden the build</Step>
+
+You will use the CLI, inspect generated files, and apply incremental-build checks so the build behaves well in production.
+
+</Steps>
+
+---
+
+## Recommended reading before you start
+
+- [Configuration](/duck-registry-build/configuration)
+- [Extensions](/duck-registry-build/extensions)
+- [CLI](/duck-registry-build/cli)
+
+---
+
+## Main lesson
+
+Continue to [Arch Package Index](/duck-registry-build/course-arch-package-index).
+
+---
+
+## Learning goals
+
+After this course, you should be comfortable answering these questions:
+
+- When should a value live in `collections` instead of an extension?
+- When should `indexBuildExtension` and `componentsExtension` be omitted from the extensions array?
+- How should an extension read inputs and register outputs?
+- How do you keep the build deterministic and incremental-friendly?
+
+---
+
+## Production checklist for the course project
+
+- the config lives in the output-owning package
+- the collection data is file-backed or versioned in source
+- the extension registers every generated artifact explicitly
+- the build works through `registry-build build`
+- repeated warm runs rewrite zero files when inputs did not change

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "alias": {
+      "default": "~",
+      "description": "Defines the alias used for importing modules.",
+      "errorMessage": "Import alias cannot be empty.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "base_color": {
+      "description": "The primary color theme for your project.",
+      "enum": ["zinc", "slate", "gray", "neutral", "red", "rose", "orange", "green", "blue"],
+      "errorMessage": "Please select a valid base color.",
+      "type": "string"
+    },
+    "css": {
+      "description": "Specifies the location of your global CSS file.",
+      "errorMessage": "CSS file path cannot be empty.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "css_variables": {
+      "description": "Determines whether CSS variables will be used.",
+      "errorMessage": "Invalid value for cssVariables.",
+      "type": "boolean"
+    },
+    "monorepo": {
+      "description": "Indicates if your project is inside a monorepo.",
+      "errorMessage": "Invalid value for monorepo.",
+      "type": "boolean"
+    },
+    "prefix": {
+      "default": "",
+      "description": "A custom prefix for component class names or variables.",
+      "type": "string"
+    },
+    "project_type": {
+      "description": "Please select a valid project type.",
+      "enum": ["NEXT_JS", "VITE", "CREATE_REACT_APP", "UNKNOWN"],
+      "errorMessage": "Invalid value for projectType.",
+      "type": "string"
+    }
+  },
+  "required": ["project_type", "base_color", "alias", "monorepo", "css", "css_variables"],
+  "type": "object"
+}

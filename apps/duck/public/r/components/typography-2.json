@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { TypographyH1 } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return <TypographyH1 className=\"text-balance text-center\">Taxing Laughter: The Joke Tax Chronicles</TypographyH1>\n}\n",
+      "path": "typography/typography-2.tsx",
+      "target": "components/typography-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-2",
+  "registryDependencies": [
+    "typography"
+  ],
+  "root_folder": "typography",
+  "source": "/registry-examples/src/typography",
+  "type": "registry:example"
+}

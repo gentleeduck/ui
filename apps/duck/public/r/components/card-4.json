@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { MotionButton } from '@gentleduck/registry-ui/button'\nimport {\n  CardDescription,\n  CardTitle,\n  MotionCard,\n  MotionCardContent,\n  MotionCardFooter,\n  MotionCardHeader,\n} from '@gentleduck/registry-ui/card'\nimport { MotionInput } from '@gentleduck/registry-ui/input'\nimport { MotionLabel } from '@gentleduck/registry-ui/label'\nimport {\n  MotionSelect,\n  MotionSelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from '@gentleduck/registry-ui/select'\n\nexport default function Demo() {\n  return (\n    <MotionCard className=\"w-[350px]\">\n      <MotionCardHeader>\n        <CardTitle>Create project</CardTitle>\n        <CardDescription>Deploy your new project in one-click.</CardDescription>\n      </MotionCardHeader>\n      <MotionCardContent>\n        <form>\n          <div className=\"grid w-full items-center gap-4\">\n            <div className=\"flex flex-col space-y-1.5\">\n              <MotionLabel htmlFor=\"name\" index={0}>\n                Name\n              </MotionLabel>\n              <MotionInput id=\"name\" placeholder=\"Name of your project\" index={1} />\n            </div>\n            <div className=\"flex flex-col space-y-1.5\">\n              <MotionLabel htmlFor=\"framework\" index={2}>\n                Framework\n              </MotionLabel>\n              <MotionSelect>\n                <SelectTrigger id=\"framework\" className=\"w-full\">\n                  <SelectValue placeholder=\"Select\" />\n                </SelectTrigger>\n                <MotionSelectContent>\n                  <SelectItem value=\"next\">Next.js</SelectItem>\n                  <SelectItem value=\"sveltekit\">SvelteKit</SelectItem>\n                  <SelectItem value=\"astro\">Astro</SelectItem>\n                  <SelectItem value=\"nuxt\">Nuxt.js</SelectItem>\n                </MotionSelectContent>\n              </MotionSelect>\n            </div>\n          </div>\n        </form>\n      </MotionCardContent>\n      <MotionCardFooter className=\"flex\">\n        <MotionButton variant=\"outline\">Cancel</MotionButton>\n        <MotionButton>Deploy</MotionButton>\n      </MotionCardFooter>\n    </MotionCard>\n  )\n}\n",
+      "path": "card/card-4.tsx",
+      "target": "components/card-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "card-4",
+  "registryDependencies": [
+    "card"
+  ],
+  "root_folder": "card",
+  "source": "/registry-examples/src/card",
+  "type": "registry:example"
+}

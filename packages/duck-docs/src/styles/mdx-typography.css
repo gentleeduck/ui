@@ -1,0 +1,27 @@
+@layer components {
+  strong {
+    @apply font-semibold;
+  }
+
+  strong > code {
+    @apply font-bold;
+  }
+
+  .steps {
+    &:first-child {
+      @apply !mt-6;
+    }
+
+    &:first-child > h3:first-child {
+      @apply !mt-6;
+    }
+
+    > h3 {
+      @apply mt-8 mb-4 text-base font-semibold;
+    }
+
+    > h3 + p {
+      @apply !mt-2;
+    }
+  }
+}

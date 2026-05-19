@@ -1,0 +1,41 @@
+---
+title: "Benchmarks"
+description: "Real bundle size and performance measurements for @gentleduck/calendar compared to react-day-picker, react-aria, react-datepicker, and react-calendar."
+section: Benchmarks
+order: 10
+---
+## Bundle Size + Dependencies
+
+<ComponentPreview name="chart-benchmark-calendar-vs" description="Calendar vs other libraries" className="[&_[data-value='preview']>div:last-child]:h-120" />
+
+---
+
+## Per-Library Comparisons
+
+Feature-by-feature tables against each competitor:
+
+<ComponentPreview name="chart-benchmark-calendar-compare" description="Per-library comparison tables" className="[&_[data-value='preview']>div:last-child]:h-175" />
+
+---
+
+## Internal Breakdown
+
+Module sizes, core engine performance, and adapter benchmarks:
+
+<ComponentPreview name="chart-benchmark-calendar" description="Calendar internals" className="[&_[data-value='preview']>div:last-child]:h-130" />
+
+---
+
+## Methodology
+
+- **gentleduck**: sizes from `packages/duck-calendar/dist/` via `gzip -c | wc -c`
+- **Competitors**: bundle sizes from npm and bundlephobia.com
+- **Performance**: average of 2,000 iterations per operation
+- Sizes are **minified + gzipped**
+
+Regenerate:
+
+```bash
+cd packages/duck-calendar
+bun run benchmark
+```

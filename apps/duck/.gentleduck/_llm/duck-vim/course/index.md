@@ -1,0 +1,58 @@
+}>
+  Build keyboard-driven interfaces with duck-vim. Each lesson introduces one concept and includes runnable code.
+
+**Prerequisites:** Basic TypeScript/JavaScript knowledge. Lessons 4+ assume familiarity with React.
+
+***
+
+## Lessons
+
+| # | Title | What you'll learn |
+| --- | --- | --- |
+| 1 | [Introduction](/duck-vim/course/01-introduction) | Why keyboard shortcuts matter, how duck-vim works at a high level |
+| 2 | [Your First Shortcut](/duck-vim/course/02-first-shortcut) | Registry, KeyHandler, and registering your first binding |
+| 3 | [Understanding Key Binding Strings](/duck-vim/course/03-key-bindings) | Parsing, aliases, the Mod key, and validation |
+| 4 | [React Integration](/duck-vim/course/04-react) | KeyProvider, useKeyBind, and useKeyCommands |
+| 5 | [Multi-Key Sequences](/duck-vim/course/05-sequences) | Vim-style sequences like `g+d`, timeout, and prefix matching |
+| 6 | [Display Formatting](/duck-vim/course/06-formatting) | Rendering shortcuts in your UI with platform-aware labels |
+| 7 | [Key Recorder and Settings](/duck-vim/course/07-recorder) | Building a shortcut customization UI |
+| 8 | [Advanced Patterns](/duck-vim/course/08-advanced) | Scoped bindings, command palettes, conflict detection, and testing |
+
+***
+
+## How to follow along
+
+Each lesson includes complete, copy-pasteable code. You can either:
+
+Read through
+Code along
+
+Read the lessons in order. No setup required.
+
+Create a new project and implement each lesson's examples. Setup steps below.
+
+### Setup
+
+Create a new Vite project with React and TypeScript:
+
+```bash
+npm create vite@latest duck-vim-playground  -  --template react-ts
+```
+
+Navigate into the project directory:
+
+```bash
+cd duck-vim-playground
+```
+
+Install duck-vim:
+
+```bash
+npm install @gentleduck/vim
+```
+
+Start the dev server:
+
+```bash
+npm run dev
+```

@@ -1,0 +1,256 @@
+---
+title: Introduction
+description: Type-safe RBAC + ABAC authorization engine for TypeScript.
+section: Getting Started
+---
+## What is duck-iam?
+
+duck-iam is an authorization engine that runs Role-Based Access Control (RBAC) and
+Attribute-Based Access Control (ABAC) through one evaluation pipeline. Define roles
+with permissions, write policies with conditions, and the engine produces an allow or
+deny decision.
+
+Actions, resources, scopes, and role IDs are checked at compile time through const
+assertion generics. A misspelled action or unknown resource fails the type check before
+the code runs.
+
+## Why duck-iam?
+
+Most authorization libraries force a choice between RBAC and ABAC. RBAC is simple but
+rigid; it cannot express "editors can only update their own posts." ABAC is expressive
+but expensive; writing every permission as a policy rule is tedious for common role
+patterns.
+
+duck-iam does both. Use roles for the common cases and policies for the edge cases. Roles
+are converted into policies internally, so one condition engine handles everything.
+
+**What you get:**
+
+- **Role inheritance**: `admin` inherits from `editor`, which inherits from `viewer`. Permissions cascade.
+- **Policies with conditions**: "Allow delete on `post` when `resource.attributes.ownerId` equals `$subject.id`."
+- **Type-safe builders**: `defineRole()`, `policy()`, `when()`, all constrained to your declared actions, resources, and scopes.
+- **Four combining algorithms**: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`.
+- **Multi-tenant scoping**: A user can be `admin` in org-1 and `viewer` in org-2.
+- **Caching**: LRU caches for policies, roles, and resolved subjects with configurable TTL.
+- **Dev/Prod mode**: Diagnostics and validation in development, fast boolean evaluation in production. [See benchmarks](/duck-iam/benchmarks).
+- **Debug tooling**: `engine.explain()` returns the full evaluation trace: which rules matched, which conditions passed or failed, and why.
+
+## Key Features
+
+| Feature | Description |
+| --- | --- |
+| Unified RBAC + ABAC | Roles and policies share one evaluation pipeline. RBAC roles convert to a synthetic `__rbac__` policy at load time. |
+| Type-safe config | `createAccessConfig()` constrains actions, resources, scopes, and role IDs at the type level. |
+| Combining algorithms | Four in-policy algorithms (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`); three cross-policy modes (`and`, `allow-overrides`, `first-applicable`) via `EngineTypes.IConfig.policyCombine`. |
+| Multi-tenant scopes | Scoped role assignments: different roles per organization, workspace, or project. |
+| Pluggable adapters | Memory, File, Prisma, Drizzle, Redis, HTTP - or write your own by implementing `Adapter.IAdapter`. `Adapter.IReadOptions.signal` supports per-call `AbortSignal` cancellation. |
+| Server + client integrations | Express, Hono, Nest, Next middleware; React + Vue + vanilla clients. Each module ships its own typed namespace (`Express.IOptions`, `ReactClient.IContextValue`, ...). |
+| Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics` - observe / transform every decision. `onMetrics` is primitive-only and fires in both modes. |
+| Dev/Prod mode | Development returns rich `AccessControl.IDecision` objects + `explain()`; production returns plain `boolean` with zero allocation. See [benchmarks](/duck-iam/benchmarks) and the [production guide](/duck-iam/guides/production). |
+| Explain / debug | `engine.explain()` returns `Explain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
+| Validation + limits | `validateRoles()` and `validatePolicy()` emit `Validate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
+| Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
+
+## Architecture Overview
+
+duck-iam has four core concepts:
+
+<MermaidDiagram chart={`flowchart TD
+    subgraph Your_App["Your Application"]
+        direction TB
+        SERVER["Server (Express / Hono / NestJS / Next.js)"]
+        CLIENT["Client (React / Vue / Vanilla)"]
+    end
+
+    subgraph Engine_Block["@gentleduck/iam Engine"]
+        direction TB
+        ENGINE["Engine"]
+        ENGINE --> EVAL["Evaluation Pipeline"]
+        EVAL --> RBAC_EVAL["RBAC: Roles -> __rbac__ policy"]
+        EVAL --> ABAC_EVAL["ABAC: User-defined Policies"]
+        RBAC_EVAL --> COMBINE["Cross-policy combine (policyCombine)"]
+        ABAC_EVAL --> COMBINE
+        COMBINE --> DECISION["AccessControl.IDecision: allow / deny"]
+    end
+
+    subgraph Storage["Storage Adapters"]
+        direction TB
+        MEM["MemoryAdapter\n(dev/testing)"]
+        FILE_AD["FileAdapter\n(JSON on disk)"]
+        PRISMA["PrismaAdapter\n(production DB)"]
+        DRIZZLE["DrizzleAdapter\n(production DB)"]
+        REDIS["RedisAdapter\n(distributed cache)"]
+        HTTP_AD["HttpAdapter\n(remote service)"]
+    end
+
+    SERVER --> ENGINE
+    ENGINE --> Storage
+    ENGINE --> PERM_MAP["PermissionMap"]
+    PERM_MAP --> CLIENT`} />
+
+**Engine**: The evaluator. Create an `Engine` with an `EngineTypes.IConfig`, then call `engine.can()`,
+`engine.check()`, `engine.permissions()`, or `engine.explain()`. The engine loads roles and
+policies from the adapter, resolves the subject, and runs evaluation.
+
+**Adapter**: The storage backend. Adapters implement `PolicyStore + RoleStore + SubjectStore`.
+`MemoryAdapter` is for testing and small apps. `PrismaAdapter` and `DrizzleAdapter` are for
+production databases. `HttpAdapter` fetches from a remote service.
+
+**Policies**: ABAC rules organized into policy objects. Each policy has a combining algorithm
+and a list of rules. Each rule has an effect (allow/deny), target actions and resources,
+conditions, and a priority. Policies evaluate independently and then combine: a deny from
+any policy results in an overall deny.
+
+**Roles**: RBAC definitions with permissions and optional inheritance. Roles are converted
+to a synthetic ABAC policy, so RBAC and ABAC share the same evaluation path. RBAC
+permissions can carry conditions (owner-only grants, for example).
+
+## How It Works
+
+When an authorization request comes in, the engine follows this pipeline:
+
+<MermaidDiagram chart={`flowchart TD
+    A["1. Resolve Subject"] --> B["Load roles from adapter"]
+    B --> C["Walk inheritance: editor -> viewer"]
+    C --> D["Merge scoped roles for request scope"]
+    D --> E["Load subject attributes"]
+
+    E --> F["2. Load Policies"]
+    F --> G["Convert all roles -> synthetic __rbac__ policy"]
+    G --> H["Fetch user-defined ABAC policies from adapter"]
+
+    H --> I["3. Evaluate Each Policy"]
+    I --> J["Check policy targets"]
+    J --> K["Match rules: action + resource + conditions"]
+    K --> L["Apply combining algorithm per policy"]
+
+    L --> M["4. Cross-policy combine (default: AND)"]
+    M --> N{"Any deny?"}
+    N -- "Yes" --> O["DENIED"]
+    N -- "No" --> P["ALLOWED"]
+
+    O --> Q["5. Return AccessControl.IDecision"]
+    P --> Q
+    Q --> R["allowed, effect, rule, policy, reason, duration"]`} />
+
+1. **Resolve subject**: Load the user's roles, scoped roles, and attributes from the adapter.
+2. **Enrich scoped roles**: If the request has a scope (`org-1`, for example), merge in roles assigned to that scope.
+3. **Load policies**: Fetch ABAC policies from the adapter. Convert RBAC roles into a synthetic policy.
+4. **Evaluate**: For each policy, check if it applies to the request. For each matching rule, evaluate conditions against the request context. Apply the policy's combining algorithm to produce a per-policy decision.
+5. **Combine**: Apply `policyCombine` across policy results. With the default `'and'`, any deny is final. NotApplicable policies (targets miss) are skipped, not folded as default-deny.
+6. **Return decision**: In development mode the engine returns an `AccessControl.IDecision` with `allowed`, `effect`, the matching `rule` and `policy`, a `reason` string, and timing. In production it returns a plain `boolean`.
+
+## Quick Example
+
+```typescript
+import { defineRole, Engine, MemoryAdapter } from "@gentleduck/iam";
+
+// 1. Define roles
+const viewer = defineRole("viewer")
+  .grant("read", "post")
+  .grant("read", "comment")
+  .build();
+
+const editor = defineRole("editor")
+  .inherits("viewer")
+  .grant("create", "post")
+  .grant("update", "post")
+  .build();
+
+const admin = defineRole("admin")
+  .inherits("editor")
+  .grant("delete", "post")
+  .grant("manage", "user")
+  .build();
+
+// 2. Create adapter and engine
+const adapter = new MemoryAdapter({
+  roles: [viewer, editor, admin],
+  assignments: { "user-1": ["editor"], "user-2": ["viewer"] },
+});
+
+const engine = new Engine({ adapter });
+
+// 3. Check permissions
+await engine.can("user-1", "read", { type: "post", attributes: {} });
+// -> true (inherited from viewer)
+
+await engine.can("user-1", "create", { type: "post", attributes: {} });
+// -> true (direct editor permission)
+
+await engine.can("user-2", "create", { type: "post", attributes: {} });
+// -> false (viewer cannot create)
+
+await engine.can("user-1", "delete", { type: "post", attributes: {} });
+// -> false (editor cannot delete, only admin can)
+```
+
+## Documentation Map
+
+| Section | What it covers |
+| --- | --- |
+| [Installation](/duck-iam/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
+| [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
+| [Production deployment](/duck-iam/guides/production) | SRE playbook: TTL trade-offs, multi-node invalidation, hooks, retry / circuit breaker, health probe, metrics. |
+| [Core Concepts](/duck-iam/core) | Roles, policies, rules, conditions, and combining algorithms. |
+| [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
+| [Advanced](/duck-iam/advanced/config) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
+| [Benchmarks](/duck-iam/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |
+| [FAQs](/www/faqs) | Common questions and answers. |
+
+## Contributing
+
+Open an issue or pull request on the
+[GitHub repository](https://github.com/gentleeduck/duck-iam).
+
+---
+
+## Quick FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="full-stack-or-backend">
+    <AccordionTrigger>Is duck-iam meant for full-stack apps or backend-only services?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Both. The package is built around a server-side engine, but it also includes server integrations,
+      client permission-map consumers, and adapter choices that fit monoliths, APIs, full-stack apps,
+      and shared authorization services.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="framework-agnostic-design">
+    <AccordionTrigger>How does duck-iam stay framework-agnostic without hard runtime dependencies?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The package uses minimal request, context, and framework interfaces instead of importing whole
+      server frameworks at runtime. React and Vue integrations accept injected framework APIs, and the
+      server integrations work against small request shapes, so you only pay for the subpaths you use.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="which-adapter-first">
+    <AccordionTrigger>Which adapter should I start with?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Start with <code className="rounded bg-muted px-2 py-1">MemoryAdapter</code> for tests, local dev,
+      and first prototypes. Move to <code className="rounded bg-muted px-2 py-1">PrismaAdapter</code> or
+      <code className="rounded bg-muted px-2 py-1">DrizzleAdapter</code> when you want persistent policies,
+      roles, and assignments. Use <code className="rounded bg-muted px-2 py-1">HttpAdapter</code> when your
+      authorization data already lives behind a separate API or shared auth service.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="same-database">
+    <AccordionTrigger>Can I keep my app tables and access tables in the same database?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. duck-iam only needs its own policies, roles, assignments, and subject-attribute storage.
+      Those tables or models can live alongside the rest of your application data in the same database.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="blogduck-example">
+    <AccordionTrigger>What does the BlogDuck example prove?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The example demonstrates a practical full-stack pattern: one typed access config, one persistent
+      adapter, server-side enforcement, and server-generated permission maps for the client. It shows how
+      duck-iam fits into a real application rather than only isolated snippets.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>

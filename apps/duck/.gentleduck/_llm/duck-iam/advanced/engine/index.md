@@ -1,0 +1,200 @@
+## What the engine does
+
+The `Engine` is the central evaluator. You create an engine with an adapter and optional configuration, then call its methods to check permissions. The engine loads roles and policies from the adapter, resolves the subject, runs the evaluation pipeline, and returns a decision.
+
+```typescript
+import { Engine } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+
+const adapter = new MemoryAdapter({
+  roles: [viewer, editor, admin],
+  assignments: { 'user-1': ['editor'] },
+})
+
+const engine = new Engine({ adapter })
+```
+
+***
+
+## Reading order
+
+| Page | Covers |
+| --- | --- |
+| [methods](/duck-iam/advanced/engine/methods) | `can`, `check`, `authorize`, `permissions`, `explain` |
+| [hooks](/duck-iam/advanced/engine/hooks) | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` |
+| [caching](/duck-iam/advanced/engine/caching) | The four LRU caches, invalidation, tuning |
+| [admin API](/duck-iam/advanced/engine/admin) | `engine.admin.*` for runtime CRUD |
+| [modes](/duck-iam/advanced/engine/modes) | Development vs production mode, performance trade-offs |
+
+***
+
+## EngineConfig
+
+The constructor accepts an `EngineConfig`:
+
+```typescript
+interface EngineConfig {
+  adapter: Adapter // Required. Storage backend.
+  defaultEffect?: Effect // Default 'deny'.
+  cacheTTL?: number // Default 60 seconds.
+  maxCacheSize?: number // Default 1000 subjects.
+  mode?: Mode // 'development' (default) | 'production'.
+  hooks?: EngineHooks // Lifecycle hooks.
+}
+```
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `adapter` | `Adapter` | -- | The storage backend. Required. |
+| `defaultEffect` | `'allow' \| 'deny'` | `'deny'` | Decision when no rules match |
+| `cacheTTL` | `number` | `60` | How long cached data lives, in seconds |
+| `maxCacheSize` | `number` | `1000` | Max subjects in the LRU cache |
+| `mode` | `'development' \| 'production'` | `'development'` | Evaluation mode - see [modes](/duck-iam/advanced/engine/modes) |
+| `hooks` | `EngineHooks` | `{}` | Lifecycle hooks - see [hooks](/duck-iam/advanced/engine/hooks) |
+
+***
+
+## Full configuration example
+
+```typescript
+const engine = new Engine({
+  adapter,
+  defaultEffect: 'deny',
+  cacheTTL: 120,
+  maxCacheSize: 5000,
+  mode: 'production',
+  hooks: {
+    beforeEvaluate: (request) => ({
+      ...request,
+      environment: { ...request.environment, timestamp: Date.now() },
+    }),
+    afterEvaluate: (request, decision) => {
+      console.log(`[access] ${request.subject.id} ${request.action} ${request.resource.type} -> ${decision.effect}`)
+    },
+    onDeny: (request, decision) => {
+      auditLog.write({
+        event: 'access_denied',
+        subject: request.subject.id,
+        action: request.action,
+        resource: request.resource.type,
+        reason: decision.reason,
+      })
+    },
+    onError: (error, request) => {
+      errorTracker.capture(error, { subject: request.subject.id })
+    },
+  },
+})
+```
+
+***
+
+## The Decision object
+
+Every authorization check in development mode returns a `Decision`:
+
+```typescript
+interface Decision {
+  allowed: boolean // The final yes/no answer
+  effect: 'allow' | 'deny'
+  rule?: Rule // Which rule decided
+  policy?: string // Which policy ID
+  reason: string // Human-readable explanation
+  duration: number // Evaluation time in milliseconds
+  timestamp: number // When the decision was made (Date.now())
+}
+```
+
+### Examples
+
+**Allowed by a matching rule:**
+
+```typescript
+{
+  allowed: true,
+  effect: 'allow',
+  rule: { id: 'rbac-editor-create-post', /* ... */ },
+  policy: '__rbac__',
+  reason: 'Allowed by rule "rbac-editor-create-post" (allow-overrides)',
+  duration: 0.42,
+  timestamp: 1708300000000,
+}
+```
+
+**Denied - no rules matched:**
+
+```typescript
+{
+  allowed: false,
+  effect: 'deny',
+  reason: 'No matching rules -> deny',
+  duration: 0.31,
+  timestamp: 1708300000000,
+}
+```
+
+**Denied by an explicit deny rule:**
+
+```typescript
+{
+  allowed: false,
+  effect: 'deny',
+  rule: { id: 'block-external-ips', /* ... */ },
+  policy: 'ip-restriction-policy',
+  reason: 'Denied by rule "block-external-ips"',
+  duration: 0.55,
+  timestamp: 1708300000000,
+}
+```
+
+In production mode, `engine.authorize()` returns a plain `boolean` - no Decision allocation. See [modes](/duck-iam/advanced/engine/modes).
+
+***
+
+## Low-level helpers
+
+Most applications only need the `Engine`, but two adjacent exports are worth knowing about:
+
+```typescript
+import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
+```
+
+* `buildPermissionKey(action, resource, resourceId?, scope?)` matches the exact key format used by `engine.permissions()` and all client libraries
+* `LRUCache` is the small TTL cache implementation the engine uses internally - import only if you want the same eviction semantics in neighboring application code
+
+***
+
+## Putting it together
+
+```typescript
+import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
+
+const viewer = defineRole('viewer').grant('read', 'post').grant('read', 'comment').build()
+const editor = defineRole('editor').inherits('viewer').grant('create', 'post').grant('update', 'post').build()
+
+const adapter = new MemoryAdapter({
+  roles: [viewer, editor],
+  assignments: { 'user-1': ['editor'] },
+})
+
+const engine = new Engine({
+  adapter,
+  defaultEffect: 'deny',
+  cacheTTL: 60,
+  hooks: {
+    afterEvaluate: (req, d) => console.log(`${req.subject.id} ${req.action}:${req.resource.type} = ${d.effect}`),
+  },
+})
+
+await engine.can('user-1', 'read', { type: 'post', attributes: {} }) // true
+
+await engine.admin.saveRole({
+  id: 'admin',
+  name: 'Admin',
+  permissions: [{ action: '*', resource: '*' }],
+  inherits: ['editor'],
+})
+await engine.admin.assignRole('user-1', 'admin')
+
+await engine.can('user-1', 'delete', { type: 'post', attributes: {} }) // true
+```

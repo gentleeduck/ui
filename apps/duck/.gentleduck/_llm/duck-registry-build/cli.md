@@ -1,0 +1,116 @@
+}>
+  The CLI is the normal runtime entrypoint. Run `registry-build build` from the
+  package or app that owns the config and generated outputs.
+
+## Main command
+
+```bash
+registry-build build
+```
+
+The CLI discovers `registry-build.config.*` starting from the current working
+directory unless `--config` or `--cwd` is set.
+
+***
+
+## Build flags
+
+| Flag | Purpose |
+| --- | --- |
+| `-c, --config <path>` | Use a specific config file |
+| `--cwd <path>` | Change config discovery root |
+| `--silent` | Hide banner and summary output |
+| `--json` | Emit machine-readable build summary |
+| `--verbose` | Print full error stack |
+| `--changed-only` | Reuse cached work aggressively |
+| `--changed <paths...>` | Narrow rebuild work to affected paths |
+
+***
+
+## Common examples
+
+### Default build
+
+```bash
+registry-build build
+```
+
+### Use a specific config file
+
+```bash
+registry-build build --config ./configs/registry-build.config.ts
+```
+
+### Run from CI with JSON output
+
+```bash
+registry-build build --json --silent
+```
+
+### Warm local rebuild for changed files only
+
+```bash
+registry-build build --changed-only --changed ../../packages/registry-ui/src/button/button.tsx
+```
+
+***
+
+## Package script patterns
+
+Minimal:
+
+```json
+{
+  "scripts": {
+    "build:reg": "registry-build build"
+  }
+}
+```
+
+Split raw build and formatting:
+
+```json
+{
+  "scripts": {
+    "build:reg": "bun run build:reg:cli && bun run format:reg",
+    "build:reg:cli": "registry-build build",
+    "format:reg": "bunx biome format --write ./__ui_registry__/index.tsx"
+  }
+}
+```
+
+`build:reg` is the default one-command workflow; `build:reg:cli` stays available
+for direct flag usage.
+
+***
+
+## Exit behavior
+
+* Validation or load errors fail the command with a non-zero exit code.
+* `--verbose` includes the full stack for debugging.
+* `--json` is useful for CI, custom dashboards, or local tooling wrappers.
+
+***
+
+## Config discovery rules
+
+The loader searches for these filenames:
+
+* `registry-build.config.ts`
+* `registry-build.config.mts`
+* `registry-build.config.cts`
+* `registry-build.config.js`
+* `registry-build.config.mjs`
+* `registry-build.config.cjs`
+* `registry-build.config.json`
+
+Config-relative paths are normalized as soon as the config is loaded. That prevents the usual confusion between current working directory and config file location.
+
+***
+
+## Read next
+
+} className="[&_ul]:my-0">
+  * [Getting Started](/duck-registry-build/getting-started)
+  * [Configuration](/duck-registry-build/configuration)
+  * [Performance](/duck-registry-build/performance)

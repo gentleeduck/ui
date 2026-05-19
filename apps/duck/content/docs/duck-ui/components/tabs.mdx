@@ -1,0 +1,213 @@
+---
+title: tabs
+description: A set of layered sections of content - known as tab panels - that are displayed one at a time.
+component: true
+section: Disclosure
+order: 10
+---
+<ComponentPreview
+  name="tabs-1"
+  description="A tabs component with two forms."
+/>
+
+## Philosophy
+
+Tabs organize content into parallel views  -  only one is visible at a time, but all are equally important. We keep the component controlled-optional (works with or without state management) because simple use cases shouldn't pay the complexity tax. The TabsList/TabsTrigger/TabsContent split keeps styling separate from behavior.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add tabs
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs @gentleduck/primitives
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/tabs" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+```
+
+```tsx
+<Tabs
+  defaultValue="account"
+  className="w-[400px]"
+>
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+```
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="tabs-2"
+  description="Tabs with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent` for a sliding active indicator and direction-aware content crossfade powered by [motion](https://motion.dev). The indicator slides between tabs via `layoutId` and content panels fade with a directional shift.
+
+<ComponentPreview
+  name="tabs-3"
+  description="Tabs with motion-powered sliding indicator and content transitions."
+/>
+
+### Segmented Control
+
+A pill-shaped segmented control with a sliding indicator and disabled tab support.
+
+<ComponentPreview
+  name="tabs-4"
+  description="A segmented control with sliding pill indicator and disabled tab."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Replace `Tabs` with `MotionTabs`, `TabsList` with `MotionTabsList`, `TabsTrigger` with `MotionTabsTrigger`, and `TabsContent` with `MotionTabsContent`. Wrap content panels in `MotionTabsContents` for coordinated directional slide animations.
+</Callout>
+
+## API Reference
+
+### Tabs
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | Controlled active tab value. Must be used alongside `onValueChange` |
+| `defaultValue` | `string` | - | Uncontrolled initial tab value |
+| `onValueChange` | `(value: string) => void` | - | Callback fired when the active tab changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>` | - | Additional props to spread to the content div |
+
+### TabsList
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | `TabsTrigger` elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the container div (renders with `role="tablist"`) |
+
+### TabsTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | A unique value that identifies this tab trigger |
+| `defaultChecked` | `boolean` | - | If true, sets this tab as the default active tab on first render |
+| `disabled` | `boolean` | - | Disables the tab trigger from user interaction |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | Label or node to render inside the tab |
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | - | Additional props to spread to the button element |
+
+### TabsContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | The associated value that matches a `TabsTrigger` |
+| `forceMount` | `boolean` | `false` | If true, the content stays mounted in the DOM even when hidden |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | Tab panel content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionTabs
+
+Replaces `Tabs`. Tracks tab order for directional content animation. Uses `domMax` for layout animations. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TabsProps` | - | All props from `Tabs` are supported |
+
+### MotionTabsList
+
+Replaces `TabsList`. Wraps with `LayoutGroup` for shared `layoutId` indicator animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TabsListProps` | - | All props from `TabsList` are supported |
+
+### MotionTabsTrigger
+
+Replaces `TabsTrigger`. Adds sliding `layoutId` indicator and disabled tab shake feedback. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<TabsTriggerProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `TabsTrigger` except motion event handlers |
+
+### MotionTabsContents
+
+Wrapper around all `MotionTabsContent` panels. Provides a single `AnimatePresence` with overflow-hidden for directional slide animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | `MotionTabsContent` elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the container div |
+
+### MotionTabsContent
+
+Individual tab panel inside `MotionTabsContents`. Renders content with proper ARIA attributes. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | The associated value that matches a `MotionTabsTrigger` |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | Tab panel content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |

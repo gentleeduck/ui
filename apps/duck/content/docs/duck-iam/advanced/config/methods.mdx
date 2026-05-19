@@ -1,0 +1,325 @@
+---
+title: methods reference
+description: All access.* methods - defineRole, policy, defineRule, when, createEngine, checks, validateRoles, validatePolicy.
+section: Advanced
+---
+## access.defineRole()
+
+Creates a typed role builder. Actions, resources, and the role ID are constrained to your schema. When `roles` is declared in the config, only those role IDs are accepted.
+
+```typescript
+const viewer = access
+  .defineRole('viewer') // ok - 'viewer' is in roles
+  .grant('read', 'post') // ok
+  .grant('read', 'comment') // ok
+  // .grant('read', 'invoice') // ERROR: 'invoice' is not in resources
+  // access.defineRole('intern') // ERROR: 'intern' is not in roles
+  .build()
+
+const editor = access
+  .defineRole('editor')
+  .inherits('viewer')
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .grant('create', 'comment')
+  .grant('update', 'comment')
+  .build()
+
+const admin = access
+  .defineRole('admin')
+  .inherits('editor')
+  .grant('delete', 'post')
+  .grant('delete', 'comment')
+  .grant('manage', 'user')
+  .grant('manage', 'dashboard')
+  .build()
+```
+
+See [roles](/duck-iam/core/roles) for the full role builder API.
+
+---
+
+## access.policy()
+
+Creates a typed policy builder. Rules within the policy are constrained to your schema. The builder uses the same API as the standalone `policy()` function.
+
+```typescript
+const ownerPolicy = access
+  .policy('owner-only')
+  .name('Owner Only')
+  .algorithm('deny-overrides')
+  .rule('owner-update', (r) =>
+    r
+      .allow()
+      .on('update')
+      .of('post')
+      .priority(10)
+      .when((w) => w.isOwner()),
+  )
+  .rule('deny-non-owner-delete', (r) =>
+    r
+      .deny()
+      .on('delete')
+      .of('post')
+      .priority(20)
+      .when((w) => w.check('resource.attributes.ownerId', 'neq', '$subject.id')),
+  )
+  .build()
+```
+
+See [policies](/duck-iam/core/policies) for the full policy builder API.
+
+---
+
+## access.defineRule()
+
+Creates a standalone typed rule builder, useful when composing rules across policies. Uses the same builder API as inline rules.
+
+```typescript
+const ownerRule = access
+  .defineRule('owner-check')
+  .allow()
+  .on('update', 'delete')
+  .of('post')
+  .priority(10)
+  .when((w) => w.isOwner())
+  .build()
+
+// Add to a policy with .addRule():
+const p = access.policy('my-policy').name('My Policy').algorithm('deny-overrides').addRule(ownerRule).build()
+```
+
+---
+
+## access.when()
+
+Creates a typed condition builder for reusable condition groups. Use `buildAll()`, `buildAny()`, or `buildNone()` to produce a `ConditionGroup`. When `roles` is declared in the config, `.role()` and `.roles()` are constrained to the declared role IDs.
+
+```typescript
+const isOwner = access.when().isOwner().buildAll()
+// { all: [{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }] }
+
+const isAdmin = access
+  .when()
+  .role('admin') // type-checked against declared roles
+  .buildAll()
+// { all: [{ field: 'subject.roles', operator: 'contains', value: 'admin' }] }
+
+const isAdminOrOwner = access
+  .when()
+  .role('admin') // ok - 'admin' is in roles
+  // .role('superuser')       // ERROR: 'superuser' is not in roles
+  .isOwner()
+  .buildAny()
+// { any: [...] } - either condition is sufficient
+```
+
+These `ConditionGroup` objects can be reused inside `r.when()`/`r.whenAny()` callbacks or assembled by hand into rule definitions.
+
+---
+
+## access.createEngine()
+
+Creates a typed engine instance. Permission checks on this engine are constrained to your schema. An optional `mode` parameter sets the engine's operating mode, which flows through the generic for full type safety.
+
+```typescript
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+
+const adapter = new MemoryAdapter({
+  roles: [viewer, editor, admin],
+  assignments: { 'user-1': ['editor'], 'user-2': ['viewer'] },
+  policies: [ownerPolicy],
+})
+
+const engine = access.createEngine({ adapter })
+// mode defaults to 'development'
+
+// Or explicitly set mode for production:
+const prodEngine = access.createEngine({ adapter, mode: 'production' })
+// Engine<TAction, TResource, TRole, TScope, 'production'>
+```
+
+The `mode` parameter accepts `'development' | 'production'` and defaults to `'development'`. The mode type flows through the generic signature:
+
+```typescript
+createEngine<'production'>({ adapter, mode: 'production' })
+// => Engine<..., 'production'>
+```
+
+Typed permission checks work the same regardless of mode:
+
+```typescript
+await engine.can('user-1', 'read', { type: 'post', attributes: {} })
+// ok
+
+// await engine.can('user-1', 'approve', { type: 'post', attributes: {} })
+// ERROR: 'approve' is not assignable to 'create' | 'read' | 'update' | 'delete' | 'manage'
+
+// await engine.can('user-1', 'read', { type: 'invoice', attributes: {} })
+// ERROR: 'invoice' is not assignable to 'post' | 'comment' | 'user' | 'dashboard'
+```
+
+See [engine modes](/duck-iam/advanced/engine/modes) for the dev/prod trade-offs.
+
+---
+
+## access.checks()
+
+A pure typing utility that returns the input array as-is but constrains the types at compile time. Use this with `engine.permissions()` to batch-check multiple permissions with full type safety.
+
+```typescript
+const uiChecks = access.checks([
+  { action: 'create', resource: 'post' },
+  { action: 'update', resource: 'post', resourceId: 'post-1' },
+  { action: 'delete', resource: 'post', resourceId: 'post-1' },
+  { action: 'manage', resource: 'dashboard' },
+  // { action: 'approve', resource: 'post' }
+  // ERROR: 'approve' is not assignable to type...
+])
+
+const perms = await engine.permissions('user-1', uiChecks)
+// { 'create:post': true, 'update:post:post-1': true, ... }
+```
+
+`access.checks()` is purely a type assertion at compile time - it has zero runtime cost. It just helps TypeScript validate every action, resource, and scope in the batch before you pass it to `engine.permissions()`.
+
+---
+
+## access.validateRoles()
+
+Runtime validation for role definitions. Same as the standalone `validateRoles()` but available on the config object for convenience.
+
+```typescript
+const result = access.validateRoles([viewer, editor, admin])
+
+if (!result.valid) {
+  throw new Error(result.issues.map((i) => i.message).join(', '))
+}
+```
+
+Checks for:
+
+- Duplicate role IDs
+- Dangling `inherits` references
+- Inheritance cycles
+- Empty permission lists
+
+---
+
+## access.validatePolicy()
+
+Runtime validation for untrusted policy objects. Same as the standalone `validatePolicy()`.
+
+```typescript
+const policyFromAPI = await fetch('/api/policies/123').then((r) => r.json())
+
+const result = access.validatePolicy(policyFromAPI)
+
+if (!result.valid) {
+  console.error('Invalid policy:', result.issues)
+}
+```
+
+Use this when policies come from outside your codebase (admin UI, external API, dynamic config) - TypeScript type checking can't verify runtime data.
+
+Checks for:
+
+- Required fields (`id`, `name`, `algorithm`, `rules`)
+- Valid combining algorithm
+- Valid rule shapes (id, effect, actions, resources, conditions)
+- Valid condition group shape
+- Sensible field paths
+
+---
+
+## Full example
+
+A complete example showing how to define and use a typed permission schema for a multi-tenant blog application:
+
+```typescript
+import { createAccessConfig } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+
+// 1. Define the permission schema
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete', 'publish', 'manage'] as const,
+  resources: ['post', 'comment', 'user', 'analytics', 'settings'] as const,
+  scopes: ['org-acme', 'org-globex'] as const,
+  roles: ['viewer', 'author', 'editor', 'admin'] as const,
+})
+
+// 2. Define roles using typed builders
+const viewer = access.defineRole('viewer').grant('read', 'post').grant('read', 'comment').build()
+
+const author = access
+  .defineRole('author')
+  .inherits('viewer')
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .grant('create', 'comment')
+  .build()
+
+const editor = access
+  .defineRole('editor')
+  .inherits('author')
+  .grant('publish', 'post')
+  .grant('update', 'comment')
+  .grant('delete', 'comment')
+  .build()
+
+const admin = access
+  .defineRole('admin')
+  .inherits('editor')
+  .grant('delete', 'post')
+  .grant('manage', 'user')
+  .grant('manage', 'analytics')
+  .grant('manage', 'settings')
+  .build()
+
+// 3. Validate roles at startup
+const roleCheck = access.validateRoles([viewer, author, editor, admin])
+if (!roleCheck.valid) {
+  throw new Error('Invalid roles: ' + roleCheck.issues.map((i) => i.message).join(', '))
+}
+
+// 4. Define policies for fine-grained rules
+const ownerPolicy = access
+  .policy('owner-restrictions')
+  .name('Owner Restrictions')
+  .algorithm('deny-overrides')
+  .rule('authors-own-posts-only', (r) =>
+    r
+      .deny()
+      .on('update', 'delete')
+      .of('post')
+      .priority(100)
+      .when((w) =>
+        w
+          .check('resource.attributes.ownerId', 'neq', '$subject.id')
+          .not((w) => w.role('admin')),
+      ),
+  )
+  .build()
+
+// 5. Create the engine
+const adapter = new MemoryAdapter({
+  roles: [viewer, author, editor, admin],
+  assignments: { alice: ['admin'], bob: ['editor'], charlie: ['author'] },
+  policies: [ownerPolicy],
+})
+
+const engine = access.createEngine({ adapter, cacheTTL: 120, mode: 'production' })
+
+// 6. Define typed permission checks for UI
+const dashboardChecks = access.checks([
+  { action: 'read', resource: 'analytics' },
+  { action: 'manage', resource: 'analytics' },
+  { action: 'manage', resource: 'settings' },
+  { action: 'manage', resource: 'user' },
+])
+
+// 7. Use in your application
+async function getDashboardPermissions(userId: string) {
+  return engine.permissions(userId, dashboardChecks)
+}
+```

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { MotionSlider } from '@gentleduck/registry-ui/slider'\n\nexport default function Demo() {\n  return <MotionSlider defaultValue={[75]} max={100} step={1} className=\"mx-auto w-full max-w-xs\" />\n}\n",
+      "path": "slider/slider-6.tsx",
+      "target": "components/slider-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "slider-6",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "source": "/registry-examples/src/slider",
+  "type": "registry:example"
+}

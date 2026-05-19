@@ -1,0 +1,6 @@
+export { DocsCopyPage } from './docs-copy-page'
+export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './docs-pager'
+export { DocsPathBreadcrumb } from './docs-path-breadcrumb'
+export type { IDocsSidebarNavProps } from './docs-sidebar'
+export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './docs-sidebar'
+export { DashboardTableOfContents } from './docs-toc'

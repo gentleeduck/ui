@@ -1,0 +1,484 @@
+---
+title: gentleduck motion
+description: Motion primitives and reduced-motion utilities used across the gentleduck ecosystem.
+section: Getting Started
+order: 0
+---
+<Callout
+  icon={<TriangleAlert />}
+  title="Experimental: Not Production Ready"
+  tone="warning">
+`@gentleduck/motion` is currently in active development and is **not ready for production use**. Expect API changes and breaking updates between releases.
+</Callout>
+
+## Philosophy
+
+`@gentleduck/motion` is a small motion layer. It ships shared easing and duration tokens plus reduced-motion handling so transitions stay consistent across packages.
+
+## Installation
+
+```bash
+npm install @gentleduck/motion
+```
+
+## Usage
+
+```tsx
+import '@gentleduck/motion/css'
+import { MotionProvider, motionTransition, useDuckReducedMotion } from '@gentleduck/motion'
+```
+
+```tsx
+function App() {
+  return (
+    <MotionProvider>
+      {/* All m.* components inside get consistent defaults */}
+    </MotionProvider>
+  )
+}
+```
+
+## Motion Library Integration
+
+`@gentleduck/motion` integrates with the [motion](https://motion.dev) library (v12+) for enter/exit transitions, layout animations, and gestures. The motion library is an optional peer dependency; install it when you need those features.
+
+```bash
+npm install motion
+```
+
+## API Reference
+
+### `MotionProvider`
+
+Wraps `LazyMotion` + `MotionConfig` with duck-ui defaults and reduced-motion support.
+
+```tsx
+import { MotionProvider } from '@gentleduck/motion'
+
+function App() {
+  return (
+    <MotionProvider exitTransition={{ duration: 0.32 }}>
+      <m.div animate={{ opacity: 1 }} />
+    </MotionProvider>
+  )
+}
+```
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | — | Content to render inside the provider |
+| `transition` | `Transition` | `{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }` | Global default transition |
+| `enterTransition` | `Transition` | — | Override transition for enter animations only |
+| `exitTransition` | `Transition` | — | Override transition for exit animations only |
+| `reducedMotion` | `'user' \| 'always' \| 'never'` | `'user'` | Reduced-motion strategy passed to `MotionConfig` |
+| `features` | `() => Promise<FeatureBundle>` | `loadDomAnimation` | LazyMotion feature loader |
+| `strict` | `boolean` | `false` | Enable strict mode (warns on `motion.*` usage) |
+
+### `useMotionConfig`
+
+Access the `IMotionConfigContextValue` from inside a `MotionProvider`.
+
+```tsx
+import { useMotionConfig } from '@gentleduck/motion'
+
+function MyComponent() {
+  const { exitTransition } = useMotionConfig()
+  // ...
+}
+```
+
+Returns `IMotionConfigContextValue`:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `exitTransition` | `Transition \| undefined` | Exit transition set on the nearest `MotionProvider` |
+
+### `IDuckMotion` namespace
+
+Type namespace for all motion-related types. Import as a type only.
+
+```tsx
+import type { IDuckMotion } from '@gentleduck/motion'
+
+const preset: IDuckMotion.IPreset = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+}
+```
+
+Available types: `IAnimationState`, `ITransitionConfig`, `IPreset`, `IPresetResult`, `IPresetOptions`, `IPresetName`, `IDirection`.
+
+---
+
+## Stagger Utilities
+
+Helpers for staggered enter animations.
+
+```tsx
+import { getStaggerDelay, createStagger, staggerChildren } from '@gentleduck/motion'
+```
+
+### `getStaggerDelay`
+
+Returns the stagger delay in seconds for a single item. Avoids allocating an array when only one delay is needed.
+
+```tsx
+const delay = getStaggerDelay(index, 50, 100) // (index * 50ms + 100ms) / 1000
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | — | Item index |
+| `staggerMs` | `number` | — | Per-item stagger in milliseconds |
+| `delayMs` | `number` | `0` | Initial delay before the first item in milliseconds |
+
+### `createStagger`
+
+Creates an array of `{ delay }` objects (in seconds) for staggered animations.
+
+```tsx
+const delays = createStagger(5, 50, 100)
+// [{ delay: 0.1 }, { delay: 0.15 }, { delay: 0.2 }, { delay: 0.25 }, { delay: 0.3 }]
+
+delays.map(({ delay }, i) => (
+  <m.div key={i} animate={{ opacity: 1 }} transition={{ delay }}>
+    Item {i}
+  </m.div>
+))
+```
+
+### `staggerChildren`
+
+Returns a `Transition` config for motion's `staggerChildren` / `delayChildren`. Spread into a parent variant's `transition` field.
+
+```tsx
+const containerVariants = {
+  animate: {
+    transition: staggerChildren(50, 100),
+  },
+}
+
+<m.ul variants={containerVariants} animate='animate'>
+  {items.map((item) => (
+    <m.li key={item.id} variants={itemVariants}>
+      {item.label}
+    </m.li>
+  ))}
+</m.ul>
+```
+
+---
+
+## Transitions
+
+### Duration tokens
+
+```tsx
+import { duckMotionDuration, duckMotionDurationMs } from '@gentleduck/motion'
+
+// Seconds (for motion library)
+duckMotionDuration.instant  // 0
+duckMotionDuration.fast    // 0.15
+duckMotionDuration.normal  // 0.2
+duckMotionDuration.slow    // 0.3
+
+// Milliseconds (for CSS)
+duckMotionDurationMs.instant  // 0
+duckMotionDurationMs.fast     // 150
+duckMotionDurationMs.normal   // 200
+duckMotionDurationMs.slow     // 300
+```
+
+### Easing tokens
+
+```tsx
+import { duckMotionEasing, duckMotionEasingCss } from '@gentleduck/motion'
+
+// Cubic-bezier arrays (for motion library)
+duckMotionEasing.standard  // [0.4, 0, 0.2, 1]
+duckMotionEasing.spring    // [1, 0.23995, 0, 1.65]
+
+// CSS strings (for CSS transitions)
+duckMotionEasingCss.standard  // 'cubic-bezier(0.4, 0, 0.2, 1)'
+duckMotionEasingCss.spring    // 'cubic-bezier(1, 0.23995, 0, 1.65)'
+```
+
+### Tween presets
+
+Ready-to-use tween `Transition` objects. Import individually:
+
+```tsx
+import {
+  tweenFast,
+  tweenNormal,
+  tweenSlow,
+  tweenMicro,
+  tweenInstant,
+  tweenExit,
+  tweenExpand,
+  tweenShake,
+} from '@gentleduck/motion'
+```
+
+| Name | Duration | Ease | Use case |
+| --- | --- | --- | --- |
+| `tweenInstant` | 0 | — | Immediate state changes |
+| `tweenMicro` | 100ms | ease-out | Tooltips, micro-interactions |
+| `tweenFast` | 150ms | standard | Hover states, toggles, tooltips |
+| `tweenNormal` | 200ms | standard | Overlays, content reveals |
+| `tweenSlow` | 300ms | standard | Large layout changes, page transitions |
+| `tweenExit` | 200ms | aggressive | Closing menus and dialogs |
+| `tweenExpand` | 250ms | expo-out | Accordion, collapsible, height reveals |
+| `tweenShake` | 400ms | — | Error shake feedback |
+
+### Spring presets
+
+Ready-to-use spring `Transition` objects:
+
+```tsx
+import {
+  springDefault,
+  springBouncy,
+  springGentle,
+  springSmooth,
+  springSnappy,
+  springStiff,
+  springInstant,
+} from '@gentleduck/motion'
+```
+
+| Name | Config | Use case |
+| --- | --- | --- |
+| `springDefault` | `visualDuration: 0.25, bounce: 0.2` | General-purpose spring |
+| `springSnappy` | `visualDuration: 0.2, bounce: 0.15` | Menus, dropdowns, popovers |
+| `springGentle` | `visualDuration: 0.35, bounce: 0.25` | Dialogs, sheets, drawers |
+| `springBouncy` | `stiffness: 500, damping: 28` | Menus and popovers with slight overshoot |
+| `springStiff` | `stiffness: 400, damping: 30` | Alert dialogs, destructive confirmations |
+| `springSmooth` | `stiffness: 350, damping: 30` | Layout indicators, sliding elements |
+| `springInstant` | `stiffness: 1000, damping: 100` | Reduced-motion fallback |
+
+---
+
+## Presets
+
+Pre-built animation configs ready to spread onto motion components.
+
+### Content presets
+
+```tsx
+import {
+  spinIn,
+  slideUpBlur,
+  fadeUp,
+  scaleBlur,
+  fadeBlur,
+  collapseX,
+  fadeBlurPopOut,
+  blurMount,
+  tapScale,
+  contentTransition,
+  contentTransitionFast,
+} from '@gentleduck/motion'
+```
+
+| Name | Use case |
+| --- | --- |
+| `spinIn` | Icon swaps, loading spinners, status indicators |
+| `slideUpBlur` | Text reveals, labels, descriptions |
+| `fadeUp` | Content mount, tags, chips, toggle children |
+| `scaleBlur` | Images, media, aspect-ratio containers |
+| `fadeBlur` | Buttons, containers, overlays |
+| `collapseX` | Text/icon collapse inside buttons |
+| `fadeBlurPopOut` | Collapsible button children with `popLayout` |
+| `blurMount` | CSS-driven opacity (e.g. disabled states) |
+| `tapScale` | Use as `whileTap={tapScale}` on buttons and toggles |
+| `contentTransition` | 250ms expo-out for smooth reveals |
+| `contentTransitionFast` | 150ms expo-out for button content swaps |
+
+### Basic presets
+
+```tsx
+import {
+  fadeIn,
+  fadeOut,
+  popIn,
+  rotateIn,
+  scaleIn,
+  slideUp,
+  slideDown,
+  slideFromLeft,
+  slideFromRight,
+} from '@gentleduck/motion'
+```
+
+All basic presets return `{ initial, animate, exit }` objects. Spread them directly onto motion components:
+
+```tsx
+<m.div {...fadeIn} transition={tweenFast}>
+  Content
+</m.div>
+```
+
+### `heightAuto`
+
+Height expand/collapse preset for accordion and collapsible content. Stays mounted and toggles between `open` and `closed` states.
+
+```tsx
+import { heightAuto } from '@gentleduck/motion'
+
+<m.div animate={isOpen ? heightAuto.open : heightAuto.closed} transition={tweenExpand}>
+  Collapsible content
+</m.div>
+```
+
+### `createDirectionalPreset`
+
+Factory for directional enter/exit animations with scale and blur.
+
+```tsx
+import { createDirectionalPreset } from '@gentleduck/motion'
+
+const fromBottom = createDirectionalPreset('bottom')
+const fromTop = createDirectionalPreset('top', 12, 40, 12)
+
+<m.div {...fromBottom} transition={springSnappy}>
+  Drawer content
+</m.div>
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `direction` | `'top' \| 'bottom' \| 'left' \| 'right'` | — | Enter direction |
+| `enterOffset` | `number` | `8` | Offset in px for enter animation |
+| `exitOffset` | `number` | `30` | Offset in px for exit animation |
+| `blur` | `number` | `8` | Blur amount in px |
+
+---
+
+## Variants
+
+CVA-based variant utilities for applying animation classes.
+
+### `AnimVariants`
+
+CVA variant for applying transition properties to animated elements.
+
+```tsx
+import { AnimVariants } from '@gentleduck/motion'
+
+<div className={AnimVariants({ alive: 'default', pseudo: 'animate' })}>
+  Animated content
+</div>
+```
+
+| Variant | Values | Description |
+| --- | --- | --- |
+| `alive` | `'default'` | Applies `transition-all`, `duration`, and `ease` classes |
+| `pseudo` | `'animate' \| 'default'` | Applies GPU-accelerated pseudo-element transitions |
+
+### `checkersStylePattern`
+
+CVA variant for checkbox, radio, and switch patterns.
+
+```tsx
+import { checkersStylePattern } from '@gentleduck/motion'
+
+<input
+  type='checkbox'
+  className={checkersStylePattern({ type: 'checkbox', indicatorState: 'both' })}
+/>
+```
+
+| Variant | Values | Description |
+| --- | --- | --- |
+| `type` | `'checkbox' \| 'radio' \| 'switch'` | Control type — drives shape, padding, and animation direction |
+| `indicatorState` | `'default' \| 'both' \| 'indicatorReady' \| 'checkedIndicatorReady'` | Mask image strategy for the indicator SVG |
+
+---
+
+## Reduced-motion API
+
+### `useDuckReducedMotion`
+
+Returns `true` if the user prefers reduced motion. Uses `useSyncExternalStore` for efficient media query subscription.
+
+```tsx
+import { useDuckReducedMotion } from '@gentleduck/motion'
+
+function MyComponent() {
+  const reduced = useDuckReducedMotion()
+  return <m.div transition={reduced ? { duration: 0 } : tweenNormal} />
+}
+```
+
+### `motionTransition`
+
+Returns the `normal` transition, or `{ duration: 0 }` when `reduced` is `true`.
+
+```tsx
+import { motionTransition, useDuckReducedMotion } from '@gentleduck/motion'
+
+const reduced = useDuckReducedMotion()
+const transition = motionTransition(reduced, tweenNormal)
+```
+
+### `onDuckReducedMotionChange`
+
+Subscribe to changes in the reduced-motion preference. Returns an unsubscribe function.
+
+```tsx
+import { onDuckReducedMotionChange } from '@gentleduck/motion'
+
+const unsubscribe = onDuckReducedMotionChange(() => {
+  console.log('reduced motion preference changed')
+})
+```
+
+### `getDuckReducedMotionServerSnapshot`
+
+SSR-safe snapshot — always returns `false` on the server.
+
+```tsx
+import { getDuckReducedMotionServerSnapshot } from '@gentleduck/motion'
+
+const reduced = getDuckReducedMotionServerSnapshot() // false
+```
+
+### `IReducedMotionFallback`
+
+Type for the reduced-motion fallback object `{ duration: 0 }`.
+
+```tsx
+import type { IReducedMotionFallback } from '@gentleduck/motion'
+```
+
+---
+
+## Backward-compat tokens
+
+These tokens are still exported but prefer the newer names.
+
+```tsx
+import { duckDuration, duckEasing, duckMotionCssVar } from '@gentleduck/motion'
+```
+
+| Export | Maps to | Description |
+| --- | --- | --- |
+| `duckDuration` | `duckMotionDurationMs` | Duration values in milliseconds |
+| `duckEasing` | `duckMotionEasingCss` | Easing as CSS `cubic-bezier()` strings |
+| `duckMotionCssVar` | — | CSS variable references with fallbacks |
+
+---
+
+## CSS entrypoint
+
+```tsx
+import '@gentleduck/motion/css'
+```
+
+Provides motion tokens and `prefers-reduced-motion` defaults:
+
+- `--gentleduck-motion-ease` — cubic-bezier easing curve
+- `--gentleduck-motion-spring` — spring-like easing via `linear()` keyframe stops
+- `--gentleduck-motion-dur` — default duration (150ms)

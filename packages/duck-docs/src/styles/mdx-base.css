@@ -1,0 +1,29 @@
+@layer components {
+  code,
+  code > * > *,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-style: var(--duck-font-style, normal);
+    font-optical-sizing: auto;
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  [data-theme="light"] {
+    display: block;
+  }
+
+  [data-theme="dark"] {
+    display: none;
+  }
+
+  .dark [data-theme="light"] {
+    display: none;
+  }
+
+  .dark [data-theme="dark"] {
+    display: block;
+  }
+}

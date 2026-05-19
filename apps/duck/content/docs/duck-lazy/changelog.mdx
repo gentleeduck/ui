@@ -1,0 +1,60 @@
+---
+title: Changelog
+description: Release history for @gentleduck/lazy. Newest releases at the top.
+section: Changelog
+order: 999
+---
+
+## 1.3.1
+
+### Patch Changes
+
+- 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.
+
+## 1.3.0
+
+### Minor Changes
+
+- 7d6fb7b: Namespace refactors: calendar react namespaces renamed to match hook names, hooks/lazy types moved into namespaces, libs utils extracted into own modules, vim react types collapsed into single Vim namespace.
+
+## 1.2.15
+
+### Patch Changes
+
+- 32d0136: fix: update React peer dependency to >=18.0.0 (was ^19.2.4)
+
+## 1.2.14
+
+### Patch Changes
+
+- 6f0e067: Standardize package exports to use explicit named exports, add `sideEffects` field and `types` export entries to package.json, and annotate internal APIs with `@internal` JSDoc tags.
+
+## 1.2.13
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
+## 1.2.12
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
+## 1.2.11
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
+## 1.2.10
+
+### Patch Changes
+
+- ad86755: Align biome and tsconfig build info exclusions. Rebrand package metadata to gentleduck/duck-ui.
+
+## 1.2.9
+
+### Patch Changes
+
+- Add documentation and integrate with gentleduck/ui docs site. Set up package metadata and build configuration for monorepo consumption.

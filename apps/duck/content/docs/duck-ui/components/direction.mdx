@@ -1,0 +1,73 @@
+---
+title: direction
+description: Resolve and provide RTL/LTR direction using the shared primitives direction context.
+component: true
+section: Misc
+order: 10
+---
+<ComponentPreview name="direction-1" description="DirectionProvider using the exported direction dictionary." />
+
+## Philosophy
+
+Direction is cross-cutting state. Instead of passing `dir` through every component manually, set it once at the boundary and let components/hooks resolve it predictably.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add direction
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependency:</Step>
+
+```bash
+npm install @gentleduck/primitives
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/direction" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { DIRECTION_DICTIONARY, DirectionProvider, useDirection } from '@/components/ui/direction'
+```
+
+```tsx
+<DirectionProvider dir={DIRECTION_DICTIONARY.rtl}>{children}</DirectionProvider>
+```
+
+## API Reference
+
+### Exports
+
+| Export | Type | Description |
+| --- | --- | --- |
+| `DIRECTION_DICTIONARY` | `{ ltr: 'ltr'; rtl: 'rtl' }` | Canonical direction values |
+| `DirectionProvider` | `React.FC<{ dir: 'ltr' \| 'rtl'; children?: ReactNode }>` | Provides direction to descendants |
+| `Provider` | `React.FC<{ dir: 'ltr' \| 'rtl'; children?: ReactNode }>` | Alias for `DirectionProvider` |
+| `useDirection` | `(localDir?: 'ltr' \| 'rtl') => 'ltr' \| 'rtl'` | Resolves `localDir` -> context -> `'ltr'` |
+| `DirectionContext` | `React.Context<'ltr' \| 'rtl' \| undefined>` | Underlying context object |
+

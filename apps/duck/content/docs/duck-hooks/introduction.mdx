@@ -1,0 +1,66 @@
+---
+title: gentleduck/hooks
+description: "A collection of reusable React hooks for the @gentleduck ecosystem."
+section: Getting Started
+order: 0
+---
+<Callout icon={<Zap />}>
+
+Reusable React hooks for the **@gentleduck** ecosystem.
+
+</Callout>
+
+## Philosophy
+
+Each hook solves one problem: media queries, copy-to-clipboard, intersection observer, timing. They are typed, tested, and importable individually so you pull in only what you use.
+
+---
+
+## Installation
+
+```bash
+npm install @gentleduck/hooks
+```
+
+<MermaidDiagram chart={`graph TD
+    A[gentleduck/hooks] --> B[Ref Hooks]
+    A --> C[Timing Hooks]
+    A --> D[Layout Hooks]
+    A --> E[State Hooks]
+    B --> F[use-composed-refs]
+    C --> G[use-computed-timeout-transition]
+    C --> H[use-debounce]
+    D --> I[use-is-mobile]
+    D --> J[use-media-query]
+    E --> K[use-on-open-change]
+    E --> L[use-stable-id]
+    E --> M[use-copy-to-clipboard]
+`} />
+
+## Available Hooks
+
+- `use-composed-refs` - Merge multiple refs into one. Also exports `composeRefs`.
+- `use-computed-timeout-transition` - Read an element's CSS transition duration and fire a callback when it ends.
+- `use-copy-to-clipboard` - Copy text with a configurable reset timeout.
+- `use-debounce` - Debounce a callback. Also exports `debounce`.
+- `use-is-mobile` - True when the viewport is below 768px.
+- `use-media-query` - Subscribe to a CSS media query and get a boolean.
+- `use-on-open-change` - Manage open/close state with scroll locking and CSS transition timing.
+- `use-stable-id` - Generate a stable, incrementing ID with an optional prefix.
+
+## Usage
+
+Import each hook from its own entry:
+
+```tsx
+import { useDebounce } from '@gentleduck/hooks/use-debounce';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+  const debouncedSearch = useDebounce((query: string) => {
+    console.log('Searching for:', query);
+  }, 500);
+
+  return <input onChange={(e) => debouncedSearch(e.target.value)} />;
+}
+```

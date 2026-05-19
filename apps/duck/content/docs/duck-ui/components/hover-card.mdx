@@ -1,0 +1,201 @@
+---
+title: hover-card
+description: For sighted users to preview content available behind a link.
+component: true
+section: Overlay
+order: 10
+---
+<ComponentPreview name="hover-card-1" description="A hover card component" />
+
+## Philosophy
+
+Hover cards provide progressive disclosure without commitment. They let users preview content before clicking, reducing unnecessary navigation. We build on Popover primitives because hover cards are fundamentally popovers with mouse-enter triggers  -  shared internals mean consistent behavior and smaller bundle size.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  HoverCard[HoverCard]
+  HoverCard --> primitives["@gentleduck/primitives\n/hover-card"]:::internal
+  HoverCard --> libs["@gentleduck/libs"]:::internal
+  HoverCard --> Button["Button"]:::component
+  primitives --> |"provides"| HoverTrigger["Hover Detection\n& Timing"]
+  primitives --> |"provides"| Positioning["Floating UI\nPositioning"]
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add hover-card
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/primitives @gentleduck/libs
+```
+
+<Step>Add the `Button` component to your project.</Step>
+
+The `HoverCard` component uses the [`Button`](/duck-ui/components/button) component. Make sure you have it installed in your project.
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/hover-card" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+```
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent>
+    The React Framework - created and maintained by @vercel.
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Examples
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the hover card is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="hover-card-3"
+  description="A hover card with an active trigger style when open."
+/>
+
+## RTL Support
+
+Set `dir="rtl"` on `HoverCard` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors hover-card positioning for right-to-left layouts.
+
+```tsx
+<HoverCard dir="rtl">
+  <HoverCardTrigger>مرر الماوس</HoverCardTrigger>
+  <HoverCardContent>
+    محتوى البطاقة هنا.
+  </HoverCardContent>
+</HoverCard>
+```
+
+<ComponentPreview
+  name="hover-card-2"
+  description="A hover card with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionHoverCard` and `MotionHoverCardContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The card scales and fades with a directional shift matching the placement side.
+
+<ComponentPreview
+  name="hover-card-4"
+  description="A hover card with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionHoverCard` instead of `HoverCard` and `MotionHoverCardContent` instead of `HoverCardContent`. `HoverCardTrigger` stays the same.
+</Callout>
+
+## API Reference
+
+### HoverCard
+
+Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimitive.Root` internally.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | `-` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback when open state changes |
+| `defaultOpen` | `boolean` | `-` | Initial open state for uncontrolled usage |
+| `openDelay` | `number` | `700` | Delay before opening on hover/focus |
+| `closeDelay` | `number` | `300` | Delay before closing on pointer leave/blur |
+| `delayDuration` | `number` | - | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
+| `skipDelayDuration` | `number` | - | Reserved for future use (currently ignored) |
+| `placement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Default side for `HoverCardContent` positioning |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `children` | `React.ReactNode` | `--` | HoverCard sub-components |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | - | Additional props inherited from `HoverCard.Root`. |
+
+### HoverCardTrigger
+
+The element that triggers the hover card on hover. Applies `buttonVariants` styling.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `ButtonVariant` | `'outline'` | Button variant style |
+| `size` | `ButtonSize` | `'default'` | Button size |
+| `border` | `ButtonBorder` | `'default'` | Button border style |
+| `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
+| `children` | `React.ReactNode` | `--` | Content rendered inside the trigger button |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>` | - | Additional props inherited from `HoverCard.Trigger` and `Button`. |
+
+### HoverCardContent
+
+The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Content` with animation and styling.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `-` | Additional CSS classes to apply to the content container |
+| `children` | `React.ReactNode` | `-` | Content rendered inside the hover card |
+| `forceMount` | `boolean` | `-` | Keep content mounted for animation control |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side relative to the trigger. Defaults to the `placement` value from `HoverCard` |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | - | Additional props inherited from `HoverCard.Content` and standard content div props. |
+
+
+### MotionHoverCard
+
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `HoverCardProps` | - | All props from `HoverCard` are supported |
+
+### MotionHoverCardContent
+
+Adds directional scale, blur, and opacity enter/exit animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `HoverCardContentProps` | - | All props from `HoverCardContent` are supported |

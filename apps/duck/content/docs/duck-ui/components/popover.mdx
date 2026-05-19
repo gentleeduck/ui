@@ -1,0 +1,232 @@
+---
+title: popover
+description: Displays rich content in a floating layer, triggered by an anchor element.
+component: true
+section: Overlay
+order: 10
+---
+<ComponentPreview
+  name="popover-1"
+  description="A popover component with a form."
+/>
+
+## About
+
+Popover built with [@floating-ui/react](https://floating-ui.com/) and Popper-based primitives for collision-aware positioning.
+
+## Philosophy
+
+Popovers bridge the gap between tooltips (hover, no interaction) and dialogs (heavy, blocking). They're the right choice for inline forms, color pickers, and contextual actions that need more space than a tooltip but shouldn't interrupt the user's flow. We handle positioning and collision detection so you can focus on content.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Popover[Popover]
+  Popover --> primitives["@gentleduck/primitives\n/popover"]:::internal
+  Popover --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"uses"| floatingUI["Floating UI"]:::external
+  primitives --> |"provides"| Positioning["Collision-aware\nPositioning"]
+  primitives --> |"provides"| FocusTrap["Focus Trapping"]
+  primitives --> |"provides"| ClickOutside["Click Outside\nDismiss"]
+
+  Popover -.- |"used by"| DropdownMenu["DropdownMenu"]:::component
+  Popover -.- |"used by"| Combobox["Combobox"]:::component
+  Popover -.- |"used by"| DatePicker["DatePicker"]:::component
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add popover
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs @gentleduck/primitives
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/popover" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+```
+
+```tsx showLineNumbers
+<Popover>
+  <PopoverTrigger>Open</PopoverTrigger>
+  <PopoverContent>Place content for the popover here.</PopoverContent>
+</Popover>
+```
+
+## Examples
+
+### Sides
+
+<ComponentPreview
+  name="popover-2"
+  description="A popover with multple sides."
+/>
+
+### Form
+
+<ComponentPreview
+  name="popover-3"
+  description="A popover with form inputs for setting dimensions."
+/>
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the popover is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="popover-5"
+  description="A popover with an active trigger style when open."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Popover] --> B[PopoverTrigger]
+    A --> C[PopoverContent]
+    A --> D[PopoverAnchor]
+    A --> E[PopoverClose]
+`} />
+
+## RTL Support
+
+Set `dir="rtl"` on `Popover` for a local override, or set `DirectionProvider` once at app/root level for global direction. In RTL mode, `side="left"` and `side="right"` are logically swapped.
+
+```tsx
+<Popover dir="rtl">
+  <PopoverTrigger>افتح</PopoverTrigger>
+  <PopoverContent>محتوى النافذة المنبثقة هنا.</PopoverContent>
+</Popover>
+```
+
+<ComponentPreview
+  name="popover-4"
+  description="A popover with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionPopover` and `MotionPopoverContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The transform origin matches the placement side automatically.
+
+<ComponentPreview
+  name="popover-6"
+  description="A popover with motion-powered spring animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionPopover` instead of `Popover` and `MotionPopoverContent` instead of `PopoverContent`. All other sub-components (`PopoverTrigger`, `PopoverClose`, etc.) stay the same.
+</Callout>
+
+## API Reference
+
+### Popover
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `-` | Popover sub-components (`PopoverTrigger`, `PopoverContent`) |
+| `defaultOpen` | `boolean` | `-` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | `-` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback when open state changes |
+| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | - | Additional props inherited from `Popover.Root`. |
+
+### PopoverTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `--` | Use the child element as the trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>` | - | Additional props inherited from `Popover.Trigger`. |
+
+### PopoverContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `boolean` | `-` | Keep content mounted for animation control |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>` | - | Additional props inherited from `Popover.Content`. |
+
+### PopoverClose
+
+Element that closes the popover when interacted with.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `false` | Renders child as the close control |
+| `children` | `React.ReactNode` | - | Close control content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>` | - | Additional props inherited from `PopoverPrimitive.Close` |
+
+### PopoverAnchor
+
+Optional custom anchor element for positioning.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | - | Additional props inherited from `Popover.Anchor`. |
+
+
+### MotionPopover
+
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverProps` | - | All props from `Popover` are supported |
+
+### MotionPopoverContent
+
+Adds scale, blur, and opacity enter/exit animation with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverContentProps` | - | All props from `PopoverContent` are supported |

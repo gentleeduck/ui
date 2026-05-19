@@ -1,0 +1,340 @@
+---
+title: client methods
+description: Detailed reference for every Duck Query client method. Covers get, post, put, patch, del, request, byMethod, and the axios instance.
+section: Getting Started
+order: 10
+---
+## Overview
+
+`createDuckQueryClient<Routes>()` returns an object with eight members. Every method is
+generic over the route map, so TypeScript checks paths, request shapes, and response
+types at compile time.
+
+```ts
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+
+const client = createDuckQueryClient<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+})
+```
+
+## createDuckQueryClient
+
+Factory that builds a typed client.
+
+```ts
+function createDuckQueryClient<Routes>(
+  options?: AxiosInstance | AxiosRequestConfig,
+): DuckQueryClient<Routes>
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `options` | `AxiosInstance` or `AxiosRequestConfig` or `undefined` | An existing Axios instance, or a config object for a new one. |
+
+**Examples:**
+
+```ts
+// With config (most common)
+const client = createDuckQueryClient<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+  timeout: 10000,
+})
+
+// With existing Axios instance
+import axios from 'axios'
+
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000',
+  headers: { 'X-App': 'my-app' },
+})
+
+const client = createDuckQueryClient<ApiRoutes>(axiosInstance)
+
+// With no config (useful when baseURL is set via interceptor)
+const client = createDuckQueryClient<ApiRoutes>()
+```
+
+## get
+
+Sends a **GET** request. The body is dropped, even if `req` has one.
+
+```ts
+client.get<P extends PathsByMethod<Routes, 'GET'>>(
+  path: P,
+  req?: RouteReqMethod<Routes, P, 'GET'>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, 'GET'>>>
+```
+
+**TypeScript constraint:** the path must be a GET-compatible route. `client.get('/api/auth/signin')` is a type error if the route only accepts POST.
+
+**Examples:**
+
+```ts
+// Simple GET
+const { data: users } = await client.get('/api/users')
+
+// GET with query parameters
+const { data: users } = await client.get('/api/users', {
+  query: { page: 1, limit: 20, sort: 'name' },
+})
+
+// GET with path params
+const { data: user } = await client.get('/api/users/:id', {
+  params: { id: 'u_123' },
+})
+
+// GET with path params + query + headers
+const { data: user } = await client.get('/api/users/:id', {
+  params: { id: 'u_123' },
+  query: { include: 'profile' },
+  headers: { authorization: 'Bearer tok_abc' },
+})
+
+// GET with extra Axios config
+const { data, headers } = await client.get('/api/users', undefined, {
+  responseType: 'json',
+  timeout: 5000,
+})
+```
+
+## post
+
+Sends a **POST** request with a JSON body.
+
+```ts
+client.post<P extends PathsByMethod<Routes, 'POST'>>(
+  path: P,
+  req: RouteReqMethod<Routes, P, 'POST'>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, 'POST'>>>
+```
+
+**Note:** `req` is **required** for POST (unlike GET).
+
+**Examples:**
+
+```ts
+// POST with body
+const { data: session } = await client.post('/api/auth/signin', {
+  body: {
+    username: 'duck',
+    password: '123456',
+  },
+})
+
+// POST with body + extra config
+const { data } = await client.post(
+  '/api/auth/signin',
+  {
+    body: { username: 'duck', password: '123456' },
+  },
+  {
+    withCredentials: true,
+    timeout: 10000,
+  },
+)
+
+// POST with body + query params
+const { data } = await client.post('/api/files/upload', {
+  body: { name: 'report.pdf', size: 1024 },
+  query: { overwrite: true },
+})
+```
+
+## put
+
+Sends a **PUT** request with a JSON body — use for full resource updates.
+
+```ts
+client.put<P extends PathsByMethod<Routes, 'PUT'>>(
+  path: P,
+  req: RouteReqMethod<Routes, P, 'PUT'>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, 'PUT'>>>
+```
+
+**Examples:**
+
+```ts
+const { data: updated } = await client.put('/api/users/:id', {
+  params: { id: 'u_123' },
+  body: {
+    name: 'Updated Duck',
+    email: 'duck@example.com',
+  },
+})
+```
+
+## patch
+
+Sends a **PATCH** request with a JSON body — use for partial updates.
+
+```ts
+client.patch<P extends PathsByMethod<Routes, 'PATCH'>>(
+  path: P,
+  req: RouteReqMethod<Routes, P, 'PATCH'>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, 'PATCH'>>>
+```
+
+**Examples:**
+
+```ts
+const { data: updated } = await client.patch('/api/users/:id', {
+  params: { id: 'u_123' },
+  body: {
+    name: 'Patched Duck',  // only update the name
+  },
+})
+```
+
+## del
+
+Sends a **DELETE** request. The body is dropped.
+
+```ts
+client.del<P extends PathsByMethod<Routes, 'DELETE'>>(
+  path: P,
+  req?: RouteReqMethod<Routes, P, 'DELETE'>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, 'DELETE'>>>
+```
+
+**Note:** named `del` because `delete` is a reserved word in JavaScript.
+
+**Examples:**
+
+```ts
+// Simple delete
+await client.del('/api/users/:id', {
+  params: { id: 'u_123' },
+})
+
+// Delete with headers
+await client.del('/api/users/:id', {
+  params: { id: 'u_123' },
+  headers: { authorization: 'Bearer tok_abc' },
+})
+```
+
+## request
+
+Generic method that reads `config.method` for the HTTP verb. Defaults to **GET**.
+
+```ts
+client.request<P extends RoutePath<Routes>>(
+  path: P,
+  req?: RouteReq<Routes, P>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteRes<Routes, P>>>
+```
+
+**Examples:**
+
+```ts
+// Defaults to GET
+const { data } = await client.request('/api/users')
+
+// Explicit method via config
+const { data } = await client.request(
+  '/api/auth/signin',
+  { body: { username: 'duck', password: '123456' } },
+  { method: 'POST' },
+)
+```
+
+Use `request` when the method is dynamic. For static calls, prefer `get`, `post`, and
+friends for tighter types.
+
+## byMethod
+
+Pass the HTTP method as the first argument — this gives the strongest type checking.
+The path is constrained to routes supporting that method.
+
+```ts
+client.byMethod<M extends RouteMethods<Routes>, P extends PathsByMethod<Routes, M>>(
+  method: M,
+  path: P,
+  req?: RouteReqMethod<Routes, P, M>,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<RouteResMethod<Routes, P, M>>>
+```
+
+**Examples:**
+
+```ts
+const { data } = await client.byMethod('POST', '/api/auth/signin', {
+  body: { username: 'duck', password: '123456' },
+})
+
+const { data } = await client.byMethod('GET', '/api/users/:id', {
+  params: { id: 'u_123' },
+})
+```
+
+Use `byMethod` when the method is a variable:
+
+```ts
+async function call(method: 'GET' | 'POST', path: string) {
+  return client.byMethod(method, path as any)
+}
+```
+
+## axios
+
+The underlying Axios instance. Use it for interceptors, defaults, or untyped requests.
+
+```ts
+// Add a request interceptor
+client.axios.interceptors.request.use((config) => {
+  const token = getToken()
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+// Add a response interceptor
+client.axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      redirectToLogin()
+    }
+    return Promise.reject(error)
+  },
+)
+
+// Access defaults
+client.axios.defaults.timeout = 10000
+```
+
+## Config merging behavior
+
+When `req` and `config` both set the same field, `req` wins:
+
+| Field | Comes from | Fallback |
+| --- | --- | --- |
+| `params` (query string) | `req.query` | `config.params` |
+| `headers` | `req.headers` | `config.headers` |
+| `data` (body) | `req.body` | Not applicable |
+
+```ts
+// req.query wins over config.params
+await client.get('/api/users', {
+  query: { page: 2 },       // this is used
+}, {
+  params: { page: 1 },      // this is ignored
+})
+```
+
+## Next steps
+
+- [Types reference](/duck-query/types): all exported types for building custom route maps.
+- [Advanced patterns](/duck-query/advanced): interceptors, error handling, custom routes.

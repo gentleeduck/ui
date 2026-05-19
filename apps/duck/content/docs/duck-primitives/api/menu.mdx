@@ -1,0 +1,42 @@
+---
+title: "Menu"
+description: "Base menu primitive with items, checkboxes, radio groups, and submenu support."
+section: Navigation
+order: 10
+---
+```tsx
+import * as Menu from '@gentleduck/primitives/menu'
+```
+
+<Callout icon={<Lightbulb />}>
+
+Menu is the **base primitive** that Context Menu and Menubar build on top of. It provides the full menu system without a trigger mechanism.
+
+</Callout>
+
+The anatomy and API are identical to Context Menu's content-level components. See [Context Menu](/duck-primitives/api/context-menu) for the full component list.
+
+Menu does not include a trigger mechanism. Context Menu adds right-click triggering; Menubar adds click-on-menu-title triggering. Use Menu directly when building custom trigger mechanisms.
+
+---
+
+## API
+
+### `Menu.Root`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Called on state change |
+| `dir` | `'ltr' \| 'rtl'` | - | Reading direction for keyboard navigation |
+| `modal` | `boolean` | `true` | Enable modal behavior |
+
+## Sub-components
+
+`Menu.Anchor`, `Menu.Portal`, `Menu.Content`, `Menu.Group`, `Menu.Label`, `Menu.Item`, `Menu.CheckboxItem`, `Menu.RadioGroup`, `Menu.RadioItem`, `Menu.ItemIndicator`, `Menu.Separator`, `Menu.Arrow`, `Menu.Sub`, `Menu.SubTrigger`, `Menu.SubContent`
+
+<Callout icon={<Target />}>
+
+All sub-components also export short aliases: `Root`, `Anchor`, `Portal`, `Content`, etc.
+
+</Callout>

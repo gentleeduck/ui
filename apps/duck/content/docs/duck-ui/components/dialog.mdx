@@ -1,0 +1,329 @@
+---
+title: dialog
+description: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+component: true
+section: Overlay
+order: 10
+---
+<ComponentPreview
+  name="dialog-1"
+  description="A dialog for editing profile details."
+/>
+
+## Philosophy
+
+Dialogs demand attention and block interaction  -  use them when the user *must* make a decision before continuing. We split the anatomy into DialogTrigger, DialogContent, DialogHeader, etc. because every dialog has different needs but the same accessibility requirements: focus trapping, escape dismissal, and return focus.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Dialog[Dialog]
+  Dialog --> primitives["@gentleduck/primitives\n/dialog"]:::internal
+  Dialog --> hooks["@gentleduck/hooks"]:::internal
+  Dialog --> libs["@gentleduck/libs"]:::internal
+  Dialog --> lucide["lucide-react"]:::external
+
+  primitives --> |"provides"| FocusTrap["Focus Trapping"]
+  primitives --> |"provides"| Portal["Portal Rendering"]
+  primitives --> |"provides"| EscDismiss["Escape Dismiss"]
+  hooks --> |"provides"| MediaQuery["useMediaQuery\n(Responsive)"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add dialog
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/primitives @gentleduck/libs @gentleduck/hooks lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/dialog" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+```
+
+```tsx
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+## Examples
+
+### Controlled Dialog 
+
+<ComponentPreview
+  name="dialog-2"
+  description="A controlled dialog for editing profile details with open state management."
+/>
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="dialog-4"
+  description="A dialog with an active trigger style when open."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Dialog] --> B[DialogTrigger]
+    A --> C[DialogContent]
+    C --> D[DialogHeader]
+    C --> E[DialogFooter]
+    D --> F[DialogTitle]
+    D --> G[DialogDescription]
+    C --> H[DialogClose]
+`} />
+
+## Notes
+
+To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, you must encase the `Context Menu` or
+`Dropdown Menu` component in the `Dialog` component.
+
+```tsx {1, 26}
+<Dialog>
+  <ContextMenu>
+    <ContextMenuTrigger>Right click</ContextMenuTrigger>
+    <ContextMenuContent>
+      <ContextMenuItem>Open</ContextMenuItem>
+      <ContextMenuItem>Download</ContextMenuItem>
+      <DialogTrigger asChild>
+        <ContextMenuItem>
+          <span>Delete</span>
+        </ContextMenuItem>
+      </DialogTrigger>
+    </ContextMenuContent>
+  </ContextMenu>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>
+        This action cannot be undone. Are you sure you want to permanently
+        delete this file from our servers?
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button type="submit">Confirm</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## RTL Support
+
+Set `dir="rtl"` on `Dialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. Dialog content parts inherit direction automatically.
+
+```tsx
+<Dialog dir="rtl">
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>عنوان الحوار</DialogTitle>
+      <DialogDescription>وصف الحوار هنا.</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+<ComponentPreview
+  name="dialog-3"
+  description="A dialog with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionDialog` and `MotionDialogContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The dialog scales and fades in with a blur effect, and reverses on exit.
+
+<ComponentPreview
+  name="dialog-5"
+  description="A dialog with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionDialog` instead of `Dialog` and `MotionDialogContent` instead of `DialogContent`. All other sub-components (`DialogTrigger`, `DialogHeader`, etc.) stay the same.
+</Callout>
+
+## API Reference
+
+### Dialog
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultOpen` | `boolean` | `false` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
+| `modal` | `boolean` | `true` | Enables modal focus/interaction behavior (focus trapping, scroll blocking) |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `children` | `React.ReactNode` | - | Dialog sub-components (`DialogTrigger`, `DialogContent`, etc.) |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>` | - | Additional props inherited from `DialogPrimitive.Root` |
+
+### DialogTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Trigger content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>` | - | Additional props inherited from `DialogPrimitive.Trigger` |
+
+### DialogPortal
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `container` | `HTMLElement` | - | Optional portal container |
+| `forceMount` | `true` | - | Forces mounted state for all portal children |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>` | - | Additional props inherited from `DialogPrimitive.Portal` |
+
+### DialogOverlay
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>` | - | Additional props inherited from `DialogPrimitive.Overlay` |
+
+### DialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | - | Force mounting for animation control |
+| `closeText` | `string` | `'Close'` | Accessible label for the built-in close button |
+| `hideClose` | `boolean` | `false` | When `true`, hides the built-in close button entirely |
+| `className` | `string` | - | Additional CSS classes applied to the content panel |
+| `children` | `React.ReactNode` | - | Dialog inner content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>` | - | Additional props inherited from `DialogPrimitive.Content` |
+
+`DialogContent` renders a built-in close button in the top-right corner. Set `hideClose` to remove it when you handle closing via other UI (e.g. a custom header with its own close button).
+
+### DialogHeader
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS classes applied to the header |
+| `children` | `React.ReactNode` | - | Header content (typically `DialogTitle` and `DialogDescription`) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the header container |
+
+### DialogFooter
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS classes applied to the footer |
+| `children` | `React.ReactNode` | - | Footer content (typically action buttons) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the footer container |
+
+### DialogTitle
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS classes applied to the title |
+| `children` | `React.ReactNode` | - | Title text |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>` | - | Additional props inherited from `DialogPrimitive.Title` |
+
+### DialogDescription
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS classes applied to the description |
+| `children` | `React.ReactNode` | - | Description text |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>` | - | Additional props inherited from `DialogPrimitive.Description` |
+
+### DialogClose
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Close control content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>` | - | Additional props inherited from `DialogPrimitive.Close` |
+
+### MotionDialog
+
+Same props as `Dialog`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | **Required.** Controlled open state for AnimatePresence enter/exit |
+| `closeText` | `string` | `'Close'` | Accessible label for the built-in close button |
+| `hideClose` | `boolean` | `false` | When `true`, hides the built-in close button |
+| `className` | `string` | - | Additional CSS classes applied to the content panel |
+| `children` | `React.ReactNode` | - | Dialog inner content |
+
+Requires `motion` package installed. Uses `AnimatePresence` + `m.div` for ~5KB bundle. Automatically respects `prefers-reduced-motion`.
+
+### Responsive Variants
+
+The following responsive components automatically render a `Dialog` on desktop (>=768px) and a `Drawer` on mobile. Each accepts the same props as its non-responsive counterpart.
+
+| Component | Desktop renders | Mobile renders |
+| --- | --- | --- |
+| `DialogResponsive` | `Dialog` | `Drawer` |
+| `DialogTriggerResponsive` | `DialogTrigger` | `DrawerTrigger` |
+| `DialogContentResponsive` | `DialogContent` | `DrawerContent` |
+| `DialogHeaderResponsive` | `DialogHeader` | `DrawerHeader` |
+| `DialogFooterResponsive` | `DialogFooter` | `DrawerFooter` |
+| `DialogTitleResponsive` | `DialogTitle` | `DrawerTitle` |
+| `DialogDescriptionResponsive` | `DialogDescription` | `DrawerDescription` |
+| `DialogCloseResponsive` | `DialogClose` | `DrawerClose` |
+
+## See also
+
+- [Sheet](/duck-ui/components/sheet)  -  Side panel overlay, extends Dialog
+- [Drawer](/duck-ui/components/drawer)  -  Bottom drawer overlay, great for mobile
+- [Alert Dialog](/duck-ui/components/alert-dialog)  -  Confirmation dialog that requires user action

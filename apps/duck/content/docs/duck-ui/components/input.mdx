@@ -1,0 +1,165 @@
+---
+title: input
+description: Displays a form input field or a component that looks like an input field.
+component: true
+section: Forms
+order: 10
+---
+<ComponentPreview
+  name="input-1"
+  className="[&_input]:max-w-xs"
+  description="A form input component."
+/>
+
+## Philosophy
+
+The input is the most fundamental form primitive  -  a single line of text entry. We keep it deliberately thin: one component, no sub-parts, just a styled `<input>` that composes naturally with Label, Button, and form validation. Complex input patterns like search bars or password fields are built by composing Input with other primitives, not by bloating its API.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/input" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Input />
+```
+
+## Examples
+
+### Default
+
+<ComponentPreview
+  name="input-2"
+  className="[&_input]:max-w-xs"
+  description="A form input component."
+/>
+
+### File
+
+<ComponentPreview
+  name="input-3"
+  className="[&_input]:max-w-xs"
+  description="A file input component."
+/>
+
+### Disabled
+
+<ComponentPreview
+  name="input-4"
+  className="[&_input]:max-w-xs"
+  description="A disabled input component."
+/>
+
+### With Label
+
+<ComponentPreview
+  name="input-5"
+  className="[&_input]:max-w-xs"
+  description="An input component with a label."
+/>
+
+### With Button
+
+<ComponentPreview
+  name="input-6"
+  className="[&_input]:max-w-xs"
+  description="An input component with a button."
+/>
+
+### Form
+
+<ComponentPreview
+  name="input-7"
+  description="An input used inside a form with validation and a submit button."
+/>
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="input-8"
+  description="An input with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionInput` for a fade+blur entrance animation powered by [motion](https://motion.dev). Pass `index` for stagger delay when used in forms.
+
+<ComponentPreview
+  name="input-9"
+  description="Inputs with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionInput` instead of `Input`. All props stay the same.
+</Callout>
+
+## API Reference
+
+### Input
+
+A styled `<input>` element that accepts all standard HTML input attributes.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `React.HTMLInputTypeAttribute` | `--` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`, `'file'`). Browsers default to `'text'`. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `ref` | `React.Ref<HTMLInputElement>` | `--` | Ref forwarded to the underlying `<input>` element |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
+
+### MotionInput
+
+Same props as `Input` plus an optional `index` prop for stagger delay (50ms per index). Adds fade+blur entrance animation. Requires the `motion` package.
+
+## See also
+
+- [Textarea](/duck-ui/components/textarea)  -  Multi-line text input
+- [Label](/duck-ui/components/label)  -  Accessible label for form controls

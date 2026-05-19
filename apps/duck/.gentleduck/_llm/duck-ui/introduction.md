@@ -1,0 +1,52 @@
+## What is Duck UI?
+
+Duck UI is a component library built on [gentleduck primitives](/duck-primitives). The primitives are headless and accessible; Duck UI adds Tailwind styles and sensible defaults.
+
+Part of the [gentleduck/ui](https://github.com/gentleeduck/gentleduck) ecosystem, alongside
+`duck-vim`, `duck-calendar`, `duck-primitives`, and the rest of the toolchain.
+
+## Why Duck UI
+
+* **Built on gentleduck primitives**: No Radix dependency. Full control of every behavior.
+* **Accessible defaults**: ARIA, keyboard navigation, screen reader support.
+* **Themeable**: CSS variables and dark mode.
+* **Composable**: Every component accepts `asChild`.
+* **TypeScript-first**: Fully typed APIs, no `any`.
+
+## Getting Started
+
+### Install via CLI
+
+```bash
+npx @gentleduck/cli init
+```
+
+### Add a component
+
+```bash
+npx @gentleduck/cli add button
+```
+
+### Use it
+
+```tsx
+import { Button } from '@/components/ui/button'
+
+export default function App() {
+  return <Button>Click me</Button>
+}
+```
+
+## The Ecosystem
+
+Duck UI is the styled layer on top of the gentleduck stack:
+
+| Package | Role |
+|---------|------|
+| `duck-primitives` | Headless, accessible primitives |
+| `duck-vim` | Keyboard command engine |
+| `duck-calendar` | Headless calendar + date logic |
+| `duck-variants` | `cva()` variant system |
+| `duck-motion` | Animation tokens |
+| `duck-cli` | Component scaffolding CLI |
+| `duck-ui` | Styled components (this package) |

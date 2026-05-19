@@ -1,0 +1,80 @@
+## 0.2.9
+
+### Patch Changes
+
+* 01fe7ff: Mark `@gentleduck/gen` as deprecated. Add `deprecated` field to `package.json`, prominent warning in `README.md`, and a deprecation Callout at the top of the docs intro page.
+
+  Recommended replacements:
+
+  * **[nestia](https://nestia.io/)** — typed `@TypedRoute` / `@TypedBody` / `@TypedQuery` / `@TypedParam` decorators, automatic SDK generation, Swagger.
+  * **[typia](https://typia.io/)** — runtime validators, serializers, JSON schema generation via a TypeScript transformer plugin.
+
+  After this version publishes, run `npm deprecate "@gentleduck/gen" "Use nestia (https://nestia.io) and typia (https://typia.io) instead"` to mark every existing version on the npm registry as deprecated.
+
+## 0.2.8
+
+### Patch Changes
+
+* 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.
+
+## 0.2.7
+
+### Patch Changes
+
+* 0a77c38: new features
+
+## 0.2.5
+
+### Patch Changes
+
+* 4f93768: fixing bugs and making sure gen support new format
+
+## 0.2.3
+
+### Patch Changes
+
+* 7c62d44: done
+* 7c62d44: fixed bug
+
+## 0.2.2
+
+### Patch Changes
+
+* 533602f: fixed gen and query
+
+## 0.2.1
+
+### Patch Changes
+
+* b3f2485: new feature
+
+## 0.2.0
+
+### Minor Changes
+
+* 60df460: done
+
+## 0.1.8
+
+### Patch Changes
+
+* ad08c4b: update
+
+## 0.1.7
+
+### Patch Changes
+
+* a06fd92: new feature source
+
+## 0.1.6
+
+### Patch Changes
+
+* a3cf693: fix the type gen and bugs
+
+## 0.1.5
+
+### Patch Changes
+
+* updated the functionality and removed the boilerplate
+* batman

@@ -1,0 +1,48 @@
+}>
+  Complete API reference for every primitive. Click any primitive name to see its full API, examples, and keyboard interactions.
+
+## Component primitives
+
+| Primitive | Import | Description |
+| --- | --- | --- |
+| [Accordion](/duck-primitives/api/accordion) | `@gentleduck/primitives/accordion` | Vertically stacked sections with expand/collapse |
+| [Dialog](/duck-primitives/api/dialog) | `@gentleduck/primitives/dialog` | Modal/non-modal dialogs |
+| [Alert Dialog](/duck-primitives/api/alert-dialog) | `@gentleduck/primitives/alert-dialog` | Confirmation dialogs |
+| [Arrow](/duck-primitives/api/arrow) | `@gentleduck/primitives/arrow` | Reusable SVG arrow primitive |
+| [Popover](/duck-primitives/api/popover) | `@gentleduck/primitives/popover` | Floating anchored content |
+| [Tooltip](/duck-primitives/api/tooltip) | `@gentleduck/primitives/tooltip` | Hover/focus hints |
+| [Hover Card](/duck-primitives/api/hover-card) | `@gentleduck/primitives/hover-card` | Rich hover previews |
+| [Context Menu](/duck-primitives/api/context-menu) | `@gentleduck/primitives/context-menu` | Right-click menus |
+| [Dropdown Menu](/duck-primitives/api/dropdown-menu) | `@gentleduck/primitives/dropdown-menu` | Button-triggered menus |
+| [Navigation Menu](/duck-primitives/api/navigation-menu) | `@gentleduck/primitives/navigation-menu` | Composable navigation menu with trigger/content/viewport |
+| [Menu](/duck-primitives/api/menu) | `@gentleduck/primitives/menu` | Base menu primitive |
+| [Menubar](/duck-primitives/api/menubar) | `@gentleduck/primitives/menubar` | Horizontal menu bars |
+| [Sheet](/duck-primitives/api/sheet) | `@gentleduck/primitives/sheet` | Dialog aliases for sheet-style APIs |
+| [Progress](/duck-primitives/api/progress) | `@gentleduck/primitives/progress` | Progress indicators |
+| [Input OTP](/duck-primitives/api/input-otp) | `@gentleduck/primitives/input-otp` | Segmented one-time-password inputs |
+| [Pagination](/duck-primitives/api/pagination) | `@gentleduck/primitives/pagination` | Structural pagination primitives |
+| [Select](/duck-primitives/api/select) | `@gentleduck/primitives/select` | Accessible select/dropdown |
+| [Radio Group](/duck-primitives/api/radio-group) | `@gentleduck/primitives/radio-group` | Single-selection radio controls |
+| [Slider](/duck-primitives/api/slider) | `@gentleduck/primitives/slider` | Range input sliders |
+| [Toggle](/duck-primitives/api/toggle) | `@gentleduck/primitives/toggle` | Two-state toggle button |
+| [Toggle Group](/duck-primitives/api/toggle-group) | `@gentleduck/primitives/toggle-group` | Multi-toggle selection group |
+| [Avatar](/duck-primitives/api/avatar) | `@gentleduck/primitives/avatar` | User avatar with image + fallback |
+| [Calendar](/duck-primitives/api/calendar) | `@gentleduck/primitives/calendar` | Headless calendar compound components |
+| [Command](/duck-primitives/api/command) | `@gentleduck/primitives/command` | Command palette / search |
+
+## Infrastructure primitives
+
+| Primitive | Import | Description |
+| --- | --- | --- |
+| [Checkers](/duck-primitives/api/checkers) | `@gentleduck/primitives/checkers` | SVG-to-data-URI indicator hook |
+| [Primitive Elements](/duck-primitives/api/primitive-elements) | `@gentleduck/primitives/primitive-elements` | Base elements with `asChild` |
+| [Slot](/duck-primitives/api/slot) | `@gentleduck/primitives/slot` | Composition utility |
+| [Presence](/duck-primitives/api/presence) | `@gentleduck/primitives/presence` | Animation-aware mount/unmount |
+| [Portal](/duck-primitives/api/portal) | `@gentleduck/primitives/portal` | Render into alternate DOM node |
+| [Focus Scope](/duck-primitives/api/focus-scope) | `@gentleduck/primitives/focus-scope` | Focus trapping |
+| [Dismissable Layer](/duck-primitives/api/dismissable-layer) | `@gentleduck/primitives/dismissable-layer` | Click-outside/escape dismissal |
+| [Roving Focus](/duck-primitives/api/roving-focus) | `@gentleduck/primitives/roving-focus` | Arrow key navigation |
+| [Popper](/duck-primitives/api/popper) | `@gentleduck/primitives/popper` | Floating element positioning |
+| [Mount](/duck-primitives/api/mount) | `@gentleduck/primitives/mount` | Simple mount helpers |
+| [Direction](/duck-primitives/api/direction) | `@gentleduck/primitives/direction` | Global RTL/LTR provider + hook |
+| [Visibility Hidden](/duck-primitives/api/visibility-hidden) | `@gentleduck/primitives/visibility-hidden` | Visually hidden accessible content |

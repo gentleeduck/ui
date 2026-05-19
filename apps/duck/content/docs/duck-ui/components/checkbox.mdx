@@ -1,0 +1,227 @@
+---
+title: checkbox
+description: A control that allows the user to toggle between checked and not checked.
+component: true
+section: Forms
+order: 10
+---
+<ComponentPreview name="checkbox-1" description="A checkbox" />
+
+## Philosophy
+
+Checkboxes are deceptively complex. A simple checked/unchecked state becomes indeterminate for parent/child relationships, needs accessible labels, and must work in both controlled and uncontrolled modes. We handle all of this with native checkbox semantics and custom SVG indicators, so the visual design is yours while the behavior is correct.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Checkbox[Checkbox]
+  Checkbox --> primitives["@gentleduck/primitives\n/checkers"]:::internal
+  Checkbox --> motion["@gentleduck/motion"]:::internal
+  Checkbox --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| SvgIndicator["useSvgIndicator\n(check/indeterminate)"]
+  primitives --> |"provides"| NativeInput["Native Checkbox\nInput"]
+  motion --> |"provides"| AnimVariants["Check Animation"]
+  Checkbox --> |"adds"| WithLabel["CheckboxWithLabel\ncomposition"]
+  Checkbox --> |"adds"| Group["CheckboxGroup\nmulti-select"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add checkbox
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/primitives @gentleduck/motion @gentleduck/libs
+```
+
+<Step>Make sure you have the [`Label`](/duck-ui/components/label) component installed in your project.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/checkbox" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+```
+
+```tsx
+<Checkbox />
+```
+
+## Examples
+
+### Basic uncontrolled checkbox
+<ComponentPreview name="checkbox-2" description="A basic uncontrolled checkbox with a default unchecked state." />
+
+### Controlled checkbox
+
+<ComponentPreview name="checkbox-3" description="A controlled checkbox with state managed via useState and onCheckedChange." />
+
+### Checkbox with label
+
+<ComponentPreview name="checkbox-4" description="A checkbox paired with a label using the CheckboxWithLabel composition." />
+
+### Indeterminate state
+
+<ComponentPreview name="checkbox-5" description="A checkbox demonstrating the indeterminate state." />
+
+###  Checkbox group
+
+<ComponentPreview name="checkbox-6" description="A group of labeled checkboxes for multi-select subtask items." />
+
+### Custom indicator icons
+
+<ComponentPreview name="checkbox-7" description="A checkbox with custom indicator icons for checked and unchecked states." />
+
+### Form
+
+<ComponentPreview name="checkbox-8" description="A checkbox group integrated with React Hook Form and Zod validation." />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Checkbox] --> B[Hidden Input]
+    A --> C[SVG Indicator]
+    D[CheckboxWithLabel] --> A
+    D --> E[Label]
+    F[CheckboxGroup] --> D
+`} />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="checkbox-9"
+  description="A checkbox with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionCheckboxWithLabel` for staggered fade-up entrance animations powered by [motion](https://motion.dev). Pass `index` for stagger delay.
+
+<ComponentPreview
+  name="checkbox-10"
+  description="Checkboxes with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCheckboxWithLabel` instead of `CheckboxWithLabel`, or `MotionCheckboxGroup` instead of `CheckboxGroup`. The `Checkbox` component stays the same.
+</Callout>
+
+## API Reference
+
+### Checkbox
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `indicator` | `React.ReactElement` | - | Custom SVG or icon for unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | - | Custom SVG or icon for checked state indicator |
+| `checked` | `boolean \| 'indeterminate'` | - | Controlled checked state |
+| `defaultChecked` | `boolean \| 'indeterminate'` | `false` | Initial checked state if uncontrolled |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | - | Callback fired when checked state changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS classes applied to the checkbox input |
+| `style` | `React.CSSProperties` | - | Inline styles merged with internal indicator styles |
+| `ref` | `React.Ref<HTMLInputElement>` | - | Ref forwarded to the native checkbox input |
+| `...props` | `Omit<React.HTMLProps<HTMLInputElement>, 'checked' \| 'onChange' \| 'defaultChecked'>` | - | Additional props to spread to the input element |
+
+### CheckboxWithLabel
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | (required) | HTML `id` attribute to link checkbox and label |
+| `checkbox` | `React.ComponentPropsWithoutRef<typeof Checkbox>` | (required) | Props passed to the internal `Checkbox` component |
+| `label` | `React.ComponentPropsWithoutRef<typeof Label>` | (required) | Props passed to the internal `Label` component |
+| `className` | `string` | - | Additional CSS classes applied to the wrapping div |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the wrapping div |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### CheckboxGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `subtasks` | `CheckboxGroupSubtasks[]` | (required) | Array of subtasks to render as individual checkboxes with labels |
+| `defaults` | `CheckboxWithLabelProps` | - | Default props applied to each checkbox and label in the group |
+| `className` | `string` | - | Additional CSS classes applied to the wrapping div |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the wrapping div |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### CheckboxGroupSubtasks
+
+```tsx
+type CheckboxGroupSubtasks = {
+  id: string
+  title: string
+  checked?: boolean | 'indeterminate'
+}
+```
+
+### MotionCheckbox
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | - | Callback fired when checked state changes. Also triggers the bounce animation. |
+| `...props` | `CheckboxProps` | - | All props from `Checkbox` are supported |
+
+Wraps `Checkbox` with a bounce animation (scale + rotate) on check. Requires the `motion` package.
+
+### MotionCheckboxWithLabel
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `CheckboxWithLabelProps` | - | All props from `CheckboxWithLabel` are supported |
+
+Wraps `CheckboxWithLabel` with a staggered `scaleIn` entrance. Uses `MotionCheckbox` internally. Requires the `motion` package.
+
+### MotionCheckboxGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `CheckboxGroupProps` | - | All props from `CheckboxGroup` are supported |
+
+Same as `CheckboxGroup` but renders each item as `MotionCheckboxWithLabel` with automatic stagger index. Requires the `motion` package.
+
+## See also
+
+- [Radio Group](/duck-ui/components/radio-group)  -  Single selection from a set of options
+- [Switch](/duck-ui/components/switch)  -  Toggle between on and off states

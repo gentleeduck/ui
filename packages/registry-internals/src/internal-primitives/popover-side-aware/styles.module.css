@@ -1,0 +1,66 @@
+.frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 14rem;
+  overflow: hidden;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, color-mix(in oklab, var(--card) 92%, var(--muted)) 0%, var(--muted) 100%);
+  color: var(--foreground);
+}
+
+.label {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.trigger {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.content {
+  width: 18rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  padding: 0.9rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.description {
+  margin: 0.35rem 0 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.83rem;
+}
+
+.chips {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.chips span {
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--foreground);
+  font-size: 0.75rem;
+}
+
+.arrow {
+  fill: var(--popover);
+}

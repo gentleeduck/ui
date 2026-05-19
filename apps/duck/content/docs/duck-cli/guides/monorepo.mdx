@@ -1,0 +1,94 @@
+---
+title: monorepo usage
+description: Run the CLI inside a monorepo — workspace targeting, config inheritance, validation rules.
+section: Guides
+---
+## Workspace-aware CLI
+
+When `duck-ui.config.json` has `"monorepo": true`, the CLI resolves the install target from:
+
+1. The `workspace` field in `duck-ui.config.json`
+2. The `--workspace` flag (overrides config)
+3. Auto-detection from the nearest parent `package.json`
+
+The CLI **validates** that the target workspace has `package.json` and `tsconfig.json` before installing.
+
+---
+
+## Examples
+
+```bash
+# Init monorepo
+npx @gentleduck/cli init --monorepo --workspace apps/web
+
+# Add component to specific workspace
+npx @gentleduck/cli add button --workspace apps/dashboard
+
+# Update all in workspace
+npx @gentleduck/cli update --all --workspace packages/ui
+
+# Remove from a workspace
+npx @gentleduck/cli remove sidebar --workspace apps/dashboard
+```
+
+---
+
+## Layout patterns
+
+### Single shared UI workspace
+
+```text
+apps/
+  web/
+  dashboard/
+  marketing/
+packages/
+  ui/        ← duck-ui.config.json here
+    components/
+    hooks/
+duck-ui.config.json   { "monorepo": true, "workspace": "packages/ui" }
+```
+
+Run all CLI commands from the repo root. The CLI writes into `packages/ui/components/...` regardless of where you invoked it.
+
+### Per-app components
+
+```text
+apps/
+  web/
+    components/        ← gets its own components
+    duck-ui.config.json
+  dashboard/
+    components/        ← gets its own components
+    duck-ui.config.json
+```
+
+CD into the app, run from there. Each `duck-ui.config.json` lives next to the components it controls.
+
+---
+
+## Validation
+
+Before installing, the CLI checks:
+
+- Target workspace exists
+- `package.json` is readable
+- `tsconfig.json` is present (the CLI doesn't try to write one)
+
+Failing any check aborts with a clear error pointing at the missing file.
+
+---
+
+## CI / scripted setups
+
+```bash
+# In a workspace bootstrap script
+npx @gentleduck/cli init \
+  --monorepo \
+  --workspace packages/ui \
+  --project-type next \
+  --yes \
+  --all
+```
+
+`--yes` skips every prompt. `--all` installs the full component catalog.

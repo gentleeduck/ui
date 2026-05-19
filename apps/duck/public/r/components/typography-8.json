@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { TypographyTable, TypographyTd, TypographyTh, TypographyTr } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return (\n    <TypographyTable>\n      <thead>\n        <TypographyTr>\n          <TypographyTh>King's Treasury</TypographyTh>\n          <TypographyTh>People's happiness</TypographyTh>\n        </TypographyTr>\n      </thead>\n      <tbody>\n        <TypographyTr>\n          <TypographyTd>Empty</TypographyTd>\n          <TypographyTd>Overflowing</TypographyTd>\n        </TypographyTr>\n        <TypographyTr>\n          <TypographyTd>Modest</TypographyTd>\n          <TypographyTd>Satisfied</TypographyTd>\n        </TypographyTr>\n        <TypographyTr>\n          <TypographyTd>Full</TypographyTd>\n          <TypographyTd>Ecstatic</TypographyTd>\n        </TypographyTr>\n      </tbody>\n    </TypographyTable>\n  )\n}\n",
+      "path": "typography/typography-8.tsx",
+      "target": "components/typography-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-8",
+  "registryDependencies": [
+    "typography"
+  ],
+  "root_folder": "typography",
+  "source": "/registry-examples/src/typography",
+  "type": "registry:example"
+}

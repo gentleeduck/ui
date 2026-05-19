@@ -1,0 +1,52 @@
+'use server'
+
+import { track } from '@vercel/analytics/server'
+
+const EDIT_IN_V0_SOURCE = 'gentleduck.org'
+
+export async function editInV0({ name, description, code }: { name: string; description: string; code: string }) {
+  try {
+    const v0Url = process.env.V0_URL
+    const editSecret = process.env.V0_EDIT_SECRET
+    if (!v0Url || !editSecret) {
+      return { error: 'V0 is not configured.' }
+    }
+
+    await track('edit_in_v0', {
+      description,
+      name,
+    })
+
+    // v0 injects its own "use client"; strip ours to avoid duplication.
+    code = code.replace(`"use client"`, '')
+
+    const response = await fetch(`${v0Url}/api/edit`, {
+      body: JSON.stringify({ code, description, source: EDIT_IN_V0_SOURCE }),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-v0-edit-secret': editSecret,
+        'x-vercel-protection-bypass': process.env.DEPLOYMENT_PROTECTION_BYPASS || 'not-set',
+      },
+      method: 'POST',
+    })
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Unauthorized')
+      }
+
+      throw new Error('Something went wrong. Please try again later.')
+    }
+
+    const result = await response.json()
+
+    return {
+      ...result,
+      url: `${v0Url}/edit/${result.id}`,
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message }
+    }
+  }
+}

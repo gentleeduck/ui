@@ -1,0 +1,223 @@
+---
+title: "Recorder"
+description: "Record key combinations for settings UIs where users customize their shortcuts."
+section: API
+order: 10
+---
+<Callout icon={<Zap />}>
+
+Record key combinations for settings UIs where users customize their shortcuts. Capture what the user presses and output a canonical binding string like `ctrl+shift+k`.
+
+</Callout>
+
+```ts
+import { KeyRecorder, KeyStateTracker } from '@gentleduck/vim/recorder'
+import type { KeyRecorderState, KeyRecorderOptions, KeyStateSnapshot } from '@gentleduck/vim/recorder'
+```
+
+## Overview
+
+The recorder module provides two classes:
+
+- **KeyRecorder**  -  captures a full key combination (modifiers + key) and outputs a canonical binding string. Designed for settings UIs where users press a shortcut to define it.
+- **KeyStateTracker**  -  tracks which keys are currently held down. Simpler than KeyRecorder, no recording logic, just real-time state.
+
+---
+
+## Types
+
+### `KeyRecorderState`
+
+```ts
+interface KeyRecorderState {
+  activeKeys: string[]     // Currently held key descriptors
+  recorded: string | null  // The final recorded binding, or null
+  isRecording: boolean     // Whether the recorder is listening
+}
+```
+
+### `KeyRecorderOptions`
+
+```ts
+interface KeyRecorderOptions {
+  onRecord?: (binding: string) => void
+  onStart?: () => void
+  onStop?: () => void
+}
+```
+
+### `KeyStateSnapshot`
+
+```ts
+interface KeyStateSnapshot {
+  pressed: ReadonlySet<string>
+  hasModifier: boolean
+}
+```
+
+---
+
+## `KeyRecorder`
+
+### `constructor(options?)`
+
+```ts
+new KeyRecorder(options?: KeyRecorderOptions)
+```
+
+The callbacks are optional. `onRecord` fires every time the user presses a non-modifier key while holding modifiers.
+
+### `start(target = document)`
+
+Begin recording on the given target. Defaults to `document`. Calls `event.preventDefault()` and `event.stopPropagation()` on all key events while recording, so the user's keystrokes do not trigger other bindings.
+
+```ts
+recorder.start(target: HTMLElement | Document = document): void
+```
+
+<Callout icon={<TriangleAlert />}>
+
+While recording, all key events are captured and prevented from propagating. This means shortcuts like <Kbd>Ctrl+S</Kbd> will not trigger the browser's save dialog during recording.
+
+</Callout>
+
+### `stop()`
+
+Stop recording and clean up event listeners.
+
+```ts
+recorder.stop(): void
+```
+
+### `getState()`
+
+Get the current recorder state.
+
+```ts
+recorder.getState(): KeyRecorderState
+```
+
+### `reset()`
+
+Clear the recorded binding without stopping.
+
+```ts
+recorder.reset(): void
+```
+
+### `destroy()`
+
+Stop recording and clear all state. Call this on cleanup.
+
+```ts
+recorder.destroy(): void
+```
+
+---
+
+### How it works
+
+<Steps>
+
+<Step>
+When `start()` is called, the recorder listens for `keydown` and `keyup` on the target.
+</Step>
+
+<Step>
+Modifier keys are tracked as they are pressed and released.
+</Step>
+
+<Step>
+When a non-modifier key is pressed, the recorder builds a canonical binding string from the held modifiers + the key.
+</Step>
+
+<Step>
+The `onRecord` callback fires with the binding string.
+</Step>
+
+<Step>
+If the window loses focus, all held keys are cleared to prevent "stuck" modifiers.
+</Step>
+
+</Steps>
+
+**Example:**
+
+```ts
+const recorder = new KeyRecorder({
+  onRecord: (binding) => {
+    console.log('User pressed:', binding) // e.g. 'ctrl+shift+k'
+    recorder.stop()
+  },
+})
+
+recorder.start(document.body)
+// User presses Ctrl+Shift+K
+// onRecord fires with 'ctrl+shift+k'
+```
+
+---
+
+## `KeyStateTracker`
+
+A simpler alternative that just tracks which keys are currently down.
+
+### `attach(target?)`
+
+```ts
+tracker.attach(target?: HTMLElement | Document): void
+```
+
+### `detach()`
+
+```ts
+tracker.detach(): void
+```
+
+### `getSnapshot()`
+
+```ts
+tracker.getSnapshot(): KeyStateSnapshot
+```
+
+### `isKeyPressed(key)`
+
+```ts
+tracker.isKeyPressed(key: string): boolean
+```
+
+### `destroy()`
+
+```ts
+tracker.destroy(): void
+```
+
+**Example:**
+
+```ts
+const tracker = new KeyStateTracker()
+tracker.attach(document)
+
+// In a game loop or animation frame:
+function update() {
+  if (tracker.isKeyPressed('w')) moveForward()
+  if (tracker.isKeyPressed('shift')) sprint()
+  requestAnimationFrame(update)
+}
+```
+
+<Callout icon={<Target />}>
+
+`KeyStateTracker` is useful for real-time key state (e.g., game loops or drag interactions), not for shortcut binding. For shortcuts, use `KeyRecorder` or the [Command](/duck-vim/api/command) module.
+
+</Callout>
+
+---
+
+## React hook: `useKeyRecorder`
+
+<Callout icon={<MapIcon />}>
+
+See the [React API](/duck-vim/api/react) for the `useKeyRecorder` hook that wraps `KeyRecorder` with React state management.
+
+</Callout>

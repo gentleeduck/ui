@@ -1,0 +1,114 @@
+}>
+  **Lesson 2 of 8**: how the adapter pattern keeps the calendar engine independent of any date library.
+
+## What is a date adapter?
+
+A date adapter is an object that implements `Adapter.IDateAdapter<TDate>`. It tells the engine how to do date math without coupling to a specific library.
+
+```tsx showLineNumbers
+import type { Adapter } from '@gentleduck/calendar'
+
+// TDate is a generic - it can be Date, Dayjs, DateTime, etc.
+// The adapter tells the engine how to work with that type
+```
+
+***
+
+## Why adapters?
+
+Without one, the engine would call `new Date()`, `date.getMonth()`, and friends directly. That ties it to the native `Date` and rules out dayjs, date-fns, or the upcoming Temporal API.
+
+With one:
+
+* The engine is **date-library agnostic** — swap adapters without touching rendering code.
+* You can write **isomorphic helpers** that work with any `TDate`.
+* The adapter is the **single source of truth** for date operations.
+
+***
+
+## Using the built-in NativeAdapter
+
+`NativeAdapter` ships with the package and uses `Date` + `Intl.DateTimeFormat`. Zero extra dependencies.
+
+```tsx showLineNumbers
+import { NativeAdapter } from '@gentleduck/calendar'
+
+const adapter = new NativeAdapter()
+
+// All adapter methods work with native Date:
+const today = adapter.today()          // Date
+const nextMonth = adapter.addMonths(today, 1)  // Date
+const formatted = adapter.format(today, { month: 'long', year: 'numeric' })  // "March 2026"
+```
+
+***
+
+## Building a custom adapter
+
+A dayjs adapter, step by step:
+
+```tsx showLineNumbers
+import type { Adapter } from '@gentleduck/calendar'
+import dayjs, { type Dayjs } from 'dayjs'
+
+const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
+  // Creation
+  today: () => dayjs().startOf('day'),
+  create: (y, m, d) => dayjs().year(y).month(m).date(d).startOf('day'),
+
+  // Validation
+  isValid: (d) => d.isValid(),
+
+  // Comparison
+  isSameDay: (a, b) => a.isSame(b, 'day'),
+  isSameMonth: (a, b) => a.isSame(b, 'month'),
+  isBefore: (a, b) => a.isBefore(b),
+  isAfter: (a, b) => a.isAfter(b),
+
+  // Navigation
+  startOfMonth: (d) => d.startOf('month'),
+  endOfMonth: (d) => d.endOf('month'),
+  startOfWeek: (d, weekStart) => {
+    const diff = (d.day() - weekStart + 7) % 7
+    return d.subtract(diff, 'day')
+  },
+  addDays: (d, n) => d.add(n, 'day'),
+  addMonths: (d, n) => d.add(n, 'month'),
+  addYears: (d, n) => d.add(n, 'year'),
+
+  // Getters
+  getYear: (d) => d.year(),
+  getMonth: (d) => d.month(),
+  getDate: (d) => d.date(),
+  getDayOfWeek: (d) => d.day() as any,
+
+  // Conversion
+  toDate: (d) => d.toDate(),
+  fromDate: (d) => dayjs(d).startOf('day'),
+
+  // Formatting
+  format: (d, opts, locale) =>
+    new Intl.DateTimeFormat(locale, opts).format(d.toDate()),
+
+  // Time
+  getHours: (d) => d.hour(),
+  getMinutes: (d) => d.minute(),
+  getSeconds: (d) => d.second(),
+  setTime: (d, h, m, s) => d.hour(h).minute(m).second(s ?? 0),
+}
+```
+
+} tone="warning">
+  Adapter methods must be **immutable**. Never mutate the input date — always return a new instance.
+
+***
+
+## Key takeaways
+
+* The adapter is a plain object — no classes, no inheritance.
+* Every date operation runs through the adapter.
+* `NativeAdapter` is enough for most projects.
+* Custom adapters are ~30 lines.
+
+}>
+  Next: [Lesson 3 - Building a Grid](/duck-calendar/course/03-building-a-grid)

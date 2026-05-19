@@ -1,0 +1,30 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "export { MotionTextarea } from './motion-textarea'\nexport { Textarea } from './textarea'\n",
+      "path": "textarea/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { loadDomAnimation } from '@gentleduck/motion/motion-features'\nimport { useMotionPreset } from '@gentleduck/motion/motion-presets'\nimport { scaleIn } from '@gentleduck/motion/presets/scale-in'\nimport { springBouncy } from '@gentleduck/motion/transitions/springs'\nimport { LazyMotion, m } from 'motion/react'\nimport * as React from 'react'\nimport { Textarea } from './textarea'\n\nconst MotionTextarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(\n  (props, ref) => {\n    const content = useMotionPreset(scaleIn, { transition: springBouncy })\n    return (\n      <LazyMotion features={loadDomAnimation}>\n        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className=\"w-full\">\n          <Textarea ref={ref} {...props} />\n        </m.div>\n      </LazyMotion>\n    )\n  },\n)\nMotionTextarea.displayName = 'MotionTextarea'\n\nexport { MotionTextarea }\n",
+      "path": "textarea/motion-textarea.tsx",
+      "target": "components/ui/motion-textarea.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type { IDirection } from '@gentleduck/primitives/direction'\nimport { useDirection } from '@gentleduck/primitives/direction'\nimport * as React from 'react'\n\nconst Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(\n  ({ className, dir, ...props }, ref) => {\n    const direction = useDirection(dir as IDirection.Kind)\n    return (\n      <textarea\n        className={cn(\n          'field-sizing-content flex min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:disabled:bg-input/80',\n          className,\n        )}\n        data-slot=\"textarea\"\n        dir={direction}\n        ref={ref}\n        {...props}\n      />\n    )\n  },\n)\nTextarea.displayName = 'Textarea'\n\nexport { Textarea }\n",
+      "path": "textarea/textarea.tsx",
+      "target": "components/ui/textarea.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "textarea",
+  "root_folder": "textarea",
+  "source": "/registry-ui/src/textarea",
+  "type": "registry:ui"
+}

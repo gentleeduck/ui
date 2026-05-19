@@ -1,0 +1,150 @@
+---
+title: switch
+description: A control that allows the user to toggle between checked and not checked.
+component: true
+section: Forms
+order: 10
+---
+<ComponentPreview name="switch-1" description="A switch component." />
+
+## Philosophy
+
+Switches represent immediate, binary state changes  -  unlike checkboxes, which defer action to a form submission. This semantic distinction matters for UX: a switch should take effect instantly. We support custom SVG indicators so the on/off metaphor can match your design language without sacrificing the accessible `role="switch"` foundation.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Switch[Switch]
+  Switch --> primitives["@gentleduck/primitives\n/checkers"]:::internal
+  Switch --> motion["@gentleduck/motion"]:::internal
+  Switch --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| SvgIndicator["useSvgIndicator\n(custom icons)"]
+  primitives --> |"provides"| NativeCheckbox["Native Checkbox\nwith role=switch"]
+  motion --> |"provides"| AnimVariants["Slide Animation"]
+  motion --> |"provides"| CheckerStyles["checkersStylePattern"]
+  Switch --> |"adds"| A11y["aria-checked\naria-label"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add switch
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/primitives @gentleduck/motion @gentleduck/libs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/switch" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch"
+```
+
+```tsx
+<Switch />
+```
+
+## Examples
+
+### Form
+
+<ComponentPreview name="switch-2" description="A switch integrated with React Hook Form for toggling email notification preferences." />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="switch-3"
+  description="A switch with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionSwitch` for a physical-feeling toggle powered by [motion](https://motion.dev). The thumb slides with a bouncy spring, stretches in the direction of travel when pressed, and the track color crossfades between border and primary.
+
+<ComponentPreview
+  name="switch-4"
+  description="Switch with a motion-driven spring thumb, press stretch, and track color fade."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSwitch` instead of `Switch`. The motion variant renders its own track + thumb so it does not support the `indicator` / `checkedIndicator` props — use the base `Switch` if you need custom SVG indicators.
+</Callout>
+
+## API Reference
+
+### Switch
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional class names for the checkbox input |
+| `indicator` | `React.ReactElement` | - | Custom element for the unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | - | Custom element for the checked state indicator |
+| `onChange` | `(event: ChangeEvent) => void` | - | Native checkbox `change` event handler |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Callback with the new checked boolean when toggled |
+| `ref` | `React.Ref<HTMLInputElement>` | - | Ref forwarded to the native checkbox input |
+| `style` | `React.CSSProperties` | - | Inline styles applied to the input element |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
+
+### MotionSwitch
+
+Renders its own motion-controlled track and thumb. The thumb slides with a bouncy spring, stretches in the direction of travel while pressed, and the track color crossfades between `border` and `primary`. Requires the `motion` package. Does **not** support the `indicator` / `checkedIndicator` props — use the base `Switch` for custom SVG indicators.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. In RTL the thumb starts on the right and the stretch origin flips. |
+| `checked` | `boolean` | - | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial checked state |
+| `disabled` | `boolean` | `false` | Disables interaction and lowers opacity |
+| `onChange` | `(event: ChangeEvent) => void` | - | Native checkbox `change` event handler |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Callback with the new checked boolean when toggled |
+| `className` | `string` | - | Additional class names for the outer track label |
+| `style` | `React.CSSProperties` | - | Inline styles applied to the outer track label |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props spread onto the hidden input element |
+
+## See also
+
+- [Checkbox](/duck-ui/components/checkbox)  -  Multi-selection toggle control
+- [Radio Group](/duck-ui/components/radio-group)  -  Single selection from a set of options

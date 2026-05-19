@@ -1,0 +1,158 @@
+## Install
+
+```typescript
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+```
+
+Distributed key/value backend. Works with [`ioredis`](https://github.com/redis/ioredis), [`node-redis`](https://github.com/redis/node-redis) v4+, or any client matching the `RedisLike` interface.
+
+```bash
+bun add ioredis
+# or
+bun add redis
+```
+
+***
+
+## When to use
+
+* **Multi-instance deploys** - share policy/role state across nodes
+* **Edge / serverless** - Upstash Redis, Cloudflare KV (behind a `RedisLike` shim), Vercel KV
+* **Pair with Engine LRU cache** - Redis = source of truth, in-process LRU = hot reads
+* **Cross-tenant SaaS** - `keyPrefix` isolates tenants in a shared Redis
+
+***
+
+## Usage
+
+### ioredis
+
+```typescript
+import Redis from 'ioredis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { Engine } from '@gentleduck/iam'
+
+const redis = new Redis(process.env.REDIS_URL!)
+
+const adapter = new RedisAdapter({
+  client: redis,
+  keyPrefix: 'iam:',
+})
+
+const engine = new Engine({ adapter, cacheTTL: 60 })
+```
+
+### node-redis (v4+)
+
+```typescript
+import { createClient } from 'redis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+
+const client = createClient({ url: process.env.REDIS_URL })
+await client.connect()
+
+const adapter = new RedisAdapter({ client, keyPrefix: 'iam:' })
+```
+
+### Upstash Redis (REST)
+
+```typescript
+import { Redis } from '@upstash/redis'
+import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+
+const redis = Redis.fromEnv()
+const adapter = new RedisAdapter({ client: redis, keyPrefix: 'iam:' })
+```
+
+Upstash's client implements the same surface duck-iam needs - drop in directly.
+
+***
+
+## Storage layout
+
+| Redis key | Type | Contents |
+| --- | --- | --- |
+| `${prefix}policies` | Hash | `policyId` -> JSON-encoded policy |
+| `${prefix}roles` | Hash | `roleId` -> JSON-encoded role |
+| `${prefix}assignments:${subjectId}` | Set | `roleId\sscope` strings (scope empty when unscoped) |
+| `${prefix}attrs:${subjectId}` | String | JSON-encoded attribute object |
+
+Set semantics make `assignRole` idempotent - calling it twice with the same `(subjectId, roleId, scope)` is a no-op.
+
+***
+
+## Constructor config
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `client` | `RedisLike` | -- | Any client implementing the minimal Redis surface |
+| `keyPrefix` | `string` | `''` | Optional prefix to namespace duck-iam keys |
+
+### `RedisLike` interface
+
+```typescript
+interface RedisLike {
+  get(key: string): Promise<string | null>
+  set(key: string, value: string): Promise<unknown>
+  del(...keys: string[]): Promise<number>
+  hset(key: string, field: string, value: string): Promise<number>
+  hget(key: string, field: string): Promise<string | null>
+  hdel(key: string, ...fields: string[]): Promise<number>
+  hkeys(key: string): Promise<string[]>
+  hvals(key: string): Promise<string[]>
+  hgetall(key: string): Promise<Record<string, string>>
+  sadd(key: string, ...members: string[]): Promise<number>
+  srem(key: string, ...members: string[]): Promise<number>
+  smembers(key: string): Promise<string[]>
+}
+```
+
+ioredis and node-redis v4+ both satisfy this directly. For custom clients, implement these 12 methods.
+
+***
+
+## Multi-tenant isolation
+
+Use `keyPrefix` to share a Redis instance across tenants without cross-talk:
+
+```typescript
+const tenant1 = new RedisAdapter({ client, keyPrefix: 'iam:tenant1:' })
+const tenant2 = new RedisAdapter({ client, keyPrefix: 'iam:tenant2:' })
+
+// Same tenant, different prefix -> fully isolated
+await tenant1.savePolicy({ id: 'p1', /* ... */ })
+await tenant2.getPolicy('p1') // null
+```
+
+***
+
+## Pairing with Engine LRU cache
+
+Redis adds a network hop per cache miss. Combine with Engine's in-process LRU for best of both:
+
+```typescript
+const engine = new Engine({
+  adapter: new RedisAdapter({ client: redis }),
+  cacheTTL: 60, // 1-minute LRU TTL
+  maxCacheSize: 10_000,
+})
+```
+
+Hot reads stay in-process. After TTL expiry or `engine.invalidate()`, the next read hits Redis. Use Redis pub/sub to broadcast `engine.invalidate()` calls across nodes when policies change.
+
+***
+
+## Notes & caveats
+
+* **`assignRole` is idempotent** - Redis sets dedup automatically.
+* **`setSubjectAttributes` is read-merge-write** - same race risk as Prisma/Drizzle. For high-contention attribute writes, wrap in a Lua script or use Redis `WATCH/MULTI/EXEC`.
+* **Memory pressure** - Redis stores everything in RAM. For 1000s of policies and large rule trees, monitor memory usage.
+* **Persistence** - configure Redis with AOF or RDB snapshots if you don't want data loss on restart.
+
+***
+
+## When NOT to use
+
+* Single-instance apps - `MemoryAdapter` is faster and free
+* Massive policy sets (>100k rules) - relational adapters scale better with proper indexes
+* No Redis already in stack - adds infra burden; consider Postgres adapter instead

@@ -1,0 +1,117 @@
+---
+title: skeleton
+description: Use to show a placeholder while content is loading.
+component: true
+section: Feedback
+order: 10
+---
+<ComponentPreview name="skeleton-1" description="A skeleton component." />
+
+## Philosophy
+
+Loading states deserve the same design attention as loaded states. Skeleton placeholders reduce perceived wait time by hinting at the shape of incoming content. We keep this component prop-less intentionally  -  you control the shape through `className` and layout, mirroring the actual content it replaces.
+
+For icon-only UIs, keep a compact icon-sized skeleton instead of removing the skeleton entirely, so layout stability is preserved while loading.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add skeleton
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs 
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/skeleton" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton"
+```
+
+```tsx
+<Skeleton className="w-[100px] h-[20px] rounded-full" />
+```
+
+## Examples
+
+### Card
+
+<ComponentPreview
+  name="skeleton-2"
+  description="A card with skeleton showing a loading state."
+/>
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="skeleton-3"
+  description="A skeleton with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionSkeleton` for staggered entrance animations powered by [motion](https://motion.dev). Each skeleton block fades in with scale and blur, staggered by 50ms via the `index` prop.
+
+<ComponentPreview
+  name="skeleton-4"
+  description="Skeleton with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSkeleton` instead of `Skeleton`. Same props plus `index` for stagger delay. The regular `Skeleton` is perfectly fine - this is an optional enhancement.
+</Callout>
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS class names to control shape and size |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionSkeleton
+
+Staggered `scaleIn` entrance with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `SkeletonProps` | - | All props from `Skeleton` are supported |

@@ -1,0 +1,181 @@
+---
+title: Changelog
+description: Release history for @gentleduck/primitives. Newest releases at the top.
+section: Changelog
+order: 999
+---
+
+## 0.2.13
+
+### Patch Changes
+
+- 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.
+
+## 0.2.12
+
+### Patch Changes
+
+- b4706d3: Replace `workspace:*` deps in published `dependencies` and `peerDependencies` with explicit semver. Previous publishes leaked `workspace:*` to the npm tarball, breaking `bun install` for downstream consumers (`error: Workspace dependency "@gentleduck/calendar" not found`).
+
+## 0.2.11
+
+### Patch Changes
+
+- df57671: fix(slot): use cn() with twMerge in mergeProps for className resolution
+
+  Raw string join caused conflicting Tailwind utilities (e.g. `inline-flex` vs `flex`, `gap-1` vs `gap-2`) to both appear in the final className, producing non-deterministic CSS and hydration mismatches when Slot clones client components like Next.js Link.
+
+## 0.2.10
+
+### Patch Changes
+
+- 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+- Updated dependencies [7d6fb7b]
+  - @gentleduck/calendar@0.3.0
+
+## 0.2.9
+
+### Patch Changes
+
+- 5136398: fix: popover and tooltip arrow components now use PopperArrow instead of PopperAnchor, fixing positioning when arrows are present
+- Updated dependencies [32d0136]
+  - @gentleduck/calendar@0.2.1
+
+## 0.2.8
+
+### Patch Changes
+
+- 76e824b: fix: presence animation interrupt, breadcrumb keys, theme hydration, nested buttons
+
+  - Presence: cancel in-flight exit animation on re-mount to prevent stale animationend from unmounting re-opened content
+  - Breadcrumb: move key from BreadcrumbItem to Fragment (React key warning)
+  - ModeSwitcher: use stable aria-label until mounted to prevent hydration mismatch
+  - PopoverTrigger: add asChild to calendar-7 and combobox-7 to prevent nested buttons
+
+## 0.2.7
+
+### Patch Changes
+
+- Updated dependencies [58d1c61]
+  - @gentleduck/calendar@0.2.0
+
+## 0.2.6
+
+### Patch Changes
+
+- 6f0e067: Standardize package exports to use explicit named exports, add `sideEffects` field and `types` export entries to package.json, and annotate internal APIs with `@internal` JSDoc tags.
+
+## 0.2.5
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
+## 0.2.4
+
+### Patch Changes
+
+- fix(search): disable primitive's built-in filter when using custom lunr search
+
+  The command menu had two competing filtering systems: lunr-based search and the primitive's
+  substring filter. The primitive's filter was hiding items via `el.hidden = true` even when
+  lunr correctly found them, causing search results to not appear. Added `shouldFilter` prop
+  to the Command primitive to allow disabling the built-in filter.
+
+## 0.2.3
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
+## 0.2.2
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
+## 0.2.1
+
+### Patch Changes
+
+- ad86755: Add 15+ new headless primitive components, full RTL/direction support, and major architecture overhaul.
+
+  **New Primitives:**
+
+  - Add dialog, alert-dialog, tooltip, popover, hover-card with individual file splitting
+  - Add popper positioning primitive with CSS variable-based placement
+  - Add focus-scope and dismissable-layer for overlay management
+  - Add menu, context-menu, and menubar primitives with roving-focus navigation
+  - Add progress primitive with split file structure
+  - Add command primitive with keyboard-driven list navigation
+  - Add toggle, toggle-group, and radio-group primitives
+  - Add avatar primitive with composition API and AvatarGroup support
+  - Add input-otp primitive module
+  - Add pagination primitive
+
+  **RTL / Direction Support:**
+
+  - Add shared direction API with DirectionProvider DOM wrapper
+  - Pass dir prop from context to all exported primitive components
+  - Add dir prop to Dialog, Popover, HoverCard, and Tooltip
+  - Fix select RTL support with logical CSS positioning
+
+  **Architecture:**
+
+  - Add slot composition system for flexible component rendering
+  - Add shared hooks library (useControllableState, useCallbackRef, useComposedRefs)
+  - Add shared lib utilities (composeEventHandlers, createContext)
+  - Add primitive element wrappers and utility primitives (Presence, Portal, VisuallyHidden)
+  - Reorganize file structure with data-slot attributes throughout
+  - Extract shared list-navigation logic for Select and Command
+
+  **Fixes:**
+
+  - Fix radio-group arrow-key navigation sync with checked state
+  - Fix select value text duplication on item click
+  - Narrow avatar src type to string for TypeScript compatibility
+  - Fix CSS variable typos in popper content
+  - Fix internal registry source path and build types
+
+## 0.2.0
+
+### Minor Changes
+
+- 36f9364: Add dynamic z-index layering system (`useDynamicLayer`) for correct stacking of nested overlays. Integrate into dialog, popover, sheet, and tooltip primitives. Fix scrollbar lock to use reference counting so concurrent overlays don't unlock prematurely.
+
+## 0.1.45
+
+### Patch Changes
+
+- 4f93768: Fix compatibility with duck-gen output format and resolve build issues with generated component wrappers.
+
+## 0.1.44
+
+### Patch Changes
+
+- d0a2c1d: Fix tooltip primitive behavior by removing click-toggle on the trigger.
+- d0a2c1d: Add `disabled` option for focus management in `Tooltip.Content` to prevent focus trapping when tooltip is used as a passive hint.
+
+## 0.1.43
+
+### Patch Changes
+
+- 45ec82f: Fix context menu positioning and event propagation to prevent menu from appearing at incorrect coordinates on right-click.
+
+## 0.1.42
+
+### Patch Changes
+
+- cd47e32: Fix overlay dismiss behavior when clicking outside nested dialog/popover stacks.
+
+## 0.1.41
+
+### Patch Changes
+
+- Fix scroll lock edge case where rapid open/close cycles could leave the body in a locked state.
+
+## 0.1.1
+
+### Patch Changes
+
+- Initial public release of @gentleduck/primitives headless component library.

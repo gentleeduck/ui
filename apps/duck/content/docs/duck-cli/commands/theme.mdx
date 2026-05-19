@@ -1,0 +1,151 @@
+---
+title: theme
+description: Manage theme tokens — list available themes, inspect color values, install one into your globals.css.
+section: Commands
+---
+## Usage
+
+```bash
+npx @gentleduck/cli theme <subcommand>
+```
+
+Three subcommands:
+
+| Subcommand | What it does |
+| --- | --- |
+| `theme list` | List every theme available in the registry |
+| `theme info <name>` | Print color tokens for a single theme |
+| `theme add <name>` | Install a theme into your `globals.css` |
+
+---
+
+## `theme list`
+
+```bash
+npx @gentleduck/cli theme list
+```
+
+Output:
+
+```
+Available themes (15):
+
+  amber       Amber
+  blue        Blue
+  gray        Gray
+  green       Green
+  neutral     Neutral
+  orange      Orange
+  purple      Purple
+  red         Red
+  rose        Rose
+  slate       Slate
+  stone       Stone
+  teal        Teal
+  violet      Violet
+  yellow      Yellow
+  zinc        Zinc
+
+Apply one with: duck-cli theme add <name>
+```
+
+| Flag | Description |
+| --- | --- |
+| `-j, --json` | Output as JSON |
+
+---
+
+## `theme info <name>`
+
+```bash
+npx @gentleduck/cli theme info zinc
+```
+
+Prints all color tokens (light + dark) for the named theme:
+
+```
+Zinc (zinc)
+
+  light:
+    --background: oklch(1 0 0)
+    --foreground: oklch(0.141 0.005 285.823)
+    --primary: oklch(0.21 0.006 285.885)
+    ...
+
+  dark:
+    --background: oklch(0.145 0 0)
+    --foreground: oklch(0.985 0 0)
+    --primary: oklch(0.985 0 0)
+    ...
+```
+
+| Flag | Description |
+| --- | --- |
+| `-j, --json` | Output as JSON for scripting |
+
+---
+
+## `theme add <name>`
+
+```bash
+npx @gentleduck/cli theme add zinc
+```
+
+Writes a guarded block of CSS variables into your `globals.css`:
+
+```css
+/* @gentleduck/cli theme:start */
+/* theme: zinc (Zinc) */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  /* ... */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  /* ... */
+}
+/* @gentleduck/cli theme:end */
+```
+
+Re-running `theme add` with another name **replaces the block in place** — swapping themes is a one-command operation:
+
+```bash
+npx @gentleduck/cli theme add rose   # swap zinc -> rose
+```
+
+| Flag | Description |
+| --- | --- |
+| `-c, --css <path>` | Path to your global stylesheet |
+
+### Default search paths
+
+Without `--css`, the CLI searches:
+
+1. `app/globals.css`
+2. `src/app/globals.css`
+3. `src/index.css`
+4. `src/styles/globals.css`
+5. `styles/globals.css`
+
+The first match wins. If none match, the command errors and you must pass `--css <path>`.
+
+---
+
+## Available themes
+
+15 built-in themes use OKLCH color tokens with light + dark variants:
+
+`amber`, `blue`, `gray`, `green`, `neutral`, `orange`, `purple`, `red`, `rose`, `slate`, `stone`, `teal`, `violet`, `yellow`, `zinc`
+
+Custom themes can be served from your own registry (`COMPONENTS_REGISTRY_URL`) — see [registry-build](/duck-registry-build) for authoring.
+
+---
+
+## Notes
+
+- **Tailwind v4** — themes use OKLCH and CSS custom properties, paired with Tailwind v4's `@theme` directive
+- **Replaceable** — markers around the block let you swap themes without touching surrounding CSS
+- **Idempotent** — running `theme add zinc` twice produces the same output

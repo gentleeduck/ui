@@ -1,0 +1,135 @@
+---
+title: tanstack-start
+description: Install and configure @gentleduck/ui for TanStack Start.
+section: Installation
+order: 7
+---
+<Steps>
+
+<Step>Create project</Step>
+
+Start by creating a new TanStack Start project by following the [Build a Project from Scratch](https://tanstack.com/start/latest/docs/framework/react/build-from-scratch) guide on the TanStack Start website.
+
+**Do not add Tailwind yet. We'll install Tailwind v4 in the next step.**
+
+<Step>Add Tailwind</Step>
+
+Install `tailwindcss` and its dependencies.
+
+```bash
+npm install tailwindcss @tailwindcss/postcss postcss
+```
+
+<Step>Create postcss.config.ts</Step>
+
+Create a `postcss.config.ts` file at the root of your project.
+
+```ts title="postcss.config.ts" showLineNumbers
+export default {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+}
+```
+
+<Step>Create `app/styles/app.css`</Step>
+
+Create an `app.css` file in the `app/styles` directory and import `tailwindcss`
+
+```css title="app/styles/app.css"
+@import "tailwindcss" source("../");
+```
+
+<Step>Import `app.css`</Step>
+
+```tsx title="app/routes/__root.tsx" showLineNumbers {5,21-26}
+import type { ReactNode } from "react"
+import { createRootRoute, Outlet } from "@tanstack/react-router"
+import { Meta, Scripts } from "@tanstack/start"
+
+import appCss from "@/styles/app.css?url"
+
+export const Route = createRootRoute({
+  head: () => ({
+    meta: [
+      {
+        charSet: "utf-8",
+      },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+      {
+        title: "TanStack Start Starter",
+      },
+    ],
+    links: [
+      {
+        rel: "stylesheet",
+        href: appCss,
+      },
+    ],
+  }),
+  component: RootComponent,
+})
+```
+
+<Step>Edit tsconfig.json file</Step>
+
+Add the following code to the `tsconfig.json` file to resolve paths.
+
+```ts title="tsconfig.json" showLineNumbers {9-12}
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./app/*"]
+    }
+  }
+}
+```
+
+<Step>Run the CLI</Step>
+
+Run the `@gentleduck/cli` init command to setup your project:
+
+```bash
+npx @gentleduck/cli init
+```
+
+This will create a `components.json` file in the root of your project and configure CSS variables inside `app/styles/app.css`.
+
+<Step>That's it</Step>
+
+You can now start adding components to your project.
+
+```bash
+npx @gentleduck/cli add button
+```
+
+The command above will add the `Button` component to your project. You can then import it like this:
+
+```tsx title="app/routes/index.tsx" showLineNumbers {1-2,7}
+import { createFileRoute } from "@tanstack/react-router"
+import { Button } from "@/components/ui/button"
+
+export const Route = createFileRoute("/")({
+  component: Home,
+})
+
+function Home() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  )
+}
+```
+
+</Steps>

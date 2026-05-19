@@ -1,0 +1,267 @@
+---
+title: alert-dialog
+description: A modal dialog temporarily interrupts the user's workflow with important content, requiring immediate attention and a response before allowing further interaction.
+component: true
+section: Overlay
+order: 10
+---
+<ComponentPreview
+  name="alert-dialog-1"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+## Philosophy
+
+Alert dialogs are the nuclear option of UI interruption. Unlike regular dialogs, they can't be dismissed by clicking outside or pressing Escape  -  the user must explicitly choose an action. Reserve them for destructive operations where an accidental dismissal could mean data loss.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add alert-dialog
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/primitives @gentleduck/libs
+```
+
+<Step>Make sure you have the [`Button`](/duck-ui/components/button) component installed in your project.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/alert-dialog" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+```
+
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Examples
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="alert-dialog-3"
+  description="An alert dialog with an active trigger style when open."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[AlertDialog] --> B[AlertDialogTrigger]
+    A --> C[AlertDialogContent]
+    C --> D[AlertDialogHeader]
+    C --> E[AlertDialogFooter]
+    D --> F[AlertDialogTitle]
+    D --> G[AlertDialogDescription]
+    E --> H[AlertDialogAction]
+    E --> I[AlertDialogCancel]
+`} />
+
+## RTL Support
+
+Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
+
+```tsx
+<AlertDialog dir="rtl">
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
+      <AlertDialogDescription>
+        هذا الاجراء لا يمكن التراجع عنه.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>الغاء</AlertDialogCancel>
+      <AlertDialogAction>متابعة</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+<ComponentPreview
+  name="alert-dialog-2"
+  description="An alert dialog with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
+</Callout>
+
+Use `MotionAlertDialog` and `MotionAlertDialogContent` for smooth enter/exit animations powered by [motion](https://motion.dev). Uses a stiffer spring to convey urgency compared to the regular dialog.
+
+<ComponentPreview
+  name="alert-dialog-4"
+  description="An alert dialog with motion-powered spring animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionAlertDialog` instead of `AlertDialog` and `MotionAlertDialogContent` instead of `AlertDialogContent`. All other sub-components (`AlertDialogTrigger`, `AlertDialogAction`, etc.) stay the same.
+</Callout>
+
+## API Reference
+
+### AlertDialog
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultOpen` | `boolean` | `-` | Determines if the dialog should be open by default |
+| `open` | `boolean` | `-` | Controls the visibility of the dialog |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback fired when the dialog opens or closes |
+| `dir` | `'ltr' \| 'rtl'` | `-` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Inherited from the Dialog primitive. |
+| `children` | `React.ReactNode` | (required) | Child elements (typically Trigger and Content) |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | - | Additional props inherited from `AlertDialogPrimitive.Root` |
+
+### AlertDialogTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `button` element |
+| `children` | `React.ReactNode` | `--` | Content of the trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Trigger>` | - | Additional props inherited from `AlertDialogPrimitive.Trigger` |
+
+### AlertDialogPortal
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `container` | `HTMLElement` | - | Optional portal container |
+| `forceMount` | `true` | - | Forces mounted state for all portal children |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Portal>` | - | Additional props inherited from `AlertDialogPrimitive.Portal` |
+
+### AlertDialogOverlay
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional class names to apply |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>` | - | Additional props inherited from `AlertDialogPrimitive.Overlay` |
+
+### AlertDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
+| `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
+
+### MotionAlertDialog
+
+Same props as `AlertDialog`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionAlertDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | **Required.** Controlled open state for AnimatePresence enter/exit |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
+
+Requires `motion` package installed. Uses a spring transition (stiffness 400, damping 30) for a snappier feel that conveys urgency. Automatically respects `prefers-reduced-motion`.
+
+### AlertDialogHeader
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Header content (typically Title and Description) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the header container |
+
+### AlertDialogFooter
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Footer content (typically Action and Cancel buttons) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### AlertDialogTitle
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Title text content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>` | - | Additional props inherited from `AlertDialogPrimitive.Title` |
+
+### AlertDialogDescription
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Description text content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>` | - | Additional props inherited from `AlertDialogPrimitive.Description` |
+
+### AlertDialogAction
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional class names merged with default button styles |
+| `children` | `React.ReactNode` | - | Action button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>` | - | Additional props inherited from `AlertDialogPrimitive.Action` |
+
+### AlertDialogCancel
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional class names merged with outline button styles |
+| `children` | `React.ReactNode` | - | Cancel button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | - | Additional props inherited from `AlertDialogPrimitive.Cancel` |

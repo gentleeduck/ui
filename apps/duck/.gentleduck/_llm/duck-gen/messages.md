@@ -1,0 +1,339 @@
+## Overview
+
+The messages extension scans source files for exported constants tagged with a `@duckgen`
+JSDoc comment. It reads the keys from those constants and emits TypeScript types that
+describe the message registry — compile-time safety for i18n dictionaries, error codes,
+or any string-keyed data declared on the server.
+
+## What it scans
+
+Duck Gen picks up **exported** `const` declarations that:
+
+1. Have a JSDoc comment with a `@duckgen` tag.
+2. Are an **array** or **object** with `as const`.
+
+```ts
+// Array source — values become message keys
+/**
+ * @duckgen messages auth
+ */
+export const AuthMessages = [
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_SIGNIN_FAILED',
+  'AUTH_USERNAME_INVALID',
+] as const
+
+// Object source — keys become message keys
+/**
+ * @duckgen messages payments
+ */
+export const PaymentMessages = {
+  PAYMENT_SUCCESS: 'PAYMENT_SUCCESS',
+  PAYMENT_DECLINED: 'PAYMENT_DECLINED',
+  PAYMENT_INSUFFICIENT_FUNDS: 'PAYMENT_INSUFFICIENT_FUNDS',
+} as const
+```
+
+Both formats produce the same result: typed message keys grouped under a name.
+
+## Tag format
+
+Valid forms of the `@duckgen` JSDoc tag:
+
+| Tag | Group key |
+| --- | --- |
+| `@duckgen` | Uses the const name (e.g. `AuthMessages`) |
+| `@duckgen messages` | Uses the const name |
+| `@duckgen message` | Uses the const name |
+| `@duckgen auth` | Uses `auth` as the group key |
+| `@duckgen messages auth` | Uses `auth` as the group key |
+| `@duckgen message auth` | Uses `auth` as the group key |
+
+**When to pass a custom group key:** Pass a custom key for a short scope name. Without
+one, the const variable name is used, which is often longer.
+
+```ts
+// Group key = "auth" (explicit)
+/** @duckgen messages auth */
+export const AuthMessages = [ ... ] as const
+
+// Group key = "AuthMessages" (inferred from const name)
+/** @duckgen */
+export const AuthMessages = [ ... ] as const
+```
+
+## Group key rules
+
+* Each group key must be **unique** project-wide.
+* Two constants with the same group key — the duplicate is **skipped** with a warning.
+* Two constants with the same **variable name** — the duplicate is skipped with a warning.
+* Group keys are case-sensitive: `auth` and `Auth` are different groups.
+
+## The `as const` requirement
+
+`as const` is required on the array or object. Without it, TypeScript widens the types to
+`string[]` or `Record<string, string>` and Duck Gen can't read the literal keys.
+
+```ts
+// Without as const — keys become just `string`
+export const Messages = ['MSG_ONE', 'MSG_TWO']
+
+// With as const — keys are literal types 'MSG_ONE' | 'MSG_TWO'
+export const Messages = ['MSG_ONE', 'MSG_TWO'] as const
+```
+
+## Array vs object sources
+
+### Array source
+
+Use arrays when the keys are plain identifiers:
+
+```ts
+/** @duckgen messages auth */
+export const AuthMessages = [
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_SIGNIN_FAILED',
+  'AUTH_USERNAME_INVALID',
+  'AUTH_PASSWORD_INVALID',
+] as const
+```
+
+The array values become the message keys. The generated type maps each key to a `string`
+(the translation text).
+
+### Object source
+
+Use objects to attach status codes or other metadata to each key:
+
+```ts
+/** @duckgen messages auth */
+export const AuthMessages = {
+  AUTH_SIGNIN_SUCCESS: 200,
+  AUTH_SIGNIN_FAILED: 500,
+  AUTH_USERNAME_INVALID: 401,
+  AUTH_PASSWORD_INVALID: 401,
+} as const
+```
+
+The object **keys** become the message keys. Values can be anything — Duck Gen only uses
+the keys.
+
+### Mixing shared constants
+
+Spread shared constants into an array:
+
+```ts title="src/common/constants.ts"
+export const ZodMessages = {
+  ZOD_EXPECTED_STRING: 'ZOD_EXPECTED_STRING',
+  ZOD_TOO_LONG: 'ZOD_TOO_LONG',
+  ZOD_TOO_SHORT: 'ZOD_TOO_SHORT',
+} as const
+```
+
+```ts title="src/modules/auth/auth.constants.ts"
+import { ZodMessages } from '~/common/constants'
+
+/** @duckgen messages auth */
+export const AuthMessages = [
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_SIGNIN_FAILED',
+  ...Object.values(ZodMessages),
+] as const
+```
+
+The auth i18n dictionary now covers both auth-specific and shared validation messages.
+
+## Generated types
+
+The messages extension writes a `.d.ts` file with these types:
+
+### DuckgenMessageSources
+
+A type registry mapping group keys to their source types:
+
+```ts
+type DuckgenMessageSources = {
+  auth: typeof AuthMessages
+  payments: typeof PaymentMessages
+}
+```
+
+### DuckgenMessageGroup
+
+A union of all group keys:
+
+```ts
+type DuckgenMessageGroup = 'auth' | 'payments'
+```
+
+### DuckgenMessageKey
+
+Message keys for a group, or across all groups:
+
+```ts
+// Keys for a specific group
+type AuthKey = DuckgenMessageKey<'auth'>
+// => 'AUTH_SIGNIN_SUCCESS' | 'AUTH_SIGNIN_FAILED' | ...
+
+// All keys across all groups
+type AllKeys = DuckgenMessageKey
+// => 'AUTH_SIGNIN_SUCCESS' | ... | 'PAYMENT_SUCCESS' | ...
+```
+
+### DuckgenMessageDictionary
+
+A record mapping a group's message keys to string translations:
+
+```ts
+type AuthDictionary = DuckgenMessageDictionary<'auth'>
+// => { AUTH_SIGNIN_SUCCESS: string; AUTH_SIGNIN_FAILED: string; ... }
+```
+
+### DuckgenMessageDictionaryByGroup
+
+All groups mapped to their dictionaries:
+
+```ts
+type AllDicts = DuckgenMessageDictionaryByGroup
+// => { auth: { AUTH_SIGNIN_SUCCESS: string; ... }; payments: { PAYMENT_SUCCESS: string; ... } }
+```
+
+### DuckGenI18nMessages
+
+Alias for `DuckgenMessageDictionaryByGroup`. Pick whichever name reads better.
+
+### DuckgenI18n
+
+Maps language codes to a dictionary for one or more groups:
+
+```ts
+type AuthI18n = DuckgenI18n<'en' | 'ar', 'auth'>
+// => { en: { AUTH_SIGNIN_SUCCESS: string; ... }; ar: { AUTH_SIGNIN_SUCCESS: string; ... } }
+```
+
+### DuckgenI18nByGroup
+
+Maps language codes to all group dictionaries:
+
+```ts
+type FullI18n = DuckgenI18nByGroup<'en' | 'ar'>
+// => { en: { auth: { ... }; payments: { ... } }; ar: { auth: { ... }; payments: { ... } } }
+```
+
+### DuckgenScopedI18nByGroup
+
+Wraps all groups under a `server` scope. Use this when the app mixes server-generated
+and client-only messages:
+
+```ts
+type ScopedI18n = DuckgenScopedI18nByGroup<'en' | 'ar', DuckGenI18nMessages>
+// => { en: { server: { AuthMessages: { ... }; PaymentMessages: { ... } } }; ar: { ... } }
+```
+
+## Real-world i18n example
+
+A type-safe i18n system built on generated message types:
+
+### Step 1: Define messages on the server
+
+```ts title="src/modules/auth/auth.constants.ts"
+/** @duckgen messages auth */
+export const AuthMessages = [
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_SIGNIN_FAILED',
+  'AUTH_USERNAME_INVALID',
+  'AUTH_PASSWORD_INVALID',
+] as const
+```
+
+### Step 2: Run Duck Gen
+
+```bash
+bunx duck-gen
+```
+
+### Step 3: Build the i18n object on the client
+
+```ts title="client/i18n.ts"
+import type { DuckgenScopedI18nByGroup, DuckGenI18nMessages } from '@gentleduck/gen/nestjs'
+
+type SupportedLang = 'en' | 'ar'
+type I18n = DuckgenScopedI18nByGroup<SupportedLang, DuckGenI18nMessages>
+
+export const i18n: I18n = {
+  en: {
+    server: {
+      AuthMessages: {
+        AUTH_SIGNIN_SUCCESS: 'Signed in successfully',
+        AUTH_SIGNIN_FAILED: 'Sign in failed',
+        AUTH_USERNAME_INVALID: 'Invalid username',
+        AUTH_PASSWORD_INVALID: 'Invalid password',
+      },
+    },
+  },
+  ar: {
+    server: {
+      AuthMessages: {
+        AUTH_SIGNIN_SUCCESS: 'تم تسجيل الدخول بنجاح',
+        AUTH_SIGNIN_FAILED: 'فشل تسجيل الدخول',
+        AUTH_USERNAME_INVALID: 'اسم المستخدم غير صحيح',
+        AUTH_PASSWORD_INVALID: 'كلمة المرور غير صحيحة',
+      },
+    },
+  },
+}
+```
+
+TypeScript errors when you:
+
+* Misspell a message key.
+* Miss a translation for a key.
+* Add a key that isn't in the server constants.
+
+### Step 4: Use in the UI
+
+```ts title="client/auth.ts"
+import { i18n } from './i18n'
+
+function showSigninError(lang: 'en' | 'ar', messageKey: string) {
+  const text = i18n[lang].server.AuthMessages[messageKey]
+  toast.error(text)
+}
+```
+
+## Multiple message groups
+
+Define as many groups as you need. Each module gets its own:
+
+```ts title="src/modules/auth/auth.constants.ts"
+/** @duckgen messages auth */
+export const AuthMessages = ['AUTH_SIGNIN_SUCCESS', 'AUTH_SIGNIN_FAILED'] as const
+```
+
+```ts title="src/modules/users/users.constants.ts"
+/** @duckgen messages users */
+export const UserMessages = ['USER_CREATED', 'USER_NOT_FOUND', 'USER_UPDATED'] as const
+```
+
+```ts title="src/modules/payments/payments.constants.ts"
+/** @duckgen messages payments */
+export const PaymentMessages = ['PAYMENT_SUCCESS', 'PAYMENT_DECLINED'] as const
+```
+
+All three groups land in the generated types, accessible individually or together.
+
+## Troubleshooting
+
+| Problem | Solution |
+| --- | --- |
+| Keys are just `string` | Add `as const` to the array or object. |
+| Group missing | The constant must be **exported** and have a `@duckgen` JSDoc tag. |
+| Duplicate group warning | Two constants share the same group key — rename one. |
+| Duplicate const name | Two files export the same name — rename one. |
+| Spread values missing | Duck Gen reads literal values only. Spreading a dynamic expression may lose them. Put `as const` on the source too. |
+
+## Next steps
+
+* [Generated types reference](/duck-gen/generated-types): full type API for messages.
+* [Templates](/duck-gen/templates): complete example with messages, controllers, and Duck Query.
+* [Duck Query](/duck-query): pair your types with a type-safe HTTP client.
