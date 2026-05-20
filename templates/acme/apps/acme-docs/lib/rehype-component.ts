@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { IUnistNode, IUnistTree } from '@gentleduck/docs/types'
+import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
 import { getRegistryIndex } from './registry-index.server'
@@ -8,8 +8,8 @@ import { getRegistryIndex } from './registry-index.server'
 export function rehypeComponent() {
   const index = getRegistryIndex()
 
-  return async (tree: IUnistTree) => {
-    visit(tree, (node: IUnistNode) => {
+  return async (tree: UnistTree) => {
+    visit(tree, (node: UnistNode) => {
       const { value: srcPath } =
         (getNodeAttributeByName(node, 'src') as {
           name: string
@@ -114,7 +114,7 @@ export function rehypeComponent() {
   }
 }
 
-function getNodeAttributeByName(node: IUnistNode, name: string) {
+function getNodeAttributeByName(node: UnistNode, name: string) {
   return node.attributes?.find((attribute) => attribute.name === name)
 }
 

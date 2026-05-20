@@ -6,13 +6,15 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@gentleduck/docs": "^0.2.7",
-    "@gentleduck/hooks": "^0.1.12",
+    "@gentleduck/hooks": "^0.2.0",
     "@gentleduck/lazy": "^1.2.13",
-    "@gentleduck/libs": "^0.1.15",
-    "@gentleduck/motion": "^0.1.17",
-    "@gentleduck/primitives": "^0.2.5",
-    "@gentleduck/registry-ui": "^0.2.6",
-    "@gentleduck/vim": "^0.1.16",
+    "@gentleduck/libs": "^0.2.0",
+    "@gentleduck/motion": "^0.3.0",
+    "@gentleduck/primitives": "^0.2.11",
+    "@gentleduck/registers": "^0.4.1",
+    "@gentleduck/registry-build": "^0.2.3",
+    "@gentleduck/registry-ui": "^0.4.4",
+    "@gentleduck/vim": "^0.2.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^1.6.1",
@@ -36,7 +38,8 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-"@tailwindcss/postcss": "^4.1.18",
+    "@acme/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/culori": "^4.0.1",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.14",
@@ -47,9 +50,9 @@
     "velite": "^0.3.1"
   },
   "name": "@acme/docs",
-  "author": "acme contributors",
+  "author": "Acme",
   "license": "MIT",
-  "homepage": "https://gentleduck.org/duck-ui",
+  "homepage": "https://acme.org",
   "bugs": {
     "url": "https://github.com/acme/acme-ui/issues"
   },
@@ -68,11 +71,14 @@
     "build:docs": "velite",
     "dev": "next dev",
     "dev:docs": "velite dev",
-    "lint": "next lint",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
     "start": "next start --port 3008",
-    "preview": "next build && next start"
+    "preview": "next build && next start",
+    "clean": "rm -rf .next dist .turbo .cache .velite *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist .next .velite"
   },
   "version": "3.0.21"
 }
