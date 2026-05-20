@@ -5,7 +5,7 @@ type TsdownConfig = Parameters<typeof defineConfig>[0]
 
 export const config: TsdownConfig = {
   clean: true,
-  dts: true,
+  dts: { sourcemap: false },
   entry: ['./index.ts'],
   external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
   format: 'esm',
