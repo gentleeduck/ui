@@ -1,0 +1,7 @@
+echo "[husky] pre-push checks starting..."
+
+bun run fix
+bun run check
+bun run test
+
+echo "[husky] pre-push checks passed"

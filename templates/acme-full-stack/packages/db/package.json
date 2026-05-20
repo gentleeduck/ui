@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Acme database package - Drizzle ORM schema, client, and studio.",
+  "author": "Acme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./dist/schema.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "clean": "rm -rf dist .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@acme/tsdown-config": "workspace:*",
+    "@acme/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "drizzle-kit": "^0.31.10",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

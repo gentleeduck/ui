@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "~/*": ["./*"]
+    },
+    "plugins": [{ "name": "next" }],
+    "resolveJsonModule": true,
+    "rootDir": "./"
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "./src/_old",
+    "./src/_audio",
+    "./src/_upload",
+    "**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
+  "extends": "@acme/typescript-config/motion.json",
+  "include": ["./**/*.ts", "./**/*.tsx"]
+}

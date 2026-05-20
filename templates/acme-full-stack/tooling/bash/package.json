@@ -1,0 +1,14 @@
+{
+  "name": "@acme/bash",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules"
+  }
+}

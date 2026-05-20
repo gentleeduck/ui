@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@acme/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts", "drizzle.config.ts", "tsdown.config.ts"],
+  "exclude": ["node_modules", "dist", "drizzle"]
+}

@@ -1,0 +1,5 @@
+echo "[husky] pre-commit checks starting..."
+
+bunx biome check --write .
+
+echo "[husky] pre-commit checks passed"

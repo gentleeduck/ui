@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/typescript-config",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Acme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "*.json"
+  ],
+  "scripts": {
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules"
+  }
+}

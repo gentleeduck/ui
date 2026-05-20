@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/vitest-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Shared vitest test configuration for acme.",
+  "author": "Acme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "keywords": [
+    "vitest",
+    "vitest-config"
+  ],
+  "scripts": {
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf dist .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "@vitest/ui": "catalog:",
+    "vitest": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/typescript-config": "workspace:*"
+  }
+}

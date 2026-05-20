@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/tsdown-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Shared tsdown build configuration for acme.",
+  "author": "Acme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "keywords": [
+    "tsdown",
+    "tsdown-config"
+  ],
+  "scripts": {
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf dist .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "catalog:",
+    "tsdown": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/typescript-config": "workspace:*"
+  }
+}

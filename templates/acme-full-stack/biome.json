@@ -1,0 +1,212 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "recommended": true
+      }
+    },
+    "enabled": true
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/node_modules.root-owned",
+      "!**/dist",
+      "!**/build",
+      "!**/out",
+      "!**/coverage",
+      "!**/public",
+      "!**/.next",
+      "!**/next-env.d.ts",
+      "!**/apps/duck-ui-docs/.next",
+      "!**/website",
+      "!**/.*",
+      "!**/generated.root-owned",
+      "!**/old_*",
+      "!packages/___",
+      "!./apps/duck-ui-docs/__ui_registry__",
+      "!packages/_oldstuff_refactor",
+      "!packages/duck-benchmark",
+      "!templates",
+      "!**/__fixtures__",
+      "!**/tmp",
+      "!packages/duck-iam/examples"
+    ]
+  },
+  "formatter": {
+    "attributePosition": "multiline",
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "enabled": true,
+    "formatWithErrors": false,
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/node_modules.root-owned/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!**/out/**",
+      "!**/coverage/**",
+      "!**/test/**",
+      "!**/public/**",
+      "!**/.next/**",
+      "!**/next-env.d.ts",
+      "!**/apps/duck-ui-docs/.next/**",
+      "!**/website/**",
+      "!**/.*/**",
+      "!**/generated.root-owned/**",
+      "!**/old_*/**",
+      "!packages/___/**",
+      "!./apps/duck-ui-docs/__ui_registry__/**",
+      "!packages/_oldstuff_refactor/**",
+      "!packages/duck-benchmark/**",
+      "!**/tmp/**"
+    ],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": true,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    },
+    "globals": []
+  },
+  "linter": {
+    "enabled": true,
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/node_modules.root-owned/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!**/out/**",
+      "!**/coverage/**",
+      "!**/public/**",
+      "!**/.next/**",
+      "!**/next-env.d.ts",
+      "!**/apps/duck-ui-docs/.next/**",
+      "!**/website/**",
+      "!**/.*/**",
+      "!**/generated.root-owned/**",
+      "!**/old_*/**",
+      "!**/_*/**",
+      "!apps/benchmark/**",
+      "!packages/___/**",
+      "!packages/_oldstuff_refactor/**",
+      "!packages/wip/**",
+      "!packages/deprecated/**",
+      "!packages/duck-state/**",
+      "!packages/duck-benchmark/**",
+      "!packages/registry-build-duckui/**",
+      "!**/duck-state/**",
+      "!**/upload/**",
+      "!**/table/**",
+      "!**/combobox.tsx",
+      "!**/tmp/**"
+    ],
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "noLabelWithoutControl": "warn",
+        "noStaticElementInteractions": "warn",
+        "noSvgWithoutTitle": "off",
+        "useAriaPropsForRole": "warn",
+        "useAriaPropsSupportedByRole": "warn",
+        "useButtonType": "warn",
+        "useKeyWithClickEvents": "warn",
+        "useValidAnchor": "warn",
+        "useSemanticElements": "warn"
+      },
+      "complexity": {
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off",
+        "noImportantStyles": "warn",
+        "noThisInStatic": "warn"
+      },
+      "correctness": {
+        "noChildrenProp": "warn",
+        "noInvalidPositionAtImportRule": "warn",
+        "noInvalidUseBeforeDeclaration": "warn",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "warn",
+        "noUnusedFunctionParameters": "warn",
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "warn"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "info",
+          "options": {
+            "attributes": ["className", "class"],
+            "functions": ["clsx", "cva", "tw", "twMerge", "cn", "twJoin", "tv"]
+          }
+        }
+      },
+      "performance": {
+        "noImgElement": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      },
+      "style": {
+        "noDescendingSpecificity": "warn",
+        "noNonNullAssertion": "warn",
+        "useImportType": "on",
+        "useTemplate": "warn",
+        "useNodejsImportProtocol": "warn"
+      },
+      "suspicious": {
+        "noGlobalIsNan": "off",
+        "noArrayIndexKey": "warn",
+        "noAssignInExpressions": "warn",
+        "noDocumentCookie": "off",
+        "noDoubleEquals": "error",
+        "noDuplicateCustomProperties": "warn",
+        "noDuplicateProperties": "warn",
+        "noExplicitAny": "warn",
+        "noImplicitAnyLet": "warn",
+        "noNonNullAssertedOptionalChain": "warn",
+        "noRedeclare": "warn",
+        "noShadowRestrictedNames": "warn",
+        "noShorthandPropertyOverrides": "warn",
+        "noThenProperty": "error",
+        "noUnknownAtRules": "off",
+        "noVar": "error",
+        "useGetterReturn": "error",
+        "useIsArray": "error",
+        "useIterableCallbackReturn": "warn"
+      }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true,
+      "cssModules": true
+    }
+  },
+  "overrides": [
+    {
+      "formatter": {
+        "indentWidth": 2
+      },
+      "includes": ["**/*.json"]
+    }
+  ],
+  "plugins": []
+}
