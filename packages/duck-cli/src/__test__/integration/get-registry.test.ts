@@ -70,7 +70,23 @@ describe('getRegistryItem', () => {
     expect(result).toBeNull()
   })
 
-  it('fetches a component by full URL', async () => {
+  it('fetches a component by full URL from an allowlisted host', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(createMockRegistryEntry({ name: 'remote-button' })),
+        text: () => Promise.resolve(JSON.stringify(createMockRegistryEntry({ name: 'remote-button' }))),
+      }),
+    )
+    const { getRegistryItem } = await import('~/utils/get-registry')
+    const result = await getRegistryItem('https://gentleduck.org/r/components/button.json')
+    if (!result) throw new Error('expected getRegistryItem to return an entry')
+    expect(result.name).toBe('remote-button')
+  })
+
+  it('returns null when the full URL points to an untrusted host', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({
@@ -82,8 +98,7 @@ describe('getRegistryItem', () => {
     )
     const { getRegistryItem } = await import('~/utils/get-registry')
     const result = await getRegistryItem('https://example.com/components/button.json')
-    if (!result) throw new Error('expected getRegistryItem to return an entry')
-    expect(result.name).toBe('remote-button')
+    expect(result).toBeNull()
   })
 })
 

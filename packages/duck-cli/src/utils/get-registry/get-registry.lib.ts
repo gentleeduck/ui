@@ -4,6 +4,48 @@ import { ERROR_MESSAGES } from './get-registry.constants'
 
 const REGISTRY_REQUEST_TIMEOUT_MS = 30_000
 
+/** Hosts trusted to serve component registry data without an explicit opt-in. */
+export const DEFAULT_ALLOWED_REGISTRY_HOSTS = ['gentleduck.org'] as const
+
+/**
+ * Extra hosts the user has explicitly opted into via the `COMPONENTS_ALLOW_REGISTRY`
+ * env var (comma-separated). Provides a deliberate escape hatch for custom registries.
+ */
+function getUserAllowedRegistryHosts(): string[] {
+  return (process.env['COMPONENTS_ALLOW_REGISTRY'] ?? '')
+    .split(',')
+    .map((h) => h.trim().toLowerCase())
+    .filter(Boolean)
+}
+
+/**
+ * Asserts a registry URL uses `https:` and targets an allowlisted host before it is fetched.
+ * Component registry JSON drives filesystem writes, so an arbitrary host is a supply-chain risk.
+ */
+export function assertAllowedRegistryHost(url: string): void {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    throw new Error(`Invalid registry URL: ${url}`)
+  }
+
+  if (parsed.protocol !== 'https:') {
+    throw new Error(`Refusing to fetch registry over insecure protocol "${parsed.protocol}". Use https.`)
+  }
+
+  const host = parsed.hostname.toLowerCase()
+  const allowed = [...DEFAULT_ALLOWED_REGISTRY_HOSTS, ...getUserAllowedRegistryHosts()]
+  const isAllowed = allowed.some((a) => host === a || host.endsWith(`.${a}`))
+
+  if (!isAllowed) {
+    throw new Error(
+      `Refusing to fetch from untrusted registry host "${host}".\n` +
+        `If you trust this registry, opt in by setting COMPONENTS_ALLOW_REGISTRY=${host}`,
+    )
+  }
+}
+
 export function isUrl(path: string) {
   try {
     new URL(path)
@@ -28,6 +70,8 @@ export function getRegistryUrl(path: string) {
 }
 
 async function fetchRegistryJson(url: string) {
+  assertAllowedRegistryHost(url)
+
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), REGISTRY_REQUEST_TIMEOUT_MS)
 

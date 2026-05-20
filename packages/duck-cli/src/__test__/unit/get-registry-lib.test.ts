@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { checkStatus, getRegistryUrl, isUrl } from '~/utils/get-registry/get-registry.lib'
+import { afterEach, describe, expect, it } from 'vitest'
+import { assertAllowedRegistryHost, checkStatus, getRegistryUrl, isUrl } from '~/utils/get-registry/get-registry.lib'
 
 describe('isUrl', () => {
   it('returns true for valid http URLs', () => {
@@ -65,5 +65,32 @@ describe('checkStatus', () => {
     expect(() => checkStatus(500, 'Internal Server Error', 'https://example.com', 'plain text error')).toThrow(
       'Internal Server Error',
     )
+  })
+})
+
+describe('assertAllowedRegistryHost', () => {
+  afterEach(() => {
+    delete process.env['COMPONENTS_ALLOW_REGISTRY']
+  })
+
+  it('allows the default trusted registry host', () => {
+    expect(() => assertAllowedRegistryHost('https://gentleduck.org/r/components/button.json')).not.toThrow()
+  })
+
+  it('allows subdomains of the trusted host', () => {
+    expect(() => assertAllowedRegistryHost('https://registry.gentleduck.org/components/button.json')).not.toThrow()
+  })
+
+  it('throws for an arbitrary untrusted host', () => {
+    expect(() => assertAllowedRegistryHost('https://evil.example.com/component.json')).toThrow(/untrusted registry/i)
+  })
+
+  it('throws for non-https protocols', () => {
+    expect(() => assertAllowedRegistryHost('http://gentleduck.org/r/index.json')).toThrow(/insecure protocol/i)
+  })
+
+  it('allows an opted-in host via COMPONENTS_ALLOW_REGISTRY', () => {
+    process.env['COMPONENTS_ALLOW_REGISTRY'] = 'my-registry.example.com'
+    expect(() => assertAllowedRegistryHost('https://my-registry.example.com/component.json')).not.toThrow()
   })
 })
