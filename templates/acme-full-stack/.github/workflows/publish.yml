@@ -1,0 +1,152 @@
+name: Release
+
+# Two-stage release flow:
+#   1. release-pr  -> runs on every push to master, opens / refreshes the
+#                     "chore: version packages" PR via changesets. Never
+#                     publishes.
+#   2. publish     -> only runs when the head commit message is exactly
+#                     "chore: version packages" (i.e. the version-bump PR
+#                     just merged). Sits behind the `npm` environment so a
+#                     reviewer must approve before anything hits the
+#                     registry. First-time publishes of new packages still
+#                     need a manual `npm publish --access=public` to seed
+#                     the registry entry.
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  BUN_VERSION: "1.3.10"
+  NODE_VERSION: "22"
+  NEXT_PUBLIC_APP_URL: https://acme.org/duck-ui
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  HUSKY: "0"
+
+jobs:
+  release-pr:
+    name: Open / refresh version PR
+    if: "!startsWith(github.event.head_commit.message, 'chore: version packages')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Cache Bun install
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Cache Turbo
+        uses: actions/cache@v5
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('bun.lock', 'turbo.json') }}-${{ github.run_id }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('bun.lock', 'turbo.json') }}-
+            turbo-${{ runner.os }}-${{ github.job }}-
+            turbo-${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Lint and check
+        run: bun run check && bun run lint:ws
+
+      - name: Build
+        run: bunx turbo run build --filter='./packages/*'
+
+      - name: Type check
+        run: bun run check-types
+
+      - name: Test
+        run: bun run test
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          version: bun run version-packages
+          title: "chore: version packages"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish to npm
+    if: "startsWith(github.event.head_commit.message, 'chore: version packages') || github.event_name == 'workflow_dispatch'"
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Cache Bun install
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Cache Turbo
+        uses: actions/cache@v5
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('bun.lock', 'turbo.json') }}-${{ github.run_id }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('bun.lock', 'turbo.json') }}-
+            turbo-${{ runner.os }}-${{ github.job }}-
+            turbo-${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build
+        run: bunx turbo run build --filter='./packages/*'
+
+      - name: Publish
+        uses: changesets/action@v1
+        with:
+          publish: bunx changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

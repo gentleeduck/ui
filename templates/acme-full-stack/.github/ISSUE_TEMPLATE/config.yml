@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://acme.org/duck-ui
+    about: Check the docs before opening an issue.
+  - name: Community Discussions
+    url: https://github.com/acme/acme/discussions
+    about: Ask questions, share ideas, or start a conversation.
+  - name: Security Reports
+    url: https://github.com/acme/acme/security/policy
+    about: Report security vulnerabilities responsibly.

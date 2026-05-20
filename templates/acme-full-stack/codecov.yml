@@ -1,0 +1,32 @@
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        base: auto
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+ignore:
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/.next/**"
+  - "**/__test__/**"
+  - "**/tests/**"
+  - "**/*.test.{ts,tsx}"
+  - "**/__snapshots__/**"
+  - "**/__ui_registry__/**"
+  - "**/examples/**"
+  - "apps/**"
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: false

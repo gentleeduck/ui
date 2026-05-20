@@ -1,0 +1,30 @@
+{
+  "name": "@acme/front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf .next dist .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist .next"
+  },
+  "dependencies": {
+    "@acme/ui": "workspace:*",
+    "next": "16.2.6",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19"
+  },
+  "devDependencies": {
+    "@acme/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}
