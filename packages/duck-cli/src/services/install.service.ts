@@ -5,6 +5,7 @@ import { getPackageManager } from '~/utils/get-package-manager'
 import type { TsConfig } from '~/utils/get-project-info'
 import { getRegistryItem, type Registry } from '~/utils/get-registry'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
+import { resolveWithinBase } from '~/utils/safe-path'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 /**
@@ -120,7 +121,8 @@ async function writeComponent(
   onOverwriteCheck?: (name: string) => Promise<boolean>,
   onConflictCheck?: (name: string) => Promise<ConflictAction>,
 ) {
-  const writeComponentPath = `${writeTypePath}/${component.root_folder}`
+  // `root_folder` is registry-supplied; contain it within the install dir to block path traversal.
+  const writeComponentPath = resolveWithinBase(writeTypePath, component.root_folder)
 
   if (!fs.existsSync(writeTypePath)) {
     await fs.mkdir(writeTypePath, { recursive: true })
@@ -150,7 +152,9 @@ async function writeComponent(
 
   for (const file of component.files) {
     if (!file.content) continue
-    await fs.writeFile(path.resolve(writeTypePath, file.path as string), file.content, 'utf8')
+    // `file.path` is registry-supplied; contain it within the install dir to block path traversal.
+    const filePath = resolveWithinBase(writeTypePath, file.path)
+    await fs.writeFile(filePath, file.content, 'utf8')
   }
 }
 
