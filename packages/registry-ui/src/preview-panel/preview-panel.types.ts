@@ -18,8 +18,16 @@ export interface IPreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
   initialZoom?: number
   /** Whether to show zoom controls. Default true. */
   showControls?: boolean
-  /** Raw HTML string to render inside the panel. Takes priority over children. */
-  html?: string
+  /**
+   * Raw HTML string rendered verbatim via `dangerouslySetInnerHTML`. Takes
+   * priority over children.
+   *
+   * SECURITY: this value is NOT sanitised. The caller MUST pass only HTML it
+   * fully trusts (e.g. a build-time constant). Never wire user-, CMS-, or
+   * URL-derived markup into this prop — doing so is an XSS sink. Pass React
+   * `children` instead for untrusted content.
+   */
+  unsafeHtml?: string
   /** Called whenever zoom or position changes. Use to sync with another panel. */
   onStateChange?: (state: IPreviewPanelState) => void
   /** External state to apply. When set, the panel syncs to this state. */
@@ -29,8 +37,14 @@ export interface IPreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
 export interface IPreviewPanelDialogProps {
   /** Content to render in both the inline panel and the dialog panel. */
   children?: React.ReactNode
-  /** Raw HTML string to render. Takes priority over children. */
-  html?: string
+  /**
+   * Raw HTML string rendered verbatim via `dangerouslySetInnerHTML`. Takes
+   * priority over children.
+   *
+   * SECURITY: this value is NOT sanitised. The caller MUST pass only HTML it
+   * fully trusts. Never wire untrusted markup into this prop.
+   */
+  unsafeHtml?: string
   /** Class name for the inline panel wrapper. */
   className?: string
   /** Class name applied to both PreviewPanel instances. */

@@ -13,7 +13,7 @@ const PreviewPanelDialog = React.forwardRef<HTMLDivElement, IPreviewPanelDialogP
   (
     {
       children,
-      html,
+      unsafeHtml,
       className,
       panelClassName,
       maxHeight,
@@ -44,7 +44,7 @@ const PreviewPanelDialog = React.forwardRef<HTMLDivElement, IPreviewPanelDialogP
       [syncPanels],
     )
 
-    const contentProps = useMemo(() => (html ? { html } : { children }), [html, children])
+    const contentProps = useMemo(() => (unsafeHtml ? { unsafeHtml } : { children }), [unsafeHtml, children])
 
     const dialogPanelClassName = useMemo(() => cn('min-h-[70vh]', panelClassName), [panelClassName])
 

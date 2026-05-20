@@ -100,7 +100,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       maxZoom = 4,
       initialZoom = 1,
       showControls = true,
-      html,
+      unsafeHtml,
       children,
       className,
       style,
@@ -337,8 +337,9 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
     }, [])
 
     const contentProps = useMemo(
-      () => (html ? { dangerouslySetInnerHTML: { __html: html } } : { children }),
-      [html, children],
+      // SEC-002: `unsafeHtml` is rendered verbatim and is the caller's responsibility to sanitise.
+      () => (unsafeHtml ? { dangerouslySetInnerHTML: { __html: unsafeHtml } } : { children }),
+      [unsafeHtml, children],
     )
 
     const containerStyle = useMemo(
