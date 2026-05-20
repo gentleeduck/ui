@@ -126,3 +126,33 @@ describe('Slot (edge cases)', () => {
     expect(container.textContent).toBe('just text')
   })
 })
+
+describe('Slot (security)', () => {
+  it('drops dangerouslySetInnerHTML supplied by a Slot child', () => {
+    const { container } = render(
+      <Slot>
+        <div dangerouslySetInnerHTML={{ __html: '<img src=x onerror=alert(1)>' }} />
+      </Slot>,
+    )
+    expect(container.querySelector('img')).toBeNull()
+    expect(container.innerHTML).not.toContain('onerror')
+  })
+
+  it('still merges legitimate onClick and className when child is sanitized', () => {
+    const slotClick = mock(() => {})
+    const childClick = mock(() => {})
+    const { container } = render(
+      <Slot className="slot-class" onClick={slotClick}>
+        <button className="child-class" onClick={childClick}>
+          safe
+        </button>
+      </Slot>,
+    )
+    const button = container.querySelector('button')!
+    expect(button.className).toContain('slot-class')
+    expect(button.className).toContain('child-class')
+    button.click()
+    expect(childClick).toHaveBeenCalledTimes(1)
+    expect(slotClick).toHaveBeenCalledTimes(1)
+  })
+})
