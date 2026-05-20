@@ -5,7 +5,7 @@ import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
-import { getPayloadConfigFromPayload } from './chart.libs'
+import { getPayloadConfigFromPayload, isSafeCssColor, isSafeCssIdent } from './chart.libs'
 import type {
   IChartContainerProps,
   IChartContextProps,
@@ -32,7 +32,11 @@ function useChart() {
 
 function ChartContainer({ id, className, children, config, ref, dir, ...props }: IChartContainerProps) {
   const uniqueId = React.useId()
-  const chartId = `chart-${id || uniqueId.replace(/:/g, '')}`
+  const safeUniqueId = uniqueId.replace(/:/g, '')
+  // SEC-003: the `id` is interpolated into a CSS selector; reject any
+  // caller-supplied override that is not a safe identifier.
+  const safeId = id && isSafeCssIdent(id) ? id : safeUniqueId
+  const chartId = `chart-${safeId}`
   const direction = useDirection(dir as IDirection.Kind)
 
   return (
@@ -58,7 +62,16 @@ function ChartContainer({ id, className, children, config, ref, dir, ...props }:
 ChartContainer.displayName = 'ChartContainer'
 
 function ChartStyle({ id, config }: IChartStyleProps) {
-  const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color)
+  // SEC-003: `id` is interpolated into a CSS selector — drop it entirely if unsafe.
+  if (!isSafeCssIdent(id)) {
+    return null
+  }
+
+  // SEC-001: only keep entries whose key is a safe CSS identifier; both the
+  // key and color values are interpolated raw into a `<style>` block.
+  const colorConfig = Object.entries(config).filter(
+    ([key, config]) => isSafeCssIdent(key) && (config.theme || config.color),
+  )
 
   if (!colorConfig.length) {
     return null
@@ -66,7 +79,7 @@ function ChartStyle({ id, config }: IChartStyleProps) {
 
   return (
     <style
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled CSS injection for chart color themes
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: validated CSS injection for chart color themes
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(
@@ -75,8 +88,10 @@ ${prefix} [data-chart=${id}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
     const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
+    // SEC-001: drop any color that is not a strictly-allowlisted CSS value.
+    return color && isSafeCssColor(color) ? `  --color-${key}: ${color};` : null
   })
+  .filter(Boolean)
   .join('\n')}
 }
 `,
