@@ -1,23 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/typescript-config",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Acme",
+  "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
   },
   "files": [
     "*.json"
   ],
-  "name": "@acme/typescript-config",
-  "author": "acme contributors",
-  "license": "MIT",
-  "homepage": "https://gentleduck.org/duck-ui",
-  "bugs": {
-    "url": "https://github.com/acme/acme-ui/issues"
+  "exports": {
+    "./base.json": "./base.json",
+    "./react.json": "./react.json",
+    "./motion.json": "./motion.json",
+    "./internal-package.json": "./internal-package.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acme/acme-ui.git",
-    "directory": "tooling/typescript"
-  },
-  "private": true,
-  "version": "0.1.0"
+  "scripts": {
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules"
+  }
 }

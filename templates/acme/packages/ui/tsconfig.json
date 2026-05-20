@@ -1,48 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
-    "incremental": false,
-    "rootDir": "./",
     "outDir": "./dist",
-    "module": "Preserve",
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "ESNext",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "disableSourceOfProjectReferenceRedirect": true,
-    "checkJs": true,
-    "noEmit": true,
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "preserve",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
-    }
+      "~/*": ["./*"]
+    },
+    "plugins": [{ "name": "next" }],
+    "resolveJsonModule": true,
+    "rootDir": "./"
   },
-  "include": [
-    "./**/*.ts",
-    "./**/*.tsx"
-  ],
   "exclude": [
     "node_modules",
     "dist",
-    "build"
-  ]
+    "./src/_old",
+    "./src/_audio",
+    "./src/_upload",
+    "**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
+  "extends": "@acme/typescript-config/motion.json",
+  "include": ["./**/*.ts", "./**/*.tsx"]
 }

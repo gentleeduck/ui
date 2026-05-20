@@ -1,40 +1,35 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/tsdown-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Shared tsdown build configuration for acme.",
+  "author": "Acme",
+  "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "acme contributors",
-  "dependencies": {
-    "@vitejs/plugin-react-swc": "^3.11.0",
-    "tsdown": "0.18.3"
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
   },
-  "description": "Shared tsdown build configuration for acme/ui.",
-  "devDependencies": {},
   "keywords": [
     "tsdown",
     "tsdown-config"
   ],
-  "license": "MIT",
-  "main": "dist/index.mjs",
-  "name": "@acme/tsdown-config",
-  "homepage": "https://gentleduck.org/duck-ui",
-  "bugs": {
-    "url": "https://github.com/acme/acme-ui/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acme/acme-ui.git",
-    "directory": "tooling/tsdown"
-  },
-  "packageManager": "bun@1.3.10",
-  "private": true,
   "scripts": {
-    "build": "tsdown index.ts --format esm --dts",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
-    "lint": "biome lint --write ./"
+    "lint": "biome lint --write ./",
+    "clean": "rm -rf dist .turbo .cache *.tsbuildinfo",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist"
   },
-  "type": "module",
-  "types": "dist/index.d.mts",
-  "version": "0.0.1"
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "catalog:",
+    "tsdown": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/typescript-config": "workspace:*"
+  }
 }

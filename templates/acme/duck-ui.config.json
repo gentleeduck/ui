@@ -1,0 +1,23 @@
+{
+  "schema": "https://acme.org/schema.json",
+  "rsc": true,
+  "monorepo": true,
+  "workspace": {
+    "root": ".",
+    "project": "packages/ui"
+  },
+  "tailwind": {
+    "baseColor": "zinc",
+    "css": "index.css",
+    "cssWorkspace": "packages/ui",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "ui": "./packages/ui/",
+    "libs": "./packages/libs",
+    "hooks": "./packages/hooks",
+    "pages": "./packages/pages",
+    "layouts": "./packages/layouts"
+  }
+}
