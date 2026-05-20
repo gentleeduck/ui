@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import path from 'node:path'
 
 /**
@@ -5,7 +6,9 @@ import path from 'node:path'
  * guaranteeing the result stays inside `baseDir`.
  *
  * Rejects absolute paths and any `..` traversal segment, then asserts the resolved path is
- * contained within `baseDir`. Throws a clear error on any violation.
+ * contained within `baseDir`. The base is canonicalised with realpath when it exists so a
+ * pre-existing in-tree symlink cannot redirect the write outside the project. Throws a
+ * clear error on any violation.
  */
 export function resolveWithinBase(baseDir: string, untrustedRelative: string): string {
   if (typeof untrustedRelative !== 'string' || untrustedRelative.length === 0) {
@@ -22,7 +25,12 @@ export function resolveWithinBase(baseDir: string, untrustedRelative: string): s
     throw new Error(`Refusing to write outside the project: path "${untrustedRelative}" contains ".." traversal.`)
   }
 
-  const base = path.resolve(baseDir)
+  let base = path.resolve(baseDir)
+  try {
+    base = fs.realpathSync(base)
+  } catch {
+    // Base does not exist yet — fall back to the resolved (non-canonical) path.
+  }
   const resolved = path.resolve(base, normalized)
 
   if (resolved !== base && !resolved.startsWith(base + path.sep)) {
