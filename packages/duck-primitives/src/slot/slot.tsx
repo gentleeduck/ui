@@ -106,6 +106,10 @@ const Slottable = createSlottable('Slottable')
 
 type AnyProps = { ref?: React.Ref<unknown> | undefined; [key: string]: unknown }
 
+// Props a Slot child must never forward onto the cloned node. The Slot owns its
+// content rendering, so `asChild` cannot be used as a raw-HTML injection vector.
+const FORBIDDEN_SLOT_PROPS = ['dangerouslySetInnerHTML'] as const
+
 function isSlottable(child: React.ReactNode): child is React.ReactElement<ISlot.ISlottableProps, typeof Slottable> {
   return (
     React.isValidElement(child) &&
@@ -140,7 +144,16 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
     }
   }
 
-  return { ...slotProps, ...overrideProps }
+  const merged = { ...slotProps, ...overrideProps }
+
+  // Force-override forbidden props to `undefined`: deleting the key is not enough
+  // because `cloneElement` keeps any key absent from the new props, which would
+  // leave a child's original `dangerouslySetInnerHTML` intact on the clone.
+  for (const forbidden of FORBIDDEN_SLOT_PROPS) {
+    merged[forbidden] = undefined
+  }
+
+  return merged
 }
 
 // React 18 warns on `element.props.ref`; React 19 warns on `element.ref`.
