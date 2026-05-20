@@ -1,6 +1,7 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import { applyMergeChoices, buildMergeHunks, type Merge } from '~/utils/merge'
+import { resolveWithinBase } from '~/utils/safe-path'
 import type { ComponentDiff } from './component.service'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
@@ -73,10 +74,11 @@ export async function writeMergeResults(
 ): Promise<ServiceResult<Merge.Result[]>> {
   try {
     const results: Merge.Result[] = []
-    const basePath = path.join(mergeState.writeTypePath, mergeState.root_folder)
+    // `root_folder` and `file.filePath` are registry-derived; contain both to block path traversal.
+    const basePath = resolveWithinBase(mergeState.writeTypePath, mergeState.root_folder)
 
     for (const file of mergeState.files) {
-      const filePath = path.join(basePath, file.filePath)
+      const filePath = resolveWithinBase(basePath, file.filePath)
 
       if (file.status === 'added') {
         onProgress?.(`Writing new file: ${file.filePath}`)

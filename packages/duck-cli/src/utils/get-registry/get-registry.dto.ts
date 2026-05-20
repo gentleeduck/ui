@@ -1,4 +1,20 @@
+import path from 'node:path'
 import { z } from 'zod'
+
+/**
+ * A registry-supplied path that must be relative and free of `..` traversal segments.
+ * Defence-in-depth alongside `resolveWithinBase` at the filesystem write sites.
+ */
+const safeRelativePathSchema = z.string().refine(
+  (p) => {
+    if (path.isAbsolute(p)) return false
+    return !path
+      .normalize(p)
+      .split(/[\\/]+/)
+      .some((s) => s === '..')
+  },
+  { message: 'Path must be relative and must not contain ".." traversal segments.' },
+)
 
 export const hslSchema = z.string() as z.ZodType<Registry.HSL>
 export const radiusSchema = z.string() as z.ZodType<Registry.Radius>
@@ -60,7 +76,7 @@ export const registryItemTypeSchema = z.enum([
 
 export const registryItemFileSchema = z.object({
   content: z.string().optional(),
-  path: z.string(),
+  path: safeRelativePathSchema,
   target: z.string().optional(),
   type: registryItemTypeSchema,
 })
@@ -102,7 +118,7 @@ export const registryEntrySchema = z.object({
   files: z.array(registryItemFileSchema).optional(),
   name: z.string(),
   registryDependencies: z.array(z.string()).optional(),
-  root_folder: z.string(),
+  root_folder: safeRelativePathSchema,
   source: z.string().optional(),
   tailwind: registryItemTailwindSchema.optional(),
   type: registryItemTypeSchema,
