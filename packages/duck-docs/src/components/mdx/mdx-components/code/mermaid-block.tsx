@@ -54,7 +54,8 @@ export function MermaidBlock(props: IMermaidBlockProps) {
 
   return (
     <PreviewPanelDialog
-      html={currentSvg}
+      // Trusted build-time SVG rendered from MDX-compiled Mermaid source.
+      unsafeHtml={currentSvg}
       maxHeight="500px"
       className={cn('my-6', props.className)}
       panelClassName="[&_svg]:block [&_svg]:h-auto [&_svg]:max-h-full [&_svg]:w-full [&_svg]:max-w-full"
