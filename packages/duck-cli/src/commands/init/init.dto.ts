@@ -13,7 +13,10 @@ export const initOptionsSchema = z.object({
   workspace: z.string().optional(),
   prefix: z.string().optional(),
   projectType: z.enum(PROJECT_TYPE).optional(),
-  template: z.string().optional(),
+  template: z
+    .string()
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Template name may only contain letters, numbers, "-" and "_".')
+    .optional(),
   yes: z.boolean().default(false),
 })
 

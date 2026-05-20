@@ -17,9 +17,18 @@ export interface IScaffoldTemplateOptions {
   yes?: boolean
 }
 
+/** Template names are simple identifiers; reject anything else to avoid regex injection. */
+const TEMPLATE_NAME_PATTERN = /^[a-zA-Z0-9_-]+$/
+
 export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinner: Ora) {
   const { template, cwd, yes } = options
   const { repo, branch, tarballUrl, templatesDir, ignoreSegments } = TEMPLATE_SCAFFOLD_CONFIG
+
+  if (!TEMPLATE_NAME_PATTERN.test(template)) {
+    throw new Error(
+      `Invalid template name "${template}". Template names may only contain letters, numbers, "-" and "_".`,
+    )
+  }
 
   const targetDir = path.resolve(cwd)
 
@@ -67,9 +76,16 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
     extract({
       cwd: targetDir,
       strip: stripCount,
-      filter: (entryPath: string) => {
+      preservePaths: false,
+      filter: (entryPath: string, entry) => {
+        // Reject symlink/hardlink entries: a malicious archive could plant a link then write through it.
+        const entryType = (entry as { type?: string }).type
+        if (entryType === 'SymbolicLink' || entryType === 'Link') return false
+        // Reject absolute paths and `..` traversal segments.
+        if (path.isAbsolute(entryPath)) return false
+        const segments = entryPath.split(/[\\/]+/)
+        if (segments.some((s) => s === '..')) return false
         if (!templatePathPattern.test(entryPath)) return false
-        const segments = entryPath.split('/')
         return !segments.some((s) => ignoreSegments.has(s))
       },
     }),
