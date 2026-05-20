@@ -113,3 +113,6 @@ node_modules/
 # system
 .stignore
 .stfolder
+
+# local security-audit working dir
+/audit/
