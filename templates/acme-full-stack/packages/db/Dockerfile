@@ -5,4 +5,5 @@ COPY . .
 RUN bun install --frozen-lockfile
 WORKDIR /app/packages/db
 EXPOSE 4983
+USER bun
 CMD ["bunx", "drizzle-kit", "studio", "--host", "0.0.0.0", "--port", "4983"]
