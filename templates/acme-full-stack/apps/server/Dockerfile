@@ -13,4 +13,5 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/apps/server/dist ./dist
 COPY --from=build /app/apps/server/package.json ./package.json
 EXPOSE 3000
+USER bun
 CMD ["bun", "run", "dist/main.js"]
