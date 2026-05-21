@@ -62,7 +62,9 @@
     "@gentleduck/hooks": "^0.2.0",
     "@gentleduck/motion": "^0.3.0",
     "@gentleduck/vim": "^0.2.0",
-    "@gentleduck/calendar": "^0.3.0"
+    "@gentleduck/calendar": "^0.3.0",
+    "minimatch": "^10.2.3",
+    "path-to-regexp": "^8.4.0"
   },
   "workspaces": {
     "packages": [
