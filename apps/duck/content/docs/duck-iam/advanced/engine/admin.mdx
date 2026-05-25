@@ -200,7 +200,7 @@ The admin API is the right surface for:
 
 Don't use it for:
 
-- Data migrations - write directly to the adapter database for speed, then call `engine.invalidate()`
+- Data migrations - write directly to the adapter database for speed, then call `engine.cache.invalidate()`
 - Bulk imports - same reason; admin's per-item cache invalidation is overhead
 - Read-only data export - call the adapter directly to skip cache machinery
 

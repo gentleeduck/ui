@@ -49,7 +49,7 @@ are converted into policies internally, so one condition engine handles everythi
 | Dev/Prod mode | Development returns rich `AccessControl.IDecision` objects + `explain()`; production returns plain `boolean` with zero allocation. See [benchmarks](/duck-iam/benchmarks) and the [production guide](/duck-iam/guides/production). |
 | Explain / debug | `engine.explain()` returns `Explain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
 | Validation + limits | `validateRoles()` and `validatePolicy()` emit `Validate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
-| Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
+| Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats.get()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
 
 ## Architecture Overview
 

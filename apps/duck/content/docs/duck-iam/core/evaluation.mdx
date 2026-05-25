@@ -129,7 +129,7 @@ Three caches are layered for speed:
 | `rbacPolicyCache` | Result of `rolesToPolicy()` | `cacheTTL` |
 | `subjectCache` | Per-subject (`subjectId` -> resolved roles + attrs) | `cacheTTL`, max `maxCacheSize` entries |
 
-`engine.admin.*` writes invalidate the relevant caches automatically. Manual invalidation: `engine.invalidatePolicies()`, `engine.invalidateRoles()`, `engine.invalidateSubject(id)`, or `engine.invalidate()` for everything.
+`engine.admin.*` writes invalidate the relevant caches automatically. Manual invalidation: `engine.cache.invalidatePolicies()`, `engine.cache.invalidateRoles()`, `engine.cache.invalidateSubject(id)`, or `engine.cache.invalidate()` for everything.
 
 In multi-instance deploys, broadcast invalidation messages over Redis pub/sub or a cache-coherence protocol so each node clears its LRU when policies change. Without that, nodes may serve stale decisions for up to `cacheTTL`.
 

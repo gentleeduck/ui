@@ -44,16 +44,16 @@ Subjects are resolved **individually**, so the engine keeps a separate cache ent
 
 ```typescript
 // Clear everything
-engine.invalidate()
+engine.cache.invalidate()
 
 // Clear a specific user's cached data (after role change, attribute update)
-engine.invalidateSubject('user-1')
+engine.cache.invalidateSubject('user-1')
 
 // Clear cached policies (after adding/removing/editing policies)
-engine.invalidatePolicies()
+engine.cache.invalidatePolicies()
 
 // Clear cached roles and all subjects (subjects depend on roles)
-engine.invalidateRoles()
+engine.cache.invalidateRoles()
 ```
 
 `invalidateRoles()` clears the subject cache too because resolved subjects include role names from the role definitions - if a role is renamed/deleted, every cached subject is potentially stale.
@@ -134,7 +134,7 @@ const invalidator: EngineTypes.IInvalidator = {
 const engine = new Engine({ adapter, invalidator })
 ```
 
-Delivery is at-least-once: `engine.invalidate*()` methods are idempotent so re-applying the same event is safe.
+Delivery is at-least-once: `engine.cache.invalidate*()` methods are idempotent so re-applying the same event is safe.
 
 ### Versioned policies
 

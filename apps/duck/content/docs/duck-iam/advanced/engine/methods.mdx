@@ -213,16 +213,38 @@ Cheap enough for 5-10 s probe intervals.
 
 ---
 
-## engine.stats() / resetStats()
+## engine.cache
+
+Cache-invalidation facet. Four targeted flushes for use after policy/role/subject mutations. Pass `{ broadcast: false }` when applying an event received from another instance.
+
+```typescript
+engine.cache.invalidate(opts?)                  // drop every cache + in-flight resolver
+engine.cache.invalidateSubject(subjectId, opts?) // drop one subject's resolved roles + attrs
+engine.cache.invalidatePolicies(opts?)           // drop cached policies (after policy CRUD)
+engine.cache.invalidateRoles(roleId?, opts?)     // drop cached roles + RBAC policy; selectively drops affected subjects
+```
+
+With an `invalidator` wired, each call publishes an event so peer instances flush their local caches. Pass `{ broadcast: false }` to suppress the publish when *applying* an inbound event (otherwise instances ping-pong).
+
+Module-level `flushSharedCaches()` (separate import) wipes the **process-wide** regex + path caches shared across every Engine. Schedule periodically in multi-tenant deployments.
+
+```typescript
+import { flushSharedCaches } from '@gentleduck/iam'
+setInterval(flushSharedCaches, 5 * 60 * 1000)
+```
+
+---
+
+## engine.stats.get() / engine.stats.reset()
 
 Cache hit / miss counters per cache. Use for alerting on cache-effectiveness regressions in production.
 
 ```typescript
-const s = engine.stats()
+const s = engine.stats.get()
 // -> { policies, roles, rbacPolicy, mergedPolicies, subjects }
 //     each { hits, misses, size }
 
-engine.resetStats() // zero the counters
+engine.stats.reset() // zero the counters
 ```
 
 Counters accumulate from construction; reset on a sampling interval if you want windowed metrics.

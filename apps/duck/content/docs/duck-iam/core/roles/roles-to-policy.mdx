@@ -114,7 +114,7 @@ The engine caches the result of `rolesToPolicy()` to avoid recomputing on every 
 
 - `engine.admin.saveRole()` is called
 - `engine.admin.deleteRole()` is called
-- `engine.invalidateRoles()` is called manually
+- `engine.cache.invalidateRoles()` is called manually
 - The role-load TTL expires (configurable via `cacheTTL`)
 
 In production, this means role evaluations hit a hot in-process cache, not the adapter. See [engine caching](/duck-iam/advanced/engine).

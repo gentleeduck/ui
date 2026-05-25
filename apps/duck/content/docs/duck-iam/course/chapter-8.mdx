@@ -824,16 +824,16 @@ who has that role is now stale.
 
 ```typescript
 // Clear everything (nuclear option)
-engine.invalidate()
+engine.cache.invalidate()
 
 // Clear only one user's cache (after external change)
-engine.invalidateSubject('alice')
+engine.cache.invalidateSubject('alice')
 
 // Clear policy cache (after external DB update)
-engine.invalidatePolicies()
+engine.cache.invalidatePolicies()
 
 // Clear role caches + all subjects (after external role change)
-engine.invalidateRoles()
+engine.cache.invalidateRoles()
 ```
 
 ## Startup Validation
@@ -1613,7 +1613,7 @@ Before shipping BlogDuck:
 - [ ] Call `engine.dispose()` on `SIGTERM` to flush queued metrics and abort in-flight reads
 - [ ] In multi-node deployments, configure `IConfig.invalidator` so cache busts propagate
 - [ ] Register `hooks.onMetrics` + `hooks.onPolicyError` for evaluation telemetry and per-policy errors
-- [ ] Expose `engine.stats()` on an internal endpoint to watch cache hit rate, evictions, and adapter latency
+- [ ] Expose `engine.stats.get()` on an internal endpoint to watch cache hit rate, evictions, and adapter latency
 - [ ] Use `engine.admin.export()` / `engine.admin.import()` to promote roles + policies between environments
 - [ ] If using `HttpAdapter`, set `retries` and `circuitBreakerThreshold` to survive flaky upstreams
 - [ ] Protect the admin router with your own authorization check; validate dynamic policies before saving
@@ -1791,7 +1791,7 @@ export const appChecks = access.checks([
       Not if you use the `engine.admin` API -- it automatically invalidates the correct caches
       after each mutation. Manual invalidation is needed when you modify the database directly
       (bypassing the admin API), or in multi-instance deployments where another server changed
-      the data. In those cases, use `engine.invalidate()` to clear everything, or the more
+      the data. In those cases, use `engine.cache.invalidate()` to clear everything, or the more
       targeted methods: `invalidateSubject(id)`, `invalidatePolicies()`, `invalidateRoles()`.
     </AccordionContent>
   </AccordionItem>

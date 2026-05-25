@@ -429,10 +429,10 @@ const engine = new Engine({
 ### Manual Invalidation
 
 ```typescript
-engine.invalidate()                  // clear ALL caches
-engine.invalidateSubject('user-1')   // clear one user's cached data
-engine.invalidatePolicies()          // clear policy cache only
-engine.invalidateRoles()             // clear role + RBAC + ALL subject caches
+engine.cache.invalidate()                  // clear ALL caches
+engine.cache.invalidateSubject('user-1')   // clear one user's cached data
+engine.cache.invalidatePolicies()          // clear policy cache only
+engine.cache.invalidateRoles()             // clear role + RBAC + ALL subject caches
 ```
 
 `invalidateRoles()` also clears the subject cache because subjects cache their resolved
@@ -725,7 +725,7 @@ export const engine = new Engine({
     <AccordionContent className="text-muted-foreground">
       The cache has a TTL (default 60 seconds). After that, the next check refreshes from the
       adapter. For immediate consistency after a change, use the Admin API (which auto-invalidates)
-      or call `engine.invalidateSubject(id)` manually. For tests, set `cacheTTL: 0`.
+      or call `engine.cache.invalidateSubject(id)` manually. For tests, set `cacheTTL: 0`.
     </AccordionContent>
   </AccordionItem>
 

@@ -5,6 +5,53 @@ section: Changelog
 order: 999
 ---
 
+## 3.0.0
+
+### Breaking — Engine facet split (cache + stats)
+
+Engine had 16 public methods on one class. Folded the cache-invalidation and observability clusters into two facets so the root surface stays focused on evaluation. Evaluation (`authorize`, `can`, `check`, `explain`, `permissions`) and lifecycle (`constructor`, `dispose`, `preload`, `healthCheck`) stay flat — hot path, single noun.
+
+#### Migration
+
+```ts
+// Before (≤ 2.x)                          // After (3.0)
+engine.invalidate(opts)                    engine.cache.invalidate(opts)
+engine.invalidateSubject(id, opts)         engine.cache.invalidateSubject(id, opts)
+engine.invalidatePolicies(opts)            engine.cache.invalidatePolicies(opts)
+engine.invalidateRoles(id?, opts)          engine.cache.invalidateRoles(id?, opts)
+engine.stats()                             engine.stats.get()
+engine.resetStats()                        engine.stats.reset()
+engine.flushSharedCaches()                 // REMOVED
+                                           import { flushSharedCaches } from '@gentleduck/iam'
+```
+
+Mechanical `sed` per call site — no behavior change. Codemod:
+
+```sh
+sed -i -E \
+  -e 's/(engine[A-Za-z]*)\.invalidate\(/\1.cache.invalidate(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidateSubject\(/\1.cache.invalidateSubject(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidatePolicies\(/\1.cache.invalidatePolicies(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidateRoles\(/\1.cache.invalidateRoles(/g' \
+  -e 's/(engine[A-Za-z]*)\.stats\(\)/\1.stats.get()/g' \
+  -e 's/(engine[A-Za-z]*)\.resetStats\(\)/\1.stats.reset()/g' \
+  src/**/*.ts
+```
+
+#### Why 3.0 now
+
+- `flushSharedCaches` instance method was already scheduled for 3.0 removal — it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
+- Flat surface drops from 16 → 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
+
+#### What did not change
+
+- `engine.authorize / can / check / explain / permissions` — identical signatures + semantics.
+- `engine.preload / dispose / healthCheck` — unchanged.
+- Bundle size stable at 41.6 KB (internal refactor, no shape change).
+- 948/948 tests pass after bulk rename.
+
+---
+
 ## 2.1.0
 
 ### Adversarial security audit cycle (21 rescans, ~60 fix commits)

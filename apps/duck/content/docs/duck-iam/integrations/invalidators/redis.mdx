@@ -130,7 +130,7 @@ Without the hook, the invalidator falls back to a rate-limited
 
 ## Delivery semantics
 
-At-least-once. `engine.invalidate*()` methods are idempotent - applying the same event twice is safe. If the Redis client drops a message, that node's cache stays stale for at most `cacheTTL` seconds; the next request after expiry will re-fetch from the adapter.
+At-least-once. `engine.cache.invalidate*()` methods are idempotent - applying the same event twice is safe. If the Redis client drops a message, that node's cache stays stale for at most `cacheTTL` seconds; the next request after expiry will re-fetch from the adapter.
 
 If `publish` throws synchronously, the local invalidate already applied - the failure is non-fatal. Remote nodes will pick up the change on TTL.
 

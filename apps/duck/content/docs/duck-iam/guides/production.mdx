@@ -60,7 +60,7 @@ process.on('SIGTERM', () => engine.dispose())
 
 The Redis helper:
 - Embeds an instance UUID in every published event so a node never re-applies its own invalidate (no echo storm).
-- Delivers at-least-once; `engine.invalidate*()` methods are idempotent.
+- Delivers at-least-once; `engine.cache.invalidate*()` methods are idempotent.
 - Defaults to the `'duck-iam:invalidate'` channel. Pass `tenantId` for the multi-tenant case — see the callout below.
 - `onPublishError` (SEC-062) surfaces publish failures; without it, only a rate-limited `console.warn` fires.
 
@@ -258,7 +258,7 @@ Bench shows ~15x speedup on the first call vs cold.
 
 ## Shared cache flushing (multi-tenant)
 
-`engine.flushSharedCaches()` wipes the process-wide compiled-regex cache
+`flushSharedCaches()` wipes the process-wide compiled-regex cache
 (matches operator) and the dot-path segment cache. Both are module-globals
 shared across every Engine instance in the process. In multi-tenant
 deployments, a hostile tenant flooding distinct `matches` patterns or
@@ -267,7 +267,7 @@ influence. SEC-050.
 
 ```ts
 // Multi-tenant operators: flush every 5 minutes.
-setInterval(() => engine.flushSharedCaches(), 5 * 60 * 1000)
+setInterval(() => flushSharedCaches(), 5 * 60 * 1000)
 ```
 
 Cost: the next request from every tenant pays one regex-compile per
@@ -314,7 +314,7 @@ Numbers from the bench harness on a typical Node 22 / x86 box:
 
 Target `Engine.can()` p95 < 1 ms at sustained QPS. If you breach that:
 
-1. Check `engine.stats()` for cache hit rate < 95% - `cacheTTL` too low, or `maxCacheSize` too small.
+1. Check `engine.stats.get()` for cache hit rate < 95% - `cacheTTL` too low, or `maxCacheSize` too small.
 2. Check `metrics.snapshot().samples` - are durations dominated by a few outliers? Adapter timeouts firing?
 3. Check `healthCheck()` `adapterLatencyMs` - adapter is the bottleneck. Tune driver pool / add a Redis cache in front.
 
@@ -339,6 +339,6 @@ Before flipping production traffic on:
 - [ ] `/metrics` route returns aggregator snapshot
 - [ ] `engine.preload()` in startup
 - [ ] `engine.dispose()` in shutdown
-- [ ] `engine.flushSharedCaches()` scheduled in multi-tenant deployments (SEC-050)
+- [ ] `flushSharedCaches()` scheduled in multi-tenant deployments (SEC-050)
 - [ ] Admin routes mounted behind a real `authorize` callback (not a stub)
 - [ ] Policies bounded under `maxPolicies` (default `10_000`)

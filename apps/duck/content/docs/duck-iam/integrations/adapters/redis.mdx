@@ -143,7 +143,7 @@ const engine = new Engine({
 })
 ```
 
-Hot reads stay in-process. After TTL expiry or `engine.invalidate()`, the next read hits Redis. Use Redis pub/sub to broadcast `engine.invalidate()` calls across nodes when policies change.
+Hot reads stay in-process. After TTL expiry or `engine.cache.invalidate()`, the next read hits Redis. Use Redis pub/sub to broadcast `engine.cache.invalidate()` calls across nodes when policies change.
 
 ---
 
