@@ -23,7 +23,7 @@ import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 
 Pass it into `IConfig.invalidator`:
 
-```typescript
+```ts
 import { Engine } from '@gentleduck/iam'
 import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 import Redis from 'ioredis'
@@ -43,12 +43,21 @@ const invalidator = createRedisInvalidator({
     unsubscribe: (ch) => sub.unsubscribe(ch),
   },
   channel: 'iam:invalidate', // optional; defaults to 'duck-iam:invalidate'
+  secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 — required in prod
 })
 
 const engine = new Engine({ adapter, invalidator })
 
 process.on('SIGTERM', () => engine.dispose())
 ```
+
+<Callout type="warning" title="Set `secret` in production (SEC-046)">
+Without `secret`, envelopes are unsigned and accepted from any party with
+PUBLISH rights on the channel — they can wipe caches across the fleet.
+With `secret`, every envelope is HMAC-SHA256 signed; incoming envelopes
+without a verifying signature are dropped. A one-shot console warn fires
+at construction when no secret is set.
+</Callout>
 
 ---
 
@@ -72,16 +81,50 @@ Each engine instance embeds a per-process UUID in every published event. The sub
 
 ## Multi-tenant channels
 
-In multi-tenant deployments where different tenants must not cross-invalidate, use a tenant-prefixed channel:
+In multi-tenant deployments where different tenants must not cross-invalidate,
+pass `tenantId` and the invalidator auto-prefixes the channel as
+`duck-iam:invalidate:tenant:${tenantId}` (or `${channel}:tenant:${tenantId}`
+when `channel` is also given). CAVEAT-1.
 
-```typescript
+```ts
 createRedisInvalidator({
   client,
-  channel: `iam:invalidate:tenant-${tenantId}`,
+  secret: process.env.IAM_INVALIDATE_SECRET,
+  tenantId: req.tenantSlug, // validated against /^[A-Za-z0-9_-]{1,64}$/
 })
 ```
 
-Each tenant's fleet subscribes to its own channel.
+`tenantId` is validated against `/^[A-Za-z0-9_-]{1,64}$/` so an
+attacker-controlled tenant slug cannot inject pub/sub wildcards (`*`) or
+whitespace that would confuse downstream subscribers. Invalid slugs throw at
+construction.
+
+Building the channel name yourself with `channel: '...'` still works for
+existing deployments, but `tenantId` is the recommended path for new code.
+
+---
+
+## Publish failures
+
+`engine.admin.*` mutations call `publish()` synchronously; a thrown error is
+non-fatal for the local engine (it already applied the invalidation) but
+remote nodes will not receive the broadcast. Wire `onPublishError` to your
+alerting pipeline so a long-lived Redis outage does not silently desync
+caches across nodes. SEC-062.
+
+```ts
+createRedisInvalidator({
+  client,
+  secret: process.env.IAM_INVALIDATE_SECRET,
+  onPublishError: (err, channel) => {
+    metrics.increment('iam.invalidator.publish_failed', { channel })
+    sentry.captureException(err, { extra: { channel } })
+  },
+})
+```
+
+Without the hook, the invalidator falls back to a rate-limited
+`console.warn` so the failure is not totally silent.
 
 ---
 
@@ -123,6 +166,9 @@ Works with NATS, Kafka, RabbitMQ, MQTT, or any in-process bus. The contract is t
 | --- | --- | --- | --- |
 | `client` | `RedisInvalidator.IPubSubLike` | -- | Pub/sub adapter with `publish` + `subscribe` (+ optional `unsubscribe`) |
 | `channel` | `string` | `'duck-iam:invalidate'` | Pub/sub channel name |
+| `tenantId` | `string` | -- | Auto-prefixes the channel as `${channel}:tenant:${tenantId}`. Validated against `/^[A-Za-z0-9_-]{1,64}$/`. CAVEAT-1. |
+| `secret` | `string \| null` | `null` | HMAC-SHA256 shared secret. Required in production — without it any party with PUBLISH rights on the channel can wipe caches. |
+| `onPublishError` | `(err, channel) -> void` | console.warn (rate-limited) | Wire to alerting; non-fatal but cross-instance invalidations are lost. SEC-062. |
 
 The `RedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis and node-redis v4+ satisfy it directly. The full options object conforms to `RedisInvalidator.IConfig`.
 

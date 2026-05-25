@@ -5,6 +5,143 @@ section: Changelog
 order: 999
 ---
 
+## 2.1.0
+
+### Adversarial security audit cycle (21 rescans, ~60 fix commits)
+
+A second multi-round audit pass after 2.0.0, run by independent adversarial security-auditor agents plus a silent-failure hunter and a code-smell scanner. **21 rescan cycles** uncovered 1 CRITICAL, 7 HIGH, 11 Medium, 12 Low, and 4 Info findings on top of the 2.0.0 hardening. Three consecutive clean rescans (Med+ free) declared the source tree exhausted: *"the package is genuinely hard to break."*
+
+The change set is **mostly backward compatible** with three intentional default changes that close trivial auth-bypass / CSRF footguns.
+
+### What the audit found
+
+The audit was deliberately adversarial. After the 2.0.0 P0/P1 work, prior assumptions were re-attacked from fresh angles. A representative sampling:
+
+- **Total silent fail-open** in `FileAdapter._loadState` — EACCES, EISDIR, EIO swallowed → empty store → `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
+- **Permanent data destruction** in `FileAdapter` — a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
+- **Trivial auth bypass via spoofable header** in Hono `accessMiddleware` and Next `withAccess` — both defaulted `getUserId` to `x-user-id` request header. `curl -H 'X-User-Id: admin' …` ran authorize() under the spoofed identity (SEC-101 HIGH).
+- **Decision rewriting via throwing hooks** — `afterEvaluate`/`onDeny` inside `authorize`'s try caught and turned allow into deny; `onMetrics` could escape the fail-closed catch entirely (SEC-055/056 HIGH).
+- **Silent fail-open in batch checks** — `permissions()` passed `undefined` for `onPolicyError`, so a per-policy throw vanished and UI gates silently allowed under `defaultEffect:'allow'` (SEC-057 HIGH).
+- **Silent ABAC denial** — Redis/Drizzle `getSubjectAttributes` returned `{}` on corruption, conditions silently flipped to deny with no operator signal (SEC-058 HIGH).
+- **SSRF via fetch redirect** — construction-time `allowedHosts` validator runs once on `baseUrl`; redirects to `169.254.169.254` or internal hosts followed silently. Now `redirect: 'error'` (SEC-042 HIGH).
+- **Cross-backend authorization drift** — file/memory `getSubjectRoles` returned unscoped-only; redis/drizzle/prisma returned all collapsed. Same subject decided differently across adapters (SEC-059).
+- **Permanent admin DoS** — symlink-escape rejection parked the rejected promise in `_loadInFlight` forever; every subsequent `_loadState()` returned the same rejection. Adapter unusable until process restart (SEC-063).
+- **Validator error reflection** — `assertValidOrThrow` echoed `Invalid algorithm "<value>"`; operator opt-in to `includeErrorMessage` + body echo turned admin endpoint into a probe oracle (SEC-052).
+- **One-shot warn silencing** — Redis invalidator's per-channel warn latch let attacker burn first warn on benign reason then silently flood. Now token-bucket rate-limit + suppressed-count surfacing (SEC-032).
+
+Plus 50+ smaller fixes covering cache races, listener swallow, audit string leakage, redirect SSRF residuals, NaN bound bypass, escape-aware key splitting, devtools namespace, file warn dedupe/redact, file TOCTOU per-I/O, NAT64 prefix, validator non-finite priority, and consistent `_safeHookCall` wrapping across `can`/`check`/`permissions`/`authorize`.
+
+### Behaviour changes (intentional defaults)
+
+**Hono `accessMiddleware` + `guard` no longer trust `x-user-id`.** Defaults to `c.get('userId')` populated by upstream auth. Operators relying on the header must pass `getUserId` explicitly. **SEC-101.**
+
+**Next `withAccess` requires `getUserId` at construction.** Throws otherwise with a message pointing to cookie/JWT-derived identity. **SEC-101.**
+
+**Admin routers CSRF-check by default.** `adminRouter` / `bindAdminRouter` / `createAdminHandlers` / `createAdminOperations` all apply `defaultCsrfCheck` (rejects `Sec-Fetch-Site: cross-site|cross-origin`). Bearer-token / mTLS APIs opt out via `csrfCheck: false`. Cookie-auth admin UIs get protection without any opt-in. **CAVEAT-2.**
+
+**`FileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt — refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
+
+**Redis/Drizzle `getSubjectAttributes` throws on corrupt blob.** Engine routes through `onError` + fail-closed deny + onMetrics. Was silently `{}`. **SEC-058.**
+
+**All 5 adapters' `getSubjectRoles` return unscoped-only.** Scoped assignments surface via `getSubjectScopedRoles` only. Was inconsistent across backends. **SEC-059.**
+
+**Engine ctor + LRUCache reject NaN/Infinity bounds.** `maxPolicies`, `maxRoles`, `adapterTimeoutMs`, `maxSize`, `ttlMs` all require finite numbers. NaN silently disabled the cap before. **INFO-A.**
+
+### New APIs
+
+```ts
+// Engine: flush process-wide regex + path caches (multi-tenant)
+engine.flushSharedCaches()
+
+// Server: built-in Sec-Fetch-Site CSRF predicate
+import { defaultCsrfCheck } from '@gentleduck/iam/server/generic'
+
+// Admin router CSRF opt-out
+adminRouter(engine, { authorize, csrfCheck: false })
+
+// Redis invalidator: per-tenant channel + publish error hook
+createRedisInvalidator({
+  client,
+  secret,
+  tenantId: 'acme',                              // 'duck-iam:invalidate:tenant:acme'
+  onPublishError: (err, channel) => alert(err),
+})
+
+// Metrics: fail-open chartable counter
+const m = createMetricsAggregator()
+m.snapshot().failOpen  // subset of allow attributable to defaultEffect fallback
+
+// Shared keys: escape-aware key parser
+import { splitPermissionKey } from '@gentleduck/iam/shared/keys'
+
+// Low-level cache controls
+import { clearRegexCache } from '@gentleduck/iam/core/conditions'
+import { clearPathCache } from '@gentleduck/iam/core/resolve'
+```
+
+### Type additions
+
+- `EngineTypes.IMetricsEvent.failOpen: boolean`
+- `Metrics.ISnapshot.failOpen: number`
+- `RedisInvalidator.IConfig.tenantId?: string`
+- `RedisInvalidator.IConfig.onPublishError?: (err, channel) => void`
+- `AdminAudit.IOptions.csrfCheck?: ((req) => boolean) | false`
+- `Validate.ValidationCode` extended with `'ERR_REGEX_CATASTROPHIC'`
+
+### Deployment hardening
+
+`SECURITY.md` ships a new **10-section Deployment Hardening Guide** covering identity sourcing, admin CSRF, Redis tenancy, multi-tenant cache scoping, `defaultEffect:'allow'` rationale, `explain()` HTML-escape responsibility, adapter trust model, file `rootDir`, HTTP `allowedHosts`, and observability wiring.
+
+### Migration
+
+If you used the **Hono header default** for identity:
+```ts
+// Before
+accessMiddleware(engine)  // read x-user-id
+
+// After
+accessMiddleware(engine, {
+  getUserId: (c) => (c.get('userId') as string | undefined) ?? null,
+})
+// And populate c.set('userId', ...) from upstream auth middleware.
+```
+
+If you used the **Next `withAccess` header default**:
+```ts
+// Before
+withAccess(engine, 'read', 'doc', handler)
+
+// After
+withAccess(engine, 'read', 'doc', handler, {
+  getUserId: async (req) => {
+    const session = await getServerSession(req)
+    return session?.user?.id ?? null
+  },
+})
+```
+
+If your **admin router** is called server-to-server with bearer tokens (no browser involved):
+```ts
+adminRouter(engine, { authorize, csrfCheck: false })
+```
+
+Cookie-auth admin UIs need no changes — default protects them.
+
+If you relied on **`getSubjectAttributes`** returning `{}` for corrupt rows, wire `setSubjectAttributes` (which now recovers automatically) or add a `try/catch` at your call site.
+
+If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyError` and handle the thrown error from the read path.
+
+### Tests
+
+- 785 → **836 tests** (+51).
+- 5 clean Med+ rescans cumulative across the cycle.
+
+### Stats
+
+- **30+ fix commits** in this release on top of the 2.0.0 audit.
+- **0 P0/P1/P2/Low open** at release time.
+- **3 Info-tier residuals** (SEC-049 doc IPv6 prefix not publicly routed; SEC-050 architectural per-instance refactor deferred behind public `flushSharedCaches` helper).
+
 ## 2.0.0
 
 ### Major refactor: namespaced type API + correctness hardening

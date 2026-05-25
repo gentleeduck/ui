@@ -199,6 +199,29 @@ export class IamAdminController {
 
 Every operation throws `Error & { status: 401 }` when `authorize` returns false - wire your Nest exception filter to map that to a `401` response, or call `authorize` yourself inside a `@UseGuards()` and skip this helper.
 
+### CSRF protection (default-on)
+
+Mutation operations (`savePolicy`, `saveRole`, `assignRole`, `revokeRole`) run
+a `Sec-Fetch-Site` check by default (SEC-103 / CAVEAT-2). Failures throw
+`Error & { status: 403 }`. Browsers populate the header automatically;
+cross-site form posts are rejected, same-site / same-origin requests pass.
+Non-browser callers (no header) pass — they must be gated by bearer / mTLS.
+
+```ts
+// Default — cookie-auth admin UIs get CSRF protection with no opt-in.
+createAdminOperations(engine, { authorize })
+
+// Server-to-server bearer/mTLS API — disable the check entirely.
+createAdminOperations(engine, { authorize, csrfCheck: false })
+
+// Stricter — Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+createAdminOperations(engine, {
+  authorize,
+  csrfCheck: (req) => ADMIN_ORIGINS.has(req.headers?.origin as string),
+})
+```
+
 The admin operations options object conforms to `Nest.IAdminOptions` with `authorize` of shape `Nest.IAdminAuthorize`. The metadata read by the guard from `@Authorize` conforms to `Nest.IAuthorizeMeta`, and the guard factory accepts `Nest.IGuardOptions`.
 
 ---

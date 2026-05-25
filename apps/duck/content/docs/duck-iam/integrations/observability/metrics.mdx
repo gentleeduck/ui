@@ -41,11 +41,14 @@ app.get('/metrics', (_, res) => {
 
 `snapshot()` returns:
 
-```typescript
+```ts
 {
   total: number    // events recorded since last reset
   allow: number    // allow verdicts
   deny: number     // deny verdicts
+  failOpen: number // subset of `allow`: verdicts that fired ONLY because
+                   // `defaultEffect: 'allow'` matched (no applicable policy).
+                   // SEC-044.
   p50: number      // milliseconds
   p95: number
   p99: number
@@ -53,6 +56,27 @@ app.get('/metrics', (_, res) => {
   samples: number  // current window size (capped at sampleSize)
 }
 ```
+
+### Charting fail-open
+
+`failOpen` is the canary for a silently broken policy set — a hostile
+ReDoS-dropped rule, a mass deletion, an adapter outage that drained policies
+to zero. Under `defaultEffect: 'allow'` the boolean `allowed` field hides
+that breakage; `failOpen` surfaces it.
+
+```ts
+// Page when >1% of allows are fail-open in a 1-min window.
+setInterval(() => {
+  const s = metrics.snapshot()
+  if (s.allow > 0 && s.failOpen / s.allow > 0.01) {
+    pager.fire('iam.fail_open_rate', { failOpen: s.failOpen, allow: s.allow })
+  }
+  metrics.reset()
+}, 60_000)
+```
+
+The per-event flag is also available on `EngineTypes.IMetricsEvent.failOpen`
+if you want to push it into a label on a Prometheus counter.
 
 ---
 
@@ -139,7 +163,7 @@ Same pattern works for per-resource or per-action breakdowns.
 All types live under the `Metrics` namespace at `@gentleduck/iam/observability/metrics`. Type-only - zero bundle cost.
 
 - `Metrics.IAggregator` - return shape of `createMetricsAggregator` (`record`, `snapshot`, `reset`).
-- `Metrics.ISnapshot` - shape returned by `.snapshot()` (`total`, `allow`, `deny`, `p50`, `p95`, `p99`, `max`, `samples`).
+- `Metrics.ISnapshot` - shape returned by `.snapshot()` (`total`, `allow`, `deny`, `failOpen`, `p50`, `p95`, `p99`, `max`, `samples`).
 - `Metrics.IConfig` - constructor config (`sampleSize`).
 
 ```typescript

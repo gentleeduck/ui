@@ -111,7 +111,7 @@ once you have the real resource ID and attributes.
 
 Mount a pre-built admin API for managing policies, roles, and assignments. The `authorize` callback is **required** - the factory throws at boot if it's missing.
 
-```typescript
+```ts
 import express from 'express'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
@@ -122,6 +122,28 @@ app.use('/api/access-admin', createRouter(() => express.Router()))
 ```
 
 Every endpoint (read + write) runs `authorize(req)` before dispatching. Falsy returns produce `401 Unauthorized`; thrown errors route through `onError` (default `500`).
+
+### CSRF protection (default-on)
+
+Mutation handlers (PUT/POST/DELETE) run a `Sec-Fetch-Site` check by default
+(SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
+form posts are rejected with 403, same-site / same-origin requests pass.
+Non-browser callers (no header) pass — they must be gated by bearer / mTLS.
+
+```ts
+// Default — cookie-auth admin UIs get CSRF protection with no opt-in.
+adminRouter(engine, { authorize })
+
+// Server-to-server bearer/mTLS API — disable the check entirely.
+adminRouter(engine, { authorize, csrfCheck: false })
+
+// Stricter — Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+adminRouter(engine, {
+  authorize,
+  csrfCheck: (req) => ADMIN_ORIGINS.has(req.headers.origin as string),
+})
+```
 
 <Callout type="warning" title="Scoped revoke caveat">
   The built-in delete route revokes by `subjectId` + `roleId` only. If you store both global and
@@ -145,6 +167,7 @@ This exposes:
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `authorize` | `(req) -> boolean \| Promise<boolean>` | **required** | Per-request guard. Mounting unauthenticated is impossible. |
+| `csrfCheck` | `((req) -> boolean) \| false` | built-in `Sec-Fetch-Site` (SEC-103) | CSRF guard for mutations; `false` to disable |
 | `onUnauthorized` | `(req, res) -> void` | `401` JSON | Custom unauthorized response |
 | `onError` | `(err, req, res) -> void` | `500` JSON | Custom error handler |
 
