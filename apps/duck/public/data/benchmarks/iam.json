@@ -2,7 +2,7 @@
   "corePerformance": [
     {
       "label": "evaluatePolicy (simple rule)",
-      "us": 0.78
+      "us": 0.76
     },
     {
       "label": "evaluatePolicy (conditions)",
@@ -10,51 +10,51 @@
     },
     {
       "label": "evaluatePolicy (target match)",
-      "us": 0.7
+      "us": 0.68
     },
     {
       "label": "evaluatePolicy (target skip)",
-      "us": 0.26
+      "us": 0.24
     },
     {
       "label": "evaluate (2 policies)",
-      "us": 1.16
+      "us": 1.24
     },
     {
       "label": "evaluate (deny path)",
-      "us": 0.73
+      "us": 0.62
     }
   ],
   "enginePerformance": [
     {
       "label": "engine.can() (cached)",
-      "us": 5.85
+      "us": 5.18
     },
     {
       "label": "engine.check() (cached)",
-      "us": 4.4
+      "us": 4.6
     },
     {
       "label": "engine.permissions() (20 checks)",
-      "us": 42.71
+      "us": 48.08
     },
     {
       "label": "engine.explain()",
-      "us": 7.4
+      "us": 8.02
     }
   ],
   "moduleSizes": [
     {
       "name": "Core (full)",
       "entry": "index.js",
-      "sizeBytes": 45907,
-      "sizeKB": 44.8
+      "sizeBytes": 42255,
+      "sizeKB": 41.3
     },
     {
       "name": "Core only",
       "entry": "core/index.js",
-      "sizeBytes": 758,
-      "sizeKB": 0.7
+      "sizeBytes": 662,
+      "sizeKB": 0.6
     },
     {
       "name": "Adapter: Memory",
@@ -71,7 +71,7 @@
     {
       "name": "Adapter: Drizzle",
       "entry": "adapters/drizzle/index.js",
-      "sizeBytes": 3046,
+      "sizeBytes": 3049,
       "sizeKB": 3
     },
     {
@@ -83,7 +83,7 @@
     {
       "name": "Adapter: Redis",
       "entry": "adapters/redis/index.js",
-      "sizeBytes": 4589,
+      "sizeBytes": 4591,
       "sizeKB": 4.5
     },
     {
@@ -107,7 +107,7 @@
     {
       "name": "Server: NestJS",
       "entry": "server/nest/index.js",
-      "sizeBytes": 2940,
+      "sizeBytes": 2942,
       "sizeKB": 2.9
     },
     {
@@ -125,7 +125,7 @@
     {
       "name": "Client: Vue",
       "entry": "client/vue/index.js",
-      "sizeBytes": 1235,
+      "sizeBytes": 1237,
       "sizeKB": 1.2
     },
     {
@@ -138,7 +138,7 @@
   "bundleComparison": [
     {
       "name": "@gentleduck/iam (full)",
-      "sizeKB": 44.8,
+      "sizeKB": 41.3,
       "deps": 0,
       "treeshakeable": true,
       "note": "Full package (engine + evaluate + explain + builder + conditions + rbac + config + validate)"
@@ -306,7 +306,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "44.8 KB",
+          "gentleduck": "41.3 KB",
           "competitor": "6.0 KB",
           "winner": "competitor"
         },
@@ -377,7 +377,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "44.8 KB",
+          "gentleduck": "41.3 KB",
           "competitor": "30 KB",
           "winner": "gentleduck"
         },
@@ -454,7 +454,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "44.8 KB",
+          "gentleduck": "41.3 KB",
           "competitor": "8.2 KB",
           "winner": "competitor"
         },
@@ -521,5 +521,5 @@
       ]
     }
   ],
-  "generatedAt": "2026-05-25T16:50:28.200Z"
+  "generatedAt": "2026-05-25T17:15:05.809Z"
 }
