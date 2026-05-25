@@ -2,143 +2,143 @@
   "corePerformance": [
     {
       "label": "evaluatePolicy (simple rule)",
-      "us": 0.69
+      "us": 0.78
     },
     {
       "label": "evaluatePolicy (conditions)",
-      "us": 0.85
+      "us": 1
     },
     {
       "label": "evaluatePolicy (target match)",
-      "us": 0.45
+      "us": 0.7
     },
     {
       "label": "evaluatePolicy (target skip)",
-      "us": 0.2
+      "us": 0.26
     },
     {
       "label": "evaluate (2 policies)",
-      "us": 0.92
+      "us": 1.16
     },
     {
       "label": "evaluate (deny path)",
-      "us": 0.52
+      "us": 0.73
     }
   ],
   "enginePerformance": [
     {
       "label": "engine.can() (cached)",
-      "us": 4.43
+      "us": 5.85
     },
     {
       "label": "engine.check() (cached)",
-      "us": 3.83
+      "us": 4.4
     },
     {
       "label": "engine.permissions() (20 checks)",
-      "us": 19.51
+      "us": 42.71
     },
     {
       "label": "engine.explain()",
-      "us": 5.94
+      "us": 7.4
     }
   ],
   "moduleSizes": [
     {
       "name": "Core (full)",
       "entry": "index.js",
-      "sizeBytes": 24617,
-      "sizeKB": 24
+      "sizeBytes": 45907,
+      "sizeKB": 44.8
     },
     {
       "name": "Core only",
       "entry": "core/index.js",
-      "sizeBytes": 397,
-      "sizeKB": 0.4
+      "sizeBytes": 758,
+      "sizeKB": 0.7
     },
     {
       "name": "Adapter: Memory",
       "entry": "adapters/memory/index.js",
-      "sizeBytes": 1162,
-      "sizeKB": 1.1
+      "sizeBytes": 1707,
+      "sizeKB": 1.7
     },
     {
       "name": "Adapter: Prisma",
       "entry": "adapters/prisma/index.js",
-      "sizeBytes": 1424,
-      "sizeKB": 1.4
+      "sizeBytes": 1908,
+      "sizeKB": 1.9
     },
     {
       "name": "Adapter: Drizzle",
       "entry": "adapters/drizzle/index.js",
-      "sizeBytes": 1696,
-      "sizeKB": 1.7
+      "sizeBytes": 3046,
+      "sizeKB": 3
     },
     {
       "name": "Adapter: HTTP",
       "entry": "adapters/http/index.js",
-      "sizeBytes": 1231,
-      "sizeKB": 1.2
+      "sizeBytes": 6110,
+      "sizeKB": 6
     },
     {
       "name": "Adapter: Redis",
       "entry": "adapters/redis/index.js",
-      "sizeBytes": 1484,
-      "sizeKB": 1.4
+      "sizeBytes": 4589,
+      "sizeKB": 4.5
     },
     {
       "name": "Server: Express",
       "entry": "server/express/index.js",
-      "sizeBytes": 1099,
-      "sizeKB": 1.1
+      "sizeBytes": 2427,
+      "sizeKB": 2.4
     },
     {
       "name": "Server: Next.js",
       "entry": "server/next/index.js",
-      "sizeBytes": 1050,
-      "sizeKB": 1
+      "sizeBytes": 3199,
+      "sizeKB": 3.1
     },
     {
       "name": "Server: Hono",
       "entry": "server/hono/index.js",
-      "sizeBytes": 873,
-      "sizeKB": 0.9
+      "sizeBytes": 2407,
+      "sizeKB": 2.4
     },
     {
       "name": "Server: NestJS",
       "entry": "server/nest/index.js",
-      "sizeBytes": 1322,
-      "sizeKB": 1.3
+      "sizeBytes": 2940,
+      "sizeKB": 2.9
     },
     {
       "name": "Server: Generic",
       "entry": "server/generic/index.js",
-      "sizeBytes": 780,
-      "sizeKB": 0.8
+      "sizeBytes": 3816,
+      "sizeKB": 3.7
     },
     {
       "name": "Client: React",
       "entry": "client/react/index.js",
-      "sizeBytes": 1077,
-      "sizeKB": 1.1
+      "sizeBytes": 1297,
+      "sizeKB": 1.3
     },
     {
       "name": "Client: Vue",
       "entry": "client/vue/index.js",
-      "sizeBytes": 1074,
-      "sizeKB": 1
+      "sizeBytes": 1235,
+      "sizeKB": 1.2
     },
     {
       "name": "Client: Vanilla",
       "entry": "client/vanilla/index.js",
-      "sizeBytes": 1449,
-      "sizeKB": 1.4
+      "sizeBytes": 2012,
+      "sizeKB": 2
     }
   ],
   "bundleComparison": [
     {
       "name": "@gentleduck/iam (full)",
-      "sizeKB": 24,
+      "sizeKB": 44.8,
       "deps": 0,
       "treeshakeable": true,
       "note": "Full package (engine + evaluate + explain + builder + conditions + rbac + config + validate)"
@@ -306,7 +306,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "24 KB",
+          "gentleduck": "44.8 KB",
           "competitor": "6.0 KB",
           "winner": "competitor"
         },
@@ -377,7 +377,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "24 KB",
+          "gentleduck": "44.8 KB",
           "competitor": "30 KB",
           "winner": "gentleduck"
         },
@@ -454,7 +454,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "24 KB",
+          "gentleduck": "44.8 KB",
           "competitor": "8.2 KB",
           "winner": "competitor"
         },
@@ -521,5 +521,5 @@
       ]
     }
   ],
-  "generatedAt": "2026-05-07T10:19:47.343Z"
+  "generatedAt": "2026-05-25T16:50:28.200Z"
 }

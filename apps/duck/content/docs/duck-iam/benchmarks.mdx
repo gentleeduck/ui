@@ -29,33 +29,69 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here. Three 
 
 **duck-iam is faster than everyone except CASL.** In production mode, beats easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl on most paths.
 
-**duck-iam is larger than CASL.** ~21 KB vs ~6 KB. Bundle includes policy engine, RBAC-to-ABAC converter, explain tracer, builder, config validator, LRU cache, snapshot serializer, observability aggregator.
+**duck-iam is larger than CASL.** ~45 KB vs ~6 KB. Bundle includes policy engine, RBAC-to-ABAC converter, explain tracer, builder, config validator, LRU cache, snapshot serializer, observability aggregator, plus the 2.1.0 safety wrappers and per-Engine cache primitives.
 
 ---
 
-## 2.1.0 throughput snapshot (post-audit)
+## 2.1.0 measured (before / after the security cycle)
 
-After the 21-round 2.1.0 security audit cycle (`_safeHookCall` wrappers, sentinel-compare on 5 caches, per-request `signals` allocation, file realpath per-I/O, default CSRF check on admin routes), measured on the same machine, same vitest session:
+Numbers from `scripts/benchmark.ts` (microsecond-per-op). Bundle sizes from `gzip -c | wc -c` on `dist/`. Reproduce via `bun run benchmark` in `packages/duck-iam/`. Machine-relative; run on your own hardware for absolute comparisons.
 
-| Path | Ops/sec | p50 ms | p99 ms |
+### Core paths
+
+| Path | 2.0.0 (pre-cycle) | 2.1.0 (post-cycle) | Δ |
 |---|---|---|---|
-| `evaluatePolicyFast()` raw [PROD] | 8.94M | 0.0001 | 0.0002 |
-| `evaluateFast()` raw [PROD] | 6.95M | 0.0001 | 0.0004 |
-| `evaluatePolicy()` raw [DEV] | 1.28M | 0.0008 | 0.0014 |
-| `evaluate()` raw [DEV] | 964k | 0.0010 | 0.0022 |
-| `evaluateFast()` with index [PROD] | 956k | 0.0010 | 0.0020 |
-| `evaluate()` with index [DEV] | 582k | 0.0017 | 0.0030 |
-| `evaluateFast() x20` batch [PROD] | 353k | 0.0028 | 0.0051 |
-| `evaluate() x20` batch [DEV] | 135k | 0.0074 | 0.0119 |
-| `engine.can()` cache-warm | **138k** | 0.0073 | 0.0130 |
+| `evaluatePolicy` (simple rule) | 0.68 µs | 0.78 µs | +15% |
+| `evaluatePolicy` (conditions) | 1.33 µs | 1.00 µs | **−25%** |
+| `evaluatePolicy` (target match) | 0.47 µs | 0.70 µs | +49% |
+| `evaluatePolicy` (target skip) | 0.24 µs | 0.26 µs | +8% |
+| `evaluate` (2 policies) | 0.65 µs | 1.16 µs | +78% |
+| `evaluate` (deny path) | 0.58 µs | 0.73 µs | +26% |
 
-`engine.can()` is the operator-facing number: includes subject resolve, LRU lookup, hook dispatch (`onMetrics`, `_safeHookCall`), and `IDecision` construction in dev mode.
+### Engine paths (cache-warm)
 
-**Audit overhead.** Comparing to pre-audit 2.0.0 (rough numbers from `audit/STATE.md`): `engine.can()` cache-warm was ~145k → 138k, **~5% slowdown** for the full safety wrapper set. `evaluateFast()` raw is unchanged within noise.
+| Path | 2.0.0 | 2.1.0 | Δ |
+|---|---|---|---|
+| `engine.can()` | 4.86 µs | 5.85 µs | +20% |
+| `engine.check()` | 4.60 µs | 4.40 µs | **−4%** |
+| `engine.permissions()` (20 checks) | 20.06 µs | 42.71 µs | **+113%** |
+| `engine.explain()` | n/a | 7.40 µs | new |
 
-5% is the price of: hook throws no longer rewrite decisions, console.error throws no longer escape fail-closed, every adapter rejection routes through `onError` + fail-closed map, file realpath rechecks every I/O (defeats symlink swap), per-request CSRF check on admin paths.
+### Bundle (gzipped, post-cycle)
 
-Run `bun run bench` to reproduce against your own hardware.
+| Module | Size |
+|---|---|
+| Core (full) | 44.8 KB |
+| Core only (tree-shake target) | 0.7 KB |
+| Memory adapter | 1.7 KB |
+| Prisma adapter | 1.9 KB |
+| Drizzle adapter | 3.0 KB |
+| HTTP adapter | 6.0 KB |
+| Redis adapter | 4.5 KB |
+| Express server | 2.4 KB |
+| Hono server | 2.4 KB |
+| Next.js server | 3.1 KB |
+| NestJS server | 2.9 KB |
+| Generic server | 3.7 KB |
+| React client | 1.3 KB |
+| Vue client | 1.2 KB |
+| Vanilla client | 2.0 KB |
+
+Core was ~21 KB pre-cycle → 44.8 KB post-cycle (+113%). The diff is the safety wrapper set (`_safeHookCall`, sentinel-compare singleFlight helpers, per-request `IEvalSignals`, default CSRF predicate, `runAdminAuthz` / `withAdminAudit`, per-Engine cache primitives, Lua EVAL path for cross-process Redis migration). Adapters and clients stay tight (1–6 KB each).
+
+### Honest take
+
+**`engine.permissions()` doubled.** Each batch check now fires `onMetrics` + builds `IEvalSignals` + threads `onPolicyError` and the catch arm wraps via `_safeHookCall`. 4 extra allocations per check. The 2x cost bought silent-fail-open elimination in batch UI gates — previously a real bug, now structurally impossible.
+
+**Core bundle +113%.** Each safety wrapper is small; the sum doubles ship size. Adapters and clients unchanged.
+
+**`engine.check()` slightly faster.** Outer try-catch restructure lands in a tighter shape. Within noise.
+
+**`evaluatePolicy(conditions)` faster.** Per-Engine cache threading de-bounces redundant resolution work in the hot path.
+
+Raw `evaluateFast()` ops/sec from `vitest bench` (separate suite): still ~7M/s on the production fast path.
+
+Run `bun run bench` for the head-to-head against `@casl/ability`, `casbin`, `accesscontrol`, `role-acl`, `@rbac/rbac`, `easy-rbac`. Run `bun run benchmark` to emit fresh JSON for the docs site.
 
 ---
 
