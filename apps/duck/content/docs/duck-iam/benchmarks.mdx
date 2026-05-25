@@ -33,6 +33,32 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here. Three 
 
 ---
 
+## 2.1.0 throughput snapshot (post-audit)
+
+After the 21-round 2.1.0 security audit cycle (`_safeHookCall` wrappers, sentinel-compare on 5 caches, per-request `signals` allocation, file realpath per-I/O, default CSRF check on admin routes), measured on the same machine, same vitest session:
+
+| Path | Ops/sec | p50 ms | p99 ms |
+|---|---|---|---|
+| `evaluatePolicyFast()` raw [PROD] | 8.94M | 0.0001 | 0.0002 |
+| `evaluateFast()` raw [PROD] | 6.95M | 0.0001 | 0.0004 |
+| `evaluatePolicy()` raw [DEV] | 1.28M | 0.0008 | 0.0014 |
+| `evaluate()` raw [DEV] | 964k | 0.0010 | 0.0022 |
+| `evaluateFast()` with index [PROD] | 956k | 0.0010 | 0.0020 |
+| `evaluate()` with index [DEV] | 582k | 0.0017 | 0.0030 |
+| `evaluateFast() x20` batch [PROD] | 353k | 0.0028 | 0.0051 |
+| `evaluate() x20` batch [DEV] | 135k | 0.0074 | 0.0119 |
+| `engine.can()` cache-warm | **138k** | 0.0073 | 0.0130 |
+
+`engine.can()` is the operator-facing number: includes subject resolve, LRU lookup, hook dispatch (`onMetrics`, `_safeHookCall`), and `IDecision` construction in dev mode.
+
+**Audit overhead.** Comparing to pre-audit 2.0.0 (rough numbers from `audit/STATE.md`): `engine.can()` cache-warm was ~145k → 138k, **~5% slowdown** for the full safety wrapper set. `evaluateFast()` raw is unchanged within noise.
+
+5% is the price of: hook throws no longer rewrite decisions, console.error throws no longer escape fail-closed, every adapter rejection routes through `onError` + fail-closed map, file realpath rechecks every I/O (defeats symlink swap), per-request CSRF check on admin paths.
+
+Run `bun run bench` to reproduce against your own hardware.
+
+---
+
 ## Library Overview
 
 | | @gentleduck/iam | @casl/ability | casbin | accesscontrol | role-acl | @rbac/rbac | easy-rbac |
