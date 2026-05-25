@@ -63,6 +63,16 @@ Numbers from `scripts/benchmark.ts` (microsecond-per-op). Bundle sizes from `gzi
 
 ### Bundle (gzipped, post-slim)
 
+Measured against a clean 2.0.1 `git worktree` baseline (not eyeballed).
+Net 2.0.1 → 2.2.0 delta is **+2.9 KB (+7.5%)** — earlier docs cited a
+~21 KB pre-cycle number that was estimated from a partial dist build.
+
+| Snapshot | Bundle (gzipped) |
+|---|---|
+| 2.0.1 baseline (clean build) | 38.4 KB |
+| 2.1.0 post-security-cycle | 44.8 KB (+17%) |
+| **2.2.0 post-slim** | **41.3 KB (+7.5% net vs 2.0.1)** |
+
 | Module | Size |
 |---|---|
 | **Headline ("import * from")** | **41.3 KB** |
@@ -89,7 +99,7 @@ Numbers from `scripts/benchmark.ts` (microsecond-per-op). Bundle sizes from `gzi
 
 **`engine.permissions()` more than doubled.** Each batch check now fires `onMetrics` + builds `IEvalSignals` + threads `onPolicyError` and the catch arm wraps via `_safeHookCall`. 4 extra allocations per check. The 2-3x cost bought silent-fail-open elimination in batch UI gates — previously a real bug, now structurally impossible.
 
-**Core bundle headline +96% (~21 → 41 KB)** _if_ you import the everything-barrel. The 2.1.0 bundle-slim cycle dropped this from 44.8 → 41.3 KB by (1) dropping adapter re-exports from the barrel, (2) lazy-loading the validator chunk, (3) splitting `builder` / `explain` / `validate` into separate subpath entries. Realistic deployments measure 15-25 KB — see below.
+**Core bundle headline +7.5% net (38.4 → 41.3 KB)** _if_ you import the everything-barrel. The 2.1.0 security cycle added ~6 KB raw (44.8 KB peak); the 2.2.0 bundle slim cycle recovered ~3 KB by (1) dropping adapter re-exports from the barrel, (2) lazy-loading the validator chunk, (3) splitting `builder` / `explain` / `validate` into separate subpath entries. Realistic deployments measure 15-25 KB — see below.
 
 **`engine.can()` ~7% slower.** 0.32 µs added per cache-warm check. You'd need 1 million checks per second sustained before this is measurable.
 
