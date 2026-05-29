@@ -1,0 +1,172 @@
+---
+title: Redis adapter bundle
+description: Production session store + idempotency cache + DPoP nonce store + sliding-window limiter + cross-process events. Works against ioredis, @upstash/redis, or an in-tree FakeRedis.
+section: Adapters
+---
+
+## What it bundles
+
+`@gentleduck/auth/adapters/redis` is a **bundle** of stores — each one
+can be wired independently. There is no single "Redis adapter" class;
+you pick the stores you need:
+
+| Class | Replaces |
+| --- | --- |
+| `RedisSessionStore` | `MemoryAuthAdapter.sessions` |
+| `RedisIdempotencyStore` | The default in-memory `idempotency` cache. |
+| `RedisDPoPNonceStore` | `MemoryDPoPNonceStore`. |
+| `RedisLimiter` | `MemoryLimiter`. |
+| `RedisEvents` | `InMemoryEvents`. |
+| `FakeRedis` | A test-only in-memory `RedisLike.IClient`. |
+
+Identities, credentials, and orgs **do not** belong in Redis — use the
+SQL bridge for durable rows and Redis for the volatile state that needs
+cross-process coordination.
+
+## Setup with ioredis
+
+```typescript
+import Redis from 'ioredis'
+import {
+  RedisDPoPNonceStore,
+  RedisEvents,
+  RedisIdempotencyStore,
+  RedisLimiter,
+  RedisSessionStore,
+} from '@gentleduck/auth/adapters/redis'
+import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+
+const redis = new Redis(process.env.REDIS_URL!)
+const sql = createSqlAuthStores({ bridge: myDrizzleBridge })
+
+export const auth = new AuthRoot({
+  stores: {
+    identities: sql.identities,
+    credentials: sql.credentials,
+    sessions: new RedisSessionStore(redis, { keyPrefix: 'sess:', ttl: 7 * 24 * 60 * 60 }),
+    orgs: sql.orgs,
+  },
+  limiter: new RedisLimiter(redis, { keyPrefix: 'ratelimit:' }),
+  events: new RedisEvents(redis, { channel: 'auth-events' }),
+})
+```
+
+## Setup with @upstash/redis (edge runtimes)
+
+```typescript
+import { Redis as UpstashRedis } from '@upstash/redis'
+
+const upstash = new UpstashRedis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+})
+
+const auth = new AuthRoot({
+  // ...
+  stores: { sessions: new RedisSessionStore(upstash) },
+})
+```
+
+`RedisLike.IClient` is the abstraction — any Redis client that exposes
+`get`, `set`, `del`, `incr`, `expire`, `pttl`, `keys`, `multi`,
+`subscribe`/`publish` works.
+
+## RedisSessionStore
+
+```typescript
+new RedisSessionStore(client, {
+  keyPrefix: 'sess:',       // default
+  ttl: 7 * 24 * 60 * 60,    // default 7 days, in seconds
+})
+```
+
+Stores serialised `Session` objects under `keyPrefix + sessionIdHash`
+with TTL. Revocation = `DEL`. Lookup = `GET` + JSON parse.
+
+The session id is **hashed at rest** — even a Redis dump does not yield
+usable bearer tokens.
+
+## RedisLimiter
+
+```typescript
+new RedisLimiter(client, {
+  keyPrefix: 'ratelimit:',  // default
+  slideWindow: true,        // sliding-window algorithm
+})
+```
+
+Sliding-window rate limiter. Per-bucket atomic via `MULTI` + `INCR` +
+`EXPIRE`. Used by every provider's `limiterKeyPrefix` to enforce
+per-email / per-IP / per-key buckets.
+
+## RedisIdempotencyStore
+
+```typescript
+new RedisIdempotencyStore(client, {
+  keyPrefix: 'idempotency:',  // default
+  ttl: 24 * 60 * 60,          // default 24 hours
+})
+```
+
+Stores the result of an idempotent request keyed by the
+`Idempotency-Key` header. Subsequent requests with the same key return
+the cached result without re-executing.
+
+## RedisDPoPNonceStore
+
+```typescript
+new RedisDPoPNonceStore(client, {
+  ttlMs: 10 * 60 * 1000,    // default 10 minutes
+})
+```
+
+JTI replay guard for DPoP proofs. Every accepted DPoP `jti` is recorded
+with TTL; duplicates return `AUTH/DPOP_INVALID`.
+
+## RedisEvents
+
+```typescript
+new RedisEvents(client, {
+  channel: 'auth-events',   // default
+})
+```
+
+Pub/Sub-backed event bus. Publishes serialised events to the channel;
+every subscribed replica replays them through the same `on()` API.
+
+Use cases:
+- Cache invalidation across replicas on `password.changed`.
+- Cross-replica presence ("how many sessions does this identity have
+  active right now?").
+- Streaming to an audit log SaaS without a queueing layer.
+
+## FakeRedis (for tests)
+
+```typescript
+import { FakeRedis } from '@gentleduck/auth/adapters/redis'
+
+const redis = new FakeRedis()
+const limiter = new RedisLimiter(redis)
+
+// FakeRedis implements the same RedisLike.IClient interface as ioredis,
+// but stores in-process. No Docker, no `redis-server`, no port to bind.
+```
+
+Useful when you want to exercise the same code paths in tests without
+spinning up Redis.
+
+## What goes in Redis vs SQL
+
+| Data | Backing |
+| --- | --- |
+| Identities (rows that survive process restarts) | SQL |
+| Credentials (password hashes, passkey rows, API keys) | SQL |
+| Sessions (volatile, sliding TTL) | Redis (or SQL for single-replica deployments) |
+| Idempotency cache | Redis |
+| DPoP nonces | Redis |
+| Rate-limiter counters | Redis |
+| Cross-replica events | Redis Pub/Sub |
+| Orgs and memberships | SQL |
+
+The split is not arbitrary: Redis is for **volatile, write-heavy, TTL'd**
+data; SQL is for **durable, queryable, transactional** data.

@@ -1,0 +1,101 @@
+---
+title: Client libraries
+description: Vanilla createAuthClient + React AuthProvider + hooks. Vue, Svelte, and Solid clients are also shipped.
+section: Client
+---
+
+## What the clients give you
+
+The duck-auth client libraries wrap the JSON sign-in / sign-out / session
+routes so your UI doesn't have to know the wire shape. They:
+
+- Track session state with `loading` / `authed` / `guest` semantics.
+- Provide a `signIn(providerId, input)` that handles the right HTTP
+  method and surfaces typed errors.
+- Re-render reactive views (React `useSession`, Vue `useSession`,
+  Svelte stores, Solid signals) when the session changes.
+- Subscribe to `session.rotated` / `session.revoked` so a sign-out in
+  one tab signs you out in every tab.
+
+## Shipped clients
+
+| Client | Import | Notes |
+| --- | --- | --- |
+| [Vanilla](/duck-auth/client/vanilla) | `@gentleduck/auth/client/vanilla` | Framework-agnostic. Zero dependencies. |
+| [React](/duck-auth/client/react) | `@gentleduck/auth/client/react` | `<AuthProvider>` + `useSession` + `useSignIn` + `useBeginProvider`. |
+| Vue | `@gentleduck/auth/client/vue` | `createAuth()` + `useSession`. |
+| Svelte | `@gentleduck/auth/client/svelte` | `createAuthStore()` reactive store. |
+| Solid | `@gentleduck/auth/client/solid` | `createAuthSignal()`. |
+
+## Anatomy of a sign-in
+
+Every client wraps the same HTTP shape:
+
+```
+POST /auth/signin
+Content-Type: application/json
+
+{ "providerId": "password", "input": { "email": "...", "password": "..." } }
+```
+
+The server responds with:
+
+```
+HTTP/1.1 200 OK
+Set-Cookie: __Host-duck-sid=...; ...
+Content-Type: application/json
+
+{ "session": {...}, "identity": {...} }
+```
+
+The client persists the response, kicks off a `getSession()` refresh,
+and notifies subscribers.
+
+## Type safety
+
+Every client is generic over `Profile`:
+
+```typescript
+type Profile = { displayName: string; avatarUrl?: string }
+
+// Vanilla
+const client = createAuthClient<Profile>()
+
+// React — pass through useSession's generic
+const { data } = useSession<Profile>()
+// data.identity.profile is typed as Profile
+```
+
+For a fully end-to-end type-safe stack, share the `Profile` type
+between your `AuthRoot` config (server) and your client setup (browser)
+through your monorepo's shared types package.
+
+## Cross-tab session sync
+
+The clients listen for `storage` events on `localStorage` (vanilla / React)
+and `BroadcastChannel` messages (Vue / Svelte / Solid) so that a
+sign-out in one tab propagates to every open tab in the same browser.
+
+The mechanism is opt-in but on by default — pass `notifyImmediately:
+false` if you don't want it.
+
+## Error handling
+
+All clients raise the typed `AuthErrorObject` (or a wire-equivalent
+`{ code, status, meta }` object on the React `useSignIn().error` field).
+Branch on `error.code`, not on HTTP status — codes are stable across
+versions.
+
+```typescript
+const signIn = useSignIn()
+
+await signIn.mutateAsync({ providerId: 'password', input: { email, password } })
+
+if (signIn.error) {
+  switch (signIn.error.code) {
+    case 'AUTH/INVALID_CREDENTIALS': toast('Wrong email or password'); break
+    case 'AUTH/MFA_REQUIRED': showMfaForm(); break
+    case 'AUTH/RATE_LIMITED': toast('Slow down — try again in a minute'); break
+  }
+}
+```

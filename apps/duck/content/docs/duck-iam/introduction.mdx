@@ -192,11 +192,18 @@ await engine.can("user-1", "delete", { type: "post", attributes: {} });
 | [Installation](/duck-iam/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
 | [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
 | [Production deployment](/duck-iam/guides/production) | SRE playbook: TTL trade-offs, multi-node invalidation, hooks, retry / circuit breaker, health probe, metrics. |
+| [Pairing with duck-auth](/duck-iam/guides/auth-bridge) | Wire authentication (duck-auth) and authorization (duck-iam) with a tiny `projectToSubject` function. |
+| [Cookbook](/duck-iam/guides/cookbook) | Copy-pasteable patterns: owners, public-vs-private, time-bound access, MFA gates, field-level permissions. |
+| [Troubleshooting](/duck-iam/guides/troubleshooting) | Diagnostic toolbox, common errors, performance gotchas. |
 | [Core Concepts](/duck-iam/core) | Roles, policies, rules, conditions, and combining algorithms. |
 | [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
 | [Advanced](/duck-iam/advanced/config) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
 | [Benchmarks](/duck-iam/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |
 | [FAQs](/www/faqs) | Common questions and answers. |
+
+## See also
+
+- **[@gentleduck/auth](/duck-auth)** — pairs with duck-iam for end-to-end identity + authorization. duck-auth proves *who* the caller is; duck-iam decides *what* they may do.
 
 ## Contributing
 

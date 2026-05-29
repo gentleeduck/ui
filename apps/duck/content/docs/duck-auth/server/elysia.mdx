@@ -1,0 +1,69 @@
+---
+title: Elysia adapter
+description: Elysia (Bun) — Web-Fetch-native, fast cold starts. Mounts as a plugin.
+section: Server
+---
+
+## Setup
+
+```typescript
+import { Elysia } from 'elysia'
+import { elysiaAuth } from '@gentleduck/auth/server/elysia'
+import { auth } from './lib/auth'
+
+const app = new Elysia()
+  .use(elysiaAuth({ auth, prefix: '/auth' }))
+  .get('/api/me', async ({ request, set }) => {
+    const ctx = await auth.resolveSession(request)
+    if (!ctx) {
+      set.status = 401
+      return { code: 'AUTH/UNAUTHENTICATED' }
+    }
+    return ctx.identity
+  })
+  .listen(3000)
+```
+
+The plugin mounts `signin`, `signout`, `session`, and `providers/:providerId/begin`
+under `prefix`.
+
+## Validation
+
+Elysia ships with TypeBox; you can validate input shapes upstream of
+duck-auth:
+
+```typescript
+import { t } from 'elysia'
+
+app.post(
+  '/auth/signin',
+  ({ body }) => mountSignInHandler(body),
+  {
+    body: t.Object({
+      providerId: t.String(),
+      input: t.Record(t.String(), t.Any()),
+    }),
+  },
+)
+```
+
+Malformed payloads return 400 before reaching the duck-auth runtime.
+
+## Cold-start posture
+
+Elysia + Bun starts in <20ms. duck-auth adds a few ms (loading lazy
+peers, instantiating the AuthRoot). For best cold-start, avoid wiring
+peers you don't use — the lazy-load is per-feature.
+
+## Error handling
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.onError(({ code, error, set }) => {
+  if (error instanceof AuthErrorObject) {
+    set.status = error.status
+    return error.toJSON()
+  }
+})
+```

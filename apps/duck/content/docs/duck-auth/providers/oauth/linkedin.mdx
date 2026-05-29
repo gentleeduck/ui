@@ -1,0 +1,92 @@
+---
+title: LinkedIn OAuth
+description: LinkedIn Sign-in with OIDC.
+section: Providers
+---
+
+## Setup
+
+1. Go to the [LinkedIn Developers portal](https://www.linkedin.com/developers/apps).
+2. Create an app and enable the **Sign In with LinkedIn using OpenID Connect** product.
+3. Under **Auth**, add the redirect URL:
+   `https://app.example.com/auth/linkedin/callback`.
+4. Copy the client ID and client secret.
+
+```typescript
+import { linkedin } from '@gentleduck/auth/providers/oauth/linkedin'
+
+export const auth = new AuthRoot({
+  // ...
+  providers: [
+    linkedin({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      redirectUri: 'https://app.example.com/auth/linkedin/callback',
+      stateSigningSecret: process.env.OAUTH_STATE_SECRET!,
+      scopes: ['openid', 'profile', 'email'],
+      onSignIn: async ({ profile }) => {
+        let identity = await auth.identities.findByProviderSub({
+          providerId: 'linkedin',
+          sub: profile.sub,
+        })
+        if (!identity) {
+          identity = await auth.identities.create({
+            email: profile.email,
+            emailVerified: profile.email_verified,
+            profile: {
+              displayName: profile.name,
+              avatarUrl: profile.picture,
+            },
+          })
+          await auth.identities.linkProvider(identity.id, {
+            providerId: 'linkedin',
+            sub: profile.sub,
+          })
+        }
+        return { identityId: identity.id }
+      },
+    }),
+  ],
+})
+```
+
+## What the profile contains
+
+LinkedIn's OIDC userinfo:
+
+```typescript
+{
+  sub: 'a1b2c3d4',                    // LinkedIn person URN
+  email: 'ada@example.com',
+  email_verified: true,
+  name: 'Ada Lovelace',
+  given_name: 'Ada',
+  family_name: 'Lovelace',
+  picture: 'https://media.licdn.com/dms/image/...',
+  locale: { country: 'US', language: 'en' },
+}
+```
+
+LinkedIn requires a verified email for OIDC, so `email_verified` is
+always `true`.
+
+## Older API: Sign in with LinkedIn (v2)
+
+If you're on the legacy v2 API (`r_liteprofile` + `r_emailaddress`
+scopes), use the generic `oauthProvider` directly:
+
+```typescript
+import { oauthProvider } from '@gentleduck/auth/providers/oauth'
+
+oauthProvider({
+  providerId: 'linkedin-v2',
+  authorizationEndpoint: 'https://www.linkedin.com/oauth/v2/authorization',
+  tokenEndpoint: 'https://www.linkedin.com/oauth/v2/accessToken',
+  userInfoEndpoint: 'https://api.linkedin.com/v2/me',
+  scopes: ['r_liteprofile', 'r_emailaddress'],
+  // Separate /v2/emailAddress call needed for the primary email — wire in onSignIn.
+})
+```
+
+The OIDC product (the new default) is strictly simpler — migrate when
+you can.

@@ -1,0 +1,75 @@
+---
+title: Fastify adapter
+description: Fastify 4+ as a plugin. Schema-validated routes by default.
+section: Server
+---
+
+## Setup
+
+```typescript
+import Fastify from 'fastify'
+import { fastifyAuth } from '@gentleduck/auth/server/fastify'
+import { auth } from './lib/auth'
+
+const app = Fastify({ logger: true })
+
+await app.register(fastifyAuth, { auth, prefix: '/auth' })
+
+// Now /auth/signin, /auth/signout, /auth/session, /auth/providers/:providerId/begin are mounted.
+
+app.get('/api/me', async (req, reply) => {
+  const ctx = await auth.resolveSession(req.raw)
+  if (!ctx) return reply.code(401).send({ code: 'AUTH/UNAUTHENTICATED' })
+  return ctx.identity
+})
+
+await app.listen({ port: 3000 })
+```
+
+## Schema validation
+
+The plugin registers request schemas for every route. Fastify's built-in
+validator rejects malformed payloads before they reach `auth.flows.signIn`:
+
+```json
+{
+  "providerId": "password",
+  "input": { "email": "ada@example.com", "password": "..." }
+}
+```
+
+A POST `/auth/signin` with `providerId: 42` (number instead of string)
+returns `400` with a Fastify validation error — no duck-auth code path
+is reached.
+
+## Error handling
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.setErrorHandler((err, req, reply) => {
+  if (err instanceof AuthErrorObject) {
+    return reply.code(err.status).send(err.toJSON())
+  }
+  reply.send(err)
+})
+```
+
+## Hooks
+
+For app-wide gates, register a preHandler:
+
+```typescript
+app.addHook('preHandler', async (req, reply) => {
+  if (req.url.startsWith('/api/private')) {
+    const ctx = await auth.resolveSession(req.raw)
+    if (!ctx) {
+      reply.code(401).send({ code: 'AUTH/UNAUTHENTICATED' })
+      return reply
+    }
+  }
+})
+```
+
+The preHandler runs before the route handler. Returning `reply` short-
+circuits — no other hooks or handlers run for that request.

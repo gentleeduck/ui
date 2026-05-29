@@ -1,0 +1,165 @@
+---
+title: Bridging to duck-iam
+description: Authentication proves who the caller is; duck-iam decides what they may do. Wire the two with a 15-line projectToSubject function.
+section: Guides
+---
+
+## Why two libraries?
+
+duck-auth answers **"who is this caller?"** It owns identities,
+credentials, sessions, MFA, and providers. duck-iam answers **"what
+may this caller do?"** It owns roles, policies, and the evaluation
+engine.
+
+Keeping them separate is intentional:
+
+- You can swap auth providers (NextAuth → duck-auth) without touching
+  authorization.
+- You can swap authorization engines (Casbin → duck-iam) without
+  touching auth.
+- The auth library doesn't need to know your domain's permission
+  model; the iam library doesn't need to know your sign-in flows.
+
+The two libraries are stitched together by a small `projectToSubject`
+function you write in your app.
+
+## The bridge
+
+```typescript title="src/lib/projectToSubject.ts"
+import type { Identity, Session } from '@gentleduck/auth/core'
+import type { AccessControl } from '@gentleduck/iam'
+
+// Your typed AccessConfig — same one you defined for the iam engine.
+type Profile = {
+  displayName: string
+  externalGroups?: string[]
+}
+
+export function projectToSubject(
+  identity: Identity<Profile>,
+  session: Session,
+): AccessControl.ISubject<typeof access> {
+  return {
+    id: identity.id,
+    tenantId: identity.tenantId,
+    roles: identity.profile.externalGroups?.map((g) => `group:${g}`) ?? [],
+    attributes: {
+      email: identity.email,
+      emailVerified: identity.emailVerified,
+      aal: session.aal,
+      amr: session.amr,
+      kind: session.kind,           // 'user' | 'apikey'
+      displayName: identity.profile.displayName,
+    },
+  }
+}
+```
+
+The function takes the auth-side `Identity` + `Session` and projects
+them into the iam-side `Subject`. Once you have that, the rest of your
+handlers look identical:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+import { auth } from '~/lib/auth'
+import { iam } from '~/lib/iam'
+import { projectToSubject } from '~/lib/projectToSubject'
+
+app.post('/api/posts/:id/delete', async (req, res, next) => {
+  try {
+    const ctx = await auth.resolveSession(req)
+    if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+
+    const subject = projectToSubject(ctx.identity, ctx.session)
+    const post = await getPost(req.params.id)
+
+    if (!iam.can({ subject, action: 'delete', resource: { type: 'post', attributes: post } })) {
+      return res.status(403).json({ code: 'FORBIDDEN' })
+    }
+
+    await deletePost(req.params.id)
+    res.status(204).end()
+  } catch (err) {
+    next(err)
+  }
+})
+```
+
+## Where to put the bridge
+
+For a typical app, `projectToSubject` lives in `src/lib/projectToSubject.ts`
+and is imported wherever you call `iam.can()`.
+
+If your app has many resource types and the projection logic gets
+complicated, factor it into multiple functions:
+
+```typescript
+export function baseSubject(identity, session) { /* common attributes */ }
+
+export function subjectForPosts(identity, session, post) {
+  const base = baseSubject(identity, session)
+  return { ...base, attributes: { ...base.attributes, isOwner: post.ownerId === identity.id } }
+}
+
+export function subjectForOrgs(identity, session, org) { /* ... */ }
+```
+
+Each call site picks the projection it needs.
+
+## Step-up gated by iam
+
+You can also use iam to drive **step-up** decisions:
+
+```typescript
+const subject = projectToSubject(identity, session)
+const decision = iam.explain({
+  subject,
+  action: 'delete',
+  resource: { type: 'post', attributes: post },
+})
+
+if (decision.requiresStepUp) {
+  throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED')
+}
+if (!decision.allow) {
+  return res.status(403).end()
+}
+```
+
+`requiresStepUp` is a custom attribute you can add to your iam policies
+— "deny unless AAL is aal2 and session is fresh." The iam evaluator
+returns the reason, and your handler turns it into the auth-side
+step-up flow. Clean separation.
+
+## Multi-tenant: identity.tenantId is iam.tenantId
+
+Both libraries are multi-tenant. The convention is to use the same
+`tenantId` value in both:
+
+```typescript
+const identity = await auth.identities.findById(id, { tenantId: 'org-123' })
+// → identity.tenantId === 'org-123'
+
+const subject = projectToSubject(identity, session)
+// → subject.tenantId === 'org-123'
+
+iam.can({ subject, action, resource, scope: 'org-123' })
+// → policy lookup is scoped to 'org-123'
+```
+
+A subject can be `admin` in org-1 and `viewer` in org-2 — iam's scoped
+role assignments handle that natively.
+
+## When to skip iam
+
+For simple apps (one role per user, no per-resource conditions, no
+multi-tenancy), iam may be overkill. You can drive permissions
+directly off `identity.profile.role` or `session.aal`:
+
+```typescript
+if (session.aal !== 'aal2') throw new AuthErrorObject('AUTH/AAL_INSUFFICIENT')
+if (identity.profile.role !== 'admin') return res.status(403).end()
+```
+
+This works fine until you need conditions ("editors can only delete
+their own posts"). At that point, switch to duck-iam.

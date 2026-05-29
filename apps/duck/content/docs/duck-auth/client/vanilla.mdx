@@ -1,0 +1,173 @@
+---
+title: Vanilla client
+description: Framework-agnostic createAuthClient. Promise-based signIn / signOut / getSession + onChange subscription.
+section: Client
+---
+
+## Constructor
+
+```typescript
+import { createAuthClient } from '@gentleduck/auth/client/vanilla'
+
+const client = createAuthClient({
+  baseUrl: '/auth',              // default
+  fetch: globalThis.fetch,       // override for SSR / Node tests
+  headers: { 'X-App': 'web' },   // sent on every call
+  notifyImmediately: true,       // emit current state on .onChange()
+})
+```
+
+The result implements `VanillaClient.IClient<Profile>`. All methods are
+async; errors throw `AuthErrorObject`.
+
+## Methods
+
+### `signIn(opts)`
+
+Run a provider's complete step:
+
+```typescript
+const { ok, session, identity } = await client.signIn({
+  providerId: 'password',
+  input: { email, password },
+  path: '/signin',  // optional; defaults to `${baseUrl}/signin`
+})
+```
+
+On success: returns `{ ok: true, session, identity, body }` and updates
+the internal session state.
+
+On failure: throws an `AuthErrorObject`. The `code` field is what the
+UI should branch on.
+
+### `signOut()`
+
+```typescript
+await client.signOut()
+```
+
+Issues `POST /auth/signout`, clears the local session state, fires
+`onChange()` with `null`.
+
+### `getSession()`
+
+```typescript
+const { session, identity } = await client.getSession()
+```
+
+Issues `GET /auth/session`. Used internally on `AuthClient` construction
+to hydrate the initial state.
+
+### `beginProvider(id, input?)`
+
+For OAuth: kicks off the redirect.
+For magic-link: triggers the email/SMS dispatch.
+
+```typescript
+// OAuth
+await client.beginProvider('google', {})
+// → browser navigates to Google
+
+// Magic-link
+await client.beginProvider('magic-link', { email, channel: 'email' })
+// → 200 { sent: true }
+```
+
+### `refresh()`
+
+Re-fetches the session without ceremony — useful after a server-side
+mutation that you know changed the session shape:
+
+```typescript
+await mutateProfile(...)
+await client.refresh()
+```
+
+### `onChange(cb)`
+
+Subscribe to session-state changes:
+
+```typescript
+const unsubscribe = client.onChange((state) => {
+  if (state === null) {
+    console.log('signed out')
+  } else {
+    console.log('signed in as', state.identity.profile.displayName)
+  }
+})
+
+// later:
+unsubscribe()
+```
+
+The callback fires:
+- Immediately on subscription (if `notifyImmediately: true`).
+- On every successful `signIn` / `signOut` / `refresh`.
+- On `storage` events from another tab (cross-tab sync).
+
+## State shape
+
+```typescript
+type State<Profile> =
+  | null
+  | {
+      session: { id, expiresAt, aal, amr, kind, ... }
+      identity: { id, email, profile: Profile, ... }
+    }
+```
+
+## Constructing a Profile-typed client
+
+```typescript
+import { createAuthClient } from '@gentleduck/auth/client/vanilla'
+
+type Profile = { displayName: string; avatarUrl?: string }
+
+export const client = createAuthClient<Profile>()
+// client.signIn -> Profile is inferred
+// client.onChange((state) => state?.identity.profile.displayName)
+```
+
+## Using in a SPA
+
+```typescript
+// auth.ts
+export const client = createAuthClient()
+
+// app.tsx
+client.onChange((state) => {
+  document.body.dataset.authed = state ? 'true' : 'false'
+})
+
+document.querySelector('#signin').addEventListener('click', async () => {
+  await client.signIn({
+    providerId: 'password',
+    input: { email: emailInput.value, password: passwordInput.value },
+  })
+})
+
+document.querySelector('#signout').addEventListener('click', () => client.signOut())
+```
+
+## Server-side rendering
+
+For SSR, pass a custom `fetch` that forwards cookies from the incoming
+request:
+
+```typescript
+const ssrClient = createAuthClient({
+  baseUrl: 'http://localhost:3000/auth',
+  fetch: async (url, init) => {
+    return fetch(url, {
+      ...init,
+      headers: { ...init?.headers, cookie: req.headers.cookie ?? '' },
+    })
+  },
+})
+
+const initialState = await ssrClient.getSession()
+```
+
+The initial state ships down to the client in the HTML, and the
+client-side `createAuthClient` rehydrates from it without an extra
+round trip.
