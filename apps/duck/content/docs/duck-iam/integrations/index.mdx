@@ -1,0 +1,54 @@
+---
+title: Integrations
+description: Where duck-iam plugs into the rest of your stack - adapters, server middleware, client SDKs, observability, and cross-instance invalidation.
+section: Integrations
+---
+
+## What lives here
+
+`@gentleduck/iam`'s integration story is sliced by **direction**: where
+the data flows.
+
+| Subpath | Direction | What it does |
+|---|---|---|
+| [`adapters/`](/duck-iam/integrations/adapters) | inbound | Where policies + roles + subjects come from (memory, file, redis, drizzle, prisma, http) |
+| [`server/`](/duck-iam/integrations/server) | inbound + outbound | Express / Hono / Next / Nest middleware. Translates HTTP requests into authorize calls and authorize results back into HTTP responses |
+| [`client/`](/duck-iam/integrations/client) | outbound | React / Vue / vanilla JS SDKs. Renders `<Can>` / `<Cannot>` / `useAccess()` from a snapshot the server pre-computed |
+| [`invalidators/`](/duck-iam/integrations/invalidators) | sideways | Cross-instance cache invalidation. One node mutates a policy; every other node's cache flips stale |
+| [`observability/`](/duck-iam/integrations/observability) | outbound | OpenTelemetry metrics aggregator that turns `onMetrics` events into p50 / p95 / p99 |
+
+## Wiring all five at once
+
+A production deployment that uses one of each:
+
+```typescript
+import { Engine } from '@gentleduck/iam/core'
+import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { adminRouter, guard } from '@gentleduck/iam/server/express'
+import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+
+const adapter = new DrizzleAdapter(db, schema)
+const invalidator = createRedisInvalidator({ client: redis })
+const metrics = createMetricsAggregator()
+
+const engine = new Engine({
+  adapter,
+  invalidator,
+  hooks: { onMetrics: metrics.record },
+})
+
+await engine.preload()  // warm caches before first request
+
+app.delete('/posts/:id', guard(engine, 'delete', 'post'), handler)
+app.use('/admin', adminRouter(engine, { authorize: (req) => isAdmin(req) })(() => express.Router()))
+
+app.get('/healthz', async (_, res) => res.json(await engine.healthCheck()))
+app.get('/metrics', (_, res) => res.json(metrics.snapshot()))
+```
+
+## What's NOT here
+
+- **The policy engine itself**: see [Core](/duck-iam/core).
+- **The fluent role / policy builder**: see [`@gentleduck/iam/core/builder`](/duck-iam/core/policies).
+- **The validator**: see [Advanced > validate](/duck-iam/advanced/utilities).

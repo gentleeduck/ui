@@ -1,0 +1,131 @@
+---
+title: Compliance presets
+description: gdpr, hipaa, soc2, fips — apply a regulatory profile in one call. Strictest preset wins.
+section: Core
+---
+
+## What the presets do
+
+duck-auth ships four compliance presets that wire a coherent set of
+configuration overrides for the named regulatory scope:
+
+- Replace `ScryptHasher` with `Argon2idHasher` (HIPAA / FIPS).
+- Force `dataAtRest` encryption on identities and credentials.
+- Register `impossibleTravelDetector` + `deviceFingerprintDetector`.
+- Tighten password policy (minLength 14+).
+- Set `anomaly.onDetectorError` to `step-up` (SOC2) or `deny` (FIPS).
+- Cap `session.absoluteTtlMs` (HIPAA: 30 days; FIPS: 7 days).
+- Require a non-memory limiter, non-memory adapter, secure cookie.
+
+## Usage
+
+Apply one preset to a `stores` / `events` / `channels` triple:
+
+```typescript
+import { hipaa } from '@gentleduck/auth/core'
+
+const config = hipaa({
+  stores: { /* ... */ },
+  events: new RedisEvents(redis),
+  channels: { email: new SesChannel({ ... }) },
+})
+
+export const auth = new AuthRoot({
+  ...config,
+  // your own overrides go after
+})
+```
+
+Presets return an `AuthRoot.IConfig` shape that you spread into
+`new AuthRoot({ ... })`. Add your own keys after to override.
+
+## Available presets
+
+| Preset | Scope | Required peers |
+| --- | --- | --- |
+| `gdpr` | EU privacy. Soft-delete grace + erase + exportAll mandatory. | none |
+| `soc2` | SOC2 Type II. Anomaly detectors + audit-log webhook + absolute TTL cap. | `@opentelemetry/api` (recommended) |
+| `hipaa` | US healthcare. Argon2 + AES-GCM dataAtRest + signed-audit + absolute TTL 30 days. | `@node-rs/argon2` |
+| `fips` | FIPS 140-2/3. Argon2 + KMS-envelope dataAtRest + ES256/EdDSA only + absolute TTL 7 days + no HS256. | `@node-rs/argon2` + a `Kms.IProvider` |
+
+## Strictest preset wins
+
+You can layer presets — the last one is dominant where they conflict:
+
+```typescript
+import { gdpr, hipaa } from '@gentleduck/auth/core'
+
+const layered = { ...gdpr({ ... }), ...hipaa({ ... }) }
+// HIPAA wins on overlapping keys (Argon2 vs scrypt)
+```
+
+For ergonomic clarity, prefer applying the strictest preset directly
+rather than stacking.
+
+## What each preset enforces
+
+### `gdpr`
+
+- `identities.softDeleteGracePeriodMs >= 7 days`.
+- `auth.identities.exportAll` available (always — but the preset wires
+  an audit event on every call).
+- `auth.identities.erase` available, with audit metadata preserved
+  post-erasure.
+- Logs scrubbed of email, IP, and PII via `events.middleware`.
+
+### `soc2`
+
+- All `gdpr` requirements.
+- `impossibleTravelDetector` + `deviceFingerprintDetector` registered.
+- `anomaly.onDetectorError: 'step-up'`.
+- `WebhookDeliverer` wired to ship every audit event to an external sink.
+- `session.absoluteTtlMs: 30 days` cap.
+- `OtelInstrumentation` recommended (a warning fires at boot if absent).
+
+### `hipaa`
+
+- All `soc2` requirements.
+- `passwords.hasher: Argon2idHasher(ARGON2ID_COMPLIANCE)`.
+- `passwords.minLength: 14`.
+- `dataAtRest: AesGcmDataAtRest` with a `KeyProvider` (you supply).
+- `channel` must implement an audit hook (HIPAA logs every message).
+- `session.absoluteTtlMs: 30 days` cap (already set by SOC2 layer).
+- `mfa.enforced: true` — at least one MFA factor required per identity.
+
+### `fips`
+
+- All `hipaa` requirements.
+- `passwords.hasher: Argon2idHasher(ARGON2ID_COMPLIANCE)`.
+- `JwtTransport.algorithms`: `ES256` / `EdDSA` only. HS256 / RS256 rejected.
+- `dataAtRest: KmsEnvelopeDataAtRest` — local key material disallowed.
+- `anomaly.onDetectorError: 'deny'`.
+- `session.absoluteTtlMs: 7 days` cap.
+- `passwords.minLength: 16`.
+
+## Strict mode + presets
+
+`AuthRoot.strict({ env: 'production' })` cross-checks the preset:
+
+```typescript
+new AuthRoot({
+  ...hipaa({ ... }),
+  passwords: { hasher: new ScryptHasher() },  // ← overrides Argon2 — strict() will fail
+})
+// throws AUTH/MISCONFIGURED: { gate: 'compliance', preset: 'hipaa', expected: 'Argon2idHasher' }
+```
+
+The preset is the source of truth; manual overrides that violate it are
+caught at boot.
+
+## Auditing your config
+
+Use `auth.compliance.report()` to print the active preset, the
+effective config, and any drift:
+
+```typescript
+console.log(auth.compliance.report())
+// → { preset: 'hipaa', overrides: [], gates: [...passed], drift: [...] }
+```
+
+Useful for compliance attestation reviews — you can include the report
+in your SOC2 audit package.

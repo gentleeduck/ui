@@ -1,0 +1,96 @@
+---
+title: Changelog
+description: Release history for @gentleduck/auth.
+section: Reference
+---
+
+## 0.1.0 — pre-1.0 surface freeze
+
+The 0.1.0 release covers approximately 98% of the v1.0 MUST surface.
+See [`STATUS.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/STATUS.md)
+for the per-component scorecard and [`DESIGN.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/DESIGN.md)
+for the architectural rationale.
+
+### Shipped surface
+
+- **Core (14 facets)** — `sessions`, `identities`, `passwords`,
+  `providers`, `mfa`, `flows`, `apiKeys`, `m2m`, `orgs`, `plugins`,
+  `operations`, `idempotency`, `hijack`, `anomaly`.
+- **Transports** — `CookieTransport`, `BearerTransport`, `JwtTransport`
+  (HS256/ES256/RS256/EdDSA), `CompositeTransport`, plus `DPoPVerifier`
+  with `MemoryDPoPNonceStore` and `RedisDPoPNonceStore`.
+- **Adapters** — `MemoryAuthAdapter`, the Redis bundle
+  (`RedisSessionStore`, `RedisLimiter`, `RedisIdempotencyStore`,
+  `RedisEvents`, `RedisDPoPNonceStore`, `FakeRedis`), the SQL bridge
+  (`SqlBridge.IBridge`, `createSqlAuthStores`), and the Drizzle
+  reference implementations for pg / mysql / sqlite.
+- **Providers** — password, magic-link, six OAuth providers (Google,
+  GitHub, LinkedIn, Microsoft, Discord, Apple), WebAuthn passkeys
+  (discoverable + username), API keys, SAML.
+- **Channels** — console, SMTP, Resend, AWS SES, Twilio, WebPush,
+  plus Test and Noop.
+- **Servers** — Express, Hono, Next.js (app router), Fastify, Koa,
+  Elysia, NestJS, gRPC, and the generic Web-Fetch executor.
+- **Clients** — vanilla, React, Vue, Svelte, Solid.
+- **CLI** — `init`, `doctor`, `keys generate`, `keys rotate`,
+  `migrate`, `emit-openapi`.
+- **OpenAPI 3.1 generator**, **OIDC discovery + JWKS handler**,
+  **OpenTelemetry instrumentation**, **i18n catalogs** (built-in +
+  Lingui adapter).
+- **`createTestAuth()`** test helper, adapter compliance suite,
+  Storybook decorator.
+- **WebAuthn-MFA factor**.
+- **KMS-envelope `dataAtRest`** (`AwsKmsProvider` reference impl).
+- **`JwtTransport` live JWKS rotation**.
+
+### Security baselines
+
+- Session fixation defence via the 7-row rotation matrix.
+- Username enumeration defence: constant-time verify, identical error
+  code + timing for "wrong email" and "wrong password".
+- 13-key denylist on `AuthErrorObject.toJSON()` to scrub sensitive meta.
+- PKCE-S256 mandatory on every OAuth flow.
+- Signed `state` (HMAC-SHA256) with 10-minute expiry.
+- OIDC nonce replay defence.
+- Refresh-token family reuse detection (RFC 6749 §10.4).
+- JWT `alg` pinning per `kid` to defend against alg-confusion.
+- DPoP `jti` replay guard with per-process or per-cluster nonce store.
+- CSRF double-submit (`__Host-duck-csrf`) with constant-time compare.
+- Channel webhook delivery via HMAC-SHA256 signature.
+- 32 documented audit fixes from the 0.0.x security sweep — see
+  [`SECURITY.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/SECURITY.md).
+
+### Compliance presets
+
+- `gdpr` — soft-delete grace, exportAll, erase + audit metadata.
+- `soc2` — anomaly detectors, audit webhooks, absolute TTL cap.
+- `hipaa` — Argon2id, AES-GCM dataAtRest, audit-hooked channels,
+  enforced MFA.
+- `fips` — KMS-envelope dataAtRest, ES256/EdDSA-only JWT, no HS256,
+  absolute TTL cap.
+
+### Known WIP
+
+See [`STATUS.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/STATUS.md)
+for the running list. The remaining v1.0 work is primarily ergonomic
+polish, expanded peer-dep coverage, and broader OAuth provider library.
+
+## Release policy
+
+- **Patch (0.1.x)** — bug fixes, doc improvements, additional shipped
+  channels / OAuth providers, additional Drizzle dialects.
+- **Minor (0.x.0)** — backwards-compatible API additions, new facets,
+  new compliance presets.
+- **Major (x.0.0)** — breaking changes. Pre-1.0, expect occasional
+  breaking changes between minor versions; consult the changelog and
+  the `MIGRATION.md` (per release) for details.
+
+## How to upgrade
+
+```bash
+bun update @gentleduck/auth
+bunx @gentleduck/auth doctor   # confirm your config still passes strict()
+```
+
+If `doctor` flags new gates, the message will name the gate and link
+to the relevant docs section.

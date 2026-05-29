@@ -1,0 +1,134 @@
+---
+title: Introduction
+description: Faceted, framework-agnostic, transport-pluggable authentication for modern TypeScript apps.
+section: Getting Started
+---
+
+## What is duck-auth?
+
+duck-auth is an authentication library built around a single faceted root,
+`AuthRoot`. Every concern — sessions, identities, passwords, providers,
+MFA, flows, API keys, machine-to-machine, organizations, idempotency,
+hijack policy, anomaly detection — is a typed facet you wire once at
+boot and pass into the runtime.
+
+It is **framework-agnostic** (Express, Hono, Next.js, Fastify, Koa, Elysia,
+NestJS, gRPC, vanilla Web Fetch), **transport-pluggable** (Cookie, Bearer,
+JWT, Composite, with optional DPoP binding), and **batteries-included**
+(magic-link, passkeys, six OAuth providers, SAML, password hashing,
+TOTP MFA, WebAuthn-MFA, channels for SMTP/Resend/SES/Twilio/WebPush,
+adapters for Memory/Redis/SQL).
+
+Pairs with [`@gentleduck/iam`](/duck-iam) for authorization. Authentication
+proves who the caller is; authorization decides what they may do. They
+are kept as two libraries on purpose — apps wire a small `projectToSubject`
+function to bridge identity and session into the iam `Subject` shape.
+
+## Why duck-auth?
+
+Every TypeScript auth library forces one of three trade-offs:
+
+- **Framework lock-in** — NextAuth, Auth.js: only one runtime, one shape.
+- **Hosted control plane** — Clerk, WorkOS, Stytch: per-MAU pricing, vendor lock.
+- **DIY on Lucia + passport + your own glue** — you own every edge case.
+
+duck-auth is the third option, unified: framework-agnostic core,
+batteries-included adapters, **no hosted plane**. You wire it into your
+router with one adapter import.
+
+## Key features
+
+| Feature | Description |
+| --- | --- |
+| 14-facet root | `AuthRoot` exposes sessions, identities, passwords, providers, mfa, flows, apiKeys, m2m, orgs, plugins, operations, idempotency, hijack, anomaly. |
+| Framework-agnostic | Express, Hono, Next.js (app router), Fastify, Koa, Elysia, NestJS, gRPC, and a generic Web-Fetch executor. |
+| Pluggable transports | `CookieTransport`, `BearerTransport`, `JwtTransport` (HS256/ES256/RS256/EdDSA), `CompositeTransport`, plus `DPoPVerifier` for RFC 9449 sender-constrained tokens. |
+| Provider library | Password, magic-link, six OAuth (Google, GitHub, LinkedIn, Microsoft, Discord, Apple), WebAuthn passkeys (discoverable + username), API keys, SAML. |
+| Storage adapters | Memory (dev/test), Redis (session/idempotency/limiter/events/DPoP nonce), SQL bridge with bundled Drizzle examples for pg / mysql / sqlite. |
+| Channels | Console, SMTP, Resend, AWS SES, Twilio, WebPush, plus Test and Noop. |
+| Strict mode | `AuthRoot.strict({ env: 'production' })` rejects dev-only footguns at boot: insecure cookies, NoopLimiter, MemoryAdapter, missing lockout listeners, weak JWT keys, missing compliance presets. |
+| Compliance presets | `gdpr`, `hipaa`, `soc2`, `fips` — strictest preset wins. Each enforces hashing, dataAtRest, channel, and anomaly minimums. |
+| Anomaly detection | Impossible-travel and device-fingerprint detectors, plus an aggregator that emits `allow` / `deny` / `step-up`. |
+| Observability | OpenTelemetry instrumentation, `WebhookDeliverer` with HMAC-signed outbound delivery, OpenAPI 3.1 generator, OIDC discovery, JWKS rotation. |
+| CLI | `duck-auth init`, `doctor`, `keys generate`, `keys rotate`, `migrate`, `emit-openapi`. |
+
+## Architecture
+
+<MermaidDiagram chart={`flowchart TB
+    subgraph App["Your application"]
+        direction TB
+        SERVER["Server (Express / Hono / Next.js / Fastify / Koa / Elysia / Nest / gRPC)"]
+        CLIENT["Client (Vanilla / React / Vue / Svelte / Solid)"]
+    end
+
+    subgraph Root["AuthRoot"]
+        direction TB
+        ROOT["AuthRoot config"]
+        ROOT --> FACETS["14 facets: sessions / identities / passwords / providers / mfa / flows / apiKeys / m2m / orgs / plugins / operations / idempotency / hijack / anomaly"]
+    end
+
+    subgraph Transports["Transports"]
+        direction TB
+        COOKIE["CookieTransport"]
+        BEARER["BearerTransport"]
+        JWT["JwtTransport + JWKS"]
+        DPOP["DPoPVerifier (RFC 9449)"]
+    end
+
+    subgraph Providers["Providers"]
+        direction TB
+        PWD["password"]
+        MAGIC["magic-link"]
+        OAUTH["6 OAuth (PKCE + state)"]
+        PASSKEY["passkey (WebAuthn)"]
+        APIKEY["api-key"]
+        SAML["SAML"]
+    end
+
+    subgraph Adapters["Storage adapters"]
+        direction TB
+        MEM["MemoryAuthAdapter"]
+        REDIS["Redis stores"]
+        SQL["SqlBridge (Drizzle pg/mysql/sqlite)"]
+    end
+
+    SERVER --> Root
+    CLIENT --> SERVER
+    Root --> Transports
+    Root --> Providers
+    Root --> Adapters`} />
+
+`AuthRoot` is the runtime entry point. You construct it once at boot,
+pass the transport, stores, and providers you want, and hand the
+resulting instance to the framework adapter that mounts the routes.
+
+## Status
+
+Pre-1.0. v0.1 covers approximately 98% of the v1.0 MUST surface. Per-component
+status is tracked in [`STATUS.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/STATUS.md);
+the architectural rationale lives in [`DESIGN.md`](https://github.com/gentleeduck/gentleduck/blob/master/packages/duck-auth/DESIGN.md).
+
+| Surface | Status |
+| --- | --- |
+| Core (14 facets) | shipped |
+| Transports (cookie, bearer, jwt, composite, DPoP) | shipped |
+| Adapters (memory, redis, sql bridge + Drizzle examples) | shipped |
+| Providers (password, magic-link, 6 OAuth, passkey, api-key, saml) | shipped |
+| Channels (console, smtp, resend, ses, twilio, webpush) | shipped |
+| Servers (express, hono, next, fastify, koa, elysia, nestjs, grpc, generic) | shipped |
+| Clients (vanilla, react, vue, svelte, solid) | shipped |
+| CLI (init / doctor / keys / migrate / emit-openapi) | shipped |
+| OpenAPI generator + OIDC discovery + OpenTelemetry + i18n | shipped |
+| `createTestAuth()` test helper + Storybook decorator | shipped |
+| WebAuthn-MFA factor | shipped |
+| KMS-envelope DataAtRest (`AwsKmsProvider` reference) | shipped |
+| JwtTransport (HS256 / ES256 / RS256 / EdDSA + live JWKS rotation) | shipped |
+| Native iOS / Android SDKs | community-maintained |
+
+## Next steps
+
+- [Installation →](/duck-auth/installation) — install the package, scaffold via the CLI, and run the 60-second quickstart.
+- [Core concepts →](/duck-auth/core) — read about `AuthRoot`, facets, and the request lifecycle.
+- [Providers →](/duck-auth/providers) — wire password, magic-link, OAuth, passkey, API-key, or SAML.
+- [Adapters →](/duck-auth/adapters) — Memory, Redis, SQL (Drizzle examples for pg / mysql / sqlite).
+- [Security →](/duck-auth/advanced/security) — production hardening, `strict()`, compliance presets, threat model.

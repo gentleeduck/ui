@@ -1,0 +1,158 @@
+---
+title: Next.js adapter
+description: Next.js App Router. Catch-all [...auth]/route.ts mount, plus standalone Web-Fetch route handlers.
+section: Server
+---
+
+## Catch-all mount
+
+The simplest mount is a single catch-all route handler that dispatches
+to the right duck-auth handler:
+
+```typescript title="app/api/auth/[...auth]/route.ts"
+import { mountNext } from '@gentleduck/auth/server/next'
+import { auth } from '~/lib/auth'
+
+export const { GET, POST } = mountNext(auth)
+```
+
+This installs handlers for `signin`, `signout`, `session`, and
+`providers/:providerId/begin` under `/api/auth/...`. Edge runtime is
+supported — duck-auth is Web-Fetch native.
+
+## Individual handlers
+
+If you need per-route control (different rate-limit middleware, custom
+logging), mount each handler separately:
+
+```typescript title="app/api/auth/signin/route.ts"
+import { nextSignIn } from '@gentleduck/auth/server/next'
+import { auth } from '~/lib/auth'
+
+export const POST = nextSignIn(auth)
+```
+
+```typescript title="app/api/auth/signout/route.ts"
+import { nextSignOut } from '@gentleduck/auth/server/next'
+export const POST = nextSignOut(auth)
+```
+
+```typescript title="app/api/auth/session/route.ts"
+import { nextSession } from '@gentleduck/auth/server/next'
+export const GET = nextSession(auth)
+```
+
+```typescript title="app/api/auth/providers/[providerId]/begin/route.ts"
+import { nextProviderBegin } from '@gentleduck/auth/server/next'
+
+export async function POST(req: Request, { params }: { params: { providerId: string } }) {
+  return nextProviderBegin(auth, params.providerId)(req)
+}
+```
+
+## OAuth callbacks
+
+Each OAuth provider redirects back to a callback URL. Mount the sign-in
+handler under each callback path so the redirect resolves cleanly:
+
+```typescript title="app/api/auth/google/callback/route.ts"
+import { nextSignIn } from '@gentleduck/auth/server/next'
+export const GET = nextSignIn(auth)
+```
+
+The provider extracts `code`, `state`, and the PKCE verifier from the
+query string and the cookie, and emits the session intent.
+
+## Server components
+
+In server components and route handlers, resolve the session by passing
+the `Request` directly:
+
+```typescript title="app/account/page.tsx"
+import { headers } from 'next/headers'
+import { auth } from '~/lib/auth'
+
+export default async function AccountPage() {
+  const ctx = await auth.resolveSession({ headers: new Headers(headers()) })
+  if (!ctx) {
+    redirect('/signin')
+  }
+  return <h1>Hello, {ctx.identity.profile.displayName}</h1>
+}
+```
+
+For route handlers, pass the `request` object straight in:
+
+```typescript title="app/api/me/route.ts"
+import { auth } from '~/lib/auth'
+
+export async function GET(req: Request) {
+  const ctx = await auth.resolveSession(req)
+  if (!ctx) return new Response('Unauthorized', { status: 401 })
+  return Response.json(ctx.identity)
+}
+```
+
+## Middleware
+
+For app-wide gates (e.g. all `/dashboard` routes require auth), use
+Next.js middleware:
+
+```typescript title="middleware.ts"
+import { NextResponse } from 'next/server'
+import { auth } from '~/lib/auth'
+
+export async function middleware(req: NextRequest) {
+  const ctx = await auth.resolveSession(req)
+  if (!ctx && req.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/signin', req.url))
+  }
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/dashboard/:path*'],
+}
+```
+
+Be careful with middleware: it runs on every request and adds latency.
+Resolve-only-if-needed (gate by `pathname` first), and prefer the
+server-component pattern for non-blocking pages.
+
+## Client integration
+
+Pair Next with the React client:
+
+```tsx title="app/providers.tsx"
+'use client'
+
+import { AuthProvider } from '@gentleduck/auth/client/react'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider baseUrl="/api/auth">
+      {children}
+    </AuthProvider>
+  )
+}
+```
+
+```tsx title="components/SignInButton.tsx"
+'use client'
+
+import { useSession, useSignIn } from '@gentleduck/auth/client/react'
+
+export function SignInButton() {
+  const { data, status } = useSession()
+  const signIn = useSignIn()
+
+  if (status === 'authed') return <span>Hi, {data.identity.profile.displayName}</span>
+  return (
+    <button onClick={() => signIn.mutate({ providerId: 'google', input: {} })}>
+      Sign in with Google
+    </button>
+  )
+}
+```
+
+See the [React client guide](/duck-auth/client/react).

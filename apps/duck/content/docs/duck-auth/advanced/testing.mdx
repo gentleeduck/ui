@@ -1,0 +1,206 @@
+---
+title: Testing
+description: createTestAuth() — a fluent builder with sensible defaults. Plus the adapter compliance suite for custom stores.
+section: Advanced
+---
+
+## `createTestAuth()`
+
+```typescript
+import { createTestAuth } from '@gentleduck/auth/test'
+
+const auth = createTestAuth()
+// Defaults: MemoryAuthAdapter, BearerTransport, MemoryLimiter, ScryptHasher.
+```
+
+That's the entire setup for 90% of tests. Need to wire a real provider?
+Pass it in:
+
+```typescript
+import { password } from '@gentleduck/auth/providers/password'
+
+const auth = createTestAuth({
+  providers: [
+    password({
+      passwords: undefined,  // filled in for you by createTestAuth
+      findIdentityByEmail: undefined,  // filled in for you
+    }),
+  ],
+})
+```
+
+The factory wires the typed defaults so you don't repeat boilerplate.
+
+## End-to-end test pattern
+
+```typescript
+import { describe, expect, it } from 'vitest'
+import { createTestAuth } from '@gentleduck/auth/test'
+import { password } from '@gentleduck/auth/providers/password'
+
+describe('sign-in flow', () => {
+  it('signs in with a valid password', async () => {
+    const auth = createTestAuth({
+      providers: [password({})],
+    })
+
+    // Seed an identity
+    const identity = await auth.identities.create({
+      email: 'ada@example.com',
+      profile: { displayName: 'Ada' },
+    })
+    await auth.passwords.create({
+      identityId: identity.id,
+      secret: 'correct horse battery staple',
+    })
+
+    // Sign in
+    const intents = await auth.flows.signIn({
+      providerId: 'password',
+      input: { email: 'ada@example.com', password: 'correct horse battery staple' },
+    })
+
+    expect(intents).toContainEqual(
+      expect.objectContaining({ kind: 'startSession' }),
+    )
+  })
+
+  it('rate-limits after 5 failed attempts', async () => {
+    const auth = createTestAuth({
+      providers: [password({})],
+      limiter: { max: 5, windowMs: 60_000 },
+    })
+
+    for (let i = 0; i < 5; i++) {
+      await expect(auth.flows.signIn({
+        providerId: 'password',
+        input: { email: 'ada@example.com', password: 'wrong' },
+      })).rejects.toMatchObject({ code: 'AUTH/INVALID_CREDENTIALS' })
+    }
+
+    await expect(auth.flows.signIn({
+      providerId: 'password',
+      input: { email: 'ada@example.com', password: 'wrong' },
+    })).rejects.toMatchObject({ code: 'AUTH/RATE_LIMITED' })
+  })
+})
+```
+
+## Time travel
+
+Tests that need to advance the clock (session expiry, magic-link TTL,
+rate-limit windows) can inject a clock:
+
+```typescript
+const clock = { now: () => new Date('2026-05-27T10:00:00Z').getTime() }
+
+const auth = createTestAuth({ clock })
+
+// Mint a magic link
+await auth.flows.beginPasswordReset({ email: 'ada@example.com' })
+
+// Jump forward 11 minutes (past the 10-minute TTL)
+clock.now = () => new Date('2026-05-27T10:11:00Z').getTime()
+
+// Token is now expired
+await expect(auth.flows.completePasswordReset({ token, newPassword: 'new' }))
+  .rejects.toMatchObject({ code: 'AUTH/RECOVERY_TOKEN_EXPIRED' })
+```
+
+## Capturing outbound channels
+
+Use `TestChannel` to assert on what was sent:
+
+```typescript
+import { TestChannel } from '@gentleduck/auth/channels/console'
+import { magicLink } from '@gentleduck/auth/providers/magic-link'
+
+const channel = new TestChannel({ kind: 'email' })
+const auth = createTestAuth({
+  providers: [magicLink({ channels: { email: channel } })],
+})
+
+await auth.providers.beginProvider('magic-link', { email: 'ada@example.com' })
+
+expect(channel.outbox).toHaveLength(1)
+expect(channel.outbox[0]).toMatchObject({
+  templateId: 'magic-link',
+  vars: expect.objectContaining({ email: 'ada@example.com' }),
+})
+```
+
+The outbox is a public array — assert on it directly.
+
+## Adapter compliance
+
+If you write a custom adapter, run the compliance suite:
+
+```typescript
+import {
+  runCredentialStoreCompliance,
+  runIdentityStoreCompliance,
+  runSessionStoreCompliance,
+} from '@gentleduck/auth/adapters/__compliance__'
+import { describe } from 'vitest'
+
+import { MyCustomAdapter } from './my-adapter'
+
+describe('MyCustomAdapter', () => {
+  runIdentityStoreCompliance(() => new MyCustomAdapter().identities)
+  runSessionStoreCompliance(() => new MyCustomAdapter().sessions)
+  runCredentialStoreCompliance(() => new MyCustomAdapter().credentials)
+})
+```
+
+Each suite is 80–150 tests covering the subtle correctness requirements
+that bite every adapter ever shipped. Every shipped adapter
+(`Memory`, `Redis`, the Drizzle reference impls) passes the same matrix.
+
+## Storybook decorator
+
+```tsx
+import { withAuth } from '@gentleduck/auth/client/react/storybook'
+
+export const SignIn = {
+  decorators: [withAuth({ baseUrl: '/auth', initialState: null })],
+  render: () => <SignInForm />,
+}
+
+export const Authed = {
+  decorators: [withAuth({
+    baseUrl: '/auth',
+    initialState: { session: ..., identity: ... },
+  })],
+  render: () => <UserMenu />,
+}
+```
+
+The decorator wraps the story in an `<AuthProvider>` backed by a mock
+client. Pass `initialState` to start in a signed-in state.
+
+## Mocking the network
+
+For client-side tests that don't need a real server, point the client
+at a stub:
+
+```typescript
+import { createAuthClient } from '@gentleduck/auth/client/vanilla'
+
+const client = createAuthClient({
+  baseUrl: '',
+  fetch: async (url, init) => {
+    if (url === '/auth/signin') {
+      return Response.json({
+        session: { id: 's1', expiresAt: '...' },
+        identity: { id: 'i1', email: 'ada@example.com', profile: {} },
+      })
+    }
+    return new Response(null, { status: 404 })
+  },
+})
+
+await client.signIn({ providerId: 'password', input: { email: 'ada@example.com', password: 'x' } })
+```
+
+For React tests, MSW is the recommended path — intercept the JSON
+endpoints and assert against the mocked responses.

@@ -1,0 +1,167 @@
+---
+title: Errors
+description: Every AUTH/* error code, the HTTP status it maps to, and the wire-safe meta redaction policy.
+section: Core
+---
+
+## `AuthErrorObject`
+
+Every typed error duck-auth raises is an `AuthErrorObject`:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
+  email,
+}, {
+  providerId: 'password',
+  flow: 'signin',
+})
+```
+
+- `code` — one of the 38 closed-set codes below. The UI branches on the
+  code, **not** the HTTP status — codes are stable, statuses are HTTP
+  conventions.
+- `meta` — caller-supplied context. Goes through a denylist of 13 sensitive
+  keys on `toJSON()`, so `meta.password`, `meta.token`, `meta.secret`,
+  `meta.accessToken`, etc. are stripped before wire emission.
+- `origin` — provider and flow that triggered the error. Goes to logs and
+  observability spans, **never to the wire**.
+
+## The error taxonomy
+
+### Session / auth state
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/UNAUTHENTICATED` | 401 | No valid session in the request. |
+| `AUTH/SESSION_EXPIRED` | 401 | Session token decodes but past `expiresAt`. |
+| `AUTH/SESSION_REVOKED` | 401 | Session was revoked (sign-out, password change, hijack policy). |
+| `AUTH/AAL_INSUFFICIENT` | 403 | The action requires a higher Authentication Assurance Level than the session has. |
+| `AUTH/STEP_UP_REQUIRED` | 403 | Action requires a fresh re-auth within `freshnessMs`. |
+| `AUTH/MFA_REQUIRED` | 403 | Session has not enrolled or passed the required MFA factor. |
+
+### Credentials
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/INVALID_CREDENTIALS` | 401 | Wrong password, wrong magic-link, wrong passkey. **Same code, same timing** for all four — defeats username enumeration. |
+| `AUTH/PASSKEY_MISMATCH` | 401 | Passkey assertion was valid cryptographically but did not match any credential. |
+| `AUTH/EMAIL_NOT_VERIFIED` | 403 | Action requires a verified email; user has not completed verification. |
+
+### Rate-limit / lockout
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/RATE_LIMITED` | 429 | Per-user or per-IP limiter tripped. |
+| `AUTH/LOCKED` | 423 | Identity locked by hijack policy or admin. |
+| `AUTH/QUOTA_EXCEEDED` | 429 | Out of magic-link, recovery, or API-key quota. |
+
+### Providers
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/PROVIDER_FAILED` | 502 | Upstream IdP returned a non-2xx (Google rejected the code, Apple JWKS unreachable, etc.). |
+| `AUTH/OAUTH_REUSE_DETECTED` | 401 | Refresh-token reuse — RFC 6749 §10.4 — entire family revoked. |
+| `AUTH/OAUTH_STATE_MISMATCH` | 401 | Signed `state` value didn't verify or was too old. |
+| `AUTH/OAUTH_NONCE_REPLAY` | 401 | OIDC `nonce` claim already seen. |
+
+### CSRF / DPoP / JWT
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/CSRF` | 403 | CSRF guard failed (cookie/header mismatch or missing). |
+| `AUTH/DPOP_INVALID` | 401 | DPoP proof rejected: bad signature, wrong jti, replay, or thumbprint mismatch. |
+| `AUTH/JWT_INVALID` | 401 | JWT failed signature, exp, nbf, aud, or iss check. |
+| `AUTH/JWT_KEY_UNKNOWN` | 401 | JWT `kid` does not match any verify key (post-rotation drift). |
+
+### Sign-up / recovery
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/SIGNUP_INCOMPLETE` | 409 | Sign-up state machine is awaiting another step. |
+| `AUTH/SIGNUP_TOKEN_INVALID` | 401 | Sign-up token wrong, expired, or already consumed. |
+| `AUTH/RECOVERY_TOKEN_INVALID` | 401 | Password-reset token wrong or revoked. |
+| `AUTH/RECOVERY_TOKEN_EXPIRED` | 401 | Reset token past its TTL. |
+| `AUTH/RECOVERY_REQUIRES_MFA` | 403 | Recovery flow needs MFA before allowing reset (high-assurance accounts). |
+
+### Identities
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/STALE_WRITE` | 409 | Optimistic-concurrency check failed. Re-read and retry. |
+| `AUTH/GRACE_EXPIRED` | 410 | Soft-delete grace period expired; identity is gone. |
+| `AUTH/EMAIL_TAKEN` | 409 | Email collides with another identity. |
+| `AUTH/EMAIL_CHANGE_PENDING` | 409 | Already a pending email-change for this identity. |
+
+### Impersonation
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/IMPERSONATE_FORBIDDEN` | 403 | Impersonator lacks the required role/scope. |
+| `AUTH/IMPERSONATE_REQUIRES_IAM` | 500 | Impersonation guard requires an iam check but `auth.iam` is unset. |
+| `AUTH/IMPERSONATE_EXPIRED` | 401 | Impersonation session is past its absolute TTL. |
+
+### API keys / M2M
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/APIKEY_INVALID` | 401 | API key not found or shape mismatch. |
+| `AUTH/APIKEY_REVOKED` | 401 | Key found but revoked. |
+| `AUTH/APIKEY_SCOPE_INSUFFICIENT` | 403 | Key valid but missing required scopes. |
+
+### Runtime modes
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/MAINTENANCE` | 503 | `operations.enterMaintenance()` is active. |
+| `AUTH/READONLY_MODE` | 503 | `operations.enterReadonly()` is active; writes blocked. |
+
+### Boot / configuration
+
+| Code | Status | Meaning |
+| --- | --- | --- |
+| `AUTH/MISCONFIGURED` | 500 | Raised by `AuthRoot.strict()` when a production gate fails (NoopLimiter, MemoryAdapter, etc.). |
+
+## Wire-safe serialisation
+
+```typescript
+const err = new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
+  email: 'ada@example.com',
+  password: 'plaintext!',       // ← will be stripped
+  attemptCount: 3,
+})
+
+err.toJSON()
+// → { code: 'AUTH/INVALID_CREDENTIALS', status: 401, meta: { email: 'ada@example.com', attemptCount: 3 } }
+```
+
+The denylist applies to: `password`, `passwordHash`, `secret`, `token`,
+`accessToken`, `refreshToken`, `code`, `apiKey`, `privateKey`, `clientSecret`,
+`webhookSecret`, `stateSigningSecret`, `jwt`. These keys are removed from
+`meta` before serialisation regardless of context — even in development.
+
+## Mapping codes to UI
+
+The recommended pattern is to switch on `code`, not status:
+
+```typescript
+const handle = (err: AuthErrorObject) => {
+  switch (err.code) {
+    case 'AUTH/INVALID_CREDENTIALS':
+      return { title: 'Invalid email or password', tone: 'error' as const }
+    case 'AUTH/MFA_REQUIRED':
+      return { title: 'Enter your authenticator code', tone: 'info' as const, action: 'show-mfa' }
+    case 'AUTH/STEP_UP_REQUIRED':
+      return { title: 'Confirm it’s you', tone: 'info' as const, action: 'reauth' }
+    case 'AUTH/RATE_LIMITED':
+      return { title: 'Too many attempts. Try again in a minute.', tone: 'warning' as const }
+    case 'AUTH/EMAIL_NOT_VERIFIED':
+      return { title: 'Please verify your email first', tone: 'info' as const, action: 'resend-verify' }
+    case 'AUTH/EMAIL_TAKEN':
+      return { title: 'That email is already in use', tone: 'error' as const }
+    default:
+      return { title: 'Authentication failed', tone: 'error' as const }
+  }
+}
+```

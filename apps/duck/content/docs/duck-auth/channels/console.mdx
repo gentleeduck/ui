@@ -1,0 +1,70 @@
+---
+title: ConsoleChannel
+description: Logs messages to stdout for development. Plus TestChannel (captures into an outbox) and NoopChannel (discards).
+section: Channels
+---
+
+## When to use
+
+- **Development**: see magic-link URLs and password-reset codes printed
+  directly in your terminal, without setting up SMTP.
+- **Tests**: `TestChannel` captures every send into an array for assertion.
+- **Benchmarks**: `NoopChannel` discards sends, so you measure
+  AuthRoot throughput without an outbound bottleneck.
+
+`ConsoleChannel` is never appropriate for production.
+
+## ConsoleChannel
+
+```typescript
+import { ConsoleChannel } from '@gentleduck/auth/channels/console'
+
+const channel = new ConsoleChannel({
+  kind: 'email',                       // | 'sms' | 'webpush'
+  id: 'console',                       // shown in audit events
+  sink: (line) => console.log(line),   // optional override
+})
+```
+
+When the provider sends through `channel.send({...})`, the channel
+prints a JSON line:
+
+```
+{"templateId":"magic-link","identity":{"id":"identity-1"},"vars":{"email":"ada@example.com","url":"...","expiresAt":"..."}}
+```
+
+The `sink` override is useful in tests if you want to capture lines
+into a buffer instead of stdout.
+
+## TestChannel
+
+```typescript
+import { TestChannel } from '@gentleduck/auth/channels/console'
+
+const channel = new TestChannel({ kind: 'email' })
+
+// ... run the test, trigger a provider send ...
+
+expect(channel.outbox).toHaveLength(1)
+expect(channel.outbox[0]).toMatchObject({
+  templateId: 'magic-link',
+  vars: { email: 'ada@example.com' },
+})
+
+channel.outbox = []  // clear between assertions
+```
+
+The outbox is a public array; treat it as inspectable test state.
+
+## NoopChannel
+
+```typescript
+import { NoopChannel } from '@gentleduck/auth/channels/console'
+
+const channel = new NoopChannel({ kind: 'email' })
+```
+
+Returns `{ ok: true, providerMessageId: 'noop:<incrementing>' }`
+without doing anything. Use this when running benchmarks against
+`AuthRoot` itself and you don't want SMTP / API latency in the
+measurement.

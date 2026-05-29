@@ -1,0 +1,164 @@
+---
+title: Anomaly detection
+description: Detector registry. Impossible-travel and device-fingerprint detectors. Aggregator emits allow / deny / step-up.
+section: Core
+---
+
+## Why anomaly detection?
+
+A correctly-authenticated session isn't always a **legitimate** session.
+A leaked password, a stolen token, or a compromised device can produce
+a sign-in that passes every gate but is wrong. duck-auth's anomaly
+facet runs an additional risk evaluation pass over every
+`resolveSession()` call.
+
+```typescript
+const ctx = await auth.resolveSession(req, {
+  requestSnapshot: {
+    ip: req.ip,
+    userAgent: req.headers.get('user-agent'),
+    geo: await geoip.lookup(req.ip),
+  },
+})
+
+if (ctx?.anomaly?.decision === 'step-up') {
+  return new Response('AUTH/STEP_UP_REQUIRED', { status: 403 })
+}
+if (ctx?.anomaly?.decision === 'deny') {
+  return new Response('AUTH/LOCKED', { status: 423 })
+}
+```
+
+## Shipped detectors
+
+### `impossibleTravelDetector`
+
+```typescript
+import { impossibleTravelDetector } from '@gentleduck/auth/core'
+
+auth.anomaly.register(impossibleTravelDetector({
+  maxSpeedKmh: 900,          // default — jet speed
+  scoreOnViolation: 100,     // default — maximum
+  geoipProvider: async (ip) => {
+    const r = await maxmindLookup(ip)
+    return { lat: r.lat, lng: r.lng }
+  },
+}))
+```
+
+For each session, the detector records the (timestamp, lat, lng) of
+the last sign-in. If the current request comes from a location that
+would require travel faster than `maxSpeedKmh` since the previous
+record, it raises an anomaly signal.
+
+### `deviceFingerprintDetector`
+
+```typescript
+import { deviceFingerprintDetector } from '@gentleduck/auth/core'
+
+auth.anomaly.register(deviceFingerprintDetector({
+  scoreOnUnknown: 50,   // default — moderate
+}))
+```
+
+Tracks `(userAgent, OS-fingerprint)` per identity. A request from a new
+fingerprint raises a moderate signal — combined with another signal
+(impossible-travel, IP-reputation), it tips the aggregator into
+`step-up`.
+
+## Writing a custom detector
+
+```typescript
+import type { Anomaly } from '@gentleduck/auth/core'
+
+export const ipReputationDetector = (opts: { providerUrl: string }): Anomaly.IDetector => ({
+  id: 'ip-reputation',
+  async evaluate({ snapshot, identity }) {
+    const score = await fetch(`${opts.providerUrl}?ip=${snapshot.ip}`)
+      .then((r) => r.json())
+      .then((r) => r.score as number)   // 0–100
+
+    if (score < 30) return null   // no signal
+
+    return {
+      kind: 'ip-reputation',
+      score,
+      evidence: { ip: snapshot.ip, score },
+    }
+  },
+})
+
+auth.anomaly.register(ipReputationDetector({ providerUrl: 'https://...' }))
+```
+
+Detectors are pure async functions. They:
+- Take a `snapshot` (`ip`, `userAgent`, `geo`) and the resolved `identity`.
+- Return `null` for "no signal" or `AnomalySignal { kind, score (0–100), evidence }`.
+
+## The aggregator
+
+Detector signals are combined into a single `decision`:
+
+```
+total = sum(detector.score for each signal)
+
+total >= 100  → deny
+total >=  50  → step-up
+total <   50  → allow
+```
+
+You can override the thresholds:
+
+```typescript
+new AuthRoot({
+  anomaly: {
+    thresholds: { deny: 80, stepUp: 40 },
+  },
+})
+```
+
+## Reactions
+
+When the aggregator returns `step-up`:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+if (ctx.anomaly.decision === 'step-up') {
+  // Require a fresh re-auth or MFA challenge
+  throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED', {
+    signals: ctx.anomaly.signals,
+  })
+}
+```
+
+When it returns `deny`:
+
+```typescript
+if (ctx.anomaly.decision === 'deny') {
+  await auth.hijack.lockout(ctx.identity.id, { reason: 'anomaly-deny' })
+  throw new AuthErrorObject('AUTH/LOCKED')
+}
+```
+
+Pair with the `hijack` facet to escalate from soft-deny (step-up) to
+hard-lock (lockout the identity) when patterns repeat.
+
+## Fail-open vs fail-closed
+
+Detectors that throw or time out **fail open** by default — the signal
+is logged but not raised, and the request proceeds. This is intentional:
+a detector outage shouldn't lock everyone out.
+
+For high-security deployments, override the policy:
+
+```typescript
+new AuthRoot({
+  anomaly: {
+    onDetectorError: 'deny',  // 'allow' (default) | 'step-up' | 'deny'
+  },
+})
+```
+
+The SOC2 compliance preset sets this to `step-up`; the FIPS preset to
+`deny`.
