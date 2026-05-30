@@ -20,7 +20,6 @@ export namespace IDuckMotion {
   }
   export type IPresetName =
     | 'fadeIn'
-    | 'fadeOut'
     | 'scaleIn'
     | 'slideUp'
     | 'slideDown'
@@ -31,7 +30,7 @@ export namespace IDuckMotion {
   export type IDirection = 'top' | 'bottom' | 'left' | 'right'
 }
 
-// Backward-compat aliases — do NOT remove.
+// Backward-compat aliases — kept for the public type surface.
 export type MotionAnimationState = IDuckMotion.IAnimationState
 export type MotionTransitionConfig = IDuckMotion.ITransitionConfig
 export type IMotionPreset = IDuckMotion.IPreset

@@ -1,10 +1,18 @@
 import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
-/** Consistent transition + GPU-accelerated pseudo-element easing/duration across components. */
+/**
+ * Consistent transition + GPU-accelerated pseudo-element easing/duration across components.
+ *
+ * `pseudo: 'animate'` lets `:before`/`:after` inherit the host's transition duration and
+ * easing. It intentionally does NOT set `will-change` — promoting a pseudo-element to a
+ * GPU layer eagerly wastes memory on elements that may never animate. Let the browser
+ * decide via `transition-gpu`.
+ */
 export const AnimVariants = cva('', {
   defaultVariants: {
     alive: 'default',
+    pseudo: 'default',
   },
   variants: {
     alive: {
@@ -12,7 +20,7 @@ export const AnimVariants = cva('', {
     },
     pseudo: {
       animate:
-        '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
+        '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit]',
       default: '',
     },
   },
