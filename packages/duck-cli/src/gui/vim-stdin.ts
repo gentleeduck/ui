@@ -65,6 +65,10 @@ export class VimStdin extends Transform {
    * VimStdin implements everything ink uses at runtime (isTTY, setRawMode,
    * ref, unref, readable stream), but extends Transform rather than
    * net.Socket, so the structural types do not fully overlap.
+   *
+   * The `as unknown as` chain is intentional: a single `as NodeJS.ReadStream` would fail
+   * because `Transform` and `net.Socket` share no overlap, and we've audited the runtime
+   * surface (isTTY/setRawMode/ref/unref/readable) above.
    */
   asInkStdin(): NodeJS.ReadStream {
     return this as unknown as NodeJS.ReadStream

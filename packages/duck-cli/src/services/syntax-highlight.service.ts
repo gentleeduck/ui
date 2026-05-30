@@ -54,6 +54,8 @@ async function getHighlighter(lang: string): Promise<ShikiHighlighter> {
           langs: [lang],
         })
         _loaded_langs.add(lang)
+        // Shiki's full return type carries many internals we don't touch; narrow to the two
+        // methods we actually use via `ShikiHighlighter`. The double cast bridges the gap.
         return h as unknown as ShikiHighlighter
       })()
       _highlighter = await _init_promise

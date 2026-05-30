@@ -1,12 +1,9 @@
-import path from 'node:path'
 import { printBanner } from '~/utils/banner'
-import { getDuckuiConfig } from '~/utils/get-project-info'
-import { getRegistryIndex } from '~/utils/get-registry'
 import { registryComponentInstall } from '~/utils/registry-mutation'
 import { resolveComponents } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
 import { isVerbose } from '~/utils/verbose'
-import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { expandAllComponentNames, prepareCommand } from '../shared.libs'
 import { type AddOptions, addArgumentsSchema, addOptionsSchema } from './add.dto'
 
 export async function addCommandAction(args: string[], opt: AddOptions) {
@@ -16,31 +13,13 @@ export async function addCommandAction(args: string[], opt: AddOptions) {
   printBanner()
   const spinner = Spinner('initializing...').start()
   try {
-    const cwd = path.resolve(options.cwd)
+    const { configCwd, duckuiConfig } = await prepareCommand(
+      { cwd: options.cwd, workspace: options.workspace, requireTsConfig: true, loadTsConfig: false },
+      spinner,
+    )
 
-    let componentsNames = componentNames
-
-    if (options.all && componentsNames.length === 0) {
-      spinner.text = 'Fetching all components from registry...'
-      const index = await getRegistryIndex()
-      if (index) {
-        componentsNames = index.filter((c) => c.type === 'registry:ui').map((c) => c.name)
-      }
-    }
-
-    const components = await resolveComponents(componentsNames, spinner)
-
-    // In monorepo mode, config lives in the workspace directory
-    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
-    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
-    const workspaceError = validateWorkspaceTarget(projectCwd, true)
-    if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
-    }
-
-    spinner.info(`Using workspace: ${projectCwd}`)
+    const expandedNames = await expandAllComponentNames(componentNames, options.all, spinner)
+    const components = await resolveComponents(expandedNames, spinner)
 
     await registryComponentInstall(
       components,

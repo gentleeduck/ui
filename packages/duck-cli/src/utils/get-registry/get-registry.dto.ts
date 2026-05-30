@@ -85,7 +85,7 @@ export const registryItemTailwindSchema = z.object({
   config: z.object({
     content: z.array(z.string()).optional(),
     plugins: z.array(z.string()).optional(),
-    theme: z.record(z.string(), z.any()).optional(),
+    theme: z.record(z.string(), z.unknown()).optional(),
   }),
 })
 
@@ -96,7 +96,8 @@ export const registryItemCssVarsSchema = z.object({
 
 export const blockChunkSchema = z.object({
   code: z.string().optional(),
-  component: z.any(),
+  // `component` here is rendered downstream by the docs site, not by the CLI; opaque value is fine.
+  component: z.unknown(),
   container: z
     .object({
       className: z.string().nullish(),

@@ -1,14 +1,12 @@
 import { Command } from 'commander'
-import { requireConfigValue } from '~/utils/require-config-value'
 import { themeCommandConfig } from './theme.constants'
 import { themeAddAction, themeInfoAction, themeListAction } from './theme.libs'
 
-const { name, description, options } = themeCommandConfig
-const jsonOption = requireConfigValue(options['option1'], 'missing theme command json option config')
-const cssOption = requireConfigValue(options['option2'], 'missing theme command css option config')
-
 /** Umbrella command grouping `theme list`, `theme info <name>`, `theme add <name>`. */
 export function themeCommand(): Command {
+  const { name, description, options } = themeCommandConfig
+  const { jsonOption, cssOption } = options
+
   const cmd = new Command(name).description(description)
 
   cmd

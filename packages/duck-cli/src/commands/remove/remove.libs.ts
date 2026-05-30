@@ -3,11 +3,10 @@ import prompts from 'prompts'
 import { removeComponents, resolveWriteTypePath, scanInstalledComponents } from '~/services/component.service'
 import { resolveInstallPath } from '~/services/install.service'
 import { printBanner } from '~/utils/banner'
-import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { isVerbose } from '~/utils/verbose'
-import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { prepareCommand } from '../shared.libs'
 import { type RemoveOptions, removeArgumentsSchema, removeOptionsSchema } from './remove.dto'
 
 export async function removeCommandAction(args: string[], opt: RemoveOptions) {
@@ -17,19 +16,10 @@ export async function removeCommandAction(args: string[], opt: RemoveOptions) {
   printBanner()
   const spinner = Spinner('initializing...').start()
   try {
-    const cwd = path.resolve(options.cwd)
-
-    // In monorepo mode, config lives in the workspace directory
-    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
-    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
-    const workspaceError = validateWorkspaceTarget(projectCwd, true)
-    if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
-    }
-    spinner.info(`Using workspace: ${projectCwd}`)
-    const tsConfig = await getTsConfig(projectCwd, spinner)
+    const { projectCwd, duckuiConfig, tsConfig } = await prepareCommand(
+      { cwd: options.cwd, workspace: options.workspace },
+      spinner,
+    )
 
     const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
     if (!pathResult.ok) {

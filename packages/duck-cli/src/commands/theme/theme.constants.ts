@@ -2,7 +2,7 @@ import type { ThemeCommandConfig } from './theme.types'
 
 export const themeCommandConfig: ThemeCommandConfig = {
   arguments_: {
-    arg1: {
+    nameArg: {
       defaultValue: [],
       description: 'theme name',
       name: '[name]',
@@ -11,12 +11,12 @@ export const themeCommandConfig: ThemeCommandConfig = {
   description: 'manage theme tokens — list, add, or inspect available themes',
   name: 'theme',
   options: {
-    option1: {
+    jsonOption: {
       defaultValue: false,
       description: 'output as JSON (list and info subcommands only)',
       flags: '-j, --json',
     },
-    option2: {
+    cssOption: {
       defaultValue: '',
       description: 'path to your global stylesheet (defaults to project globals.css)',
       flags: '-c, --css <path>',

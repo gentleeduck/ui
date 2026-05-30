@@ -7,6 +7,7 @@ import type { Workspace } from '~/utils/workspace'
 import { BASE_LAYER_STYLES } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
 import type { DuckUI } from './preflight-duckui.dto'
 
+/** Errors propagate to the outer `preflightConfigs` → command-action wrapper. */
 export async function initDuckuiConfig(
   cwd: string,
   spinner: Ora,
@@ -14,23 +15,14 @@ export async function initDuckuiConfig(
   workspace: Workspace.Target = { root: '.', project: '.' },
   cssWorkspace?: string,
 ) {
-  try {
-    spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
+  spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
+  await fs.writeFile(
+    path.join(cwd, 'duck-ui.config.json'),
+    defaultDuckuiConfig(duckConfig, workspace, cssWorkspace),
+    'utf-8',
+  )
 
-    spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
-    await fs.writeFile(
-      path.join(cwd, 'duck-ui.config.json'),
-      defaultDuckuiConfig(duckConfig, workspace, cssWorkspace),
-      'utf-8',
-    )
-
-    spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
-  } catch (error) {
-    spinner.fail(
-      `Failed to initialize ${highlighter.error('duck-ui config...')}\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
-    )
-    process.exit(1)
-  }
+  spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
 }
 
 export function generateThemeCSS(name: string, entry: Registry.ThemeResponse) {

@@ -19,8 +19,48 @@ function getUserAllowedRegistryHosts(): string[] {
 }
 
 /**
+ * Hostname of the URL set via `COMPONENTS_REGISTRY_URL`, lowercased. Treated as an implicit
+ * allowlist entry so a developer override actually works without also setting
+ * `COMPONENTS_ALLOW_REGISTRY`. A loud warning is emitted exactly once when the override
+ * points outside the default allowlist, to flag the trust delegation.
+ */
+let _envRegistryHostWarned = false
+function getEnvRegistryHost(): string | null {
+  const raw = process.env['COMPONENTS_REGISTRY_URL']
+  if (!raw) return null
+  try {
+    return new URL(raw).hostname.toLowerCase()
+  } catch {
+    return null
+  }
+}
+
+function maybeWarnEnvRegistryOverride(host: string): void {
+  if (_envRegistryHostWarned) return
+  const inDefault = DEFAULT_ALLOWED_REGISTRY_HOSTS.some((a) => host === a || host.endsWith(`.${a}`))
+  if (inDefault) {
+    _envRegistryHostWarned = true
+    return
+  }
+  _envRegistryHostWarned = true
+  logger.warn({
+    args: [
+      `COMPONENTS_REGISTRY_URL is overriding the registry to "${host}". You are trusting this host with file writes into your project.`,
+    ],
+    withIcon: true,
+  })
+}
+
+/**
  * Asserts a registry URL uses `https:` and targets an allowlisted host before it is fetched.
  * Component registry JSON drives filesystem writes, so an arbitrary host is a supply-chain risk.
+ *
+ * Allowlist composition (in priority order):
+ *  1. `DEFAULT_ALLOWED_REGISTRY_HOSTS` — always trusted.
+ *  2. The host of `COMPONENTS_REGISTRY_URL` (if set) — implicit, warned once on first use.
+ *  3. Hosts in `COMPONENTS_ALLOW_REGISTRY` (comma-separated) — explicit opt-in.
+ *
+ * A non-https URL is always rejected.
  */
 export function assertAllowedRegistryHost(url: string): void {
   let parsed: URL
@@ -30,12 +70,18 @@ export function assertAllowedRegistryHost(url: string): void {
     throw new Error(`Invalid registry URL: ${url}`)
   }
 
-  if (parsed.protocol !== 'https:') {
+  const host = parsed.hostname.toLowerCase()
+  const envHost = getEnvRegistryHost()
+  const isLoopback = host === 'localhost' || host === '127.0.0.1' || host === '[::1]'
+  // Allow `http://localhost*` exclusively when the loopback override was set via env var —
+  // mirrors the `start:dev` script's local registry use case without opening a generic http hole.
+  const allowInsecureLoopback = isLoopback && envHost && (host === envHost || host.endsWith(`.${envHost}`))
+
+  if (parsed.protocol !== 'https:' && !allowInsecureLoopback) {
     throw new Error(`Refusing to fetch registry over insecure protocol "${parsed.protocol}". Use https.`)
   }
 
-  const host = parsed.hostname.toLowerCase()
-  const allowed = [...DEFAULT_ALLOWED_REGISTRY_HOSTS, ...getUserAllowedRegistryHosts()]
+  const allowed = [...DEFAULT_ALLOWED_REGISTRY_HOSTS, ...(envHost ? [envHost] : []), ...getUserAllowedRegistryHosts()]
   const isAllowed = allowed.some((a) => host === a || host.endsWith(`.${a}`))
 
   if (!isAllowed) {
@@ -43,6 +89,11 @@ export function assertAllowedRegistryHost(url: string): void {
       `Refusing to fetch from untrusted registry host "${host}".\n` +
         `If you trust this registry, opt in by setting COMPONENTS_ALLOW_REGISTRY=${host}`,
     )
+  }
+
+  // Warn after-the-fact so we only ever emit the warning when something is actually fetched.
+  if (envHost && (host === envHost || host.endsWith(`.${envHost}`))) {
+    maybeWarnEnvRegistryOverride(envHost)
   }
 }
 
@@ -57,9 +108,11 @@ export function isUrl(path: string) {
 
 export function getRegistryUrl(path: string) {
   if (isUrl(path)) {
-    // v0.dev's `/chat/b/...` registry URLs require a `/json` suffix that users typically omit.
     const url = new URL(path)
-    if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
+    // v0.dev's `/chat/b/...` registry URLs require a `/json` suffix that users typically omit.
+    // Pin the rewrite to the v0.dev host so a malicious URL on a different host cannot be
+    // morphed by this branch.
+    if (url.hostname === 'v0.dev' && url.pathname.match(/^\/chat\/b\//) && !url.pathname.endsWith('/json')) {
       url.pathname = `${url.pathname}/json`
     }
 
@@ -69,7 +122,7 @@ export function getRegistryUrl(path: string) {
   return `${REGISTRY_URL.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`
 }
 
-async function fetchRegistryJson(url: string) {
+async function fetchRegistryJson(url: string): Promise<unknown> {
   assertAllowedRegistryHost(url)
 
   const controller = new AbortController()
@@ -97,7 +150,8 @@ async function fetchRegistryJson(url: string) {
   }
 }
 
-export async function fetchRegistryUrl(paths: string[]) {
+/** Returns unknown JSON — callers must parse with their zod schema before use. */
+export async function fetchRegistryUrl(paths: string[]): Promise<unknown[]> {
   try {
     const results = await Promise.all(
       paths.map(async (path) => {
