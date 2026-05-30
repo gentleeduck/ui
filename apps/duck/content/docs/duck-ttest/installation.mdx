@@ -1,0 +1,169 @@
+---
+title: Installation
+description: Install duck-ttest, configure tsconfig, and import your first sub-path.
+section: Getting Started
+order: 1
+---
+
+## Prerequisites
+
+- TypeScript **5.0+**. Several utilities rely on `infer ... extends ...` constraints and const type parameters.
+- A `tsc` invocation as part of your test or CI step. `tsc --noEmit` is the entire runner.
+- Bun, npm, pnpm, or yarn — duck-ttest is a plain TypeScript-only package.
+
+---
+
+## Install
+
+<Steps>
+
+<Step>Install the package</Step>
+
+```bash
+# bun
+bun add -d @gentleduck/ttest
+
+# npm
+npm install --save-dev @gentleduck/ttest
+
+# pnpm
+pnpm add -D @gentleduck/ttest
+
+# yarn
+yarn add -D @gentleduck/ttest
+```
+
+duck-ttest is a `devDependency` — its types are erased at compile time, so it never reaches your production bundle.
+
+<Step>Import a sub-path</Step>
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal, NotEqual } from '@gentleduck/ttest/equality'
+import type { IsAny, IsNever } from '@gentleduck/ttest/any'
+```
+
+Every module has its own sub-path. Importing from a sub-path keeps unrelated utility types out of the type-checker's cache.
+
+<Step>Write an assertion</Step>
+
+```ts
+type _t = AssertTrue<Equal<IsAny<unknown>, false>, 'unknown should not be any'>
+```
+
+If the assertion holds, the type-check succeeds silently. If it fails, the message string surfaces as the error.
+
+</Steps>
+
+---
+
+## TypeScript configuration
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+`strict` is required because many utilities depend on strict null checks. `bundler` (or `node16`/`nodenext`) is required for sub-path exports to resolve.
+
+---
+
+## Sub-path exports
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal, NotEqual, ShallowEqual } from '@gentleduck/ttest/equality'
+
+import type { IsAny, IsNever, IsUnknown, IsVoid, NotAny } from '@gentleduck/ttest/any'
+import type { And, Or, Not, Xor, Xnor } from '@gentleduck/ttest/boolean'
+import type { If, IfExtends, Switch, Match } from '@gentleduck/ttest/conditional'
+
+import type { Brand, Unbrand, BrandOf, Opaque, Tagged } from '@gentleduck/ttest/brand'
+import type { Primitive, Falsy, NonNullish, Builtin, IsOptional } from '@gentleduck/ttest/primitive'
+
+import type { Simplify, DeepPartial, DeepReadonly, Get, Paths, KebabCaseKeys } from '@gentleduck/ttest/object'
+import type { Head, Tail, Last, Zip, Append, Prepend, Length } from '@gentleduck/ttest/tuple'
+import type { UnionToIntersection, XOR } from '@gentleduck/ttest/union'
+
+import type { InferSchema, SQLTypeMap, IsSQLOptional } from '@gentleduck/ttest/sql'
+import type { PathParams, BuildPath, MatchRoute, QueryParams } from '@gentleduck/ttest/router'
+import type { Fn, Apply, MapTuple, Reduce, ComposeFn } from '@gentleduck/ttest/fp'
+
+import type { Ok, Err, Result, Option, IsOk, UnwrapOk } from '@gentleduck/ttest/result'
+import type { Emitter, EventMap, Handlers } from '@gentleduck/ttest/emitter'
+
+// ...and so on for any / aria / async / bit / class / css / date /
+// discriminated / extraction / format / fs / function / geometry / guard /
+// http / json / literal / locale / number / pattern / predicates / promise / template
+```
+
+Always use `import type` (or enable `verbatimModuleSyntax`) — every export is a pure type.
+
+---
+
+## Verifying your install
+
+Drop the following file anywhere covered by your `tsconfig.json` and run `tsc --noEmit`.
+
+```ts title="src/__type_tests__/install.ts"
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import type { IsAny, IsNever } from '@gentleduck/ttest/any'
+
+type t1 = AssertTrue<Equal<IsAny<any>, true>, 'any should be any'>
+type t2 = AssertTrue<Equal<IsNever<never>, true>, 'never should be never'>
+type t3 = AssertFalse<Equal<1, 2>, '1 must not equal 2'>
+```
+
+If the type-check passes, the install is correct.
+
+---
+
+## Next steps
+
+- [Getting started](/duck-ttest/getting-started) — a five-minute tutorial.
+- [Core / Assertions](/duck-ttest/core/assertions) — the full assertion API.
+- [API reference](/duck-ttest/api/any) — every exported type, grouped by module.
+
+---
+
+## Installation FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="prod-dep">
+    <AccordionTrigger>Does duck-ttest add anything to my production bundle?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. Every export is a <code className="rounded bg-muted px-2 py-1">type</code>. Install it as a
+      devDependency and your bundler will not see it.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="ts-version">
+    <AccordionTrigger>Why does duck-ttest require TypeScript 5.0+?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Several utilities rely on <code className="rounded bg-muted px-2 py-1">infer X extends T</code> constraints
+      (TS 4.7) and const type parameters / template-literal narrowing improvements that landed in 5.0.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="subpath-vs-root">
+    <AccordionTrigger>Can I import everything from the package root?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No — duck-ttest only exports sub-paths (<code className="rounded bg-muted px-2 py-1">@gentleduck/ttest/&lt;module&gt;</code>).
+      This keeps the type-checker from materializing utility modules you don&apos;t use.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="moduleresolution">
+    <AccordionTrigger>What if my project still uses <code>moduleResolution: node</code>?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Sub-path exports require <code className="rounded bg-muted px-2 py-1">bundler</code>,
+      <code className="rounded bg-muted px-2 py-1">node16</code>, or
+      <code className="rounded bg-muted px-2 py-1">nodenext</code>. Older <code>node</code> resolution will fail to resolve the imports.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
