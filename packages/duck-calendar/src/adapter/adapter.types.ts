@@ -6,8 +6,20 @@ export namespace Adapter {
    * The core abstraction over any date library.
    *
    * Implement this interface to plug in a date backend  -  native `Date`, dayjs,
-   * date-fns, Luxon, or Temporal. Every method must be pure and must not mutate
-   * its arguments.
+   * date-fns, Luxon, or Temporal.
+   *
+   * **Invariants every implementation must uphold:**
+   * - Every method must be pure  -  inputs must never be mutated. Always return a
+   *   new instance of `TDate`.
+   * - Calendar-aware methods (`getYear`/`getMonth`/`getDate`/`startOfMonth`/
+   *   `endOfMonth`/`addMonths`/`addYears`/`isSameMonth`/`create`) operate in the
+   *   adapter's *display* calendar, which may not be Gregorian (Persian, Hijri,
+   *   Hebrew). Universal day-level operations (`addDays`/`isBefore`/`isAfter`/
+   *   `getDayOfWeek`/`startOfWeek`/time accessors) always operate at the
+   *   underlying instant level.
+   * - When the backend ships as a peer dependency (dayjs, date-fns, Luxon), the
+   *   adapter file is the only place that imports it  -  no other module pulls
+   *   the dependency in.
    *
    * @typeParam TDate - The opaque date type used by the underlying library.
    *   - Native:   `Date`
@@ -110,16 +122,10 @@ export namespace Adapter {
      */
     addYears(date: TDate, count: number): TDate
 
-    /**
-     * Extracts the full four-digit year.
-     * @example adapter.getYear(2026-03-17) -> 2026
-     */
+    /** Full four-digit year. @example adapter.getYear(2026-03-17) -> 2026 */
     getYear(date: TDate): number
 
-    /**
-     * Extracts the **0-indexed** month (0 = January, 11 = December).
-     * @example adapter.getMonth(2026-03-17) -> 2
-     */
+    /** 0-indexed month (0 = January). @example adapter.getMonth(2026-03-17) -> 2 */
     getMonth(date: TDate): number
 
     /**
@@ -128,16 +134,10 @@ export namespace Adapter {
      */
     getMonthsInYear?(date: TDate): number
 
-    /**
-     * Extracts the day of the month (1-31).
-     * @example adapter.getDate(2026-03-17) -> 17
-     */
+    /** Day of the month (1-31). @example adapter.getDate(2026-03-17) -> 17 */
     getDate(date: TDate): number
 
-    /**
-     * Extracts the day of the week (0 = Sunday, 6 = Saturday).
-     * @example adapter.getDayOfWeek(2026-03-17) -> 2  // Tuesday
-     */
+    /** Day of the week (0 = Sunday, 6 = Saturday). @example adapter.getDayOfWeek(2026-03-17) -> 2 */
     getDayOfWeek(date: TDate): 0 | 1 | 2 | 3 | 4 | 5 | 6
 
     /**

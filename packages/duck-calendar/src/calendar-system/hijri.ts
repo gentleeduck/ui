@@ -9,6 +9,8 @@
  * @module
  */
 
+import { gregorianMonthLength } from './gregorian'
+
 /** Leap years within the 30-year Islamic cycle. */
 const LEAP_YEARS = [2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29]
 
@@ -122,10 +124,20 @@ function hijriToJdn(hy: number, hm: number, hd: number): number {
 /**
  * Convert a Julian Day Number (JDN) to a Hijri date.
  *
+ * Implements the closed-form tabular Islamic algorithm (Type II-A, Thursday epoch).
+ * The constants 10631, 354, 10985, 5316, 17719, 5670, 15238, 709 encode the 30-year
+ * leap cycle (10631 days per cycle = 19 * 354 + 11 * 355) and Karl Palmen's tabular
+ * month-length formula.
+ *
+ * Source: Hatcher, D.A. (1986), "Generalized Equations for Julian Day Numbers and
+ * Calendar Dates", QJRAS 27, 312-316. Also implemented in the SPSS / Kazimierz M.
+ * Borkowski reference code and matches the W3C tabular Islamic calendar.
+ *
  * @param jdn - Julian Day Number
  * @returns Hijri year, month (1-indexed), and day
  */
 function jdnToHijri(jdn: number): { hy: number; hm: number; hd: number } {
+  // Constants encode the 30-year leap cycle (10631 days) — see Hatcher (1986) eq. 6.7-6.9.
   const l = jdn - 1948440 + 10632
   const n = Math.floor((l - 1) / 10631)
   const remainder = l - 10631 * n + 354
@@ -141,13 +153,6 @@ function jdnToHijri(jdn: number): { hy: number; hm: number; hd: number } {
   const hd = adjustedRemainder - Math.floor((709 * hm) / 24)
   const hy = 30 * n + j - 30
   return { hy, hm, hd }
-}
-
-/** Number of days in a Gregorian month (for input validation). */
-function gregorianMonthLength(gy: number, gm: number): number {
-  const isLeap = gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0)
-  const lengths = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-  return lengths[gm - 1] ?? 31
 }
 
 /**

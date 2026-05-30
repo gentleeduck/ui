@@ -1,20 +1,12 @@
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
 import type { Adapter } from './adapter.types'
-import { createConversionCache, formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar, nativeToday } from './adapter.utils'
 
 const persianCache = createConversionCache((date: Date) =>
   toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate()),
 )
 
-/**
- * Persian (Jalaali / Solar Hijri) date adapter.
- *
- * Uses native `Date` internally for storage but exposes year/month/day in the
- * Persian calendar. All calendar-aware methods (getYear, getMonth, getDate,
- * startOfMonth, endOfMonth, addMonths, addYears, isSameMonth, create) operate
- * in Persian calendar space.  Universal operations (addDays, isBefore, isAfter,
- * getDayOfWeek, startOfWeek, time accessors) delegate directly to Gregorian.
- */
+/** Persian (Jalaali / Solar Hijri) calendar-aware adapter backed by native `Date`. */
 export class PersianAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
 
@@ -22,10 +14,8 @@ export class PersianAdapter implements Adapter.IDateAdapter<Date> {
     this.locale = locale
   }
 
-  /** Returns today's date with time stripped to midnight. */
   today(): Date {
-    const d = new Date()
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+    return nativeToday()
   }
 
   /**

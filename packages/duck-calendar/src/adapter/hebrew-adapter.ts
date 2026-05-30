@@ -1,24 +1,15 @@
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
 import type { Adapter } from './adapter.types'
-import { createConversionCache, formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar, nativeToday } from './adapter.utils'
 
 const hebrewCache = createConversionCache((date: Date) =>
   toHebrew(date.getFullYear(), date.getMonth() + 1, date.getDate()),
 )
 
 /**
- * Hebrew calendar adapter.
- *
- * Wraps native `Date` objects but exposes year/month/day in the Hebrew
- * calendar. The underlying `Date` still stores the Gregorian instant  -
- * conversions happen on the fly.
- *
- * - `getYear()` / `getMonth()` / `getDate()` return Hebrew values.
- * - `create(year, month, day)` takes Hebrew values (month is **0-indexed**,
- *   0 = Tishrei, 12 = Elul). In leap years, 5 = Adar I, 6 = Adar II.
- * - `format()` appends `-u-ca-hebrew` to the locale tag so that
- *   `Intl.DateTimeFormat` renders Hebrew dates.
- * - Default locale: `'he-IL'`.
+ * Hebrew calendar-aware adapter backed by native `Date`.
+ * `create(year, month, day)` takes a 0-indexed Hebrew month (0 = Tishrei,
+ * 5 = Adar I, 6 = Adar II in leap years, 12 = Elul). Default locale: `'he-IL'`.
  */
 export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
@@ -39,8 +30,7 @@ export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
   }
 
   today(): Date {
-    const d = new Date()
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+    return nativeToday()
   }
 
   /**
@@ -101,10 +91,19 @@ export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
 
   addMonths(date: Date, count: number): Date {
     const { hy, hm, hd } = this.hebrew(date)
+    // 19-year Metonic cycle: 235 months across 19 years. Use that to jump in cycle
+    // chunks for very large `count`, then walk year-by-year for the residual.
+    // Result is at most ~14 iterations regardless of `count` (previously O(count)).
     let totalMonths = hm - 1 + count
     let newYear = hy
 
-    // Walk forward/backward through years
+    if (totalMonths >= 235 || totalMonths <= -235) {
+      // Each full Metonic cycle covers exactly 235 months and 19 years.
+      const cycles = Math.trunc(totalMonths / 235)
+      newYear += cycles * 19
+      totalMonths -= cycles * 235
+    }
+
     if (totalMonths >= 0) {
       while (totalMonths >= hebrewMonthsInYear(newYear)) {
         totalMonths -= hebrewMonthsInYear(newYear)

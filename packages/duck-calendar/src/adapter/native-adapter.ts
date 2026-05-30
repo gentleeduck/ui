@@ -1,16 +1,11 @@
 import type { Adapter } from './adapter.types'
+import { nativeToday } from './adapter.utils'
 import { getCachedFormatter } from './formatter-cache'
 
-/**
- * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
- * Zero external dependencies. Handles month-overflow clamping (Jan 31 + 1 month = Feb 28).
- * All methods return new Date instances  -  never mutates inputs.
- */
+/** Native `Date` + `Intl.DateTimeFormat`. Zero external dependencies. */
 export class NativeAdapter implements Adapter.IDateAdapter<Date> {
-  /** Returns today's date with time stripped to midnight. */
   today(): Date {
-    const d = new Date()
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+    return nativeToday()
   }
 
   create(year: number, month: number, day: number): Date {

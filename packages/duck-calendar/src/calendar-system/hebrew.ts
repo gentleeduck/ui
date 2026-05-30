@@ -18,6 +18,8 @@
  * @module
  */
 
+import { gregorianMonthLength, isGregorianLeap } from './gregorian'
+
 /** Leap years within the 19-year Metonic cycle. */
 const LEAP_CYCLE = [3, 6, 8, 11, 14, 17, 19]
 
@@ -139,12 +141,6 @@ export function hebrewMonthLength(hy: number, hm: number): number {
   return hm % 2 === 1 ? 30 : 29
 }
 
-/** Number of days in a Gregorian month (for input validation). */
-function gregorianMonthLength(gy: number, gm: number): number {
-  const lengths = [31, isGregorianLeap(gy) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-  return lengths[gm - 1] ?? 31
-}
-
 /** R.D. date of Hebrew epoch (1 Tishrei, year 1). */
 const HEBREW_EPOCH = -1373428
 
@@ -160,10 +156,6 @@ function gregorianToFixed(gy: number, gm: number, gd: number): number {
     (gm <= 2 ? 0 : isGregorianLeap(gy) ? -1 : -2) +
     gd
   )
-}
-
-function isGregorianLeap(y: number): boolean {
-  return y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0)
 }
 
 /** Convert R.D. fixed day to Gregorian date. */

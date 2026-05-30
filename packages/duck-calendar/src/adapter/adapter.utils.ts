@@ -6,16 +6,32 @@ function dateToOrdinal(d: Date): number {
 }
 
 /**
+ * Shared `today()` helper for adapters whose date type is the native `Date`.
+ * Returns midnight local time (year/month/day with no time component) so that
+ * the returned reference is comparable with other adapters' midnight outputs.
+ */
+export function nativeToday(): Date {
+  const d = new Date()
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+}
+
+/**
  * Builds an Intl locale tag with the specified calendar extension.
  * Handles replacing existing `-ca-` tags or appending `-u-ca-<calendar>`.
  */
+// Pattern matches `-ca-<value>` segments in a Unicode extension. Calendar subtags
+// (e.g. `islamic-civil`) use 3+ char segments; Unicode extension keys are exactly
+// 2 chars, so anchoring on `[a-z]{3,}` for continuation segments stops cleanly
+// before the next key. Lengths are bounded by valid BCP 47 subtag rules
+// (max 8 chars each), eliminating any ReDoS exposure on hostile inputs.
+const CA_TAG_REGEX = /-ca-[a-z]{1,8}(?:-[a-z]{3,8}){0,8}/
+const NU_TAG_REGEX = /-nu-[a-z]{1,8}(?:-[a-z]{3,8}){0,8}/
+
 export function buildCalendarLocaleTag(locale: string, calendar: string): string {
   const calTag = `-ca-${calendar}`
   if (locale.includes(calTag)) return locale
   if (locale.includes('-ca-')) {
-    // Match -ca-<value> segments. Calendar subtags (e.g. islamic-civil) have 3+ char
-    // segments; Unicode extension keys are exactly 2 chars. Stop before the next key.
-    return locale.replace(/-ca-[a-z]+(?:-[a-z]{3,})*/, calTag)
+    return locale.replace(CA_TAG_REGEX, calTag)
   }
   if (locale.includes('-u-')) {
     return `${locale}${calTag}`
@@ -24,10 +40,18 @@ export function buildCalendarLocaleTag(locale: string, calendar: string): string
 }
 
 /**
- * Creates a stateless single-slot cache for Gregorian-to-calendar conversions.
- * Keyed by ordinal, so sequential calls to getYear/getMonth/getDate on the
- * same date hit the cache. The cache is per-adapter-instance (via WeakMap),
- * making it safe for concurrent React renders.
+ * Creates a single-slot per-adapter-instance cache for Gregorian-to-calendar
+ * conversions, keyed by date ordinal.
+ *
+ * **Hit pattern (intentional):** the 3 sequential calls `getYear` / `getMonth` /
+ * `getDate` on the same date hit the cache 2/3 times. Every cursor advance in
+ * `buildCalendarMonth` invalidates the slot, so cross-cell sharing only happens
+ * for repeated reads on the same cell.
+ *
+ * **Not** a multi-slot LRU. Two adapter instances on the same page get separate
+ * slots (via the `WeakMap` keyed by instance), but a single adapter rendering
+ * two months in the same React tree will thrash on every advance. If that
+ * becomes a hot path, replace this with an ordinal-keyed LRU.
  */
 export function createConversionCache<T>(convert: (date: Date) => T): {
   get(instance: object, date: Date): T
@@ -66,7 +90,7 @@ export function formatWithCalendar(
     const nuTag = `-nu-${numberingSystem}`
     if (!tag.includes(nuTag)) {
       if (tag.includes('-nu-')) {
-        tag = tag.replace(/-nu-[a-z]+(?:-[a-z]{3,})*/, nuTag)
+        tag = tag.replace(NU_TAG_REGEX, nuTag)
       } else {
         tag = `${tag}${nuTag}`
       }
