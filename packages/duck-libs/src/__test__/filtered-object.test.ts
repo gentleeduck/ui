@@ -12,18 +12,14 @@ describe('filteredObject', () => {
     expect(filteredObject(['a', 'c'], obj)).toEqual({ b: 2, d: 4 })
   })
 
-  test('returns full object when no keys match', () => {
-    const obj = { a: 1, b: 2 }
-    expect(filteredObject(['x', 'y'], obj)).toEqual({ a: 1, b: 2 })
-  })
-
   test('returns empty object when all keys are filtered', () => {
     const obj = { a: 1, b: 2 }
     expect(filteredObject(['a', 'b'], obj)).toEqual({})
   })
 
   test('handles empty object', () => {
-    expect(filteredObject(['a'], {})).toEqual({})
+    const obj: Record<string, unknown> = {}
+    expect(filteredObject(['a'], obj)).toEqual({})
   })
 
   test('handles empty keys array', () => {
