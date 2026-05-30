@@ -1,0 +1,120 @@
+---
+title: Assertions
+description: AssertTrue, AssertFalse, Equal, and how they surface failures.
+section: Core
+order: 0
+---
+
+The assertion API is intentionally tiny. Two assertion types and one strict-equality check cover most type-level testing.
+
+## AssertTrue
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+```
+
+`AssertTrue<T extends true, Msg extends string>` resolves to `true` when `T` is `true`. When `T` is not exactly `true`, the constraint `T extends true` fails and the compiler reports the assertion line — your `Msg` string lives there as a constant reminder of what was being checked.
+
+```ts
+type pass = AssertTrue<true, 'always passes'>
+type fail = AssertTrue<false, 'never passes'>
+//          ^ TS2344: Type 'false' does not satisfy the constraint 'true'.
+```
+
+## AssertFalse
+
+```ts
+import type { AssertFalse } from '@gentleduck/ttest/assert'
+```
+
+`AssertFalse<T extends false, Msg extends string>` is the negative-polarity twin.
+
+```ts
+type ok = AssertFalse<false, 'must be false'>
+type no = AssertFalse<true, 'must be false'>
+//        ^ TS2344: Type 'true' does not satisfy the constraint 'false'.
+```
+
+Use it when "this is not equal" or "this is not assignable" is the assertion you want to make explicit, instead of negating inside the predicate.
+
+## Equal
+
+```ts
+import type { Equal } from '@gentleduck/ttest/equality'
+```
+
+`Equal<X, Y>` returns `true` if `X` and `Y` are bidirectionally and **variance-preservingly** equal. It does so by comparing two type-functions:
+
+```ts
+type Equal<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false
+```
+
+This is the only equality check in the type system that reliably distinguishes:
+
+- `any` from `unknown` (a structural `X extends Y && Y extends X` would say they're equal)
+- `string` from `string & {}` (which `Equal` treats as different — important when authoring `LiteralUnion`)
+- mutable from `readonly` tuples
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type t1 = AssertTrue<Equal<{ a: 1 }, { a: 1 }>, 'identical shapes equal'>
+type t2 = AssertTrue<Equal<any, unknown>, 'any equals unknown'>
+//        ^ FAILS: Equal returns false here — that is the point.
+```
+
+## NotEqual
+
+```ts
+import type { NotEqual } from '@gentleduck/ttest/equality'
+
+type t = AssertTrue<NotEqual<1, 2>, '1 must not equal 2'>
+```
+
+Inverse of `Equal`. Useful when negating reads cleaner than wrapping in `AssertFalse`.
+
+## ShallowEqual / Extends-style checks
+
+```ts
+import type { ShallowEqual } from '@gentleduck/ttest/equality'
+```
+
+`ShallowEqual<X, Y>` is one-way assignability: `X extends Y ? true : false`. Use this when you want to assert "X is assignable to Y" without caring about the reverse direction.
+
+```ts
+type t = AssertTrue<ShallowEqual<'admin', 'admin' | 'user'>, 'admin is in union'>
+```
+
+For richer conditional branching use `IfExtends` from `@gentleduck/ttest/conditional`:
+
+```ts
+import type { IfExtends } from '@gentleduck/ttest/conditional'
+
+type Trim<S extends string> = IfExtends<S, ` ${infer R}`, Trim<R>, S>
+```
+
+## Picking the right assertion
+
+| You want to check | Use |
+| --- | --- |
+| X equals Y exactly (variance-preserving) | `AssertTrue<Equal<X, Y>, Msg>` |
+| X does not equal Y | `AssertTrue<NotEqual<X, Y>, Msg>` or `AssertFalse<Equal<X, Y>, Msg>` |
+| X is assignable to Y | `AssertTrue<ShallowEqual<X, Y>, Msg>` |
+| X is not assignable to Y | `AssertFalse<ShallowEqual<X, Y>, Msg>` |
+| Custom predicate `P<X>` is true | `AssertTrue<P<X>, Msg>` |
+
+## Grouping assertions
+
+Tuples are the smallest unit of grouping — TypeScript will report the index along with the message:
+
+```ts
+type tests = [
+  AssertTrue<Equal<1, 1>, 'one'>,
+  AssertTrue<Equal<2, 2>, 'two'>,
+  AssertFalse<Equal<1, 2>, 'one is not two'>,
+]
+```
+
+For larger suites, see [Core / Composing tests](/duck-ttest/core/composing-tests).

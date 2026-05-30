@@ -1,0 +1,124 @@
+---
+title: Type-level testing
+description: Workflow with tsc, vitest @ts-expect-error, and tsd.
+section: Core
+order: 1
+---
+
+duck-ttest does not bundle a runner. The runner is whatever you already use to type-check your project. This page walks through the three most common setups.
+
+## Workflow 1: `tsc --noEmit`
+
+The simplest setup. Put assertions in any file covered by `tsconfig.json` and add a script:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test:types": "tsc --noEmit"
+  }
+}
+```
+
+A failing assertion surfaces as a normal `TS2344` (constraint not satisfied) error with your message visible on the same line.
+
+```ts title="src/__type_tests__/user.test-d.ts"
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type _ = [
+  AssertTrue<Equal<1, 1>, '1 equals 1'>,
+]
+```
+
+This is the recommended setup for libraries — the type test passes through the same compile that your consumers use.
+
+## Workflow 2: vitest + `@ts-expect-error`
+
+When you already use vitest, drop type tests in `.test.ts` files next to runtime tests. The compile runs as part of vitest's transform, so failing assertions block the test run.
+
+```ts title="src/user.test.ts"
+import { expect, it } from 'vitest'
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import { createUser, type User } from './user'
+
+// Runtime assertions
+it('creates a user with a numeric id', () => {
+  expect(typeof createUser('Ada').id).toBe('number')
+})
+
+// Type assertions — these fail the test run if `createUser`'s return type changes.
+type _ = [
+  AssertTrue<Equal<ReturnType<typeof createUser>, User>, 'must return User'>,
+  AssertTrue<Equal<User['id'], number>, 'User.id is number'>,
+]
+
+// Use @ts-expect-error to assert that a call fails to type-check.
+// @ts-expect-error createUser requires a string
+createUser(123)
+```
+
+The pattern: `AssertTrue`/`AssertFalse` for *type shape* assertions, `@ts-expect-error` for *invalid usage* assertions.
+
+## Workflow 3: `tsd`
+
+If you publish a `.d.ts` and want a CLI report listing every assertion line, `tsd` and duck-ttest compose:
+
+```ts title="test-d/index.test-d.ts"
+import { expectType } from 'tsd'
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import { add } from '../src'
+
+// tsd-style runtime hint:
+expectType<number>(add(1, 2))
+
+// duck-ttest type-only assertion:
+type _ = AssertTrue<Equal<ReturnType<typeof add>, number>, 'add returns number'>
+```
+
+The two styles are complementary — `expectType` and `AssertTrue<Equal>` both compile to nothing.
+
+## Which workflow to pick
+
+| Situation | Recommended |
+| --- | --- |
+| Library author | `tsc --noEmit` — same compile as your consumers. |
+| App with vitest | vitest + `@ts-expect-error` — co-locate with runtime tests. |
+| Publishing a `.d.ts` package | `tsd` for assertion line reports; duck-ttest for the utilities. |
+| Monorepo | `turbo run check-types` calling `tsc --noEmit` per package. |
+
+## Negative tests
+
+There are two ways to assert "this should not type-check":
+
+1. **`@ts-expect-error`** — checked inline, at the call site. Best for invalid runtime calls.
+2. **`AssertFalse<P<X>, Msg>`** — checked declaratively. Best for invalid type shapes.
+
+```ts
+import type { AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+// shape assertion — declarative
+type _shape = AssertFalse<Equal<string, number>, 'string != number'>
+
+// usage assertion — inline
+// @ts-expect-error number argument should not be accepted
+acceptsString(42)
+```
+
+## Performance
+
+Type-level tests are usually cheap, but a few patterns explode the type-checker:
+
+- **Recursive utility calls** (e.g. nesting `MatchesGlob` inside `Reduce`) — fine in isolation, expensive when fanned out across hundreds of assertions.
+- **Wide `Paths<T>` calls** — cap depth via the second generic.
+- **`MatchRoute` over deep paths** — same; segmentation is recursive.
+
+The fix is usually module-level: split test files so each one only imports the sub-paths it actually uses.
+
+## See also
+
+- [Core / Assertions](/duck-ttest/core/assertions) — the assertion API.
+- [Core / Composing tests](/duck-ttest/core/composing-tests) — naming and organization.
+- [Guides / Catching regressions](/duck-ttest/guides/catching-regressions) — vitest integration in depth.
