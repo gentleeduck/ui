@@ -6,7 +6,6 @@ export const registryInternal: RegistryEntry[] = [
     name: 'internal-primitives-examples',
     registryDependencies: ['@gentleduck/primitives'],
     root_folder: 'internal-primitives',
-    source: '.git/refs/tags/@gentleduck/primitives',
     type: 'registry:internal',
   },
 ]
