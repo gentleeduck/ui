@@ -130,8 +130,8 @@ The runtime keys them separately; the client picks via
 
 Google issues refresh tokens only when `access_type: offline` and
 `prompt: consent` are set. duck-auth requests these by default for
-OIDC providers — the refresh token is stored in the credential row
-and rotated on every use (RFC 6749 §10.4).
+OIDC providers - the refresh token is stored in the credential row
+and rotated on every use (RFC 6749 section 10.4).
 
 If you don't need refresh tokens (you only need a one-shot sign-in),
 override the begin call:
@@ -150,4 +150,4 @@ google({
 | `redirect_uri_mismatch` | `AUTH/PROVIDER_FAILED` | The `redirectUri` doesn't match the one in the Google Cloud Console. |
 | `invalid_client` | `AUTH/PROVIDER_FAILED` | Wrong client secret. |
 | `invalid_grant` | `AUTH/PROVIDER_FAILED` | Code was reused or expired (you re-clicked the callback URL). |
-| `consent_required` | `AUTH/PROVIDER_FAILED` | User needs to re-consent — happens after scope changes. |
+| `consent_required` | `AUTH/PROVIDER_FAILED` | User needs to re-consent - happens after scope changes. |

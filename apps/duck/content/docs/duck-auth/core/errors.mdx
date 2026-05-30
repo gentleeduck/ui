@@ -19,13 +19,13 @@ throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
 })
 ```
 
-- `code` — one of the 38 closed-set codes below. The UI branches on the
-  code, **not** the HTTP status — codes are stable, statuses are HTTP
+- `code` - one of the 38 closed-set codes below. The UI branches on the
+  code, **not** the HTTP status - codes are stable, statuses are HTTP
   conventions.
-- `meta` — caller-supplied context. Goes through a denylist of 13 sensitive
+- `meta` - caller-supplied context. Goes through a denylist of 13 sensitive
   keys on `toJSON()`, so `meta.password`, `meta.token`, `meta.secret`,
   `meta.accessToken`, etc. are stripped before wire emission.
-- `origin` — provider and flow that triggered the error. Goes to logs and
+- `origin` - provider and flow that triggered the error. Goes to logs and
   observability spans, **never to the wire**.
 
 ## The error taxonomy
@@ -45,7 +45,7 @@ throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
 
 | Code | Status | Meaning |
 | --- | --- | --- |
-| `AUTH/INVALID_CREDENTIALS` | 401 | Wrong password, wrong magic-link, wrong passkey. **Same code, same timing** for all four — defeats username enumeration. |
+| `AUTH/INVALID_CREDENTIALS` | 401 | Wrong password, wrong magic-link, wrong passkey. **Same code, same timing** for all four - defeats username enumeration. |
 | `AUTH/PASSKEY_MISMATCH` | 401 | Passkey assertion was valid cryptographically but did not match any credential. |
 | `AUTH/EMAIL_NOT_VERIFIED` | 403 | Action requires a verified email; user has not completed verification. |
 
@@ -62,7 +62,7 @@ throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
 | Code | Status | Meaning |
 | --- | --- | --- |
 | `AUTH/PROVIDER_FAILED` | 502 | Upstream IdP returned a non-2xx (Google rejected the code, Apple JWKS unreachable, etc.). |
-| `AUTH/OAUTH_REUSE_DETECTED` | 401 | Refresh-token reuse — RFC 6749 §10.4 — entire family revoked. |
+| `AUTH/OAUTH_REUSE_DETECTED` | 401 | Refresh-token reuse - RFC 6749 section 10.4 - entire family revoked. |
 | `AUTH/OAUTH_STATE_MISMATCH` | 401 | Signed `state` value didn't verify or was too old. |
 | `AUTH/OAUTH_NONCE_REPLAY` | 401 | OIDC `nonce` claim already seen. |
 
@@ -128,18 +128,18 @@ throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
 ```typescript
 const err = new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
   email: 'ada@example.com',
-  password: 'plaintext!',       // ← will be stripped
+  password: 'plaintext!',       // <- will be stripped
   attemptCount: 3,
 })
 
 err.toJSON()
-// → { code: 'AUTH/INVALID_CREDENTIALS', status: 401, meta: { email: 'ada@example.com', attemptCount: 3 } }
+// -> { code: 'AUTH/INVALID_CREDENTIALS', status: 401, meta: { email: 'ada@example.com', attemptCount: 3 } }
 ```
 
 The denylist applies to: `password`, `passwordHash`, `secret`, `token`,
 `accessToken`, `refreshToken`, `code`, `apiKey`, `privateKey`, `clientSecret`,
 `webhookSecret`, `stateSigningSecret`, `jwt`. These keys are removed from
-`meta` before serialisation regardless of context — even in development.
+`meta` before serialisation regardless of context - even in development.
 
 ## Mapping codes to UI
 
@@ -153,7 +153,7 @@ const handle = (err: AuthErrorObject) => {
     case 'AUTH/MFA_REQUIRED':
       return { title: 'Enter your authenticator code', tone: 'info' as const, action: 'show-mfa' }
     case 'AUTH/STEP_UP_REQUIRED':
-      return { title: 'Confirm it’s you', tone: 'info' as const, action: 'reauth' }
+      return { title: 'Confirm it's you', tone: 'info' as const, action: 'reauth' }
     case 'AUTH/RATE_LIMITED':
       return { title: 'Too many attempts. Try again in a minute.', tone: 'warning' as const }
     case 'AUTH/EMAIL_NOT_VERIFIED':

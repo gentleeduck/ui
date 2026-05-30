@@ -31,7 +31,7 @@ new CookieTransport({
 })
 ```
 
-In **development**, `secure: false` is allowed — but only `strict({ env: 'development' })`
+In **development**, `secure: false` is allowed - but only `strict({ env: 'development' })`
 will accept it. Production calls to `strict({ env: 'production' })` throw
 `AUTH/MISCONFIGURED` if `secure` is not `true`.
 
@@ -47,7 +47,7 @@ Set-Cookie: __Host-duck-sid=01HJX7B2T9...; Path=/; Secure; HttpOnly; SameSite=La
 
 The id is a 256-bit random value (base64url-encoded), generated with
 `crypto.randomBytes(32)`. At rest, the store records a **hash** of the
-id — even a database leak does not yield usable session tokens.
+id - even a database leak does not yield usable session tokens.
 
 ## CSRF defence
 
@@ -65,7 +65,7 @@ intents.push({ kind: 'setCookie', cookie: {
   path: '/',
   secure: true,
   sameSite: 'lax',
-  httpOnly: false,  // ← intentionally readable by the client SPA
+  httpOnly: false,  // <- intentionally readable by the client SPA
 }})
 
 // Verify: on every state-mutating request.

@@ -9,10 +9,10 @@ section: Getting Started
 TypeScript / Node authorization libraries cluster around four
 archetypes:
 
-1. **DSL-based engines** — OPA (Rego), Cedar (AWS).
-2. **JSON / object policy engines** — Casbin, AccessControl.js.
-3. **Code-first builders** — CASL, Oso, duck-iam.
-4. **Hosted policy services** — Permit.io, Cerbos Cloud.
+1. **DSL-based engines** - OPA (Rego), Cedar (AWS).
+2. **JSON / object policy engines** - Casbin, AccessControl.js.
+3. **Code-first builders** - CASL, Oso, duck-iam.
+4. **Hosted policy services** - Permit.io, Cerbos Cloud.
 
 duck-iam is in archetype 3 with a single twist: it runs RBAC and ABAC
 through one evaluation pipeline. You don't pick one; you write both
@@ -34,10 +34,10 @@ side by side and the engine combines them.
 | **Dev/prod modes** | Yes (boolean fast path) | No | No | No | No | No |
 | **Server adapters shipped** | Express, Hono, NestJS, Next.js | Bring-your-own | Bring-your-own | Bring-your-own | Bring-your-own | Bring-your-own |
 | **Client components shipped** | React, Vue, vanilla | No | `<Can />` for React | No | No | No |
-| **Performance (decisions/sec)** | <1μs prod mode | ~10μs | ~20μs | ~10μs | ~50μs (remote) | ~5μs |
+| **Performance (decisions/sec)** | <1us prod mode | ~10us | ~20us | ~10us | ~50us (remote) | ~5us |
 | **License** | MIT | Apache 2 | MIT | Apache 2 | Apache 2 | MIT |
 
-See [Benchmarks →](/duck-iam/benchmarks) for the duck-iam numbers
+See [Benchmarks ->](/duck-iam/benchmarks) for the duck-iam numbers
 against seven libraries.
 
 ## When to pick duck-iam
@@ -49,7 +49,7 @@ against seven libraries.
 - You need multi-tenant scoped roles (different roles per org).
 - You want `explain()` traces that say exactly which rule
   matched and why.
-- You want a dev/prod toggle that drops decision overhead to <1μs.
+- You want a dev/prod toggle that drops decision overhead to <1us.
 
 ## When to pick something else
 
@@ -75,8 +75,8 @@ against seven libraries.
 
 ## See also
 
-- [Benchmarks →](/duck-iam/benchmarks) — duck-iam vs Casbin / CASL /
+- [Benchmarks ->](/duck-iam/benchmarks) - duck-iam vs Casbin / CASL /
   Oso / accesscontrol / @casl/ability / RBAC / express-jwt-permissions.
-- [Pairing with duck-auth →](/duck-iam/guides/auth-bridge) — the
+- [Pairing with duck-auth ->](/duck-iam/guides/auth-bridge) - the
   identity bridge.
-- [Cookbook →](/duck-iam/guides/cookbook) — patterns.
+- [Cookbook ->](/duck-iam/guides/cookbook) - patterns.

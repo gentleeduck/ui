@@ -8,7 +8,7 @@ section: Getting Started
 
 If you have a TypeScript backend that needs to support more than one
 runtime / framework, want batteries included without per-MAU pricing,
-and can run the auth runtime yourself — yes. If you're 100% Next.js,
+and can run the auth runtime yourself - yes. If you're 100% Next.js,
 NextAuth is also fine. If you don't want to run anything, Clerk /
 WorkOS / Stytch are the right pick.
 
@@ -30,7 +30,7 @@ pass. Several teams run it in production. You should:
 
 duck-auth itself is MIT-licensed and free. Your costs are:
 
-- Whatever you spend on Redis (~$50–100/mo for production).
+- Whatever you spend on Redis (~$50-100/mo for production).
 - Your Postgres / MySQL / SQLite (whatever you'd run anyway).
 - Your email / SMS provider (Resend / SES / Twilio).
 
@@ -42,7 +42,7 @@ above ~6k MAUs and *significantly* wins above 50k.
 Yes. The migration path is:
 
 1. Export your users from the old system (most have an export endpoint).
-2. Use `auth.identities.bulkCreate` with pre-hashed passwords — duck-auth
+2. Use `auth.identities.bulkCreate` with pre-hashed passwords - duck-auth
    does **not** re-hash, so bcrypt / Argon2 / PBKDF2 hashes import
    verbatim.
 3. Combine with `passwords.autoRehash: true`, and the next sign-in
@@ -65,7 +65,7 @@ Yes. Two patterns:
    so the cookie is shared across `app1.example.com`, `app2.example.com`.
 
 For OIDC-based federation between services, use `JwtTransport` and
-expose your `/.well-known/openid-configuration` — downstream apps
+expose your `/.well-known/openid-configuration` - downstream apps
 verify JWTs locally.
 
 ## Can I have my own provider?
@@ -82,7 +82,7 @@ const myProvider: Provider.IProvider<IBegin, IComplete> = {
 auth.providers.use(myProvider)
 ```
 
-See [Writing a custom provider →](/duck-auth/providers#writing-a-custom-provider).
+See [Writing a custom provider ->](/duck-auth/providers#writing-a-custom-provider).
 
 ## Can I have my own adapter?
 
@@ -104,7 +104,7 @@ Yes, with caveats:
   hits per request) and `Argon2idHasher` (Node's `crypto.scrypt` isn't
   on Workers).
 - **AWS Lambda**: works as-is. Cold-start cost is ~300ms for the first
-  request after a deploy — pin a warmer if that matters.
+  request after a deploy - pin a warmer if that matters.
 - **Cloudflare Workers with cookies**: works, but keep one auth instance
   per worker and share via durable-object if you need cross-replica
   state.
@@ -115,12 +115,12 @@ A signin endpoint with `ScryptHasher` defaults is ~30ms per call
 (20ms hash + 5ms DB + 5ms cookie issue). With Argon2id at OWASP
 defaults, ~80ms. JWT verify (no DB hit) is <1ms.
 
-The bottleneck is **always** the hasher — that's by design. Don't lower
+The bottleneck is **always** the hasher - that's by design. Don't lower
 the cost; raise the budget.
 
 ## Does it support row-level security?
 
-duck-auth doesn't enforce RLS — that's [duck-iam](/duck-iam)'s job.
+duck-auth doesn't enforce RLS - that's [duck-iam](/duck-iam)'s job.
 The recommended pattern is to project the auth-side identity into an
 iam-side subject and run the iam engine against the row's attributes:
 
@@ -129,11 +129,11 @@ const subject = projectToSubject(ctx.identity, ctx.session)
 const allowed = iam.can({ subject, action: 'read', resource: { type: 'post', attributes: post } })
 ```
 
-See [Bridging to duck-iam →](/duck-auth/guides/iam-bridge).
+See [Bridging to duck-iam ->](/duck-auth/guides/iam-bridge).
 
 ## What about WebAuthn / passkeys on iOS / Android?
 
-duck-auth's passkey provider uses WebAuthn — which Safari (iOS), Chrome
+duck-auth's passkey provider uses WebAuthn - which Safari (iOS), Chrome
 (Android), and every desktop browser supports. For native iOS / Android
 apps, integrate via the OS-level Credential Manager APIs and POST the
 attestation/assertion JSON to your duck-auth callback.
@@ -156,7 +156,7 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials&client_id=...&client_secret=...&scope=deploy:write
 
-// → 200 { access_token, token_type, expires_in, scope }
+// -> 200 { access_token, token_type, expires_in, scope }
 ```
 
 The runtime issues a short-lived JWT for the M2M flow.

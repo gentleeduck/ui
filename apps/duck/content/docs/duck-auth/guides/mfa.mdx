@@ -30,7 +30,7 @@ await auth.mfa.totp.completeEnrolment({
   identityId: ctx.identity.id,
   code: '123456',
 })
-// → credential persisted; emits 'mfa.enrolled' { factor: 'totp' }
+// -> credential persisted; emits 'mfa.enrolled' { factor: 'totp' }
 ```
 
 The user is now enrolled in TOTP. Subsequent sign-ins require the code.
@@ -54,7 +54,7 @@ try {
 }
 ```
 
-The client-side flow is exactly the same shape — the `useSignIn` hook
+The client-side flow is exactly the same shape - the `useSignIn` hook
 exposes `error.code` and `error.meta`, and you re-call with the code.
 
 ## Backup codes
@@ -68,7 +68,7 @@ const codes = await auth.mfa.backupCodes.generate({
   length: 10,   // default
 })
 
-// Show codes ONCE — they are hashed at rest after this point.
+// Show codes ONCE - they are hashed at rest after this point.
 res.json({ codes })
 ```
 
@@ -79,7 +79,7 @@ await auth.mfa.backupCodes.verify({
   identityId,
   code: '12ab-34cd',  // user-supplied
 })
-// Each code is single-use — verify() marks it consumed.
+// Each code is single-use - verify() marks it consumed.
 // Throws AUTH/INVALID_CREDENTIALS on wrong / consumed codes.
 ```
 
@@ -116,7 +116,7 @@ await auth.mfa.passkey.completeVerification({
 })
 ```
 
-WebAuthn-MFA is **strictly stronger** than TOTP — it's phishing-resistant
+WebAuthn-MFA is **strictly stronger** than TOTP - it's phishing-resistant
 and the credential is bound to the origin. For high-security apps,
 prefer it.
 
@@ -165,7 +165,7 @@ new AuthRoot({
 ```
 
 When `enforced: true`, sign-in throws `AUTH/MFA_REQUIRED` for any
-identity that has no MFA factor — the user must enrol before they can
+identity that has no MFA factor - the user must enrol before they can
 finish the flow.
 
 ## Reseeding TOTP

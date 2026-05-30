@@ -1,6 +1,6 @@
 ---
 title: Generic Web-Fetch adapter
-description: Mount duck-auth on any runtime that speaks the Web-Fetch Request / Response standard. Bun, Deno, Cloudflare Workers, Service Workers — all work.
+description: Mount duck-auth on any runtime that speaks the Web-Fetch Request / Response standard. Bun, Deno, Cloudflare Workers, Service Workers - all work.
 section: Server
 ---
 
@@ -8,10 +8,10 @@ section: Server
 
 The generic adapter is the lowest-level mount point. It exposes:
 
-- `executeIntents(intents, baseStatus?) → Response` — turn `Intent[]`
+- `executeIntents(intents, baseStatus?) -> Response` - turn `Intent[]`
   into a `Response`.
-- `parseSignInBody(raw)` — validate a sign-in JSON payload.
-- `parseProviderBeginBody(raw)` — validate a provider-begin payload.
+- `parseSignInBody(raw)` - validate a sign-in JSON payload.
+- `parseProviderBeginBody(raw)` - validate a provider-begin payload.
 
 Use it when:
 
@@ -126,5 +126,5 @@ for (const intent of intents) {
 }
 ```
 
-This is rarely necessary — the shipped adapters cover 99% of cases —
+This is rarely necessary - the shipped adapters cover 99% of cases -
 but the door is open.

@@ -1,6 +1,6 @@
 ---
 title: Transports
-description: How sessions ride on the request — Cookie, Bearer, JWT, Composite, and DPoP binding.
+description: How sessions ride on the request - Cookie, Bearer, JWT, Composite, and DPoP binding.
 section: Core
 ---
 
@@ -17,7 +17,7 @@ interface Transport.ITransport {
 }
 ```
 
-You wire exactly one transport into `AuthRoot.config.transport` — or a
+You wire exactly one transport into `AuthRoot.config.transport` - or a
 `CompositeTransport` that tries several in order.
 
 ## The four shipped transports
@@ -37,10 +37,10 @@ sender-constrained tokens.
 
 |  | Cookie | Bearer | JWT |
 | --- | --- | --- | --- |
-| Stateful (requires session store lookup)? | ✅ yes | ✅ yes | ❌ no |
-| Survives XSS? | ✅ HttpOnly | ⚠️ depends on client storage | ⚠️ depends on client storage |
-| Survives CSRF? | ✅ with `__Host-` + double-submit | ✅ no cookies, no CSRF | ✅ no cookies |
-| Browser refresh keeps you signed in? | ✅ yes | ✅ if client persists | ✅ if refresh cookie set |
+| Stateful (requires session store lookup)? | yes yes | yes yes | no no |
+| Survives XSS? | yes HttpOnly | (warning) depends on client storage | (warning) depends on client storage |
+| Survives CSRF? | yes with `__Host-` + double-submit | yes no cookies, no CSRF | yes no cookies |
+| Browser refresh keeps you signed in? | yes yes | yes if client persists | yes if refresh cookie set |
 | Token revocation? | instant (delete row) | instant (delete row) | only at refresh (until JWT exp) |
 | Issuing cost | one row write | one row write | two row writes + JWT sign |
 | Per-request cost | one row lookup | one row lookup | signature verify only |
@@ -52,16 +52,16 @@ Decision tree:
 
 ```
 Is this a first-party web app on a single origin?
-  → Cookie
+  -> Cookie
 
 Is this a mobile or native client?
-  → Bearer (store the token in the OS keychain)
+  -> Bearer (store the token in the OS keychain)
 
 Is this a microservice fleet that needs to verify tokens locally without a session store hit?
-  → JWT  (add DPoP for sender-constrained binding)
+  -> JWT  (add DPoP for sender-constrained binding)
 
 Is this an API that also serves a first-party web app on the same origin?
-  → Composite { primary: Cookie, fallback: [Bearer] }
+  -> Composite { primary: Cookie, fallback: [Bearer] }
 ```
 
 ## Anatomy of an `Intent`
@@ -72,7 +72,7 @@ transport translates intents into wire commands:
 ```typescript
 type Intent =
   | { kind: 'startSession'; session: Session }   // mint a session, return the cookie / token
-  | { kind: 'rotateSession'; session: Session }  // change the carrier — fixation defence
+  | { kind: 'rotateSession'; session: Session }  // change the carrier - fixation defence
   | { kind: 'revokeSession'; sessionId: string }
   | { kind: 'redirect'; url: string; status?: 302 | 303 }  // OAuth provider hop
   | { kind: 'json'; status: number; body: unknown }
@@ -83,5 +83,5 @@ type Intent =
 The framework adapter (`server/express`, `server/hono`, ...) walks the
 intents in order and converts them into native `Response` calls.
 
-You almost never need to construct intents by hand — providers,
+You almost never need to construct intents by hand - providers,
 `flows`, and the `sessions` facet do it for you.

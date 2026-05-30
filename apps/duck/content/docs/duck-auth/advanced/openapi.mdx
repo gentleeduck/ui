@@ -1,13 +1,13 @@
 ---
 title: OpenAPI generator
-description: buildOpenApiSpec + renderOpenApiYaml — emit an OpenAPI 3.1 spec for the mounted auth routes.
+description: buildOpenApiSpec + renderOpenApiYaml - emit an OpenAPI 3.1 spec for the mounted auth routes.
 section: Advanced
 ---
 
 ## What it does
 
 duck-auth's OpenAPI generator introspects your `AuthRoot` instance and
-emits an OpenAPI 3.1 specification for every mounted route — `/signin`,
+emits an OpenAPI 3.1 specification for every mounted route - `/signin`,
 `/signout`, `/session`, and one `/providers/:providerId/begin` per
 registered provider. The spec includes request schemas, response
 schemas, every typed `AuthErrorObject` code, and security schemes.
@@ -33,10 +33,10 @@ result to disk.
 
 Flags:
 
-- `--out <path>` — file destination. Default: stdout.
-- `--format yaml|json` — serialisation. Default: yaml.
-- `--prefix <path>` — route prefix (default `/auth`).
-- `--include <pattern>` — only operations matching this glob.
+- `--out <path>` - file destination. Default: stdout.
+- `--format yaml|json` - serialisation. Default: yaml.
+- `--prefix <path>` - route prefix (default `/auth`).
+- `--include <pattern>` - only operations matching this glob.
 
 ## Generate programmatically
 
@@ -82,19 +82,19 @@ The generated spec includes:
 
 ### Schemas
 
-- `Session` — sid, expiresAt, aal, amr, kind, identityId.
-- `Identity` — id, email, emailVerified, profile (typed by your `Profile`
+- `Session` - sid, expiresAt, aal, amr, kind, identityId.
+- `Identity` - id, email, emailVerified, profile (typed by your `Profile`
   generic).
-- `AuthError` — code, status, meta. One `oneOf` entry per `AUTH/*` code.
-- Per-provider input schemas — `PasswordSignInInput`,
+- `AuthError` - code, status, meta. One `oneOf` entry per `AUTH/*` code.
+- Per-provider input schemas - `PasswordSignInInput`,
   `MagicLinkSignInInput`, `OAuthSignInInput`, etc.
 
 ### Security schemes
 
-- `cookieAuth` — `apiKey` in `cookie` named after your CookieTransport.
-- `bearerAuth` — `http` with `bearer` scheme.
-- `jwtAuth` — `http` with `bearer` and `bearerFormat: JWT`.
-- `apiKeyAuth` — `apiKey` in `header` named `X-API-Key`.
+- `cookieAuth` - `apiKey` in `cookie` named after your CookieTransport.
+- `bearerAuth` - `http` with `bearer` scheme.
+- `jwtAuth` - `http` with `bearer` and `bearerFormat: JWT`.
+- `apiKeyAuth` - `apiKey` in `header` named `X-API-Key`.
 
 Each operation references the security schemes that apply.
 

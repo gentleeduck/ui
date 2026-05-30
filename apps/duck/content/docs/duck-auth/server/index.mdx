@@ -10,13 +10,13 @@ Every server adapter exposes the same four routes:
 
 | Route | Handler |
 | --- | --- |
-| `POST /<prefix>/signin` | `mountSignIn(auth)` — completes provider sign-in. |
-| `POST /<prefix>/signout` | `mountSignOut(auth)` — revokes the current session. |
-| `GET /<prefix>/session` | `mountSession(auth)` — returns the current session + identity. |
-| `POST /<prefix>/providers/:providerId/begin` | `mountProviderBegin(auth, providerId)` — initiates a flow (OAuth redirect, magic-link send). |
+| `POST /<prefix>/signin` | `mountSignIn(auth)` - completes provider sign-in. |
+| `POST /<prefix>/signout` | `mountSignOut(auth)` - revokes the current session. |
+| `GET /<prefix>/session` | `mountSession(auth)` - returns the current session + identity. |
+| `POST /<prefix>/providers/:providerId/begin` | `mountProviderBegin(auth, providerId)` - initiates a flow (OAuth redirect, magic-link send). |
 
 The actual Express / Hono / Next functions are named consistently:
-`mountSignIn` / `honoSignIn` / `nextSignIn` etc. — they all return a
+`mountSignIn` / `honoSignIn` / `nextSignIn` etc. - they all return a
 handler appropriate to the framework.
 
 ## Shipped adapters
@@ -31,7 +31,7 @@ handler appropriate to the framework.
 | Elysia | `@gentleduck/auth/server/elysia` | Elysia (Bun). As handlers. |
 | NestJS | `@gentleduck/auth/server/nestjs` | Guard + module + controller pair. |
 | gRPC | `@gentleduck/auth/server/grpc` | Interceptor for `@grpc/grpc-js`. |
-| Generic | `@gentleduck/auth/server/generic` | `(request: Request) → Promise<Response>` for any Web-Fetch runtime. |
+| Generic | `@gentleduck/auth/server/generic` | `(request: Request) -> Promise<Response>` for any Web-Fetch runtime. |
 
 ## The intent executor
 
@@ -42,15 +42,15 @@ import { executeIntents } from '@gentleduck/auth/server/generic'
 
 const intents = await auth.flows.signIn({ providerId, input })
 const response = executeIntents(intents)
-// → web standard Response object with the right cookies / redirects / body
+// -> web standard Response object with the right cookies / redirects / body
 ```
 
 The intent executor handles:
-- `startSession` / `rotateSession` → `Set-Cookie` and / or `Authorization` header.
-- `revokeSession` → `Set-Cookie: ...; Max-Age=0`.
-- `redirect` → `Location` header + 302/303.
-- `json` → `application/json` body + status.
-- `setCookie` / `header` → raw additions.
+- `startSession` / `rotateSession` -> `Set-Cookie` and / or `Authorization` header.
+- `revokeSession` -> `Set-Cookie: ...; Max-Age=0`.
+- `redirect` -> `Location` header + 302/303.
+- `json` -> `application/json` body + status.
+- `setCookie` / `header` -> raw additions.
 
 You can implement an adapter for an unsupported framework by calling
 `executeIntents()` and mapping the resulting `Response` to your
@@ -58,7 +58,7 @@ runtime's primitives.
 
 ## Path prefix
 
-The mount helpers don't care about path — you mount at any prefix:
+The mount helpers don't care about path - you mount at any prefix:
 
 ```typescript
 // Express
@@ -98,4 +98,4 @@ app.get('/api/me', async (req, res) => {
 ```
 
 For Next.js (server components / route handlers), the API is the same
-— `auth.resolveSession(request)` works on a `Request` or a Next `NextRequest`.
+- `auth.resolveSession(request)` works on a `Request` or a Next `NextRequest`.

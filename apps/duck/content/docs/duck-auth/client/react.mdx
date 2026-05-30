@@ -23,7 +23,7 @@ Props:
 | Prop | Purpose |
 | --- | --- |
 | `baseUrl` | Default `/auth`. |
-| `client` | Pre-built vanilla client (advanced — for sharing across React + non-React). |
+| `client` | Pre-built vanilla client (advanced - for sharing across React + non-React). |
 | `noInitialFetch` | Skip the `GET /auth/session` call on mount. Useful for SSR where you already have the initial state. |
 | `initialState` | Hydrate from a server-rendered snapshot. Pair with `noInitialFetch: true`. |
 | `fetch` | Override the fetch implementation. |
@@ -51,7 +51,7 @@ type UseSessionResult<Profile> =
   | { status: 'authed'; data: { session, identity: { profile: Profile, ... } } }
 ```
 
-Use the discriminated union to drive your render branches — `data` is
+Use the discriminated union to drive your render branches - `data` is
 typed correctly in each arm.
 
 Generic over `Profile`:
@@ -60,7 +60,7 @@ Generic over `Profile`:
 type Profile = { displayName: string; avatarUrl?: string }
 
 const { data, status } = useSession<Profile>()
-// data?.identity.profile.displayName  ← typed
+// data?.identity.profile.displayName  <- typed
 ```
 
 ## `useSignIn`
@@ -91,7 +91,7 @@ function SignInForm() {
       <input name="email" type="email" required />
       <input name="password" type="password" required />
       <button type="submit" disabled={signIn.isLoading}>
-        {signIn.isLoading ? 'Signing in…' : 'Sign in'}
+        {signIn.isLoading ? 'Signing in...' : 'Sign in'}
       </button>
       {signIn.error && <p>{signIn.error.code}</p>}
     </form>
@@ -200,7 +200,7 @@ export default async function RootLayout({ children }) {
 }
 ```
 
-Now the first paint is already authenticated — no flash of guest UI.
+Now the first paint is already authenticated - no flash of guest UI.
 
 ## Storybook decorator
 

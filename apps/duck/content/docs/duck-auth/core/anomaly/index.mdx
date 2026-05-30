@@ -26,9 +26,9 @@ every detector at every route.
 Each detector returns `{ score: 0..1, signals: [...] }`. The aggregator
 sums and maps:
 
-- `score < 0.3` → `allow`
-- `0.3 ≤ score < 0.7` → `step-up` (force re-auth via MFA)
-- `score ≥ 0.7` → `deny` (revoke session)
+- `score < 0.3` -> `allow`
+- `0.3 <= score < 0.7` -> `step-up` (force re-auth via MFA)
+- `score >= 0.7` -> `deny` (revoke session)
 
 ## Registration
 

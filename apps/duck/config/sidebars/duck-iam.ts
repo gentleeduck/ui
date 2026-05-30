@@ -7,6 +7,7 @@ export const duckIamSidebar = defineSidebar([
       { title: 'Introduction', href: '/duck-iam/introduction' },
       { title: 'Installation', href: '/duck-iam/installation' },
       { title: 'How it compares', href: '/duck-iam/comparison' },
+      { title: 'Types & namespaces', href: '/duck-iam/types' },
     ],
   },
   {
@@ -78,6 +79,9 @@ export const duckIamSidebar = defineSidebar([
     items: [
       { title: 'Explain and debug', href: '/duck-iam/advanced/explain' },
       { title: 'Utilities', href: '/duck-iam/advanced/utilities' },
+      { title: 'Validation', href: '/duck-iam/advanced/validation' },
+      { title: 'JSON schema', href: '/duck-iam/advanced/json-schema' },
+      { title: 'Devtools panel', href: '/duck-iam/advanced/devtools' },
       {
         title: 'Config',
         href: '/duck-iam/advanced/config',
@@ -117,6 +121,7 @@ export const duckIamSidebar = defineSidebar([
         items: [
           { title: 'Choosing & FAQ', href: '/duck-iam/integrations/adapters/comparison' },
           { title: 'Memory adapter', href: '/duck-iam/integrations/adapters/memory' },
+          { title: 'File adapter', href: '/duck-iam/integrations/adapters/file' },
           { title: 'Drizzle adapter', href: '/duck-iam/integrations/adapters/drizzle' },
           { title: 'Prisma adapter', href: '/duck-iam/integrations/adapters/prisma' },
           { title: 'Redis adapter', href: '/duck-iam/integrations/adapters/redis' },
@@ -148,6 +153,16 @@ export const duckIamSidebar = defineSidebar([
           { title: 'Hono', href: '/duck-iam/integrations/server/hono' },
           { title: 'NestJS', href: '/duck-iam/integrations/server/nest' },
         ],
+      },
+      {
+        title: 'Observability',
+        href: '/duck-iam/integrations/observability/metrics',
+        items: [{ title: 'Metrics aggregator', href: '/duck-iam/integrations/observability/metrics' }],
+      },
+      {
+        title: 'Invalidators',
+        href: '/duck-iam/integrations/invalidators/redis',
+        items: [{ title: 'Redis invalidator', href: '/duck-iam/integrations/invalidators/redis' }],
       },
     ],
   },

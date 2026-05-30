@@ -6,7 +6,7 @@ section: Providers
 
 ## Setup
 
-1. Go to **Settings → Developer settings → OAuth Apps** in your GitHub
+1. Go to **Settings -> Developer settings -> OAuth Apps** in your GitHub
    account or organization.
 2. Click **New OAuth App**.
 3. Set **Authorization callback URL** to
@@ -66,7 +66,7 @@ Same shape as every other OAuth provider:
 // Express
 app.get('/auth/github/callback', mountSignIn(auth))
 
-// Next.js — app/auth/github/callback/route.ts
+// Next.js - app/auth/github/callback/route.ts
 export const GET = nextSignIn(auth)
 ```
 
@@ -123,7 +123,7 @@ the API once per sign-in.
 
 duck-auth uses the OAuth App flow. If you have a GitHub App (which
 supports finer-grained permissions), you can still use the standard
-OAuth provider — the OAuth handshake is the same. You just lose the
+OAuth provider - the OAuth handshake is the same. You just lose the
 App-specific webhook integration.
 
 ## Common errors

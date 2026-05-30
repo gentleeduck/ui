@@ -7,7 +7,7 @@ section: Core
 ## The sessions facet
 
 `auth.sessions` owns the entire session lifecycle. It is the **only** code
-path that should create or rotate a session — flows, providers, MFA, and
+path that should create or rotate a session - flows, providers, MFA, and
 hijack policy all delegate here.
 
 ```typescript
@@ -34,23 +34,23 @@ new AuthRoot({
 })
 ```
 
-- **`ttlMs`** — the rolling expiration. Each successful `resolveSession()`
+- **`ttlMs`** - the rolling expiration. Each successful `resolveSession()`
   bumps `lastUsedAt`.
-- **`absoluteTtlMs`** — the absolute cap. Even an actively-used session is
+- **`absoluteTtlMs`** - the absolute cap. Even an actively-used session is
   revoked once it crosses this point; the user must re-authenticate.
-- **`freshnessMs`** — the step-up window. When a sensitive action requires
+- **`freshnessMs`** - the step-up window. When a sensitive action requires
   `freshness: true`, the session's `lastReauthAt` must be within this
-  window — otherwise the call returns `AUTH/STEP_UP_REQUIRED`.
+  window - otherwise the call returns `AUTH/STEP_UP_REQUIRED`.
 
 ## The rotation matrix
 
 duck-auth's session-fixation defence routes **every** privilege change
-through a single rotation routine. The decision table from `DESIGN.md §37`:
+through a single rotation routine. The decision table from `DESIGN.md section 37`:
 
 | Event | Action |
 | --- | --- |
-| Successful first-factor (`password`, `magic-link`, `oauth`, `passkey`, `saml`) | `rotateOrCreate` — old session ID is invalidated. |
-| MFA passed (TOTP, backup code, WebAuthn-MFA) | `rotateOrCreate` — AAL upgraded. |
+| Successful first-factor (`password`, `magic-link`, `oauth`, `passkey`, `saml`) | `rotateOrCreate` - old session ID is invalidated. |
+| MFA passed (TOTP, backup code, WebAuthn-MFA) | `rotateOrCreate` - AAL upgraded. |
 | Email or password change | `rotateOrCreate` for **all** sessions of the identity. |
 | Identity merge or unlink | Revoke every session of the absorbed/unlinked identity. |
 | Hijack policy fires with `rotate` | `rotateOrCreate` (preserves AAL). |
@@ -73,10 +73,10 @@ if (!ctx) return new Response('Unauthorized', { status: 401 })
 const { session, identity, anomaly } = ctx
 ```
 
-- `expectedTenantId` — guards against cross-tenant leaks. If the resolved
+- `expectedTenantId` - guards against cross-tenant leaks. If the resolved
   session belongs to a different tenant, returns `null` (and emits an
   audit event).
-- `requestSnapshot` — feeds the anomaly detectors. Without it, anomaly
+- `requestSnapshot` - feeds the anomaly detectors. Without it, anomaly
   results in `null` and the request proceeds.
 
 ## Step-up
@@ -114,14 +114,14 @@ await auth.sessions.revokeAllForIdentity(identityId, { except: currentSessionId 
 ```
 
 The bulk revoke accepts `except` so the actor's current session survives
-the revoke storm — common after a password change initiated by the user.
+the revoke storm - common after a password change initiated by the user.
 
 ## Events emitted
 
 | Event | When |
 | --- | --- |
 | `session.created` | Brand-new session from `create()` or first call to `rotateOrCreate()` on no prior session. |
-| `session.rotated` | Any subsequent `rotateOrCreate()` — privilege change. |
+| `session.rotated` | Any subsequent `rotateOrCreate()` - privilege change. |
 | `session.revoked` | `revoke()` or `revokeAllForIdentity()`. |
 | `session.impersonate-start` | Impersonation begins. |
 | `session.impersonate-release` | Impersonation ends. |

@@ -1,12 +1,12 @@
 ---
 title: Channels
-description: Outbound message delivery — email, SMS, WebPush. Console + Test for dev, SMTP + Resend + SES + Twilio + WebPush for production.
+description: Outbound message delivery - email, SMS, WebPush. Console + Test for dev, SMTP + Resend + SES + Twilio + WebPush for production.
 section: Channels
 ---
 
 ## What is a channel?
 
-A channel is an outbound transport for messages — magic links,
+A channel is an outbound transport for messages - magic links,
 verification emails, password resets, MFA codes, anomaly alerts. Every
 channel implements `Channel.IChannel`:
 
@@ -44,14 +44,14 @@ magicLink({
 
 | Channel | Import | Kind |
 | --- | --- | --- |
-| [`ConsoleChannel`](/duck-auth/channels/console) | `@gentleduck/auth/channels/console` | email / sms / webpush — dev |
-| [`SmtpChannel`](/duck-auth/channels/smtp) | `@gentleduck/auth/channels/smtp` | email — any nodemailer-compatible SMTP relay |
-| [`ResendChannel`](/duck-auth/channels/resend) | `@gentleduck/auth/channels/resend` | email — Resend transactional API |
-| [`SesChannel`](/duck-auth/channels/ses) | `@gentleduck/auth/channels/ses` | email — AWS SES |
-| [`TwilioChannel`](/duck-auth/channels/twilio) | `@gentleduck/auth/channels/twilio` | sms — Twilio Programmable Messaging |
-| [`WebPushChannel`](/duck-auth/channels/webpush) | `@gentleduck/auth/channels/webpush` | webpush — Web Push protocol with VAPID |
-| `TestChannel` | `@gentleduck/auth/channels/console` | captures sends into an outbox array — for tests |
-| `NoopChannel` | `@gentleduck/auth/channels/console` | discards sends, always returns ok — for benchmarks |
+| [`ConsoleChannel`](/duck-auth/channels/console) | `@gentleduck/auth/channels/console` | email / sms / webpush - dev |
+| [`SmtpChannel`](/duck-auth/channels/smtp) | `@gentleduck/auth/channels/smtp` | email - any nodemailer-compatible SMTP relay |
+| [`ResendChannel`](/duck-auth/channels/resend) | `@gentleduck/auth/channels/resend` | email - Resend transactional API |
+| [`SesChannel`](/duck-auth/channels/ses) | `@gentleduck/auth/channels/ses` | email - AWS SES |
+| [`TwilioChannel`](/duck-auth/channels/twilio) | `@gentleduck/auth/channels/twilio` | sms - Twilio Programmable Messaging |
+| [`WebPushChannel`](/duck-auth/channels/webpush) | `@gentleduck/auth/channels/webpush` | webpush - Web Push protocol with VAPID |
+| `TestChannel` | `@gentleduck/auth/channels/console` | captures sends into an outbox array - for tests |
+| `NoopChannel` | `@gentleduck/auth/channels/console` | discards sends, always returns ok - for benchmarks |
 
 ## Templating
 

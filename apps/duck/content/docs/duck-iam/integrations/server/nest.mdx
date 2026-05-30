@@ -205,16 +205,16 @@ Mutation operations (`savePolicy`, `saveRole`, `assignRole`, `revokeRole`) run
 a `Sec-Fetch-Site` check by default (SEC-103 / CAVEAT-2). Failures throw
 `Error & { status: 403 }`. Browsers populate the header automatically;
 cross-site form posts are rejected, same-site / same-origin requests pass.
-Non-browser callers (no header) pass — they must be gated by bearer / mTLS.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
 
 ```ts
-// Default — cookie-auth admin UIs get CSRF protection with no opt-in.
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
 createAdminOperations(engine, { authorize })
 
-// Server-to-server bearer/mTLS API — disable the check entirely.
+// Server-to-server bearer/mTLS API - disable the check entirely.
 createAdminOperations(engine, { authorize, csrfCheck: false })
 
-// Stricter — Origin allowlist.
+// Stricter - Origin allowlist.
 const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
 createAdminOperations(engine, {
   authorize,

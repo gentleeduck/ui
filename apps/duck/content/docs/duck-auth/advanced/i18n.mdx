@@ -8,9 +8,9 @@ section: Advanced
 
 Two surfaces in duck-auth produce user-facing strings:
 
-1. **Errors** — `AuthErrorObject.code` is stable, but the message you
+1. **Errors** - `AuthErrorObject.code` is stable, but the message you
    show is localised.
-2. **Channels** — the magic-link, password-reset, and email-verify
+2. **Channels** - the magic-link, password-reset, and email-verify
    templates need translation.
 
 duck-auth ships a resolver-agnostic facet for both.
@@ -51,11 +51,11 @@ export const auth = new AuthRoot({
 
 ```typescript
 i18n.t('AUTH/RATE_LIMITED', { locale: 'es', vars: { minutes: 5 } })
-// → 'Demasiados intentos. Vuelva a intentarlo en 5 minutos.'
+// -> 'Demasiados intentos. Vuelva a intentarlo en 5 minutos.'
 ```
 
 Interpolation uses `{var}` syntax. Unknown variables stay as `{var}`
-literally — convenient for templates you haven't filled in yet.
+literally - convenient for templates you haven't filled in yet.
 
 ## Resolving per-request locale
 
@@ -98,7 +98,7 @@ export const auth = new AuthRoot({
 ```
 
 Now your duck-auth strings live in the same `.po` files as the rest of
-your app — Crowdin / Transifex workflows just work.
+your app - Crowdin / Transifex workflows just work.
 
 ## Channel templates
 
@@ -116,13 +116,13 @@ class CustomChannel implements Channel.IChannel {
 ```
 
 The shipped channels (`ConsoleChannel`, `SmtpChannel`, etc.) already
-call into the resolver — pass `i18n` to the channel constructor.
+call into the resolver - pass `i18n` to the channel constructor.
 
 ## Listing supported locales
 
 ```typescript
 i18n.supportedLocales()
-// → ['en', 'es']
+// -> ['en', 'es']
 ```
 
 Useful for driving a "preferred language" picker in your UI.
@@ -132,7 +132,7 @@ Useful for driving a "preferred language" picker in your UI.
 If a message is missing in the requested locale, the resolver falls
 back to the default locale (the catalog's `defaultLocale`). If the
 message is missing there too, it returns the message id as a literal
-— easy to spot in QA.
+- easy to spot in QA.
 
 ## i18n + the runtime
 

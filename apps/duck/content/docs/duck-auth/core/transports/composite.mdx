@@ -11,8 +11,8 @@ section: Core
 public API from the same hostname.
 
 ```
-Web app (HTML, fetch with cookies)      →  CookieTransport
-API clients (CLI, mobile, integrations) →  BearerTransport
+Web app (HTML, fetch with cookies)      ->  CookieTransport
+API clients (CLI, mobile, integrations) ->  BearerTransport
 ```
 
 `CompositeTransport` tries each transport in order. The first one that
@@ -37,8 +37,8 @@ const transport = new CompositeTransport({
 export const auth = new AuthRoot({ transport, /* ... */ })
 ```
 
-- `primary` — the transport used for issuing sessions (sign-in, refresh).
-- `fallback` — additional transports that are only consulted on
+- `primary` - the transport used for issuing sessions (sign-in, refresh).
+- `fallback` - additional transports that are only consulted on
   `extract()`. They never issue.
 
 Order matters: `primary` is tried first.
@@ -53,7 +53,7 @@ const intents = await auth.flows.signIn({ providerId: 'password', input })
 // transport.primary.issue() runs; fallbacks are not involved
 ```
 
-This keeps the wire shape consistent — a sign-in via the web app sets
+This keeps the wire shape consistent - a sign-in via the web app sets
 a cookie; a sign-in via the API returns a bearer token (configure the
 API path to use a different `auth` instance with `BearerTransport` as
 primary if you need both).
@@ -63,17 +63,17 @@ primary if you need both).
 `extract()` walks the chain:
 
 ```
-1. primary.extract(req)        → CookieTransport
-   if returns a value → use it
-2. fallback[0].extract(req)    → BearerTransport
-   if returns a value → use it
+1. primary.extract(req)        -> CookieTransport
+   if returns a value -> use it
+2. fallback[0].extract(req)    -> BearerTransport
+   if returns a value -> use it
 3. ...
-4. all returned null → request is unauthenticated
+4. all returned null -> request is unauthenticated
 ```
 
 The first transport to return a non-null result wins. Subsequent
 transports do not run, so order matters when both could legitimately
-match (e.g. a request with both a cookie and a bearer header — cookie
+match (e.g. a request with both a cookie and a bearer header - cookie
 wins, because cookies are the safer first-party path).
 
 ## Mixing JwtTransport and CookieTransport
@@ -95,12 +95,12 @@ const transport = new CompositeTransport({
 ```
 
 Now your `/api/*` routes accept JWTs from machine clients **and** cookies
-from the web app — same handler, same `auth.resolveSession()` call.
+from the web app - same handler, same `auth.resolveSession()` call.
 
 ## Caveat: CSRF only on cookie path
 
 `csrfGuard()` only runs CSRF checks if the resolved session came in via
-a cookie. Bearer/JWT routes are exempt (no cookies, no CSRF) — but the
+a cookie. Bearer/JWT routes are exempt (no cookies, no CSRF) - but the
 mixed router still needs to call `csrfGuard()` defensively. The guard
 reads the transport hint and silently passes through for non-cookie
 sessions.

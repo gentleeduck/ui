@@ -8,15 +8,15 @@ section: Guides
 
 When a decision surprises you, reach for these tools in order:
 
-1. **`engine.explain()`** — returns the full evaluation trace: which
+1. **`engine.explain()`** - returns the full evaluation trace: which
    policy matched, which rule, which condition passed or failed, and
    why. Dev mode only. The single most useful tool for debugging.
-2. **`validateRoles()` + `validatePolicy()`** — emit typed `Validate.IIssue`
+2. **`validateRoles()` + `validatePolicy()`** - emit typed `Validate.IIssue`
    objects with closed-set codes. Run at boot.
-3. **`engine.stats.get()`** — counters for cache hits, evaluations,
+3. **`engine.stats.get()`** - counters for cache hits, evaluations,
    errors, denies.
-4. **`engine.healthCheck()`** — pings the adapter, reports staleness.
-5. **`engine.preload()`** — eagerly resolve roles and policies (catches
+4. **`engine.healthCheck()`** - pings the adapter, reports staleness.
+5. **`engine.preload()`** - eagerly resolve roles and policies (catches
    adapter errors before the first user request).
 
 Always start with `explain()`. If a check returns the wrong decision,
@@ -34,7 +34,7 @@ fired.
 - The role isn't loaded. Check `await engine.preload()` runs before
   the call and the adapter actually returns the role.
 - The role name has a typo. `defineRole('editor')` then assign
-  `'edtior'` — the type check would normally catch this; if you're
+  `'edtior'` - the type check would normally catch this; if you're
   using `as` casts, you've defeated the safety net.
 - Inheritance is broken. `editor.inherits('viewer')` requires `viewer`
   to exist in the adapter. Missing inheritance silently no-ops.
@@ -50,7 +50,7 @@ fired.
 **Causes & fixes**:
 
 - The `$resource` path is wrong. Run `explain()` and check the
-  `conditionContext` snapshot — it shows the actual values that were
+  `conditionContext` snapshot - it shows the actual values that were
   compared.
 - The resource was passed as a string, not an object. `engine.can({ resource: 'post' })`
   binds `resource.type = 'post'` and `resource.attributes = {}`.
@@ -82,15 +82,15 @@ a TS error.
 **Cause**: A single policy exceeds `POLICY_LIMITS` (number of rules,
 actions per rule, resources per rule). The defaults are generous (50
 rules, 100 actions, 100 resources). If you've hit them, the policy is
-likely a "god policy" that mixes too many domains — split it.
+likely a "god policy" that mixes too many domains - split it.
 
 ### "MAX_INHERITANCE_DEPTH_EXCEEDED"
 
 **Symptoms**: `validateRoles()` returns this code.
 
 **Cause**: A role's `inherits` chain is longer than `MAX_INHERITANCE_DEPTH`
-(default 16). Often a sign of accidental cyclic inheritance — `admin`
-→ `editor` → `admin` — that gets unrolled past the limit.
+(default 16). Often a sign of accidental cyclic inheritance - `admin`
+-> `editor` -> `admin` - that gets unrolled past the limit.
 
 **Fix**: Run `validateRoles()` and look at the `cycle` field; remove
 the offending edge.
@@ -113,7 +113,7 @@ createEngine({
 })
 ```
 
-If `engine.stats.get().errors` is non-zero, look at the adapter logs —
+If `engine.stats.get().errors` is non-zero, look at the adapter logs -
 an intermittent network error can fall through to fail-open by
 default; opt in to `failOpen: false` for stricter behaviour.
 
@@ -133,7 +133,7 @@ createEngine({
 Every mutation publishes an invalidation event; every replica clears
 the affected cache entries.
 
-See [Redis invalidator →](/duck-iam/integrations/invalidators/redis).
+See [Redis invalidator ->](/duck-iam/integrations/invalidators/redis).
 
 ## Production gotchas
 
@@ -146,7 +146,7 @@ See [Redis invalidator →](/duck-iam/integrations/invalidators/redis).
 - **Wire `onError` and `onPolicyError`** so silent adapter failures
   don't lock everyone out without a trace.
 - **Test your policies**. The engine ships an `engine.test()` helper
-  (dev only) that asserts decisions against expected outcomes — pair
+  (dev only) that asserts decisions against expected outcomes - pair
   with vitest for regression tests.
 
 ## Getting help

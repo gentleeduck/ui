@@ -109,7 +109,7 @@ await client.beginProvider('magic-link', { email, channel: 'webpush' })
 The channel pushes a notification with a clickable URL; the user taps
 the notification and lands on your magic-link callback.
 
-This is **lower assurance** than email — anyone with access to the
+This is **lower assurance** than email - anyone with access to the
 device can accept the push. Pair with MFA for sensitive accounts.
 
 ## Subscription expiration
@@ -129,5 +129,5 @@ try {
 ```
 
 duck-auth's shipped `WebPushChannel` already removes 410-returning
-subscriptions automatically — the manual handling is only needed if
+subscriptions automatically - the manual handling is only needed if
 you subclass and override `send()`.

@@ -32,9 +32,9 @@ bunx @gentleduck/auth init src/lib --production
 
 Flags:
 
-- `--production` — emit a production-flavoured starter (Redis + JWT +
+- `--production` - emit a production-flavoured starter (Redis + JWT +
   Argon2id + Drizzle bridge stub).
-- `--js` — emit JavaScript instead of TypeScript.
+- `--js` - emit JavaScript instead of TypeScript.
 
 Output: `src/lib/auth.ts` + `src/lib/.env.example`.
 
@@ -51,11 +51,11 @@ bunx @gentleduck/auth doctor
 Output:
 
 ```
-✓ baseUrl set: https://api.example.com
-✓ transport: JwtTransport with 2 verify keys
-✓ limiter: RedisLimiter
-✗ events: InMemoryEvents — strict() requires cross-process delivery in production
-✗ no listener attached to 'lockout' event
+[v] baseUrl set: https://api.example.com
+[v] transport: JwtTransport with 2 verify keys
+[v] limiter: RedisLimiter
+[x] events: InMemoryEvents - strict() requires cross-process delivery in production
+[x] no listener attached to 'lockout' event
 
 2 failed gates. Run `duck-auth doctor --explain` for fix suggestions.
 ```
@@ -75,10 +75,10 @@ Output:
 
 ```
 kid: kid-2026-05-27-jw5e
-secret (base64url): aBcD0_eFgHi…
+secret (base64url): aBcD0_eFgHi...
 
 # .env line:
-JWT_HS256_SECRET=aBcD0_eFgHi…
+JWT_HS256_SECRET=aBcD0_eFgHi...
 JWT_HS256_KID=kid-2026-05-27-jw5e
 ```
 
@@ -99,16 +99,16 @@ Output:
 ```
 # Update your config:
 new JwtTransport({
-  signKey: { kid: 'kid-2026-06-…', key: process.env.JWT_HS256_NEW! },
+  signKey: { kid: 'kid-2026-06-...', key: process.env.JWT_HS256_NEW! },
   verifyKeys: [
-    { kid: 'kid-2026-06-…', key: process.env.JWT_HS256_NEW! },
-    { kid: 'kid-2026-05-…', key: process.env.JWT_HS256_PREV! },   // keep until oldest exp passes
+    { kid: 'kid-2026-06-...', key: process.env.JWT_HS256_NEW! },
+    { kid: 'kid-2026-05-...', key: process.env.JWT_HS256_PREV! },   // keep until oldest exp passes
   ],
 })
 
 # .env updates:
-JWT_HS256_NEW=aBcDeFg…
-JWT_HS256_PREV=hIjKlMn…
+JWT_HS256_NEW=aBcDeFg...
+JWT_HS256_PREV=hIjKlMn...
 ```
 
 Apply the snippet. After the longest expected `exp` has passed (the JWT
@@ -139,9 +139,9 @@ bunx @gentleduck/auth emit-openapi --out openapi.yaml
 
 Flags:
 
-- `--out <path>` — write to file instead of stdout.
-- `--format yaml|json` — choose serialisation (default yaml).
-- `--prefix <path>` — override the route prefix.
+- `--out <path>` - write to file instead of stdout.
+- `--format yaml|json` - choose serialisation (default yaml).
+- `--prefix <path>` - override the route prefix.
 
 The emitted spec covers `/signin`, `/signout`, `/session`, and one
 `/providers/:providerId/begin` operation per registered provider.
@@ -158,7 +158,7 @@ Prints a top-level usage message or the per-subcommand help.
 ## Working directory
 
 Every command that introspects `auth.ts` (`doctor`, `emit-openapi`)
-expects to run from the project root — the directory containing your
+expects to run from the project root - the directory containing your
 `package.json`. The CLI uses TypeScript's project references to resolve
 the right tsconfig and load the file with `--experimental-transform-types`.
 

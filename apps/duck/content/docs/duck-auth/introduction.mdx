@@ -7,9 +7,9 @@ section: Getting Started
 ## What is duck-auth?
 
 duck-auth is an authentication library built around a single faceted root,
-`AuthRoot`. Every concern — sessions, identities, passwords, providers,
+`AuthRoot`. Every concern - sessions, identities, passwords, providers,
 MFA, flows, API keys, machine-to-machine, organizations, idempotency,
-hijack policy, anomaly detection — is a typed facet you wire once at
+hijack policy, anomaly detection - is a typed facet you wire once at
 boot and pass into the runtime.
 
 It is **framework-agnostic** (Express, Hono, Next.js, Fastify, Koa, Elysia,
@@ -21,16 +21,16 @@ adapters for Memory/Redis/SQL).
 
 Pairs with [`@gentleduck/iam`](/duck-iam) for authorization. Authentication
 proves who the caller is; authorization decides what they may do. They
-are kept as two libraries on purpose — apps wire a small `projectToSubject`
+are kept as two libraries on purpose - apps wire a small `projectToSubject`
 function to bridge identity and session into the iam `Subject` shape.
 
 ## Why duck-auth?
 
 Every TypeScript auth library forces one of three trade-offs:
 
-- **Framework lock-in** — NextAuth, Auth.js: only one runtime, one shape.
-- **Hosted control plane** — Clerk, WorkOS, Stytch: per-MAU pricing, vendor lock.
-- **DIY on Lucia + passport + your own glue** — you own every edge case.
+- **Framework lock-in** - NextAuth, Auth.js: only one runtime, one shape.
+- **Hosted control plane** - Clerk, WorkOS, Stytch: per-MAU pricing, vendor lock.
+- **DIY on Lucia + passport + your own glue** - you own every edge case.
 
 duck-auth is the third option, unified: framework-agnostic core,
 batteries-included adapters, **no hosted plane**. You wire it into your
@@ -47,7 +47,7 @@ router with one adapter import.
 | Storage adapters | Memory (dev/test), Redis (session/idempotency/limiter/events/DPoP nonce), SQL bridge with bundled Drizzle examples for pg / mysql / sqlite. |
 | Channels | Console, SMTP, Resend, AWS SES, Twilio, WebPush, plus Test and Noop. |
 | Strict mode | `AuthRoot.strict({ env: 'production' })` rejects dev-only footguns at boot: insecure cookies, NoopLimiter, MemoryAdapter, missing lockout listeners, weak JWT keys, missing compliance presets. |
-| Compliance presets | `gdpr`, `hipaa`, `soc2`, `fips` — strictest preset wins. Each enforces hashing, dataAtRest, channel, and anomaly minimums. |
+| Compliance presets | `gdpr`, `hipaa`, `soc2`, `fips` - strictest preset wins. Each enforces hashing, dataAtRest, channel, and anomaly minimums. |
 | Anomaly detection | Impossible-travel and device-fingerprint detectors, plus an aggregator that emits `allow` / `deny` / `step-up`. |
 | Observability | OpenTelemetry instrumentation, `WebhookDeliverer` with HMAC-signed outbound delivery, OpenAPI 3.1 generator, OIDC discovery, JWKS rotation. |
 | CLI | `duck-auth init`, `doctor`, `keys generate`, `keys rotate`, `migrate`, `emit-openapi`. |
@@ -127,8 +127,8 @@ the architectural rationale lives in [`DESIGN.md`](https://github.com/gentleeduc
 
 ## Next steps
 
-- [Installation →](/duck-auth/installation) — install the package, scaffold via the CLI, and run the 60-second quickstart.
-- [Core concepts →](/duck-auth/core) — read about `AuthRoot`, facets, and the request lifecycle.
-- [Providers →](/duck-auth/providers) — wire password, magic-link, OAuth, passkey, API-key, or SAML.
-- [Adapters →](/duck-auth/adapters) — Memory, Redis, SQL (Drizzle examples for pg / mysql / sqlite).
-- [Security →](/duck-auth/advanced/security) — production hardening, `strict()`, compliance presets, threat model.
+- [Installation ->](/duck-auth/installation) - install the package, scaffold via the CLI, and run the 60-second quickstart.
+- [Core concepts ->](/duck-auth/core) - read about `AuthRoot`, facets, and the request lifecycle.
+- [Providers ->](/duck-auth/providers) - wire password, magic-link, OAuth, passkey, API-key, or SAML.
+- [Adapters ->](/duck-auth/adapters) - Memory, Redis, SQL (Drizzle examples for pg / mysql / sqlite).
+- [Security ->](/duck-auth/advanced/security) - production hardening, `strict()`, compliance presets, threat model.

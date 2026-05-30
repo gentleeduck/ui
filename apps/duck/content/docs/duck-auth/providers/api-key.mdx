@@ -36,7 +36,7 @@ const { token, key } = await auth.apiKeys.create({
 })
 
 // `token` is shown to the user ONCE. After this point, only the hash is stored.
-// → 'ak_live_01HJX7B2T9XKAZQP1G...'
+// -> 'ak_live_01HJX7B2T9XKAZQP1G...'
 
 console.log('Share this token securely:', token)
 console.log('Key id (safe to log):', key.id)
@@ -49,11 +49,11 @@ ak_live_<43-character base64url secret>
 ```
 
 The store records:
-- `id` — primary key, safe to log.
-- `prefix` — the visible prefix (`ak_live_`), for at-a-glance triage.
-- `hash` — SHA-256 of the secret part, hashed at rest.
-- `last4` — last 4 characters of the visible token, for UI.
-- `scopes` — granted scopes.
+- `id` - primary key, safe to log.
+- `prefix` - the visible prefix (`ak_live_`), for at-a-glance triage.
+- `hash` - SHA-256 of the secret part, hashed at rest.
+- `last4` - last 4 characters of the visible token, for UI.
+- `scopes` - granted scopes.
 - `identityId`, `tenantId`, `name`, `expiresAt`, `revokedAt`.
 
 ## Signing in with a key
@@ -64,7 +64,7 @@ await client.signIn({
   providerId: 'api-key',
   input: { token: 'ak_live_01HJX...' },
 })
-// → 200 { session, identity }   (session.kind: 'apikey')
+// -> 200 { session, identity }   (session.kind: 'apikey')
 
 // Or with curl:
 curl -X POST https://api.example.com/auth/signin \
@@ -80,17 +80,17 @@ The verify path:
 5. Mint a session with `kind: 'apikey'` so downstream code can branch.
 
 Sessions issued via API keys are typically **stateless bearer** (no
-rotation, no MFA, no step-up) — they represent a long-lived machine
+rotation, no MFA, no step-up) - they represent a long-lived machine
 identity, not a user.
 
 ## Listing keys
 
 ```typescript
 const keys = await auth.apiKeys.list({ identityId })
-// → [{ id, name, prefix, last4, scopes, expiresAt, revokedAt, lastUsedAt }, ...]
+// -> [{ id, name, prefix, last4, scopes, expiresAt, revokedAt, lastUsedAt }, ...]
 ```
 
-The list never contains plaintext — only the metadata. Show `last4` in
+The list never contains plaintext - only the metadata. Show `last4` in
 UIs so users can identify which key is which without seeing the secret.
 
 ## Revoking and rotating
@@ -117,7 +117,7 @@ app.post('/api/logs', async (req, res) => {
 
   if (ctx.session.kind === 'apikey') {
     await auth.apiKeys.requireScopes(ctx.session.apiKeyId, ['logs:write'])
-    // → throws AUTH/APIKEY_SCOPE_INSUFFICIENT if missing
+    // -> throws AUTH/APIKEY_SCOPE_INSUFFICIENT if missing
   }
 
   // Proceed.
@@ -125,7 +125,7 @@ app.post('/api/logs', async (req, res) => {
 ```
 
 For browser-issued sessions (`kind: 'user'`), `requireScopes` is a no-op
-— scopes only apply to API-key sessions.
+- scopes only apply to API-key sessions.
 
 ## Token prefix per environment
 
