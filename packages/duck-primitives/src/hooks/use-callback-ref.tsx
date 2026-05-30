@@ -4,7 +4,10 @@ import * as React from 'react'
 function useCallbackRef<T extends (...args: never[]) => unknown>(callback: T | undefined): T {
   const callbackRef = React.useRef(callback)
 
-  React.useEffect(() => {
+  // useInsertionEffect runs synchronously before child effects fire, so the latest
+  // callback is in place by the time any consumer's effect reads it. Using useEffect
+  // here means children's effects could read a stale callback in the same render.
+  React.useInsertionEffect(() => {
     callbackRef.current = callback
   })
 

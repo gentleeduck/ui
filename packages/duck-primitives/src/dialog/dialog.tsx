@@ -16,24 +16,28 @@ const Dialog: React.FC<IDialog.IProps> = (props: IDialog.IScoped<IDialog.IProps>
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<IDialog.DialogContentElement>(null)
   const direction = useDirection(dir)
+  const contentId = useId()
+  const titleId = useId()
+  const descriptionId = useId()
   const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,
     caller: DIALOG_NAME,
   })
+  const onOpenToggle = React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])
 
   return (
     <DialogProvider
       scope={__scopeDialog}
       triggerRef={triggerRef}
       contentRef={contentRef}
-      contentId={useId()}
-      titleId={useId()}
-      descriptionId={useId()}
+      contentId={contentId}
+      titleId={titleId}
+      descriptionId={descriptionId}
       open={open}
       onOpenChange={setOpen}
-      onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+      onOpenToggle={onOpenToggle}
       modal={modal}
       dir={direction}>
       {children}

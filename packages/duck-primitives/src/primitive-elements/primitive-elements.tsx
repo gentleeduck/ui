@@ -25,10 +25,9 @@ type Node = (typeof NODES)[number]
 
 type Primitives = { [E in Node]: IPrimitive.IComponent<E> }
 
-function markGentleduckInWindow(): void {
-  if (typeof window !== 'undefined') {
-    ;(window as unknown as Record<symbol, boolean>)[Symbol.for('gentleduck-ui')] = true
-  }
+// Tag window once at module init (devtools/feature-detection signal); not per-render.
+if (typeof window !== 'undefined') {
+  ;(window as unknown as Record<symbol, boolean>)[Symbol.for('gentleduck-ui')] = true
 }
 
 function createPrimitive<E extends Node>(node: E): IPrimitive.IComponent<E> {
@@ -37,9 +36,6 @@ function createPrimitive<E extends Node>(node: E): IPrimitive.IComponent<E> {
   const PrimitiveNode = React.forwardRef<React.ComponentRef<E>, IPrimitive.IPropsWithRef<E>>(
     ({ asChild, ...primitiveProps }, forwardedRef) => {
       const Comp = (asChild ? Slot : node) as React.ElementType
-
-      markGentleduckInWindow()
-
       return <Comp {...primitiveProps} ref={forwardedRef} />
     },
   )
