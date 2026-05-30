@@ -79,6 +79,29 @@ type _ = AssertTrue<Equal<ReturnType<typeof add>, number>, 'add returns number'>
 
 The two styles are complementary — `expectType` and `AssertTrue<Equal>` both compile to nothing.
 
+## Workflow 4: `expect-type`
+
+`expect-type` is a runner-free `expectTypeOf` API similar to `tsd`. It composes well with duck-ttest — use `expectTypeOf` for inline runtime-position checks and `AssertTrue<Equal<...>>` for the standalone shape-level suite.
+
+```ts title="src/__type_tests__/api.test.ts"
+import { expectTypeOf } from 'expect-type'
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import { fetchUser, type User } from '../api'
+
+// expect-type style: inline, value-position
+expectTypeOf(fetchUser).returns.resolves.toEqualTypeOf<User>()
+expectTypeOf<User['id']>().toEqualTypeOf<number>()
+
+// duck-ttest style: declarative, type-position
+type _ = [
+  AssertTrue<Equal<Awaited<ReturnType<typeof fetchUser>>, User>, 'fetchUser resolves to User'>,
+  AssertTrue<Equal<User['id'], number>, 'User.id is number'>,
+]
+```
+
+Pick `expectTypeOf` when the check sits next to a value you already have; pick `AssertTrue<Equal<...>>` when the check stands alone or belongs in a long grouped tuple.
+
 ## Which workflow to pick
 
 | Situation | Recommended |
@@ -86,6 +109,7 @@ The two styles are complementary — `expectType` and `AssertTrue<Equal>` both c
 | Library author | `tsc --noEmit` — same compile as your consumers. |
 | App with vitest | vitest + `@ts-expect-error` — co-locate with runtime tests. |
 | Publishing a `.d.ts` package | `tsd` for assertion line reports; duck-ttest for the utilities. |
+| Inline value-position checks | `expect-type` for the `expectTypeOf(value).toEqualTypeOf<T>()` form. |
 | Monorepo | `turbo run check-types` calling `tsc --noEmit` per package. |
 
 ## Negative tests

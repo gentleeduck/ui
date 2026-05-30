@@ -96,6 +96,30 @@ type _ = [
 ]
 ```
 
+## Distribution traps
+
+Naked conditional types distribute over unions. This is usually what you want, but inside an assertion it often isn't:
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type Wrap<T> = T extends unknown ? [T] : never
+
+type bad = AssertTrue<Equal<Wrap<'a' | 'b'>, ['a' | 'b']>, 'wraps the union'>
+//                                ^ FAILS — Wrap distributes, so the LHS is `['a'] | ['b']`
+```
+
+The fix is the standard `[T] extends [U]` wrap that disables distribution:
+
+```ts
+type WrapNoDist<T> = [T] extends [unknown] ? [T] : never
+
+type good = AssertTrue<Equal<WrapNoDist<'a' | 'b'>, ['a' | 'b']>, 'wraps once'>
+```
+
+A similar trap shows up around `never` — `never` distributes to `never`, so `T extends X ? Y : Z` with `T = never` is just `never`. Always wrap in `[T]` if the assertion's correctness depends on `never` being a single inhabited type.
+
 ## Keep test files leaf-only
 
 If a `.test-d.ts` re-exports types that production code imports, you've created a circular path. Treat test files as leaves of the import graph — they import production types, never the other way around.

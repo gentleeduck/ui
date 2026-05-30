@@ -75,6 +75,22 @@ type t = AssertTrue<NotEqual<1, 2>, '1 must not equal 2'>
 
 Inverse of `Equal`. Useful when negating reads cleaner than wrapping in `AssertFalse`.
 
+## Extends / NotExtends
+
+duck-ttest does not ship dedicated `Extends` / `NotExtends` aliases — write the assertion directly:
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+
+// "X extends Y" — assignability
+type _ext  = AssertTrue<'admin' extends 'admin' | 'user' ? true : false, 'admin is a role'>
+
+// "X does not extend Y"
+type _next = AssertFalse<string extends 'admin' ? true : false, 'string is not the literal admin'>
+```
+
+For union-position assertions, wrap with `[X] extends [Y]` to disable distribution — see [Composing tests / Distribution traps](/duck-ttest/core/composing-tests).
+
 ## ShallowEqual / Extends-style checks
 
 ```ts
@@ -104,6 +120,18 @@ type Trim<S extends string> = IfExtends<S, ` ${infer R}`, Trim<R>, S>
 | X is assignable to Y | `AssertTrue<ShallowEqual<X, Y>, Msg>` |
 | X is not assignable to Y | `AssertFalse<ShallowEqual<X, Y>, Msg>` |
 | Custom predicate `P<X>` is true | `AssertTrue<P<X>, Msg>` |
+
+## Common failure recipes
+
+A short catalog of what each error message usually means.
+
+| Compiler error | What broke | Fix |
+| --- | --- | --- |
+| `TS2344: Type 'false' does not satisfy 'true'` | `AssertTrue<Predicate, ...>` failed — the inner predicate is `false`. | Print the predicate's value (hover, or extract to a named type) and inspect both sides. |
+| `TS2344: Type 'true' does not satisfy 'false'` | `AssertFalse<Predicate, ...>` failed. | Same shape, opposite polarity. |
+| `Type 'boolean' does not satisfy 'true'` | Predicate returned `true \| false`. Usually distribution over `any`, `boolean`, or a wide union. | Wrap in `[T] extends [U]` or guard with [`IsAny`](/duck-ttest/api/any) first. |
+| `Type instantiation is excessively deep` | Recursive helper hit the type-checker's depth cap. | Cap recursion depth (`Paths<T, 4>`), or split the test into smaller files. |
+| Hover shows `true` but the test fails | Stale build artifact. | Restart the TS server / `rm -rf node_modules/.cache`. |
 
 ## Grouping assertions
 
