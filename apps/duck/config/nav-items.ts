@@ -14,8 +14,8 @@ import {
   Palette,
   ScrollText,
   Sparkles,
-  TestTube2,
   Terminal,
+  TestTube2,
   Upload,
 } from 'lucide-react'
 
