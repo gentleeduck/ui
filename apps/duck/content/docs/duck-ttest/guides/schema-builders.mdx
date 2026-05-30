@@ -110,6 +110,39 @@ type Resolved = ResolveFields<{ user_id: UserRefCol }, Schemas>
 
 This is how a multi-table builder propagates foreign-key types end-to-end.
 
+## Anti-patterns
+
+### Asserting the full inferred row in one shot
+
+```ts
+// Brittle — every key change rewrites the assertion.
+type _ = AssertTrue<
+  Equal<UserRow, { id?: number; email: string; name: string | null }>,
+  'full row'
+>
+```
+
+The whole-row equality fails noisily when a single column changes. Split into per-key assertions so the failure points at the column that drifted:
+
+```ts
+// Each assertion is independent.
+type _ = [
+  AssertTrue<Equal<UserRow['id'],    number | undefined>, 'id'>,
+  AssertTrue<Equal<UserRow['email'], string>,             'email'>,
+  AssertTrue<Equal<UserRow['name'],  string | null>,      'name'>,
+]
+```
+
+### Hand-rolling the row type alongside the DDL
+
+```ts
+// Don't.
+type UserRow = { id?: number; email: string; name: string | null }
+const usersDDL = 'CREATE TABLE users (id INT PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL, name TEXT)'
+```
+
+The two definitions can drift silently. Either derive the type from the DDL via `InferSchema`, or derive the DDL from the type via a builder DSL. Never both.
+
 ## What to test
 
 For any schema builder, keep these assertions:

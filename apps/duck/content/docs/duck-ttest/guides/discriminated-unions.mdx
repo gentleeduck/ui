@@ -105,6 +105,24 @@ type Bad =
 
 `IsDiscriminated` will return `false` — TypeScript can't narrow on a wide string.
 
+### Discriminating on a brand
+
+```ts
+import type { Brand } from '@gentleduck/ttest/brand'
+
+type Pending = Brand<{ ok: true }, 'Pending'>
+type Done    = Brand<{ ok: true }, 'Done'>
+type State   = Pending | Done
+```
+
+Branded shapes share the same runtime properties — `IsDiscriminated` returns `false` because both variants resolve to `ok: true`. Brands are a *compile-time* discriminator, not a runtime one. Use a literal `kind` field instead:
+
+```ts
+type State =
+  | { kind: 'pending' }
+  | { kind: 'done' }
+```
+
 ## See also
 
 - [API / discriminated](/duck-ttest/api/discriminated)

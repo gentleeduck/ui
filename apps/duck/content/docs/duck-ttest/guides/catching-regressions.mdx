@@ -137,6 +137,47 @@ type _ = AssertTrue<
 
 If a refactor drops `as const`, `Action` becomes `string` and the assertion fires.
 
+## Anti-patterns
+
+### Assertions that pass for the wrong reason
+
+```ts
+// Both sides resolve to `any` — the assertion is vacuous.
+type _ = AssertTrue<Equal<typeof someApi, any>, 'api shape'>
+```
+
+Pair every potentially-`any` assertion with an `IsAny` guard. Otherwise a future refactor that loosens the contract to `any` keeps the assertion green.
+
+```ts
+type _ = [
+  AssertFalse<IsAny<typeof someApi>, 'api shape must not be any'>,
+  AssertTrue <Equal<typeof someApi, ApiShape>, 'api shape matches contract'>,
+]
+```
+
+### Putting type tests in the same file as the runtime exports
+
+```ts
+// src/user.ts
+export type User = { /* ... */ }
+export function createUser(name: string): User { /* ... */ }
+
+// Anti-pattern: same file, mixed concern.
+type _ = AssertTrue<Equal<ReturnType<typeof createUser>, User>, 'returns User'>
+```
+
+The assertion compiles into the published artifact. Move it to `user.test-d.ts` or `user.test.ts` — files that production code never imports.
+
+### Asserting against runtime values
+
+```ts
+const ROLES = ['admin', 'editor']  // no `as const`
+type _ = AssertTrue<Equal<typeof ROLES[number], 'admin' | 'editor'>, 'roles'>
+// FAILS — `ROLES` widens to `string[]`, so the inferred member is `string`.
+```
+
+The fix is at the runtime declaration: `['admin', 'editor'] as const`. The assertion then catches future drift, not the present-day declaration sloppiness.
+
 ## See also
 
 - [Core / Type-level testing](/duck-ttest/core/type-level-testing) — the three runner workflows.
