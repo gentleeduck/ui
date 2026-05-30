@@ -57,4 +57,4 @@ export interface IDocsContextValue {
   siteConfig: IDocsSiteConfig
 }
 
-export type RegistryIndex = Record<string, { component?: React.ComponentType } & Record<string, unknown>>
+export type RegistryIndex = Record<string, { component?: React.ComponentType }>

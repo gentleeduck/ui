@@ -6,8 +6,15 @@ import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
 
+const COPY_RESET_MS = 3000
+
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
-  navigator.clipboard.writeText(value)
+  try {
+    await navigator.clipboard.writeText(value)
+  } catch {
+    // Clipboard may be unavailable (insecure context, permission denied);
+    // silently drop — the trackEvent below should still fire on best effort.
+  }
   if (event) {
     trackEvent(event)
   }
@@ -20,11 +27,12 @@ export type ICopyButtonProps = ButtonProps & {
 
 export function CopyButton({ value, className, variant = 'ghost', event, ...props }: ICopyButtonProps) {
   const [hasCopied, setHasCopied] = React.useState(false)
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setHasCopied(false)
-    }, 3000)
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
   }, [])
 
   return (
@@ -45,6 +53,8 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
             : undefined,
         )
         setHasCopied(true)
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        timeoutRef.current = setTimeout(() => setHasCopied(false), COPY_RESET_MS)
       }}
       size="icon"
       variant={variant}

@@ -2,6 +2,7 @@
 
 import type { ITocEntry } from '@duck-docs/context'
 import { useMounted } from '@duck-docs/hooks/use-mount'
+import { scrollIntoViewWithin } from '@duck-docs/lib/scroll-into-view-within'
 import { cn } from '@gentleduck/libs/cn'
 import { BookOpenText } from 'lucide-react'
 import * as React from 'react'
@@ -15,6 +16,11 @@ interface IFlatTocItem {
   title: string
   depth: number
 }
+
+const HEADING_OFFSET_PX = 80
+const ACTIVE_HEADING_THRESHOLD_PX = 100
+const AT_BOTTOM_THRESHOLD_PX = 50
+const SCROLL_LOCK_FALLBACK_MS = 2000
 
 function flattenToc(toc: ITocEntry[], depth = 1): IFlatTocItem[] {
   const result: IFlatTocItem[] = []
@@ -37,8 +43,8 @@ function itemPadding(depth: number): number {
 
 function findActiveHeading(ids: string[]): string | null {
   // At the bottom of the page, the last "scrolled past" heading may never reach
-  // the 100px threshold, so fall back to any heading still in the viewport.
-  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50
+  // the active threshold, so fall back to any heading still in the viewport.
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - AT_BOTTOM_THRESHOLD_PX
   if (atBottom) {
     for (let i = ids.length - 1; i >= 0; i--) {
       const id = ids[i]
@@ -53,11 +59,28 @@ function findActiveHeading(ids: string[]): string | null {
   let best: string | null = null
   for (const id of ids) {
     const el = document.getElementById(id)
-    if (el && el.getBoundingClientRect().top <= 100) {
+    if (el && el.getBoundingClientRect().top <= ACTIVE_HEADING_THRESHOLD_PX) {
       best = id
     }
   }
   return best
+}
+
+/**
+ * Lock `id` against scroll-listener overrides while a smooth scroll is in
+ * flight. Releases on `scrollend` or after `SCROLL_LOCK_FALLBACK_MS`
+ * (whichever fires first; `scrollend` doesn't fire when already at target).
+ */
+function lockHeading(id: string, lockedIdRef: React.MutableRefObject<string | null>) {
+  lockedIdRef.current = id
+  function unlock() {
+    if (lockedIdRef.current === id) lockedIdRef.current = null
+    window.removeEventListener('scrollend', unlock)
+  }
+  window.addEventListener('scrollend', unlock, { once: true })
+  setTimeout(() => {
+    if (lockedIdRef.current === id) lockedIdRef.current = null
+  }, SCROLL_LOCK_FALLBACK_MS)
 }
 
 function useActiveItem(itemIds: (string | undefined)[]) {
@@ -67,30 +90,23 @@ function useActiveItem(itemIds: (string | undefined)[]) {
 
   const setFromClick = React.useCallback((id: string) => {
     setActiveId(id)
-    // Lock so the in-flight smooth scroll doesn't get overridden by the scroll
-    // listener picking a different heading as it passes.
-    lockedIdRef.current = id
-
-    function unlock() {
-      if (lockedIdRef.current === id) lockedIdRef.current = null
-      window.removeEventListener('scrollend', unlock)
-    }
-
-    window.addEventListener('scrollend', unlock, { once: true })
-    // Fallback: scrollend doesn't fire when already at the target position.
-    setTimeout(() => {
-      if (lockedIdRef.current === id) lockedIdRef.current = null
-    }, 2000)
+    lockHeading(id, lockedIdRef)
   }, [])
 
   React.useEffect(() => {
     const validIds = itemIds.filter(Boolean) as string[]
     if (!validIds.length) return
 
+    let pending = false
     function onScroll() {
-      if (lockedIdRef.current) return
-      const active = findActiveHeading(validIds)
-      if (active) setActiveId(active)
+      if (pending) return
+      pending = true
+      requestAnimationFrame(() => {
+        pending = false
+        if (lockedIdRef.current) return
+        const active = findActiveHeading(validIds)
+        if (active) setActiveId(active)
+      })
     }
 
     // First mount: if URL carries a hash, scroll it ourselves with offset
@@ -109,17 +125,9 @@ function useActiveItem(itemIds: (string | undefined)[]) {
             lockedIdRef.current = null
             return
           }
-          const top = heading.getBoundingClientRect().top + window.scrollY - 80
+          const top = heading.getBoundingClientRect().top + window.scrollY - HEADING_OFFSET_PX
           window.scrollTo({ top, behavior: 'smooth' })
-
-          function unlock() {
-            if (lockedIdRef.current === hash) lockedIdRef.current = null
-            window.removeEventListener('scrollend', unlock)
-          }
-          window.addEventListener('scrollend', unlock, { once: true })
-          setTimeout(() => {
-            if (lockedIdRef.current === hash) lockedIdRef.current = null
-          }, 2000)
+          lockHeading(hash, lockedIdRef)
         })
       } else {
         onScroll()
@@ -158,9 +166,8 @@ function useTocThumb(containerRef: React.RefObject<HTMLDivElement | null>, activ
   return pos
 }
 
-// Builds a single SVG path that joins every TOC link so depth-change corners
-// render with one continuous stroke instead of separate borders that don't
-// anti-alias cleanly at fractional pixel offsets.
+// Single SVG path joining every TOC link so depth-change corners draw with
+// one continuous stroke (avoids anti-alias seams at fractional offsets).
 function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: IFlatTocItem[]) {
   const [svg, setSvg] = React.useState<{ path: string; width: number; height: number } | null>(null)
 
@@ -211,7 +218,7 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
     compute()
     observer.observe(container)
     return () => observer.disconnect()
-  }, [items, containerRef.current])
+  }, [items, containerRef])
 
   return svg
 }
@@ -268,19 +275,10 @@ function TocTree({
     const container = containerRef.current
     if (!activeItem || !container) return
 
-    const scrollParent = container.closest<HTMLElement>('[class*="overflow-y"]') ?? container.parentElement
-    if (!scrollParent) return
-
     const el = container.querySelector<HTMLElement>(`a[href="#${activeItem}"]`)
     if (!el) return
 
-    const scrollRect = scrollParent.getBoundingClientRect()
-    const elRect = el.getBoundingClientRect()
-
-    if (elRect.top < scrollRect.top || elRect.bottom > scrollRect.bottom) {
-      const targetScroll = el.offsetTop - scrollParent.offsetTop - scrollParent.clientHeight / 2 + el.clientHeight / 2
-      scrollParent.scrollTo({ top: targetScroll, behavior: 'smooth' })
-    }
+    scrollIntoViewWithin(el, container.closest<HTMLElement>('[class*="overflow-y"]') ?? container.parentElement)
   }, [activeItem])
 
   const handleClick = React.useCallback(
@@ -298,7 +296,7 @@ function TocTree({
       // pushState rather than setting location.hash, which would re-trigger scroll.
       window.history.pushState(null, '', `#${id}`)
 
-      const top = heading.getBoundingClientRect().top + window.scrollY - 80
+      const top = heading.getBoundingClientRect().top + window.scrollY - HEADING_OFFSET_PX
       window.scrollTo({ top, behavior: 'smooth' })
     },
     [onItemClick],
@@ -344,8 +342,6 @@ function TocTree({
         )
       })}
 
-      {/* Active highlight is mask-clipped by the SVG path so it perfectly
-          overlays the track line including at depth-change corners. */}
       {svg ? (
         <div
           aria-hidden="true"

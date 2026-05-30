@@ -4,10 +4,7 @@ import { CopyButton } from '@duck-docs/components/copy-button'
 import { Icons } from '@duck-docs/components/icons'
 import { useRegistryIndex } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
-import { Crown } from 'lucide-react'
-import Image from 'next/image'
 import * as React from 'react'
 
 interface IComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -65,9 +62,8 @@ export function ComponentPreview({
   const Code = Codes[0]
   const registryIndex = useRegistryIndex()
 
-  // `<ComponentPreview name="…">` ships pre-resolved children from
-  // dmc's `preMdxPlugins` pass — a fenced code block per file that
-  // PrettyCode highlights natively. No runtime fetch.
+  // `<ComponentPreview name="…">` receives pre-resolved children from the
+  // build pipeline — one fenced code block per file, highlighted upstream.
 
   const Preview = React.useMemo(() => {
     if (!registryIndex) {
@@ -153,28 +149,8 @@ export function ComponentPreview({
             </output>
           )}
         </TabsContent>
-        <BuildTab />
       </Tabs>
     </div>
-  )
-}
-
-export const BuildTab = () => {
-  return (
-    <TabsContent className="relative overflow-hidden" value="build">
-      <div className="relative h-[500px] overflow-hidden rounded-lg">
-        <Image alt="build" className="object-cover" fill sizes="100vw" src="/builder.png" />
-      </div>
-
-      <div className="absolute inset-0 top-0 left-0 flex h-[500px] flex-col items-center justify-center gap-4 rounded-md bg-zinc-700/10 px-4 py-2 backdrop-blur-sm dark:bg-zinc-700/50">
-        <div className="flex items-center gap-4">
-          <Button className="rounded-sm font-bold" size={'sm'}>
-            <Crown aria-hidden="true" />
-            <span>Coming soon</span>
-          </Button>
-        </div>
-      </div>
-    </TabsContent>
   )
 }
 
@@ -187,8 +163,4 @@ export const TABS = [
     name: 'Code',
     value: 'code',
   },
-  // {
-  //   name: 'Benchmark',
-  //   value: 'benchmark',
-  // },
 ]
