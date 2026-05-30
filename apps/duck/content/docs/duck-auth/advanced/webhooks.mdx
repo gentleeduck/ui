@@ -1,0 +1,168 @@
+---
+title: Webhooks
+description: WebhookDeliverer broadcasts AuthRoot events to HTTP endpoints with HMAC-signed bodies, exponential backoff, SSRF guards, and dead-letter sinks.
+section: Advanced
+---
+
+`WebhookDeliverer` fans out duck-auth events to one or more HTTPS
+endpoints. Every payload is HMAC-signed so receivers can verify
+authenticity, oversized bodies are dropped at 1 MiB, and the SSRF
+guard rejects loopback / private / link-local / cloud-metadata target
+hosts at construction.
+
+```typescript
+import { WebhookDeliverer } from '@gentleduck/auth/core'
+```
+
+## Setup
+
+```typescript
+const webhooks = new WebhookDeliverer({
+  endpoints: [
+    {
+      url: 'https://hooks.example.com/duck-auth',
+      secret: process.env.WEBHOOK_SECRET!,
+      events: ['signin.success', 'signout', 'recovery.password.completed'],
+    },
+  ],
+  maxAttempts: 5,        // default
+  backoffMs: 500,        // base; doubles each retry (0.5s, 1s, 2s, 4s, 8s)
+  timeoutMs: 5_000,
+  deadLetter: dlqSink,
+})
+
+auth.events.subscribe('*', (event, payload) => {
+  void webhooks.deliverOne(event, payload)
+})
+```
+
+## Endpoint contract
+
+Each `IEndpoint` row carries the URL, secret, and an event-filter
+list. Pass `events: '*'` to subscribe an endpoint to every event the
+bus emits. Default `signatureHeader` is `X-Duck-Signature`; override
+per endpoint when integrating with a downstream tool that expects a
+specific name.
+
+```typescript
+{
+  url: 'https://hooks.example.com/duck-auth',
+  secret: 'shh',
+  events: ['signin.success', 'signout'],
+  signatureHeader: 'X-Hub-Signature-256',
+  id: 'analytics-pipe',         // for UI / audit
+}
+```
+
+Endpoints are validated at construction:
+- URLs must be `https://` unless `allowInsecure: true` (dev only).
+- SSRF guard rejects loopback / RFC 1918 / link-local /
+  169.254.169.254 / NAT64 / IPv6 mapped-IPv4 of the above.
+- Secret must be a non-empty string.
+
+## Payload shape
+
+```json
+{
+  "event": "signin.success",
+  "timestamp": 1716387200000,
+  "payload": { /* event-specific */ }
+}
+```
+
+The whole envelope is JSON. Body length is capped at **1 MiB**;
+oversized payloads are dropped (one `console.error` per drop, no
+retry) so a runaway event source cannot multiply outbound load
+across every endpoint.
+
+## Signature
+
+The signature header carries `sha256=<hex>` where `<hex>` is
+
+```
+HMAC-SHA256(secret, `${timestamp}.${body}`)
+```
+
+`timestamp` is the same millis embedded in the payload. Sign with
+`signWebhookBody` on either side, verify with
+`verifyWebhookSignature` - both exported from the same module:
+
+```typescript
+import { signWebhookBody, verifyWebhookSignature } from '@gentleduck/auth/core'
+
+// Sender side (typically you do not call this - WebhookDeliverer does)
+const sig = signWebhookBody(secret, body, timestamp)
+
+// Receiver side
+if (!verifyWebhookSignature(secret, body, signatureHeader, { timestamp, toleranceMs: 5 * 60_000 })) {
+  res.status(401).end()
+  return
+}
+```
+
+`toleranceMs` defaults to 5 minutes; verifier returns false for
+timestamps outside the window so a replayed request from yesterday
+cannot fire your handler.
+
+## Retry policy
+
+Failed deliveries retry with exponential backoff up to `maxAttempts`.
+
+| Attempt | Default delay |
+|---|---|
+| 1 | 0 ms |
+| 2 | 500 ms |
+| 3 | 1_000 ms |
+| 4 | 2_000 ms |
+| 5 | 4_000 ms |
+| 6 | dead letter |
+
+5xx and network errors retry. 4xx is permanent - the deliverer dead-
+letters immediately on 4xx so a busted endpoint configuration doesn't
+burn the retry budget.
+
+## Dead letter sink
+
+`IDeadLetterSink.put({ event, payload, attempts, lastError, endpoint })`
+is called for every permanently failed delivery. Wire to your queue
+of choice (SQS, Redis Stream, plain file) so an operator can replay
+later.
+
+```typescript
+const sink: WebhookDeliverer.IDeadLetterSink = {
+  async put(entry) {
+    await redis.xadd('auth-webhook-dlq', '*', 'data', JSON.stringify(entry))
+  },
+}
+```
+
+Entries carry the original event + payload + the URL + the last
+error message, so a downstream tool has everything needed to retry
+or alert.
+
+## Per-event filtering
+
+Receivers usually only care about a subset of events. Use the
+endpoint's `events` array to filter before dispatch:
+
+```typescript
+{
+  url: 'https://hooks.example.com/duck-auth/security',
+  secret: '...',
+  events: [
+    'signin.failed',
+    'recovery.password.completed',
+    'mfa.enrolled',
+    'mfa.removed',
+    'session.revoked',
+  ],
+}
+```
+
+Set this to a closed list (no `'*'`) when the receiver only handles
+specific event names.
+
+## See also
+
+- [Events](/duck-auth/core/events) - the full event list and payload shapes.
+- [OpenTelemetry](/duck-auth/advanced/telemetry) - traces + spans for the same paths.

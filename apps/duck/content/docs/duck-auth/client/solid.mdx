@@ -1,0 +1,118 @@
+---
+title: Solid client
+description: SolidJS provider + hooks - useSession, useSignIn, useSignOut. Built on createSignal so updates are fine-grained.
+section: Client
+---
+
+## Setup
+
+```typescript title="src/index.tsx"
+import { render } from 'solid-js/web'
+import { AuthProvider } from '@gentleduck/auth/client/solid'
+import App from './App'
+
+render(
+  () => (
+    <AuthProvider baseUrl="/auth">
+      <App />
+    </AuthProvider>
+  ),
+  document.getElementById('root')!,
+)
+```
+
+`AuthProvider` accepts the same options as `createAuthClient` plus an optional
+`client` prop if you want to share an existing vanilla client.
+
+## `useSession`
+
+```tsx
+import { useSession } from '@gentleduck/auth/client/solid'
+
+function App() {
+  const { data, status } = useSession()
+
+  return (
+    <>
+      {status() === 'loading' && <div>Loading...</div>}
+      {status() === 'guest' && <SignInForm />}
+      {status() === 'authed' && (
+        <div>Hi, {data().identity?.profile?.displayName}</div>
+      )}
+    </>
+  )
+}
+```
+
+`data` and `status` are signals (call them to read). Updates are reactive and
+fine-grained so only the components that read them re-render.
+
+## `useSignIn` / `useSignOut`
+
+```tsx
+import { useSignIn } from '@gentleduck/auth/client/solid'
+import { createSignal } from 'solid-js'
+
+function SignInForm() {
+  const signIn = useSignIn()
+  const [email, setEmail] = createSignal('')
+  const [password, setPassword] = createSignal('')
+
+  return (
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        await signIn.mutate({
+          providerId: 'password',
+          input: { email: email(), password: password() },
+        })
+      }}
+    >
+      <input type="email" value={email()} onInput={(e) => setEmail(e.currentTarget.value)} required />
+      <input type="password" value={password()} onInput={(e) => setPassword(e.currentTarget.value)} required />
+      <button disabled={signIn.loading()}>
+        {signIn.loading() ? 'Signing in...' : 'Sign in'}
+      </button>
+      {signIn.error() && <p class="text-red-500">{(signIn.error() as { code: string }).code}</p>}
+    </form>
+  )
+}
+```
+
+The `mutate` / `loading` / `error` shape mirrors React's `useMutation`. `loading`
+and `error` are signals - read them as `loading()` and `error()`.
+
+## SSR
+
+`AuthProvider` accepts `noInitialFetch` so the server render does not call
+`/session`. Pass server-resolved state via `initialState`:
+
+```tsx
+<AuthProvider
+  baseUrl="/auth"
+  noInitialFetch
+  initialState={serverSession}
+>
+  <App />
+</AuthProvider>
+```
+
+## Errors
+
+The error signal carries the raw thrown value. Match on `.code` for typed
+discrimination:
+
+```tsx
+{signIn.error() && (() => {
+  const e = signIn.error() as { code: string }
+  if (e.code === 'AUTH/INVALID_CREDENTIALS') return <p>Wrong email or password</p>
+  if (e.code === 'AUTH/MFA_REQUIRED') return <MfaPrompt />
+  return <p>Something went wrong: {e.code}</p>
+})()}
+```
+
+## Reactivity across tabs
+
+The Solid client subscribes to `BroadcastChannel` updates from the vanilla
+client. Signing in or out in one tab updates the `useSession` signal in every
+other tab automatically.
