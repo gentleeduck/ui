@@ -63,8 +63,8 @@ import { DuckLazyImage } from '@gentleduck/lazy/lazy-image'
 | --- | --- | --- |
 | `DuckLazyComponent` | `@gentleduck/lazy/lazy-component` | Lazy-render any children on viewport entry |
 | `DuckLazyImage` | `@gentleduck/lazy/lazy-image` | Lazy-load images with placeholder and a11y |
-| `useLazyLoad` | `@gentleduck/lazy/lazy-component` | Hook returning `{ isVisible, ComponentRef }` |
-| `useLazyImage` | `@gentleduck/lazy/lazy-image` | Hook returning `{ isLoaded, imageRef }` |
+| `useLazyLoad` | `@gentleduck/lazy/lazy-component` | Hook returning `{ isVisible, ref }` |
+| `useLazyImage` | `@gentleduck/lazy/lazy-image` | Hook returning `{ isLoaded, ref }` |
 
 Set `nextImage` prop on `DuckLazyImage` to use `next/image` optimization in Next.js apps.
 

@@ -1,16 +1,12 @@
 import type * as React from 'react'
 
-export namespace ILazyImage {
-  export interface IUseLazyImageReturn {
-    isLoaded: boolean
-    imageRef: React.RefObject<HTMLImageElement | null>
-  }
+export interface UseLazyImageReturn {
+  isLoaded: boolean
+  ref: React.RefObject<HTMLImageElement | null>
+}
 
-  export interface IProps extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
-    options?: IntersectionObserverInit
-    placeholder?: string | undefined
-    nextImage?: boolean
-    width: number | `${number}`
-    height: number | `${number}`
-  }
+export interface LazyImageProps extends React.ComponentPropsWithoutRef<'img'> {
+  src: string
+  options?: IntersectionObserverInit
+  placeholder?: string
 }

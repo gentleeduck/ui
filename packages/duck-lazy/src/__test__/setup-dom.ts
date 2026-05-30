@@ -8,6 +8,11 @@ function setGlobal(name: PropertyKey, value: unknown) {
   })
 }
 
+// React 18+ requires this flag to enable `act()` warnings/support in tests.
+// Without it React emits "The current testing environment is not configured to support act(...)"
+// on every flush even though the tests still pass.
+setGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+
 if (typeof document === 'undefined') {
   const dom = new JSDOM('<!doctype html><html><body></body></html>')
   const { window } = dom
