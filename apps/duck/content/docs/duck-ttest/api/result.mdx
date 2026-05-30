@@ -1,0 +1,80 @@
+---
+title: result
+description: Compile-time Result and Option mirroring Rust's monads.
+section: API
+order: 31
+---
+
+```ts
+import type {
+  Ok, Err, Result,
+  Some, None, Option,
+  IsOk, IsErr, IsSome, IsNone,
+  UnwrapOk, UnwrapErr, UnwrapSome,
+  MapResult, MapOption,
+  OkOrElse, SomeOrElse,
+} from '@gentleduck/ttest/result'
+```
+
+Type-level discriminated unions modeling `Result<T, E>` and `Option<T>` from Rust.
+
+## Ok / Err / Result
+
+```ts
+interface Ok<T>  { readonly ok: true;  readonly value: T }
+interface Err<E> { readonly ok: false; readonly error: E }
+type Result<T, E> = Ok<T> | Err<E>
+```
+
+## Some / None / Option
+
+```ts
+interface Some<T> { readonly some: true;  readonly value: T }
+interface None    { readonly some: false }
+type Option<T> = Some<T> | None
+```
+
+## Branch guards
+
+```ts
+type IsOk  <R>  // R is Ok
+type IsErr <R>  // R is Err
+type IsSome<O>  // O is Some
+type IsNone<O>  // O is None
+```
+
+## Unwraps
+
+```ts
+type UnwrapOk  <R>  // T from Ok<T>; never otherwise
+type UnwrapErr <R>  // E from Err<E>
+type UnwrapSome<O>  // T from Some<T>
+```
+
+```ts
+type R = Result<number, string>
+type V = UnwrapOk<R>   // number
+type E = UnwrapErr<R>  // string
+```
+
+## MapResult / MapOption
+
+```ts
+type MapResult<R, F>  // F is an Fn — see ~/fp
+type MapOption<O, F>
+```
+
+Map the success value through a higher-kinded type-function.
+
+## OkOrElse / SomeOrElse
+
+```ts
+type OkOrElse  <R, Default>
+type SomeOrElse<O, Default>
+```
+
+Recover from `Err` / `None` with a default.
+
+```ts
+type V = OkOrElse<Err<'fail'>, 0>  // 0
+```

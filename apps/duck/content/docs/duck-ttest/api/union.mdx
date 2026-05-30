@@ -1,0 +1,63 @@
+---
+title: union
+description: UnionToIntersection, XOR, and union key arithmetic.
+section: API
+order: 36
+---
+
+```ts
+import type {
+  UnionToIntersection,
+  ExcludeKeys, OverlappingKeys, Only, XOR,
+} from '@gentleduck/ttest/union'
+```
+
+## UnionToIntersection
+
+```ts
+type UnionToIntersection<U> =
+  (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+```
+
+Union to intersection: `A | B` → `A & B`.
+
+```ts
+type a = UnionToIntersection<{ a: 1 } | { b: 2 }>  // { a: 1 } & { b: 2 }
+```
+
+## ExcludeKeys
+
+```ts
+type ExcludeKeys<O, K extends keyof any> = Omit<O, Extract<keyof O, K>>
+```
+
+Remove keys `K` from object type `O`.
+
+## OverlappingKeys
+
+```ts
+type OverlappingKeys<A, B> = Extract<keyof A, keyof B>
+```
+
+Keys present in both `A` and `B`.
+
+## Only
+
+```ts
+type Only<A, B> = { [K in Exclude<keyof A, keyof B>]: A[K] }
+```
+
+Properties of `A` whose keys are not in `B`.
+
+## XOR
+
+```ts
+type XOR<A, B> = Only<A, B> | Only<B, A>
+```
+
+Symmetric difference: keys exclusive to `A` or `B`, not both.
+
+```ts
+type a = XOR<{ a: number; common: string }, { b: boolean; common: string }>
+// → { a: number } | { b: boolean }
+```

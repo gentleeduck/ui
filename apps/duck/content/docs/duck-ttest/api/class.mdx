@@ -1,0 +1,62 @@
+---
+title: class
+description: Constructor and instance type helpers.
+section: API
+order: 7
+---
+
+```ts
+import type {
+  Class, AbstractClass,
+  InstanceTypeSafe, ConstructorParametersSafe, IsClass,
+} from '@gentleduck/ttest/class'
+```
+
+## Class
+
+```ts
+type Class<T = unknown, Args extends unknown[] = any[]> = new (...args: Args) => T
+```
+
+Concrete class constructor producing instances of `T`.
+
+```ts
+function inject<T>(Ctor: Class<T, [string]>, name: string): T { return new Ctor(name) }
+```
+
+## AbstractClass
+
+```ts
+type AbstractClass<T = unknown, Args extends unknown[] = any[]> = abstract new (...args: Args) => T
+```
+
+Abstract class constructor producing instances of `T`.
+
+## InstanceTypeSafe
+
+```ts
+type InstanceTypeSafe<C> = C extends new (...args: any[]) => infer T ? T : never
+```
+
+Instance type of constructor `C`, or `never` for non-constructors. Safer than the built-in `InstanceType<T>`, which errors on non-class types.
+
+## ConstructorParametersSafe
+
+```ts
+type ConstructorParametersSafe<C> = C extends new (...args: infer P) => any ? P : never
+```
+
+Constructor parameter tuple, or `never`.
+
+## IsClass
+
+```ts
+type IsClass<T> = T extends new (...args: any[]) => any ? true : false
+```
+
+`true` iff `T` is a constructor signature.
+
+```ts
+type a = IsClass<typeof Date>     // true
+type b = IsClass<() => void>      // false
+```

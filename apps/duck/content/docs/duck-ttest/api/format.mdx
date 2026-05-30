@@ -1,0 +1,113 @@
+---
+title: format
+description: Structural string-format types — UUID, Email, ISO dates, hex colors, semver.
+section: API
+order: 15
+---
+
+```ts
+import type {
+  UUID, Email, HttpUrl, URLString,
+  IPv4, IPv6,
+  ISODate, ISOTime, ISODateTime, HHMM, HHMMSS,
+  HexColor, RgbColor, RgbaColor, HslColor,
+  Semver, PhoneE164, Base64, JWT, Slug,
+  CSSLength,
+} from '@gentleduck/ttest/format'
+```
+
+Each type asserts a **structural** shape — the compiler verifies the pattern, not the underlying RFC semantics. A `UUID` that matches the layout but isn't a valid v4 UUID will still type-check.
+
+## UUID
+
+```ts
+type UUID = `${string}-${string}-${string}-${string}-${string}`
+```
+
+RFC-4122 layout: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+
+## Email
+
+```ts
+type Email = `${string}@${string}.${string}`
+```
+
+Minimal `local@domain.tld` shape.
+
+## URLs
+
+```ts
+type HttpUrl   = `http://${string}` | `https://${string}`
+type URLString = `${string}://${string}`
+```
+
+## IP addresses
+
+```ts
+type IPv4 = `${number}.${number}.${number}.${number}`
+type IPv6 = `${string}:${string}:${string}:${string}:${string}:${string}:${string}:${string}`
+```
+
+## ISO-8601
+
+```ts
+type ISODate     = `${number}-${number}-${number}`
+type ISOTime     = `${number}:${number}:${number}` | `${number}:${number}:${number}.${number}`
+type ISODateTime =
+  | `${ISODate}T${ISOTime}`
+  | `${ISODate}T${ISOTime}Z`
+  | `${ISODate}T${ISOTime}${'+' | '-'}${number}:${number}`
+
+type HHMM   = `${number}:${number}`
+type HHMMSS = `${number}:${number}:${number}`
+```
+
+## Colors
+
+```ts
+type HexColor  = `#${string}`
+type RgbColor  = `rgb(${number}, ${number}, ${number})`
+type RgbaColor = `rgba(${number}, ${number}, ${number}, ${number})`
+type HslColor  = `hsl(${number}, ${number}%, ${number}%)`
+```
+
+## Semver
+
+```ts
+type Semver =
+  | `${number}.${number}.${number}`
+  | `${number}.${number}.${number}-${string}`
+  | `${number}.${number}.${number}+${string}`
+  | `${number}.${number}.${number}-${string}+${string}`
+```
+
+`MAJOR.MINOR.PATCH` with optional pre-release and build metadata.
+
+## PhoneE164
+
+```ts
+type PhoneE164 = `+${number}`
+```
+
+International phone layout — leading `+` plus digits.
+
+## Base64 / Slug
+
+```ts
+type Base64 = string & { readonly __format: 'base64' }
+type Slug   = string & { readonly __format: 'slug' }
+```
+
+Branded `string` aliases — the compiler can't validate character sets at the type level.
+
+## JWT
+
+```ts
+type JWT = `${string}.${string}.${string}`
+```
+
+Header / payload / signature layout.
+
+## CSSLength
+
+Re-exported from [`css`](/duck-ttest/api/css). Lives there for the richer definition (accepts `'0'` and `calc(...)`).

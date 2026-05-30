@@ -1,0 +1,85 @@
+---
+title: brand
+description: Nominal typing via a phantom tag — Brand, Opaque, Unbrand.
+section: API
+order: 6
+---
+
+```ts
+import type {
+  Brand, Branded, Unbrand, Tagged, Opaque, Nominal, BrandOf,
+} from '@gentleduck/ttest/brand'
+```
+
+Branded types attach a phantom tag to a base type, producing values that are runtime-compatible but type-incompatible with the unbranded base. The tag stores both the base type and the brand name, so `Unbrand` and `BrandOf` can recover them.
+
+## Brand
+
+```ts
+type Brand<T, B extends string | symbol>
+```
+
+Nominal wrapper. `Brand<string, 'UserId'>` is incompatible with `Brand<string, 'OrderId'>` and with plain `string`.
+
+```ts
+type UserId  = Brand<string, 'UserId'>
+type OrderId = Brand<string, 'OrderId'>
+
+const u = 'u_1' as UserId
+const o: OrderId = u  // Error — UserId is not OrderId
+```
+
+## Branded
+
+```ts
+type Branded<T, B extends string | symbol> = Brand<T, B>
+```
+
+Alias of `Brand`. Use whichever reads better.
+
+## Unbrand
+
+```ts
+type Unbrand<T>
+```
+
+Strip the brand, recovering the base type. Returns `T` unchanged for unbranded values.
+
+```ts
+type UserId = Brand<string, 'UserId'>
+type T = Unbrand<UserId>  // string
+```
+
+## BrandOf
+
+```ts
+type BrandOf<T>
+```
+
+Recover the brand tag of a branded `T`, or `never`.
+
+```ts
+type T = BrandOf<UserId>  // 'UserId'
+```
+
+## Tagged
+
+```ts
+type Tagged<T, Tag extends string, TagValue = unknown>
+```
+
+Brand with a custom `__${Tag}` discriminant key — interoperates with third-party brand styles.
+
+```ts
+type Money = Tagged<number, 'currency', 'USD'>
+// number & { __currency: 'USD' }
+```
+
+## Opaque / Nominal
+
+```ts
+type Opaque<T, B extends string | symbol = string> = Brand<T, B>
+type Nominal<T, B extends string | symbol> = Brand<T, B>
+```
+
+Semantic aliases of `Brand`. Pick the name that fits your codebase.

@@ -1,0 +1,83 @@
+---
+title: bit
+description: Fixed-length little-endian bit tuples and bitwise operations.
+section: API
+order: 4
+---
+
+```ts
+import type {
+  Bit, BitAnd, BitOr, BitXor, BitNot,
+  PopCount, FromBits, ShiftLeft, ShiftRight,
+} from '@gentleduck/ttest/bit'
+```
+
+Bits are modeled as fixed-length little-endian tuples — TypeScript doesn't model numbers as binary, so each helper costs recursion depth per bit. Keep tuple length modest.
+
+## Bit
+
+```ts
+type Bit = 0 | 1
+```
+
+## BitAnd / BitOr / BitXor
+
+```ts
+type BitAnd<A extends readonly Bit[], B extends readonly Bit[]>
+type BitOr<A extends readonly Bit[], B extends readonly Bit[]>
+type BitXor<A extends readonly Bit[], B extends readonly Bit[]>
+```
+
+Element-wise boolean ops over two same-length bit tuples.
+
+```ts
+type a = BitAnd<[1, 1, 0, 1], [1, 0, 1, 1]>  // [1, 0, 0, 1]
+type b = BitOr <[1, 0, 0, 1], [0, 1, 0, 1]>  // [1, 1, 0, 1]
+type c = BitXor<[1, 1, 0, 1], [1, 0, 1, 1]>  // [0, 1, 1, 0]
+```
+
+## BitNot
+
+```ts
+type BitNot<A extends readonly Bit[]>
+```
+
+Inversion: `[1, 0, 1]` → `[0, 1, 0]`.
+
+## PopCount
+
+```ts
+type PopCount<A extends readonly Bit[], Acc extends unknown[] = []>
+```
+
+Number of `1` bits.
+
+```ts
+type c = PopCount<[1, 0, 1, 1, 0]>  // 3
+```
+
+## FromBits
+
+```ts
+type FromBits<B extends readonly Bit[]>
+```
+
+Little-endian bit tuple → number.
+
+```ts
+type n = FromBits<[1, 0, 1]>  // 5 (1*1 + 0*2 + 1*4)
+```
+
+## ShiftLeft / ShiftRight
+
+```ts
+type ShiftLeft<A extends readonly Bit[], K extends number>
+type ShiftRight<A extends readonly Bit[], K extends number>
+```
+
+Fixed-length shifts. `ShiftLeft` drops the highest-order bit and fills the right with `0`; `ShiftRight` is the mirror.
+
+```ts
+type a = ShiftLeft <[1, 0, 1, 0], 1>  // [0, 1, 0, 1]
+type b = ShiftRight<[1, 0, 1, 0], 1>  // [0, 1, 0, 0]
+```

@@ -1,0 +1,72 @@
+---
+title: predicates
+description: Property-modifier guards — IsMutable, IsReadonly, IsPartial, IsRequired.
+section: API
+order: 28
+---
+
+```ts
+import type {
+  IsMutable, IsReadonly, IsPartial, IsRequired,
+} from '@gentleduck/ttest/predicates'
+```
+
+Whole-object property-modifier checks. Use to assert "this object is fully optional" or "fully readonly" in tests and constraints.
+
+## IsMutable
+
+```ts
+type IsMutable<T> = Equal<{ -readonly [K in keyof T]: T[K] }, T>
+```
+
+`true` if every property of `T` is mutable (no `readonly`).
+
+```ts
+type a = IsMutable<{ a: 1 }>           // true
+type b = IsMutable<{ readonly a: 1 }>  // false
+```
+
+## IsReadonly
+
+```ts
+type IsReadonly<T> = Equal<T, Readonly<T>>
+```
+
+`true` if every property of `T` is `readonly`.
+
+```ts
+type a = IsReadonly<{ readonly a: 1 }>  // true
+type b = IsReadonly<{ a: 1 }>           // false
+```
+
+## IsPartial
+
+```ts
+type IsPartial<T> = Equal<{ [K in keyof T]?: T[K] }, T>
+```
+
+`true` if every property of `T` is optional.
+
+```ts
+type a = IsPartial<{ a?: 1; b?: 2 }>  // true
+type b = IsPartial<{ a: 1 }>          // false
+```
+
+## IsRequired
+
+```ts
+type IsRequired<T> = Equal<{ [K in keyof T]-?: T[K] }, T>
+```
+
+`true` if every property of `T` is required.
+
+```ts
+type a = IsRequired<{ a: 1 }>     // true
+type b = IsRequired<{ a?: 1 }>    // false
+```
+
+<Callout icon={<Zap />}>
+
+**Renamed in v1.** This module was previously `@gentleduck/ttest/predictates` (typo). Update imports — see the [Migration guide](/duck-ttest/migration).
+
+</Callout>

@@ -1,0 +1,81 @@
+---
+title: pattern
+description: Glob matching, prefix/suffix/contains, and tuple filtering.
+section: API
+order: 27
+---
+
+```ts
+import type {
+  MatchesGlob,
+  StartsAnyOf, EndsAnyOf, IncludesAnyOf,
+  FilterMatching,
+} from '@gentleduck/ttest/pattern'
+```
+
+Glob semantics:
+
+- `*` — zero or more characters (greedy substring)
+- `?` — exactly one character
+- `**` — any depth, including across `/`
+
+## MatchesGlob
+
+```ts
+type MatchesGlob<S extends string, P extends string>
+```
+
+`true` if `S` matches glob `P`. **`**` triggers branchy backtracking** — worst case is quadratic. Fine for tooling; avoid in hot generic constraints.
+
+```ts
+type a = MatchesGlob<'src/app.ts', 'src/*.ts'>           // true
+type b = MatchesGlob<'src/x/y.ts', 'src/*.ts'>           // false
+type c = MatchesGlob<'src/x/y.ts', 'src/**'>             // true
+type d = MatchesGlob<'index.ts',   '?ndex.ts'>           // true
+```
+
+## StartsAnyOf
+
+```ts
+type StartsAnyOf<S extends string, Prefixes extends readonly string[]>
+```
+
+`true` if `S` starts with any of `Prefixes`.
+
+```ts
+type a = StartsAnyOf<'/api/users', ['/api', '/auth']>  // true
+```
+
+## EndsAnyOf
+
+```ts
+type EndsAnyOf<S extends string, Suffixes extends readonly string[]>
+```
+
+```ts
+type a = EndsAnyOf<'logo.svg', ['.png', '.svg']>  // true
+```
+
+## IncludesAnyOf
+
+```ts
+type IncludesAnyOf<S extends string, Needles extends readonly string[]>
+```
+
+`true` if `S` contains any of the substrings.
+
+```ts
+type a = IncludesAnyOf<'hello world', ['foo', 'world']>  // true
+```
+
+## FilterMatching
+
+```ts
+type FilterMatching<T extends readonly string[], P extends string, Acc extends string[] = []>
+```
+
+Keep only the strings in `T` that match glob `P`.
+
+```ts
+type t = FilterMatching<['a.ts', 'b.js', 'c.ts'], '*.ts'>  // ['a.ts', 'c.ts']
+```

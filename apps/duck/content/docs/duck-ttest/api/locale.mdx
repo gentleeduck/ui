@@ -1,0 +1,53 @@
+---
+title: locale
+description: ISO language, country, currency, and IANA time-zone unions.
+section: API
+order: 24
+---
+
+```ts
+import type {
+  LanguageCode, CountryCode, CurrencyCode,
+  LocaleTag, TimeZone, IsLocaleTag,
+} from '@gentleduck/ttest/locale'
+```
+
+Curated subsets of ISO and IANA codes. Widen to `string` at the consumer boundary for codes outside the curated list.
+
+## LanguageCode
+
+ISO 639-1 two-letter codes: `'en' | 'es' | 'fr' | 'de' | 'ar' | 'zh' | ...`.
+
+## CountryCode
+
+ISO 3166-1 alpha-2 codes: `'US' | 'GB' | 'JP' | 'DE' | 'BR' | ...`.
+
+## CurrencyCode
+
+ISO 4217 codes plus crypto: `'USD' | 'EUR' | 'GBP' | 'JPY' | 'BTC' | 'ETH' | ...`.
+
+## LocaleTag
+
+```ts
+type LocaleTag = LanguageCode | `${LanguageCode}-${CountryCode}`
+```
+
+BCP-47 tag: language, optionally with region.
+
+```ts
+const a: LocaleTag = 'en'
+const b: LocaleTag = 'en-US'
+const c: LocaleTag = 'fr-CA'
+```
+
+## TimeZone
+
+Common IANA identifiers: `'UTC' | 'Europe/London' | 'Asia/Tokyo' | 'America/New_York' | ...`. Widen to `string` for user-supplied values.
+
+## IsLocaleTag
+
+```ts
+type IsLocaleTag<L extends string>
+```
+
+`true` if `L` matches the curated `LocaleTag` shape.

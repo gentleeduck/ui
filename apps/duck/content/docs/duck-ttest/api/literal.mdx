@@ -1,0 +1,98 @@
+---
+title: literal
+description: LiteralUnion, Exact, Narrow, Widen, and literal-vs-primitive guards.
+section: API
+order: 23
+---
+
+```ts
+import type {
+  LiteralUnion, Exact, Widen, Narrow,
+  IsLiteral, IsStringLiteral, IsNumericLiteral, IsBooleanLiteral, IsBigIntLiteral,
+} from '@gentleduck/ttest/literal'
+```
+
+## LiteralUnion
+
+```ts
+type LiteralUnion<L extends W, W> = L | (W & { _?: never })
+```
+
+Autocomplete-friendly literal union: suggests `L` while still accepting any value of the wider type `W`.
+
+```ts
+type Variant = LiteralUnion<'primary' | 'danger', string>
+// autocomplete: 'primary' | 'danger'
+// accepts:      any string
+```
+
+## Exact
+
+```ts
+type Exact<T, Shape>
+```
+
+Force `T` to match `Shape` exactly — no extra properties allowed.
+
+```ts
+type Config = { id: number }
+function init<T>(c: Exact<T, Config>) { /* ... */ }
+init({ id: 1 })
+init({ id: 1, extra: 2 })  // Error.
+```
+
+## Widen
+
+```ts
+type Widen<T>
+```
+
+Widen a literal to its primitive.
+
+```ts
+type a = Widen<'foo'>  // string
+type b = Widen<42>     // number
+type c = Widen<true>   // boolean
+```
+
+## IsLiteral
+
+```ts
+type IsLiteral<T>
+```
+
+`true` if `T` is a literal (not its widened primitive).
+
+```ts
+type a = IsLiteral<'foo'>   // true
+type b = IsLiteral<string>  // false
+```
+
+## Narrow
+
+```ts
+type Narrow<T>
+```
+
+Prevent inference from widening literal arguments. Use as a generic constraint when you want literals preserved in inferred types.
+
+```ts
+function defineRoles<T extends Narrow<T>>(roles: T): T { return roles }
+const r = defineRoles(['admin', 'editor'])  // type: ['admin', 'editor'] (not string[])
+```
+
+## Per-primitive literal guards
+
+```ts
+type IsStringLiteral <T>
+type IsNumericLiteral<T>
+type IsBooleanLiteral<T>
+type IsBigIntLiteral <T>
+```
+
+Each returns `true` only for the *literal* form of the primitive.
+
+```ts
+type a = IsStringLiteral<'foo'>   // true
+type b = IsStringLiteral<string>  // false
+```

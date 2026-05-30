@@ -1,0 +1,69 @@
+---
+title: conditional
+description: Type-level branching — If, IfExtends, Switch, Match.
+section: API
+order: 8
+---
+
+```ts
+import type { If, IfExtends, Switch, Match } from '@gentleduck/ttest/conditional'
+```
+
+## If
+
+```ts
+type If<Cond extends boolean, Then, Else> = Cond extends true ? Then : Else
+```
+
+Type-level ternary.
+
+```ts
+type A = If<true,  'yes', 'no'>  // 'yes'
+type B = If<false, 'yes', 'no'>  // 'no'
+```
+
+## IfExtends
+
+```ts
+type IfExtends<A, B, Then, Else> = A extends B ? Then : Else
+```
+
+Branch on assignability.
+
+```ts
+type A = IfExtends<'admin', 'admin' | 'user', true, false>  // true
+type B = IfExtends<string,  number,            true, false> // false
+```
+
+## Switch
+
+```ts
+type Switch<Value extends PropertyKey, Cases, Default = never>
+```
+
+Match `Value` against a record of `Case => Result`; falls back to `Default`.
+
+```ts
+type Status = Switch<'pending', { pending: 1; done: 2 }, 0>  // 1
+type Miss   = Switch<'other',   { pending: 1; done: 2 }, 0>  // 0
+```
+
+## Match
+
+```ts
+type Match<Value, Cases extends readonly (readonly [unknown, unknown])[], Default = never>
+```
+
+Match `Value` against ordered `[When, Then]` tuples.
+
+```ts
+type Label<T> = Match<T, [
+  [string, 'str'],
+  [number, 'num'],
+  [boolean, 'bool'],
+], 'other'>
+
+type a = Label<'hi'>  // 'str'
+type b = Label<42>    // 'num'
+type c = Label<null>  // 'other'
+```

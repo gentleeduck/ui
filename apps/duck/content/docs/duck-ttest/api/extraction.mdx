@@ -1,0 +1,77 @@
+---
+title: extraction
+description: Key extraction utilities — optional, required, readonly, mutable, by-type.
+section: API
+order: 14
+---
+
+```ts
+import type {
+  KeysOfType, OptionalKeys, RequiredKeys, ReadonlyKeys, MutableKeys,
+} from '@gentleduck/ttest/extraction'
+```
+
+## KeysOfType
+
+```ts
+type KeysOfType<O, T>
+```
+
+Keys of `O` whose value extends `T`.
+
+```ts
+type O = { a: number; b: string; c: number }
+type k = KeysOfType<O, number>  // 'a' | 'c'
+```
+
+## OptionalKeys
+
+```ts
+type OptionalKeys<T>
+```
+
+Keys that are explicitly optional (have `?`).
+
+```ts
+type T = { a: number; b?: string }
+type k = OptionalKeys<T>  // 'b'
+```
+
+## RequiredKeys
+
+```ts
+type RequiredKeys<T> = Exclude<keyof T, OptionalKeys<T>>
+```
+
+Keys that are not optional.
+
+```ts
+type T = { a: number; b?: string }
+type k = RequiredKeys<T>  // 'a'
+```
+
+## ReadonlyKeys
+
+```ts
+type ReadonlyKeys<T>
+```
+
+Keys marked `readonly`.
+
+```ts
+type T = { readonly a: number; b: string }
+type k = ReadonlyKeys<T>  // 'a'
+```
+
+## MutableKeys
+
+```ts
+type MutableKeys<T> = Exclude<keyof T, ReadonlyKeys<T>>
+```
+
+Keys not marked `readonly`.
+
+```ts
+type T = { readonly a: number; b: string }
+type k = MutableKeys<T>  // 'b'
+```

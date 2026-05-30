@@ -1,0 +1,82 @@
+---
+title: equality
+description: Strict equality, shallow assignability, and key existence checks.
+section: API
+order: 13
+---
+
+```ts
+import type {
+  Equal, NotEqual, ShallowEqual, ShallowNotEqual,
+  HasKey, HasKeyWithType,
+} from '@gentleduck/ttest/equality'
+```
+
+## Equal
+
+```ts
+type Equal<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false
+```
+
+Bidirectional, variance-preserving equality. Distinguishes `any` from `unknown` and mutable from `readonly`.
+
+```ts
+type a = Equal<1, 1>            // true
+type b = Equal<any, unknown>    // false
+type c = Equal<{a:1}, {a:1}>    // true
+type d = Equal<readonly [1], [1]>  // false
+```
+
+## NotEqual
+
+```ts
+type NotEqual<X, Y>
+```
+
+Inverse of `Equal`. Use when negation reads cleaner.
+
+## ShallowEqual
+
+```ts
+type ShallowEqual<X, Y> = X extends Y ? true : false
+```
+
+One-way assignability — `X extends Y`.
+
+```ts
+type a = ShallowEqual<'admin', 'admin' | 'user'>  // true
+type b = ShallowEqual<string,  'admin'>           // false
+```
+
+## ShallowNotEqual
+
+```ts
+type ShallowNotEqual<X, Y> = X extends Y ? false : true
+```
+
+Inverse of `ShallowEqual`.
+
+## HasKey
+
+```ts
+type HasKey<K extends string, O> = K extends keyof O ? true : false
+```
+
+```ts
+type a = HasKey<'id', { id: number }>  // true
+type b = HasKey<'x',  { id: number }>  // false
+```
+
+## HasKeyWithType
+
+```ts
+type HasKeyWithType<K extends string, T, O> = K extends keyof O ? Equal<T, O[K]> : false
+```
+
+`true` iff `O[K]` exists and equals `T` exactly.
+
+```ts
+type a = HasKeyWithType<'id', number, { id: number }>  // true
+type b = HasKeyWithType<'id', string, { id: number }>  // false
+```

@@ -1,0 +1,54 @@
+---
+title: json
+description: JSONValue, Jsonify, Jsonifiable — the JSON shape lattice.
+section: API
+order: 22
+---
+
+```ts
+import type {
+  JSONPrimitive, JSONObject, JSONArray, JSONValue,
+  Jsonify, Jsonifiable, IsJsonValue,
+} from '@gentleduck/ttest/json'
+```
+
+## JSONPrimitive / JSONObject / JSONArray / JSONValue
+
+```ts
+type JSONPrimitive = string | number | boolean | null
+type JSONObject    = { [key: string]: JSONValue }
+type JSONArray     = JSONValue[]
+type JSONValue     = JSONPrimitive | JSONObject | JSONArray
+```
+
+The closed lattice of JSON-serializable types.
+
+## Jsonify
+
+```ts
+type Jsonify<T>
+```
+
+Recursively coerce `T` into a JSON-serializable shape. Drops functions and `Date`; drops `password` and `toJSON` keys; recurses into arrays and objects.
+
+```ts
+type User = { id: number; name: string; password: string; verify(): void; created: Date }
+type J = Jsonify<User>
+//   ^? { id: number; name: string }
+```
+
+## Jsonifiable
+
+```ts
+type Jsonifiable<T = unknown>
+```
+
+A value that survives a `JSON.stringify` / `JSON.parse` round-trip. Objects with `toJSON()` are accepted; the `toJSON` return type must itself be JSON-shaped.
+
+## IsJsonValue
+
+```ts
+type IsJsonValue<T> = T extends JSONValue ? true : false
+```
+
+`true` iff `T` is structurally assignable to `JSONValue`.

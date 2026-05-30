@@ -1,0 +1,55 @@
+---
+title: boolean
+description: Logical operators on type-level booleans.
+section: API
+order: 5
+---
+
+```ts
+import type { And, Or, Not, Xor, Xnor, If } from '@gentleduck/ttest/boolean'
+```
+
+The standard boolean truth table, plus a re-export of [`If`](/duck-ttest/api/conditional) for ergonomic grouping.
+
+## And / Or / Not
+
+```ts
+type And<A extends boolean, B extends boolean>
+type Or <A extends boolean, B extends boolean>
+type Not<A extends boolean>
+```
+
+```ts
+type a = And<true,  true>   // true
+type b = Or <false, true>   // true
+type c = Not<true>          // false
+```
+
+## Xor
+
+```ts
+type Xor<A extends boolean, B extends boolean>
+```
+
+Exclusive OR — `true` iff exactly one input is `true`.
+
+```ts
+type a = Xor<true, false>   // true
+type b = Xor<true, true>    // false
+```
+
+## Xnor
+
+```ts
+type Xnor<A extends boolean, B extends boolean> = Not<Xor<A, B>>
+```
+
+Exclusive NOR — `true` iff both inputs are equal.
+
+## If
+
+Re-exported from [`conditional`](/duck-ttest/api/conditional). Type-level ternary:
+
+```ts
+type Branch<C extends boolean> = If<C, 'yes', 'no'>
+```

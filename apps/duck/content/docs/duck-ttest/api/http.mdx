@@ -1,0 +1,99 @@
+---
+title: http
+description: HTTP method, status code, content-type, and request/response shape types.
+section: API
+order: 21
+---
+
+```ts
+import type {
+  HttpMethod, SafeMethod, IdempotentMethod,
+  IsSafeMethod, IsIdempotentMethod,
+  Informational, Success, Redirection, ClientError, ServerError,
+  HttpStatusCode, StatusFamily,
+  IsSuccess, IsClientError, IsServerError,
+  ContentType,
+  HttpRequestShape, HttpResponseShape,
+} from '@gentleduck/ttest/http'
+```
+
+## HTTP methods
+
+```ts
+type HttpMethod       = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE'
+type SafeMethod       = 'GET' | 'HEAD' | 'OPTIONS' | 'TRACE'
+type IdempotentMethod = 'GET' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'PUT' | 'DELETE'
+```
+
+`SafeMethod` ⊂ `IdempotentMethod` ⊂ `HttpMethod`.
+
+## IsSafeMethod / IsIdempotentMethod
+
+```ts
+type IsSafeMethod<M extends HttpMethod>
+type IsIdempotentMethod<M extends HttpMethod>
+```
+
+```ts
+type a = IsSafeMethod<'GET'>         // true
+type b = IsIdempotentMethod<'POST'>  // false
+```
+
+## Status code classes
+
+```ts
+type Informational = 100 | 101 | 102 | 103
+type Success       = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 226
+type Redirection   = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308
+type ClientError   = 400 | 401 | 402 | ... | 451
+type ServerError   = 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 510 | 511
+
+type HttpStatusCode = Informational | Success | Redirection | ClientError | ServerError
+```
+
+## StatusFamily
+
+```ts
+type StatusFamily<S extends HttpStatusCode>
+```
+
+Grouping label: `'1xx' | '2xx' | '3xx' | '4xx' | '5xx'`.
+
+```ts
+type a = StatusFamily<200>  // '2xx'
+type b = StatusFamily<404>  // '4xx'
+```
+
+## IsSuccess / IsClientError / IsServerError
+
+```ts
+type IsSuccess    <S extends HttpStatusCode>
+type IsClientError<S extends HttpStatusCode>
+type IsServerError<S extends HttpStatusCode>
+```
+
+## ContentType
+
+Common MIME types — `'application/json' | 'text/html' | 'image/png' | ...`. See source for the complete list.
+
+## HttpRequestShape
+
+```ts
+interface HttpRequestShape<M extends HttpMethod = HttpMethod, Body = unknown> {
+  method: M
+  headers?: Record<string, string>
+  body?: Body
+}
+```
+
+Minimal request descriptor — useful in type-safe client builders.
+
+## HttpResponseShape
+
+```ts
+interface HttpResponseShape<S extends HttpStatusCode = HttpStatusCode, Body = unknown> {
+  status: S
+  headers?: Record<string, string>
+  body: Body
+}
+```

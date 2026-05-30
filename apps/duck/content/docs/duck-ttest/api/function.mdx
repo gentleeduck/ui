@@ -1,0 +1,56 @@
+---
+title: function
+description: ReturnTypeSafe, ParametersSafe, Curried, Promisify.
+section: API
+order: 18
+---
+
+```ts
+import type {
+  ReturnTypeSafe, ParametersSafe, Curried, Promisify,
+} from '@gentleduck/ttest/function'
+```
+
+Safer variants of the built-in `ReturnType` / `Parameters` plus two transforms.
+
+## ReturnTypeSafe
+
+```ts
+type ReturnTypeSafe<F> = F extends (...args: any[]) => infer R ? R : never
+```
+
+Return type of `F`, or `never` for non-functions. Unlike `ReturnType<T>`, this does not error on non-callable inputs.
+
+## ParametersSafe
+
+```ts
+type ParametersSafe<F> = F extends (...args: infer P) => any ? P : never
+```
+
+Parameter tuple, or `never`.
+
+## Curried
+
+```ts
+type Curried<F>
+```
+
+Curried form: `(a, b, c) => R` → `(a) => (b) => (c) => R`.
+
+```ts
+type f = (a: number, b: string) => boolean
+type c = Curried<f>  // (a: number) => (b: string) => boolean
+```
+
+## Promisify
+
+```ts
+type Promisify<F> = F extends (...args: infer P) => infer R ? (...args: P) => Promise<R> : never
+```
+
+`F` with its return type wrapped in `Promise`.
+
+```ts
+type f = (a: number) => string
+type p = Promisify<f>  // (a: number) => Promise<string>
+```

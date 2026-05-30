@@ -1,0 +1,54 @@
+---
+title: template
+description: Trim, CapitalizeWords, SnakeToCamel — template-literal string helpers.
+section: API
+order: 34
+---
+
+```ts
+import type {
+  TrimLeft, TrimRight, Trim,
+  CapitalizeWords, SnakeToCamel,
+} from '@gentleduck/ttest/template'
+```
+
+## TrimLeft / TrimRight / Trim
+
+```ts
+type TrimLeft <S extends string>
+type TrimRight<S extends string>
+type Trim     <S extends string> = TrimLeft<TrimRight<S>>
+```
+
+Remove whitespace (space, newline, tab).
+
+```ts
+type a = TrimLeft <'  hello'>    // 'hello'
+type b = TrimRight<'hello   '>   // 'hello'
+type c = Trim     <'  hello  '>  // 'hello'
+```
+
+## CapitalizeWords
+
+```ts
+type CapitalizeWords<S extends string>
+```
+
+Capitalize each space-separated word; lowercase the rest.
+
+```ts
+type a = CapitalizeWords<'hello WORLD'>  // 'Hello World'
+```
+
+## SnakeToCamel
+
+```ts
+type SnakeToCamel<S extends string>
+```
+
+```ts
+type a = SnakeToCamel<'user_name'>           // 'userName'
+type b = SnakeToCamel<'first_name_initial'>  // 'firstNameInitial'
+```
+
+For object-key case conversion at scale see [`object`](/duck-ttest/api/object) — `CamelCaseKeys`, `SnakeCaseKeys`, and their deep variants.

@@ -1,0 +1,81 @@
+---
+title: css
+description: Curated CSS value unions — colors, display, position, lengths, vars.
+section: API
+order: 9
+---
+
+```ts
+import type {
+  CSSGlobal, CSSNamedColor, CSSSystemColor, CSSSpecialColor, CSSColor,
+  CSSDisplay, CSSPosition,
+  CSSFlexDirection, CSSJustifyContent, CSSAlignItems,
+  CSSCursor, CSSLineStyle,
+  CSSLengthUnit, CSSLength,
+  CSSVar, CSSCustomProp,
+} from '@gentleduck/ttest/css'
+```
+
+Sized intentionally to avoid blowing up the type-checker. Use for component props that want autocomplete on CSS-shaped strings.
+
+## Wide-keyword values
+
+```ts
+type CSSGlobal = 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer'
+```
+
+## Color unions
+
+| Type | Contents |
+| --- | --- |
+| `CSSNamedColor` | All 147 CSS named colors (level 4): `'red' \| 'aliceblue' \| ...`. |
+| `CSSSystemColor` | Theme-aware system colors: `'Canvas' \| 'CanvasText' \| 'LinkText' \| ...`. |
+| `CSSSpecialColor` | `'transparent' \| 'currentColor'`. |
+| `CSSColor` | Union of all of the above plus `` `#${string}` ``, `rgb(...)`, `rgba(...)`, `hsl(...)`, `hsla(...)`, `oklch(...)`, `color(...)`. |
+
+```ts
+const accent: CSSColor = 'rebeccapurple'
+const fg:     CSSColor = '#1a1a1a'
+```
+
+## Layout enums
+
+```ts
+type CSSDisplay        = 'block' | 'inline' | 'inline-block' | 'flex' | 'grid' | 'flow-root' | ...
+type CSSPosition       = 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'
+type CSSFlexDirection  = 'row' | 'row-reverse' | 'column' | 'column-reverse'
+type CSSJustifyContent = 'flex-start' | 'center' | 'space-between' | 'space-evenly' | ...
+type CSSAlignItems     = 'flex-start' | 'center' | 'baseline' | 'stretch' | ...
+```
+
+## Cursor / line style
+
+```ts
+type CSSCursor    = 'auto' | 'pointer' | 'grab' | 'grabbing' | 'col-resize' | ...
+type CSSLineStyle = 'none' | 'hidden' | 'dotted' | 'dashed' | 'solid' | 'double' | ...
+```
+
+## Lengths
+
+```ts
+type CSSLengthUnit = 'px' | 'em' | 'rem' | '%' | 'vh' | 'vw' | 'ch' | 'pt' | 'svh' | 'dvw' | ...
+type CSSLength = `${number}${CSSLengthUnit}` | '0' | `calc(${string})`
+```
+
+```ts
+const gap: CSSLength = '1.5rem'
+const x:   CSSLength = '0'
+const y:   CSSLength = 'calc(100% - 2px)'
+```
+
+## CSS variables
+
+```ts
+type CSSVar<Name extends string = string>        = `var(--${Name})` | `var(--${Name}, ${string})`
+type CSSCustomProp<Name extends string = string> = `--${Name}`
+```
+
+```ts
+const fg: CSSVar<'fg'>     = 'var(--fg)'
+const id: CSSCustomProp    = '--theme'
+```

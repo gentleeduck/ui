@@ -1,0 +1,121 @@
+---
+title: fs
+description: POSIX and Windows path types — IsAbsolute, ExtensionOf, NormalizePath.
+section: API
+order: 17
+---
+
+```ts
+import type {
+  PosixAbsolutePath, PosixRelativePath, PosixPath,
+  WindowsAbsolutePath, WindowsPath,
+  IsAbsolute,
+  ExtensionOf, BasenameOf, DirnameOf, StemOf,
+  JoinPaths, NormalizePath,
+} from '@gentleduck/ttest/fs'
+```
+
+POSIX path types operate on forward-slash paths. Normalize Windows backslashes at runtime before piping through.
+
+## Path unions
+
+```ts
+type PosixAbsolutePath   = `/${string}`
+type PosixRelativePath   = `${'' | './' | '../'}${string}`
+type PosixPath           = PosixAbsolutePath | PosixRelativePath
+
+type WindowsAbsolutePath = `${Uppercase<string>}:\\${string}` | `\\\\${string}`
+type WindowsPath         = WindowsAbsolutePath | `${string}\\${string}`
+```
+
+## IsAbsolute
+
+```ts
+type IsAbsolute<P extends string>
+```
+
+`true` if `P` begins with `/` (POSIX) or a drive letter / UNC (Windows).
+
+```ts
+type a = IsAbsolute<'/usr/bin'>    // true
+type b = IsAbsolute<'./foo'>       // false
+type c = IsAbsolute<'C:\\Users'>   // true
+```
+
+## ExtensionOf
+
+```ts
+type ExtensionOf<P extends string>
+```
+
+Extract the file extension including the leading dot, or `''` if none.
+
+```ts
+type a = ExtensionOf<'foo.ts'>      // '.ts'
+type b = ExtensionOf<'index.d.ts'>  // '.ts'
+type c = ExtensionOf<'Makefile'>    // ''
+```
+
+## BasenameOf
+
+```ts
+type BasenameOf<P extends string>
+```
+
+Final path segment.
+
+```ts
+type a = BasenameOf<'/a/b/c.txt'>  // 'c.txt'
+type b = BasenameOf<'foo.ts'>      // 'foo.ts'
+```
+
+## DirnameOf
+
+```ts
+type DirnameOf<P extends string>
+```
+
+Directory portion of a path.
+
+```ts
+type a = DirnameOf<'/a/b/c.txt'>  // '/a/b'
+type b = DirnameOf<'foo.ts'>      // ''
+```
+
+## StemOf
+
+```ts
+type StemOf<P extends string>
+```
+
+Basename without the final extension.
+
+```ts
+type a = StemOf<'foo.ts'>      // 'foo'
+type b = StemOf<'index.d.ts'>  // 'index.d'
+type c = StemOf<'Makefile'>    // 'Makefile'
+```
+
+## JoinPaths
+
+```ts
+type JoinPaths<A extends string, B extends string>
+```
+
+Join two path segments with a `/`.
+
+```ts
+type x = JoinPaths<'a/b', 'c/d'>  // 'a/b/c/d'
+```
+
+## NormalizePath
+
+```ts
+type NormalizePath<P extends string>
+```
+
+Remove `./` segments and collapse `..`.
+
+```ts
+type x = NormalizePath<'/a/./b/../c'>  // '/a/c'
+```

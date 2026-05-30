@@ -1,0 +1,46 @@
+---
+title: assert
+description: AssertTrue and AssertFalse — the assertion primitives.
+section: API
+order: 2
+---
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+```
+
+Both assertions take two generics: the predicate and a message. When the predicate fails its constraint, the compiler reports the assertion line with the message visible inline. Pair with [`Equal`](/duck-ttest/api/equality) or any boolean utility.
+
+## AssertTrue
+
+```ts
+type AssertTrue<T extends true, Msg extends string> = T extends true ? true : never & Msg
+```
+
+Asserts that `T` is `true`. On failure: `Type 'false' does not satisfy the constraint 'true'`.
+
+```ts
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type pass = AssertTrue<Equal<1, 1>, '1 equals 1'>
+type fail = AssertTrue<Equal<1, 2>, '1 does not equal 2'>
+//          ^ TS2344: Type 'false' does not satisfy the constraint 'true'.
+```
+
+## AssertFalse
+
+```ts
+type AssertFalse<T extends false, Msg extends string> = T extends false ? true : never & Msg
+```
+
+Asserts that `T` is `false`. Use when negation is the natural reading.
+
+```ts
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type pass = AssertFalse<Equal<1, 2>, '1 must not equal 2'>
+type fail = AssertFalse<Equal<1, 1>, '1 must not equal 2'>
+//          ^ TS2344
+```
+
+For the broader assertion workflow see [Core / Assertions](/duck-ttest/core/assertions).

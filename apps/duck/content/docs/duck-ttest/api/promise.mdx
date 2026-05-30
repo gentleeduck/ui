@@ -1,0 +1,66 @@
+---
+title: promise
+description: UnwrapPromise, DeepAwaited, MaybePromise, PromiseAll, IsPromise.
+section: API
+order: 30
+---
+
+```ts
+import type {
+  UnwrapPromise, DeepAwaited,
+  MaybePromise, Promisable,
+  PromiseAll, IsPromise,
+} from '@gentleduck/ttest/promise'
+```
+
+## UnwrapPromise
+
+```ts
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T
+```
+
+Unwrap `Promise<T>` to `T`; pass non-promises through unchanged.
+
+```ts
+type a = UnwrapPromise<Promise<number>>  // number
+type b = UnwrapPromise<string>           // string
+```
+
+## DeepAwaited
+
+```ts
+type DeepAwaited<T> = T extends Promise<infer U> ? DeepAwaited<U> : T
+```
+
+Recursively unwrap nested promises.
+
+```ts
+type a = DeepAwaited<Promise<Promise<Promise<number>>>>  // number
+```
+
+## MaybePromise / Promisable
+
+```ts
+type MaybePromise<T> = T | Promise<T>
+type Promisable<T>   = MaybePromise<T>
+```
+
+For async-or-sync APIs.
+
+## PromiseAll
+
+```ts
+type PromiseAll<T extends readonly unknown[]> = { [K in keyof T]: Awaited<T[K]> }
+```
+
+Resolved tuple shape for `Promise.all`-style inputs.
+
+```ts
+type a = PromiseAll<[Promise<1>, Promise<'a'>, 3]>  // [1, 'a', 3]
+```
+
+## IsPromise
+
+```ts
+type IsPromise<T> = T extends Promise<unknown> ? true : false
+```

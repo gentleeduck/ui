@@ -1,0 +1,86 @@
+---
+title: aria
+description: WAI-ARIA 1.2 role and attribute string unions.
+section: API
+order: 1
+---
+
+```ts
+import type {
+  LandmarkRole, WidgetRole, CompositeRole, DocumentStructureRole,
+  LiveRegionRole, WindowRole, AriaRole,
+  AriaLive, AriaHaspopup, AriaOrientation, AriaSort, AriaTristate,
+  AriaAutocomplete, AriaRelevant, AriaCurrent, AriaDropEffect, AriaInvalid,
+  AriaAttributeName, AriaAttribute,
+} from '@gentleduck/ttest/aria'
+```
+
+Curated string unions matching WAI-ARIA 1.2. Use them to constrain prop types in design-system components — narrower than `string`, broader than hand-rolled per-component unions.
+
+## Role groupings
+
+### LandmarkRole
+Major page regions: `'banner' | 'complementary' | 'contentinfo' | 'form' | 'main' | 'navigation' | 'region' | 'search'`.
+
+### WidgetRole
+Interactive component roles: `'button'`, `'checkbox'`, `'menuitem'`, `'radio'`, `'switch'`, `'tab'`, `'textbox'`, ... (see source for the full list).
+
+### CompositeRole
+Composite widgets: `'combobox' | 'grid' | 'listbox' | 'menu' | 'menubar' | 'radiogroup' | 'tablist' | 'tree' | 'treegrid'`.
+
+### DocumentStructureRole
+Structural roles: `'article'`, `'cell'`, `'figure'`, `'heading'`, `'list'`, `'table'`, ... — non-interactive content scaffolding.
+
+### LiveRegionRole
+`'alert' | 'log' | 'marquee' | 'status' | 'timer'`.
+
+### WindowRole
+`'alertdialog' | 'dialog'`.
+
+## AriaRole
+
+Union of every role in this module:
+
+```ts
+type AriaRole = LandmarkRole | WidgetRole | CompositeRole | DocumentStructureRole | LiveRegionRole | WindowRole
+```
+
+```ts
+function setRole(el: HTMLElement, role: AriaRole) {
+  el.setAttribute('role', role)
+}
+```
+
+## State / property value types
+
+| Type | Values |
+| --- | --- |
+| `AriaLive` | `'off' \| 'polite' \| 'assertive'` |
+| `AriaHaspopup` | `boolean \| 'false' \| 'true' \| 'menu' \| 'listbox' \| 'tree' \| 'grid' \| 'dialog'` |
+| `AriaOrientation` | `'horizontal' \| 'vertical'` |
+| `AriaSort` | `'ascending' \| 'descending' \| 'none' \| 'other'` |
+| `AriaTristate` | `boolean \| 'false' \| 'mixed' \| 'true'` (for `aria-checked` / `aria-pressed`) |
+| `AriaAutocomplete` | `'none' \| 'inline' \| 'list' \| 'both'` |
+| `AriaRelevant` | space-separated change-token combinations |
+| `AriaCurrent` | `boolean \| 'page' \| 'step' \| 'location' \| 'date' \| 'time' \| ...` |
+| `AriaDropEffect` | `'none' \| 'copy' \| 'execute' \| 'link' \| 'move' \| 'popup'` |
+| `AriaInvalid` | `boolean \| 'grammar' \| 'spelling' \| 'true' \| 'false'` |
+
+## AriaAttributeName
+
+Every ARIA state / property name without the `aria-` prefix: `'activedescendant' | 'atomic' | 'autocomplete' | ...`.
+
+## AriaAttribute
+
+Full attribute string with the prefix:
+
+```ts
+type AriaAttribute = `aria-${AriaAttributeName}`
+// → 'aria-activedescendant' | 'aria-atomic' | ...
+```
+
+```ts
+function setAria(el: HTMLElement, name: AriaAttribute, value: string) {
+  el.setAttribute(name, value)
+}
+```
