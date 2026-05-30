@@ -1,0 +1,122 @@
+---
+title: Data at rest
+description: Field-level encryption for sensitive Identity.profile values - AES-256-GCM (local key) or KMS envelope (AWS / Vault / your own).
+section: Core
+---
+
+duck-auth ships two `DataAtRest.IAdapter` implementations so sensitive
+fields on `Identity.profile` (SSN, DOB, phone, full name, etc.) never
+land in the database in plaintext. Both are wire-compatible: the same
+record can be re-encrypted under a different adapter without a
+migration as long as the ciphertext format markers stay distinct.
+
+## `AesGcmDataAtRest`
+
+Local-key AES-256-GCM with deterministic per-record DEK derivation
+(`DEK = sha256(masterKey || identityId || field)`). Every encrypt
+samples a fresh 12-byte IV, so the GCM birthday bound is ~2^48
+encryptions per (identity, field) pair.
+
+```typescript
+import { AesGcmDataAtRest } from '@gentleduck/auth/core/dataAtRest'
+
+const dataAtRest = new AesGcmDataAtRest({
+  kid: 'k1',
+  masterKey: Buffer.from(process.env.DUCK_AUTH_MASTER_KEY_K1!, 'base64'),
+  previousKeys: [
+    { kid: 'k0', masterKey: Buffer.from(process.env.DUCK_AUTH_MASTER_KEY_K0!, 'base64') },
+  ],
+})
+```
+
+The `previousKeys` ring keeps old kid'd ciphertexts decryptable during
+rotation. Wire `dataAtRest` into your AuthRoot or via the bridge your
+adapter exposes - duck-auth itself only requires the interface.
+
+### Plaintext cap
+
+Each `encrypt()` rejects plaintexts longer than 1 MiB to prevent a
+hostile caller driving multi-GB encrypt cycles + base64 expansion via
+this surface.
+
+## `KmsEnvelopeDataAtRest`
+
+Envelope encryption against any `Kms.IProvider`. A fresh per-record
+DEK is requested from the KMS, the plaintext is encrypted locally
+with AES-256-GCM, and both the wrapped DEK and the ciphertext are
+stored together. `decrypt` unwraps the DEK via the KMS and runs the
+AES-GCM inverse locally.
+
+```typescript
+import { KmsEnvelopeDataAtRest } from '@gentleduck/auth/core/dataAtRest'
+import { AwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
+
+const dataAtRest = new KmsEnvelopeDataAtRest({
+  kms: new AwsKmsProvider({
+    keyId: 'alias/duck-auth-data-at-rest',
+    client: new KmsClient({ region: 'us-east-1' }),
+  }),
+})
+```
+
+### Ciphertext layout
+
+```
+kms-env$v1$<keyId>$<wrappedB64u>$<ivB64u>$<tagB64u>$<ctB64u>
+```
+
+The `keyId` is informational - `decryptDataKey` is what actually
+resolves the DEK (and most KMSes can do that across rotations).
+
+### Encryption context (AAD)
+
+The encryption context passed to the KMS includes `{identityId,
+field}`, so the KMS itself enforces that a wrapped DEK can only be
+unwrapped for the same record it was generated for. This is the **AAD
+pin** that protects against ciphertext relocation attacks across rows.
+
+## `AwsKmsProvider`
+
+Reference `Kms.IProvider` for AWS KMS. Lazy-loads `@aws-sdk/client-kms`
+so the AWS SDK stays an OPTIONAL peerDep - the rest of duck-auth never
+pulls it in.
+
+```typescript
+import { KmsClient } from '@aws-sdk/client-kms'
+import { AwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
+
+const provider = new AwsKmsProvider({
+  keyId: 'alias/duck-auth-data-at-rest',
+  client: new KmsClient({ region: 'us-east-1' }),
+})
+```
+
+For unit tests, pass a mock `IKmsLike` via `cfg.client`.
+
+## Bring your own KMS
+
+Implement the `Kms.IProvider` contract:
+
+```typescript
+import type { Kms } from '@gentleduck/auth/core/dataAtRest'
+
+class GcpKmsProvider implements Kms.IProvider {
+  readonly id = 'gcp-kms'
+  async generateDataKey(ctx: Kms.IEncryptionContext): Promise<Kms.IDataKey> {
+    // gcloud.kms.encrypt(masterKey) -> returns plaintext DEK + wrapped DEK
+  }
+  async decryptDataKey(wrapped: Uint8Array, ctx: Kms.IEncryptionContext): Promise<Uint8Array> {
+    // gcloud.kms.decrypt(wrapped) -> returns plaintext DEK
+  }
+}
+```
+
+Wrap it in `KmsEnvelopeDataAtRest` and ship. The same recipe works for
+Vault Transit, Azure Key Vault, or in-house HSMs.
+
+## Compliance presets
+
+HIPAA, SOC2, and FIPS presets in `strict({ env: 'production' })`
+require a non-null `dataAtRest` on the AuthRoot. FIPS further requires
+KMS-envelope (refuses local AES-GCM); see
+[Production hardening](/duck-auth/advanced/security#compliance-presets).

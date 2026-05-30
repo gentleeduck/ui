@@ -1,0 +1,100 @@
+---
+title: JSON schema
+description: POLICY_JSON_SCHEMA - hand-authored JSON Schema (Draft 2020-12) for AccessControl.IPolicy. Wire into editors, admin forms, or out-of-band validators.
+section: Advanced
+---
+
+duck-iam exports `POLICY_JSON_SCHEMA` - a JSON Schema (Draft 2020-12)
+document that mirrors the runtime shape of `AccessControl.IPolicy`.
+It's useful for:
+
+- **Non-TypeScript consumers** validating policies at the wire boundary.
+- **Editor tooling** (VS Code / IntelliJ schema-driven JSON completion).
+- **Admin dashboards** generating policy forms from the schema.
+
+```typescript
+import { POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
+```
+
+## Why hand-authored?
+
+The schema is hand-written to mirror `core/types/access-control.ts`
+instead of derived from the TS types - the type system uses generic
+type parameters (`TAction`, `TResource`) which can't be reflected at
+runtime. The shape here uses `string` for those slots; tighten via
+`$ref` or `enum` in your own downstream schema if you know the closed
+sets.
+
+## Tightening for your app
+
+```typescript
+import { POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
+
+const myAppSchema = {
+  ...POLICY_JSON_SCHEMA,
+  $defs: {
+    ...POLICY_JSON_SCHEMA.$defs,
+    Action: { enum: ['create', 'read', 'update', 'delete'] },
+    Resource: { enum: ['post', 'comment', 'user'] },
+  },
+  properties: {
+    ...POLICY_JSON_SCHEMA.properties,
+    rules: {
+      type: 'array',
+      items: {
+        ...POLICY_JSON_SCHEMA.$defs.Rule,
+        properties: {
+          ...POLICY_JSON_SCHEMA.$defs.Rule.properties,
+          actions: { type: 'array', items: { $ref: '#/$defs/Action' } },
+          resources: { type: 'array', items: { $ref: '#/$defs/Resource' } },
+        },
+      },
+    },
+  },
+}
+```
+
+Now an editor or out-of-band validator that ingests `myAppSchema`
+will autocomplete + reject any action / resource outside your closed
+set.
+
+## Editor integration
+
+Serve the schema at a stable URL, then point your admin policy editor
+at it via `$schema`:
+
+```json
+{
+  "$schema": "https://my-app.example/policy.schema.json",
+  "id": "post.editor",
+  "name": "Post editor",
+  "algorithm": "deny-overrides",
+  "rules": [...]
+}
+```
+
+VS Code, IntelliJ, and most JSON editors give you autocomplete,
+inline docs, and red squiggles on shape mismatches for free.
+
+## Pair with `validatePolicy`
+
+The JSON Schema is for **external** boundaries (web editors, third-
+party tooling, hand-authored config files). The
+`validatePolicy()` runtime validator is for **internal** call sites
+that also need semantic checks (resolvable paths, cartesian limits,
+catastrophic regex rejection) that JSON Schema cannot express.
+
+The two are intentionally separate; run both when accepting policies
+from an admin dashboard - JSON Schema in the form layer, then
+`validatePolicy` on the server before persisting.
+
+## Adding fields
+
+When adding a field to `AccessControl.IPolicy`, `AccessControl.IRule`,
+or `AccessControl.ICondition`, add it here AND ensure
+[`validatePolicy`](/duck-iam/advanced/validation) covers it.
+
+## See also
+
+- [Validation](/duck-iam/advanced/validation) - runtime validators with semantic checks.
+- [Types & namespaces](/duck-iam/types) - the typed surface of the same shapes.
