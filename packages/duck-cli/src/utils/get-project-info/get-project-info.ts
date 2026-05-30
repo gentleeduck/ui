@@ -19,12 +19,12 @@ export function getPackageJson(): PackageJson | null {
 
   if (!files.length) {
     logger.error({ args: ['package.json not found'] })
-    return process.exit(1)
+    process.exit(1)
   }
 
   const packageJsonPath = path.join(process.cwd(), 'package.json')
 
-  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as PackageJson
 
   return packageJson
 }
@@ -43,7 +43,13 @@ export async function getDuckuiConfig(cwd: string, spinner: Ora) {
 
     const duckuiConfigRaw = await fs.readFile(path.join(configRoot, 'duck-ui.config.json'), 'utf8')
 
-    const duckuiConfig = JSON.parse(duckuiConfigRaw)
+    let duckuiConfig: unknown
+    try {
+      duckuiConfig = JSON.parse(duckuiConfigRaw)
+    } catch {
+      spinner.fail(`${highlighter.info('duck-ui.config.json')} is not valid JSON. Fix the file and try again.`)
+      process.exit(1)
+    }
     const duckuiParsedConfig = duckUiSchema.safeParse(duckuiConfig)
     if (duckuiParsedConfig.error) {
       const isLegacyConfig = duckuiParsedConfig.error.issues.some(

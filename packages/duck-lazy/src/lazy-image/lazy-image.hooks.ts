@@ -1,43 +1,25 @@
 import React from 'react'
-import type { ILazyImage } from './lazy-image.types'
+import { useIntersectionOnce } from '../use-intersection-once'
+import type { UseLazyImageReturn } from './lazy-image.types'
 
-/**
- * Lazily loads `src` once the bound `imageRef` enters the viewport.
- * Returns `{ isLoaded, imageRef }`; `isLoaded` flips true after the image's `onload`.
- */
-export const useLazyImage = (src: string, options?: IntersectionObserverInit): ILazyImage.IUseLazyImageReturn => {
+export const useLazyImage = (src: string, options?: IntersectionObserverInit): UseLazyImageReturn => {
+  const { ref, intersected: isInView } = useIntersectionOnce<HTMLImageElement>(options)
   const [isLoaded, setIsLoaded] = React.useState(false)
-  const [isInView, setIsInView] = React.useState(false)
-  const imageRef = React.useRef<HTMLImageElement>(null)
 
   React.useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting) {
-        setIsInView(true)
-        observer.disconnect()
-      }
-    }, options)
-
-    if (imageRef.current) {
-      observer.observe(imageRef.current)
-    }
-
-    return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current)
-      }
-    }
-  }, [options])
-
-  React.useEffect(() => {
-    if (!isInView) return
+    if (!isInView || typeof Image === 'undefined') return
 
     const img = new Image()
+    img.onload = () => setIsLoaded(true)
+    img.onerror = () => setIsLoaded(true)
     img.src = src
-    img.onload = () => {
-      setIsLoaded(true)
+
+    return () => {
+      img.onload = null
+      img.onerror = null
+      img.src = ''
     }
   }, [isInView, src])
 
-  return { imageRef, isLoaded }
+  return { isLoaded, ref }
 }

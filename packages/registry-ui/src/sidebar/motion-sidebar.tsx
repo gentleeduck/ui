@@ -3,10 +3,10 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../sheet'
 import { SIDEBAR_WIDTH_MOBILE } from './sidebar.constants'
 import { useSidebar } from './sidebar.hooks'
@@ -28,7 +28,7 @@ const MotionSidebar = React.forwardRef<HTMLDivElement, ISidebarProps>(
     ref,
   ) => {
     const { isMobile, state, openMobile, setOpenMobile, open } = useSidebar()
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
 
     if (collapsible === 'none') {
       return (

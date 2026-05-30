@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
 import { registryEntrySchema } from '../../../config/schema'
 import { getRegistryFileTarget } from '../../../extensions/ui/lib/file-target'
-import { applyContentRewrites } from '../../../extensions/ui/lib/import-rewriter'
+import { applyContentRewrites, compileContentRewrites } from '../../../extensions/ui/lib/import-rewriter'
 import { stripSourceVariables } from '../../../extensions/ui/lib/ts-morph'
 import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 import { hashValue } from '../../../lib/hash'
+import { resolveWithinBase } from '../../../lib/safe-path'
 import type { IRegistryBuildContext } from '../../types'
 
 async function readRegistryFileContent(
@@ -24,10 +24,11 @@ async function readRegistryFileContent(
     )
   }
 
-  return fs.readFile(path.join(source.path, file.path), 'utf8')
+  return fs.readFile(resolveWithinBase(source.path, file.path, `file.path for "${item.name}"`), 'utf8')
 }
 
-/** Hash the component's config and output targets, excluding source file contents. */
+// Excludes source file contents — paired with `createComponentSignature` below
+// for the two-stage static/full short-circuit each phase runs against the cache.
 export function createComponentStaticSignature(context: IRegistryBuildContext, item: IIndexedRegistryEntry) {
   const { tree: _tree, ...componentItem } = item
 
@@ -43,10 +44,8 @@ export function createComponentStaticSignature(context: IRegistryBuildContext, i
   })
 }
 
-/**
- * Combine static config with source file hashes so incremental rebuilds can
- * skip unchanged components safely.
- */
+// Adds per-file content hashes on top of the static signature, so a component
+// whose config didn't change but whose source did still rebuilds.
 export async function createComponentSignature(
   context: IRegistryBuildContext,
   item: IIndexedRegistryEntry,
@@ -69,7 +68,9 @@ export async function createComponentSignature(
       }
 
       return {
-        hash: await context.cache.getFileHash(path.join(source.path, file.path)),
+        hash: await context.cache.getFileHash(
+          resolveWithinBase(source.path, file.path, `file.path for "${item.name}"`),
+        ),
         path: file.path,
       }
     }),
@@ -81,12 +82,11 @@ export async function createComponentSignature(
   })
 }
 
-/**
- * Materialize a registry component payload with stripped variables and rewritten
- * imports so the emitted JSON matches the configured output contract.
- */
 export async function buildComponentPayload(context: IRegistryBuildContext, item: IIndexedRegistryEntry) {
   const { tree: _tree, ...componentItem } = item
+  // Compile rewrites once per component (cached across calls by pattern source)
+  // so the inner loop reuses a single RegExp instance per pattern.
+  const compiledRewrites = compileContentRewrites(context.config.importMappings.contentRewrites)
   const transformedFiles = await Promise.all(
     (item.files ?? []).map(async (file) => {
       const content = await readRegistryFileContent(context, item, file)
@@ -96,7 +96,7 @@ export async function buildComponentPayload(context: IRegistryBuildContext, item
         project: context.project,
         stripVariables: context.config.stripVariables,
       })
-      const rewritten = applyContentRewrites(stripped, context.config.importMappings.contentRewrites)
+      const rewritten = applyContentRewrites(stripped, compiledRewrites)
 
       return {
         content: rewritten,

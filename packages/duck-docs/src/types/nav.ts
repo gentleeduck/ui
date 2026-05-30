@@ -18,6 +18,5 @@ export interface INavItemWithChildren extends INavItem {
   items?: INavItemWithChildren[]
 }
 
-export interface IMainNavItem extends INavItemWithChildren {}
-
-export interface ISidebarNavItem extends INavItemWithChildren {}
+export type IMainNavItem = INavItemWithChildren
+export type ISidebarNavItem = INavItemWithChildren

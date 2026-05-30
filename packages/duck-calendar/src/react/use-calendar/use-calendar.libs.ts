@@ -1,7 +1,46 @@
 import type React from 'react'
 import type { Adapter } from '../../adapter'
 import type { Grid } from '../../grid'
+import type { Selection } from '../../selection'
 import type { UseCalendar } from './use-calendar.types'
+
+/**
+ * Empty initial value for `useControllableState` per selection mode.
+ * - `multi` / `multi-range` start as `[]`
+ * - `single` / `range` start as `null`
+ *
+ * Hides the mode-discriminated cast in one place so callers stay clean.
+ */
+export function emptySelectionValue<TDate, M extends Selection.SelectionMode>(
+  mode: M,
+): Selection.CalendarValue<TDate, M> {
+  if (mode === 'multi' || mode === 'multi-range') {
+    return [] as Selection.CalendarValue<TDate, M>
+  }
+  return null as Selection.CalendarValue<TDate, M>
+}
+
+/**
+ * Pick the initial focused date from a selection value, narrowing the
+ * mode-discriminated `CalendarValue` to a concrete `TDate`.
+ * Returns `null` if no date can be derived (multi/multi-range/empty).
+ */
+export function initialFocusFromSelected<TDate, M extends Selection.SelectionMode>(
+  mode: M,
+  selected: Selection.CalendarValue<TDate, M> | undefined,
+): TDate | null {
+  if (selected == null) return null
+  if (mode === 'single') {
+    return selected as unknown as TDate
+  }
+  if (mode === 'range') {
+    const range = selected as unknown as Selection.DateRange<TDate>
+    return range.from ?? null
+  }
+  // multi / multi-range: don't auto-focus the first selected item to avoid
+  // jumping the user's view unexpectedly.
+  return null
+}
 
 export function buildDayProps<TDate>(
   day: Grid.ICalendarDay<TDate>,
@@ -38,11 +77,12 @@ export function buildDayProps<TDate>(
   }
 }
 
-export function buildGridProps(headerId: string): UseCalendar.IGridProps {
+export function buildGridProps(headerId: string, gridId: string): UseCalendar.IGridProps {
   return {
     role: 'grid',
     'aria-labelledby': headerId,
     'aria-roledescription': 'calendar',
+    'data-calendar-grid': gridId,
   }
 }
 

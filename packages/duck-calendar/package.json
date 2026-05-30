@@ -38,10 +38,6 @@
     "./calendar-system": {
       "types": "./dist/calendar-system/index.d.ts",
       "default": "./dist/calendar-system/index.js"
-    },
-    "./*": {
-      "types": "./dist/*/index.d.ts",
-      "default": "./dist/*/index.js"
     }
   },
   "files": [

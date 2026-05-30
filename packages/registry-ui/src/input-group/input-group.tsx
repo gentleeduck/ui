@@ -1,18 +1,18 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 import * as React from 'react'
 import { Button } from '../button'
+import { toDirection } from '../direction/direction.libs'
 import { Input } from '../input'
 import { Textarea } from '../textarea'
 
 const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
   ({ className, dir, children, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for input grouping
       <div
@@ -131,7 +131,7 @@ InputGroupText.displayName = 'InputGroupText'
 
 const InputGroupInput = React.forwardRef<HTMLInputElement, React.ComponentPropsWithoutRef<'input'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       <Input
         className={cn(

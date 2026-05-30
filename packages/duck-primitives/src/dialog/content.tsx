@@ -14,10 +14,8 @@ import { DescriptionWarning, TitleWarning } from './warnings'
 const CONTENT_NAME = 'DialogContent'
 
 type DialogContentImplElement = React.ComponentRef<typeof DismissableLayer>
-type DialogContentTypeElement = DialogContentImplElement
-type DialogContentElement = DialogContentTypeElement
 
-export const DialogContent = React.forwardRef<DialogContentElement, IDialog.IContentProps>(
+export const DialogContent = React.forwardRef<DialogContentImplElement, IDialog.IContentProps>(
   (props: IDialog.IScoped<IDialog.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
@@ -36,7 +34,7 @@ export const DialogContent = React.forwardRef<DialogContentElement, IDialog.ICon
 
 DialogContent.displayName = CONTENT_NAME
 
-const DialogContentModal = React.forwardRef<DialogContentTypeElement, IDialog.IContentTypeProps>(
+const DialogContentModal = React.forwardRef<DialogContentImplElement, IDialog.IContentTypeProps>(
   (props: IDialog.IScoped<IDialog.IContentTypeProps>, forwardedRef) => {
     const {
       trapFocus: trapFocusProp,
@@ -45,12 +43,14 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, IDialog.IC
     } = props
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
     const contentRef = React.useRef<HTMLDivElement>(null)
-    const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef)
+    // Track via state so the aria-hide effect retries if Presence delays mount past
+    // the first commit (refs are not reactive; the empty-deps version silently no-oped).
+    const [content, setContent] = React.useState<HTMLDivElement | null>(null)
+    const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef, (node) => setContent(node))
 
     React.useEffect(() => {
-      const content = contentRef.current
       if (content) return hideOthers(content)
-    }, [])
+    }, [content])
 
     return (
       <DialogContentImpl
@@ -76,7 +76,7 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, IDialog.IC
 
 DialogContentModal.displayName = 'DialogContentModal'
 
-const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, IDialog.IContentTypeProps>(
+const DialogContentNonModal = React.forwardRef<DialogContentImplElement, IDialog.IContentTypeProps>(
   (props: IDialog.IScoped<IDialog.IContentTypeProps>, forwardedRef) => {
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
     const hasInteractedOutsideRef = React.useRef(false)

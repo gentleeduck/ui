@@ -1,0 +1,152 @@
+---
+title: API key provider
+description: Long-lived bearer keys for integrations, CLI tools, and machine-to-machine. Plaintext shown once, hashed at rest, scope-checked at verify.
+section: Providers
+---
+
+## Setup
+
+```typescript
+import { apiKey } from '@gentleduck/auth/providers/api-key'
+
+export const auth = new AuthRoot({
+  // ...
+  apiKeys: {
+    prefix: 'ak_live_',    // user-visible token prefix
+    randomBytes: 32,       // 256-bit secret per key
+  },
+  providers: [
+    apiKey({
+      apiKeys: auth.apiKeys,  // the shared facet
+      limiterKeyPrefix: 'signin:api-key:',
+      requireScopes: ['api:read'],  // optional default scope check
+    }),
+  ],
+})
+```
+
+## Creating keys
+
+```typescript
+const { token, key } = await auth.apiKeys.create({
+  identityId: ctx.identity.id,
+  name: 'CI deployment key',
+  scopes: ['ci:write', 'logs:read'],
+  expiresAt: new Date('2027-12-31'),
+})
+
+// `token` is shown to the user ONCE. After this point, only the hash is stored.
+// → 'ak_live_01HJX7B2T9XKAZQP1G...'
+
+console.log('Share this token securely:', token)
+console.log('Key id (safe to log):', key.id)
+```
+
+The plaintext token follows the format:
+
+```
+ak_live_<43-character base64url secret>
+```
+
+The store records:
+- `id` — primary key, safe to log.
+- `prefix` — the visible prefix (`ak_live_`), for at-a-glance triage.
+- `hash` — SHA-256 of the secret part, hashed at rest.
+- `last4` — last 4 characters of the visible token, for UI.
+- `scopes` — granted scopes.
+- `identityId`, `tenantId`, `name`, `expiresAt`, `revokedAt`.
+
+## Signing in with a key
+
+```typescript
+// Vanilla client:
+await client.signIn({
+  providerId: 'api-key',
+  input: { token: 'ak_live_01HJX...' },
+})
+// → 200 { session, identity }   (session.kind: 'apikey')
+
+// Or with curl:
+curl -X POST https://api.example.com/auth/signin \
+  -H 'Content-Type: application/json' \
+  -d '{"providerId":"api-key","input":{"token":"ak_live_..."}}'
+```
+
+The verify path:
+1. Slice off the prefix; SHA-256-hash the secret part.
+2. Lookup by hash.
+3. Check `revokedAt == null` and `expiresAt > now`.
+4. Check `requireScopes` (if configured) is a subset of `scopes`.
+5. Mint a session with `kind: 'apikey'` so downstream code can branch.
+
+Sessions issued via API keys are typically **stateless bearer** (no
+rotation, no MFA, no step-up) — they represent a long-lived machine
+identity, not a user.
+
+## Listing keys
+
+```typescript
+const keys = await auth.apiKeys.list({ identityId })
+// → [{ id, name, prefix, last4, scopes, expiresAt, revokedAt, lastUsedAt }, ...]
+```
+
+The list never contains plaintext — only the metadata. Show `last4` in
+UIs so users can identify which key is which without seeing the secret.
+
+## Revoking and rotating
+
+```typescript
+// Revoke (instant, irreversible):
+await auth.apiKeys.revoke({ keyId })
+
+// Rotate (mint a new key, revoke the old one in the same transaction):
+const { token, key } = await auth.apiKeys.rotate({ keyId })
+// User pastes the new token; the old one is dead immediately.
+```
+
+## Scope enforcement
+
+In handlers, check scopes against the resolved session:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.post('/api/logs', async (req, res) => {
+  const ctx = await auth.resolveSession(req)
+  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+
+  if (ctx.session.kind === 'apikey') {
+    await auth.apiKeys.requireScopes(ctx.session.apiKeyId, ['logs:write'])
+    // → throws AUTH/APIKEY_SCOPE_INSUFFICIENT if missing
+  }
+
+  // Proceed.
+})
+```
+
+For browser-issued sessions (`kind: 'user'`), `requireScopes` is a no-op
+— scopes only apply to API-key sessions.
+
+## Token prefix per environment
+
+A common pattern is two prefixes for dev vs prod:
+
+```typescript
+new AuthRoot({
+  apiKeys: {
+    prefix: process.env.NODE_ENV === 'production' ? 'ak_live_' : 'ak_test_',
+  },
+})
+```
+
+Bots and tooling can refuse to accept `ak_test_` keys in production
+contexts, catching env mix-ups before they reach the database.
+
+## Errors
+
+| Code | When |
+| --- | --- |
+| `AUTH/APIKEY_INVALID` | Token unknown, malformed, or missing prefix. |
+| `AUTH/APIKEY_REVOKED` | Token found but revoked. |
+| `AUTH/APIKEY_SCOPE_INSUFFICIENT` | Token valid but missing a required scope. |
+| `AUTH/RATE_LIMITED` | Per-key bucket tripped. |

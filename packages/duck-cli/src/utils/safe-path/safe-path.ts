@@ -2,13 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 /**
- * Resolves an untrusted, registry-supplied relative path against a trusted base directory,
- * guaranteeing the result stays inside `baseDir`.
- *
- * Rejects absolute paths and any `..` traversal segment, then asserts the resolved path is
- * contained within `baseDir`. The base is canonicalised with realpath when it exists so a
- * pre-existing in-tree symlink cannot redirect the write outside the project. Throws a
- * clear error on any violation.
+ * Resolve untrusted relative path against trusted base; throws on absolute, `..`, or escape.
+ * Base canonicalized via realpath so in-tree symlinks can't redirect.
  */
 export function resolveWithinBase(baseDir: string, untrustedRelative: string): string {
   if (typeof untrustedRelative !== 'string' || untrustedRelative.length === 0) {

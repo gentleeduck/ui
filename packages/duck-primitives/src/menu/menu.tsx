@@ -49,6 +49,8 @@ const Menu: React.FC<IMenu.IProps> = (props: IMenu.IScoped<IMenu.IProps>) => {
     }
   }, [])
 
+  const onClose = React.useCallback(() => handleOpenChange(false), [handleOpenChange])
+
   return (
     <PopperPrimitive.Root {...popperScope}>
       <MenuProvider
@@ -59,7 +61,7 @@ const Menu: React.FC<IMenu.IProps> = (props: IMenu.IScoped<IMenu.IProps>) => {
         onContentChange={setContent}>
         <MenuRootProvider
           scope={__scopeMenu}
-          onClose={React.useCallback(() => handleOpenChange(false), [handleOpenChange])}
+          onClose={onClose}
           isUsingKeyboardRef={isUsingKeyboardRef}
           dir={direction}
           modal={modal}>

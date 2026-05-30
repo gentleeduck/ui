@@ -12,6 +12,8 @@
  * Leap years follow a 2820-year cycle.
  */
 
+import { gregorianMonthLength } from './gregorian'
+
 /*
  * Jalaali years forming a 2820-year cycle start here.
  * The breaks array encodes the positions of leap years within each sub-cycle.
@@ -59,13 +61,6 @@ function jalCal(jy: number): { leap: number; gy: number; march: number } {
   if (leap === -1) leap = 4
 
   return { leap, gy, march }
-}
-
-/** Number of days in a Gregorian month (for input validation). */
-function gregorianMonthLength(gy: number, gm: number): number {
-  const isLeap = gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0)
-  const lengths = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-  return lengths[gm - 1] ?? 31
 }
 
 /**

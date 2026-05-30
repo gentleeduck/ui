@@ -8,18 +8,22 @@ import type {
 import type { IRegistryEntry, RegistryItemType, RegistryItemTypeMap } from './ui.registry.types'
 import { registryEntryListSchema } from './ui.schema'
 
+// Centralizes the type-key widening so the rest of the file doesn't repeat
+// `as TType[]` casts on every Object.keys / entry.type sweep.
+function toItemTypeSet<TType extends RegistryItemType>(values: Iterable<string>): TType[] {
+  return [...new Set(values)] as TType[]
+}
+
 function deriveItemTypes<TType extends RegistryItemType>(
   entries: IRegistryEntry<TType>[] | undefined,
   sources: RegistryItemTypeMap<IRegistryBuildSource, TType> | undefined,
   itemTypes: TType[] | undefined,
 ) {
-  return [
-    ...new Set<TType>([
-      ...(itemTypes ?? []),
-      ...((entries?.map((entry) => entry.type) ?? []) as TType[]),
-      ...(Object.keys(sources ?? {}) as TType[]),
-    ]),
-  ].sort((left, right) => left.localeCompare(right))
+  return toItemTypeSet<TType>([
+    ...(itemTypes ?? []),
+    ...(entries?.map((entry) => entry.type) ?? []),
+    ...Object.keys(sources ?? {}),
+  ]).sort((left, right) => left.localeCompare(right))
 }
 
 export function createUiRegistryCollection<TType extends RegistryItemType = RegistryItemType>(

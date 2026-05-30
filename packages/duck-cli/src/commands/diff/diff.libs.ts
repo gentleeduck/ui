@@ -4,13 +4,59 @@ import prompts from 'prompts'
 import { diffComponents, resolveWriteTypePath, scanInstalledComponents } from '~/services/component.service'
 import { resolveInstallPath } from '~/services/install.service'
 import { printBanner } from '~/utils/banner'
-import { buildDisplayLines, formatLineNumber, getMaxLineNumber } from '~/utils/diff-format'
-import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
+import { buildDisplayLines, type Diff, formatLineNumber, getMaxLineNumber } from '~/utils/diff-format'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { isVerbose } from '~/utils/verbose'
-import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { prepareCommand } from '../shared.libs'
 import { type DiffOptions, diffArgumentsSchema, diffOptionsSchema } from './diff.dto'
+
+/** Table-drive the per-line diff formatting so the inner render loop stays linear. */
+type DiffLineKind = 'add' | 'remove' | 'context'
+const DIFF_LINE_PREFIX: Record<DiffLineKind, string> = {
+  add: '+',
+  remove: '-',
+  context: ' ',
+}
+const DIFF_LINE_PREFIX_FORMAT: Record<DiffLineKind, (s: string) => string> = {
+  add: kleur.green,
+  remove: kleur.red,
+  context: kleur.gray,
+}
+const DIFF_LINE_FG_FORMAT: Record<DiffLineKind, (s: string) => string> = {
+  add: kleur.green,
+  remove: kleur.red,
+  context: kleur.gray,
+}
+const DIFF_LINE_HIGHLIGHT_FORMAT: Record<DiffLineKind, (s: string) => string> = {
+  add: (s) => kleur.bgGreen().black(s),
+  remove: (s) => kleur.bgRed().white(s),
+  context: (s) => s,
+}
+
+function lineKind(type: Diff.DisplayLine['type']): DiffLineKind {
+  if (type === 'add') return 'add'
+  if (type === 'remove') return 'remove'
+  return 'context'
+}
+
+function formatDiffLine(line: Diff.DisplayLine, numWidth: number): string {
+  if (line.type === 'file-header') return kleur.bold(line.rawText)
+  if (line.type === 'hunk-header') return kleur.cyan(line.rawText)
+
+  const oldNum = formatLineNumber(line.oldLineNum, numWidth)
+  const newNum = formatLineNumber(line.newLineNum, numWidth)
+  const kind = lineKind(line.type)
+  const prefix = DIFF_LINE_PREFIX[kind]
+  const fg = DIFF_LINE_FG_FORMAT[kind]
+  const bg = DIFF_LINE_HIGHLIGHT_FORMAT[kind]
+
+  const content = line.segments.map((seg) => (seg.highlight ? bg(seg.text) : fg(seg.text))).join('')
+  const lineNums = kleur.gray(`${oldNum} ${newNum}`)
+  const prefixColored = DIFF_LINE_PREFIX_FORMAT[kind](prefix)
+
+  return `${lineNums} ${prefixColored} ${content}`
+}
 
 export async function diffCommandAction(args: string[], opt: DiffOptions) {
   const options = diffOptionsSchema.parse(opt)
@@ -25,19 +71,10 @@ export async function diffCommandAction(args: string[], opt: DiffOptions) {
   printBanner()
   const spinner = Spinner('initializing...').start()
   try {
-    const cwd = path.resolve(options.cwd)
-
-    // In monorepo mode, config lives in the workspace directory
-    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
-    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
-    const workspaceError = validateWorkspaceTarget(projectCwd, true)
-    if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
-    }
-    spinner.info(`Using workspace: ${projectCwd}`)
-    const tsConfig = await getTsConfig(projectCwd, spinner)
+    const { projectCwd, duckuiConfig, tsConfig } = await prepareCommand(
+      { cwd: options.cwd, workspace: options.workspace },
+      spinner,
+    )
 
     const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
     if (!pathResult.ok) {
@@ -116,46 +153,7 @@ export async function diffCommandAction(args: string[], opt: DiffOptions) {
         const numWidth = Math.max(String(maxNum).length, 3)
 
         for (const line of lines) {
-          if (line.type === 'file-header') {
-            console.log(kleur.bold(line.rawText))
-            continue
-          }
-
-          if (line.type === 'hunk-header') {
-            console.log(kleur.cyan(line.rawText))
-            continue
-          }
-
-          const oldNum = formatLineNumber(line.oldLineNum, numWidth)
-          const newNum = formatLineNumber(line.newLineNum, numWidth)
-          const prefix = line.type === 'add' ? '+' : line.type === 'remove' ? '-' : ' '
-
-          let content = ''
-          for (const seg of line.segments) {
-            if (seg.highlight) {
-              if (line.type === 'remove') {
-                content += kleur.bgRed().white(seg.text)
-              } else if (line.type === 'add') {
-                content += kleur.bgGreen().black(seg.text)
-              } else {
-                content += seg.text
-              }
-            } else {
-              if (line.type === 'remove') {
-                content += kleur.red(seg.text)
-              } else if (line.type === 'add') {
-                content += kleur.green(seg.text)
-              } else {
-                content += kleur.gray(seg.text)
-              }
-            }
-          }
-
-          const lineNums = kleur.gray(`${oldNum} ${newNum}`)
-          const prefixColored =
-            line.type === 'add' ? kleur.green(prefix) : line.type === 'remove' ? kleur.red(prefix) : kleur.gray(prefix)
-
-          console.log(`${lineNums} ${prefixColored} ${content}`)
+          console.log(formatDiffLine(line, numWidth))
         }
         console.log()
       }

@@ -1,0 +1,72 @@
+---
+title: Koa adapter
+description: Koa 2+ middleware. Composes naturally with koa-router and koa-bodyparser.
+section: Server
+---
+
+## Setup
+
+```typescript
+import Koa from 'koa'
+import Router from '@koa/router'
+import bodyParser from 'koa-bodyparser'
+import {
+  koaProviderBegin,
+  koaSession,
+  koaSignIn,
+  koaSignOut,
+} from '@gentleduck/auth/server/koa'
+import { auth } from './lib/auth'
+
+const app = new Koa()
+const router = new Router()
+
+app.use(bodyParser())
+
+router.post('/auth/signin', koaSignIn(auth))
+router.post('/auth/signout', koaSignOut(auth))
+router.get('/auth/session', koaSession(auth))
+router.post('/auth/providers/:providerId/begin', (ctx) =>
+  koaProviderBegin(auth, ctx.params.providerId)(ctx),
+)
+// OAuth callbacks reuse the sign-in handler.
+router.get('/auth/google/callback', koaSignIn(auth))
+
+app.use(router.routes())
+app.use(router.allowedMethods())
+
+app.listen(3000)
+```
+
+## Resolving sessions
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+router.get('/api/me', async (ctx, next) => {
+  const auth_ctx = await auth.resolveSession(ctx.req)
+  if (!auth_ctx) {
+    ctx.status = 401
+    ctx.body = { code: 'AUTH/UNAUTHENTICATED' }
+    return
+  }
+  ctx.body = auth_ctx.identity
+})
+```
+
+## Error handling
+
+```typescript
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (err) {
+    if (err instanceof AuthErrorObject) {
+      ctx.status = err.status
+      ctx.body = err.toJSON()
+      return
+    }
+    throw err
+  }
+})
+```

@@ -1,13 +1,6 @@
-/** Split `arr` into consecutive groups whose sizes are given by `numbers`. */
+import { chunkByCounts } from '../chunk-by-counts'
+
+/** @deprecated Use {@link chunkByCounts} (param order is reversed). */
 export function groupArrays<T>(numbers: readonly number[], arr: readonly T[]): T[][] {
-  const result: T[][] = []
-  let index = 0
-
-  for (const num of numbers) {
-    const headerGroup = arr.slice(index, index + num)
-    result.push(headerGroup)
-    index += num
-  }
-
-  return result
+  return chunkByCounts(arr, numbers)
 }

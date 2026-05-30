@@ -1,7 +1,5 @@
+import { createSlidePreset } from './directional'
 import type { IMotionPreset } from './types'
 
-export const slideFromLeft: IMotionPreset = {
-  initial: { opacity: 0, x: -8, filter: 'blur(4px)' },
-  animate: { opacity: 1, x: 0, filter: 'blur(0px)' },
-  exit: { opacity: 0, x: -30, filter: 'blur(4px)' },
-}
+/** Slide from the left with light blur. Use for sidebar reveals and breadcrumb chevrons. */
+export const slideFromLeft: IMotionPreset = createSlidePreset('left')

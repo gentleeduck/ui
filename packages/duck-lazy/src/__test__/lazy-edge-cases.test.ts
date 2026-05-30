@@ -1,22 +1,29 @@
 import './setup-dom'
+import React, { act } from 'react'
 import { beforeEach, describe, expect, test } from 'vitest'
+import { DuckLazyComponent } from '../lazy-component/lazy-component'
+import { useLazyLoad } from '../lazy-component/lazy-component.hooks'
+import { DuckLazyImage } from '../lazy-image/lazy-image'
+import { useLazyImage } from '../lazy-image/lazy-image.hooks'
 
-// --- IntersectionObserver mock (shared state) ---
+// --- IntersectionObserver mock (multi-instance, with disconnect tracking) ---
 
 type IntersectionCallback = (entries: Partial<IntersectionObserverEntry>[]) => void
 
-let observerInstances: {
+interface ObserverInstance {
   callback: IntersectionCallback
   options: IntersectionObserverInit | undefined
   observed: Element[]
   disconnected: boolean
-}[]
-let latestObserver: (typeof observerInstances)[0]
+}
+
+let observerInstances: ObserverInstance[]
+let latestObserver: ObserverInstance
 
 class MockIntersectionObserver {
   _index: number
   constructor(callback: IntersectionCallback, options?: IntersectionObserverInit) {
-    const instance = { callback, options, observed: [], disconnected: false } as (typeof observerInstances)[0]
+    const instance: ObserverInstance = { callback, disconnected: false, observed: [], options }
     observerInstances.push(instance)
     latestObserver = instance
     this._index = observerInstances.length - 1
@@ -33,7 +40,8 @@ class MockIntersectionObserver {
 // @ts-expect-error - mock
 globalThis.IntersectionObserver = MockIntersectionObserver
 
-// Mock Image constructor for useLazyImage tests
+// --- Image mock ---
+
 class MockImage {
   src = ''
   onload: (() => void) | null = null
@@ -43,138 +51,117 @@ class MockImage {
 // @ts-expect-error - mock
 globalThis.Image = MockImage
 
-import React from 'react'
+// --- mount helper using act() (matches lazy-component.test.ts) ---
 
-// Helper: render a component, wait for effects, return container + root
-async function renderComponent(Component: React.FC) {
+async function mount(node: React.ReactElement) {
   const container = document.createElement('div')
   document.body.appendChild(container)
   const { createRoot } = await import('react-dom/client')
   const root = createRoot(container)
-
-  React.startTransition(() => {
-    root.render(React.createElement(Component))
+  await act(async () => {
+    root.render(node)
   })
-
-  // Wait for React effects to fire and observer to be created
-  for (let i = 0; i < 20; i++) {
-    await new Promise<void>((r) => setTimeout(r, 500))
-    if (observerInstances.length > 0) break
-  }
-
   return {
     container,
     root,
     cleanup() {
-      root.unmount()
+      act(() => root.unmount())
       if (container.parentNode) document.body.removeChild(container)
     },
   }
 }
 
+// =====================================================================
+// useLazyLoad edge cases
+// =====================================================================
+
 describe('useLazyLoad edge cases', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('threshold 0 is passed through to IntersectionObserver', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ threshold: 0 })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.threshold).toBe(0)
     cleanup()
   })
 
   test('threshold 0.5 is passed through to IntersectionObserver', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ threshold: 0.5 })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.threshold).toBe(0.5)
     cleanup()
   })
 
   test('threshold 1 is passed through to IntersectionObserver', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ threshold: 1 })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.threshold).toBe(1)
     cleanup()
   })
 
   test('rootMargin "0px" passthrough', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ rootMargin: '0px' })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.rootMargin).toBe('0px')
     cleanup()
   })
 
   test('rootMargin "100px 50px" passthrough', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ rootMargin: '100px 50px' })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.rootMargin).toBe('100px 50px')
     cleanup()
   })
 
   test('rootMargin negative value passthrough', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ rootMargin: '-50px' })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.rootMargin).toBe('-50px')
     cleanup()
   })
 
   test('observer.disconnect() is called when element becomes visible', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     let result: ReturnType<typeof useLazyLoad> | undefined
 
     function TC() {
       result = useLazyLoad()
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.disconnected).toBe(false)
 
-    // Simulate intersection
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(true)
     expect(result!.isVisible).toBe(true)
@@ -182,97 +169,90 @@ describe('useLazyLoad edge cases', () => {
   })
 
   test('observer is NOT disconnected when entry is not intersecting', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad()
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(false)
     cleanup()
   })
 
   test('works with no options (undefined)', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     let result: ReturnType<typeof useLazyLoad> | undefined
 
     function TC() {
       result = useLazyLoad()
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(result!.isVisible).toBe(false)
-    expect(result!.ComponentRef).toBeDefined()
-    expect(latestObserver.options).toBeUndefined()
+    expect(result!.ref).toBeDefined()
+    // No options -> all observer init fields are undefined (rootMargin / threshold)
+    expect(latestObserver.options?.rootMargin).toBeUndefined()
+    expect(latestObserver.options?.threshold).toBeUndefined()
     cleanup()
   })
 
-  test('observer observes the element attached to ComponentRef', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
+  test('observer observes the element attached to ref', async () => {
     function TC() {
       const r = useLazyLoad()
-      return React.createElement('div', { ref: r.ComponentRef, id: 'target' })
+      return React.createElement('div', { id: 'target', ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.observed.length).toBe(1)
     cleanup()
   })
 
   test('threshold array passthrough', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TC() {
       const r = useLazyLoad({ threshold: [0, 0.25, 0.5, 0.75, 1] })
-      return React.createElement('div', { ref: r.ComponentRef })
+      return React.createElement('div', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.threshold).toEqual([0, 0.25, 0.5, 0.75, 1])
     cleanup()
   })
 })
 
+// =====================================================================
+// DuckLazyComponent edge cases
+// =====================================================================
+
 describe('DuckLazyComponent edge cases', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('renders data-slot="wrapper" on root element', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(DuckLazyComponent, {}, 'hello')
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
     const wrapper = container.querySelector('[data-slot="wrapper"]')
     expect(wrapper).not.toBeNull()
     cleanup()
   })
 
   test('placeholder has animate-pulse class', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(DuckLazyComponent, {}, 'content')
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
     const placeholder = container.querySelector('[data-slot="placeholder"]')
     expect(placeholder).not.toBeNull()
     expect(placeholder!.className).toContain('animate-pulse')
@@ -280,8 +260,6 @@ describe('DuckLazyComponent edge cases', () => {
   })
 
   test('placeholder disappears after intersection, children appear', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(
         DuckLazyComponent,
@@ -290,19 +268,15 @@ describe('DuckLazyComponent edge cases', () => {
       )
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    // Before intersection
     expect(container.querySelector('[data-slot="placeholder"]')).not.toBeNull()
     expect(container.querySelector('[data-testid="child"]')).toBeNull()
 
-    // Trigger intersection
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    // After intersection
     expect(container.querySelector('[data-slot="placeholder"]')).toBeNull()
     expect(container.querySelector('[data-testid="child"]')).not.toBeNull()
     expect(container.textContent).toContain('lazy child')
@@ -310,13 +284,11 @@ describe('DuckLazyComponent edge cases', () => {
   })
 
   test('passes extra HTML props to root div', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
-      return React.createElement(DuckLazyComponent, { id: 'my-lazy', className: 'custom-cls' }, 'c')
+      return React.createElement(DuckLazyComponent, { className: 'custom-cls', id: 'my-lazy' }, 'c')
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
     const wrapper = container.querySelector('[data-slot="wrapper"]')
     expect(wrapper!.id).toBe('my-lazy')
     expect(wrapper!.className).toContain('custom-cls')
@@ -324,41 +296,39 @@ describe('DuckLazyComponent edge cases', () => {
   })
 
   test('only threshold is overridden, rootMargin keeps default', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(DuckLazyComponent, { options: { threshold: 0.75 } }, 'c')
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.threshold).toBe(0.75)
     expect(latestObserver.options?.rootMargin).toBe('0px')
     cleanup()
   })
 
   test('only rootMargin is overridden, threshold keeps default', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(DuckLazyComponent, { options: { rootMargin: '200px' } }, 'c')
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
     expect(latestObserver.options?.rootMargin).toBe('200px')
     expect(latestObserver.options?.threshold).toBe(0)
     cleanup()
   })
 })
 
+// =====================================================================
+// Multiple lazy components on same page
+// =====================================================================
+
 describe('Multiple lazy components on same page', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('each DuckLazyComponent creates its own observer', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(
         'div',
@@ -369,15 +339,13 @@ describe('Multiple lazy components on same page', () => {
       )
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(observerInstances.length).toBe(3)
     cleanup()
   })
 
   test('intersecting one component does not reveal siblings', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(
         'div',
@@ -387,18 +355,15 @@ describe('Multiple lazy components on same page', () => {
       )
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    // Only trigger the first observer
-    React.startTransition(() => {
+    await act(async () => {
       observerInstances[0].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(container.textContent).toContain('first')
     expect(container.textContent).not.toContain('second')
 
-    // Second component should still show placeholder
     const placeholders = container.querySelectorAll('[data-slot="placeholder"]')
     expect(placeholders.length).toBe(1)
 
@@ -406,8 +371,6 @@ describe('Multiple lazy components on same page', () => {
   })
 
   test('intersecting all components reveals all children', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TC() {
       return React.createElement(
         'div',
@@ -417,14 +380,12 @@ describe('Multiple lazy components on same page', () => {
       )
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    // Trigger both observers
-    React.startTransition(() => {
+    await act(async () => {
       observerInstances[0].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
       observerInstances[1].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(container.textContent).toContain('aaa')
     expect(container.textContent).toContain('bbb')
@@ -436,56 +397,55 @@ describe('Multiple lazy components on same page', () => {
   })
 })
 
+// =====================================================================
+// useLazyImage
+// =====================================================================
+
 describe('useLazyImage', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('returns isLoaded false initially', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     let result: ReturnType<typeof useLazyImage> | undefined
 
     function TC() {
       result = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: result.imageRef })
+      return React.createElement('img', { ref: result.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(result!.isLoaded).toBe(false)
-    expect(result!.imageRef).toBeDefined()
+    expect(result!.ref).toBeDefined()
     cleanup()
   })
 
   test('passes default options to IntersectionObserver', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     function TC() {
       const r = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: r.imageRef })
+      return React.createElement('img', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
-    // No options passed, should be undefined
-    expect(latestObserver.options).toBeUndefined()
+    // No options passed; rootMargin / threshold should be undefined
+    expect(latestObserver.options?.rootMargin).toBeUndefined()
+    expect(latestObserver.options?.threshold).toBeUndefined()
     cleanup()
   })
 
   test('passes custom options to IntersectionObserver', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     function TC() {
       const r = useLazyImage('https://example.com/img.jpg', {
         rootMargin: '300px',
         threshold: 0.2,
       })
-      return React.createElement('img', { ref: r.imageRef })
+      return React.createElement('img', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.options?.rootMargin).toBe('300px')
     expect(latestObserver.options?.threshold).toBe(0.2)
@@ -493,47 +453,40 @@ describe('useLazyImage', () => {
   })
 
   test('observer disconnects when image enters viewport', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     function TC() {
       const r = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: r.imageRef })
+      return React.createElement('img', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.disconnected).toBe(false)
 
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(true)
     cleanup()
   })
 
   test('observer does NOT disconnect when entry is not intersecting', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     function TC() {
       const r = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: r.imageRef })
+      return React.createElement('img', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(false)
     cleanup()
   })
 
   test('isLoaded becomes true after image loads', async () => {
-    // Capture Image instances to control onload
     const imageInstances: MockImage[] = []
     const OrigMockImage = MockImage
     // @ts-expect-error - mock
@@ -544,33 +497,28 @@ describe('useLazyImage', () => {
       }
     }
 
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
     let result: ReturnType<typeof useLazyImage> | undefined
 
     function TC() {
       result = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: result.imageRef })
+      return React.createElement('img', { ref: result.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     // Trigger intersection to start image loading
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    // The Image instance should have been created with the src
     expect(imageInstances.length).toBeGreaterThanOrEqual(1)
     const lastImg = imageInstances[imageInstances.length - 1]
     expect(lastImg.src).toBe('https://example.com/img.jpg')
 
     // Simulate image loaded
-    React.startTransition(() => {
+    await act(async () => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(result!.isLoaded).toBe(true)
 
@@ -580,34 +528,65 @@ describe('useLazyImage', () => {
     cleanup()
   })
 
-  test('isLoaded stays false if intersection never fires', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
+  test('isLoaded becomes true on image error (so consumers can fall back)', async () => {
+    const imageInstances: MockImage[] = []
+    const OrigMockImage = MockImage
+    // @ts-expect-error - mock
+    globalThis.Image = class extends OrigMockImage {
+      constructor() {
+        super()
+        imageInstances.push(this)
+      }
+    }
 
     let result: ReturnType<typeof useLazyImage> | undefined
 
     function TC() {
-      result = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: result.imageRef })
+      result = useLazyImage('https://example.com/broken.jpg')
+      return React.createElement('img', { ref: result.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
-    // Do nothing -- no intersection
-    await new Promise<void>((r) => setTimeout(r, 500))
+    await act(async () => {
+      latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
+    })
+
+    const lastImg = imageInstances[imageInstances.length - 1]
+    expect(lastImg.onerror).not.toBeNull()
+
+    await act(async () => {
+      if (lastImg.onerror) lastImg.onerror()
+    })
+
+    expect(result!.isLoaded).toBe(true)
+
+    // @ts-expect-error - mock
+    globalThis.Image = OrigMockImage
+    cleanup()
+  })
+
+  test('isLoaded stays false if intersection never fires', async () => {
+    let result: ReturnType<typeof useLazyImage> | undefined
+
+    function TC() {
+      result = useLazyImage('https://example.com/img.jpg')
+      return React.createElement('img', { ref: result.ref })
+    }
+
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(result!.isLoaded).toBe(false)
     cleanup()
   })
 
-  test('observes the img element via imageRef', async () => {
-    const { useLazyImage } = await import('../lazy-image/lazy-image.hooks')
-
+  test('observes the img element via ref', async () => {
     function TC() {
       const r = useLazyImage('https://example.com/img.jpg')
-      return React.createElement('img', { ref: r.imageRef })
+      return React.createElement('img', { ref: r.ref })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.observed.length).toBe(1)
     expect(latestObserver.observed[0].tagName).toBe('IMG')
@@ -615,60 +594,27 @@ describe('useLazyImage', () => {
   })
 })
 
+// =====================================================================
+// DuckLazyImage
+// =====================================================================
+
 describe('DuckLazyImage', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
-  })
-
-  test('throws when src is not provided', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
-    function TC() {
-      // @ts-expect-error - intentionally missing src to test the throw
-      return React.createElement(DuckLazyImage, { width: 100, height: 100 })
-    }
-
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
-
-    let caughtError: Error | null = null
-
-    // React 19: use onCaughtError / onUncaughtError
-    const errorRoot = createRoot(container, {
-      onUncaughtError(error) {
-        caughtError = error as Error
-      },
-    })
-
-    React.startTransition(() => {
-      errorRoot.render(React.createElement(TC))
-    })
-    await new Promise<void>((r) => setTimeout(r, 100))
-
-    // The component should throw, captured either through our handler or by React's boundary
-    expect(caughtError).not.toBeNull()
-    expect(caughtError!.message).toContain('src is required')
-
-    errorRoot.unmount()
-    if (container.parentNode) document.body.removeChild(container)
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('uses default rootMargin "200px" and threshold 0.1', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test image',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test image',
       })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.options?.rootMargin).toBe('200px')
     expect(latestObserver.options?.threshold).toBe(0.1)
@@ -676,59 +622,56 @@ describe('DuckLazyImage', () => {
   })
 
   test('user options override defaults', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test image',
+        height: 200,
+        options: { rootMargin: '500px', threshold: 0.5 },
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test image',
-        options: { rootMargin: '500px', threshold: 0.5 },
       })
     }
 
-    const { cleanup } = await renderComponent(TC)
+    const { cleanup } = await mount(React.createElement(TC))
 
     expect(latestObserver.options?.rootMargin).toBe('500px')
     expect(latestObserver.options?.threshold).toBe(0.5)
     cleanup()
   })
 
-  test('renders loading overlay when image not yet loaded', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
+  test('renders the placeholder overlay span when image not yet loaded', async () => {
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    // Should have the output element with aria-live="polite" (loading overlay)
-    const output = container.querySelector('output[aria-live="polite"]')
-    expect(output).not.toBeNull()
-    expect(output!.className).toContain('animate-pulse')
+    // The placeholder overlay is now a <span data-slot="placeholder"> with animate-pulse
+    const placeholder = container.querySelector('span[data-slot="placeholder"]')
+    expect(placeholder).not.toBeNull()
+    expect(placeholder!.className).toContain('animate-pulse')
+    // Pre-load: opacity-100 + bg-muted
+    expect(placeholder!.className).toContain('opacity-100')
+    expect(placeholder!.className).toContain('bg-muted')
     cleanup()
   })
 
   test('renders an img element with lazy loading attribute', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'photo',
+        height: 150,
         src: 'https://example.com/img.jpg',
         width: 300,
-        height: 150,
-        alt: 'photo',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const img = container.querySelector('img')
     expect(img).not.toBeNull()
@@ -739,104 +682,161 @@ describe('DuckLazyImage', () => {
     cleanup()
   })
 
-  test('img src is always props.src because spread props override computed src', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
+  // ---------------------------------------------------------------
+  // CORRECT lazy-swap behavior: placeholder URL renders pre-load,
+  // real src renders post-load. The old broken behavior (props.src
+  // spread last wins) is now fixed by destructuring src out before
+  // {...props} spread.
+  // ---------------------------------------------------------------
+  test('img src renders the placeholder URL before load when placeholder is provided', async () => {
     function TC() {
       return React.createElement(DuckLazyImage, {
-        src: 'https://example.com/img.jpg',
+        alt: 'test',
+        height: 200,
         placeholder: 'https://example.com/placeholder.jpg',
+        src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const img = container.querySelector('img')
     expect(img).not.toBeNull()
-    // The {...props} spread includes props.src which overrides the computed src
+    // Before intersection / load, displaySrc should be the placeholder
+    expect(img!.getAttribute('src')).toBe('https://example.com/placeholder.jpg')
+    cleanup()
+  })
+
+  test('img src falls back to the real src when no placeholder is provided', async () => {
+    function TC() {
+      return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
+        src: 'https://example.com/img.jpg',
+        width: 200,
+      })
+    }
+
+    const { container, cleanup } = await mount(React.createElement(TC))
+
+    const img = container.querySelector('img')
+    expect(img).not.toBeNull()
+    // No placeholder -> displaySrc collapses to the real src on first paint
     expect(img!.getAttribute('src')).toBe('https://example.com/img.jpg')
     cleanup()
   })
 
-  test('img src remains props.src even without placeholder', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
+  test('img src swaps from placeholder to the real src after the image loads', async () => {
+    const imageInstances: MockImage[] = []
+    const OrigMockImage = MockImage
+    // @ts-expect-error - mock
+    globalThis.Image = class extends OrigMockImage {
+      constructor() {
+        super()
+        imageInstances.push(this)
+      }
+    }
 
     function TC() {
       return React.createElement(DuckLazyImage, {
-        src: 'https://example.com/img.jpg',
-        width: 200,
+        alt: 'swap',
         height: 200,
-        alt: 'test',
+        placeholder: 'https://example.com/placeholder.jpg',
+        src: 'https://example.com/real.jpg',
+        width: 200,
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    const img = container.querySelector('img')
-    expect(img).not.toBeNull()
-    // props.src is spread last, so it overrides the ternary
-    expect(img!.getAttribute('src')).toBe('https://example.com/img.jpg')
+    let img = container.querySelector('img')
+    expect(img!.getAttribute('src')).toBe('https://example.com/placeholder.jpg')
+
+    // Trigger intersection
+    await act(async () => {
+      latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
+    })
+
+    // Trigger image load
+    const lastImg = imageInstances[imageInstances.length - 1]
+    await act(async () => {
+      if (lastImg.onload) lastImg.onload()
+    })
+
+    img = container.querySelector('img')
+    expect(img!.getAttribute('src')).toBe('https://example.com/real.jpg')
+
+    // @ts-expect-error - mock
+    globalThis.Image = OrigMockImage
     cleanup()
   })
 
-  test('does not render loading overlay when nextImage is true', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
+  test('placeholder overlay is still rendered (default branch)', async () => {
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
-        nextImage: false, // explicitly false to not use next/image, but test the overlay logic
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    // With nextImage=false, the overlay should be present
-    const output = container.querySelector('output[aria-live="polite"]')
-    expect(output).not.toBeNull()
+    const placeholder = container.querySelector('span[data-slot="placeholder"]')
+    expect(placeholder).not.toBeNull()
     cleanup()
   })
 
-  test('aria-hidden reflects loaded state on img', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
+  test('aria-hidden on img is not set when alt is provided (driven by alt presence)', async () => {
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const img = container.querySelector('img')
     expect(img).not.toBeNull()
-    // Before load, aria-hidden should be 'false'
-    expect(img!.getAttribute('aria-hidden')).toBe('false')
+    // With `alt` present the image is informational — no aria-hidden.
+    expect(img!.getAttribute('aria-hidden')).toBeNull()
+    cleanup()
+  })
+
+  test('aria-hidden on img is "true" when alt is empty (decorative)', async () => {
+    function TC() {
+      return React.createElement(DuckLazyImage, {
+        alt: '',
+        height: 200,
+        src: 'https://example.com/img.jpg',
+        width: 200,
+      })
+    }
+
+    const { container, cleanup } = await mount(React.createElement(TC))
+
+    const img = container.querySelector('img')
+    expect(img).not.toBeNull()
+    expect(img!.getAttribute('aria-hidden')).toBe('true')
     cleanup()
   })
 
   test('root div has relative overflow-hidden class', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const rootDiv = container.firstElementChild as HTMLDivElement
     expect(rootDiv).not.toBeNull()
@@ -845,38 +845,36 @@ describe('DuckLazyImage', () => {
     cleanup()
   })
 
-  test('root div uses translate3d for GPU acceleration', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
+  test('root div no longer applies translate3d (cargo-culted GPU promotion removed)', async () => {
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'test',
+        height: 200,
         src: 'https://example.com/img.jpg',
         width: 200,
-        height: 200,
-        alt: 'test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const rootDiv = container.firstElementChild as HTMLDivElement
-    expect(rootDiv.style.transform).toBe('translate3d(0,0,0)')
+    // translate3d was removed from both wrapper and img; modern browsers auto-promote
+    // <img> with loading="lazy".
+    expect(rootDiv.style.transform).toBe('')
     cleanup()
   })
 
   test('custom width and height are applied to img', async () => {
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'sized',
+        height: 480,
         src: 'https://example.com/img.jpg',
         width: 640,
-        height: 480,
-        alt: 'sized',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
     const img = container.querySelector('img')
     expect(img!.getAttribute('width')).toBe('640')
@@ -885,10 +883,14 @@ describe('DuckLazyImage', () => {
   })
 })
 
+// =====================================================================
+// DuckLazyImage loaded transitions
+// =====================================================================
+
 describe('DuckLazyImage loaded transitions', () => {
   beforeEach(() => {
     observerInstances = []
-    latestObserver = undefined as unknown as (typeof observerInstances)[0]
+    latestObserver = undefined as unknown as ObserverInstance
   })
 
   test('img opacity transitions from opacity-0 to opacity-100 after load', async () => {
@@ -902,38 +904,33 @@ describe('DuckLazyImage loaded transitions', () => {
       }
     }
 
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
-        src: 'https://example.com/real.jpg',
-        placeholder: 'https://example.com/tiny.jpg',
-        width: 200,
-        height: 200,
         alt: 'transition test',
+        height: 200,
+        placeholder: 'https://example.com/tiny.jpg',
+        src: 'https://example.com/real.jpg',
+        width: 200,
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    const img = container.querySelector('img')
-    // Before load: img class should contain opacity-0
+    let img = container.querySelector('img')
     expect(img!.className).toContain('opacity-0')
 
     // Trigger intersection
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     // Simulate Image onload
     const lastImg = imageInstances[imageInstances.length - 1]
-    React.startTransition(() => {
+    await act(async () => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    // After load: img class should contain opacity-100
+    img = container.querySelector('img')
     expect(img!.className).toContain('opacity-100')
 
     // @ts-expect-error - restore
@@ -941,7 +938,7 @@ describe('DuckLazyImage loaded transitions', () => {
     cleanup()
   })
 
-  test('aria-hidden on output changes after load', async () => {
+  test('img aria-hidden is driven by `alt` presence, not load state', async () => {
     const imageInstances: MockImage[] = []
     const OrigMockImage = MockImage
     // @ts-expect-error - mock
@@ -952,43 +949,40 @@ describe('DuckLazyImage loaded transitions', () => {
       }
     }
 
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'aria test',
+        height: 200,
         src: 'https://example.com/real.jpg',
         width: 200,
-        height: 200,
-        alt: 'aria test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    const output = container.querySelector('output[aria-live="polite"]')
-    expect(output!.getAttribute('aria-hidden')).toBe('false')
+    // Informational image (alt present): no aria-hidden before load.
+    let img = container.querySelector('img')
+    expect(img!.getAttribute('aria-hidden')).toBeNull()
 
-    // Trigger intersection
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    // Simulate load
     const lastImg = imageInstances[imageInstances.length - 1]
-    React.startTransition(() => {
+    await act(async () => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    expect(output!.getAttribute('aria-hidden')).toBe('true')
+    // After load: still null (alt unchanged → presentation unchanged).
+    img = container.querySelector('img')
+    expect(img!.getAttribute('aria-hidden')).toBeNull()
 
     // @ts-expect-error - restore
     globalThis.Image = OrigMockImage
     cleanup()
   })
 
-  test('loading overlay opacity transitions after load', async () => {
+  test('placeholder overlay opacity transitions to opacity-0 + bg-transparent after load', async () => {
     const imageInstances: MockImage[] = []
     const OrigMockImage = MockImage
     // @ts-expect-error - mock
@@ -999,38 +993,33 @@ describe('DuckLazyImage loaded transitions', () => {
       }
     }
 
-    const { DuckLazyImage } = await import('../lazy-image/lazy-image')
-
     function TC() {
       return React.createElement(DuckLazyImage, {
+        alt: 'opacity test',
+        height: 200,
         src: 'https://example.com/real.jpg',
         width: 200,
-        height: 200,
-        alt: 'opacity test',
       })
     }
 
-    const { container, cleanup } = await renderComponent(TC)
+    const { container, cleanup } = await mount(React.createElement(TC))
 
-    const output = container.querySelector('output')
-    // Before load: has opacity-100 and bg-muted
-    expect(output!.className).toContain('opacity-100')
+    let placeholder = container.querySelector('span[data-slot="placeholder"]')
+    expect(placeholder!.className).toContain('opacity-100')
+    expect(placeholder!.className).toContain('bg-muted')
 
-    // Trigger intersection + load
-    React.startTransition(() => {
+    await act(async () => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
     const lastImg = imageInstances[imageInstances.length - 1]
-    React.startTransition(() => {
+    await act(async () => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 500))
 
-    // After load: should have opacity-0 and bg-transparent
-    expect(output!.className).toContain('opacity-0')
-    expect(output!.className).toContain('bg-transparent')
+    placeholder = container.querySelector('span[data-slot="placeholder"]')
+    expect(placeholder!.className).toContain('opacity-0')
+    expect(placeholder!.className).toContain('bg-transparent')
 
     // @ts-expect-error - restore
     globalThis.Image = OrigMockImage

@@ -4,14 +4,9 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { formatForDisplay } from '@gentleduck/vim/format'
-import { useKeyBind } from '@gentleduck/vim/react'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
-
-function ShortcutBinder({ keys, handler }: { keys: string; handler: () => void }) {
-  useKeyBind(keys, handler, { preventDefault: true })
-  return null
-}
+import { ShortcutBinder } from '../_internal/shortcut-binder'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
 MenubarMenu.displayName = 'MenubarMenu'
@@ -22,10 +17,8 @@ MenubarGroup.displayName = 'MenubarGroup'
 const MenubarPortal = MenubarPrimitive.Portal
 MenubarPortal.displayName = 'MenubarPortal'
 
-function MenubarRadioGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
-  return <MenubarPrimitive.RadioGroup {...props} />
-}
-MenubarRadioGroup.displayName = 'MenubarRadioGroup'
+// MenubarRadioGroup is a zero-op pass-through; re-export the primitive directly.
+const MenubarRadioGroup = MenubarPrimitive.RadioGroup
 
 function MenubarSub({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
   return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />

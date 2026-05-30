@@ -29,6 +29,13 @@
   --gentleduck-motion-dur: 150ms;
 }
 
+/*
+ * Reduced motion: collapse durations to ~0 while still firing animation/transition
+ * lifecycle events so consumers (e.g. AnimatePresence, transitionend listeners) work.
+ *  - 1ms duration keeps the start/end events firing.
+ *  - -1ms animation-delay starts the animation already-completed (skip to the end frame)
+ *    instead of holding the initial frame; intentional, not a bug.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

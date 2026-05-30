@@ -6,6 +6,9 @@ import type { Builtin } from '~/primitive'
  */
 export type Simplify<T> = { [K in keyof T]: T[K] } & {}
 
+// --- aliases (prefer the canonical names above; these exist for type-fest / ts-toolbelt parity) ---
+
+/** Alias of `Simplify`; matches type-fest naming. Prefer `Simplify`. */
 export type Prettify<T> = Simplify<T>
 
 /** Override properties of `A` with properties of `B`; keys in `B` win. */
@@ -162,7 +165,12 @@ export type Get<T, Path extends string> = Path extends `${infer Head}.${infer Re
     ? T[Path]
     : undefined
 
-/** Union of all dotted paths into `T`. */
+/**
+ * Union of all dotted paths into `T`.
+ * @remarks Depth-capped at `D = 6` by default; deeper paths silently return `never`.
+ *   Lower `D` for very wide objects to control type-checker cost on
+ *   `KebabCaseKeys`/`DeepCamelCaseKeys`-style consumers.
+ */
 export type Paths<T, D extends number = 6> = [D] extends [0]
   ? never
   : T extends Builtin
@@ -264,11 +272,6 @@ export type ConditionalExcept<T, U> = { [K in keyof T as T[K] extends U ? never 
 export type MergeExclusive<A, B> =
   | (A & { [K in Exclude<keyof B, keyof A>]?: never })
   | (B & { [K in Exclude<keyof A, keyof B>]?: never })
-
-type MapKeys<T, F extends (s: string) => string> = {
-  // biome-ignore lint/suspicious/noExplicitAny: conditional mapping needs any
-  [K in keyof T as K extends string ? ReturnType<F & ((s: K) => any)> : K]: T[K]
-}
 
 /** Shallow camelCase keys. */
 export type CamelCaseKeys<T> = {

@@ -6,6 +6,7 @@ export const duckIamSidebar = defineSidebar([
     items: [
       { title: 'Introduction', href: '/duck-iam/introduction' },
       { title: 'Installation', href: '/duck-iam/installation' },
+      { title: 'How it compares', href: '/duck-iam/comparison' },
     ],
   },
   {
@@ -50,7 +51,13 @@ export const duckIamSidebar = defineSidebar([
   },
   {
     title: 'Guides',
-    items: [{ title: 'Quick start', href: '/duck-iam/guides' }],
+    items: [
+      { title: 'Quick start', href: '/duck-iam/guides' },
+      { title: 'Production hardening', href: '/duck-iam/guides/production' },
+      { title: 'Pairing with duck-auth', href: '/duck-iam/guides/auth-bridge' },
+      { title: 'Cookbook', href: '/duck-iam/guides/cookbook' },
+      { title: 'Troubleshooting', href: '/duck-iam/guides/troubleshooting' },
+    ],
   },
   {
     title: 'Course',

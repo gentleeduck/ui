@@ -43,6 +43,7 @@ describe('registers', () => {
       container: { className: 'h-10', height: '40px' },
       description: 'Demo block',
       file: 'demo.tsx',
+      files: [],
       highlightedCode: '<span>demo</span>',
       name: 'demo-block',
       root_folder: 'registry-blocks',

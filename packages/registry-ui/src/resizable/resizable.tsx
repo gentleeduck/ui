@@ -6,12 +6,13 @@ import { useDirection } from '@gentleduck/primitives/direction'
 import { GripVertical } from 'lucide-react'
 import React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'
+import { toDirection } from '../direction/direction.libs'
 
 const ResizablePanelGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: IDirection.Kind }
 >(({ className, dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   return (
     <ResizablePrimitive.Group
       className={cn('flex h-full w-full', className)}

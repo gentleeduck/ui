@@ -1,7 +1,6 @@
 export { CodeBlock } from './code-block'
-export { CodeBlockWrapper } from './code-block-wrapper'
 export { CodePreview } from './code-preview'
-export { BuildTab, ComponentPreview, TABS } from './component-preview'
+export { ComponentPreview, TABS } from './component-preview'
 export { ComponentSource } from './component-source'
 export { FigcaptionBlock } from './figcaption-block'
 export type { IMermaidBlockProps } from './mermaid-block'

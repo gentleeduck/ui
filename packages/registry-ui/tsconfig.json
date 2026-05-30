@@ -14,7 +14,6 @@
     "dist",
     "./src/_old",
     "./src/_audio",
-    "./src/_upload",
     "**/__test__/**",
     "**/*.test.ts",
     "**/*.test.tsx",

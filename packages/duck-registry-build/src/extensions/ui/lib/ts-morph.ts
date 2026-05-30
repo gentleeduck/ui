@@ -8,6 +8,12 @@ export function stripSourceVariables(options: {
   project: Project
   stripVariables: string[]
 }) {
+  // Default config has an empty stripVariables list, so skip the ts-morph parse
+  // for every file in that common case (DEFAULT_STRIP_VARIABLES === []).
+  if (options.stripVariables.length === 0) {
+    return options.content
+  }
+
   const sourceFile = options.project.createSourceFile(path.join('/virtual', options.filePath), options.content, {
     overwrite: true,
     scriptKind: ScriptKind.TSX,

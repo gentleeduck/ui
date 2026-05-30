@@ -14,7 +14,14 @@ import {
 } from '../use-announcer'
 import { useKeyboard } from '../use-keyboard'
 import { useControllableState } from '../utils/use-controllable-state'
-import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
+import {
+  buildDayProps,
+  buildGridProps,
+  buildHeaderProps,
+  buildNavProps,
+  emptySelectionValue,
+  initialFocusFromSelected,
+} from './use-calendar.libs'
 import type { UseCalendar } from './use-calendar.types'
 
 export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>(
@@ -39,6 +46,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
   } = config
 
   const headerId = useId()
+  const gridId = useId()
 
   // Declared early so `announce` is available to selectDate below.
   const announcer = useAnnouncer()
@@ -48,11 +56,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
 
   const [month, setMonthState] = useControllableState<TDate>(controlledMonth, initialMonth, onMonthChange)
 
-  const initialValue: Selection.CalendarValue<TDate, M> =
-    (defaultSelected as Selection.CalendarValue<TDate, M>) ??
-    (mode === 'multi' || mode === 'multi-range'
-      ? ([] as unknown as Selection.CalendarValue<TDate, M>)
-      : (null as Selection.CalendarValue<TDate, M>))
+  const initialValue: Selection.CalendarValue<TDate, M> = defaultSelected ?? emptySelectionValue<TDate, M>(mode)
 
   const [value, setValue] = useControllableState<Selection.CalendarValue<TDate, M>>(
     controlledSelected,
@@ -60,37 +64,29 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
     onSelect,
   )
 
-  const [focusedDate, setFocusedDate] = useState<TDate>(() => {
-    if (mode === 'single' && controlledSelected != null) {
-      return controlledSelected as unknown as TDate
-    }
-    if (mode === 'single' && defaultSelected != null) {
-      return defaultSelected as unknown as TDate
-    }
-    if (mode === 'range' && controlledSelected != null) {
-      const range = controlledSelected as unknown as { from: TDate }
-      if (range.from) return range.from
-    }
-    return adapter.today()
-  })
+  const [focusedDate, setFocusedDate] = useState<TDate>(
+    () => initialFocusFromSelected(mode, controlledSelected ?? defaultSelected) ?? adapter.today(),
+  )
   const [viewMode, setViewMode] = useState<Calendar.ViewMode>('days')
 
+  // Callers MUST stabilize `disabled` — inline predicate/literal forces months memo recompute.
   const constraints: Selection.ISelectionConstraints<TDate> = useMemo(
     () => ({ disabled, fromDate, toDate }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [fromDate, toDate, disabled],
   )
 
   const isDisabledFn = useCallback((date: TDate) => isDateDisabled(adapter, date, constraints), [adapter, constraints])
 
-  // Extract primitives from `locale` so the memo deps below stay stable.
+  // Primitives extracted so memo deps stay stable.
   const localeTag = locale?.locale
-  const weekStartDay = locale?.weekStartDay ?? 0
+  // Raw preserves "not provided" vs explicit `0` so weekStartDay: 0 (Sunday) is still forwarded.
+  const rawWeekStartDay = locale?.weekStartDay
+  const weekStartDay = rawWeekStartDay ?? 0
   const localeDirection = locale?.direction
 
   const months: Grid.ICalendarMonth<TDate>[] = useMemo(() => {
     const resolvedLocale =
-      localeTag || localeDirection || weekStartDay
+      localeTag !== undefined || localeDirection !== undefined || rawWeekStartDay !== undefined
         ? { locale: localeTag, weekStartDay, direction: localeDirection }
         : undefined
     const gridConfig = { showOutsideDays, fixedWeeks, locale: resolvedLocale }
@@ -112,7 +108,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
     showOutsideDays,
     fixedWeeks,
     localeTag,
-    weekStartDay,
+    rawWeekStartDay,
     localeDirection,
     numberOfMonths,
   ])
@@ -207,17 +203,22 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
       if (!adapter.isSameMonth(date, month)) {
         setMonthState(adapter.startOfMonth(date))
       }
-      // Move DOM focus after React re-render (keyboard nav only).
+      // Move DOM focus after React re-render (keyboard nav only). Scope the query
+      // by `data-calendar-grid="<gridId>"` so multi-calendar pages don't grab the
+      // focused cell from a sibling calendar.
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0
-        const el = document.querySelector<HTMLElement>('[data-calendar-day][data-focused="true"]')
+        // Use attribute selector with CSS.escape-equivalent for safety on
+        // useId-generated values that contain `:` (which is invalid in CSS ids).
+        const root = document.querySelector<HTMLElement>(`[data-calendar-grid="${gridId}"]`)
+        const el = (root ?? document).querySelector<HTMLElement>('[data-calendar-day][data-focused="true"]')
         if (el && document.activeElement !== el) {
           el.focus({ preventScroll: true })
         }
       })
     },
-    [adapter, month, setMonthState],
+    [adapter, month, setMonthState, gridId],
   )
 
   const keyboard = useKeyboard({
@@ -236,7 +237,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
     [focusedDate, adapter, selectDate, keyboard.onKeyDown, localeTag],
   )
 
-  const getGridProps = useCallback(() => buildGridProps(headerId), [headerId])
+  const getGridProps = useCallback(() => buildGridProps(headerId, gridId), [headerId, gridId])
 
   const getNavProps = useCallback(
     (direction: 'prev' | 'next') => buildNavProps(direction, canGoPrevious, canGoNext, goToPrevious, goToNext),

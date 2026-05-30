@@ -6,18 +6,22 @@ import type { IPopper } from './popper.types'
 
 const ANCHOR_NAME = 'PopperAnchor'
 
-export const PopperAnchor = ({ ref: forwardedRef, ...props }: IPopper.IScoped<IPopper.IAnchorProps>) => {
-  const { __scopePopper, virtualRef, ...anchorProps } = props
-  const context = usePopperContext(ANCHOR_NAME, __scopePopper)
+type PopperAnchorElement = React.ComponentRef<typeof Primitive.div>
 
-  const ref = React.useRef(null)
-  const composedRefs = useComposedRefs(forwardedRef, ref)
+export const PopperAnchor = React.forwardRef<PopperAnchorElement, IPopper.IAnchorProps>(
+  (props: IPopper.IScoped<IPopper.IAnchorProps>, forwardedRef) => {
+    const { __scopePopper, virtualRef, ...anchorProps } = props
+    const context = usePopperContext(ANCHOR_NAME, __scopePopper)
 
-  React.useEffect(() => {
-    context.onAnchorChange(virtualRef?.current ?? ref.current)
-  })
+    const ref = React.useRef(null)
+    const composedRefs = useComposedRefs(forwardedRef, ref)
 
-  return virtualRef ? null : <Primitive.div data-slot="popper-anchor" {...anchorProps} ref={composedRefs} />
-}
+    React.useEffect(() => {
+      context.onAnchorChange(virtualRef?.current ?? ref.current)
+    })
+
+    return virtualRef ? null : <Primitive.div data-slot="popper-anchor" {...anchorProps} ref={composedRefs} />
+  },
+)
 
 PopperAnchor.displayName = ANCHOR_NAME

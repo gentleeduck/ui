@@ -1,4 +1,3 @@
-// import va from '@vercel/analytics'
 import { z } from 'zod'
 
 const eventSchema = z.object({
@@ -22,8 +21,7 @@ const eventSchema = z.object({
 export type Event = z.infer<typeof eventSchema>
 
 export function trackEvent(input: Event): void {
-  const event = eventSchema.parse(input)
-  if (event) {
-    // va.track(event.name, event.properties)
-  }
+  // `safeParse` so bad MDX-supplied event names can't crash the page; the
+  // analytics sink is wired up by the consuming docs app (no-op here).
+  eventSchema.safeParse(input)
 }

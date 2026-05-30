@@ -3,6 +3,9 @@ import type { Grid } from '../grid'
 import { isDateDisabled, isInRange } from './selection.libs'
 import type { Selection } from './selection.types'
 
+/** Min range length splittable by shift+click; below this it's a no-op to avoid sliver fragmentation. */
+const MIN_SPLIT_RANGE_DAYS = 5
+
 /**
  * Compute the next selection state when a day is clicked.
  * - **single**: click selects, click same deselects (returns null)
@@ -111,7 +114,7 @@ function selectMultiRange<TDate>(
     const fromMs = adapter.toDate(range.from).getTime()
     const toMs = adapter.toDate(range.to).getTime()
     const dayCount = Math.round((toMs - fromMs) / 86_400_000) + 1
-    if (dayCount <= 5) return current
+    if (dayCount <= MIN_SPLIT_RANGE_DAYS) return current
 
     const result = current.filter((_, i) => i !== idx)
 

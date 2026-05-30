@@ -3,6 +3,7 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
+import { z } from 'zod'
 import type { InitOptions } from '~/commands/init'
 import { getRegistryBaseColor } from '~/utils/get-registry'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
@@ -18,6 +19,10 @@ import {
 import { duckuiPrompts, duckuiRestPrompts, makeDuckuiMonorepoPrompt } from './preflight-duckui.constants'
 import { type DuckUI, duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
 import { generateThemeCSS, initDuckuiConfig } from './preflight-duckui.libs'
+
+/** Prompt answer for the workspace pickers. `prompts` returns `unknown`; validate before use. */
+const workspaceAnswerSchema = z.object({ workspaceProject: z.string().optional() })
+const cssWorkspaceAnswerSchema = z.object({ cssWorkspace: z.string().optional() })
 
 // When the config lives inside the workspace, both root and project are '.' relative
 // to the config location.
@@ -100,7 +105,8 @@ export async function preflightDuckuiResolveWorkspace(options: InitOptions, spin
         type: 'select',
       })
       spinner.start()
-      selected = (answer.workspaceProject as string | undefined) ?? defaultPick ?? '.'
+      const parsed = workspaceAnswerSchema.safeParse(answer)
+      selected = (parsed.success ? parsed.data.workspaceProject : undefined) ?? defaultPick ?? '.'
     }
   }
 
@@ -130,7 +136,8 @@ export async function preflightDuckuiResolveWorkspace(options: InitOptions, spin
         type: 'select',
       })
       spinner.start()
-      const picked = pick.cssWorkspace as string | undefined
+      const parsed = cssWorkspaceAnswerSchema.safeParse(pick)
+      const picked = parsed.success ? parsed.data.cssWorkspace : undefined
       if (picked && picked !== SAME_AS_COMPONENTS) {
         cssSelected = picked
       }
@@ -149,125 +156,118 @@ export async function preflightDuckuiResolveWorkspace(options: InitOptions, spin
   return { cssWorkspaceCwd, monorepo: true, workspaceCwd }
 }
 
+/** Errors propagate to `preflightConfigs` → `initCommandAction` which renders the final fail. */
 export async function preflightDuckui(
   options: InitOptions,
   resolution: DuckUI.Resolution,
   spinner: Ora,
 ): Promise<void> {
-  try {
-    spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
-    const configCwd = resolution.workspaceCwd
+  spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
+  const configCwd = resolution.workspaceCwd
 
-    const files = fg.sync(['duck-ui.config.json'], {
-      cwd: configCwd,
-      deep: 1,
-      ignore: IGNORED_DIRECTORIES,
-    })
+  const files = fg.sync(['duck-ui.config.json'], {
+    cwd: configCwd,
+    deep: 1,
+    ignore: IGNORED_DIRECTORIES,
+  })
 
-    if (files.length) {
-      spinner.text = `The ${highlighter.info('duck-ui')} config found...`
-      return
-    }
-
-    if (!options.yes) {
-      spinner.stop()
-      const options = await prompts(duckuiPrompts)
-      const { duckui } = preflightDuckuiOptionsSchema.parse(options)
-      spinner.start()
-
-      if (!duckui) {
-        spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
-        process.exit(0)
-      }
-    }
-
-    let parseConfigOptions: ReturnType<typeof duckuiPromptsSchema.parse>
-
-    if (options.yes) {
-      parseConfigOptions = duckuiPromptsSchema.parse({
-        alias: options.alias || '~',
-        baseColor: options.baseColor || 'zinc',
-        css: options.css || './src/styles.css',
-        cssVariables: options.cssVariables ?? true,
-        monorepo: resolution.monorepo,
-        prefix: options.prefix || '',
-        projectType: options.projectType || 'VITE',
-      })
-    } else {
-      spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
-      spinner.stop()
-      const configOptions = await prompts(duckuiRestPrompts)
-      spinner.start()
-
-      if (Object.keys(configOptions).length < duckuiRestPrompts.length) {
-        spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
-        process.exit(0)
-      }
-      parseConfigOptions = duckuiPromptsSchema.parse({
-        ...configOptions,
-        monorepo: resolution.monorepo,
-      })
-    }
-
-    const themeResponse = await getRegistryBaseColor(parseConfigOptions.baseColor)
-    if (!themeResponse?.light || !themeResponse?.dark) {
-      spinner.fail('Failed to fetch theme from registry.')
-      process.exit(1)
-    }
-    const css = generateThemeCSS(parseConfigOptions.baseColor, themeResponse)
-
-    const cssFilePath = path.join(resolution.cssWorkspaceCwd, parseConfigOptions.css)
-    const exists = fs.existsSync(cssFilePath)
-
-    if (exists) {
-      const oldContent = await fs.readFile(cssFilePath, 'utf-8')
-      if (oldContent.length > 50) {
-        let overwrite = options.yes
-        if (!options.yes) {
-          spinner.stop()
-          ;({ overwrite } = await prompts({
-            message: `The ${highlighter.info('tailwindCss')} settings already exists, do you want to overwrite it?`,
-            name: 'overwrite',
-            type: 'confirm',
-          }))
-          spinner.start()
-        }
-
-        if (overwrite) {
-          // Keep only the top-of-file `@import` and `@custom-variant` preamble; drop the rest before appending theme.
-          const lines = oldContent.split('\n')
-          const preamble: string[] = []
-          for (const line of lines) {
-            const trimmed = line.trim()
-            if (trimmed === '') {
-              continue
-            }
-            if (trimmed.startsWith('@import ') || trimmed.startsWith('@custom-variant ')) {
-              preamble.push(trimmed)
-            } else {
-              break
-            }
-          }
-          const tailwindImports = preamble.join('\n')
-          fs.writeFileSync(cssFilePath, tailwindImports ? `${tailwindImports}\n\n${css}` : css)
-        }
-      } else {
-        // Treat small existing files as scaffolding and append rather than overwrite.
-        const oldContentTrimmed = oldContent.trim()
-        fs.writeFileSync(cssFilePath, oldContentTrimmed ? `${oldContentTrimmed}\n\n${css}` : css)
-      }
-    } else {
-      fs.mkdirSync(path.dirname(cssFilePath), { recursive: true })
-      fs.writeFileSync(cssFilePath, css)
-    }
-
-    const cssWorkspaceRelative =
-      resolution.cssWorkspaceCwd === configCwd ? undefined : path.relative(configCwd, resolution.cssWorkspaceCwd)
-    await initDuckuiConfig(configCwd, spinner, parseConfigOptions, WORKSPACE_LOCAL_TARGET, cssWorkspaceRelative)
-  } catch (error) {
-    spinner.fail(
-      `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
-    )
-    process.exit(1)
+  if (files.length) {
+    spinner.text = `The ${highlighter.info('duck-ui')} config found...`
+    return
   }
+
+  if (!options.yes) {
+    spinner.stop()
+    const options = await prompts(duckuiPrompts)
+    const { duckui } = preflightDuckuiOptionsSchema.parse(options)
+    spinner.start()
+
+    if (!duckui) {
+      spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
+      process.exit(0)
+    }
+  }
+
+  let parseConfigOptions: ReturnType<typeof duckuiPromptsSchema.parse>
+
+  if (options.yes) {
+    parseConfigOptions = duckuiPromptsSchema.parse({
+      alias: options.alias || '~',
+      baseColor: options.baseColor || 'zinc',
+      css: options.css || './src/styles.css',
+      cssVariables: options.cssVariables ?? true,
+      monorepo: resolution.monorepo,
+      prefix: options.prefix || '',
+      projectType: options.projectType || 'VITE',
+    })
+  } else {
+    spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
+    spinner.stop()
+    const configOptions = await prompts(duckuiRestPrompts)
+    spinner.start()
+
+    if (Object.keys(configOptions).length < duckuiRestPrompts.length) {
+      spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
+      process.exit(0)
+    }
+    parseConfigOptions = duckuiPromptsSchema.parse({
+      ...configOptions,
+      monorepo: resolution.monorepo,
+    })
+  }
+
+  const themeResponse = await getRegistryBaseColor(parseConfigOptions.baseColor)
+  if (!themeResponse?.light || !themeResponse?.dark) {
+    throw new Error('Failed to fetch theme from registry.')
+  }
+  const css = generateThemeCSS(parseConfigOptions.baseColor, themeResponse)
+
+  const cssFilePath = path.join(resolution.cssWorkspaceCwd, parseConfigOptions.css)
+  const exists = fs.existsSync(cssFilePath)
+
+  if (exists) {
+    const oldContent = await fs.readFile(cssFilePath, 'utf-8')
+    if (oldContent.length > 50) {
+      let overwrite = options.yes
+      if (!options.yes) {
+        spinner.stop()
+        ;({ overwrite } = await prompts({
+          message: `The ${highlighter.info('tailwindCss')} settings already exists, do you want to overwrite it?`,
+          name: 'overwrite',
+          type: 'confirm',
+        }))
+        spinner.start()
+      }
+
+      if (overwrite) {
+        // Keep only the top-of-file `@import` and `@custom-variant` preamble; drop the rest before appending theme.
+        const lines = oldContent.split('\n')
+        const preamble: string[] = []
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (trimmed === '') {
+            continue
+          }
+          if (trimmed.startsWith('@import ') || trimmed.startsWith('@custom-variant ')) {
+            preamble.push(trimmed)
+          } else {
+            break
+          }
+        }
+        const tailwindImports = preamble.join('\n')
+        await fs.writeFile(cssFilePath, tailwindImports ? `${tailwindImports}\n\n${css}` : css)
+      }
+    } else {
+      // Treat small existing files as scaffolding and append rather than overwrite.
+      const oldContentTrimmed = oldContent.trim()
+      await fs.writeFile(cssFilePath, oldContentTrimmed ? `${oldContentTrimmed}\n\n${css}` : css)
+    }
+  } else {
+    await fs.mkdir(path.dirname(cssFilePath), { recursive: true })
+    await fs.writeFile(cssFilePath, css)
+  }
+
+  const cssWorkspaceRelative =
+    resolution.cssWorkspaceCwd === configCwd ? undefined : path.relative(configCwd, resolution.cssWorkspaceCwd)
+  await initDuckuiConfig(configCwd, spinner, parseConfigOptions, WORKSPACE_LOCAL_TARGET, cssWorkspaceRelative)
 }

@@ -1,9 +1,9 @@
 import type * as React from 'react'
 
 export namespace IUseOnOpenChange {
-  export interface IReturn<T extends React.RefObject<HTMLElement | null>> {
+  export interface IReturn {
     onOpenChange: (state: boolean) => void
     open: boolean
-    ref: T
+    ref: React.RefObject<HTMLElement | null>
   }
 }

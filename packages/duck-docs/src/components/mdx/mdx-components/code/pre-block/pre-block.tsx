@@ -3,7 +3,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { ShellCommand } from './shell-command'
 import type { ICodeBlockProps } from './types'
 
-// dmc emits `<pre>` two ways:
+// `@gentleduck/md` (the duck-md compiler, "dmc") emits `<pre>` two ways:
 //   1. css-vars (default): a single `<pre>` carrying `--dmc-{mode}` vars
 //      for every theme. No `data-theme`. Theme switching happens in CSS
 //      via `var(--dmc-{active})`.

@@ -1,24 +1,15 @@
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
 import type { Adapter } from './adapter.types'
-import { createConversionCache, formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar, nativeToday } from './adapter.utils'
 
 const hijriCache = createConversionCache((date: Date) =>
   toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate()),
 )
 
 /**
- * Islamic (Hijri) calendar adapter.
- *
- * Wraps native `Date` objects but exposes year/month/day in the tabular
- * Islamic calendar. The underlying `Date` still stores the Gregorian
- * instant  -  conversions happen on the fly.
- *
- * - `getYear()` / `getMonth()` / `getDate()` return Hijri values.
- * - `create(year, month, day)` takes Hijri values (month is **0-indexed**,
- *   0 = Muharram, 11 = Dhu al-Hijjah).
- * - `format()` appends `-u-ca-islamic` to the locale tag so that
- *   `Intl.DateTimeFormat` renders Islamic dates.
- * - Default locale: `'ar-SA'`.
+ * Islamic (Hijri tabular) calendar-aware adapter backed by native `Date`.
+ * `create(year, month, day)` takes a 0-indexed Hijri month
+ * (0 = Muharram, 11 = Dhu al-Hijjah). Default locale: `'ar-SA'`.
  */
 export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
@@ -39,8 +30,7 @@ export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
   }
 
   today(): Date {
-    const d = new Date()
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+    return nativeToday()
   }
 
   /**

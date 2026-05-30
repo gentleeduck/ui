@@ -84,12 +84,16 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenu.
     } = props
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
     const ref = React.useRef<MenuRootContentTypeElement>(null)
-    const composedRefs = useComposedRefs(forwardedRef, ref)
+    // Track via state so the aria-hide effect retries if Presence delays mount past
+    // the first commit (refs are not reactive; the empty-deps version silently no-oped).
+    const [content, setContent] = React.useState<MenuRootContentTypeElement | null>(null)
+    const composedRefs = useComposedRefs(forwardedRef, ref, (node: MenuRootContentTypeElement | null) =>
+      setContent(node),
+    )
 
     React.useEffect(() => {
-      const content = ref.current
       if (content) return hideOthers(content)
-    }, [])
+    }, [content])
 
     return (
       <MenuContentImpl

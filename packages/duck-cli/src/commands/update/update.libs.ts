@@ -5,12 +5,11 @@ import { diffComponent, resolveWriteTypePath, scanInstalledComponents } from '~/
 import { installComponents, installNpmDeps, resolveInstallPath } from '~/services/install.service'
 import { buildComponentMergeState } from '~/services/merge.service'
 import { printBanner } from '~/utils/banner'
-import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
 import { getRegistryItem } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { isVerbose } from '~/utils/verbose'
-import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { prepareCommand } from '../shared.libs'
 import { type UpdateOptions, updateArgumentsSchema, updateOptionsSchema } from './update.dto'
 
 export async function updateCommandAction(args: string[], opt: UpdateOptions) {
@@ -20,19 +19,10 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
   printBanner()
   const spinner = Spinner('initializing...').start()
   try {
-    const cwd = path.resolve(options.cwd)
-
-    // In monorepo mode, config lives in the workspace directory
-    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
-    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
-    const workspaceError = validateWorkspaceTarget(projectCwd, true)
-    if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
-    }
-    spinner.info(`Using workspace: ${projectCwd}`)
-    const tsConfig = await getTsConfig(projectCwd, spinner)
+    const { projectCwd, duckuiConfig, tsConfig } = await prepareCommand(
+      { cwd: options.cwd, workspace: options.workspace },
+      spinner,
+    )
 
     const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
     if (!pathResult.ok) {
@@ -106,13 +96,14 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
     }
 
     spinner.text = 'Fetching latest versions from registry...'
+    // Fan out the registry fetches; each call is independent and already host-allowlisted.
+    const fetchResults = await Promise.all(selected.map((comp) => getRegistryItem(comp.name)))
     const registryEntries = []
-    for (const comp of selected) {
-      const entry = await getRegistryItem(comp.name)
+    for (const [idx, entry] of fetchResults.entries()) {
       if (entry) {
         registryEntries.push(entry)
       } else {
-        spinner.warn(`Component "${comp.name}" not found in registry, skipping.`)
+        spinner.warn(`Component "${selected[idx]?.name ?? '?'}" not found in registry, skipping.`)
       }
     }
 

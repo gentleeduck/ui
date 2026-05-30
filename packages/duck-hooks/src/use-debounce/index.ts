@@ -1,38 +1,54 @@
-/**
- * Returns a debounced version of `callback`. Fires after `delay` ms of inactivity.
- * Plain factory with no React state — safe in non-hook contexts; see also {@link debounce}.
- */
-export const useDebounce = <T extends (...args: unknown[]) => void>(
+import * as React from 'react'
+
+/** Non-hook debounce. Delays `callback` until `delay` ms after last call. */
+export const debounce = <T extends (...args: never[]) => unknown>(
   callback: T,
   delay?: number,
 ): ((...args: Parameters<T>) => void) => {
-  let timeoutRef: ReturnType<typeof setTimeout> | null = null
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
 
   return (...args: Parameters<T>): void => {
-    if (timeoutRef) {
-      clearTimeout(timeoutRef)
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId)
     }
 
-    timeoutRef = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       callback(...args)
     }, delay)
   }
 }
 
-/** Non-hook alias for {@link useDebounce}. */
-export const debounce = <T extends (...args: unknown[]) => void>(
+/** Debounced wrapper with stable identity, latest-callback/delay, unmount cancel. */
+export function useDebounce<T extends (...args: never[]) => unknown>(
   callback: T,
   delay?: number,
-): ((...args: Parameters<T>) => void) => {
-  let timeoutRef: ReturnType<typeof setTimeout> | null = null
+): (...args: Parameters<T>) => void {
+  const callbackRef = React.useRef(callback)
+  const delayRef = React.useRef(delay)
+  const timeoutIdRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  return (...args: Parameters<T>): void => {
-    if (timeoutRef) {
-      clearTimeout(timeoutRef)
+  // Always invoke the most recent callback/delay without changing identity.
+  React.useEffect(() => {
+    callbackRef.current = callback
+    delayRef.current = delay
+  }, [callback, delay])
+
+  // Cancel pending invocations on unmount.
+  React.useEffect(() => {
+    return () => {
+      if (timeoutIdRef.current !== null) {
+        clearTimeout(timeoutIdRef.current)
+        timeoutIdRef.current = null
+      }
     }
+  }, [])
 
-    timeoutRef = setTimeout(() => {
-      callback(...args)
-    }, delay)
-  }
+  return React.useCallback((...args: Parameters<T>): void => {
+    if (timeoutIdRef.current !== null) {
+      clearTimeout(timeoutIdRef.current)
+    }
+    timeoutIdRef.current = setTimeout(() => {
+      callbackRef.current(...args)
+    }, delayRef.current)
+  }, [])
 }

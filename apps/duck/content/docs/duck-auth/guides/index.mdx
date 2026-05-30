@@ -1,0 +1,200 @@
+---
+title: Quick start
+description: Wire password + magic-link end-to-end on Express, sign-in to sign-out, in 15 minutes.
+section: Guides
+---
+
+We'll build a minimal but production-shaped auth setup: Express, a
+Drizzle-backed SQL adapter, password and magic-link providers, the
+React client. Estimated time: 15 minutes.
+
+<Steps>
+
+<Step>Install</Step>
+
+```bash
+bun add @gentleduck/auth
+bun add drizzle-orm pg @node-rs/argon2 resend
+bun add -D @types/pg drizzle-kit
+```
+
+<Step>Mint the JWT signing material</Step>
+
+```bash
+bunx @gentleduck/auth keys generate hs256
+# → emits JWT_HS256_SECRET and JWT_HS256_KID to copy into .env
+```
+
+<Step>Emit the migration</Step>
+
+```bash
+bunx @gentleduck/auth migrate pg > drizzle/0001_auth.sql
+psql $DATABASE_URL < drizzle/0001_auth.sql
+```
+
+<Step>Wire `AuthRoot`</Step>
+
+```typescript title="src/lib/auth.ts"
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
+import { Argon2idHasher, AuthRoot } from '@gentleduck/auth/core'
+import { CookieTransport } from '@gentleduck/auth/core/transport'
+import { createDrizzlePgBridge } from '@gentleduck/auth/adapters/drizzle/pg'
+import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { MemoryLimiter } from '@gentleduck/auth/limiters/memory'
+import { magicLink } from '@gentleduck/auth/providers/magic-link'
+import { password } from '@gentleduck/auth/providers/password'
+import { ResendChannel } from '@gentleduck/auth/channels/resend'
+import { schema } from './db/schema'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const db = drizzle(pool)
+const bridge = createDrizzlePgBridge(db, schema)
+const sql = createSqlAuthStores({ bridge })
+
+export const auth = new AuthRoot({
+  baseUrl: 'http://localhost:3000',
+  transport: new CookieTransport({ secure: false, name: 'duck-sid' }),
+  stores: {
+    identities: sql.identities,
+    credentials: sql.credentials,
+    sessions: sql.sessions,
+  },
+  limiter: new MemoryLimiter({ max: 5, windowMs: 60_000 }),
+  passwords: { hasher: new Argon2idHasher() },
+})
+
+auth.providers.use(
+  password({
+    findIdentityByEmail: (email) => auth.identities.findByEmail(email),
+    passwords: auth.passwords,
+  }),
+)
+
+auth.providers.use(
+  magicLink({
+    channels: {
+      email: new ResendChannel({
+        apiKey: process.env.RESEND_API_KEY!,
+        from: 'no-reply@example.com',
+      }),
+    },
+    findIdentityByEmail: (email) => auth.identities.findByEmail(email),
+    autoCreateIdentity: true,
+    autoCreateProfile: (email) => ({ displayName: email.split('@')[0] }),
+  }),
+)
+
+// In dev: this only warns. In production it throws on bad config.
+auth.strict({ env: process.env.NODE_ENV === 'production' ? 'production' : 'development' })
+```
+
+<Step>Mount on Express</Step>
+
+```typescript title="src/server.ts"
+import express from 'express'
+import { AuthErrorObject } from '@gentleduck/auth/core'
+import {
+  mountProviderBegin,
+  mountSession,
+  mountSignIn,
+  mountSignOut,
+} from '@gentleduck/auth/server/express'
+import { auth } from './lib/auth'
+
+const app = express()
+app.use(express.json())
+
+app.post('/auth/signin', mountSignIn(auth))
+app.post('/auth/signout', mountSignOut(auth))
+app.get('/auth/session', mountSession(auth))
+app.post('/auth/providers/:providerId/begin', (req, res, next) =>
+  mountProviderBegin(auth, req.params.providerId)(req, res, next),
+)
+
+app.get('/api/me', async (req, res, next) => {
+  try {
+    const ctx = await auth.resolveSession(req)
+    if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+    res.json({ identity: ctx.identity })
+  } catch (err) {
+    next(err)
+  }
+})
+
+app.use((err, req, res, next) => {
+  if (err instanceof AuthErrorObject) {
+    res.status(err.status).json(err.toJSON())
+    return
+  }
+  next(err)
+})
+
+app.listen(3000)
+```
+
+<Step>Drop in the React client</Step>
+
+```tsx title="src/App.tsx"
+import { AuthProvider, useSession, useSignIn, useSignOut } from '@gentleduck/auth/client/react'
+
+export function App() {
+  return (
+    <AuthProvider baseUrl="/auth">
+      <Page />
+    </AuthProvider>
+  )
+}
+
+function Page() {
+  const { data, status } = useSession()
+  const signIn = useSignIn()
+  const signOut = useSignOut()
+
+  if (status === 'loading') return <p>Loading…</p>
+
+  if (status === 'guest') {
+    return (
+      <form onSubmit={async (e) => {
+        e.preventDefault()
+        const fd = new FormData(e.currentTarget)
+        await signIn.mutateAsync({
+          providerId: 'password',
+          input: { email: fd.get('email'), password: fd.get('password') },
+        })
+      }}>
+        <input name="email" type="email" required />
+        <input name="password" type="password" required />
+        <button type="submit" disabled={signIn.isLoading}>Sign in</button>
+        {signIn.error && <p style={{ color: 'red' }}>{signIn.error.code}</p>}
+      </form>
+    )
+  }
+
+  return (
+    <div>
+      <p>Hi, {data.identity.profile.displayName}</p>
+      <button onClick={() => signOut.mutate()}>Sign out</button>
+    </div>
+  )
+}
+```
+
+</Steps>
+
+## What you got
+
+- A real durable SQL store for identities, credentials, and sessions.
+- Argon2id hashing.
+- Password + magic-link sign-in.
+- Cookie-based session, HttpOnly, SameSite=Lax.
+- React client with `useSession` / `useSignIn` / `useSignOut`.
+- CSRF guard available via `csrfGuard` (wire it on mutating routes).
+
+## What's next
+
+- [Production hardening →](/duck-auth/advanced/security) — what `strict()` enforces.
+- [Adding OAuth →](/duck-auth/providers/oauth) — Google, GitHub, Apple, etc.
+- [Adding passkeys →](/duck-auth/providers/passkey) — the strongest factor.
+- [Switching to JWT transport →](/duck-auth/core/transports/jwt) — for microservices.
+- [Adding MFA →](/duck-auth/guides/mfa) — TOTP + backup codes + WebAuthn-MFA.

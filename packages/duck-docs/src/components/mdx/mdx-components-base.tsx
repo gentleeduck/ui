@@ -3,14 +3,7 @@ import Image from 'next/image'
 import type * as React from 'react'
 import type { MdxComponentMap } from './mdx-component-registry.types'
 import { Callout } from './mdx-components/callout'
-import {
-  CodeBlock,
-  CodeBlockWrapper,
-  ComponentPreview,
-  ComponentSource,
-  MermaidBlock,
-  PreBlock,
-} from './mdx-components/code'
+import { CodeBlock, ComponentPreview, ComponentSource, MermaidBlock, PreBlock } from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
 import { ShellCommand } from './mdx-components/code/pre-block/shell-command'
 import { ComponentsList } from './mdx-components/components-list'
@@ -31,7 +24,6 @@ export const mdxBaseComponents = {
   ),
   ApiRoutes: ({ children }: { children?: React.ReactNode }) => <div className="api-routes">{children}</div>,
   Callout,
-  CodeBlockWrapper,
   ComponentPreview,
   ComponentSource,
   ComponentsList,
@@ -80,9 +72,7 @@ export const mdxBaseComponents = {
   Steps: ({ ...props }: React.ComponentProps<'div'>) => (
     <div className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]" {...props} />
   ),
-  // Tailwind's preflight resets <strong>/<b> to `font-weight: inherit`,
-  // so without an explicit mapping `**foo**` renders unbolded in the
-  // docs surface. Map both intrinsics to a `font-semibold` span-style.
+  // Tailwind preflight zeroes font-weight on <strong>/<b>; restore.
   strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className={cn('font-semibold', className)} {...props} />
   ),

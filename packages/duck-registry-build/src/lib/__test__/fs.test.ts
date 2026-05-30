@@ -147,7 +147,7 @@ describe('removeStaleFiles', () => {
     await fs.writeFile(stalePath, '', 'utf8')
     await fs.writeFile(keptPath, '', 'utf8')
 
-    const removed = await removeStaleFiles([keptPath], [keptPath, stalePath])
+    const removed = await removeStaleFiles([keptPath], [keptPath, stalePath], [tempDir])
 
     expect(removed).toEqual([stalePath])
     expect(await pathExists(stalePath)).toBe(false)
@@ -159,13 +159,14 @@ describe('removeStaleFiles', () => {
     const filePath = path.join(tempDir, 'file.txt')
     await fs.writeFile(filePath, '', 'utf8')
 
-    const removed = await removeStaleFiles([filePath], [filePath])
+    const removed = await removeStaleFiles([filePath], [filePath], [tempDir])
 
     expect(removed).toEqual([])
   })
 
   test('handles empty previous paths', async () => {
-    const removed = await removeStaleFiles(['/some/path'], [])
+    const tempDir = await createTempDir()
+    const removed = await removeStaleFiles([path.join(tempDir, 'kept')], [], [tempDir])
 
     expect(removed).toEqual([])
   })
@@ -175,9 +176,37 @@ describe('removeStaleFiles', () => {
     const filePath = path.join(tempDir, 'file.txt')
     await fs.writeFile(filePath, '', 'utf8')
 
-    const removed = await removeStaleFiles([], [filePath])
+    const removed = await removeStaleFiles([], [filePath], [tempDir])
 
     expect(removed).toEqual([filePath])
     expect(await pathExists(filePath)).toBe(false)
+  })
+
+  test('refuses to delete paths that escape the allowed base dirs', async () => {
+    const tempDir = await createTempDir()
+    const sentinelDir = await createTempDir()
+    const sentinelPath = path.join(sentinelDir, 'do-not-touch.txt')
+    await fs.writeFile(sentinelPath, 'safe', 'utf8')
+
+    const warnings: string[] = []
+    const originalWarn = console.warn
+    console.warn = (...args: unknown[]) => {
+      warnings.push(args.map((a) => String(a)).join(' '))
+    }
+
+    try {
+      const removed = await removeStaleFiles([], [sentinelPath], [tempDir])
+
+      expect(removed).toEqual([])
+      // Sentinel file must NOT be unlinked — it lives outside the allowed base.
+      expect(await pathExists(sentinelPath)).toBe(true)
+      expect(warnings.some((w) => w.includes(sentinelPath))).toBe(true)
+    } finally {
+      console.warn = originalWarn
+    }
+  })
+
+  test('throws when called with no allowed base dirs', async () => {
+    await expect(removeStaleFiles([], ['/anywhere'], [])).rejects.toThrow(/allowed base dir/)
   })
 })

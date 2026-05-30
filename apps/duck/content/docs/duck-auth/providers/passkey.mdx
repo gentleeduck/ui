@@ -1,0 +1,172 @@
+---
+title: Passkey provider
+description: WebAuthn passkeys, discoverable and username flows. The strongest factor duck-auth ships.
+section: Providers
+---
+
+## Setup
+
+Passkeys require the `@simplewebauthn/server` peer dependency:
+
+```bash
+bun add @simplewebauthn/server
+```
+
+```typescript
+import {
+  passkeyDiscoverable,
+  passkeyUsername,
+} from '@gentleduck/auth/providers/passkey'
+
+export const auth = new AuthRoot({
+  // ...
+  providers: [
+    passkeyDiscoverable({
+      rpName: 'Example App',
+      rpID: 'app.example.com',           // your hostname, no scheme, no path
+      expectedOrigins: 'https://app.example.com',
+      userVerification: 'preferred',     // | 'required' | 'discouraged'
+    }),
+    // Or, for the username-first flow:
+    passkeyUsername({
+      rpName: 'Example App',
+      rpID: 'app.example.com',
+      expectedOrigins: 'https://app.example.com',
+      findIdentityByEmail: async (email, tenantId) =>
+        auth.identities.findByEmail(email, tenantId),
+    }),
+  ],
+})
+```
+
+## Two flows
+
+duck-auth ships two passkey flows:
+
+### Discoverable (resident keys)
+
+The browser shows an OS-level passkey picker without prompting for an
+email or username. The user picks a credential and signs.
+
+```typescript
+// Begin: no email needed
+await client.beginProvider('passkey', { sessionId: '...' })
+// → response includes attestation options; client calls navigator.credentials.get(...)
+
+// Complete: send the assertion back
+await client.signIn({
+  providerId: 'passkey',
+  input: { response: assertionResponseJSON, sessionId: '...' },
+})
+```
+
+The identity is derived from the credential id stored at registration.
+
+### Username flow
+
+The user enters their email first; the browser shows only their
+registered credentials.
+
+```typescript
+// Begin: include the email
+await client.beginProvider('passkey', { email, sessionId: '...' })
+// → response includes assertion options with allowCredentials[] for that identity
+
+// Complete:
+await client.signIn({
+  providerId: 'passkey',
+  input: { response: assertionResponseJSON, sessionId: '...', email },
+})
+```
+
+Use the username flow when:
+- You need to mix passkey with email-based fallbacks.
+- You don't want users without registered passkeys to see an empty picker.
+- You're targeting a corporate environment where users are expected to
+  type their email.
+
+## Registration (enrolment)
+
+```typescript
+// 1. Begin registration — call when the user opts in.
+const challenge = await auth.mfa.passkey.beginRegistration({
+  identityId: ctx.identity.id,
+  authenticatorSelection: {
+    residentKey: 'preferred',
+    userVerification: 'preferred',
+  },
+})
+
+// 2. Browser:
+const credential = await navigator.credentials.create({
+  publicKey: challenge.options,
+})
+
+// 3. Finish registration.
+await auth.mfa.passkey.completeRegistration({
+  identityId: ctx.identity.id,
+  response: credential,
+})
+// → credential persisted to credentials store.
+```
+
+## Challenge store
+
+By default, passkey challenges live in `MemoryPasskeyChallengeStore`.
+For multi-replica deployments, swap to a Redis-backed store:
+
+```typescript
+import { RedisPasskeyChallengeStore } from '@gentleduck/auth/adapters/redis'
+
+passkeyDiscoverable({
+  challengeStore: new RedisPasskeyChallengeStore(redis, { ttlMs: 5 * 60 * 1000 }),
+  challengeTtlMs: 5 * 60 * 1000,
+})
+```
+
+## Multiple origins
+
+If your app serves from several domains (`example.com` and `app.example.com`),
+pass an array to `expectedOrigins`:
+
+```typescript
+passkeyDiscoverable({
+  rpID: 'example.com',
+  expectedOrigins: [
+    'https://example.com',
+    'https://app.example.com',
+  ],
+})
+```
+
+`rpID` is the most-suffixed hostname that covers all origins.
+
+## userVerification
+
+| Value | Meaning |
+| --- | --- |
+| `'required'` | Authenticator must verify the user (biometric / PIN). The strongest factor. |
+| `'preferred'` | Verify if the authenticator supports it; accept without otherwise. **Default.** |
+| `'discouraged'` | Do not verify. Use for low-risk "remember me" credentials. |
+
+`'preferred'` is the default and the right pick for most apps —
+defaults gracefully on platform authenticators that always verify
+(Touch ID, Windows Hello), accepts hardware keys that don't.
+
+## Why passkeys?
+
+- **Phishing-resistant**: the credential is bound to the origin
+  (`rpID`). A fake site can't trick the authenticator into signing.
+- **Server compromise survives**: even if the credentials database
+  leaks, the attacker only has public keys.
+- **No password to remember**: the user picks the key on their device.
+- **Strong second factor without an extra app**: a platform passkey
+  replaces TOTP for users who have one.
+
+## Errors
+
+| Code | When |
+| --- | --- |
+| `AUTH/INVALID_CREDENTIALS` | Assertion verified cryptographically but did not match any credential. |
+| `AUTH/PASSKEY_MISMATCH` | Same as above; alternative code for client-side dispatch. |
+| `AUTH/RATE_LIMITED` | Per-IP and per-credential limit tripped. |

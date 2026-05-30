@@ -1,10 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 const AspectRatio = React.forwardRef<
   React.ComponentRef<typeof Slot>,
@@ -12,7 +12,7 @@ const AspectRatio = React.forwardRef<
     ratio: string
   }
 >(({ style, className, ratio, dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   return (
     <Slot
       className={cn('relative h-auto w-full overflow-hidden', className)}

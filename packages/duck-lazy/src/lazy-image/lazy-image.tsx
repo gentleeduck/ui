@@ -1,70 +1,59 @@
 'use client'
-import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
-import Image from 'next/image'
+import { cn } from '@gentleduck/libs/cn'
+import React from 'react'
 import { useLazyImage } from './lazy-image.hooks'
-import type { ILazyImage } from './lazy-image.types'
+import type { LazyImageProps } from './lazy-image.types'
 
-/**
- * Lazily renders an image, showing `placeholder` until the real `src` is in view and loaded.
- * Pass `nextImage` to render via `next/image` instead of a plain `<img>`.
- * Throws when `src` is missing.
- */
-export function DuckLazyImage(props: ILazyImage.IProps): React.JSX.Element {
-  if (!props.src) {
-    throw new Error('src is required')
-  }
+const DEFAULT_OPTIONS: IntersectionObserverInit = {
+  rootMargin: '200px',
+  threshold: 0.1,
+}
 
-  const { isLoaded, imageRef } = useLazyImage(props.src, {
-    rootMargin: '200px',
-    threshold: 0.1,
-    ...props.options,
-  })
+function DuckLazyImageImpl({
+  src,
+  placeholder,
+  options,
+  className,
+  alt,
+  width = 200,
+  height = 200,
+  loading,
+  decoding,
+  style,
+  ...props
+}: LazyImageProps): React.JSX.Element {
+  const { isLoaded, ref } = useLazyImage(src, { ...DEFAULT_OPTIONS, ...options })
+  const displaySrc = isLoaded ? src : (placeholder ?? src)
+  const imgClassName = cn('transition-opacity', isLoaded ? 'opacity-100' : 'opacity-0', className)
 
   return (
-    <div className="relative overflow-hidden" ref={imageRef} style={{ transform: 'translate3d(0,0,0)' }}>
-      <PlaceHolder
-        alt="Image is loading..."
-        aria-hidden={isLoaded ? 'true' : 'false'}
-        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`}
-        src={isLoaded ? props.src : (props.placeholder ?? '')}
+    <div className="relative overflow-hidden" data-slot="wrapper">
+      <img
         {...props}
+        // No `alt` ⇒ decorative ⇒ aria-hidden; caller can override.
+        aria-hidden={props['aria-hidden'] ?? (alt ? undefined : 'true')}
+        alt={alt ?? ''}
+        className={imgClassName}
+        data-slot="image"
+        decoding={decoding ?? 'async'}
+        height={height}
+        loading={loading ?? 'lazy'}
+        ref={ref}
+        src={displaySrc}
+        style={style}
+        width={width}
       />
-
-      {!props.nextImage && (
-        <output
-          aria-hidden={isLoaded ? 'true' : 'false'}
-          aria-live="polite"
-          className={`absolute inset-0 animate-pulse transition-all ${
-            isLoaded ? 'bg-transparent opacity-0' : 'bg-muted opacity-100'
-          }`}
-        />
-      )}
+      <span
+        aria-hidden="true"
+        className={cn(
+          'pointer-events-none absolute inset-0 animate-pulse transition-all',
+          isLoaded ? 'bg-transparent opacity-0' : 'bg-muted opacity-100',
+        )}
+        data-slot="placeholder"
+      />
     </div>
   )
 }
 
-/** @internal Renders the actual `<img>` (or `next/image`) for `DuckLazyImage`. */
-function PlaceHolder({
-  width = 200,
-  height = 200,
-  src,
-  loading,
-  decoding,
-  alt,
-  nextImage,
-  ...props
-}: Omit<ILazyImage.IProps, 'placeholder'>): React.JSX.Element {
-  const Component = nextImage ? Image : 'img'
-  return (
-    <Component
-      alt={alt as string}
-      decoding={decoding ?? 'async'}
-      height={height}
-      loading={loading ?? 'lazy'}
-      src={src as (string | StaticImport) & string}
-      style={{ transform: 'translate3d(0,0,0)' }}
-      width={width}
-      {...(props as Record<string, unknown>)}
-    />
-  )
-}
+export const DuckLazyImage = React.memo(DuckLazyImageImpl)
+DuckLazyImage.displayName = 'DuckLazyImage'

@@ -19,5 +19,5 @@
     "tsconfig.tsbuildinfo"
   ],
   "extends": "@gentleduck/typescript-config/react.json",
-  "include": ["."]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

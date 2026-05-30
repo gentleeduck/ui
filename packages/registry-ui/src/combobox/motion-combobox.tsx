@@ -1,15 +1,16 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
 import { MotionBadge } from '../badge'
 import { MotionButton } from '../button'
 import { MotionCheckbox } from '../checkbox'
 import { Command, CommandEmpty, CommandInput, CommandList, MotionCommandItem } from '../command'
+import { toDirection } from '../direction/direction.libs'
 import { MotionPopover, MotionPopoverContent, PopoverTrigger } from '../popover'
 import { MotionSeparator } from '../separator'
+import { COMBOBOX_MAX_SELECTION_BADGES } from './combobox.constants'
 import type { IComboboxItemProps, IComboboxItemType, IComboboxProps } from './combobox.types'
 
 const MotionCombobox = React.forwardRef<
@@ -35,8 +36,7 @@ const MotionCombobox = React.forwardRef<
     ref,
   ) => {
     const { dir, ...popoverProps } = popover ?? {}
-    const direction = useDirection(dir as IDirection.Kind)
-    const MAX_SELECTION = 2
+    const direction = useDirection(toDirection(dir))
     const resolvedValue = value ?? defaultValue
 
     return (
@@ -50,7 +50,7 @@ const MotionCombobox = React.forwardRef<
                   <>
                     <MotionSeparator orientation="vertical" />
                     <div className="flex gap-1">
-                      {resolvedValue.length > MAX_SELECTION ? (
+                      {resolvedValue.length > COMBOBOX_MAX_SELECTION_BADGES ? (
                         <MotionBadge className="rounded-sm px-2 py-0.75 font-normal" variant={'secondary'}>
                           +{resolvedValue.length} Selected
                         </MotionBadge>

@@ -2,7 +2,6 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { Variants } from '@gentleduck/variants'
@@ -10,14 +9,14 @@ import { useKeyBind } from '@gentleduck/vim/react'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
+import { toDirection } from '../direction/direction.libs'
 import { Input } from '../input'
 import { Separator } from '../separator'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../sheet'
 import { Skeleton } from '../skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import {
-  SIDEBAR_COOKIE_MAX_AGE,
-  SIDEBAR_COOKIE_NAME,
+  persistSidebarOpen,
   SIDEBAR_KEYBOARD_SHORTCUT,
   SIDEBAR_WIDTH,
   SIDEBAR_WIDTH_ICON,
@@ -39,28 +38,34 @@ function SidebarProvider({
 }: ISidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
 
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen)
   const open = openProp ?? internalOpen
-  const setOpen = React.useCallback(
-    (value: boolean | ((value: boolean) => boolean)) => {
-      const openState = typeof value === 'function' ? value(open) : value
-      if (setOpenProp) {
-        setOpenProp(openState)
-      } else {
-        setInternalOpen(openState)
-      }
 
-      // Persist so SSR can read initial state on next visit
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
-    },
-    [setOpenProp, open],
-  )
+  // Latest-value refs keep `setOpen`/`toggleSidebar` stable so context only invalidates on real shape changes.
+  const openRef = React.useRef(open)
+  openRef.current = open
+  const setOpenPropRef = React.useRef(setOpenProp)
+  setOpenPropRef.current = setOpenProp
+  const isMobileRef = React.useRef(isMobile)
+  isMobileRef.current = isMobile
+
+  const setOpen = React.useCallback((value: boolean | ((value: boolean) => boolean)) => {
+    const openState = typeof value === 'function' ? value(openRef.current) : value
+    const setProp = setOpenPropRef.current
+    if (setProp) {
+      setProp(openState)
+    } else {
+      setInternalOpen(openState)
+    }
+    // Persist so SSR can read initial state on next visit.
+    persistSidebarOpen(openState)
+  }, [])
 
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-  }, [isMobile, setOpen])
+    return isMobileRef.current ? setOpenMobile((open) => !open) : setOpen((open) => !open)
+  }, [setOpen])
 
   useKeyBind(`mod+${SIDEBAR_KEYBOARD_SHORTCUT}`, toggleSidebar, { preventDefault: true })
 
@@ -117,7 +122,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, ISidebarProps>(
     ref,
   ) => {
     const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
 
     if (collapsible === 'none') {
       return (
@@ -202,6 +207,10 @@ const Sidebar = React.forwardRef<HTMLDivElement, ISidebarProps>(
 )
 Sidebar.displayName = 'Sidebar'
 
+// Hoisted constant prevents re-allocating the default trigger icon on every
+// render — saves an element allocation per `SidebarTrigger`.
+const DEFAULT_TRIGGER_ICON = <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
+
 const SidebarTrigger = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentPropsWithoutRef<typeof Button> & { text?: string }
@@ -217,7 +226,7 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon-sm"
       dir={direction}
-      icon={icon === undefined ? <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" /> : icon}
+      icon={icon === undefined ? DEFAULT_TRIGGER_ICON : icon}
       className={cn(className)}
       onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event)
@@ -477,7 +486,7 @@ SidebarMenu.displayName = 'SidebarMenu'
 
 const SidebarMenuItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       <li
         ref={ref}
@@ -506,7 +515,7 @@ const SidebarMenuButton = React.forwardRef<
   ) => {
     const Comp = asChild ? Slot : 'button'
     const { isMobile, state } = useSidebar()
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     const fallbackTooltipSide = direction === 'rtl' ? 'left' : 'right'
 
     const button = (
@@ -591,16 +600,17 @@ const SidebarMenuBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWi
 )
 SidebarMenuBadge.displayName = 'SidebarMenuBadge'
 
+// SSR-safe widths cycled by `index` (or falling back to the configurable
+// `width` prop). Math.random() previously produced hydration mismatches
+// since server and client picked different numbers.
+const SKELETON_WIDTHS = ['50%', '60%', '70%', '80%', '90%']
+
 const SidebarMenuSkeleton = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & { showIcon?: boolean }
->(({ className, showIcon = false, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<'div'> & { showIcon?: boolean; index?: number; width?: string }
+>(({ className, showIcon = false, index = 0, width, ...props }, ref) => {
   const direction = useDirection()
-
-  // Lazy-init keeps the random width stable across re-renders
-  const [width] = React.useState(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
-  })
+  const resolvedWidth = width ?? SKELETON_WIDTHS[index % SKELETON_WIDTHS.length]
 
   return (
     <div
@@ -616,7 +626,7 @@ const SidebarMenuSkeleton = React.forwardRef<
         data-sidebar="menu-skeleton-text"
         style={
           {
-            '--skeleton-width': width,
+            '--skeleton-width': resolvedWidth,
           } as React.CSSProperties
         }
       />
@@ -627,7 +637,7 @@ SidebarMenuSkeleton.displayName = 'SidebarMenuSkeleton'
 
 const SidebarMenuSub = React.forwardRef<HTMLUListElement, React.ComponentPropsWithoutRef<'ul'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
 
     return (
       <ul
@@ -648,7 +658,7 @@ SidebarMenuSub.displayName = 'SidebarMenuSub'
 
 const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       <li
         ref={ref}
@@ -672,7 +682,7 @@ const SidebarMenuSubButton = React.forwardRef<
   }
 >(({ asChild = false, size = 'md', isActive = false, className, dir, ...props }, ref) => {
   const Comp = asChild ? Slot : 'a'
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
 
   return (
     <Comp

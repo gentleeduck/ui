@@ -23,149 +23,153 @@ const CONTENT_NAME = 'PopperContent'
 
 export const [PopperContentProvider, useContentContext] = createPopperContext<IPopper.IContentContext>(CONTENT_NAME)
 
-export const PopperContent = ({ ref: forwardedRef, ...props }: IPopper.IScoped<IPopper.IContentProps>) => {
-  const {
-    __scopePopper,
-    side = 'bottom',
-    sideOffset = 0,
-    align = 'center',
-    alignOffset = 0,
-    arrowPadding = 0,
-    avoidCollisions = true,
-    collisionBoundary = [],
-    collisionPadding: collisionPaddingProp = 0,
-    sticky = 'partial',
-    hideWhenDetached = false,
-    updatePositionStrategy = 'optimized',
-    onPlaced,
-    ...contentProps
-  } = props
+type PopperContentElement = React.ComponentRef<typeof Primitive.div>
 
-  const context = usePopperContext(CONTENT_NAME, __scopePopper)
+export const PopperContent = React.forwardRef<PopperContentElement, IPopper.IContentProps>(
+  (props: IPopper.IScoped<IPopper.IContentProps>, forwardedRef) => {
+    const {
+      __scopePopper,
+      side = 'bottom',
+      sideOffset = 0,
+      align = 'center',
+      alignOffset = 0,
+      arrowPadding = 0,
+      avoidCollisions = true,
+      collisionBoundary = [],
+      collisionPadding: collisionPaddingProp = 0,
+      sticky = 'partial',
+      hideWhenDetached = false,
+      updatePositionStrategy = 'optimized',
+      onPlaced,
+      ...contentProps
+    } = props
 
-  const [content, setContent] = React.useState<HTMLDivElement | null>(null)
-  const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node))
+    const context = usePopperContext(CONTENT_NAME, __scopePopper)
 
-  const [arrow, setArrow] = React.useState<HTMLSpanElement | null>(null)
-  const arrowSize = useSize(arrow)
-  const arrowWidth = arrowSize?.width ?? 0
-  const arrowHeight = arrowSize?.height ?? 0
+    const [content, setContent] = React.useState<HTMLDivElement | null>(null)
+    const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node))
 
-  const desiredPlacement = (side + (align !== 'center' ? `-${align}` : '')) as Placement
+    const [arrow, setArrow] = React.useState<HTMLSpanElement | null>(null)
+    const arrowSize = useSize(arrow)
+    const arrowWidth = arrowSize?.width ?? 0
+    const arrowHeight = arrowSize?.height ?? 0
 
-  const collisionPadding =
-    typeof collisionPaddingProp === 'number'
-      ? collisionPaddingProp
-      : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp }
+    const desiredPlacement = (side + (align !== 'center' ? `-${align}` : '')) as Placement
 
-  const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary]
-  const hasExplicitBoundaries = boundary.length > 0
+    const collisionPadding =
+      typeof collisionPaddingProp === 'number'
+        ? collisionPaddingProp
+        : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp }
 
-  const detectOverflowOptions = {
-    padding: collisionPadding,
-    boundary: boundary.filter(isNotNull),
-    altBoundary: hasExplicitBoundaries,
-  }
+    const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary]
+    const hasExplicitBoundaries = boundary.length > 0
 
-  const { refs, floatingStyles, placement, isPositioned, middlewareData } = useFloating({
-    strategy: 'fixed',
-    placement: desiredPlacement,
-    whileElementsMounted: (...args) =>
-      autoUpdate(...args, {
-        animationFrame: updatePositionStrategy === 'always',
-      }),
-    elements: { reference: context.anchor },
-    middleware: [
-      offset({
-        mainAxis: sideOffset + arrowHeight,
-        alignmentAxis: alignOffset,
-      }),
-      avoidCollisions &&
-        shift({
-          mainAxis: true,
-          crossAxis: false,
-          ...(sticky === 'partial' ? { limiter: limitShift() } : {}),
-          ...detectOverflowOptions,
+    const detectOverflowOptions = {
+      padding: collisionPadding,
+      boundary: boundary.filter(isNotNull),
+      altBoundary: hasExplicitBoundaries,
+    }
+
+    const { refs, floatingStyles, placement, isPositioned, middlewareData } = useFloating({
+      strategy: 'fixed',
+      placement: desiredPlacement,
+      whileElementsMounted: (...args) =>
+        autoUpdate(...args, {
+          animationFrame: updatePositionStrategy === 'always',
         }),
-      avoidCollisions && flip({ ...detectOverflowOptions }),
-      size({
-        ...detectOverflowOptions,
-        apply: ({ elements, rects, availableWidth, availableHeight }) => {
-          const { width: anchorWidth, height: anchorHeight } = rects.reference
-          const contentStyle = elements.floating.style
-
-          contentStyle.setProperty('--gentleduck-popper-available-width', `${availableWidth}px`)
-          contentStyle.setProperty('--gentleduck-popper-available-height', `${availableHeight}px`)
-          contentStyle.setProperty('--gentleduck-popper-anchor-width', `${anchorWidth}px`)
-          contentStyle.setProperty('--gentleduck-popper-anchor-height', `${anchorHeight}px`)
-        },
-      }),
-      arrow && floatingUIarrow({ element: arrow, padding: arrowPadding }),
-      transformOrigin({ arrowWidth, arrowHeight }),
-      hideWhenDetached && hide({ strategy: 'referenceHidden', ...detectOverflowOptions }),
-    ],
-  })
-
-  const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement)
-
-  const handlePlaced = useCallbackRef(onPlaced)
-  useLayoutEffect(() => {
-    if (isPositioned) handlePlaced?.()
-  }, [isPositioned, handlePlaced])
-
-  const arrowX = middlewareData.arrow?.x
-  const arrowY = middlewareData.arrow?.y
-  const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0
-
-  const [contentZIndex, setContentZIndex] = React.useState<string>()
-  useLayoutEffect(() => {
-    if (content) setContentZIndex(window.getComputedStyle(content).zIndex)
-  }, [content])
-
-  return (
-    <Primitive.div
-      ref={refs.setFloating}
-      data-slot="popper-content-wrapper"
-      style={
-        {
-          ...floatingStyles,
-          transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
-          minWidth: 'max-content',
-          zIndex: contentZIndex,
-          '--gentleduck-popper-transform-origin': [
-            middlewareData.transformOrigin?.x,
-            middlewareData.transformOrigin?.y,
-          ].join(' '),
-          ...(middlewareData.hide?.referenceHidden && {
-            visibility: 'hidden',
-            pointerEvents: 'none',
+      elements: { reference: context.anchor },
+      middleware: [
+        offset({
+          mainAxis: sideOffset + arrowHeight,
+          alignmentAxis: alignOffset,
+        }),
+        avoidCollisions &&
+          shift({
+            mainAxis: true,
+            crossAxis: false,
+            ...(sticky === 'partial' ? { limiter: limitShift() } : {}),
+            ...detectOverflowOptions,
           }),
-        } as React.CSSProperties
-      }
-      // Floating UI computes logical alignment from `dir`. Ensure it exists on the wrapper too.
-      dir={props.dir}>
-      <PopperContentProvider
-        scope={__scopePopper}
-        placedSide={placedSide}
-        onArrowChange={setArrow}
-        arrowX={arrowX}
-        arrowY={arrowY}
-        shouldHideArrow={cannotCenterArrow}>
-        <Primitive.div
-          data-slot="popper-content"
-          data-side={placedSide}
-          data-align={placedAlign}
-          {...contentProps}
-          ref={composedRefs}
-          style={{
-            ...contentProps.style,
-            animation: !isPositioned ? 'none' : undefined,
-          }}
-        />
-      </PopperContentProvider>
-    </Primitive.div>
-  )
-}
+        avoidCollisions && flip({ ...detectOverflowOptions }),
+        size({
+          ...detectOverflowOptions,
+          apply: ({ elements, rects, availableWidth, availableHeight }) => {
+            const { width: anchorWidth, height: anchorHeight } = rects.reference
+            const contentStyle = elements.floating.style
+
+            contentStyle.setProperty('--gentleduck-popper-available-width', `${availableWidth}px`)
+            contentStyle.setProperty('--gentleduck-popper-available-height', `${availableHeight}px`)
+            contentStyle.setProperty('--gentleduck-popper-anchor-width', `${anchorWidth}px`)
+            contentStyle.setProperty('--gentleduck-popper-anchor-height', `${anchorHeight}px`)
+          },
+        }),
+        arrow && floatingUIarrow({ element: arrow, padding: arrowPadding }),
+        transformOrigin({ arrowWidth, arrowHeight }),
+        hideWhenDetached && hide({ strategy: 'referenceHidden', ...detectOverflowOptions }),
+      ],
+    })
+
+    const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement)
+
+    const handlePlaced = useCallbackRef(onPlaced)
+    useLayoutEffect(() => {
+      if (isPositioned) handlePlaced?.()
+    }, [isPositioned, handlePlaced])
+
+    const arrowX = middlewareData.arrow?.x
+    const arrowY = middlewareData.arrow?.y
+    const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0
+
+    const [contentZIndex, setContentZIndex] = React.useState<string>()
+    useLayoutEffect(() => {
+      if (content) setContentZIndex(window.getComputedStyle(content).zIndex)
+    }, [content])
+
+    return (
+      <Primitive.div
+        ref={refs.setFloating}
+        data-slot="popper-content-wrapper"
+        style={
+          {
+            ...floatingStyles,
+            transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
+            minWidth: 'max-content',
+            zIndex: contentZIndex,
+            '--gentleduck-popper-transform-origin': [
+              middlewareData.transformOrigin?.x,
+              middlewareData.transformOrigin?.y,
+            ].join(' '),
+            ...(middlewareData.hide?.referenceHidden && {
+              visibility: 'hidden',
+              pointerEvents: 'none',
+            }),
+          } as React.CSSProperties
+        }
+        // Floating UI computes logical alignment from `dir`. Ensure it exists on the wrapper too.
+        dir={props.dir}>
+        <PopperContentProvider
+          scope={__scopePopper}
+          placedSide={placedSide}
+          onArrowChange={setArrow}
+          arrowX={arrowX}
+          arrowY={arrowY}
+          shouldHideArrow={cannotCenterArrow}>
+          <Primitive.div
+            data-slot="popper-content"
+            data-side={placedSide}
+            data-align={placedAlign}
+            {...contentProps}
+            ref={composedRefs}
+            style={{
+              ...contentProps.style,
+              animation: !isPositioned ? 'none' : undefined,
+            }}
+          />
+        </PopperContentProvider>
+      </Primitive.div>
+    )
+  },
+)
 
 PopperContent.displayName = CONTENT_NAME
 

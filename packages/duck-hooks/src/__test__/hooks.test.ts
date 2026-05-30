@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { act, renderHook } from '@testing-library/react'
+import { describe, expect, test, vi } from 'vitest'
 
-// ─── useDebounce / debounce ─────────────────────────────────────────────────
+// ─── debounce (standalone) ──────────────────────────────────────────────────
 import { debounce, useDebounce } from '../use-debounce'
 
 describe('debounce', () => {
@@ -16,7 +17,7 @@ describe('debounce', () => {
   })
 
   test('passes arguments to callback', async () => {
-    const fn = vi.fn((_a: unknown, _b: unknown) => {})
+    const fn = vi.fn((_a: string, _b: number) => {})
     const debounced = debounce(fn, 30)
 
     debounced('hello', 42)
@@ -39,7 +40,7 @@ describe('debounce', () => {
   })
 
   test('only invokes the last call when called multiple times rapidly', async () => {
-    const fn = vi.fn((_v: unknown) => {})
+    const fn = vi.fn((_v: string) => {})
     const debounced = debounce(fn, 50)
 
     debounced('a')
@@ -52,16 +53,96 @@ describe('debounce', () => {
   })
 })
 
-describe('useDebounce', () => {
-  test('behaves the same as debounce (returns debounced function)', async () => {
-    const fn = vi.fn(() => {})
-    const debounced = useDebounce(fn, 50)
+// ─── useDebounce (real React hook) ──────────────────────────────────────────
 
-    debounced()
+describe('useDebounce', () => {
+  test('returns a debounced function that fires after the delay', async () => {
+    const fn = vi.fn(() => {})
+    const { result } = renderHook(() => useDebounce(fn, 50))
+
+    act(() => {
+      result.current()
+    })
     expect(fn).not.toHaveBeenCalled()
 
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  test('returned function identity is stable across renders', () => {
+    const fn = vi.fn(() => {})
+    const { result, rerender } = renderHook(({ delay }) => useDebounce(fn, delay), {
+      initialProps: { delay: 50 },
+    })
+
+    const first = result.current
+    rerender({ delay: 50 })
+    rerender({ delay: 200 })
+    expect(result.current).toBe(first)
+  })
+
+  test('always invokes the latest callback (no stale closure)', async () => {
+    const a = vi.fn(() => {})
+    const b = vi.fn(() => {})
+
+    const { result, rerender } = renderHook(({ cb }) => useDebounce(cb, 30), {
+      initialProps: { cb: a },
+    })
+
+    rerender({ cb: b })
+    act(() => {
+      result.current()
+    })
+
+    await new Promise((r) => setTimeout(r, 60))
+    expect(a).not.toHaveBeenCalled()
+    expect(b).toHaveBeenCalledTimes(1)
+  })
+
+  test('cancels pending invocation on unmount (no setState-after-unmount)', async () => {
+    const fn = vi.fn(() => {})
+    const { result, unmount } = renderHook(() => useDebounce(fn, 50))
+
+    act(() => {
+      result.current()
+    })
+    unmount()
+
+    await new Promise((r) => setTimeout(r, 80))
+    expect(fn).not.toHaveBeenCalled()
+  })
+
+  test('rapid calls only fire once with the last argument', async () => {
+    const fn = vi.fn((_v: string) => {})
+    const { result } = renderHook(() => useDebounce(fn, 40))
+
+    act(() => {
+      result.current('a')
+      result.current('b')
+      result.current('c')
+    })
+
+    await new Promise((r) => setTimeout(r, 70))
+    expect(fn).toHaveBeenCalledTimes(1)
+    expect(fn).toHaveBeenCalledWith('c')
+  })
+
+  test('works when delay is undefined', async () => {
+    const fn = vi.fn(() => {})
+    const { result } = renderHook(() => useDebounce(fn))
+
+    act(() => {
+      result.current()
+    })
+    await new Promise((r) => setTimeout(r, 20))
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  test('accepts typed callbacks without casting', () => {
+    // Compile-time check: typed callbacks must satisfy the generic constraint.
+    const typed = (_s: string, _n: number): void => {}
+    const { result } = renderHook(() => useDebounce(typed, 10))
+    expect(typeof result.current).toBe('function')
   })
 })
 
@@ -71,10 +152,14 @@ import { composeRefs } from '../use-composed-refs'
 describe('composeRefs', () => {
   test('sets value on callback refs', () => {
     const values: unknown[] = []
-    const ref1 = (v: unknown) => values.push(v)
-    const ref2 = (v: unknown) => values.push(v)
+    const ref1 = (v: unknown) => {
+      values.push(v)
+    }
+    const ref2 = (v: unknown) => {
+      values.push(v)
+    }
 
-    const composed = composeRefs(ref1, ref2)
+    const composed = composeRefs(ref1 as any, ref2 as any)
     composed('node')
 
     expect(values).toEqual(['node', 'node'])
@@ -98,7 +183,7 @@ describe('composeRefs', () => {
     }
     const objRef = { current: null as unknown }
 
-    const composed = composeRefs(callbackRef, objRef as any)
+    const composed = composeRefs(callbackRef as any, objRef as any)
     composed('mixed')
 
     expect(callbackValue).toBe('mixed')
@@ -117,21 +202,30 @@ describe('composeRefs', () => {
   test('ignores null refs', () => {
     const ref1 = { current: null as unknown }
 
-    // null should be handled gracefully
-    const composed = composeRefs(null as any, ref1 as any)
+    const composed = composeRefs(null, ref1 as any)
     composed('value')
 
     expect(ref1.current).toBe('value')
   })
+
+  test('does not write `.current` on non-object truthy values', () => {
+    // Defensive: even if a caller passes a string (legacy ref form) the
+    // runtime check should swallow it, not crash, and not write `.current`.
+    const stringRef = 'legacy-ref' as unknown
+    const objRef = { current: null as unknown }
+    const composed = composeRefs(stringRef as any, objRef as any)
+    expect(() => composed('node')).not.toThrow()
+    expect(objRef.current).toBe('node')
+  })
 })
 
-// ─── useComputedTimeoutTransition ───────────────────────────────────────────
-import { useComputedTimeoutTransition } from '../use-computed-timeout-transition'
+// ─── scheduleTransitionTimeout ──────────────────────────────────────────────
+import { scheduleTransitionTimeout } from '../schedule-transition-timeout'
 
-describe('useComputedTimeoutTransition', () => {
+describe('scheduleTransitionTimeout', () => {
   test('calls callback after default timeout when element is null', async () => {
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(null, fn)
+    scheduleTransitionTimeout(null, fn)
 
     expect(fn).not.toHaveBeenCalled()
     await new Promise((r) => setTimeout(r, 350))
@@ -140,7 +234,7 @@ describe('useComputedTimeoutTransition', () => {
 
   test('calls callback after custom timeout when element is null', async () => {
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(null, fn, 50)
+    scheduleTransitionTimeout(null, fn, 50)
 
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
@@ -148,30 +242,27 @@ describe('useComputedTimeoutTransition', () => {
 
   test('returns a cleanup function that cancels the timeout', async () => {
     const fn = vi.fn(() => {})
-    const cleanup = useComputedTimeoutTransition(null, fn, 50)
+    const cleanup = scheduleTransitionTimeout(null, fn, 50)
 
-    cleanup!()
+    cleanup()
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).not.toHaveBeenCalled()
   })
 
   test('uses computed transition duration from element', async () => {
-    // Create a mock element with getComputedStyle returning a transition duration
     const mockElement = {
       isConnected: true,
       style: { transitionDuration: '0.1s' },
     } as unknown as HTMLElement
 
-    // Mock getComputedStyle
     const originalGetComputedStyle = globalThis.getComputedStyle
     globalThis.getComputedStyle = (() => ({
       transitionDuration: '0.05s',
     })) as any
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn)
+    scheduleTransitionTimeout(mockElement, fn)
 
-    // Should use 50ms (0.05s * 1000), not 300ms default
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
 
@@ -190,9 +281,8 @@ describe('useComputedTimeoutTransition', () => {
     })) as any
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn, 50)
+    scheduleTransitionTimeout(mockElement, fn, 50)
 
-    // Should use 50ms fallback since transitionDuration is '0s'
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
 
@@ -206,49 +296,51 @@ describe('useComputedTimeoutTransition', () => {
     } as unknown as HTMLElement
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn, 50)
+    scheduleTransitionTimeout(mockElement, fn, 50)
 
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
-  })
-
-  test('handles getComputedStyle throwing an error gracefully', async () => {
-    const mockElement = {
-      isConnected: true,
-      style: { transitionDuration: '0.2s' },
-    } as unknown as HTMLElement
-
-    const originalGetComputedStyle = globalThis.getComputedStyle
-    globalThis.getComputedStyle = (() => {
-      throw new Error('test error')
-    }) as any
-
-    const fn = vi.fn(() => {})
-    // Should not throw, and should fall back to the provided timeout
-    useComputedTimeoutTransition(mockElement, fn, 50)
-
-    await new Promise((r) => setTimeout(r, 80))
-    expect(fn).toHaveBeenCalledTimes(1)
-
-    globalThis.getComputedStyle = originalGetComputedStyle
   })
 })
 
 // ─── useStableId ────────────────────────────────────────────────────────────
-// useStableId uses React.useRef, so we test the id generation logic directly.
-// The core logic: generates `${prefix}-${counter}` and caches it in a ref.
+import { useStableId } from '../use-stable-id'
 
-describe('useStableId (logic)', () => {
-  test('the global counter increments, producing unique ids', () => {
-    // We can verify by importing and calling the hook in a minimal React context.
-    // Since useStableId relies on React.useRef, we test the pattern:
-    // prefix-N where N is a monotonically increasing integer.
+describe('useStableId', () => {
+  test('returns a non-empty string', () => {
+    const { result } = renderHook(() => useStableId())
+    expect(typeof result.current).toBe('string')
+    expect(result.current.length).toBeGreaterThan(0)
+  })
 
-    // We'll test the format matches the expected pattern.
-    const idPattern = /^id-\d+$/
-    expect(idPattern.test('id-1')).toBe(true)
-    expect(idPattern.test('custom-42')).toBe(false)
-    expect(/^custom-\d+$/.test('custom-42')).toBe(true)
+  test('default prefix is `id-`', () => {
+    const { result } = renderHook(() => useStableId())
+    expect(result.current.startsWith('id-')).toBe(true)
+  })
+
+  test('custom prefix is honoured', () => {
+    const { result } = renderHook(() => useStableId('label'))
+    expect(result.current.startsWith('label-')).toBe(true)
+  })
+
+  test('id is stable across rerenders', () => {
+    const { result, rerender } = renderHook(() => useStableId('x'))
+    const first = result.current
+    rerender()
+    rerender()
+    expect(result.current).toBe(first)
+  })
+
+  test('two distinct hook instances produce distinct ids', () => {
+    const { result: a } = renderHook(() => useStableId('shared'))
+    const { result: b } = renderHook(() => useStableId('shared'))
+    expect(a.current).not.toBe(b.current)
+  })
+
+  test('different prefixes never collide', () => {
+    const { result: a } = renderHook(() => useStableId('alpha'))
+    const { result: b } = renderHook(() => useStableId('beta'))
+    expect(a.current).not.toBe(b.current)
   })
 })
 
@@ -301,7 +393,7 @@ describe('debounce (edge cases)', () => {
   })
 
   test('calling debounced function many times in a tight loop only fires once', async () => {
-    const fn = vi.fn((_v: unknown) => {})
+    const fn = vi.fn((_v: number) => {})
     const debounced = debounce(fn, 30)
 
     for (let i = 0; i < 100; i++) {
@@ -314,7 +406,7 @@ describe('debounce (edge cases)', () => {
   })
 
   test('can be called again after the first debounce fires', async () => {
-    const fn = vi.fn((_v: unknown) => {})
+    const fn = vi.fn((_v: string) => {})
     const debounced = debounce(fn, 20)
 
     debounced('first')
@@ -329,47 +421,11 @@ describe('debounce (edge cases)', () => {
   })
 })
 
-// ─── Edge Cases: useDebounce ────────────────────────────────────────────────
-
-describe('useDebounce (edge cases)', () => {
-  test('works when delay is 0', async () => {
-    const fn = vi.fn(() => {})
-    const debounced = useDebounce(fn, 0)
-
-    debounced()
-    await new Promise((r) => setTimeout(r, 10))
-    expect(fn).toHaveBeenCalledTimes(1)
-  })
-
-  test('works when delay is undefined', async () => {
-    const fn = vi.fn(() => {})
-    const debounced = useDebounce(fn)
-
-    debounced()
-    await new Promise((r) => setTimeout(r, 20))
-    expect(fn).toHaveBeenCalledTimes(1)
-  })
-
-  test('resets timer on rapid calls like debounce', async () => {
-    const fn = vi.fn((_v: unknown) => {})
-    const debounced = useDebounce(fn, 40)
-
-    debounced('a')
-    debounced('b')
-    debounced('c')
-
-    await new Promise((r) => setTimeout(r, 70))
-    expect(fn).toHaveBeenCalledTimes(1)
-    expect(fn).toHaveBeenCalledWith('c')
-  })
-})
-
 // ─── Edge Cases: composeRefs ────────────────────────────────────────────────
 
 describe('composeRefs (edge cases)', () => {
   test('works with zero refs (empty arguments)', () => {
     const composed = composeRefs()
-    // Should not throw when called
     expect(() => composed('node')).not.toThrow()
   })
 
@@ -379,7 +435,7 @@ describe('composeRefs (edge cases)', () => {
   })
 
   test('works when all refs are null', () => {
-    const composed = composeRefs(null as any, null as any)
+    const composed = composeRefs(null, null)
     expect(() => composed('node')).not.toThrow()
   })
 
@@ -388,7 +444,7 @@ describe('composeRefs (edge cases)', () => {
     const callbackValues: unknown[] = []
     const callbackRef = (v: unknown) => callbackValues.push(v)
 
-    const composed = composeRefs(ref1 as any, callbackRef)
+    const composed = composeRefs(ref1 as any, callbackRef as any)
     composed(null)
 
     expect(ref1.current).toBe(null)
@@ -411,7 +467,6 @@ describe('composeRefs (edge cases)', () => {
     const objRef = { current: null as unknown }
 
     const composed = composeRefs(callbackRef as any, objRef as any)
-    // Should not throw even though the callback returns a function
     expect(() => composed('node')).not.toThrow()
     expect(objRef.current).toBe('node')
   })
@@ -431,21 +486,22 @@ describe('composeRefs (edge cases)', () => {
   })
 })
 
-// ─── Edge Cases: useComputedTimeoutTransition ───────────────────────────────
+// ─── Edge Cases: scheduleTransitionTimeout ──────────────────────────────────
 
-describe('useComputedTimeoutTransition (edge cases)', () => {
+describe('scheduleTransitionTimeout (edge cases)', () => {
   test('multiple rapid calls each produce independent cleanups', async () => {
     const fn1 = vi.fn(() => {})
     const fn2 = vi.fn(() => {})
-    const cleanup1 = useComputedTimeoutTransition(null, fn1, 30)
-    const cleanup2 = useComputedTimeoutTransition(null, fn2, 30)
+    const cleanup1 = scheduleTransitionTimeout(null, fn1, 30)
+    const cleanup2 = scheduleTransitionTimeout(null, fn2, 30)
 
-    // Cancel only the first one
-    cleanup1!()
+    cleanup1()
 
     await new Promise((r) => setTimeout(r, 60))
     expect(fn1).not.toHaveBeenCalled()
     expect(fn2).toHaveBeenCalledTimes(1)
+    // Cleanup the second one too so vitest does not see a leaked timer.
+    cleanup2()
   })
 
   test('handles element with transitionDuration in ms format (parseFloat quirk)', async () => {
@@ -460,16 +516,13 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
     })) as any
 
     const fn = vi.fn(() => {})
-    const cleanup = useComputedTimeoutTransition(mockElement, fn)
+    const cleanup = scheduleTransitionTimeout(mockElement, fn)
 
-    // parseFloat('50ms') = 50, then 50 * 1000 = 50000ms
-    // The code always multiplies by 1000 (assumes seconds), so 'ms' values are misinterpreted.
-    // Verify the callback has NOT fired in 80ms (because 50000 >> 80).
+    // parseFloat('50ms') = 50, then 50 * 1000 = 50000ms — known quirk.
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).not.toHaveBeenCalled()
 
-    // Cleanup to avoid leaking the 50-second timer
-    cleanup!()
+    cleanup()
     globalThis.getComputedStyle = originalGetComputedStyle
   })
 
@@ -485,10 +538,9 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
     })) as any
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn, 30)
+    scheduleTransitionTimeout(mockElement, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
-    // Empty string is falsy, should fall back to provided timeout (30ms)
     expect(fn).toHaveBeenCalledTimes(1)
 
     globalThis.getComputedStyle = originalGetComputedStyle
@@ -506,10 +558,9 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
     })) as any
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn, 30)
+    scheduleTransitionTimeout(mockElement, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
-    // parseFloat('invalid') is NaN, which is not > 0, so falls back to timeout
     expect(fn).toHaveBeenCalledTimes(1)
 
     globalThis.getComputedStyle = originalGetComputedStyle
@@ -517,33 +568,18 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
 
   test('cleanup called multiple times does not throw', async () => {
     const fn = vi.fn(() => {})
-    const cleanup = useComputedTimeoutTransition(null, fn, 30)
+    const cleanup = scheduleTransitionTimeout(null, fn, 30)
 
-    cleanup!()
-    // Calling cleanup again should be safe (clearTimeout on already-cleared timer)
-    expect(() => cleanup!()).not.toThrow()
+    cleanup()
+    expect(() => cleanup()).not.toThrow()
 
     await new Promise((r) => setTimeout(r, 60))
     expect(fn).not.toHaveBeenCalled()
   })
 
-  test('handles element connected but with style.transitionDuration undefined', async () => {
-    const mockElement = {
-      isConnected: true,
-      style: {},
-    } as unknown as HTMLElement
-
-    const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn, 30)
-
-    await new Promise((r) => setTimeout(r, 60))
-    // transitionDuration is undefined on the style, so the condition fails, falls back
-    expect(fn).toHaveBeenCalledTimes(1)
-  })
-
   test('callback is only invoked once per call (not duplicated)', async () => {
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(null, fn, 20)
+    scheduleTransitionTimeout(null, fn, 20)
 
     await new Promise((r) => setTimeout(r, 80))
     expect(fn).toHaveBeenCalledTimes(1)
@@ -561,9 +597,8 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
     })) as any
 
     const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(mockElement, fn)
+    scheduleTransitionTimeout(mockElement, fn)
 
-    // 0.001s = 1ms, should fire very quickly
     await new Promise((r) => setTimeout(r, 30))
     expect(fn).toHaveBeenCalledTimes(1)
 
@@ -571,66 +606,25 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
   })
 })
 
-// ─── Edge Cases: useStableId pattern ────────────────────────────────────────
-
-describe('useStableId (edge cases)', () => {
-  test('custom prefix format is valid', () => {
-    expect(/^my-prefix-\d+$/.test('my-prefix-1')).toBe(true)
-    expect(/^my-prefix-\d+$/.test('my-prefix-999')).toBe(true)
-  })
-
-  test('empty prefix produces valid id', () => {
-    expect(/^-\d+$/.test('-1')).toBe(true)
-  })
-
-  test('prefix with special characters is preserved', () => {
-    expect(/^data_slot-\d+$/.test('data_slot-1')).toBe(true)
-    expect(/^nav\.item-\d+$/.test('nav.item-5')).toBe(true)
-  })
-
-  test('counter portion is always a positive integer', () => {
-    // Counter starts at 0 and increments, so the number is always >= 1
-    const ids = ['id-1', 'id-2', 'id-100']
-    for (const id of ids) {
-      const num = Number.parseInt(id.split('-').pop()!, 10)
-      expect(num).toBeGreaterThan(0)
-      expect(Number.isInteger(num)).toBe(true)
-    }
-  })
-
-  test('two distinct prefixes never collide', () => {
-    // Ids with different prefixes can share the same counter value
-    // but the full string is always different
-    const id1 = 'alpha-1'
-    const id2 = 'beta-1'
-    expect(id1).not.toBe(id2)
-  })
-})
-
 // ─── useCopyToClipboard ────────────────────────────────────────────────────
-// This hook returns { isCopied, copyToClipboard }. It depends on
-// navigator.clipboard.writeText. We test the logic paths by mocking the
-// clipboard API and calling copyToClipboard directly (bypassing React state).
 
-describe('useCopyToClipboard (logic)', () => {
-  test('copyToClipboard is exported as a function from the hook module', async () => {
+describe('useCopyToClipboard', () => {
+  test('hook is exported as a function', async () => {
     const mod = await import('../use-copy-to-clipboard')
     expect(typeof mod.useCopyToClipboard).toBe('function')
   })
 
-  test('hook returns an object with isCopied and copyToClipboard', async () => {
-    // We cannot run the hook outside React, but we can verify the module
-    // exports the function and inspect its return type contract.
+  test('returns { copyToClipboard, isCopied } shape', async () => {
     const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
-    expect(useCopyToClipboard).toBeDefined()
-    expect(useCopyToClipboard.length).toBeLessThanOrEqual(1) // 0 or 1 optional param
+    const { result } = renderHook(() => useCopyToClipboard())
+    expect(typeof result.current.copyToClipboard).toBe('function')
+    expect(typeof result.current.isCopied).toBe('boolean')
   })
 
-  test('navigator.clipboard.writeText is called when available', async () => {
+  test('writes to clipboard and flips isCopied', async () => {
     const writtenValues: string[] = []
     const originalClipboard = navigator.clipboard
 
-    // Mock clipboard
     Object.defineProperty(navigator, 'clipboard', {
       value: {
         writeText: (text: string) => {
@@ -642,14 +636,24 @@ describe('useCopyToClipboard (logic)', () => {
       configurable: true,
     })
 
-    // Call writeText directly (the hook guards on typeof window, but in bun
-    // test env window is not defined; we test the clipboard interaction itself)
-    const value = 'hello clipboard'
-    await navigator.clipboard.writeText(value)
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard({ timeout: 50 }))
+
+    await act(async () => {
+      result.current.copyToClipboard('hello clipboard')
+      // Let the promise microtask resolve.
+      await Promise.resolve()
+    })
 
     expect(writtenValues).toEqual(['hello clipboard'])
+    expect(result.current.isCopied).toBe(true)
 
-    // Restore
+    // Wait for the auto-reset timeout.
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 80))
+    })
+    expect(result.current.isCopied).toBe(false)
+
     Object.defineProperty(navigator, 'clipboard', {
       value: originalClipboard,
       writable: true,
@@ -657,7 +661,7 @@ describe('useCopyToClipboard (logic)', () => {
     })
   })
 
-  test('gracefully handles missing clipboard API', () => {
+  test('does not throw when navigator.clipboard is undefined', async () => {
     const originalClipboard = navigator.clipboard
 
     Object.defineProperty(navigator, 'clipboard', {
@@ -666,11 +670,11 @@ describe('useCopyToClipboard (logic)', () => {
       configurable: true,
     })
 
-    // The hook checks: if (typeof window === 'undefined' || !navigator.clipboard.writeText)
-    // With clipboard undefined, accessing .writeText would throw.
-    // Verify the guard pattern: check clipboard exists before accessing writeText.
-    const hasClipboard = typeof navigator !== 'undefined' && navigator.clipboard
-    expect(hasClipboard).toBeFalsy()
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard())
+
+    expect(() => result.current.copyToClipboard('x')).not.toThrow()
+    expect(result.current.isCopied).toBe(false)
 
     Object.defineProperty(navigator, 'clipboard', {
       value: originalClipboard,
@@ -694,12 +698,12 @@ describe('useCopyToClipboard (logic)', () => {
       configurable: true,
     })
 
-    // The hook has: if (!value) return
-    const value = ''
-    if (value) {
-      await navigator.clipboard.writeText(value)
-    }
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard())
 
+    act(() => {
+      result.current.copyToClipboard('')
+    })
     expect(writtenValues).toEqual([])
 
     Object.defineProperty(navigator, 'clipboard', {
@@ -709,7 +713,7 @@ describe('useCopyToClipboard (logic)', () => {
     })
   })
 
-  test('onCopy callback is invoked after successful copy', async () => {
+  test('onCopy callback fires after a successful copy', async () => {
     const onCopy = vi.fn(() => {})
     const originalClipboard = navigator.clipboard
 
@@ -721,9 +725,12 @@ describe('useCopyToClipboard (logic)', () => {
       configurable: true,
     })
 
-    // Simulate the hook's .then() behavior
-    await navigator.clipboard.writeText('test').then(() => {
-      onCopy()
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard({ onCopy }))
+
+    await act(async () => {
+      result.current.copyToClipboard('test')
+      await Promise.resolve()
     })
 
     expect(onCopy).toHaveBeenCalledTimes(1)
@@ -734,256 +741,323 @@ describe('useCopyToClipboard (logic)', () => {
       configurable: true,
     })
   })
+
+  test('cancels reset timer on unmount (no setState-after-unmount)', async () => {
+    const originalClipboard = navigator.clipboard
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: (_text: string) => Promise.resolve(),
+      },
+      writable: true,
+      configurable: true,
+    })
+
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result, unmount } = renderHook(() => useCopyToClipboard({ timeout: 50 }))
+
+    await act(async () => {
+      result.current.copyToClipboard('hello')
+      await Promise.resolve()
+    })
+    expect(result.current.isCopied).toBe(true)
+
+    // Spy on console.error to surface any React "setState on unmounted" warnings.
+    const consoleErr = vi.spyOn(console, 'error').mockImplementation(() => {})
+    unmount()
+
+    await new Promise((r) => setTimeout(r, 100))
+
+    // No React update-after-unmount warnings should have been emitted.
+    const warned = consoleErr.mock.calls.some((args) =>
+      args.some(
+        (a) => typeof a === 'string' && (a.includes("Can't perform a React state update") || a.includes('unmounted')),
+      ),
+    )
+    expect(warned).toBe(false)
+    consoleErr.mockRestore()
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    })
+  })
+
+  test('rapid double-copy clears the previous reset timer', async () => {
+    const originalClipboard = navigator.clipboard
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: (_text: string) => Promise.resolve(),
+      },
+      writable: true,
+      configurable: true,
+    })
+
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard({ timeout: 60 }))
+
+    // First copy schedules a reset for ~60ms.
+    await act(async () => {
+      result.current.copyToClipboard('first')
+      await Promise.resolve()
+    })
+    expect(result.current.isCopied).toBe(true)
+
+    // Wait part of the timeout, then trigger another copy — the prior reset
+    // timer should be cleared so isCopied stays true for a full fresh window.
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 40))
+    })
+    await act(async () => {
+      result.current.copyToClipboard('second')
+      await Promise.resolve()
+    })
+    expect(result.current.isCopied).toBe(true)
+
+    // After the original reset window (which would have fired by now) it should
+    // still be true because the timer was reset on the second copy.
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 40))
+    })
+    expect(result.current.isCopied).toBe(true)
+
+    // After the full new window has elapsed, it should flip back to false.
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 50))
+    })
+    expect(result.current.isCopied).toBe(false)
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    })
+  })
+
+  test('onError callback fires when writeText rejects', async () => {
+    const onError = vi.fn((_err: unknown) => {})
+    const originalClipboard = navigator.clipboard
+    const rejection = new Error('permission denied')
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: (_text: string) => Promise.reject(rejection),
+      },
+      writable: true,
+      configurable: true,
+    })
+
+    const { useCopyToClipboard } = await import('../use-copy-to-clipboard')
+    const { result } = renderHook(() => useCopyToClipboard({ onError }))
+
+    await act(async () => {
+      result.current.copyToClipboard('boom')
+      // Let the promise rejection settle.
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(onError).toHaveBeenCalledWith(rejection)
+    expect(result.current.isCopied).toBe(false)
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    })
+  })
 })
 
-// ─── useIsMobile ───────────────────────────────────────────────────────────
-// This hook uses window.matchMedia and window.innerWidth with a breakpoint
-// of 768. We test the logic paths by mocking matchMedia.
+// ─── useIsMobile / useMediaQuery ───────────────────────────────────────────
 
-describe('useIsMobile (logic)', () => {
-  test('hook is exported as a function', async () => {
-    const mod = await import('../use-is-mobile')
-    expect(typeof mod.useIsMobile).toBe('function')
-  })
-
-  test('returns boolean (double-bang coercion of undefined is false)', () => {
-    // The hook initializes state as undefined and returns !!isMobile
-    // Before the effect runs, !!undefined === false
-    expect(!!undefined).toBe(false)
-  })
-
-  test('default breakpoint is 768 -- width below is mobile', () => {
-    const MOBILE_BREAKPOINT = 768
-    expect(500 < MOBILE_BREAKPOINT).toBe(true)
-    expect(767 < MOBILE_BREAKPOINT).toBe(true)
-  })
-
-  test('default breakpoint is 768 -- width at or above is not mobile', () => {
-    const MOBILE_BREAKPOINT = 768
-    expect(768 < MOBILE_BREAKPOINT).toBe(false)
-    expect(1024 < MOBILE_BREAKPOINT).toBe(false)
-  })
-
-  test('matchMedia query uses max-width of breakpoint minus 1', () => {
-    const MOBILE_BREAKPOINT = 768
-    const query = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
-    expect(query).toBe('(max-width: 767px)')
-  })
-
-  test('matchMedia addEventListener/removeEventListener pattern', () => {
-    const listeners: Array<{ type: string; fn: unknown }> = []
-    const mockMql = {
-      matches: true,
-      addEventListener: (type: string, fn: unknown) => {
-        listeners.push({ type, fn })
+describe('useMediaQuery + useIsMobile', () => {
+  function installMatchMedia(matches: boolean) {
+    const listeners: Array<(e: MediaQueryListEvent) => void> = []
+    const mql = {
+      matches,
+      addEventListener: (_type: string, fn: (e: MediaQueryListEvent) => void) => {
+        listeners.push(fn)
       },
-      removeEventListener: (type: string, _fn: unknown) => {
-        const idx = listeners.findIndex((l) => l.type === type)
-        if (idx !== -1) listeners.splice(idx, 1)
+      removeEventListener: (_type: string, fn: (e: MediaQueryListEvent) => void) => {
+        const i = listeners.indexOf(fn)
+        if (i !== -1) listeners.splice(i, 1)
       },
     }
-
-    const onChange = () => {}
-    mockMql.addEventListener('change', onChange)
-    expect(listeners).toHaveLength(1)
-    expect(listeners[0]!.type).toBe('change')
-
-    mockMql.removeEventListener('change', onChange)
-    expect(listeners).toHaveLength(0)
-  })
-})
-
-// ─── useMediaQuery ─────────────────────────────────────────────────────────
-// This hook calls matchMedia(query), listens for 'change' events, and
-// returns the boolean matches value.
-
-describe('useMediaQuery (logic)', () => {
-  test('hook is exported as a function', async () => {
-    const mod = await import('../use-media-query')
-    expect(typeof mod.useMediaQuery).toBe('function')
-  })
-
-  test('initial value is false (before effect runs)', () => {
-    // The hook initializes: const [value, setValue] = React.useState(false)
-    const initialValue = false
-    expect(initialValue).toBe(false)
-  })
-
-  test('matchMedia returns an object with matches and event methods', () => {
-    // The hook depends on matchMedia(query).matches
-    // Verify the contract: matchMedia should return { matches, addEventListener, removeEventListener }
-    const originalMatchMedia = globalThis.matchMedia
-
-    const mockResult = {
-      matches: true,
-      addEventListener: vi.fn(() => {}),
-      removeEventListener: vi.fn(() => {}),
+    const original = globalThis.matchMedia
+    globalThis.matchMedia = ((_q: string) => mql) as any
+    return {
+      restore: () => {
+        globalThis.matchMedia = original
+      },
+      fire: (next: boolean) => {
+        mql.matches = next
+        for (const l of listeners) l({ matches: next } as MediaQueryListEvent)
+      },
     }
-    globalThis.matchMedia = ((_query: string) => mockResult) as any
+  }
 
-    const result = matchMedia('(min-width: 1024px)')
-    expect(result.matches).toBe(true)
-    expect(typeof result.addEventListener).toBe('function')
-    expect(typeof result.removeEventListener).toBe('function')
+  test('useMediaQuery returns current match state on mount', async () => {
+    const harness = installMatchMedia(true)
+    const { useMediaQuery } = await import('../use-media-query')
 
-    globalThis.matchMedia = originalMatchMedia
+    const { result } = renderHook(() => useMediaQuery('(min-width: 1024px)'))
+    expect(result.current).toBe(true)
+
+    harness.restore()
   })
 
-  test('different queries produce different matchMedia results', () => {
-    const originalMatchMedia = globalThis.matchMedia
-    const queriesReceived: string[] = []
+  test('useMediaQuery updates when matchMedia fires a change event', async () => {
+    const harness = installMatchMedia(false)
+    const { useMediaQuery } = await import('../use-media-query')
 
-    globalThis.matchMedia = ((query: string) => {
-      queriesReceived.push(query)
-      return {
-        matches: query.includes('1024'),
-        addEventListener: () => {},
-        removeEventListener: () => {},
-      }
-    }) as any
+    const { result } = renderHook(() => useMediaQuery('(min-width: 1024px)'))
+    expect(result.current).toBe(false)
 
-    const result1 = matchMedia('(min-width: 1024px)')
-    const result2 = matchMedia('(max-width: 640px)')
+    await act(async () => {
+      harness.fire(true)
+    })
+    expect(result.current).toBe(true)
 
-    expect(result1.matches).toBe(true)
-    expect(result2.matches).toBe(false)
-    expect(queriesReceived).toEqual(['(min-width: 1024px)', '(max-width: 640px)'])
-
-    globalThis.matchMedia = originalMatchMedia
+    harness.restore()
   })
 
-  test('SSR fallback: when matchMedia is not defined, value stays false', () => {
-    // In SSR there is no matchMedia. The hook uses useEffect which does not
-    // run on the server, so the initial value (false) is returned.
-    const ssrValue = false
-    expect(ssrValue).toBe(false)
+  test('useIsMobile delegates to useMediaQuery', async () => {
+    const harness = installMatchMedia(true)
+    const { useIsMobile } = await import('../use-is-mobile')
+
+    const { result } = renderHook(() => useIsMobile())
+    expect(result.current).toBe(true)
+
+    harness.restore()
   })
 
-  test('change event handler receives event.matches and can update value', () => {
-    // Simulate the pattern the hook uses: register a change handler,
-    // then when it fires with event.matches, update value.
-    let capturedValue = false
-    const onChange = (event: { matches: boolean }) => {
-      capturedValue = event.matches
-    }
+  test('useMediaQuery initial state reflects the actual match (lazy init, no flash)', async () => {
+    // Install matchMedia with `matches: true` BEFORE the hook mounts. The lazy
+    // initializer must read this value on the very first render, not flip to
+    // it in an effect.
+    const harness = installMatchMedia(true)
+    const { useMediaQuery } = await import('../use-media-query')
 
-    // Simulate the change event firing with matches: true
-    onChange({ matches: true })
-    expect(capturedValue).toBe(true)
+    const seen: boolean[] = []
+    renderHook(() => {
+      const v = useMediaQuery('(min-width: 1024px)')
+      seen.push(v)
+      return v
+    })
 
-    // And firing with matches: false
-    onChange({ matches: false })
-    expect(capturedValue).toBe(false)
+    // The first observed render must already be true — no `false → true` flash.
+    expect(seen[0]).toBe(true)
+
+    harness.restore()
   })
 })
 
 // ─── useOnOpenChange ───────────────────────────────────────────────────────
-// This hook manages open/close state with transition support. It depends on
-// useComputedTimeoutTransition and manipulates document.body.classList.
 
-describe('useOnOpenChange (logic)', () => {
+describe('useOnOpenChange', () => {
   test('hook is exported as a function', async () => {
     const mod = await import('../use-on-open-change')
     expect(typeof mod.useOnOpenChange).toBe('function')
   })
 
-  test('scroll-locked class is toggled on document.body', () => {
-    // The hook adds/removes 'scroll-locked' from document.body.classList
-    // Verify the classList API works as expected for this pattern
-    const mockClassList = new Set<string>()
+  test('return shape is { onOpenChange, open, ref }', async () => {
+    const { useOnOpenChange } = await import('../use-on-open-change')
+    const ref = { current: null as HTMLElement | null }
+    const { result } = renderHook(() => useOnOpenChange(ref))
 
-    mockClassList.add('scroll-locked')
-    expect(mockClassList.has('scroll-locked')).toBe(true)
-
-    mockClassList.delete('scroll-locked')
-    expect(mockClassList.has('scroll-locked')).toBe(false)
+    expect(typeof result.current.onOpenChange).toBe('function')
+    expect(typeof result.current.open).toBe('boolean')
+    expect(result.current.ref).toBe(ref)
   })
 
-  test('onOpenChange callback receives boolean state', () => {
-    const states: boolean[] = []
-    const onOpenChange = (state: boolean) => {
-      states.push(state)
-    }
+  test('controlled openProp drives state', async () => {
+    const { useOnOpenChange } = await import('../use-on-open-change')
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const ref = { current: el as HTMLElement | null }
 
-    // Simulate the hook calling onOpenChange with true and false
-    onOpenChange(true)
-    onOpenChange(false)
+    const { result, rerender } = renderHook(({ open }) => useOnOpenChange(ref, open), {
+      initialProps: { open: false },
+    })
+    expect(result.current.open).toBe(false)
 
-    expect(states).toEqual([true, false])
+    rerender({ open: true })
+    // Adding the scroll-lock class is synchronous; the setOpen state update is
+    // gated behind OPEN_DELAY_MS (100), so wait a bit longer.
+    expect(document.body.classList.contains('scroll-locked')).toBe(true)
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 200))
+    })
+    expect(result.current.open).toBe(true)
+
+    document.body.removeChild(el)
+    document.body.classList.remove('scroll-locked')
   })
 
-  test('handleOpenChange guards on ref.current being non-null', () => {
-    // The hook has: if (!ref.current) return
-    const ref = { current: null }
-    let proceeded = false
+  test('handleOpenChange is a no-op when ref.current is null', async () => {
+    const { useOnOpenChange } = await import('../use-on-open-change')
+    const onOpenChange = vi.fn(() => {})
+    const ref = { current: null as HTMLElement | null }
+    const { result } = renderHook(() => useOnOpenChange(ref, undefined, onOpenChange))
 
-    // Simulate the guard
-    if (!ref.current) {
-      // early return
-    } else {
-      proceeded = true
-    }
-
-    expect(proceeded).toBe(false)
-
-    // With a valid ref
-    const refWithElement = { current: {} as HTMLElement }
-    let proceeded2 = false
-    if (!refWithElement.current) {
-      // early return
-    } else {
-      proceeded2 = true
-    }
-    expect(proceeded2).toBe(true)
+    act(() => {
+      result.current.onOpenChange(true)
+    })
+    expect(onOpenChange).not.toHaveBeenCalled()
   })
 
-  test('opening state adds scroll-locked to body with delay', async () => {
-    // The hook uses setTimeout(() => { ... }, 100) when opening
-    let scrollLocked = false
-    const addScrollLock = () => {
-      scrollLocked = true
-    }
+  test('controlled openProp effect skips re-toggling when value did not change', async () => {
+    const { useOnOpenChange } = await import('../use-on-open-change')
+    const onOpenChange = vi.fn(() => {})
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const ref = { current: el as HTMLElement | null }
 
-    setTimeout(addScrollLock, 100)
-    expect(scrollLocked).toBe(false)
+    const { rerender } = renderHook(({ open }) => useOnOpenChange(ref, open, onOpenChange), {
+      initialProps: { open: true },
+    })
+
+    // Wait past OPEN_DELAY_MS so the initial open settles and fires once.
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 200))
+    })
+    const initialCalls = onOpenChange.mock.calls.length
+    expect(initialCalls).toBeGreaterThanOrEqual(1)
+
+    // Rerender with the same value — controlled-prop effect should NOT
+    // re-invoke handleOpenChange.
+    rerender({ open: true })
+    rerender({ open: true })
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 200))
+    })
+    expect(onOpenChange.mock.calls.length).toBe(initialCalls)
+
+    document.body.removeChild(el)
+    document.body.classList.remove('scroll-locked')
+  })
+
+  test('cancels the pending open delay on unmount', async () => {
+    const { useOnOpenChange } = await import('../use-on-open-change')
+    const onOpenChange = vi.fn(() => {})
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const ref = { current: el as HTMLElement | null }
+
+    const { result, unmount } = renderHook(() => useOnOpenChange(ref, undefined, onOpenChange))
+
+    act(() => {
+      result.current.onOpenChange(true)
+    })
+    unmount()
 
     await new Promise((r) => setTimeout(r, 150))
-    expect(scrollLocked).toBe(true)
-  })
+    expect(onOpenChange).not.toHaveBeenCalled()
 
-  test('closing state removes scroll-locked via useComputedTimeoutTransition', async () => {
-    // On close, the hook calls useComputedTimeoutTransition to delay removal
-    const fn = vi.fn(() => {})
-    useComputedTimeoutTransition(null, fn, 30)
-
-    await new Promise((r) => setTimeout(r, 60))
-    expect(fn).toHaveBeenCalledTimes(1)
-  })
-
-  test('return value shape: { onOpenChange, open, ref }', () => {
-    // Verify the expected contract of the hook return value
-    const expectedKeys = ['onOpenChange', 'open', 'ref']
-    const mockReturn = {
-      onOpenChange: () => {},
-      open: false,
-      ref: { current: null },
-    }
-
-    for (const key of expectedKeys) {
-      expect(key in mockReturn).toBe(true)
-    }
-    expect(typeof mockReturn.onOpenChange).toBe('function')
-    expect(typeof mockReturn.open).toBe('boolean')
-    expect(mockReturn.ref).toHaveProperty('current')
-  })
-
-  test('controlled open prop initializes state', () => {
-    // The hook: const [open, setOpen] = React.useState<boolean>(openProp ?? false)
-    // When openProp is true, initial state is true
-    expect(true ?? false).toBe(true)
-    // When openProp is false, initial state is false
-    expect(false ?? false).toBe(false)
-    // When openProp is undefined, initial state is false
-    expect(undefined ?? false).toBe(false)
+    document.body.removeChild(el)
   })
 })

@@ -3,6 +3,8 @@ import type { IRegistryBuildExtensionApi } from '../../extensions/extension'
 import { createRegistryBuildContext } from '../context/context'
 import type { IBuildOptions, IBuildResult, IRegistryBuildContext, IRegistryBuildPhaseResult } from '../types'
 
+// Projects the public surface of `context` so extensions can't reach for
+// internal-only fields like `cache` or `configPath` by accident.
 function createExtensionApi(context: IRegistryBuildContext): IRegistryBuildExtensionApi {
   return {
     artifacts: context.artifacts,

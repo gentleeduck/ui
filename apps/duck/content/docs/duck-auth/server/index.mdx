@@ -1,0 +1,101 @@
+---
+title: Server adapters
+description: Mount duck-auth on Express, Hono, Next.js, Fastify, Koa, Elysia, NestJS, gRPC, or any Web-Fetch runtime.
+section: Server
+---
+
+## What mounts where
+
+Every server adapter exposes the same four routes:
+
+| Route | Handler |
+| --- | --- |
+| `POST /<prefix>/signin` | `mountSignIn(auth)` — completes provider sign-in. |
+| `POST /<prefix>/signout` | `mountSignOut(auth)` — revokes the current session. |
+| `GET /<prefix>/session` | `mountSession(auth)` — returns the current session + identity. |
+| `POST /<prefix>/providers/:providerId/begin` | `mountProviderBegin(auth, providerId)` — initiates a flow (OAuth redirect, magic-link send). |
+
+The actual Express / Hono / Next functions are named consistently:
+`mountSignIn` / `honoSignIn` / `nextSignIn` etc. — they all return a
+handler appropriate to the framework.
+
+## Shipped adapters
+
+| Adapter | Import | Notes |
+| --- | --- | --- |
+| [Express](/duck-auth/server/express) | `@gentleduck/auth/server/express` | Express 4+. Use `express.json()` upstream. |
+| [Hono](/duck-auth/server/hono) | `@gentleduck/auth/server/hono` | Hono 4+. Works on Bun, Node, Cloudflare Workers, Deno. |
+| [Next.js](/duck-auth/server/next) | `@gentleduck/auth/server/next` | App router. Catch-all `[...auth]/route.ts`. |
+| Fastify | `@gentleduck/auth/server/fastify` | Fastify 4+. As a plugin. |
+| Koa | `@gentleduck/auth/server/koa` | Koa 2+. As middleware. |
+| Elysia | `@gentleduck/auth/server/elysia` | Elysia (Bun). As handlers. |
+| NestJS | `@gentleduck/auth/server/nestjs` | Guard + module + controller pair. |
+| gRPC | `@gentleduck/auth/server/grpc` | Interceptor for `@grpc/grpc-js`. |
+| Generic | `@gentleduck/auth/server/generic` | `(request: Request) → Promise<Response>` for any Web-Fetch runtime. |
+
+## The intent executor
+
+Every adapter is a thin wrapper around the same core executor:
+
+```typescript
+import { executeIntents } from '@gentleduck/auth/server/generic'
+
+const intents = await auth.flows.signIn({ providerId, input })
+const response = executeIntents(intents)
+// → web standard Response object with the right cookies / redirects / body
+```
+
+The intent executor handles:
+- `startSession` / `rotateSession` → `Set-Cookie` and / or `Authorization` header.
+- `revokeSession` → `Set-Cookie: ...; Max-Age=0`.
+- `redirect` → `Location` header + 302/303.
+- `json` → `application/json` body + status.
+- `setCookie` / `header` → raw additions.
+
+You can implement an adapter for an unsupported framework by calling
+`executeIntents()` and mapping the resulting `Response` to your
+runtime's primitives.
+
+## Path prefix
+
+The mount helpers don't care about path — you mount at any prefix:
+
+```typescript
+// Express
+app.post('/auth/signin', mountSignIn(auth))
+app.post('/auth/signout', mountSignOut(auth))
+app.get('/auth/session', mountSession(auth))
+app.post('/auth/providers/:providerId/begin', mountProviderBegin(auth, req.params.providerId))
+
+// Or:
+app.post('/api/v1/auth/signin', mountSignIn(auth))
+```
+
+The OpenAPI generator uses the `prefix` config (default `/auth`) to
+emit the right paths in the spec:
+
+```typescript
+import { buildOpenApiSpec } from '@gentleduck/auth/openapi'
+
+const spec = buildOpenApiSpec({
+  baseUrl: 'https://api.example.com',
+  prefix: '/api/v1/auth',
+})
+```
+
+## Resolving the session in handlers
+
+Most handlers will call `auth.resolveSession(req)` to gate access:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.get('/api/me', async (req, res) => {
+  const ctx = await auth.resolveSession(req)
+  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  res.json(ctx.identity)
+})
+```
+
+For Next.js (server components / route handlers), the API is the same
+— `auth.resolveSession(request)` works on a `Request` or a Next `NextRequest`.

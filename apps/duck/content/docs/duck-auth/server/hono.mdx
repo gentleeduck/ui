@@ -1,0 +1,97 @@
+---
+title: Hono adapter
+description: Hono 4+ handlers. Runs on Bun, Node, Cloudflare Workers, Deno, and Vercel Edge.
+section: Server
+---
+
+## Mount
+
+```typescript
+import { Hono } from 'hono'
+import {
+  honoProviderBegin,
+  honoSession,
+  honoSignIn,
+  honoSignOut,
+} from '@gentleduck/auth/server/hono'
+import { auth } from './lib/auth'
+
+const app = new Hono()
+
+app.post('/auth/signin', honoSignIn(auth))
+app.post('/auth/signout', honoSignOut(auth))
+app.get('/auth/session', honoSession(auth))
+app.post('/auth/providers/:providerId/begin', (c) =>
+  honoProviderBegin(auth, c.req.param('providerId'))(c)
+)
+
+// OAuth callbacks reuse the sign-in handler.
+app.get('/auth/google/callback', honoSignIn(auth))
+app.get('/auth/github/callback', honoSignIn(auth))
+
+export default app
+```
+
+## Resolving sessions in handlers
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.get('/api/me', async (c) => {
+  const ctx = await auth.resolveSession(c.req.raw)
+  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  return c.json(ctx.identity)
+})
+```
+
+`c.req.raw` is the underlying Web-Fetch `Request` — duck-auth speaks
+that natively, so no adapter glue is needed.
+
+## Cloudflare Workers / edge
+
+Hono on Cloudflare Workers is well-supported, but there are two gotchas
+for duck-auth:
+
+1. **No Node built-ins**: `ScryptHasher` uses `node:crypto`. On Workers,
+   either use `Argon2idHasher` (peer dep), or use a custom WebCrypto-based
+   hasher.
+2. **No `process.env`**: read secrets from `c.env` instead:
+
+```typescript
+import { createAuth } from '~/lib/createAuth'
+
+const app = new Hono<{ Bindings: { JWT_SECRET: string; DATABASE_URL: string } }>()
+
+app.use('*', async (c, next) => {
+  c.set('auth', createAuth({
+    jwtSecret: c.env.JWT_SECRET,
+    databaseUrl: c.env.DATABASE_URL,
+  }))
+  await next()
+})
+
+app.post('/auth/signin', async (c) => {
+  return honoSignIn(c.get('auth'))(c)
+})
+```
+
+The `auth` instance is built per-request from the bindings; create it
+once per worker if you can amortise the cost.
+
+## Error handling
+
+```typescript
+import { HTTPException } from 'hono/http-exception'
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.onError((err, c) => {
+  if (err instanceof AuthErrorObject) {
+    return c.json(err.toJSON(), err.status)
+  }
+  if (err instanceof HTTPException) {
+    return err.getResponse()
+  }
+  console.error(err)
+  return c.json({ error: 'internal' }, 500)
+})
+```

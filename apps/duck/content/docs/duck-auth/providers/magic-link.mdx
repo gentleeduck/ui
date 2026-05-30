@@ -1,0 +1,145 @@
+---
+title: Magic-link provider
+description: Passwordless sign-in over email, SMS, or WebPush. Hashed-at-rest tokens, single-use, configurable TTL.
+section: Providers
+---
+
+## Setup
+
+```typescript
+import { magicLink } from '@gentleduck/auth/providers/magic-link'
+import { ResendChannel } from '@gentleduck/auth/channels/resend'
+
+export const auth = new AuthRoot({
+  // ...
+  providers: [
+    magicLink({
+      channels: {
+        email: new ResendChannel({
+          apiKey: process.env.RESEND_API_KEY!,
+          from: 'no-reply@example.com',
+        }),
+      },
+      findIdentityByEmail: async (email, tenantId) => {
+        return auth.identities.findByEmail(email, tenantId)
+      },
+      autoCreateIdentity: false,      // set true for "sign-in OR sign-up" flows
+      autoCreateProfile: (email) => ({ displayName: email.split('@')[0] }),
+      ttlMs: 10 * 60 * 1000,          // default 10 minutes
+      limiterKeyPrefix: 'magic-link:request:',
+      callbackPath: '/auth/magic-link/callback',
+    }),
+  ],
+})
+```
+
+## How it works
+
+1. **Client requests a link**:
+   ```typescript
+   await client.beginProvider('magic-link', { email, channel: 'email' })
+   ```
+2. The provider:
+   - Resolves identity by email (or auto-creates if `autoCreateIdentity`).
+   - Trips the per-email rate limiter.
+   - Mints a 32-byte random token (base64url).
+   - Hashes the token (SHA-256) and writes only the hash to the
+     credentials store with TTL.
+   - Dispatches via the channel: the user receives an email containing
+     a URL like `https://app.example.com/auth/magic-link/callback?token=<plaintext>`.
+3. **User clicks the link** — the URL hits your `callbackPath` and you
+   call `complete`:
+   ```typescript
+   await client.signIn({
+     providerId: 'magic-link',
+     input: { token },
+   })
+   ```
+4. The provider:
+   - Hashes the supplied token and looks up the row.
+   - Validates `expiresAt > now` and `revokedAt == null`.
+   - Marks the row revoked (single-use).
+   - Emits `startSession` at `aal: 'aal1'`, `amr: ['magic-link']`.
+
+## Multi-channel
+
+Pass `email`, `sms`, and `webpush` channels; the client picks one:
+
+```typescript
+magicLink({
+  channels: {
+    email: new ResendChannel({ ... }),
+    sms: new TwilioChannel({ ... }),
+    webpush: new WebPushChannel({ ... }),
+  },
+  // ...
+})
+
+// Client:
+await client.beginProvider('magic-link', { email, channel: 'sms' })
+```
+
+The `channel` parameter selects which transport to use; the provider
+calls `channels[channel].send(...)` with a templated payload.
+
+## Auto-creating identities
+
+`autoCreateIdentity: true` turns the magic-link into a "sign-in **or**
+sign-up" flow:
+
+```typescript
+magicLink({
+  autoCreateIdentity: true,
+  autoCreateProfile: (email) => ({ displayName: email.split('@')[0] }),
+})
+```
+
+When a request comes in for an email that doesn't exist, the provider:
+1. Creates the identity with `emailVerified: false`.
+2. Dispatches the magic link.
+3. On `complete`, marks the email verified (because the user proved
+   reachability by clicking the link).
+
+This is the recommended sign-up flow for B2C SaaS — one round trip, no
+password to remember.
+
+## Channel payload
+
+The channel receives a templated payload with the variables:
+
+```typescript
+{
+  templateId: 'magic-link',
+  identity: { id: 'identity-id' },
+  tenant: { tenantId: 'org-id' },
+  vars: {
+    email: 'ada@example.com',
+    url: 'https://app.example.com/auth/magic-link/callback?token=...',
+    expiresAt: '2026-05-27T12:34:56Z',
+    appName: 'Example',  // pulled from i18n catalog or your config
+  },
+}
+```
+
+Templating is your channel's responsibility — duck-auth hands over the
+variables; you decide whether to use Handlebars, MJML, or a SaaS
+template engine.
+
+## Token lifecycle
+
+- **TTL**: configurable via `ttlMs` (default 10 minutes). Shorter is
+  better — 5 minutes is fine for most users.
+- **Single use**: the row is marked `revokedAt = now` on `complete`.
+  Re-clicking an old link returns `AUTH/RECOVERY_TOKEN_INVALID`.
+- **Hashed at rest**: only the SHA-256 of the token is stored. A
+  database leak does not yield usable links.
+- **Constant-time lookup**: the hashed token is the primary key, so
+  there is no timing channel.
+
+## Errors
+
+| Code | When |
+| --- | --- |
+| `AUTH/RATE_LIMITED` | Limiter tripped (per-email bucket). |
+| `AUTH/RECOVERY_TOKEN_INVALID` | Token unknown or already revoked. |
+| `AUTH/RECOVERY_TOKEN_EXPIRED` | Token past `expiresAt`. |

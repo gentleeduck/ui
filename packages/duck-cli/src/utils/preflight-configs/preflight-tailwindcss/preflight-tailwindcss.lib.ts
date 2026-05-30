@@ -18,33 +18,25 @@ import {
   tailwindcssInstallPrompts,
 } from './preflight-tailwindcss.constants'
 
+/** Errors propagate; the outer `preflightConfigs` wrapper owns the final fail+exit. */
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
-  try {
-    spinner.text = `${highlighter.info('Checking for TailwindCss...')}`
+  spinner.text = `${highlighter.info('Checking for TailwindCss...')}`
 
-    const stylesFiles = await fg.async('**.css', {
-      cwd,
-      deep: 3,
-      globstar: true,
-      ignore: IGNORED_DIRECTORIES,
-      objectMode: true,
-    })
+  const stylesFiles = await fg.async('**.css', {
+    cwd,
+    deep: 3,
+    globstar: true,
+    ignore: IGNORED_DIRECTORIES,
+    objectMode: true,
+  })
 
-    for (const file of stylesFiles) {
-      const content = await fs.readFile(path.join(cwd, file.path), 'utf-8')
-      if (content.includes('@import "tailwindcss"')) {
-        spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
-        return true
-      }
-    }
-
-    return false
-  } catch (error) {
-    spinner.fail(
-      `${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error instanceof Error ? error.message : String(error))}`,
-    )
-    process.exit(1)
+  // Parallel read; large monorepos can have many CSS files and the serial loop dominates startup.
+  const results = await Promise.all(stylesFiles.map((file) => fs.readFile(path.join(cwd, file.path), 'utf-8')))
+  const found = results.some((content) => content.includes('@import "tailwindcss"'))
+  if (found) {
+    spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
   }
+  return found
 }
 
 export async function installTailwindcss(
@@ -89,38 +81,43 @@ export async function installTailwindcss(
   spinner.text = `${highlighter.info('TailwindCSS is installed...')}`
 }
 
+/** Throws on path-traversal or fs errors; the caller's command-action wrapper renders the exit. */
 export const tailwindcssDependencies = (projectType: ProjectType, cssPath: string, cwd: string) => {
-  try {
-    let cssFile: string
+  // `cssPath` flows from `--css` / `duck-ui.config.json`. Reject absolute paths and `..`
+  // traversal so a misconfigured config cannot mkdir or write outside the project.
+  if (path.isAbsolute(cssPath)) {
+    throw new Error(`tailwind.css must be a relative path; got absolute path "${cssPath}".`)
+  }
+  if (cssPath.split(/[\\/]+/).some((s) => s === '..')) {
+    throw new Error(`tailwind.css may not contain ".." traversal; got "${cssPath}".`)
+  }
 
-    if (cssPath.endsWith('.css')) {
-      cssFile = path.join(cwd, cssPath)
-      fs.mkdirSync(path.dirname(cssFile), { recursive: true })
-    } else {
-      const cssDir = path.join(cwd, cssPath)
-      fs.mkdirSync(cssDir, { recursive: true })
-      cssFile = path.join(cssDir, 'styles.css')
-    }
+  let cssFile: string
 
-    switch (projectType) {
-      case 'NEXT_JS':
-        writePostcssConfig(cwd)
-        writeCssFile(cssFile)
-        return ['tailwindcss', 'postcss', '@tailwindcss/postcss', 'tw-animate-css']
+  if (cssPath.endsWith('.css')) {
+    cssFile = path.join(cwd, cssPath)
+    fs.mkdirSync(path.dirname(cssFile), { recursive: true })
+  } else {
+    const cssDir = path.join(cwd, cssPath)
+    fs.mkdirSync(cssDir, { recursive: true })
+    cssFile = path.join(cssDir, 'styles.css')
+  }
 
-      case 'VITE':
-      case 'TANSTACK_START':
-        writeViteConfig(cwd)
-        writeCssFile(cssFile)
-        return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
+  switch (projectType) {
+    case 'NEXT_JS':
+      writePostcssConfig(cwd)
+      writeCssFile(cssFile)
+      return ['tailwindcss', 'postcss', '@tailwindcss/postcss', 'tw-animate-css']
 
-      default:
-        writeCssFile(cssFile)
-        return ['tailwindcss', 'tw-animate-css']
-    }
-  } catch (error) {
-    console.error(error)
-    process.exit(1)
+    case 'VITE':
+    case 'TANSTACK_START':
+      writeViteConfig(cwd)
+      writeCssFile(cssFile)
+      return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
+
+    default:
+      writeCssFile(cssFile)
+      return ['tailwindcss', 'tw-animate-css']
   }
 }
 

@@ -1,10 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
+import { toDirection } from '../direction/direction.libs'
 import { getPayloadConfigFromPayload, isSafeCssColor, isSafeCssIdent } from './chart.libs'
 import type {
   IChartContainerProps,
@@ -37,7 +37,7 @@ function ChartContainer({ id, className, children, config, ref, dir, ...props }:
   // caller-supplied override that is not a safe identifier.
   const safeId = id && isSafeCssIdent(id) ? id : safeUniqueId
   const chartId = `chart-${safeId}`
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -169,68 +169,106 @@ function ChartTooltipContent({
       ref={ref}>
       {nestLabel ? null : tooltipLabel}
       <div className="grid gap-1.5" data-slot="tooltip-items">
-        {payload.map((item: RechartsPrimitive.TooltipPayloadEntry<string | number, string | number>, index: number) => {
-          const key = `${nameKey || item.name || item.dataKey || 'value'}`
-          const itemConfig = getPayloadConfigFromPayload(config, item, key)
-          const indicatorColor = color || item.payload?.fill || item.color
-
-          return (
-            <div
-              className={cn(
-                'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
-                indicator === 'dot' && 'items-center',
-              )}
-              data-slot="tooltip-item"
-              key={String(item.dataKey)}>
-              {formatter && item?.value !== undefined && item.name ? (
-                formatter(item.value, item.name, item, index, item.payload)
-              ) : (
-                <>
-                  {itemConfig?.icon ? (
-                    <itemConfig.icon />
-                  ) : (
-                    !hideIndicator && (
-                      <div
-                        className={cn('shrink-0 rounded-[2px] border-[var(--color-border)] bg-[var(--color-bg)]', {
-                          'h-2.5 w-2.5': indicator === 'dot',
-                          'my-0.5': nestLabel && indicator === 'dashed',
-                          'w-0 border-[1.5px] border-dashed bg-transparent': indicator === 'dashed',
-                          'w-1': indicator === 'line',
-                        })}
-                        style={
-                          {
-                            '--color-bg': indicatorColor,
-                            '--color-border': indicatorColor,
-                          } as React.CSSProperties
-                        }
-                      />
-                    )
-                  )}
-                  <div
-                    className={cn(
-                      'flex flex-1 justify-between leading-none',
-                      nestLabel ? 'items-end' : 'items-center',
-                    )}>
-                    <div className="grid gap-1.5">
-                      {nestLabel ? tooltipLabel : null}
-                      <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
-                    </div>
-                    {item.value && (
-                      <span className="font-medium font-mono text-foreground tabular-nums">
-                        {item.value.toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
-          )
-        })}
+        {payload.map((item: RechartsPrimitive.TooltipPayloadEntry<string | number, string | number>, index: number) => (
+          <ChartTooltipItem
+            key={String(item.dataKey)}
+            item={item}
+            index={index}
+            nameKey={nameKey}
+            indicator={indicator}
+            hideIndicator={hideIndicator}
+            color={color}
+            nestLabel={nestLabel}
+            tooltipLabel={tooltipLabel}
+            formatter={formatter}
+          />
+        ))}
       </div>
     </div>
   )
 }
 ChartTooltipContent.displayName = 'ChartTooltipContent'
+
+interface IChartTooltipItemProps {
+  item: RechartsPrimitive.TooltipPayloadEntry<string | number, string | number>
+  index: number
+  nameKey?: string
+  indicator: 'line' | 'dot' | 'dashed'
+  hideIndicator: boolean
+  color?: string
+  nestLabel: boolean
+  tooltipLabel: React.ReactNode
+  formatter?: IChartTooltipContentProps['formatter']
+}
+
+/**
+ * Per-payload tooltip row hoisted out of `ChartTooltipContent` so React can
+ * bail out of unchanged rows on every Recharts hover-tick re-render. Keyed on
+ * `dataKey` upstream; uses the default shallow `React.memo` comparator since
+ * all incoming props are primitive or function references.
+ */
+const ChartTooltipItem = React.memo(function ChartTooltipItem({
+  item,
+  index,
+  nameKey,
+  indicator,
+  hideIndicator,
+  color,
+  nestLabel,
+  tooltipLabel,
+  formatter,
+}: IChartTooltipItemProps) {
+  const { config } = useChart()
+  const key = `${nameKey || item.name || item.dataKey || 'value'}`
+  const itemConfig = getPayloadConfigFromPayload(config, item, key)
+  const indicatorColor = color || item.payload?.fill || item.color
+
+  return (
+    <div
+      className={cn(
+        'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
+        indicator === 'dot' && 'items-center',
+      )}
+      data-slot="tooltip-item">
+      {formatter && item?.value !== undefined && item.name ? (
+        formatter(item.value, item.name, item, index, item.payload)
+      ) : (
+        <>
+          {itemConfig?.icon ? (
+            <itemConfig.icon />
+          ) : (
+            !hideIndicator && (
+              <div
+                className={cn('shrink-0 rounded-[2px] border-[var(--color-border)] bg-[var(--color-bg)]', {
+                  'h-2.5 w-2.5': indicator === 'dot',
+                  'my-0.5': nestLabel && indicator === 'dashed',
+                  'w-0 border-[1.5px] border-dashed bg-transparent': indicator === 'dashed',
+                  'w-1': indicator === 'line',
+                })}
+                style={
+                  {
+                    '--color-bg': indicatorColor,
+                    '--color-border': indicatorColor,
+                  } as React.CSSProperties
+                }
+              />
+            )
+          )}
+          <div className={cn('flex flex-1 justify-between leading-none', nestLabel ? 'items-end' : 'items-center')}>
+            <div className="grid gap-1.5">
+              {nestLabel ? tooltipLabel : null}
+              <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
+            </div>
+            {item.value && (
+              <span className="font-medium font-mono text-foreground tabular-nums">{item.value.toLocaleString()}</span>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  )
+})
+ChartTooltipItem.displayName = 'ChartTooltipItem'
 
 const ChartLegend = RechartsPrimitive.Legend
 ChartLegend.displayName = 'ChartLegend'

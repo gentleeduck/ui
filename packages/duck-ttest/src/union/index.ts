@@ -1,5 +1,7 @@
 /** Union to intersection: `A | B` → `A & B`. */
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+  ? I
+  : never
 
 /** Remove keys `K` from object type `O`. */
 export type ExcludeKeys<O, K extends keyof any> = Omit<O, Extract<keyof O, K>>

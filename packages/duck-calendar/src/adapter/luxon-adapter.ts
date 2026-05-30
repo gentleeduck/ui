@@ -2,11 +2,8 @@ import { DateTime } from 'luxon'
 import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
-/**
- * Luxon date adapter wrapping `DateTime`.
- * Converts between Luxon's 1-indexed months and the adapter's 0-indexed convention.
- * All methods return new DateTime instances  -  never mutates inputs.
- */
+/** Backed by Luxon `DateTime`. Translates between Luxon's 1-indexed months
+ * and the adapter's 0-indexed convention. See {@link Adapter.IDateAdapter}. */
 export class LuxonAdapter implements Adapter.IDateAdapter<DateTime> {
   today(): DateTime {
     return DateTime.now().startOf('day')

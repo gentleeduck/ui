@@ -20,6 +20,9 @@ export interface IScaffoldTemplateOptions {
 /** Template names are simple identifiers; reject anything else to avoid regex injection. */
 const TEMPLATE_NAME_PATTERN = /^[a-zA-Z0-9_-]+$/
 
+/** Matches the registry fetch timeout in `get-registry.lib.ts`; large tarballs need head room. */
+const TEMPLATE_FETCH_TIMEOUT_MS = 60_000
+
 export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinner: Ora) {
   const { template, cwd, yes } = options
   const { repo, branch, tarballUrl, templatesDir, ignoreSegments } = TEMPLATE_SCAFFOLD_CONFIG
@@ -55,7 +58,21 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
 
   spinner.text = `Downloading template ${highlighter.info(template)}...`
   const url = tarballUrl(repo, branch)
-  const response = await fetch(url)
+  // Bound the fetch so a slow/hung mirror can't park the CLI indefinitely. Mirrors the
+  // registry-fetch timeout pattern in `get-registry.lib.ts`.
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), TEMPLATE_FETCH_TIMEOUT_MS)
+  let response: Response
+  try {
+    response = await fetch(url, { signal: controller.signal })
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Template download timed out after ${TEMPLATE_FETCH_TIMEOUT_MS}ms`)
+    }
+    throw error
+  } finally {
+    clearTimeout(timeoutId)
+  }
 
   if (!response.ok || !response.body) {
     throw new Error(`Failed to download template archive: ${response.status} ${response.statusText}`)
@@ -101,9 +118,18 @@ export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinne
   spinner.text = 'Installing dependencies...'
   try {
     const pm = await getPackageManager(targetDir)
-    await execa(pm, ['install'], { cwd: targetDir, stdio: 'ignore' })
+    // Capture stderr so install failures surface a short summary instead of vanishing.
+    const result = await execa(pm, ['install'], { cwd: targetDir, reject: false, stderr: 'pipe', stdout: 'ignore' })
+    if (result.failed) {
+      const stderr = result.stderr?.toString().trim()
+      spinner.warn(
+        `Dependency install via ${highlighter.info(pm)} failed${stderr ? `:\n${stderr.split('\n').slice(-5).join('\n')}` : '.'}`,
+      )
+      return
+    }
     spinner.info(`Dependencies installed with ${highlighter.info(pm)}.`)
-  } catch {
-    spinner.warn('Could not install dependencies automatically. Run install manually.')
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    spinner.warn(`Could not install dependencies automatically: ${message}`)
   }
 }

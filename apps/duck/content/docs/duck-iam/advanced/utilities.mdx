@@ -256,3 +256,42 @@ A few engine-level invariants the utility functions inherit:
   treat a `404 Not Found` response as "missing" and return `null` rather than throwing.
   Other non-2xx statuses still throw so transport errors are not silently swallowed.
 - **`matches` operator refuses `$`-resolved RHS.** See `resolveConditionValue` above.
+
+## Row parsers - adapter authors
+
+If you're writing a custom adapter (your data lives in a system that the
+built-in adapters don't speak to), validate every row before returning
+it to the engine. duck-iam ships two helpers for exactly this:
+
+```typescript
+import { parsePolicyRow, parseRoleRow } from '@gentleduck/iam/core/validate'
+
+class MyAdapter implements Adapter.IAdapter {
+  async listPolicies() {
+    const rows = await this.myStore.fetchPolicies()
+    const out = []
+    for (const row of rows) {
+      const policy = parsePolicyRow<TAction, TResource, TRole>(row)
+      if (policy !== null) out.push(policy)
+      // else: drop the malformed row (log it if you want, but never
+      // return un-validated rows to the engine)
+    }
+    return out
+  }
+}
+```
+
+`parsePolicyRow` returns `null` on any validation failure; the engine
+treats `null` as "drop this row." This replaces the older pattern of
+calling `validatePolicy(row)` and then casting `row as IPolicy<...>` -
+the cast was a type-safety hole; the parser is not.
+
+Use cases:
+
+- A custom JSON-column SQL adapter where rows can be malformed by hand.
+- A migration tool that reads rows from one store and writes them to
+  another; you want to drop malformed rows instead of crashing.
+- A staging endpoint that lets operators preview policies before commit.
+
+`parseRoleRow` mirrors `parsePolicyRow` for `Adapter.IRoleStore.listRoles`
+/ `getRole` return values.

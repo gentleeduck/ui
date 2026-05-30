@@ -1,0 +1,161 @@
+---
+title: Identities
+description: CRUD, provider linking, identity merge, soft-delete grace, GDPR erase, bulk import, and the typed Profile generic.
+section: Core
+---
+
+## The identities facet
+
+`auth.identities` owns the identity record — the long-lived "who" of the
+caller. It is typed by the `Profile` generic you pass to `AuthRoot`:
+
+```typescript
+type Profile = { displayName: string; avatarUrl?: string }
+
+export const auth = new AuthRoot<Profile>({ /* ... */ })
+
+const id = await auth.identities.create({
+  email: 'ada@example.com',
+  emailVerified: false,
+  profile: { displayName: 'Ada Lovelace' },
+})
+```
+
+## Lookups
+
+```typescript
+const found = await auth.identities.findById(id)
+const byEmail = await auth.identities.findByEmail('ada@example.com', tenantId)
+const byProvider = await auth.identities.findByProviderSub({
+  providerId: 'google',
+  sub: '110248495824...',
+})
+```
+
+`tenantId` scopes every lookup — duck-auth is multi-tenant by default,
+and cross-tenant reads are rejected by the store layer.
+
+## Linking external accounts
+
+`identities.linkProvider` attaches an external-provider sub (Google, GitHub,
+SAML, etc.) to an existing identity:
+
+```typescript
+await auth.identities.linkProvider(identityId, {
+  providerId: 'google',
+  sub: '110248495824...',
+  email: 'ada@example.com',
+})
+```
+
+Unlink with `unlinkProvider({ identityId, providerId })`. Both emit
+audit events.
+
+## Merging identities
+
+`merge()` collapses two identities (e.g. a user signed up with email/password,
+then later signed in with Google for the first time and you want to fuse
+them into one):
+
+```typescript
+await auth.identities.merge({
+  primaryId,
+  absorbId,
+  conflictPolicy: 'primary-wins',  // | 'absorb-wins' | 'reject-on-conflict'
+})
+```
+
+Merge revokes every session on the absorbed identity, re-points every
+credential to the primary, and emits `identity.merged`.
+
+## Soft delete + restore
+
+Identities support a configurable grace period before hard deletion:
+
+```typescript
+new AuthRoot({
+  identities: {
+    softDeleteGracePeriodMs: 7 * 24 * 60 * 60 * 1000,  // 7 days default
+  },
+})
+
+await auth.identities.softDelete(id)
+// During grace, identity is hidden from findByEmail but findById returns it
+// with deletedAt set. Restore with:
+await auth.identities.restore(id)
+
+// After grace, the runtime promotes it to a hard delete on next sweep.
+```
+
+## GDPR erase
+
+A hard erasure that removes the row and overwrites PII in every store:
+
+```typescript
+await auth.identities.erase(id, {
+  reason: 'gdpr-request',
+})
+```
+
+Erase emits `identity.erased`, revokes all sessions, deletes all credentials,
+and zeroes the profile. Audit metadata (the fact that an erase happened, the
+timestamp, the reason) is preserved.
+
+## Export
+
+```typescript
+const dump = await auth.identities.exportAll(id)
+// → { identity, credentials (without secrets), sessions, providerLinks }
+```
+
+Used for GDPR data-portability requests.
+
+## Bulk create
+
+For migrations from another auth system, bulk insert with pre-hashed
+passwords:
+
+```typescript
+await auth.identities.bulkCreate([
+  {
+    email: 'a@example.com',
+    profile: { displayName: 'A' },
+    credentials: [
+      { kind: 'password', secret: '$scrypt$...' },  // pre-hashed
+    ],
+  },
+  // ...
+])
+```
+
+The bulk path **does not re-hash** — it expects pre-hashed secrets so
+you can pump a Bcrypt or Argon2 dump straight in without breaking the
+existing hashes.
+
+## Profile size limit
+
+Profiles are size-bounded to prevent storage abuse:
+
+```typescript
+new AuthRoot({
+  identities: {
+    profileMaxBytes: 16 * 1024,  // default 16 KiB
+  },
+})
+```
+
+Writes that exceed the limit raise `AUTH/MISCONFIGURED` at config time or
+a typed validation error at write time.
+
+## Events emitted
+
+| Event | When |
+| --- | --- |
+| `identity.created` | `create()` or `bulkCreate()`. |
+| `identity.updated` | `update()` or `updateProfile()`. |
+| `identity.deleted` | `softDelete()` or `hardDelete()`. |
+| `identity.restored` | `restore()` during the grace window. |
+| `identity.erased` | `erase()` — irreversible. |
+| `identity.linked` | `linkProvider()`. |
+| `identity.unlinked` | `unlinkProvider()`. |
+| `identity.merged` | `merge()`. |

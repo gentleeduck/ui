@@ -3,8 +3,9 @@ import { LazyMotion, MotionConfig } from 'motion/react'
 import * as React from 'react'
 import { loadDomAnimation } from './motion-features'
 import { useDuckReducedMotion } from './react'
+import { duckMotionDuration, duckMotionEasing } from './transitions/tweens'
 
-const DEFAULT_TRANSITION = { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const } as const
+const DEFAULT_TRANSITION = { duration: duckMotionDuration.fast, ease: duckMotionEasing.standard } as const
 const REDUCED_TRANSITION = { duration: 0 } as const
 
 export interface IMotionProviderProps {

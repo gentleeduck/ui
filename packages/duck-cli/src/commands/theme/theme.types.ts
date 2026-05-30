@@ -1,1 +1,3 @@
-export type { CommandConfig as ThemeCommandConfig } from '../shared.types'
+import type { CommandConfig } from '../shared.types'
+
+export type ThemeCommandConfig = CommandConfig<'jsonOption' | 'cssOption', 'nameArg'>

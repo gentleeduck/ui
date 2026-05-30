@@ -1,5 +1,6 @@
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
+import type { JSONValue } from '~/json'
 import type { InferSchema, ResolveFields } from '.'
 
 type SQLTest_Basic = InferSchema<`
@@ -96,11 +97,11 @@ type Test_InferSchema_Unknown = AssertTrue<
     SQLTest_Unknown,
     {
       id?: number | null
-      meta?: any
+      meta?: JSONValue | null
       blob?: Uint8Array<ArrayBufferLike> | null
     }
   >,
-  'Expected unknown for unsupported SQL types like JSON, BLOB'
+  'Expected SQLTypeMap to map JSON -> JSONValue, BLOB -> Uint8Array'
 >
 
 const AnimalSQL = `

@@ -1,0 +1,97 @@
+---
+title: Memory adapter
+description: In-memory Maps for identities, sessions, credentials, and orgs. Dev/test only — strict() rejects it in production.
+section: Adapters
+---
+
+## When to use
+
+`MemoryAuthAdapter` is the dev/test adapter. It holds every store in
+in-process `Map<string, T>` instances. Use it for:
+
+- Local development (no database setup required).
+- Unit / integration tests (`createTestAuth` uses it under the hood).
+- Storybook decorators.
+- Demos and examples.
+
+`AuthRoot.strict({ env: 'production' })` rejects `MemoryAuthAdapter`
+unconditionally.
+
+## Setup
+
+```typescript
+import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
+
+const adapter = new MemoryAuthAdapter()
+
+export const auth = new AuthRoot({
+  stores: {
+    identities: adapter.identities,
+    sessions: adapter.sessions,
+    credentials: adapter.credentials,
+    orgs: adapter.orgs,    // optional
+  },
+})
+```
+
+## Typed generics
+
+The adapter is parameterised by `Profile` and `OrgMeta` — they propagate
+through to your `AuthRoot`:
+
+```typescript
+type Profile = { displayName: string }
+type OrgMeta = { plan: 'team' | 'enterprise' }
+
+const adapter = new MemoryAuthAdapter<Profile, OrgMeta>()
+```
+
+## Resetting state
+
+For tests, recreate the adapter to wipe state:
+
+```typescript
+beforeEach(() => {
+  const adapter = new MemoryAuthAdapter()
+  auth = new AuthRoot({ stores: adapter, /* ... */ })
+})
+```
+
+Or, if you want to keep `auth` and just wipe stores between tests, the
+underlying Maps are accessible:
+
+```typescript
+adapter.identities.clear()  // exposed for tests; do not use in app code
+```
+
+## What it provides
+
+The adapter bundles four stores:
+
+| Store | Backing |
+| --- | --- |
+| `adapter.identities` | `Map<id, Identity>` — typed by `Profile`. Implements every `Identity.IStore` method including soft-delete grace, provider linking, merge, erase. |
+| `adapter.sessions` | `Map<sessionIdHash, Session>` — instant revocation, TTL-respecting reads. |
+| `adapter.credentials` | `Map<id, Credential>` — keyed by id; hashed-secret lookup via secondary index. |
+| `adapter.orgs` | `Map<id, Org>` — typed by `OrgMeta`. Memberships via secondary index. |
+
+## Multi-tenant
+
+Like every adapter, `MemoryAuthAdapter` is multi-tenant. Every method
+that takes a `tenantId` filters by it. Cross-tenant reads return `null`,
+never throw, never leak.
+
+## Performance characteristics
+
+`Map.get()` is O(1). Per-call cost is dominated by hashing (SHA-256) and
+profile cloning. Suitable for thousands of identities per process; if
+you push to tens of thousands, switch to SQL.
+
+## Caveats
+
+- **No persistence**: every process restart wipes everything.
+- **No fan-out**: one process per replica; sessions don't cross.
+- **No cron jobs**: there's nothing to vacuum expired sessions other
+  than the next call's lazy expiry check. Use `MemoryLimiter` likewise.
+
+For production: switch to `adapters/sql` + `adapters/redis`.

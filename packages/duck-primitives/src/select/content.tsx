@@ -45,6 +45,8 @@ export const SelectContent = React.forwardRef<SelectContentImplElement, ISelect.
     }, [])
 
     // Render closed items into a hidden fragment so the collection (and native <select>/SSR) can read values.
+    // createPortal's TS type accepts Element, but DocumentFragment is a valid runtime
+    // target. The cast is here to surface that React's types are narrower than the runtime.
     const fragmentPortal =
       !context.open && fragment
         ? ReactDOM.createPortal(
@@ -313,8 +315,14 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.ICo
                   if (event.key === 'Tab') event.preventDefault()
 
                   const enabledItems = getItems().filter((item) => !item.disabled)
-                  // biome-ignore lint/style/noNonNullAssertion: collection refs are mounted whenever content is open
-                  const nodes = enabledItems.map((item) => item.ref.current!)
+                  // Filter mounted refs before mapping. A Presence boundary may unmount an
+                  // item mid-keydown, leaving its ref.current null; the previous code asserted
+                  // non-null and would throw in that race.
+                  const nodes = enabledItems
+                    .filter(
+                      (item): item is typeof item & { ref: { current: HTMLDivElement } } => item.ref.current !== null,
+                    )
+                    .map((item) => item.ref.current)
                   if (handleVimKey(event, nodes)) return
 
                   if (!isModifierKey && event.key.length === 1) handleTypeaheadSearch(event.key)

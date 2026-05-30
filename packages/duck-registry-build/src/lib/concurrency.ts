@@ -1,4 +1,5 @@
-/** Maps over values with a bounded concurrency limit, preserving input order in results. */
+// Bounded-concurrency mapper. Preserves input order in results so callers can
+// rely on index alignment between input and output arrays.
 export async function mapConcurrently<TValue, TResult>(
   values: TValue[],
   concurrency: number,

@@ -1,3 +1,4 @@
+import { assertSafeName } from '../../../lib/safe-path'
 import type { IRegistryBuildThemeEntry } from '../ui.config.types'
 
 function generateVarBlock(scheme: Record<string, string>, cssVarKeys: string[], indent: string) {
@@ -44,6 +45,8 @@ export function generateThemeCss(options: {
   name: string
   radius: string
 }) {
+  // Reject any theme name that would break out of the CSS selector.
+  assertSafeName(options.name, `theme name`)
   const lightVars = generateVarBlock(options.entry.light, options.cssVarKeys, '  ')
   const darkVars = generateVarBlock(options.entry.dark, options.cssVarKeys, '  ')
 

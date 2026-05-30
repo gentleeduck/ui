@@ -1,0 +1,143 @@
+---
+title: OIDC OP (provider)
+description: Full OAuth2/OIDC provider with /authorize, /token, /userinfo, /introspect, /revoke, and RFC 7591 dynamic client registration.
+section: Advanced
+---
+
+## What this is
+
+`@gentleduck/auth/oidc/op` is a full OAuth2/OIDC Provider. It is
+intentionally minimal in spec coverage but complete in modern flow
+support: **authorization code with mandatory S256 PKCE**, **rotated
+refresh tokens with reuse detection**, OIDC ID tokens, bearer-protected
+userinfo, RFC 7662 introspection, RFC 7009 revocation, and RFC 7591
+dynamic client registration.
+
+Out of scope: implicit/hybrid flows (deprecated by OAuth 2.1), JAR/PAR
+request objects, pairwise subject identifiers, claims request parameter,
+distributed claims, RP-initiated logout.
+
+## Quick start
+
+```typescript
+import { createOidcOP, MemoryClientStore } from '@gentleduck/auth/oidc/op'
+
+const op = createOidcOP({
+  auth,                     // AuthRoot instance from defineAuth(...)
+  config: {
+    issuer: 'https://auth.example.com',
+    supportedScopes: ['openid', 'profile', 'email', 'offline_access'],
+  },
+  signIdToken: (payload) => mySigner.signJwt(payload),
+  // Memory stores by default; pass Drizzle stores below for production.
+})
+
+await op.registerClient({
+  client_id: 'web-app',
+  redirect_uris: ['https://app.example.com/callback'],
+  token_endpoint_auth_method: 'client_secret_basic',
+})
+```
+
+## Endpoints
+
+Wire each method onto your HTTP framework of choice. Each takes the
+parsed request shape and returns the response object; you serialise.
+
+```typescript
+// GET /authorize
+const result = await op.authorize(parsedQuery, { headers: req.headers })
+
+if (result.kind === 'redirect')         res.redirect(302, result.url)
+if (result.kind === 'login_required')   showLoginPage()
+if (result.kind === 'consent_required') showConsentPage(result.client, result.scope)
+if (result.kind === 'error')            handleOAuthError(result)
+
+// POST /consent (called after the user clicks Allow)
+const completed = await op.completeConsent({
+  client_id, identity, redirect_uri, scope, state, nonce,
+  code_challenge, code_challenge_method, sid, tenant_id: null,
+})
+
+// POST /token
+const tokens = await op.token(parsedBody, req.headers)
+
+// GET /userinfo
+const claims = await op.userinfo(req.headers)
+
+// POST /introspect (RFC 7662; basic auth required)
+const introspect = await op.introspect(parsedBody, req.headers)
+
+// POST /revoke (RFC 7009)
+await op.revoke(parsedBody, req.headers)
+
+// POST /register (RFC 7591; opt-in via dcr config)
+const reg = await op.register(parsedBody, req.headers)
+```
+
+## Production stores
+
+The default memory stores are for dev. Production deployments wire a
+Drizzle adapter:
+
+```typescript
+import { createDrizzlePgOidcOpStores } from '@gentleduck/auth/oidc/op/drizzle/pg'
+
+const op = createOidcOP({
+  auth,
+  config: { issuer, supportedScopes },
+  signIdToken,
+  stores: createDrizzlePgOidcOpStores(db),
+})
+```
+
+SQLite and MySQL variants ship under the matching subpaths. All three
+share the same row contract; switching engines is a one-import change.
+
+## Security defaults
+
+| Knob | Default | Why |
+|---|---|---|
+| PKCE method | S256 only | `plain` is rejected at `/authorize`. |
+| PKCE for public clients | Required | A public client (no secret) without PKCE is rejected. |
+| Client secret compare | Constant-time sha256 | Plain secret bytes never touched after registration. |
+| Refresh token rotation | On every use | Old refresh becomes a tripwire. |
+| Refresh reuse detection | Family revoke | Replaying a consumed refresh kills the whole family. |
+| Code TTL | 10 minutes | Codes are single-use; expired codes return `invalid_grant`. |
+| Access token | Opaque, sha256-hashed at rest | Stored under hash; plaintext only at issue time. |
+| ID token | Caller-supplied signer | You wire HS256/ES256/RS256/EdDSA via `signIdToken`. |
+
+## Dynamic client registration (RFC 7591)
+
+DCR is disabled by default. Enable it explicitly with a bearer gate so
+random Internet traffic cannot mint clients:
+
+```typescript
+const op = createOidcOP({
+  auth,
+  config: { issuer, supportedScopes },
+  signIdToken,
+  dcr: {
+    enabled: true,
+    initialAccessToken: process.env.OIDC_DCR_TOKEN,
+    maxRedirectUris: 20,
+  },
+})
+```
+
+Expose the registration endpoint and advertise it in discovery:
+
+```typescript
+const discovery = buildOidcDiscovery({
+  issuer,
+  registrationEndpoint: `${issuer}/auth/oauth/register`,
+})
+```
+
+## Consent UI
+
+The OP returns `kind: 'consent_required'` from `authorize()` whenever the
+user has not yet granted the requested scopes. The host renders a consent
+screen (any framework) and POSTs back to a route that calls
+`op.completeConsent(...)`. A full working example lives at
+`examples/oidc-op/server.ts`.

@@ -1,0 +1,186 @@
+---
+title: Adding MFA
+description: TOTP, backup codes, WebAuthn-MFA. Enrolment, verify, step-up.
+section: Guides
+---
+
+## Enrol TOTP
+
+```typescript
+import QRCode from 'qrcode'
+
+// 1. Generate a TOTP secret tied to the identity.
+const enrolment = await auth.mfa.totp.beginEnrolment({
+  identityId: ctx.identity.id,
+  issuer: 'Example App',
+  accountName: ctx.identity.email,
+})
+
+// 2. Show the QR code to the user.
+const qrCodeDataUrl = await QRCode.toDataURL(enrolment.otpauthUrl)
+return res.send(`<img src="${qrCodeDataUrl}" />`)
+```
+
+`enrolment.otpauthUrl` is an `otpauth://` URI that Authy / Google
+Authenticator / 1Password understand.
+
+```typescript
+// 3. User enters the 6-digit code from their authenticator.
+await auth.mfa.totp.completeEnrolment({
+  identityId: ctx.identity.id,
+  code: '123456',
+})
+// → credential persisted; emits 'mfa.enrolled' { factor: 'totp' }
+```
+
+The user is now enrolled in TOTP. Subsequent sign-ins require the code.
+
+## Verify on sign-in
+
+When TOTP is enrolled, `flows.signIn` returns `AUTH/MFA_REQUIRED` after
+the first factor passes:
+
+```typescript
+try {
+  await auth.flows.signIn({ providerId: 'password', input })
+} catch (err) {
+  if (err.code === 'AUTH/MFA_REQUIRED') {
+    // Show the MFA prompt; user enters the code.
+    const code = await promptUserForTotpCode()
+    await auth.mfa.totp.verify({ identityId: err.meta.identityId, code })
+    // verify() throws AUTH/INVALID_CREDENTIALS on a wrong code.
+    // On success, it triggers session rotation to AAL2.
+  }
+}
+```
+
+The client-side flow is exactly the same shape — the `useSignIn` hook
+exposes `error.code` and `error.meta`, and you re-call with the code.
+
+## Backup codes
+
+When TOTP is enrolled, also mint a set of backup codes for recovery:
+
+```typescript
+const codes = await auth.mfa.backupCodes.generate({
+  identityId: ctx.identity.id,
+  count: 10,    // default
+  length: 10,   // default
+})
+
+// Show codes ONCE — they are hashed at rest after this point.
+res.json({ codes })
+```
+
+The user records them somewhere safe. To verify:
+
+```typescript
+await auth.mfa.backupCodes.verify({
+  identityId,
+  code: '12ab-34cd',  // user-supplied
+})
+// Each code is single-use — verify() marks it consumed.
+// Throws AUTH/INVALID_CREDENTIALS on wrong / consumed codes.
+```
+
+## WebAuthn-MFA (passkey as second factor)
+
+Same shape as the passkey provider, but used as a factor inside a flow
+already authenticated by another method:
+
+```typescript
+// Enrol
+const challenge = await auth.mfa.passkey.beginRegistration({
+  identityId: ctx.identity.id,
+  authenticatorSelection: { userVerification: 'required' },
+})
+
+// Browser: navigator.credentials.create(challenge.options)
+const credential = await /* ... */
+
+await auth.mfa.passkey.completeRegistration({
+  identityId: ctx.identity.id,
+  response: credential,
+})
+
+// Verify
+const verifyChallenge = await auth.mfa.passkey.beginVerification({
+  identityId: ctx.identity.id,
+})
+// Browser: navigator.credentials.get(verifyChallenge.options)
+const assertion = await /* ... */
+
+await auth.mfa.passkey.completeVerification({
+  identityId: ctx.identity.id,
+  response: assertion,
+})
+```
+
+WebAuthn-MFA is **strictly stronger** than TOTP — it's phishing-resistant
+and the credential is bound to the origin. For high-security apps,
+prefer it.
+
+## Step-up
+
+For high-risk actions, require a **fresh** MFA verify within the
+configured `freshnessMs`:
+
+```typescript
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+app.post('/api/account/delete', async (req, res) => {
+  const ctx = await auth.resolveSession(req)
+  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+
+  if (ctx.session.aal !== 'aal2') {
+    throw new AuthErrorObject('AUTH/AAL_INSUFFICIENT')
+  }
+
+  const freshnessMs = 5 * 60 * 1000
+  if (Date.now() - ctx.session.lastReauthAt > freshnessMs) {
+    throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED')
+  }
+
+  // Proceed with the irreversible action.
+})
+```
+
+The client catches `AUTH/STEP_UP_REQUIRED`, runs the MFA verify flow,
+then retries the original request.
+
+## Enforce MFA
+
+HIPAA and FIPS compliance presets set `mfa.enforced: true` automatically.
+For manual control:
+
+```typescript
+new AuthRoot({
+  mfa: {
+    enforced: true,    // every identity must enrol before signing in
+    factors: ['totp', 'passkey'],   // allowed enrolment options
+    backupCodeCount: 10,
+    backupCodeLen: 10,
+  },
+})
+```
+
+When `enforced: true`, sign-in throws `AUTH/MFA_REQUIRED` for any
+identity that has no MFA factor — the user must enrol before they can
+finish the flow.
+
+## Reseeding TOTP
+
+If a user loses their device, the recovery path is:
+
+1. Verify a backup code.
+2. Remove the TOTP factor.
+3. Re-enrol.
+
+```typescript
+await auth.mfa.backupCodes.verify({ identityId, code: backupCode })
+await auth.mfa.totp.remove({ identityId })
+const enrolment = await auth.mfa.totp.beginEnrolment({ ... })
+```
+
+The flow ends with the user back to a verified TOTP. Backup codes are
+single-use so the recovery path itself is rate-limited.

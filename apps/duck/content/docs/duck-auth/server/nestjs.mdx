@@ -1,0 +1,95 @@
+---
+title: NestJS adapter
+description: NestJS guard + module + controller. Decorator-driven session resolution.
+section: Server
+---
+
+## Setup
+
+```typescript title="auth.module.ts"
+import { Module } from '@nestjs/common'
+import { AuthRootModule } from '@gentleduck/auth/server/nestjs'
+import { auth } from './lib/auth'
+
+@Module({
+  imports: [AuthRootModule.forRoot({ auth })],
+})
+export class AuthModule {}
+```
+
+This registers the controller at `/auth/*` and exposes a guard plus
+decorators.
+
+## Guard a route
+
+```typescript title="account.controller.ts"
+import { Controller, Get } from '@nestjs/common'
+import { AuthGuard, CurrentIdentity } from '@gentleduck/auth/server/nestjs'
+import type { Identity } from '@gentleduck/auth/core'
+
+@Controller('account')
+@UseGuards(AuthGuard)
+export class AccountController {
+  @Get()
+  async me(@CurrentIdentity() identity: Identity) {
+    return identity
+  }
+}
+```
+
+`AuthGuard` calls `auth.resolveSession()` on the incoming request; if
+no session, the guard throws `UnauthorizedException` (HTTP 401).
+
+`@CurrentIdentity()` injects the resolved identity into the handler.
+Add `@CurrentSession()` to get the session as well.
+
+## AAL gate
+
+```typescript
+import { RequireAal } from '@gentleduck/auth/server/nestjs'
+
+@Controller('admin')
+@UseGuards(AuthGuard)
+export class AdminController {
+  @Post('delete')
+  @RequireAal('aal2')                  // throws AUTH/AAL_INSUFFICIENT otherwise
+  async delete() { /* ... */ }
+}
+```
+
+For freshness checks (sensitive irreversible action), pair with
+`@RequireFreshness({ withinMs: 5 * 60 * 1000 })`.
+
+## Custom error mapping
+
+```typescript title="auth.filter.ts"
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
+import { AuthErrorObject } from '@gentleduck/auth/core'
+
+@Catch(AuthErrorObject)
+export class AuthErrorFilter implements ExceptionFilter {
+  catch(err: AuthErrorObject, host: ArgumentsHost) {
+    const ctx = host.switchToHttp()
+    const reply = ctx.getResponse()
+    reply.status(err.status).json(err.toJSON())
+  }
+}
+```
+
+Register it globally:
+
+```typescript
+app.useGlobalFilters(new AuthErrorFilter())
+```
+
+## CSRF
+
+For state-mutating routes, install `CsrfGuard` upstream of `AuthGuard`:
+
+```typescript
+@Controller('api')
+@UseGuards(CsrfGuard, AuthGuard)
+export class ApiController { /* ... */ }
+```
+
+`CsrfGuard` is a no-op for bearer/JWT routes (no cookies, no CSRF).

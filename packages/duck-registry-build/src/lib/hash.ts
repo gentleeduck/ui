@@ -20,12 +20,12 @@ function stableStringify(value: unknown) {
   return JSON.stringify(toStableValue(value))
 }
 
-/** Returns the SHA-256 hex digest of the given string. */
 export function hashString(value: string) {
   return createHash('sha256').update(value).digest('hex')
 }
 
-/** Computes a deterministic SHA-256 hash of an arbitrary value using stable serialization. */
+// Stable JSON keys before hashing so cache keys stay deterministic across JS
+// engines whose `Object.keys` order isn't guaranteed for non-integer keys.
 export function hashValue(value: unknown) {
   return hashString(stableStringify(value))
 }

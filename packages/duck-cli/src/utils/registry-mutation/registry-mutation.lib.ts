@@ -10,81 +10,65 @@ import { getPackageManager } from '../get-package-manager'
 import { getTsConfig } from '../get-project-info'
 import { getRegistryItem, type Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
+import { resolveWithinBase } from '../safe-path'
 import { highlighter } from '../text-styling'
 import { resolveProjectCwd, validateWorkspaceTarget } from '../workspace'
 import type { DependenciesType, InstallOptions } from './registry-mutation.types'
 
+/** Resolve component write path from duck config + tsconfig aliases. Throws on error; `exit(0)` on user-decline. */
 export async function getInstallationConfig(
   duckConfig: DuckUI,
   spinner: Ora,
   options: InstallOptions,
 ): Promise<string> {
-  try {
-    const alias = duckConfig.aliases.ui.split('/').shift()
-    const projectCwd = resolveProjectCwd(options.cwd, duckConfig, options.workspace)
-    const workspaceError = validateWorkspaceTarget(projectCwd, true)
-    if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
-    }
-    const tsConfig = await getTsConfig(projectCwd, spinner)
-
-    if (!tsConfig.compilerOptions?.paths || !alias) {
-      spinner.fail(
-        `No ${highlighter.info(
-          'TypeScript',
-        )} configs found \r\n(NOTE: check your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
-          `paths: {\r\n  "~/*": ["./*"]\r\n}`,
-        )}\r\n`,
-      )
-      process.exit(1)
-    }
-
-    const writePathKey = Object.keys(tsConfig.compilerOptions.paths).find((path) => path.includes(alias))
-
-    const pathValues = writePathKey ? tsConfig.compilerOptions.paths[writePathKey] : undefined
-    const writePath = pathValues?.[0]?.split('/').slice(0, -1).join('/')
-
-    if (!writePath) {
-      spinner.fail(`Alias "${alias}" not found in tsconfig paths.
-Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info('tsconfig.json')} aliases match.`)
-      process.exit(1)
-    }
-
-    const resolvedWritePath = path.resolve(projectCwd, writePath)
-
-    if (!options.yes) {
-      spinner.stop()
-      const { yes } = await prompts({
-        initial: options.yes,
-        message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(
-          writePath,
-        )} (workspace: ${highlighter.info(projectCwd)})`,
-        name: 'yes',
-        type: 'confirm',
-      })
-      spinner.start()
-
-      if (!yes) {
-        spinner.fail('Why you cannot install components?, goodbye!')
-        spinner.info(
-          `Having issues you can report them here: ${highlighter.info(
-            'https://github.com/gentleeduck/gentleduck/issues',
-          )}`,
-        )
-        spinner.info(
-          `If you do not know how to write a professional issue,\n     you can find more info here: https://gentleduck.org/docs/cli`,
-        )
-        process.exit(0)
-      }
-    }
-
-    return resolvedWritePath
-  } catch (error) {
-    spinner.fail(`Oops: ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
-
-    process.exit(1)
+  const alias = duckConfig.aliases.ui.split('/').shift()
+  const projectCwd = resolveProjectCwd(options.cwd, duckConfig, options.workspace)
+  const workspaceError = validateWorkspaceTarget(projectCwd, true)
+  if (workspaceError) {
+    throw new Error(workspaceError)
   }
+  const tsConfig = await getTsConfig(projectCwd, spinner)
+
+  if (!tsConfig.compilerOptions?.paths || !alias) {
+    throw new Error(
+      `No TypeScript paths configured. Add a path mapping like:\n  paths: { "~/*": ["./*"] }\nto your tsconfig.json so we know where to write components.`,
+    )
+  }
+
+  const writePathKey = Object.keys(tsConfig.compilerOptions.paths).find((p) => p.includes(alias))
+
+  const pathValues = writePathKey ? tsConfig.compilerOptions.paths[writePathKey] : undefined
+  const writePath = pathValues?.[0]?.split('/').slice(0, -1).join('/')
+
+  if (!writePath) {
+    throw new Error(
+      `Alias "${alias}" not found in tsconfig paths. Make sure your duck-ui.config.json and tsconfig.json aliases match.`,
+    )
+  }
+
+  const resolvedWritePath = path.resolve(projectCwd, writePath)
+
+  if (!options.yes) {
+    spinner.stop()
+    const { yes } = await prompts({
+      initial: options.yes,
+      message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(
+        writePath,
+      )} (workspace: ${highlighter.info(projectCwd)})`,
+      name: 'yes',
+      type: 'confirm',
+    })
+    spinner.start()
+
+    if (!yes) {
+      spinner.fail('Installation cancelled.')
+      spinner.info(`Report issues at: ${highlighter.info('https://github.com/gentleeduck/gentleduck/issues')}`)
+      spinner.info(`Docs: ${highlighter.info('https://gentleduck.org/docs/cli')}`)
+      process.exit(0)
+    }
+  }
+
+  return resolvedWritePath
 }
 
 export async function processComponents(
@@ -103,18 +87,39 @@ export async function processComponents(
 
     const skipPrompts = options.force || options.yes
 
-    for (const [idx, component] of components.entries()) {
-      await installComponent(
-        duckConfig,
-        dependencies,
-        idx,
-        component,
-        false,
-        components,
-        writePath,
-        spinner,
-        skipPrompts,
+    // The conflict prompt is serial by nature (user input), so we keep `installComponent`
+    // sequential when prompts may fire. When `skipPrompts` is true there is no user input,
+    // so the writes can fan out.
+    if (skipPrompts) {
+      await Promise.all(
+        components.map((component, idx) =>
+          installComponent(
+            duckConfig,
+            dependencies,
+            idx,
+            component,
+            false,
+            components,
+            writePath,
+            spinner,
+            skipPrompts,
+          ),
+        ),
       )
+    } else {
+      for (const [idx, component] of components.entries()) {
+        await installComponent(
+          duckConfig,
+          dependencies,
+          idx,
+          component,
+          false,
+          components,
+          writePath,
+          spinner,
+          skipPrompts,
+        )
+      }
     }
 
     const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
@@ -122,8 +127,7 @@ export async function processComponents(
     const projectCwd = resolveProjectCwd(options.cwd, duckConfig, options.workspace)
     const workspaceError = validateWorkspaceTarget(projectCwd, false)
     if (workspaceError) {
-      spinner.fail(workspaceError)
-      process.exit(1)
+      throw new Error(workspaceError)
     }
     await processComponentDependencies(dependencies, spinner, projectCwd)
   } catch (error) {
@@ -151,23 +155,22 @@ async function installComponent(
 
   spinner.text = `Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
-  const componentType = component.type.split(':').pop() as string
+  // `component.type` is `registry:<kind>`; `.pop()` may return undefined for a malformed value.
+  const componentType = component.type.split(':').pop()
+  if (!componentType) {
+    throw new Error(`Invalid component type: "${component.type}"`)
+  }
+  // `duckConfig.aliases.ui` is shape-validated by `duckUiSchema`. The first segment is the alias
+  // prefix (e.g. `~`), the rest is the on-disk subdir relative to the resolved `writePath`.
   const duckuiWritePath = duckConfig.aliases.ui.split('/').slice(1).join('/')
-  const writeTypePath = path.resolve(`${writePath}/${duckuiWritePath}`)
+  // Contain the alias-derived path within the resolved `writePath` (defence in depth even though
+  // `aliases.ui` is already shape-validated and `writePath` derives from the canonical tsconfig).
+  const writeTypePath = duckuiWritePath ? resolveWithinBase(writePath, duckuiWritePath) : path.resolve(writePath)
+  // `root_folder` is registry-supplied; contain it within the install dir to block path traversal.
+  const writeComponentPath = resolveWithinBase(writeTypePath, component.root_folder)
 
-  if (!fs.existsSync(writeTypePath)) {
-    spinner.text = `Creating directory: ${componentType}`
-    await fs.mkdir(writeTypePath, { recursive: true })
-    spinner.succeed(`Created directory: ${componentType}`)
-  }
-
-  const writeComponentPath = `${writeTypePath}/${component.root_folder}`
-
-  if (!fs.existsSync(writeComponentPath)) {
-    spinner.text = `Creating directory: ${component.root_folder}`
-    await fs.mkdir(writeComponentPath, { recursive: true })
-    spinner.succeed(`Created directory: ${component.root_folder}`)
-  }
+  // Single mkdir with `recursive: true` is idempotent — no existsSync check, no per-step spinner spam.
+  await fs.mkdir(writeComponentPath, { recursive: true })
 
   await processComponentFiles(component, writeTypePath, `${writePath}/${duckuiWritePath}`, spinner, force)
 
@@ -233,8 +236,18 @@ export async function installRegistryDependencies(
   }
   await fetchAndProcess(initialDeps)
 
-  for (const [index, component] of allComponents.entries()) {
-    await installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force)
+  // Registry-dep installs always run with `force=true` (they're new), so no user prompt fires
+  // and we can fan out the writes. Sequential when force=false to preserve prompt UX.
+  if (force) {
+    await Promise.all(
+      allComponents.map((component, index) =>
+        installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force),
+      ),
+    )
+  } else {
+    for (const [index, component] of allComponents.entries()) {
+      await installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force)
+    }
   }
 }
 
@@ -250,8 +263,12 @@ export async function processComponentFiles(
     return
   }
 
+  // `root_folder` is registry-supplied; contain it within the install dir to block path traversal.
+  const writeComponentPath = resolveWithinBase(writePath, component.root_folder)
+
   if (!force) {
-    if (fs.readdirSync(`${writePath}/${component.root_folder}`).length > 0) {
+    // `readdirSync` here is only used for the conflict probe; the parent mkdir already ran.
+    if (fs.existsSync(writeComponentPath) && fs.readdirSync(writeComponentPath).length > 0) {
       spinner.stop()
       const { action } = await prompts({
         message: `${highlighter.info(component.name)} already exists. What do you want to do?`,
@@ -275,11 +292,10 @@ export async function processComponentFiles(
       if (action === 'merge') {
         spinner.text = `Preparing merge for ${highlighter.info(component.name)}...`
 
-        const localPath = `${writePath}/${component.root_folder}`
         const installedComp = {
           name: component.name,
           root_folder: component.root_folder,
-          localPath,
+          localPath: writeComponentPath,
           registryEntry: component,
         }
         const diffResult = await diffComponent(installedComp, component)
@@ -312,22 +328,26 @@ export async function processComponentFiles(
     }
   }
 
-  for (const file of component.files) {
-    try {
-      if (!file.content) {
-        spinner.warn(`Skipping file with no content: ${file.path}`)
-        continue
+  // Parallelise file writes; `file.path` is contained per-write so each is independent.
+  await Promise.all(
+    component.files.map(async (file) => {
+      try {
+        if (!file.content) {
+          spinner.warn(`Skipping file with no content: ${file.path}`)
+          return
+        }
+        spinner.text = `Writing file: ${file.target}`
+        // `file.path` is registry-supplied; contain it within the install dir to block path traversal.
+        const targetPath = resolveWithinBase(writePath, file.path)
+        await fs.ensureDir(path.dirname(targetPath))
+        await fs.writeFile(targetPath, file.content, 'utf8')
+        spinner.succeed(`Successfully wrote: ${fromRootWritePath}/${file.path}`)
+      } catch (error) {
+        spinner.fail(`Failed to write file: ${file.target}`)
+        throw error
       }
-      spinner.text = `Writing file: ${file.target}`
-      const targetPath = path.resolve(`${writePath}`, file.path as string)
-      await fs.ensureDir(path.dirname(targetPath))
-      await fs.writeFile(targetPath, file.content, 'utf8')
-      spinner.succeed(`Successfully wrote: ${fromRootWritePath}/${file.path}`)
-    } catch (error) {
-      spinner.fail(`Failed to write file: ${file.target}`)
-      throw error
-    }
-  }
+    }),
+  )
 }
 
 export async function processComponentDependencies(

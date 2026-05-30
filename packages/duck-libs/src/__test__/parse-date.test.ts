@@ -63,6 +63,16 @@ describe('parseDate', () => {
     expect(parseDate('xyz')).toBeNull()
   })
 
+  test('returns null for ambiguous one-token garbage that Date() coerces', () => {
+    // Engine-defined coercions like `new Date('5')`, `new Date('Dec')`,
+    // `new Date('2025')` historically yielded wildly different results across
+    // V8 versions. The contract is `null` on failure — keep these out.
+    expect(parseDate('5')).toBeNull()
+    expect(parseDate('Dec')).toBeNull()
+    expect(parseDate('2025')).toBeNull()
+    expect(parseDate('2025-01')).toBeNull()
+  })
+
   test('handles case insensitivity', () => {
     expect(parseDate('TODAY')).toBeInstanceOf(Date)
     expect(parseDate('Tomorrow')).toBeInstanceOf(Date)

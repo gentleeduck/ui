@@ -20,22 +20,25 @@ const DropdownMenu: React.FC<IDropdownMenu.IProps> = (props: IDropdownMenu.IScop
   const direction = useDirection(dir)
   const menuScope = useMenuScope(__scopeDropdownMenu)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const triggerId = useId()
+  const contentId = useId()
   const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,
     caller: DROPDOWN_MENU_NAME,
   })
+  const onOpenToggle = React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])
 
   return (
     <DropdownMenuProvider
       scope={__scopeDropdownMenu}
-      triggerId={useId()}
+      triggerId={triggerId}
       triggerRef={triggerRef}
-      contentId={useId()}
+      contentId={contentId}
       open={open}
       onOpenChange={setOpen}
-      onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+      onOpenToggle={onOpenToggle}
       dir={direction}
       modal={modal}>
       <MenuPrimitive.Root {...menuScope} open={open} onOpenChange={setOpen} dir={direction} modal={modal}>

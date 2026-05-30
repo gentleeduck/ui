@@ -2,7 +2,7 @@ import type { RemoveCommandConfig } from './remove.types'
 
 export const removeCommandConfig: RemoveCommandConfig = {
   arguments_: {
-    arg1: {
+    componentsArg: {
       defaultValue: [],
       description: 'component name(s) to remove. If omitted, shows an interactive picker.',
       name: '[components...]',
@@ -11,12 +11,12 @@ export const removeCommandConfig: RemoveCommandConfig = {
   description: 'remove installed components',
   name: 'remove',
   options: {
-    option1: {
+    yesOption: {
       defaultValue: false,
       description: 'skip confirmation prompt.',
       flags: '-y, --yes',
     },
-    option2: {
+    cwdOption: {
       defaultValue: process.cwd(),
       description: 'the working directory. defaults to the current directory.',
       flags: '-c, --cwd <cwd>',

@@ -5,6 +5,7 @@ const cfg = createDocsVeliteConfig({
   // collections below); the default `docs/**/*.mdx` would duplicate them.
   docsPattern: 'docs/!(duck-*|www)/**/*.mdx',
   packages: [
+    'duck-auth',
     'duck-calendar',
     'duck-cli',
     'duck-gen',

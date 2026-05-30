@@ -1,22 +1,23 @@
+'use client'
+import { cn } from '@gentleduck/libs/cn'
+import React from 'react'
 import { useLazyLoad } from './lazy-component.hooks'
-import type { ILazyComponent } from './lazy-component.types'
+import type { LazyComponentProps } from './lazy-component.types'
 
-/**
- * Renders `children` only once the wrapper `<div>` enters the viewport; shows a pulse placeholder
- * until then. Forwards extra HTML props to the wrapper.
- *
- * @param props.options - Optional `IntersectionObserverInit` (merged over the default `{ rootMargin: '0px', threshold: 0 }`).
- */
-export function DuckLazyComponent({ children, options, ...props }: ILazyComponent.IProps): React.JSX.Element {
-  const { isVisible, ComponentRef } = useLazyLoad({
-    rootMargin: '0px',
-    threshold: 0,
-    ...options,
-  })
+const DEFAULT_OPTIONS: IntersectionObserverInit = {
+  rootMargin: '0px',
+  threshold: 0,
+}
+
+function DuckLazyComponentImpl({ children, options, className, ...props }: LazyComponentProps): React.JSX.Element {
+  const { isVisible, ref } = useLazyLoad({ ...DEFAULT_OPTIONS, ...options })
 
   return (
-    <div ref={ComponentRef} {...props} data-slot="wrapper">
-      {isVisible ? children : <div className="mb-4 h-[512px] animate-pulse" data-slot="placeholder" />}
+    <div className={cn(className)} data-slot="wrapper" ref={ref} {...props}>
+      {isVisible ? children : <div className="h-full w-full animate-pulse" data-slot="placeholder" />}
     </div>
   )
 }
+
+export const DuckLazyComponent = React.memo(DuckLazyComponentImpl)
+DuckLazyComponent.displayName = 'DuckLazyComponent'

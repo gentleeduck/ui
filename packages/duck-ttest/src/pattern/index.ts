@@ -3,7 +3,12 @@
 //   `?`  — exactly one char
 //   `**` — any depth, including across `/`
 
-/** `true` if `S` matches glob `P`. */
+/**
+ * `true` if `S` matches glob `P`.
+ * @remarks `**` triggers branchy backtracking via `_MatchAnywhere` —
+ *   worst case is quadratic in input length. Fine for tooling; do not place
+ *   `MatchesGlob` inside hot generic constraints.
+ */
 export type MatchesGlob<S extends string, P extends string> = P extends ''
   ? S extends ''
     ? true

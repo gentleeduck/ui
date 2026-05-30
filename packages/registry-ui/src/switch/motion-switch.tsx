@@ -3,10 +3,10 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 const TRACK_TRANSITION = { duration: 0.22, ease: [0.16, 1, 0.3, 1] as const } as const
 const THUMB_TRANSITION = {
@@ -21,7 +21,7 @@ const MotionSwitch = React.forwardRef<
     onCheckedChange?: (checked: boolean) => void
   }
 >(({ className, onCheckedChange, onChange, checked, defaultChecked, dir, disabled, style, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const isRtl = direction === 'rtl'
   const isControlled = checked !== undefined
   const [internalChecked, setInternalChecked] = React.useState<boolean>(defaultChecked ?? false)

@@ -11,6 +11,10 @@ import type { ProgressCallback, ServiceResult } from './service.types'
 /**
  * Extracts the alias prefix from `aliases.ui` (e.g. `@/components/ui` -> `@`), looks it up in
  * `tsconfig.compilerOptions.paths`, and strips the trailing `/*` segment to get the parent dir.
+ *
+ * The returned `writePath` must be relative and free of `..` traversal segments — `tsconfig.paths`
+ * is user-owned but unconstrained by the schema, so reject malformed values here before any
+ * downstream `path.resolve` lets them escape the project cwd.
  */
 export function resolveInstallPath(duckConfig: DuckUI, tsConfig: TsConfig): ServiceResult<string> {
   const alias = duckConfig.aliases.ui.split('/').shift()
@@ -24,6 +28,21 @@ export function resolveInstallPath(duckConfig: DuckUI, tsConfig: TsConfig): Serv
 
   if (!writePath) {
     return { ok: false, error: `Alias "${alias}" not found in tsconfig paths.` }
+  }
+
+  if (path.isAbsolute(writePath)) {
+    return {
+      ok: false,
+      error: `tsconfig path for alias "${alias}" must be relative; got "${writePath}".`,
+    }
+  }
+
+  const segments = path.normalize(writePath).split(/[\\/]+/)
+  if (segments.some((s) => s === '..')) {
+    return {
+      ok: false,
+      error: `tsconfig path for alias "${alias}" must not contain ".." traversal; got "${writePath}".`,
+    }
   }
 
   return { ok: true, data: writePath }
@@ -47,7 +66,10 @@ export async function installComponents(
     const registryDeps: string[] = []
 
     const duckuiWritePath = duckConfig.aliases.ui.split('/').slice(1).join('/')
-    const writeTypePath = path.resolve(`${writePath}/${duckuiWritePath}`)
+    // `aliases.ui` is shape-validated by `ALIAS_UI_PATTERN`, but route through `resolveWithinBase`
+    // for parity with `registry-mutation.lib.ts:174` — defence in depth if the regex is ever loosened.
+    // When the alias has no subdir (e.g. `~`), `duckuiWritePath` is empty — fall back to the base.
+    const writeTypePath = duckuiWritePath ? resolveWithinBase(writePath, duckuiWritePath) : path.resolve(writePath)
 
     for (const [index, component] of components.entries()) {
       onProgress?.(`Installing component ${index + 1}/${components.length}: ${component.name}`)
