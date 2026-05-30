@@ -1,0 +1,164 @@
+---
+title: Schema builders
+description: Use ttest utilities to author your own type-safe DSL or API.
+section: Guides
+order: 3
+---
+
+duck-ttest is built for the case where types are the contract — schema generators, ORMs, route registries, validation libraries. This guide is a worked example: a minimal type-safe column-builder using `Brand`, `InferSchema`, and the assertion API.
+
+## Goal
+
+Author a small DSL:
+
+```ts
+const users = table('users', {
+  id: int().primaryKey().autoIncrement(),
+  email: text().notNull(),
+  name: text(),
+})
+
+type User = typeof users.row
+//   ^? { id?: number; email: string; name: string | null }
+```
+
+The type at `users.row` should be inferred entirely from the builder calls — no manual type annotation. We'll use `InferSchema` to emit the row shape, and ttest assertions to lock the contract in tests.
+
+## Strategy 1: SQL-string carrier
+
+The simplest approach: encode the column DDL as a phantom string-literal type, then run `InferSchema` over a `CREATE TABLE` template literal.
+
+```ts
+import type { InferSchema } from '@gentleduck/ttest/sql'
+import type { Brand } from '@gentleduck/ttest/brand'
+
+type Column<S extends string> = Brand<{}, S>
+
+function col<S extends string>(ddl: S): Column<S> { return {} as Column<S> }
+
+const idColDef    = col('id INT PRIMARY KEY AUTOINCREMENT')
+const emailColDef = col('email TEXT NOT NULL')
+const nameColDef  = col('name TEXT')
+
+type IdSchema = InferSchema<'CREATE TABLE users (id INT PRIMARY KEY AUTOINCREMENT)'>
+//   ^? { id?: number }
+```
+
+This works because `InferSchema` is a pure type-level parser — it doesn't need a real database.
+
+## Strategy 2: Lock the contract in tests
+
+```ts title="src/__type_tests__/users.test-d.ts"
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import type { InferSchema } from '@gentleduck/ttest/sql'
+
+type UserRow = InferSchema<
+  'CREATE TABLE users (id INT PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL, name TEXT)'
+>
+
+type _ = [
+  AssertTrue<Equal<UserRow['id'],    number | undefined>, 'id is optional number'>,
+  AssertTrue<Equal<UserRow['email'], string>,             'email is required string'>,
+  AssertTrue<Equal<UserRow['name'],  string | null>,      'name is nullable'>,
+]
+```
+
+If the DDL parser ever regresses, the assertion breaks at type-check time — before the schema reaches production.
+
+## Strategy 3: Narrow at the boundary
+
+`InferSchema['name']` is `string | null`. Callers who want non-null `name` go through a refinement:
+
+```ts
+import type { NonNullish } from '@gentleduck/ttest/primitive'
+
+function withName(row: UserRow & { name: NonNullish<UserRow['name']> }) {
+  return row.name.length
+}
+```
+
+Or with a key-level refinement:
+
+```ts
+import type { RequiredBy } from '@gentleduck/ttest/object'
+
+type WithName = RequiredBy<UserRow, 'name'>
+//   ^? { id?: number; email: string; name: string | null }   // still nullable because the source type allows null
+```
+
+For "remove the null too", combine with `NonNullable`:
+
+```ts
+type WithNameNonNull = Omit<UserRow, 'name'> & { name: NonNullable<UserRow['name']> }
+```
+
+## Strategy 4: Cross-table inference
+
+When schemas reference each other, use `ExtractReferences` and `ResolveFields`:
+
+```ts
+import type { ExtractReferences, ResolveFields } from '@gentleduck/ttest/sql'
+
+type UserRefCol = ExtractReferences<'user_id INT REFERENCES users(id)'>
+// → Ref<'users', 'id'>
+
+type Schemas = { users: UserRow; /* posts: PostRow ... */ }
+type Resolved = ResolveFields<{ user_id: UserRefCol }, Schemas>
+//   ^? { user_id: number }
+```
+
+This is how a multi-table builder propagates foreign-key types end-to-end.
+
+## Anti-patterns
+
+### Asserting the full inferred row in one shot
+
+```ts
+// Brittle — every key change rewrites the assertion.
+type _ = AssertTrue<
+  Equal<UserRow, { id?: number; email: string; name: string | null }>,
+  'full row'
+>
+```
+
+The whole-row equality fails noisily when a single column changes. Split into per-key assertions so the failure points at the column that drifted:
+
+```ts
+// Each assertion is independent.
+type _ = [
+  AssertTrue<Equal<UserRow['id'],    number | undefined>, 'id'>,
+  AssertTrue<Equal<UserRow['email'], string>,             'email'>,
+  AssertTrue<Equal<UserRow['name'],  string | null>,      'name'>,
+]
+```
+
+### Hand-rolling the row type alongside the DDL
+
+```ts
+// Don't.
+type UserRow = { id?: number; email: string; name: string | null }
+const usersDDL = 'CREATE TABLE users (id INT PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL, name TEXT)'
+```
+
+The two definitions can drift silently. Either derive the type from the DDL via `InferSchema`, or derive the DDL from the type via a builder DSL. Never both.
+
+## What to test
+
+For any schema builder, keep these assertions:
+
+```ts
+import type { AssertFalse, AssertTrue, HasKeyWithType } from '@gentleduck/ttest/equality'
+import type { IsAny, IsOptional } from '@gentleduck/ttest/primitive'
+```
+
+1. **Required keys are required.** `AssertTrue<HasKeyWithType<'email', string, Row>, ...>`.
+2. **Optional keys are optional.** `AssertTrue<IsOptional<Row['id']>, ...>` (type-level; use `IsSQLOptional` from `@gentleduck/ttest/sql` for SQL DDL strings).
+3. **Foreign keys resolve.** Equal-check against the referenced row's column type.
+4. **No leaked `any`.** `AssertFalse<IsAny<Row[K]>, ...>` for every `K`.
+
+## See also
+
+- [API / sql](/duck-ttest/api/sql) — the full parsing pipeline.
+- [API / brand](/duck-ttest/api/brand) — phantom-type carriers for builder DSLs.
+- [Guides / Catching regressions](/duck-ttest/guides/catching-regressions) — wiring schema tests into CI.

@@ -1,0 +1,133 @@
+---
+title: guard
+description: Compile-time predicates returning true | false — IsString, IsObject, IsRecord, IsMap, ...
+section: API
+order: 20
+---
+
+```ts
+import type {
+  IsString, IsNumber, IsBoolean, IsBigInt, IsSymbol,
+  IsObject, IsArray, IsReadonlyArray, IsEmpty,
+  IsTrue, IsFalse,
+  IsDate, IsRegExp, IsError,
+  IsMap, IsSet, IsWeakMap, IsWeakSet,
+  IsPromiseLike,
+  IsRecord, IsIterable, IsAsyncIterable,
+  IsArrayBuffer, IsDataView, IsTypedArray,
+  IsFixedTuple,
+} from '@gentleduck/ttest/guard'
+```
+
+Compose with `If` / `IfExtends` from [`conditional`](/duck-ttest/api/conditional) to branch on the result.
+
+## Primitive guards
+
+```ts
+type IsString <T>  = [T] extends [string]  ? true : false
+type IsNumber <T>  = [T] extends [number]  ? true : false
+type IsBoolean<T>  = [T] extends [boolean] ? true : false
+type IsBigInt <T>  = [T] extends [bigint]  ? true : false
+type IsSymbol <T>  = [T] extends [symbol]  ? true : false
+```
+
+Each accepts the wider primitive or any literal subtype.
+
+```ts
+type a = IsString<'hello'>  // true
+type b = IsNumber<42>       // true
+type c = IsString<number>   // false
+```
+
+## IsObject
+
+```ts
+type IsObject<T>
+```
+
+`true` if `T` is a plain object — not an array, function, or primitive.
+
+## IsArray / IsReadonlyArray
+
+```ts
+type IsArray<T>          // mutable or readonly
+type IsReadonlyArray<T>  // only `readonly X[]`, not `X[]`
+```
+
+## IsEmpty
+
+```ts
+type IsEmpty<T>
+```
+
+`true` for empty strings, arrays, and objects.
+
+```ts
+type a = IsEmpty<''>           // true
+type b = IsEmpty<[]>           // true
+type c = IsEmpty<{}>           // true
+type d = IsEmpty<{ a: 1 }>     // false
+```
+
+## IsTrue / IsFalse
+
+```ts
+type IsTrue<T>   // exactly the literal true
+type IsFalse<T>  // exactly the literal false
+```
+
+Both reject `boolean` itself — they want the literal.
+
+## Built-in object guards
+
+```ts
+type IsDate<T>
+type IsRegExp<T>
+type IsError<T>
+type IsMap<T>            // Map of some shape
+type IsSet<T>
+type IsWeakMap<T>
+type IsWeakSet<T>
+type IsPromiseLike<T>
+```
+
+```ts
+type a = IsDate<Date>         // true
+type b = IsMap<Map<string, number>>  // true
+```
+
+## IsRecord
+
+```ts
+type IsRecord<T>
+```
+
+Plain `Record<PropertyKey, unknown>` — excludes arrays, functions, `Date`, `RegExp`, `Error`, `Map`, `Set`, `WeakMap`, `WeakSet`.
+
+## IsIterable / IsAsyncIterable
+
+```ts
+type IsIterable<T>       // sync iterator protocol
+type IsAsyncIterable<T>  // async iterator protocol
+```
+
+## Typed-array guards
+
+```ts
+type IsArrayBuffer<T>
+type IsDataView<T>
+type IsTypedArray<T>  // Uint8Array | Int16Array | Float32Array | ...
+```
+
+## IsFixedTuple
+
+```ts
+type IsFixedTuple<T>
+```
+
+`true` if `T` is a tuple with a literal length (not a `T[]` whose `length` is `number`).
+
+```ts
+type a = IsFixedTuple<[1, 2, 3]>  // true
+type b = IsFixedTuple<number[]>   // false
+```

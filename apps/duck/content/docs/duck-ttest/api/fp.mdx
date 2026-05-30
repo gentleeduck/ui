@@ -1,0 +1,166 @@
+---
+title: fp
+description: Higher-kinded-type encoding — Fn, Apply, MapTuple, Reduce, ComposeFn.
+section: API
+order: 16
+---
+
+```ts
+import type {
+  Fn, Apply,
+  Identity, Constant,
+  MapTuple, FilterTuple, Reduce,
+  ComposeFn, FlipFn, PartialFn,
+  Stringify, Singleton, FnNot,
+} from '@gentleduck/ttest/fp'
+```
+
+Higher-kinded types in TypeScript via a `Fn` interface: any type-function is an interface extending `Fn` whose `return` member references `this['arg']`. `Apply<F, X>` binds `X` into the slot and evaluates `return`.
+
+## Fn
+
+```ts
+interface Fn {
+  readonly arg: unknown
+  readonly return: unknown
+}
+```
+
+Base interface. Subclasses override `return`.
+
+## Apply
+
+```ts
+type Apply<F extends Fn, X> = (F & { readonly arg: X })['return']
+```
+
+Evaluate a type-function by binding `X` into its `arg` slot.
+
+```ts
+interface ToString extends Fn { readonly return: `${this['arg'] & (string | number)}` }
+type a = Apply<ToString, 42>  // '42'
+```
+
+## Identity
+
+```ts
+interface Identity extends Fn { readonly return: this['arg'] }
+```
+
+`Apply<Identity, X>` = `X`.
+
+## Constant
+
+```ts
+interface Constant<C> extends Fn { readonly return: C }
+```
+
+Always returns `C`, ignoring input.
+
+## MapTuple
+
+```ts
+type MapTuple<T extends readonly unknown[], F extends Fn> = { [K in keyof T]: Apply<F, T[K]> }
+```
+
+Map every element of `T` through `F`.
+
+```ts
+type a = MapTuple<[1, 2, 3], ToString>  // ['1', '2', '3']
+```
+
+## FilterTuple
+
+```ts
+type FilterTuple<T extends readonly unknown[], F extends Fn, Acc extends unknown[] = []> =
+  T extends readonly [infer H, ...infer R]
+    ? Apply<F, H> extends true
+      ? FilterTuple<R, F, [...Acc, H]>
+      : FilterTuple<R, F, Acc>
+    : Acc
+```
+
+Keep only elements for which `F` returns `true`.
+
+```ts
+interface IsNumeric extends Fn { readonly return: this['arg'] extends number ? true : false }
+type a = FilterTuple<[1, 'a', 2, 'b'], IsNumeric>  // [1, 2]
+```
+
+## Reduce
+
+```ts
+type Reduce<T extends readonly unknown[], Init, F extends Fn> =
+  T extends readonly [infer H, ...infer R]
+    ? Reduce<R, Apply<F, [Init, H]>, F>
+    : Init
+```
+
+Left-fold `T` with accumulator `Init`. `F` receives `[Acc, Item]` in its `arg` slot.
+
+```ts
+type BuildTuple<N extends number, Acc extends unknown[] = []> =
+  Acc['length'] extends N ? Acc : BuildTuple<N, [...Acc, unknown]>
+
+interface Add extends Fn {
+  readonly return: this['arg'] extends [infer A extends number, infer B extends number]
+    ? [...BuildTuple<A>, ...BuildTuple<B>]['length']
+    : never
+}
+```
+
+## ComposeFn
+
+```ts
+interface ComposeFn<G extends Fn, F extends Fn> extends Fn {
+  readonly return: Apply<G, Apply<F, this['arg']>>
+}
+```
+
+Right-to-left composition. `Apply<ComposeFn<G, F>, X>` = `Apply<G, Apply<F, X>>`.
+
+## FlipFn
+
+```ts
+interface FlipFn<F extends Fn> extends Fn {
+  readonly return: this['arg'] extends [infer A, infer B] ? Apply<F, [B, A]> : never
+}
+```
+
+Flip the argument order of a binary tuple-arg function.
+
+## PartialFn
+
+```ts
+interface PartialFn<F extends Fn, A> extends Fn {
+  readonly return: Apply<F, [A, this['arg']]>
+}
+```
+
+Partially apply the first argument of a 2-ary function.
+
+## Stringify
+
+```ts
+interface Stringify extends Fn {
+  readonly return: `${this['arg'] & (string | number | bigint | boolean)}`
+}
+```
+
+Convert any `toString`-able value to a string literal.
+
+## Singleton
+
+```ts
+interface Singleton extends Fn { readonly return: [this['arg']] }
+```
+
+Wrap a value into a single-element tuple.
+
+## FnNot
+
+```ts
+interface FnNot extends Fn { readonly return: this['arg'] extends true ? false : true }
+```
+
+Negate a boolean.

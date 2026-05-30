@@ -1,0 +1,158 @@
+---
+title: sql
+description: Parse CREATE TABLE strings into typed row shapes — InferSchema, SQLTypeMap.
+section: API
+order: 33
+---
+
+```ts
+import type {
+  SQLTypeMap,
+  WhitespaceChar, CollapseWhitespaceSafe, NormalizeSQL,
+  UppercaseWord, NormalizeType,
+  Ref, ExtractReferences,
+  ExtractEnum, ParseEnumValues,
+  HasDefault, IsNotNull, IsPrimaryKey, IsAutoIncrement,
+  StripConstraints, CleanSQLType,
+  SplitColumns,
+  IsSQLNullable, IsSQLOptional,
+  GetBaseType, ApplyNullability, ParseColumnDef,
+  ExtractColumns, BuildSchemaType, InferSchema,
+  ResolveRef, ResolveFields,
+} from '@gentleduck/ttest/sql'
+```
+
+The most ambitious module — a type-level SQL DDL parser.
+
+## SQLTypeMap
+
+```ts
+type SQLTypeMap = {
+  INT: number; INTEGER: number
+  TEXT: string; VARCHAR: string; CHAR: string
+  BOOLEAN: boolean
+  FLOAT: number; DOUBLE: number; 'DOUBLE PRECISION': number
+  UUID: string
+  DATE: string; DATETIME: string; TIMESTAMP: string; TIME: string
+  DECIMAL: number; NUMERIC: number
+  BLOB: Uint8Array
+  JSON: JSONValue   // ← was `any` in v0.x. See Migration.
+}
+```
+
+<Callout icon={<Zap />}>
+
+`SQLTypeMap['JSON']` changed from `any` to `JSONValue` in v1. See [Migration](/duck-ttest/migration).
+
+</Callout>
+
+## InferSchema
+
+```ts
+type InferSchema<S extends string>
+```
+
+The headline export. Parse a `CREATE TABLE` string into a typed row shape.
+
+```ts
+type User = InferSchema<'CREATE TABLE users (id INT PRIMARY KEY, email TEXT NOT NULL, name TEXT)'>
+// → { id?: number; email: string; name: string | null }
+```
+
+## Whitespace and normalization
+
+```ts
+type WhitespaceChar = ' ' | '\n' | '\t' | '\r'
+type CollapseWhitespaceSafe<S extends string, InSpace extends boolean = false, Acc extends string = ''>
+type NormalizeSQL<S extends string>  // collapse + trim
+type UppercaseWord<S extends string>
+type NormalizeType<S extends string>  // strip `(N)` size suffix
+```
+
+## References
+
+```ts
+type Ref<Table extends string, Column extends string> = { __ref: true; table: Table; column: Column }
+type ExtractReferences<S extends string>
+```
+
+```ts
+type r = ExtractReferences<'user_id INT REFERENCES users(id)'>
+// → Ref<'users', 'id'>
+```
+
+## Enums
+
+```ts
+type ExtractEnum<S extends string>
+type ParseEnumValues<S extends string>
+```
+
+Parse `ENUM('a', 'b', 'c')` clauses into string literal unions.
+
+## Column constraints
+
+```ts
+type HasDefault       <S extends string>
+type IsNotNull        <S extends string>
+type IsPrimaryKey     <S extends string>
+type IsAutoIncrement  <S extends string>
+type StripConstraints <S extends string>
+type CleanSQLType     <S extends string>
+```
+
+## SplitColumns
+
+```ts
+type SplitColumns<S extends string, Sep extends string = ',', ...>
+```
+
+Parenthesis-aware splitter. Splits on `Sep` while respecting nested `(...)`.
+
+## IsSQLNullable / IsSQLOptional
+
+```ts
+type IsSQLNullable<S extends string>
+type IsSQLOptional<S extends string>
+```
+
+Constraint-aware nullability and optionality based on the column string.
+
+- **Nullable**: column lacks `NOT NULL`, `PRIMARY KEY`, `DEFAULT`, or `AUTO_INCREMENT`.
+- **Optional**: column has `DEFAULT`, or is a primary-key `AUTO_INCREMENT`, or lacks `NOT NULL`.
+
+<Callout icon={<Zap />}>
+
+These are SQL-level — not the same as the TS-level [`IsOptional`](/duck-ttest/api/primitive) / [`IsNullable`](/duck-ttest/api/primitive). The SQL-prefix rename happened in v1; see [Migration](/duck-ttest/migration).
+
+</Callout>
+
+## End-to-end pipeline
+
+```ts
+type GetBaseType     <S extends string>
+type ApplyNullability<Base, S extends string>
+type ParseColumnDef  <S extends string>  // → [name, type, optional]
+type ExtractColumns  <SQL extends string>
+type BuildSchemaType <Cols extends readonly string[]>
+```
+
+These compose into `InferSchema`.
+
+## Cross-table references
+
+```ts
+type ResolveRef   <T, Schemas extends Record<string, unknown>>
+type ResolveFields<T, Schemas extends Record<string, unknown>>
+```
+
+Resolve `Ref<Table, Column>` placeholders against a registry of schemas — useful for multi-table inference.
+
+## Deprecated re-exports
+
+```ts
+/** @deprecated */ export type { Trim } from '~/template'
+/** @deprecated */ export type { UnionToIntersection } from '~/union'
+```
+
+Import these from their canonical modules instead.

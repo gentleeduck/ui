@@ -1,0 +1,98 @@
+---
+title: router
+description: URL pattern types — PathParams, BuildPath, MatchRoute, QueryParams.
+section: API
+order: 32
+---
+
+```ts
+import type {
+  PathParams, BuildPath, SplitPath, MatchRoute,
+  QueryParams, RouteDescriptor,
+} from '@gentleduck/ttest/router'
+```
+
+Type-level URL pattern matching. Works on `/users/:id/posts/:postId`-style patterns.
+
+## PathParams
+
+```ts
+type PathParams<Pattern extends string>
+```
+
+Extract named params as a record.
+
+```ts
+type p = PathParams<'/users/:id/posts/:postId'>
+// → { id: string; postId: string }
+
+type q = PathParams<'/health'>
+// → Record<string, never>
+```
+
+## BuildPath
+
+```ts
+type BuildPath<Pattern extends string, Params extends Record<string, string | number>>
+```
+
+Substitute `Params` into `Pattern`.
+
+```ts
+type p = BuildPath<'/users/:id', { id: 42 }>
+// → '/users/42'
+
+type q = BuildPath<'/posts/:slug/comments/:c', { slug: 'hello'; c: 1 }>
+// → '/posts/hello/comments/1'
+```
+
+## SplitPath
+
+```ts
+type SplitPath<S extends string>
+```
+
+Split a path into segments, dropping empties.
+
+```ts
+type s = SplitPath<'/a/b/c/'>  // ['a', 'b', 'c']
+```
+
+## MatchRoute
+
+```ts
+type MatchRoute<Pattern extends string, Path extends string>
+```
+
+`true` if `Path` matches `Pattern`. `:`-prefixed segments are wildcards.
+
+```ts
+type a = MatchRoute<'/users/:id', '/users/42'>      // true
+type b = MatchRoute<'/users/:id', '/posts/42'>      // false
+type c = MatchRoute<'/users/:id', '/users/42/foo'>  // false
+```
+
+## QueryParams
+
+```ts
+type QueryParams<S extends string>
+```
+
+Extract query-string keys.
+
+```ts
+type q = QueryParams<'/search?a=1&b=2'>
+// → { a: string; b: string }
+```
+
+## RouteDescriptor
+
+```ts
+interface RouteDescriptor<Pattern extends string, Query = Record<string, never>> {
+  readonly pattern: Pattern
+  readonly params: PathParams<Pattern>
+  readonly query: Query
+}
+```
+
+Combined path/query descriptor — useful for route registries.

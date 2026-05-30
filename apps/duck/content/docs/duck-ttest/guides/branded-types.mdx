@@ -1,0 +1,143 @@
+---
+title: Branded types
+description: Tag primitives nominally without a runtime cost.
+section: Guides
+order: 1
+---
+
+A "branded" type is a primitive (usually `string` or `number`) decorated with a phantom field that the compiler tracks but the runtime ignores. The result: two values can look identical at runtime yet be type-incompatible.
+
+## The problem
+
+```ts
+function deleteUser(userId: string) { /* ... */ }
+function deletePost(postId: string) { /* ... */ }
+
+const postId = '42'
+deleteUser(postId)  // ← compiles. Bug.
+```
+
+`string` is the same type everywhere. The compiler can't help.
+
+## The fix
+
+```ts
+import type { Brand } from '@gentleduck/ttest/brand'
+
+type UserId = Brand<string, 'UserId'>
+type PostId = Brand<string, 'PostId'>
+
+function deleteUser(id: UserId) { /* ... */ }
+function deletePost(id: PostId) { /* ... */ }
+
+const post = '42' as PostId
+deleteUser(post)  // ← Error: Argument of type 'PostId' is not assignable to parameter of type 'UserId'.
+```
+
+Runtime is unchanged — `post` is still the string `'42'`.
+
+## Constructing brands safely
+
+The cast `as PostId` lies. Centralize it in a "smart constructor":
+
+```ts
+import type { Brand } from '@gentleduck/ttest/brand'
+
+type PostId = Brand<string, 'PostId'>
+
+function postId(raw: string): PostId {
+  if (!/^[a-z0-9]+$/.test(raw)) throw new Error(`invalid post id: ${raw}`)
+  return raw as PostId
+}
+```
+
+Everywhere else, call `postId('...')` instead of the `as` cast — the validator runs once, the brand is conferred once, and the rest of the codebase relies on the type.
+
+## Stripping a brand
+
+`Unbrand` recovers the base type:
+
+```ts
+import type { Brand, Unbrand } from '@gentleduck/ttest/brand'
+
+type UserId = Brand<string, 'UserId'>
+type S = Unbrand<UserId>  // string
+
+function serialize(id: UserId): Unbrand<UserId> {
+  return id  // base type — no cast needed in the consumer.
+}
+```
+
+## Brands in the API surface
+
+Brand at the API boundary, not in your hot path:
+
+```ts
+// Public input boundary
+export function createUser(name: string): UserId { /* ... */ }
+
+// Internal helpers can take the raw type — branding everywhere is noise.
+function hashId(id: string): string { /* ... */ }
+```
+
+## Type-testing brands
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import type { Brand, Unbrand, BrandOf } from '@gentleduck/ttest/brand'
+
+type UserId = Brand<string, 'UserId'>
+
+type _ = [
+  AssertTrue<Equal<Unbrand<UserId>, string>, 'unbrand recovers string'>,
+  AssertTrue<Equal<BrandOf<UserId>,  'UserId'>, 'brand tag is UserId'>,
+]
+```
+
+Note: `Equal<UserId, string>` is `false` (and should be). Reach for `Unbrand` whenever the test is "this is a branded string."
+
+## When *not* to brand
+
+- **Throwaway IDs in a script** — brand overhead isn't worth it.
+- **Cross-package boundaries** where the consumer can't import the brand.
+- **High-fan-in primitives** like timestamps — you'd brand every `Date` field in the codebase.
+
+## Anti-patterns
+
+### Branding without a smart constructor
+
+```ts
+type UserId = Brand<string, 'UserId'>
+
+function fetchUser(id: UserId) { /* ... */ }
+fetchUser('u_42' as UserId)  // ← `as` cast scattered everywhere
+```
+
+Every `as UserId` cast is an opportunity to lie. Either centralize the cast in a single `userId(raw): UserId` constructor that validates, or accept `string` at the boundary and convert internally — the in-between is a footgun.
+
+### Asserting `Equal<Branded, Base>`
+
+```ts
+type _ = AssertTrue<Equal<UserId, string>, 'should be string'>  // FAILS
+```
+
+Brands intentionally break equality with the base type. Use `Unbrand`:
+
+```ts
+type _ = AssertTrue<Equal<Unbrand<UserId>, string>, 'underlying string'>
+```
+
+### Branding identity primitives that never leave the codebase
+
+```ts
+type LineNumber = Brand<number, 'LineNumber'>
+function reportError(line: LineNumber) { /* ... */ }
+```
+
+If `LineNumber` is only ever produced and consumed inside the same module, you've added type ceremony without any safety. Brand at module boundaries, not within them.
+
+## See also
+
+- [API / brand](/duck-ttest/api/brand)
+- [API / equality](/duck-ttest/api/equality) — why `Equal<UserId, string>` is `false`.

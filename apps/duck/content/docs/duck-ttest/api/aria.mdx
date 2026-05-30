@@ -1,0 +1,189 @@
+---
+title: aria
+description: WAI-ARIA 1.2 role and attribute string unions.
+section: API
+order: 1
+---
+
+```ts
+import type {
+  LandmarkRole, WidgetRole, CompositeRole, DocumentStructureRole,
+  LiveRegionRole, WindowRole, AriaRole,
+  AriaLive, AriaHaspopup, AriaOrientation, AriaSort, AriaTristate,
+  AriaAutocomplete, AriaRelevant, AriaCurrent, AriaDropEffect, AriaInvalid,
+  AriaAttributeName, AriaAttribute,
+} from '@gentleduck/ttest/aria'
+```
+
+Curated string unions matching WAI-ARIA 1.2. Narrower than `string`, broader than hand-rolled per-component unions — use them to constrain prop types in design-system components.
+
+## LandmarkRole
+
+```ts
+type LandmarkRole = 'banner' | 'complementary' | 'contentinfo' | 'form' | 'main' | 'navigation' | 'region' | 'search'
+```
+
+Major page regions. One landmark per `<header>`, `<nav>`, `<main>`, etc.
+
+## WidgetRole
+
+```ts
+type WidgetRole = 'button' | 'checkbox' | 'menuitem' | 'radio' | 'switch' | 'tab' | 'textbox' | ...
+```
+
+Interactive component roles — the building blocks of forms and controls.
+
+## CompositeRole
+
+```ts
+type CompositeRole = 'combobox' | 'grid' | 'listbox' | 'menu' | 'menubar' | 'radiogroup' | 'tablist' | 'tree' | 'treegrid'
+```
+
+Roles that wrap and coordinate child widgets (typically with arrow-key navigation).
+
+## DocumentStructureRole
+
+```ts
+type DocumentStructureRole = 'article' | 'cell' | 'figure' | 'heading' | 'list' | 'table' | ...
+```
+
+Non-interactive content scaffolding.
+
+## LiveRegionRole
+
+```ts
+type LiveRegionRole = 'alert' | 'log' | 'marquee' | 'status' | 'timer'
+```
+
+Regions whose content changes are announced by assistive tech.
+
+## WindowRole
+
+```ts
+type WindowRole = 'alertdialog' | 'dialog'
+```
+
+Modal and non-modal dialogs.
+
+## AriaRole
+
+```ts
+type AriaRole = LandmarkRole | WidgetRole | CompositeRole | DocumentStructureRole | LiveRegionRole | WindowRole
+```
+
+Union of every role in this module.
+
+```ts
+function setRole(el: HTMLElement, role: AriaRole) {
+  el.setAttribute('role', role)
+}
+
+setRole(el, 'button')   // ok
+setRole(el, 'banner')   // ok
+setRole(el, 'spinner')  // Error — not in any role group
+```
+
+## AriaLive
+
+```ts
+type AriaLive = 'off' | 'polite' | 'assertive'
+```
+
+Politeness setting for live regions.
+
+## AriaHaspopup
+
+```ts
+type AriaHaspopup = boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
+```
+
+Whether an interactive element triggers a popup, and which type. Both the boolean and string-boolean forms are accepted to match HTML's authoring sloppiness.
+
+## AriaOrientation
+
+```ts
+type AriaOrientation = 'horizontal' | 'vertical'
+```
+
+## AriaSort
+
+```ts
+type AriaSort = 'ascending' | 'descending' | 'none' | 'other'
+```
+
+Sort direction for a column or row header in a `grid` / `table`.
+
+## AriaTristate
+
+```ts
+type AriaTristate = boolean | 'false' | 'mixed' | 'true'
+```
+
+Three-state value for `aria-checked` / `aria-pressed`. `'mixed'` is the indeterminate state.
+
+## AriaAutocomplete
+
+```ts
+type AriaAutocomplete = 'none' | 'inline' | 'list' | 'both'
+```
+
+Behavior of a combobox or text-input autocompleter.
+
+## AriaRelevant
+
+```ts
+type AriaRelevant = 'additions' | 'removals' | 'text' | 'all' | `${string} ${string}`
+```
+
+Which change types in a live region should be announced. Space-separated combinations are accepted via the template-literal fallback.
+
+## AriaCurrent
+
+```ts
+type AriaCurrent = boolean | 'false' | 'true' | 'page' | 'step' | 'location' | 'date' | 'time'
+```
+
+Marks the current item within a set.
+
+## AriaDropEffect
+
+```ts
+type AriaDropEffect = 'none' | 'copy' | 'execute' | 'link' | 'move' | 'popup'
+```
+
+Drag-and-drop effect indication. Deprecated by WAI-ARIA 1.1 — kept for legacy parity.
+
+## AriaInvalid
+
+```ts
+type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling'
+```
+
+Validity state for form controls, with optional reason.
+
+## AriaAttributeName
+
+```ts
+type AriaAttributeName = 'activedescendant' | 'atomic' | 'autocomplete' | ...
+```
+
+Every ARIA state / property name without the `aria-` prefix.
+
+## AriaAttribute
+
+```ts
+type AriaAttribute = `aria-${AriaAttributeName}`
+```
+
+Full attribute string with the prefix.
+
+```ts
+function setAria(el: HTMLElement, name: AriaAttribute, value: string) {
+  el.setAttribute(name, value)
+}
+
+setAria(el, 'aria-label', 'Close')    // ok
+setAria(el, 'aria-typo', 'oops')      // Error — 'typo' not in AriaAttributeName
+```
+
+Edge case: every union here is finite. If a future WAI-ARIA revision adds tokens, widen to `string` at the consumer boundary or upstream the additions to this module.

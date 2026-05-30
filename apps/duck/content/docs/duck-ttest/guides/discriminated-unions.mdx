@@ -1,0 +1,130 @@
+---
+title: Discriminated unions
+description: Narrow, exhaust, and pattern-match unions tagged by a literal key.
+section: Guides
+order: 2
+---
+
+A discriminated union is a union of objects sharing a literal "tag" key. The compiler can narrow on the tag, and duck-ttest provides the type-level helpers to consume them.
+
+## Shape
+
+```ts
+type Event =
+  | { kind: 'click'; x: number; y: number }
+  | { kind: 'keypress'; key: string }
+  | { kind: 'scroll'; delta: number }
+```
+
+`kind` is the discriminant. Every variant has a *distinct literal* in that slot.
+
+## Narrow by tag
+
+```ts
+import type { NarrowByTag } from '@gentleduck/ttest/discriminated'
+
+type Click = NarrowByTag<Event, 'kind', 'click'>
+// → { kind: 'click'; x: number; y: number }
+```
+
+## Get every tag value
+
+```ts
+import type { TagsOf } from '@gentleduck/ttest/discriminated'
+
+type Kinds = TagsOf<Event, 'kind'>
+// → 'click' | 'keypress' | 'scroll'
+```
+
+## Strip the tag
+
+```ts
+import type { OmitTag, PayloadOf } from '@gentleduck/ttest/discriminated'
+
+type AnyPayload   = OmitTag <Event, 'kind'>
+type ClickPayload = PayloadOf<Event, 'kind', 'click'>
+// → { x: number; y: number }
+```
+
+## Pattern-match exhaustively
+
+```ts
+import type { Matchers } from '@gentleduck/ttest/discriminated'
+
+function handle<R>(e: Event, h: Matchers<Event, 'kind', R>): R {
+  return h[e.kind](e as any)
+}
+
+handle(event, {
+  click:    ({ x, y })  => `clicked ${x},${y}`,
+  keypress: ({ key })   => `key ${key}`,
+  scroll:   ({ delta }) => `scrolled ${delta}`,
+})
+```
+
+If you forget a `kind`, the compiler reports a missing-property error on the second argument. `Matchers` derives the handler shape from the union.
+
+## Verify the union is discriminated
+
+```ts
+import type { IsDiscriminated } from '@gentleduck/ttest/discriminated'
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+
+type _ = AssertTrue<IsDiscriminated<Event, 'kind'>, 'kind discriminates Event'>
+```
+
+Useful in regression suites — if someone collapses the tag to a wider literal type, the assertion breaks.
+
+## Common pitfalls
+
+### Boolean tags don't discriminate
+
+```ts
+type Bad =
+  | { ok: boolean; value: number }
+  | { ok: boolean; error: string }
+```
+
+`boolean` isn't literal enough — both variants have `ok: boolean`. Use `true` / `false` instead:
+
+```ts
+type Good =
+  | { ok: true;  value: number }
+  | { ok: false; error: string }
+```
+
+This is exactly the shape of [`Result`](/duck-ttest/api/result).
+
+### Non-literal tags
+
+```ts
+type Bad =
+  | { kind: string; ... }   // ← string, not a literal
+  | { kind: 'foo'; ... }
+```
+
+`IsDiscriminated` will return `false` — TypeScript can't narrow on a wide string.
+
+### Discriminating on a brand
+
+```ts
+import type { Brand } from '@gentleduck/ttest/brand'
+
+type Pending = Brand<{ ok: true }, 'Pending'>
+type Done    = Brand<{ ok: true }, 'Done'>
+type State   = Pending | Done
+```
+
+Branded shapes share the same runtime properties — `IsDiscriminated` returns `false` because both variants resolve to `ok: true`. Brands are a *compile-time* discriminator, not a runtime one. Use a literal `kind` field instead:
+
+```ts
+type State =
+  | { kind: 'pending' }
+  | { kind: 'done' }
+```
+
+## See also
+
+- [API / discriminated](/duck-ttest/api/discriminated)
+- [API / result](/duck-ttest/api/result) — `Ok` / `Err` are discriminated by `ok: true | false`.
+- [API / emitter](/duck-ttest/api/emitter) — `EventAction<M>` builds a discriminated union from an `EventMap`.

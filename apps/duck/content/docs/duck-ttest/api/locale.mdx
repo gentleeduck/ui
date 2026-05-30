@@ -1,0 +1,109 @@
+---
+title: locale
+description: ISO language, country, currency, and IANA time-zone unions.
+section: API
+order: 24
+---
+
+```ts
+import type {
+  LanguageCode, CountryCode, CurrencyCode,
+  LocaleTag, TimeZone, IsLocaleTag,
+} from '@gentleduck/ttest/locale'
+```
+
+Curated subsets of ISO and IANA codes useful for constraining user input, building dropdowns, or type-checking i18n keys. Widen to `string` at the consumer boundary when you need codes outside the curated list — these unions are deliberately a common-case subset, not the full registry.
+
+## LanguageCode
+
+```ts
+type LanguageCode = 'aa' | 'ab' | 'af' | 'am' | 'ar' | 'az' | ... | 'zh'
+```
+
+ISO 639-1 two-letter codes (lowercase). Roughly 80 of the most-used languages.
+
+```ts
+const a: LanguageCode = 'en'
+const b: LanguageCode = 'ar'
+const c: LanguageCode = 'EN'  // Error — codes are lowercase
+```
+
+## CountryCode
+
+```ts
+type CountryCode = 'AD' | 'AE' | 'AF' | 'AG' | ... | 'ZW'
+```
+
+ISO 3166-1 alpha-2 codes (uppercase). Roughly 130 of the most-used countries.
+
+```ts
+const a: CountryCode = 'US'
+const b: CountryCode = 'JP'
+const c: CountryCode = 'us'  // Error — codes are uppercase
+```
+
+## CurrencyCode
+
+```ts
+type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | ... | 'BTC' | 'ETH'
+```
+
+ISO 4217 codes (uppercase) plus `'BTC'` and `'ETH'` for crypto.
+
+```ts
+function formatPrice(amount: number, currency: CurrencyCode) { /* ... */ }
+formatPrice(10, 'USD')  // ok
+formatPrice(10, 'XYZ')  // Error
+```
+
+## LocaleTag
+
+```ts
+type LocaleTag = LanguageCode | `${LanguageCode}-${CountryCode}`
+```
+
+BCP-47 tag: a `LanguageCode`, optionally followed by `-` and a `CountryCode`. Covers the common-case shapes that `Intl.DateTimeFormat` and friends consume.
+
+```ts
+const a: LocaleTag = 'en'      // language only
+const b: LocaleTag = 'en-US'   // language + region
+const c: LocaleTag = 'fr-CA'   // valid
+const d: LocaleTag = 'en-us'   // Error — region must be uppercase
+```
+
+Edge case: extended tags like `'zh-Hant-TW'` or grandfathered tags like `'i-klingon'` are not in the curated union. Widen to `string` at the consumer boundary if you need them.
+
+## TimeZone
+
+```ts
+type TimeZone = 'UTC' | 'GMT' | 'Europe/London' | 'Asia/Tokyo' | ... | 'America/Argentina/Buenos_Aires'
+```
+
+Common IANA time-zone identifiers — about 30 of the most-used. The full IANA tz database is much larger; widen to `string` for user-supplied values.
+
+```ts
+function inZone(d: Date, tz: TimeZone) { /* ... */ }
+inZone(new Date(), 'Asia/Tokyo')          // ok
+inZone(new Date(), 'Pacific/Galapagos')   // Error — not in curated set
+```
+
+## IsLocaleTag
+
+```ts
+type IsLocaleTag<L extends string> = L extends LocaleTag ? true : false
+```
+
+`true` if `L` matches the curated `LocaleTag` shape.
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+
+type _ = [
+  AssertTrue <IsLocaleTag<'en-US'>, 'en-US is a tag'>,
+  AssertTrue <IsLocaleTag<'fr'>,    'fr is a tag'>,
+  AssertFalse<IsLocaleTag<'en_US'>, 'underscore not allowed'>,
+  AssertFalse<IsLocaleTag<'xx'>,    'xx not a language code'>,
+]
+```
+
+Edge case: `IsLocaleTag<string>` is `boolean` — a wide `string` doesn't extend a finite union. Always narrow before checking.

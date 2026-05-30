@@ -1,0 +1,229 @@
+---
+title: result
+description: Compile-time Result and Option mirroring Rust's monads.
+section: API
+order: 31
+---
+
+```ts
+import type {
+  Ok, Err, Result,
+  Some, None, Option,
+  IsOk, IsErr, IsSome, IsNone,
+  UnwrapOk, UnwrapErr, UnwrapSome,
+  MapResult, MapOption,
+  OkOrElse, SomeOrElse,
+} from '@gentleduck/ttest/result'
+```
+
+Type-level discriminated unions modeling `Result<T, E>` and `Option<T>` from Rust. The shapes are designed to discriminate on `ok` / `some` — see [`discriminated`](/duck-ttest/api/discriminated) for the broader pattern.
+
+## Ok
+
+```ts
+interface Ok<T> {
+  readonly ok: true
+  readonly value: T
+}
+```
+
+The success branch of `Result`. Always `ok: true` — `true` is a literal, not `boolean`, so the union is discriminable.
+
+```ts
+const v: Ok<number> = { ok: true, value: 1 }
+```
+
+## Err
+
+```ts
+interface Err<E> {
+  readonly ok: false
+  readonly error: E
+}
+```
+
+The failure branch of `Result`.
+
+```ts
+const e: Err<string> = { ok: false, error: 'parse failed' }
+```
+
+## Result
+
+```ts
+type Result<T, E> = Ok<T> | Err<E>
+```
+
+A computation that either succeeds with `T` or fails with `E`. Narrow on `r.ok`.
+
+```ts
+function parse(s: string): Result<number, string> {
+  const n = Number(s)
+  return Number.isNaN(n) ? { ok: false, error: 'NaN' } : { ok: true, value: n }
+}
+
+const r = parse('42')
+if (r.ok) r.value // number
+else      r.error // string
+```
+
+## Some
+
+```ts
+interface Some<T> {
+  readonly some: true
+  readonly value: T
+}
+```
+
+The present branch of `Option`.
+
+## None
+
+```ts
+interface None {
+  readonly some: false
+}
+```
+
+The absent branch.
+
+## Option
+
+```ts
+type Option<T> = Some<T> | None
+```
+
+A value that may be absent. Use over `T | null` when you want the discriminator on a literal `boolean` rather than on nullishness.
+
+```ts
+function find<T>(xs: T[], p: (x: T) => boolean): Option<T> {
+  const v = xs.find(p)
+  return v === undefined ? { some: false } : { some: true, value: v }
+}
+```
+
+## IsOk
+
+```ts
+type IsOk<R> = R extends Ok<unknown> ? true : false
+```
+
+`true` if `R` is the `Ok` branch.
+
+```ts
+type a = IsOk<Ok<1>>      // true
+type b = IsOk<Err<'x'>>   // false
+```
+
+## IsErr
+
+```ts
+type IsErr<R> = R extends Err<unknown> ? true : false
+```
+
+`true` if `R` is the `Err` branch.
+
+## IsSome
+
+```ts
+type IsSome<O> = O extends Some<unknown> ? true : false
+```
+
+## IsNone
+
+```ts
+type IsNone<O> = O extends None ? (O extends Some<unknown> ? false : true) : false
+```
+
+The inner `Some` check is required because `Some<T>` structurally extends `None`'s `some: false` slot through union narrowing edge cases.
+
+## UnwrapOk
+
+```ts
+type UnwrapOk<R> = R extends Ok<infer T> ? T : never
+```
+
+Extract the value from an `Ok` branch, or `never` if `R` is not `Ok`.
+
+```ts
+type R = Result<number, string>
+type V = UnwrapOk<R>   // number
+type N = UnwrapOk<Err<'fail'>>  // never
+```
+
+## UnwrapErr
+
+```ts
+type UnwrapErr<R> = R extends Err<infer E> ? E : never
+```
+
+```ts
+type E = UnwrapErr<Result<number, string>>  // string
+```
+
+## UnwrapSome
+
+```ts
+type UnwrapSome<O> = O extends Some<infer T> ? T : never
+```
+
+```ts
+type V = UnwrapSome<Option<number>>  // number
+```
+
+## MapResult
+
+```ts
+type MapResult<R, F>
+```
+
+Map the `Ok` value of `R` through `Apply<F, X>` (an HKT — see [`fp`](/duck-ttest/api/fp)).
+
+```ts
+import type { Fn } from '@gentleduck/ttest/fp'
+
+interface ToString extends Fn { return: `${this['arg'] & number}` }
+
+type R = MapResult<Ok<42>, ToString>
+//   ^? Ok<'42'>
+
+type E = MapResult<Err<'fail'>, ToString>
+//   ^? Err<'fail'>   // Err passes through unchanged
+```
+
+## MapOption
+
+```ts
+type MapOption<O, F>
+```
+
+Map the `Some` value of `O` through `Apply<F, X>`. `None` passes through unchanged.
+
+## OkOrElse
+
+```ts
+type OkOrElse<R, Default> = R extends Ok<infer T> ? T : Default
+```
+
+Recover from `Err` with a default.
+
+```ts
+type V = OkOrElse<Err<'fail'>, 0>      // 0
+type W = OkOrElse<Ok<42>, 0>           // 42
+```
+
+## SomeOrElse
+
+```ts
+type SomeOrElse<O, Default> = O extends Some<infer T> ? T : Default
+```
+
+Recover from `None` with a default.
+
+```ts
+type V = SomeOrElse<None, null>             // null
+type W = SomeOrElse<Some<'hi'>, null>       // 'hi'
+```
+
+Edge case: `MapResult` and `MapOption` are HKT-driven — the second generic is a `Fn` interface from [`fp`](/duck-ttest/api/fp), not a TypeScript function type. Pass an interface whose `return` projection consumes `this['arg']`.

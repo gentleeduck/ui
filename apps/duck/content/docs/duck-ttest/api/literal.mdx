@@ -1,0 +1,152 @@
+---
+title: literal
+description: LiteralUnion, Exact, Narrow, Widen, and literal-vs-primitive guards.
+section: API
+order: 23
+---
+
+```ts
+import type {
+  LiteralUnion, Exact, Widen, Narrow,
+  IsLiteral, IsStringLiteral, IsNumericLiteral, IsBooleanLiteral, IsBigIntLiteral,
+} from '@gentleduck/ttest/literal'
+```
+
+Literal-vs-primitive transforms and guards. Use these to author APIs that suggest typed values while staying permissive, lock generic inputs to exact shapes, or detect accidental widening in tests.
+
+## LiteralUnion
+
+```ts
+type LiteralUnion<L extends W, W> = L | (W & { _?: never })
+```
+
+Autocomplete-friendly literal union: the IDE suggests `L`, but the type still accepts any value of the wider type `W`. The phantom `{ _?: never }` intersection prevents `W` from collapsing the union back to the primitive.
+
+```ts
+type Variant = LiteralUnion<'primary' | 'danger', string>
+// autocomplete: 'primary' | 'danger'
+// accepts:      any string
+
+const a: Variant = 'primary'    // ok
+const b: Variant = 'custom-x'   // ok — any string
+```
+
+## Exact
+
+```ts
+type Exact<T, Shape>
+```
+
+Force `T` to match `Shape` exactly — no extra properties allowed. Useful for constructor configs that must be airtight.
+
+```ts
+type Config = { id: number }
+function init<T>(c: Exact<T, Config>) { /* ... */ }
+
+init({ id: 1 })             // ok
+init({ id: 1, extra: 2 })   // Error — excess property `extra`
+```
+
+## Widen
+
+```ts
+type Widen<T>
+```
+
+Widen a literal to its primitive type.
+
+```ts
+type a = Widen<'foo'>  // string
+type b = Widen<42>     // number
+type c = Widen<true>   // boolean
+type d = Widen<10n>    // bigint
+```
+
+Edge case: `Widen<string>` is `string` (pass-through). `Widen<'a' | 'b'>` distributes to `string | string = string`.
+
+## Narrow
+
+```ts
+type Narrow<T>
+```
+
+Prevent inference from widening literal arguments. Use as a generic constraint when you want literals preserved in inferred types — equivalent to applying `as const` retroactively.
+
+```ts
+function defineRoles<T extends Narrow<T>>(roles: T): T { return roles }
+
+const r = defineRoles(['admin', 'editor'])
+//   ^? ['admin', 'editor']    not string[]
+```
+
+## IsLiteral
+
+```ts
+type IsLiteral<T>
+```
+
+`true` if `T` is a literal (not its widened primitive). Combines string/number/boolean/bigint/symbol literal checks.
+
+```ts
+type a = IsLiteral<'foo'>   // true
+type b = IsLiteral<42>      // true
+type c = IsLiteral<true>    // true
+type d = IsLiteral<string>  // false
+type e = IsLiteral<number>  // false
+```
+
+## IsStringLiteral
+
+```ts
+type IsStringLiteral<T>
+```
+
+`true` only for the literal form of `string`.
+
+```ts
+type a = IsStringLiteral<'foo'>    // true
+type b = IsStringLiteral<string>   // false
+type c = IsStringLiteral<'a' | 'b'> // true   (every member is a literal)
+```
+
+## IsNumericLiteral
+
+```ts
+type IsNumericLiteral<T>
+```
+
+`true` only for the literal form of `number`.
+
+```ts
+type a = IsNumericLiteral<42>      // true
+type b = IsNumericLiteral<number>  // false
+```
+
+## IsBooleanLiteral
+
+```ts
+type IsBooleanLiteral<T>
+```
+
+`true` only for `true` or `false` exactly (not `boolean`).
+
+```ts
+type a = IsBooleanLiteral<true>     // true
+type b = IsBooleanLiteral<false>    // true
+type c = IsBooleanLiteral<boolean>  // false
+```
+
+## IsBigIntLiteral
+
+```ts
+type IsBigIntLiteral<T>
+```
+
+`true` only for the literal form of `bigint`.
+
+```ts
+type a = IsBigIntLiteral<10n>     // true
+type b = IsBigIntLiteral<bigint>  // false
+```
+
+Edge case across all `Is*Literal` helpers: `any` makes all of them return `boolean` (both branches). Guard with [`IsAny`](/duck-ttest/api/any) when authoring tests against suspicious surfaces.

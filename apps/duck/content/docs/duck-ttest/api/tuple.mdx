@@ -1,0 +1,80 @@
+---
+title: tuple
+description: Head, Tail, Last, Prepend, Append, Length, Zip.
+section: API
+order: 35
+---
+
+```ts
+import type {
+  Head, Tail, Last,
+  Prepend, Append,
+  Length, Zip,
+} from '@gentleduck/ttest/tuple'
+```
+
+## Head
+
+```ts
+type Head<T extends unknown[]> = T extends [infer H, ...unknown[]] ? H : never
+```
+
+```ts
+type a = Head<[1, 2, 3]>  // 1
+type b = Head<[]>         // never
+```
+
+## Tail
+
+```ts
+type Tail<T extends unknown[]> = T extends [unknown, ...infer R] ? R : never
+```
+
+```ts
+type a = Tail<[1, 2, 3]>  // [2, 3]
+```
+
+## Last
+
+```ts
+type Last<T extends unknown[]> = T extends [...unknown[], infer L] ? L : never
+```
+
+```ts
+type a = Last<[1, 2, 3]>  // 3
+```
+
+## Prepend / Append
+
+```ts
+type Prepend<E, T extends unknown[]> = [E, ...T]
+type Append <T extends unknown[], E> = [...T, E]
+```
+
+```ts
+type a = Prepend<0, [1, 2]>  // [0, 1, 2]
+type b = Append <[1, 2], 3>  // [1, 2, 3]
+```
+
+## Length
+
+```ts
+type Length<T extends unknown[]> = T['length']
+```
+
+```ts
+type a = Length<[1, 2, 3]>  // 3
+```
+
+## Zip
+
+```ts
+type Zip<T extends unknown[], U extends unknown[]>
+```
+
+Pair `T` and `U` element-wise; stop at the shorter input.
+
+```ts
+type a = Zip<[1, 2, 3], ['a', 'b', 'c']>  // [[1, 'a'], [2, 'b'], [3, 'c']]
+type b = Zip<[1, 2, 3], ['a']>            // [[1, 'a']]
+```
