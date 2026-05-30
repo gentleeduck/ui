@@ -14,6 +14,7 @@ import {
   Palette,
   ScrollText,
   Sparkles,
+  TestTube2,
   Terminal,
   Upload,
 } from 'lucide-react'
@@ -110,6 +111,13 @@ export const navItems = [
         icon: Command,
         color: '#f43f5e',
         status: 'deprecated',
+      },
+      {
+        title: '@gentleduck/ttest',
+        href: '/duck-ttest',
+        description: 'Type-level test framework and utility library. Zero runtime cost.',
+        icon: TestTube2,
+        color: '#0ea5e9',
       },
       {
         title: '@gentleduck/ttlog',
