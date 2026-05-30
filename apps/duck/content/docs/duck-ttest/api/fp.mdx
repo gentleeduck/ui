@@ -37,7 +37,7 @@ type Apply<F extends Fn, X> = (F & { readonly arg: X })['return']
 Evaluate a type-function by binding `X` into its `arg` slot.
 
 ```ts
-interface ToString extends Fn { readonly return: `${this['arg'] & string | number}` }
+interface ToString extends Fn { readonly return: `${this['arg'] & (string | number)}` }
 type a = Apply<ToString, 42>  // '42'
 ```
 
@@ -72,7 +72,12 @@ type a = MapTuple<[1, 2, 3], ToString>  // ['1', '2', '3']
 ## FilterTuple
 
 ```ts
-type FilterTuple<T extends readonly unknown[], F extends Fn, Acc extends unknown[] = []>
+type FilterTuple<T extends readonly unknown[], F extends Fn, Acc extends unknown[] = []> =
+  T extends readonly [infer H, ...infer R]
+    ? Apply<F, H> extends true
+      ? FilterTuple<R, F, [...Acc, H]>
+      : FilterTuple<R, F, Acc>
+    : Acc
 ```
 
 Keep only elements for which `F` returns `true`.
@@ -85,15 +90,21 @@ type a = FilterTuple<[1, 'a', 2, 'b'], IsNumeric>  // [1, 2]
 ## Reduce
 
 ```ts
-type Reduce<T extends readonly unknown[], Init, F extends Fn>
+type Reduce<T extends readonly unknown[], Init, F extends Fn> =
+  T extends readonly [infer H, ...infer R]
+    ? Reduce<R, Apply<F, [Init, H]>, F>
+    : Init
 ```
 
 Left-fold `T` with accumulator `Init`. `F` receives `[Acc, Item]` in its `arg` slot.
 
 ```ts
+type BuildTuple<N extends number, Acc extends unknown[] = []> =
+  Acc['length'] extends N ? Acc : BuildTuple<N, [...Acc, unknown]>
+
 interface Add extends Fn {
   readonly return: this['arg'] extends [infer A extends number, infer B extends number]
-    ? [A, B]['length']  // simplified for example
+    ? [...BuildTuple<A>, ...BuildTuple<B>]['length']
     : never
 }
 ```

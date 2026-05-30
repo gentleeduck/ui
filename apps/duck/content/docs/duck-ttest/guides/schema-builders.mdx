@@ -147,8 +147,13 @@ The two definitions can drift silently. Either derive the type from the DDL via 
 
 For any schema builder, keep these assertions:
 
+```ts
+import type { AssertFalse, AssertTrue, HasKeyWithType } from '@gentleduck/ttest/equality'
+import type { IsAny, IsOptional } from '@gentleduck/ttest/primitive'
+```
+
 1. **Required keys are required.** `AssertTrue<HasKeyWithType<'email', string, Row>, ...>`.
-2. **Optional keys are optional.** `AssertTrue<IsOptional<Row['id']>, ...>`.
+2. **Optional keys are optional.** `AssertTrue<IsOptional<Row['id']>, ...>` (type-level; use `IsSQLOptional` from `@gentleduck/ttest/sql` for SQL DDL strings).
 3. **Foreign keys resolve.** Equal-check against the referenced row's column type.
 4. **No leaked `any`.** `AssertFalse<IsAny<Row[K]>, ...>` for every `K`.
 

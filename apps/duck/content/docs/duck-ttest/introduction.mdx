@@ -16,7 +16,7 @@ Assertions and utilities live entirely in the type system. Nothing is emitted to
 `@gentleduck/ttest` is two things in one package:
 
 1. A small, focused **type-level test framework** — `AssertTrue`, `AssertFalse`, `Equal`, and friends. When a test fails, the compiler surfaces a readable message at the failure site.
-2. A **library of type utilities** organized into 35 narrow modules — `any`, `assert`, `boolean`, `brand`, `conditional`, `css`, `discriminated`, `equality`, `format`, `fp`, `fs`, `function`, `geometry`, `guard`, `http`, `json`, `literal`, `locale`, `number`, `object`, `pattern`, `predicates`, `primitive`, `promise`, `result`, `router`, `sql`, `template`, `tuple`, `union`, plus a few more.
+2. A **library of type utilities** organized into 37 narrow modules — `any`, `aria`, `assert`, `async`, `bit`, `boolean`, `brand`, `class`, `conditional`, `css`, `date`, `discriminated`, `emitter`, `equality`, `extraction`, `format`, `fp`, `fs`, `function`, `geometry`, `guard`, `http`, `json`, `literal`, `locale`, `number`, `object`, `pattern`, `predicates`, `primitive`, `promise`, `result`, `router`, `sql`, `template`, `tuple`, `union`.
 
 Each utility is a `type`, so the entire package is erased at compile time. There is no runtime, no bundle bytes, and nothing to ship.
 
@@ -39,7 +39,7 @@ If you build schema generators, ORMs, validation libraries, or type-heavy SDKs, 
 | Feature | Description |
 | --- | --- |
 | **Compile-time only** | `package.json` ships `src/` only. Every export is a `type` — nothing reaches the JS output of consumers. |
-| **35 utility modules** | Sub-path imports such as `@gentleduck/ttest/object`, `@gentleduck/ttest/sql`, `@gentleduck/ttest/router`. Tree-shake by importing only what you need. |
+| **37 utility modules** | Sub-path imports such as `@gentleduck/ttest/object`, `@gentleduck/ttest/sql`, `@gentleduck/ttest/router`. Tree-shake by importing only what you need. |
 | **Assertions** | `AssertTrue<T, Msg>` and `AssertFalse<T, Msg>` produce a typed error containing `Msg` when the assertion fails. |
 | **Strict equality** | `Equal<X, Y>` uses the conditional-distribution trick to distinguish `any` from `unknown` and preserve variance — narrower than `X extends Y && Y extends X`. |
 | **Branded types** | `Brand<T, 'UserId'>` and `Unbrand<T>` for nominal typing without runtime tagging. |

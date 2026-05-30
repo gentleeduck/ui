@@ -57,7 +57,7 @@ type T = AsyncReturnType<typeof load>  // { id: number }
 type AwaitedDeep<T> = T extends PromiseLike<infer U> ? AwaitedDeep<U> : T
 ```
 
-Recursively unwrap nested `PromiseLike`s. Same behavior as TypeScript's built-in `Awaited`.
+Recursively unwrap nested `PromiseLike`s. Unlike TypeScript's built-in `Awaited`, it only matches `PromiseLike` and does not structurally unwrap arbitrary thenables.
 
 ## IterableElement
 
