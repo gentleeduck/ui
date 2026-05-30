@@ -67,7 +67,7 @@
     "@types/unist": "^3.0.3",
     "critters": "^0.0.25",
     "mermaid": "^11.14.0",
-    "puppeteer": "^24.40.0",
+    "puppeteer": "^25.1.0",
     "tailwindcss": "^4.2.0",
     "ts-morph": "^27.0.2",
     "tsx": "^4.21.0",
