@@ -23,7 +23,7 @@ import { accessMiddleware } from '@gentleduck/iam/server/hono'
 app.use(
   '/api/*',
   accessMiddleware(engine, {
-    // SEC-101: the default reads `c.get('userId')` only — populate it from
+    // SEC-101: the default reads `c.get('userId')` only - populate it from
     // upstream auth (JWT, cookie session). The x-user-id header is no longer
     // a fallback because any unauth client can spoof it.
     getUserId: (c) => c.get('userId') as string | null,
@@ -34,9 +34,9 @@ app.use(
 )
 ```
 
-<Callout type="warning" title="SEC-101 — identity source change in 2.1.0">
+<Callout type="warning" title="SEC-101 - identity source change in 2.1.0">
 `accessMiddleware` and `guard` no longer fall back to the `x-user-id` request
-header. Default identity is `c.get('userId')` only — wire it from upstream
+header. Default identity is `c.get('userId')` only - wire it from upstream
 auth (JWT middleware, cookie session). If you intentionally proxy a verified
 identity header from a trusted ingress, pass `getUserId` explicitly.
 </Callout>
@@ -143,16 +143,16 @@ Exposes the same six endpoints as the Express router (GET / PUT `/policies` + `/
 Mutation handlers (PUT/POST/DELETE) run a `Sec-Fetch-Site` check by default
 (SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
 form posts are rejected with 403, same-site / same-origin requests pass.
-Non-browser callers (no header) pass — they must be gated by bearer / mTLS.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
 
 ```ts
-// Default — cookie-auth admin UIs get CSRF protection with no opt-in.
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
 bindAdminRouter(admin, engine, { authorize })
 
-// Server-to-server bearer/mTLS API — disable the check entirely.
+// Server-to-server bearer/mTLS API - disable the check entirely.
 bindAdminRouter(admin, engine, { authorize, csrfCheck: false })
 
-// Stricter — Origin allowlist.
+// Stricter - Origin allowlist.
 const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
 bindAdminRouter(admin, engine, {
   authorize,

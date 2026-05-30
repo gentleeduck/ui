@@ -8,9 +8,9 @@ section: Core
 
 `auth.operations` is the runtime-control facet. Two toggles:
 
-- **Maintenance mode** — every request raises `AUTH/MAINTENANCE` (503).
+- **Maintenance mode** - every request raises `AUTH/MAINTENANCE` (503).
   Use during planned downtime.
-- **Read-only mode** — sign-ins still work, but every write
+- **Read-only mode** - sign-ins still work, but every write
   (`identities.create`, `passwords.changePassword`, etc.) raises
   `AUTH/READONLY_MODE`. Use during incident response or while migrating
   a database.
@@ -23,7 +23,7 @@ await auth.operations.enterReadonly({ reason: 'incident-2026-05-27' })
 await auth.operations.leaveReadonly()
 
 const status = await auth.operations.status()
-// → { maintenance: boolean, readonly: boolean, since?: Date, reason?: string }
+// -> { maintenance: boolean, readonly: boolean, since?: Date, reason?: string }
 ```
 
 ## Behaviour during maintenance
@@ -40,7 +40,7 @@ throw new AuthErrorObject('AUTH/MAINTENANCE', {
 
 Clients should display a maintenance banner and pause polling. The
 return-to-normal happens automatically when `leaveMaintenance()` is
-called — no restart required.
+called - no restart required.
 
 ## Behaviour during read-only mode
 
@@ -80,7 +80,7 @@ new AuthRoot({
 ```
 
 Now `enterMaintenance` writes to Redis; every replica reads on each
-incoming request. Use a short read TTL (5–10s) so the propagation lag
+incoming request. Use a short read TTL (5-10s) so the propagation lag
 is bounded.
 
 ## Bypass keys
@@ -120,7 +120,7 @@ app.get('/healthz', async (req, res) => {
 
 In maintenance mode, the probe returns 503; the load balancer routes
 traffic away. When you leave maintenance, the probe returns 200 and
-traffic resumes — no restart needed.
+traffic resumes - no restart needed.
 
 ## Events emitted
 

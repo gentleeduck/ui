@@ -61,7 +61,7 @@ type Profile = { displayName: string; avatarUrl?: string }
 // Vanilla
 const client = createAuthClient<Profile>()
 
-// React — pass through useSession's generic
+// React - pass through useSession's generic
 const { data } = useSession<Profile>()
 // data.identity.profile is typed as Profile
 ```
@@ -76,14 +76,14 @@ The clients listen for `storage` events on `localStorage` (vanilla / React)
 and `BroadcastChannel` messages (Vue / Svelte / Solid) so that a
 sign-out in one tab propagates to every open tab in the same browser.
 
-The mechanism is opt-in but on by default — pass `notifyImmediately:
+The mechanism is opt-in but on by default - pass `notifyImmediately:
 false` if you don't want it.
 
 ## Error handling
 
 All clients raise the typed `AuthErrorObject` (or a wire-equivalent
 `{ code, status, meta }` object on the React `useSignIn().error` field).
-Branch on `error.code`, not on HTTP status — codes are stable across
+Branch on `error.code`, not on HTTP status - codes are stable across
 versions.
 
 ```typescript
@@ -95,7 +95,7 @@ if (signIn.error) {
   switch (signIn.error.code) {
     case 'AUTH/INVALID_CREDENTIALS': toast('Wrong email or password'); break
     case 'AUTH/MFA_REQUIRED': showMfaForm(); break
-    case 'AUTH/RATE_LIMITED': toast('Slow down — try again in a minute'); break
+    case 'AUTH/RATE_LIMITED': toast('Slow down - try again in a minute'); break
   }
 }
 ```

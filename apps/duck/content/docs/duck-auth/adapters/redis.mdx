@@ -6,7 +6,7 @@ section: Adapters
 
 ## What it bundles
 
-`@gentleduck/auth/adapters/redis` is a **bundle** of stores — each one
+`@gentleduck/auth/adapters/redis` is a **bundle** of stores - each one
 can be wired independently. There is no single "Redis adapter" class;
 you pick the stores you need:
 
@@ -19,7 +19,7 @@ you pick the stores you need:
 | `RedisEvents` | `InMemoryEvents`. |
 | `FakeRedis` | A test-only in-memory `RedisLike.IClient`. |
 
-Identities, credentials, and orgs **do not** belong in Redis — use the
+Identities, credentials, and orgs **do not** belong in Redis - use the
 SQL bridge for durable rows and Redis for the volatile state that needs
 cross-process coordination.
 
@@ -67,7 +67,7 @@ const auth = new AuthRoot({
 })
 ```
 
-`RedisLike.IClient` is the abstraction — any Redis client that exposes
+`RedisLike.IClient` is the abstraction - any Redis client that exposes
 `get`, `set`, `del`, `incr`, `expire`, `pttl`, `keys`, `multi`,
 `subscribe`/`publish` works.
 
@@ -83,7 +83,7 @@ new RedisSessionStore(client, {
 Stores serialised `Session` objects under `keyPrefix + sessionIdHash`
 with TTL. Revocation = `DEL`. Lookup = `GET` + JSON parse.
 
-The session id is **hashed at rest** — even a Redis dump does not yield
+The session id is **hashed at rest** - even a Redis dump does not yield
 usable bearer tokens.
 
 ## RedisLimiter

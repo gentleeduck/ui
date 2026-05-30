@@ -61,10 +61,10 @@ export const auth = new AuthRoot({
 
 ## How it works
 
-1. **SP-initiated**: the user clicks "Sign in with SSO" → the provider
+1. **SP-initiated**: the user clicks "Sign in with SSO" -> the provider
    `begin` returns a redirect to the IdP entry point with a `SAMLRequest`.
 2. **IdP-initiated**: the IdP posts a signed `SAMLResponse` directly to
-   your `callbackUrl` — no `begin` needed.
+   your `callbackUrl` - no `begin` needed.
 3. Either way, the `complete` step validates the assertion via
    `@node-saml/node-saml`, calls `onSignIn`, and emits a `startSession`
    intent.
@@ -85,7 +85,7 @@ issues the session.
 
 ## Just-in-time provisioning
 
-The `onSignIn` hook is where you provision identities — most SAML
+The `onSignIn` hook is where you provision identities - most SAML
 deployments don't pre-provision users.
 
 A typical implementation:

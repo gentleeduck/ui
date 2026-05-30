@@ -39,7 +39,7 @@ validator rejects malformed payloads before they reach `auth.flows.signIn`:
 ```
 
 A POST `/auth/signin` with `providerId: 42` (number instead of string)
-returns `400` with a Fastify validation error — no duck-auth code path
+returns `400` with a Fastify validation error - no duck-auth code path
 is reached.
 
 ## Error handling
@@ -72,4 +72,4 @@ app.addHook('preHandler', async (req, reply) => {
 ```
 
 The preHandler runs before the route handler. Returning `reply` short-
-circuits — no other hooks or handlers run for that request.
+circuits - no other hooks or handlers run for that request.

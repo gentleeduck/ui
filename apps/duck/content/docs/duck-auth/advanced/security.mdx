@@ -14,7 +14,7 @@ auth.strict({ env: 'development' })  // warns
 auth.strict({ env: 'production' })   // throws AUTH/MISCONFIGURED
 ```
 
-It is a hard error to omit this call in production — there is no way to
+It is a hard error to omit this call in production - there is no way to
 guess your intent without it, and every production deploy of duck-auth
 should pin the configuration through this gate.
 
@@ -24,7 +24,7 @@ In **production** mode, `strict` rejects:
 
 ### Transport gates
 
-- `CookieTransport.secure: false` — cookies must be sent only over HTTPS.
+- `CookieTransport.secure: false` - cookies must be sent only over HTTPS.
 - `CookieTransport.sameSite: 'none'` without `secure: true`.
 - `JwtTransport` with a single key (no rotation overlap possible).
 - `JwtTransport` HS256 secret shorter than 32 bytes.
@@ -77,7 +77,7 @@ and every threat the host application must own. Highlights:
 | OAuth code interception | PKCE-S256 always, even for confidential clients. |
 | OAuth state forgery | HMAC-signed `state` parameter with 10-minute expiry. |
 | OIDC nonce replay | One-time nonce check on every `complete()`. |
-| Refresh-token theft | Family-id reuse detection — single reuse revokes the whole family. |
+| Refresh-token theft | Family-id reuse detection - single reuse revokes the whole family. |
 | JWT alg confusion | `alg` pinned per `kid`; never inferred from the JWT header. |
 | Session-fixation on MFA | `rotateOrCreate` after every MFA pass; AAL upgrade requires new session id. |
 | Password leak via logs | `AuthErrorObject.toJSON()` strips 13 sensitive meta keys on every serialise. |
@@ -107,7 +107,7 @@ Examples:
 - OAuth state and nonce paths free of `Math.random`.
 - `CookieTransport` defaults assert `HttpOnly`, `Secure`, `SameSite`.
 - `JwtTransport` verify path pins `alg` against the registered verify key
-  (defense vs RFC 8725 §3.1 alg-confusion attacks).
+  (defense vs RFC 8725 section 3.1 alg-confusion attacks).
 
 If a refactor introduces one of the above patterns, this suite fails at
 PR time before the change can reach main.
@@ -128,16 +128,16 @@ bun audit
 
 | OWASP | How duck-auth addresses it |
 | --- | --- |
-| A01 — Broken Access Control | Not duck-auth's job (use [`@gentleduck/iam`](/duck-iam)). duck-auth proves *who* you are; iam enforces *what* you may do. |
-| A02 — Cryptographic Failures | Scrypt / Argon2id; AES-GCM dataAtRest; KMS-envelope for FIPS; alg-pinned JWT. |
-| A03 — Injection | All stores are typed; SQL bridge uses parameterised queries; profile size-bounded to prevent payload abuse. |
-| A04 — Insecure Design | `strict()` enforces secure-by-default config. Compliance presets are first-class. |
-| A05 — Security Misconfiguration | `strict()` catches every known mis-config at boot. |
-| A06 — Vulnerable and Outdated Components | Lazy-loaded peer deps; you only pay for what you wire. |
-| A07 — Identification and Authentication Failures | The entire library. |
-| A08 — Software and Data Integrity Failures | Webhook HMAC; JWT alg pinning; signed OAuth state. |
-| A09 — Logging and Monitoring Failures | Event bus emits every lifecycle event; OTel instrumentation ships; `strict` mandates lockout listener. |
-| A10 — Server-Side Request Forgery | Channel implementations validate destination URLs; OAuth callback hosts checked against `baseUrl`. |
+| A01 - Broken Access Control | Not duck-auth's job (use [`@gentleduck/iam`](/duck-iam)). duck-auth proves *who* you are; iam enforces *what* you may do. |
+| A02 - Cryptographic Failures | Scrypt / Argon2id; AES-GCM dataAtRest; KMS-envelope for FIPS; alg-pinned JWT. |
+| A03 - Injection | All stores are typed; SQL bridge uses parameterised queries; profile size-bounded to prevent payload abuse. |
+| A04 - Insecure Design | `strict()` enforces secure-by-default config. Compliance presets are first-class. |
+| A05 - Security Misconfiguration | `strict()` catches every known mis-config at boot. |
+| A06 - Vulnerable and Outdated Components | Lazy-loaded peer deps; you only pay for what you wire. |
+| A07 - Identification and Authentication Failures | The entire library. |
+| A08 - Software and Data Integrity Failures | Webhook HMAC; JWT alg pinning; signed OAuth state. |
+| A09 - Logging and Monitoring Failures | Event bus emits every lifecycle event; OTel instrumentation ships; `strict` mandates lockout listener. |
+| A10 - Server-Side Request Forgery | Channel implementations validate destination URLs; OAuth callback hosts checked against `baseUrl`. |
 
 ## Recommended production posture
 

@@ -6,7 +6,7 @@ section: Server
 
 ## When to use
 
-duck-auth's gRPC adapter is for **service-to-service** authentication —
+duck-auth's gRPC adapter is for **service-to-service** authentication -
 typically with `JwtTransport` + `Bearer` style tokens in gRPC metadata
 (`authorization: Bearer <jwt>`). For browser-facing endpoints, prefer
 the HTTP adapters.
@@ -74,7 +74,7 @@ duck-auth resolves all three through the same `resolveSession`.
 
 ## TLS / mTLS
 
-duck-auth's gRPC interceptor doesn't touch TLS — configure that at the
+duck-auth's gRPC interceptor doesn't touch TLS - configure that at the
 gRPC server level (`grpc.ServerCredentials.createSsl(...)`). For mTLS,
 the client cert is available on `call.getPeer()` but duck-auth doesn't
 verify it; that's the gRPC layer's job.

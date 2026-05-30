@@ -52,7 +52,7 @@ Every OAuth provider gets:
 
 A code verifier is minted at `begin`, the S256 challenge is sent to the
 IdP, and the verifier is round-tripped through state. At `complete`,
-the verifier is sent on the token exchange. This is **not optional** —
+the verifier is sent on the token exchange. This is **not optional** -
 duck-auth always uses PKCE, even for confidential clients.
 
 ### Signed `state`
@@ -71,7 +71,7 @@ same `nonce` returns `AUTH/OAUTH_NONCE_REPLAY`.
 
 ### Refresh-token family reuse detection
 
-Per RFC 6749 §10.4, refresh tokens are rotated on every use and tracked
+Per RFC 6749 section 10.4, refresh tokens are rotated on every use and tracked
 in a **family**. If a refresh token is presented twice (once by the
 legitimate client, once by a stolen copy), duck-auth revokes the entire
 family and returns `AUTH/OAUTH_REUSE_DETECTED`. The user is forced
@@ -89,7 +89,7 @@ a session store hit.
 ```typescript
 // Client
 await client.beginProvider('google', {})
-// → response includes a redirect intent; the framework adapter sets
+// -> response includes a redirect intent; the framework adapter sets
 //   the Location header and the browser follows.
 
 // After Google bounces back:
@@ -98,7 +98,7 @@ await client.signIn({
   providerId: 'google',
   input: { code, state, codeVerifier },
 })
-// → 200 { session, identity }
+// -> 200 { session, identity }
 ```
 
 The mounted server adapter handles the OAuth callback parsing for you;
@@ -127,4 +127,4 @@ const customIdp = oauthProvider({
 | `AUTH/PROVIDER_FAILED` | IdP returned a non-2xx (Google rejected the code, Apple JWKS unreachable). |
 | `AUTH/OAUTH_STATE_MISMATCH` | Signed state failed verification or expired. |
 | `AUTH/OAUTH_NONCE_REPLAY` | OIDC `nonce` already seen. |
-| `AUTH/OAUTH_REUSE_DETECTED` | Refresh-token family reuse — entire family revoked. |
+| `AUTH/OAUTH_REUSE_DETECTED` | Refresh-token family reuse - entire family revoked. |

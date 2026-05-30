@@ -22,7 +22,7 @@ bun add -D @types/pg drizzle-kit
 
 ```bash
 bunx @gentleduck/auth keys generate hs256
-# → emits JWT_HS256_SECRET and JWT_HS256_KID to copy into .env
+# -> emits JWT_HS256_SECRET and JWT_HS256_KID to copy into .env
 ```
 
 <Step>Emit the migration</Step>
@@ -151,7 +151,7 @@ function Page() {
   const signIn = useSignIn()
   const signOut = useSignOut()
 
-  if (status === 'loading') return <p>Loading…</p>
+  if (status === 'loading') return <p>Loading...</p>
 
   if (status === 'guest') {
     return (
@@ -193,8 +193,8 @@ function Page() {
 
 ## What's next
 
-- [Production hardening →](/duck-auth/advanced/security) — what `strict()` enforces.
-- [Adding OAuth →](/duck-auth/providers/oauth) — Google, GitHub, Apple, etc.
-- [Adding passkeys →](/duck-auth/providers/passkey) — the strongest factor.
-- [Switching to JWT transport →](/duck-auth/core/transports/jwt) — for microservices.
-- [Adding MFA →](/duck-auth/guides/mfa) — TOTP + backup codes + WebAuthn-MFA.
+- [Production hardening ->](/duck-auth/advanced/security) - what `strict()` enforces.
+- [Adding OAuth ->](/duck-auth/providers/oauth) - Google, GitHub, Apple, etc.
+- [Adding passkeys ->](/duck-auth/providers/passkey) - the strongest factor.
+- [Switching to JWT transport ->](/duck-auth/core/transports/jwt) - for microservices.
+- [Adding MFA ->](/duck-auth/guides/mfa) - TOTP + backup codes + WebAuthn-MFA.

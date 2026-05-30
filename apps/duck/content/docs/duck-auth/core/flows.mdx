@@ -1,13 +1,13 @@
 ---
 title: Flows
-description: High-level flows — signIn, signOut, signUp state machine, password reset, email change, impersonate.
+description: High-level flows - signIn, signOut, signUp state machine, password reset, email change, impersonate.
 section: Core
 ---
 
 ## What flows give you
 
 The `auth.flows` facet sits above providers, sessions, identities, and
-channels — it composes them into the multi-step journeys your app
+channels - it composes them into the multi-step journeys your app
 actually runs.
 
 ```typescript
@@ -26,13 +26,13 @@ right wire effects (cookies, redirects, JSON).
 
 ## Sign-up state machine
 
-For sign-ups that require multiple steps (collect email → send
-verification → user clicks link → choose password → MFA enrolment),
+For sign-ups that require multiple steps (collect email -> send
+verification -> user clicks link -> choose password -> MFA enrolment),
 use the state machine API:
 
 ```typescript
 const state = await auth.flows.signUp.start({ email })
-// → { stateId, nextStep: 'verify-email' }
+// -> { stateId, nextStep: 'verify-email' }
 
 // User clicks the verification link
 const stepped = await auth.flows.signUp.advance({
@@ -40,7 +40,7 @@ const stepped = await auth.flows.signUp.advance({
   step: 'verify-email',
   input: { token },
 })
-// → { nextStep: 'choose-password' }
+// -> { nextStep: 'choose-password' }
 
 // User chooses a password
 await auth.flows.signUp.advance({
@@ -48,7 +48,7 @@ await auth.flows.signUp.advance({
   step: 'choose-password',
   input: { password },
 })
-// → { nextStep: 'enrol-mfa' | 'complete' }
+// -> { nextStep: 'enrol-mfa' | 'complete' }
 
 // MFA enrolment (if required by your config)
 await auth.flows.signUp.advance({
@@ -56,7 +56,7 @@ await auth.flows.signUp.advance({
   step: 'enrol-mfa',
   input: { factor: 'totp', code },
 })
-// → { nextStep: 'complete', identityId }
+// -> { nextStep: 'complete', identityId }
 ```
 
 The state lives in your `credentials` store (with TTL), so a user can
@@ -68,7 +68,7 @@ they click the verification link again.
 ```typescript
 // Step 1: user enters their email on /forgot
 await auth.flows.beginPasswordReset({ email })
-// Always returns successfully — existence not leaked.
+// Always returns successfully - existence not leaked.
 // Internally: if the email exists, send a single-use token via the
 // configured email channel.
 
@@ -77,14 +77,14 @@ await auth.flows.completePasswordReset({
   token,
   newPassword,
 })
-// → throws AUTH/RECOVERY_TOKEN_INVALID, AUTH/RECOVERY_TOKEN_EXPIRED,
+// -> throws AUTH/RECOVERY_TOKEN_INVALID, AUTH/RECOVERY_TOKEN_EXPIRED,
 //   or AUTH/RECOVERY_REQUIRES_MFA if MFA is enrolled.
-// → on success: rotates the password, revokes every session, mints a
+// -> on success: rotates the password, revokes every session, mints a
 //   fresh session for the user.
 ```
 
 For high-assurance identities (MFA enrolled), the reset path itself
-requires MFA — preventing email-only account takeover.
+requires MFA - preventing email-only account takeover.
 
 ## Email change
 
@@ -94,17 +94,17 @@ await auth.flows.beginEmailChange({
   identityId,
   newEmail,
 })
-// → sends a confirmation link to both old and new email.
+// -> sends a confirmation link to both old and new email.
 
 // Step 2: user clicks the link in the new email inbox
 await auth.flows.completeEmailChange({
   token,
 })
-// → updates the identity's email, revokes other sessions, optionally
+// -> updates the identity's email, revokes other sessions, optionally
 //   sends a "your email changed" notice to the old address.
 ```
 
-The two-step flow (confirm via new inbox) is required — otherwise an
+The two-step flow (confirm via new inbox) is required - otherwise an
 attacker who already has a session could swap the email to a domain
 they control and lock the legitimate owner out.
 
@@ -130,7 +130,7 @@ const intents = await auth.flows.impersonate({
 
 // Release impersonation
 await auth.flows.releaseImpersonation(ctx)
-// → revokes the impersonation session, restores actor's prior session.
+// -> revokes the impersonation session, restores actor's prior session.
 ```
 
 Impersonation events emit:
@@ -140,7 +140,7 @@ session.impersonate-start  { actorId, subjectId, reason }
 session.impersonate-release { actorId, subjectId, durationMs }
 ```
 
-Wire these to your audit log — every impersonation should be visible
+Wire these to your audit log - every impersonation should be visible
 in the audit trail.
 
 The admin's iam permission to impersonate is **not** duck-auth's

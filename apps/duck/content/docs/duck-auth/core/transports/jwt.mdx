@@ -6,7 +6,7 @@ section: Core
 
 ## When to use
 
-`JwtTransport` issues a **stateless JWT** as the access token — every
+`JwtTransport` issues a **stateless JWT** as the access token - every
 request verifies the signature locally and reconstructs the session
 without a store lookup. It is the right pick for:
 
@@ -18,7 +18,7 @@ JWT comes with **two** important caveats:
 
 1. **You cannot revoke a JWT early.** A revoked session is honoured by the
    refresh-token cookie, but the access token continues to verify until
-   its `exp`. Keep `ttlMs` short (5–15 minutes) and rely on refresh.
+   its `exp`. Keep `ttlMs` short (5-15 minutes) and rely on refresh.
 2. **You need at least two verify keys in production** so that a single
    key compromise can be rotated out without an audit-required restart.
 
@@ -79,7 +79,7 @@ The JWT body carries the canonical session claims:
 | `HS256` | yes | 32+ byte secret | Single service or trusted-fleet. |
 | `ES256` | no | EC P-256 keypair | OIDC issuer, multi-tenant, DPoP. |
 | `RS256` | no | RSA 2048+ keypair | OIDC issuer where consumers expect RS256. |
-| `EdDSA` | no | Ed25519 keypair | New deployments — fastest verify. |
+| `EdDSA` | no | Ed25519 keypair | New deployments - fastest verify. |
 
 duck-auth pins `alg` per `kid` to defend against
 **algorithm-confusion attacks** (where an attacker tries to verify an
@@ -92,7 +92,7 @@ The rotation lifecycle is two-step:
 ```bash
 # 1. Mint the new signer
 bunx @gentleduck/auth keys rotate hs256
-# → prints new secret + the snippet to keep the prior kid on verifyKeys
+# -> prints new secret + the snippet to keep the prior kid on verifyKeys
 ```
 
 Apply the snippet:
@@ -123,11 +123,11 @@ against the retired kid; new JWTs are signed with the current kid.
 ## Refresh tokens
 
 The refresh token is an **opaque cookie**, not a JWT. duck-auth tracks
-it in the session store and rotates it on every use (RFC 6749 §10.4
+it in the session store and rotates it on every use (RFC 6749 section 10.4
 recommendation).
 
-If the same refresh token is presented twice — once by the legit client,
-once by an attacker who scraped it — duck-auth detects the **family
+If the same refresh token is presented twice - once by the legit client,
+once by an attacker who scraped it - duck-auth detects the **family
 reuse** and revokes every refresh token descended from the same root.
 The error code is `AUTH/OAUTH_REUSE_DETECTED`.
 
@@ -162,8 +162,8 @@ Pair with [OIDC discovery](/duck-auth/advanced/oidc) for the full
 ## Combining with DPoP
 
 JWT plus DPoP turns the bearer JWT into a **sender-constrained** token.
-The JWT body carries a `cnf.jkt` claim — the thumbprint of the client's
-public key — and the DPoP proof in the `DPoP` header binds the request
+The JWT body carries a `cnf.jkt` claim - the thumbprint of the client's
+public key - and the DPoP proof in the `DPoP` header binds the request
 to that key:
 
 ```typescript
@@ -176,4 +176,4 @@ const dpop = new DPoPVerifier({ ... })
 // Verify: dpop.verify() rejects mismatched thumbprints.
 ```
 
-See [DPoP →](/duck-auth/core/transports/dpop).
+See [DPoP ->](/duck-auth/core/transports/dpop).

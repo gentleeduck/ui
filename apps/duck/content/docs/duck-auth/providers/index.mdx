@@ -17,9 +17,9 @@ interface Provider.IProvider<Begin, Complete, Profile> {
 }
 ```
 
-- `begin` — start the flow. May redirect (OAuth), send a message
+- `begin` - start the flow. May redirect (OAuth), send a message
   (magic-link), or be a no-op (password, api-key).
-- `complete` — verify the result. Returns `Intent[]` — usually a
+- `complete` - verify the result. Returns `Intent[]` - usually a
   `startSession` intent followed by a `redirect`.
 
 You register providers on `AuthRoot`:
@@ -120,7 +120,7 @@ google({
 })
 ```
 
-Always returns `{ identityId: string }` — the runtime then mints the
+Always returns `{ identityId: string }` - the runtime then mints the
 session and emits the intents.
 
 ### Profile mapping

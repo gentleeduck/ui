@@ -1,5 +1,5 @@
 ---
-title: DPoP — sender-constrained tokens
+title: DPoP - sender-constrained tokens
 description: RFC 9449. Bind every JWT or bearer to a client public key so a stolen token is useless without the private key.
 section: Core
 ---
@@ -57,9 +57,9 @@ app.get('/api/secret', async (req, res) => {
   if (!dpopHeader) throw new AuthErrorObject('AUTH/DPOP_INVALID')
 
   await verifier.verify(ctx.session.jwt, dpopHeader)
-  // jti replay → AUTH/DPOP_INVALID
-  // thumbprint mismatch → AUTH/DPOP_INVALID
-  // bad signature → AUTH/DPOP_INVALID
+  // jti replay -> AUTH/DPOP_INVALID
+  // thumbprint mismatch -> AUTH/DPOP_INVALID
+  // bad signature -> AUTH/DPOP_INVALID
 
   res.json({ ok: true })
 })
@@ -70,11 +70,11 @@ app.get('/api/secret', async (req, res) => {
 1. Client generates an EC P-256 keypair (one per device, persisted in
    the OS keychain or Web Crypto SubtleCrypto).
 2. On each request, the client signs a tiny DPoP JWT containing:
-   - `htm` — HTTP method.
-   - `htu` — HTTP URL.
-   - `jti` — random nonce (each one unique).
-   - `iat` — timestamp.
-   - `ath` (if attaching to an access token) — SHA-256 of the token.
+   - `htm` - HTTP method.
+   - `htu` - HTTP URL.
+   - `jti` - random nonce (each one unique).
+   - `iat` - timestamp.
+   - `ath` (if attaching to an access token) - SHA-256 of the token.
 3. Sends the access token plus the DPoP proof as a `DPoP` header.
 4. Server: `verifier.verify()` checks signature, `htm`, `htu`, `jti`
    (against the nonce store), `ath`, and the **thumbprint** in the
@@ -103,7 +103,7 @@ const jwt = await transport.signJwt(bound)
 ```
 
 The downstream service receives the JWT, verifies the signature, and
-checks `cnf.jkt` against the DPoP proof on its own — the binding rides
+checks `cnf.jkt` against the DPoP proof on its own - the binding rides
 along with the token.
 
 ## Computing thumbprints
@@ -114,7 +114,7 @@ For custom flows that need to compute the RFC 7638 thumbprint of a JWK:
 import { computeJwkThumbprint } from '@gentleduck/auth/core/transport'
 
 const jkt = await computeJwkThumbprint(clientJwk)
-// → 'kIQ-AzaP-...' (43-character base64url)
+// -> 'kIQ-AzaP-...' (43-character base64url)
 ```
 
 This is what goes into the JWT's `cnf.jkt` claim.
@@ -145,12 +145,12 @@ const verifier = new DPoPVerifier({
 
 DPoP defends against:
 
-- **Token theft from logs / network captures** — the token alone is useless.
-- **XSS exfiltration** — the private key lives in non-extractable Web
+- **Token theft from logs / network captures** - the token alone is useless.
+- **XSS exfiltration** - the private key lives in non-extractable Web
   Crypto storage; even an XSS that reads the access token cannot extract
   the key.
-- **Replay attacks** — `jti` ensures every proof is unique.
-- **Cross-API token misuse** — `aud` and `htu` claims scope every proof
+- **Replay attacks** - `jti` ensures every proof is unique.
+- **Cross-API token misuse** - `aud` and `htu` claims scope every proof
   to a specific endpoint.
 
 DPoP does **not** defend against:

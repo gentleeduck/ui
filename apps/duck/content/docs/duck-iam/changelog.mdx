@@ -7,14 +7,14 @@ order: 999
 
 ## 3.0.0
 
-### Breaking — Engine facet split (cache + stats)
+### Breaking - Engine facet split (cache + stats)
 
-Engine had 16 public methods on one class. Folded the cache-invalidation and observability clusters into two facets so the root surface stays focused on evaluation. Evaluation (`authorize`, `can`, `check`, `explain`, `permissions`) and lifecycle (`constructor`, `dispose`, `preload`, `healthCheck`) stay flat — hot path, single noun.
+Engine had 16 public methods on one class. Folded the cache-invalidation and observability clusters into two facets so the root surface stays focused on evaluation. Evaluation (`authorize`, `can`, `check`, `explain`, `permissions`) and lifecycle (`constructor`, `dispose`, `preload`, `healthCheck`) stay flat - hot path, single noun.
 
 #### Migration
 
 ```ts
-// Before (≤ 2.x)                          // After (3.0)
+// Before (<= 2.x)                          // After (3.0)
 engine.invalidate(opts)                    engine.cache.invalidate(opts)
 engine.invalidateSubject(id, opts)         engine.cache.invalidateSubject(id, opts)
 engine.invalidatePolicies(opts)            engine.cache.invalidatePolicies(opts)
@@ -25,7 +25,7 @@ engine.flushSharedCaches()                 // REMOVED
                                            import { flushSharedCaches } from '@gentleduck/iam'
 ```
 
-Mechanical `sed` per call site — no behavior change. Codemod:
+Mechanical `sed` per call site - no behavior change. Codemod:
 
 ```sh
 sed -i -E \
@@ -40,13 +40,13 @@ sed -i -E \
 
 #### Why 3.0 now
 
-- `flushSharedCaches` instance method was already scheduled for 3.0 removal — it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
-- Flat surface drops from 16 → 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
+- `flushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
+- Flat surface drops from 16 -> 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
 
 #### What did not change
 
-- `engine.authorize / can / check / explain / permissions` — identical signatures + semantics.
-- `engine.preload / dispose / healthCheck` — unchanged.
+- `engine.authorize / can / check / explain / permissions` - identical signatures + semantics.
+- `engine.preload / dispose / healthCheck` - unchanged.
 - Bundle size stable at 41.6 KB (internal refactor, no shape change).
 - 948/948 tests pass after bulk rename.
 
@@ -64,17 +64,17 @@ The change set is **mostly backward compatible** with three intentional default 
 
 The audit was deliberately adversarial. After the 2.0.0 P0/P1 work, prior assumptions were re-attacked from fresh angles. A representative sampling:
 
-- **Total silent fail-open** in `FileAdapter._loadState` — EACCES, EISDIR, EIO swallowed → empty store → `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
-- **Permanent data destruction** in `FileAdapter` — a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
-- **Trivial auth bypass via spoofable header** in Hono `accessMiddleware` and Next `withAccess` — both defaulted `getUserId` to `x-user-id` request header. `curl -H 'X-User-Id: admin' …` ran authorize() under the spoofed identity (SEC-101 HIGH).
-- **Decision rewriting via throwing hooks** — `afterEvaluate`/`onDeny` inside `authorize`'s try caught and turned allow into deny; `onMetrics` could escape the fail-closed catch entirely (SEC-055/056 HIGH).
-- **Silent fail-open in batch checks** — `permissions()` passed `undefined` for `onPolicyError`, so a per-policy throw vanished and UI gates silently allowed under `defaultEffect:'allow'` (SEC-057 HIGH).
-- **Silent ABAC denial** — Redis/Drizzle `getSubjectAttributes` returned `{}` on corruption, conditions silently flipped to deny with no operator signal (SEC-058 HIGH).
-- **SSRF via fetch redirect** — construction-time `allowedHosts` validator runs once on `baseUrl`; redirects to `169.254.169.254` or internal hosts followed silently. Now `redirect: 'error'` (SEC-042 HIGH).
-- **Cross-backend authorization drift** — file/memory `getSubjectRoles` returned unscoped-only; redis/drizzle/prisma returned all collapsed. Same subject decided differently across adapters (SEC-059).
-- **Permanent admin DoS** — symlink-escape rejection parked the rejected promise in `_loadInFlight` forever; every subsequent `_loadState()` returned the same rejection. Adapter unusable until process restart (SEC-063).
-- **Validator error reflection** — `assertValidOrThrow` echoed `Invalid algorithm "<value>"`; operator opt-in to `includeErrorMessage` + body echo turned admin endpoint into a probe oracle (SEC-052).
-- **One-shot warn silencing** — Redis invalidator's per-channel warn latch let attacker burn first warn on benign reason then silently flood. Now token-bucket rate-limit + suppressed-count surfacing (SEC-032).
+- **Total silent fail-open** in `FileAdapter._loadState` - EACCES, EISDIR, EIO swallowed -> empty store -> `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
+- **Permanent data destruction** in `FileAdapter` - a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
+- **Trivial auth bypass via spoofable header** in Hono `accessMiddleware` and Next `withAccess` - both defaulted `getUserId` to `x-user-id` request header. `curl -H 'X-User-Id: admin' ...` ran authorize() under the spoofed identity (SEC-101 HIGH).
+- **Decision rewriting via throwing hooks** - `afterEvaluate`/`onDeny` inside `authorize`'s try caught and turned allow into deny; `onMetrics` could escape the fail-closed catch entirely (SEC-055/056 HIGH).
+- **Silent fail-open in batch checks** - `permissions()` passed `undefined` for `onPolicyError`, so a per-policy throw vanished and UI gates silently allowed under `defaultEffect:'allow'` (SEC-057 HIGH).
+- **Silent ABAC denial** - Redis/Drizzle `getSubjectAttributes` returned `{}` on corruption, conditions silently flipped to deny with no operator signal (SEC-058 HIGH).
+- **SSRF via fetch redirect** - construction-time `allowedHosts` validator runs once on `baseUrl`; redirects to `169.254.169.254` or internal hosts followed silently. Now `redirect: 'error'` (SEC-042 HIGH).
+- **Cross-backend authorization drift** - file/memory `getSubjectRoles` returned unscoped-only; redis/drizzle/prisma returned all collapsed. Same subject decided differently across adapters (SEC-059).
+- **Permanent admin DoS** - symlink-escape rejection parked the rejected promise in `_loadInFlight` forever; every subsequent `_loadState()` returned the same rejection. Adapter unusable until process restart (SEC-063).
+- **Validator error reflection** - `assertValidOrThrow` echoed `Invalid algorithm "<value>"`; operator opt-in to `includeErrorMessage` + body echo turned admin endpoint into a probe oracle (SEC-052).
+- **One-shot warn silencing** - Redis invalidator's per-channel warn latch let attacker burn first warn on benign reason then silently flood. Now token-bucket rate-limit + suppressed-count surfacing (SEC-032).
 
 Plus 50+ smaller fixes covering cache races, listener swallow, audit string leakage, redirect SSRF residuals, NaN bound bypass, escape-aware key splitting, devtools namespace, file warn dedupe/redact, file TOCTOU per-I/O, NAT64 prefix, validator non-finite priority, and consistent `_safeHookCall` wrapping across `can`/`check`/`permissions`/`authorize`.
 
@@ -86,7 +86,7 @@ Plus 50+ smaller fixes covering cache races, listener swallow, audit string leak
 
 **Admin routers CSRF-check by default.** `adminRouter` / `bindAdminRouter` / `createAdminHandlers` / `createAdminOperations` all apply `defaultCsrfCheck` (rejects `Sec-Fetch-Site: cross-site|cross-origin`). Bearer-token / mTLS APIs opt out via `csrfCheck: false`. Cookie-auth admin UIs get protection without any opt-in. **CAVEAT-2.**
 
-**`FileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt — refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
+**`FileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt - refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
 
 **Redis/Drizzle `getSubjectAttributes` throws on corrupt blob.** Engine routes through `onError` + fail-closed deny + onMetrics. Was silently `{}`. **SEC-058.**
 
@@ -172,7 +172,7 @@ If your **admin router** is called server-to-server with bearer tokens (no brows
 adminRouter(engine, { authorize, csrfCheck: false })
 ```
 
-Cookie-auth admin UIs need no changes — default protects them.
+Cookie-auth admin UIs need no changes - default protects them.
 
 If you relied on **`getSubjectAttributes`** returning `{}` for corrupt rows, wire `setSubjectAttributes` (which now recovers automatically) or add a `try/catch` at your call site.
 
@@ -180,7 +180,7 @@ If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyEr
 
 ### Tests
 
-- 785 → **836 tests** (+51).
+- 785 -> **836 tests** (+51).
 - 5 clean Med+ rescans cumulative across the cycle.
 
 ### Stats

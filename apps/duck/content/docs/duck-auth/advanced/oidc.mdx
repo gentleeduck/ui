@@ -77,10 +77,10 @@ app.get('/.well-known/jwks.json', async (c) => c.json(await jwks(c.req.raw)))
 ```
 
 The handler reads `transport.verifyKeys` and emits a spec-compliant
-JWKS document — one `kid` per key, with the correct `alg`, `kty`, and
+JWKS document - one `kid` per key, with the correct `alg`, `kty`, and
 key material (`x` / `y` for EC, `n` / `e` for RSA, `x` for Ed25519).
 
-For HS256 (symmetric), the JWKS endpoint is **not** safe to publish —
+For HS256 (symmetric), the JWKS endpoint is **not** safe to publish -
 the secret is the verify key, and exposing it lets anyone forge JWTs.
 The handler returns an empty `keys: []` array for HS256 to defend
 against accidental publication.
@@ -88,7 +88,7 @@ against accidental publication.
 ## Rotation behaviour
 
 When you rotate keys (`transport.rotateSignKey(...)`), the JWKS document
-auto-updates on the next request — no caching layer involved:
+auto-updates on the next request - no caching layer involved:
 
 ```typescript
 transport.rotateSignKey({ kid: 'kid-2026-06', key: newKey })
@@ -114,7 +114,7 @@ app.get('/.well-known/jwks.json', async (req, res) => {
 })
 ```
 
-Short max-age (5–10 minutes) keeps the rotation overlap brief; long
+Short max-age (5-10 minutes) keeps the rotation overlap brief; long
 max-age reduces load on your auth service but extends the overlap
 window you need to maintain.
 

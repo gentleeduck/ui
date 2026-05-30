@@ -49,7 +49,7 @@ const engine = new Engine({
   cacheTTL: 60,
   invalidator: createRedisInvalidator({
     client: redisPubSub,
-    secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 — required in prod
+    secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
     onPublishError: (err, channel) => sentry.captureException(err, { extra: { channel } }),
   }),
 })
@@ -61,17 +61,17 @@ process.on('SIGTERM', () => engine.dispose())
 The Redis helper:
 - Embeds an instance UUID in every published event so a node never re-applies its own invalidate (no echo storm).
 - Delivers at-least-once; `engine.cache.invalidate*()` methods are idempotent.
-- Defaults to the `'duck-iam:invalidate'` channel. Pass `tenantId` for the multi-tenant case — see the callout below.
+- Defaults to the `'duck-iam:invalidate'` channel. Pass `tenantId` for the multi-tenant case - see the callout below.
 - `onPublishError` (SEC-062) surfaces publish failures; without it, only a rate-limited `console.warn` fires.
 
 `createRedisInvalidator` only needs `publish` + `subscribe` + optional `unsubscribe`. Both ioredis and node-redis v4+ satisfy this shape directly.
 
-<Callout type="warning" title="SECURITY — multi-tenant Redis (CAVEAT-1)">
+<Callout type="warning" title="SECURITY - multi-tenant Redis (CAVEAT-1)">
 On a shared Redis instance, pass `tenantId` so the channel is auto-prefixed
 as `duck-iam:invalidate:tenant:${tenantId}`. Tenant A's revoke must never
 wipe tenant B's cache. The slug is validated against
 `/^[A-Za-z0-9_-]{1,64}$/` to prevent pub/sub-pattern injection from an
-attacker-controlled tenant identifier. Always pair with `secret` —
+attacker-controlled tenant identifier. Always pair with `secret` -
 unsigned mode lets any party with PUBLISH rights wipe caches across the
 fleet.
 </Callout>
@@ -80,10 +80,10 @@ fleet.
 
 ## Identity sourcing (never trust client headers)
 
-<Callout type="warning" title="SECURITY — SEC-101">
+<Callout type="warning" title="SECURITY - SEC-101">
 Identity must come from a verified source (cookie session, JWT verified
 by your auth middleware, mTLS). Never accept a raw request header as the
-subject ID — any unauth client can spoof `X-User-Id: admin` with curl.
+subject ID - any unauth client can spoof `X-User-Id: admin` with curl.
 Since 2.1.0:
 
 - **Hono** `accessMiddleware` / `guard` read only `c.get('userId')` by default. No `x-user-id` fallback.
@@ -101,9 +101,9 @@ Admin mutation endpoints (`PUT /policies`, `PUT /roles`, `POST/DELETE
 /subjects/:id/roles`) run a `Sec-Fetch-Site` check by default in 2.1.0
 (SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
 form posts are rejected with 403, same-site / same-origin requests pass.
-Non-browser callers (no header) pass — they must be gated by bearer / mTLS.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
 
-<Callout type="warning" title="SECURITY — opt-out only for bearer/mTLS APIs">
+<Callout type="warning" title="SECURITY - opt-out only for bearer/mTLS APIs">
 Cookie-authenticated admin UIs get CSRF protection without operator action.
 Pass `csrfCheck: false` only for server-to-server bearer-token or mTLS APIs
 that intentionally post cross-site. For stricter checks, pass a custom
@@ -126,12 +126,12 @@ Production engines refuse three footguns at construction time:
 
 Subject-resolution and per-policy evaluation errors **also** fail closed: a thrown error is logged via `hooks.onError` / `hooks.onPolicyError` and the request denies. The engine never silently allows on error.
 
-<Callout type="warning" title="SECURITY — `defaultEffect: 'allow'` is a guard, not a default">
+<Callout type="warning" title="SECURITY - `defaultEffect: 'allow'` is a guard, not a default">
 `allowFailOpen: true` exists to support carefully scoped allowlist policies
 (e.g. internal admin tools where every action *should* require an explicit
 deny). In any deployment where the engine guards user-facing surfaces,
 keep `defaultEffect: 'deny'` and let your policies grant explicitly. Wire
-`onMetrics` and chart `failOpen` (SEC-044) — any non-zero rate under
+`onMetrics` and chart `failOpen` (SEC-044) - any non-zero rate under
 `defaultEffect: 'allow'` means a request landed without an applicable
 policy and was allowed by fallback.
 </Callout>
@@ -275,7 +275,7 @@ matches-pattern and one segment-split per dot-path. Tune the interval
 against your request volume and pattern variety.
 
 For a finer-grained API, `clearRegexCache()` and `clearPathCache()` are also
-exported from the package — call them individually if you only want to flush
+exported from the package - call them individually if you only want to flush
 one cache.
 
 ---
@@ -329,7 +329,7 @@ Before flipping production traffic on:
 - [ ] `cacheTTL` tuned to revocation SLA
 - [ ] `IConfig.invalidator` wired if multi-instance
 - [ ] Redis invalidator `secret` set (SEC-046); `tenantId` if multi-tenant (CAVEAT-1); `onPublishError` wired (SEC-062)
-- [ ] Identity derived from verified source (SEC-101) — never `x-user-id` header
+- [ ] Identity derived from verified source (SEC-101) - never `x-user-id` header
 - [ ] Admin routers' default CSRF check (SEC-103) kept on; `csrfCheck: false` only for bearer/mTLS APIs
 - [ ] All five hooks wired (`onError`, `onPolicyError`, `onDeny`, `onMetrics`, `afterEvaluate` only in dev)
 - [ ] `onMetrics` aggregator's `failOpen` charted under `defaultEffect: 'allow'` (SEC-044)

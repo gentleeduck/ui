@@ -8,15 +8,15 @@ section: Getting Started
 
 The TypeScript auth space has three archetypes:
 
-1. **Framework-locked** — NextAuth / Auth.js. Tightly tied to Next.js
+1. **Framework-locked** - NextAuth / Auth.js. Tightly tied to Next.js
    (with adapters for others, but the heart is Next).
-2. **Hosted control plane** — Clerk, WorkOS, Stytch. You don't run
+2. **Hosted control plane** - Clerk, WorkOS, Stytch. You don't run
    the auth runtime; their service does. Per-MAU pricing.
-3. **DIY toolkit** — Lucia, Better-Auth, custom passport stacks. You
+3. **DIY toolkit** - Lucia, Better-Auth, custom passport stacks. You
    own the runtime; the library gives you primitives.
 
 duck-auth is the third type. The pitch: a *complete* DIY toolkit with
-batteries included — Lucia's freedom plus Clerk's coverage minus the
+batteries included - Lucia's freedom plus Clerk's coverage minus the
 hosted plane.
 
 ## Quick table
@@ -56,7 +56,7 @@ Honest list of what we deliberately don't ship:
   you the facets (`identities`, `sessions`, `apiKeys`, `operations`,
   `hijack`); you compose the UI.
 - **No authorization engine.** That's [`@gentleduck/iam`](/duck-iam).
-  Keeping them separate is intentional — see
+  Keeping them separate is intentional - see
   [the bridging guide](/duck-auth/guides/iam-bridge).
 - **No SMS as a primary factor.** SMS is shipped as a magic-link
   channel and an MFA channel, but we treat it as low-assurance
@@ -91,7 +91,7 @@ Pick duck-auth if:
 
 Pick Clerk if:
 
-- You want zero ops burden — let someone else run the auth runtime.
+- You want zero ops burden - let someone else run the auth runtime.
 - You need the polished pre-built UI components.
 - You're under 5k MAUs and want the free tier.
 
@@ -99,8 +99,8 @@ Pick Clerk if:
 
 Pick duck-auth if:
 
-- You want *batteries included* — magic-link, OAuth, passkeys, API
-  keys, channels, OpenAPI, OIDC, OTel — without writing every piece.
+- You want *batteries included* - magic-link, OAuth, passkeys, API
+  keys, channels, OpenAPI, OIDC, OTel - without writing every piece.
 - You want compliance presets.
 - You want a `strict()` boot gate.
 

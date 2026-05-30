@@ -81,7 +81,7 @@ app.post('/auth/custom', async (req, res, next) => {
 })
 ```
 
-`applyIntents` mutates `res` — it sets cookies via `res.cookie(...)`,
+`applyIntents` mutates `res` - it sets cookies via `res.cookie(...)`,
 writes the JSON body, sets status and headers. Equivalent to what the
 shipped mount helpers do internally.
 
@@ -103,5 +103,5 @@ app.use(async (req, res, next) => {
 })
 ```
 
-The guard is a no-op for non-cookie transports — if your request came
+The guard is a no-op for non-cookie transports - if your request came
 in as a Bearer or JWT, the call returns silently.

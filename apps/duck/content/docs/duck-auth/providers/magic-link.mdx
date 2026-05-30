@@ -47,7 +47,7 @@ export const auth = new AuthRoot({
      credentials store with TTL.
    - Dispatches via the channel: the user receives an email containing
      a URL like `https://app.example.com/auth/magic-link/callback?token=<plaintext>`.
-3. **User clicks the link** — the URL hits your `callbackPath` and you
+3. **User clicks the link** - the URL hits your `callbackPath` and you
    call `complete`:
    ```typescript
    await client.signIn({
@@ -100,7 +100,7 @@ When a request comes in for an email that doesn't exist, the provider:
 3. On `complete`, marks the email verified (because the user proved
    reachability by clicking the link).
 
-This is the recommended sign-up flow for B2C SaaS — one round trip, no
+This is the recommended sign-up flow for B2C SaaS - one round trip, no
 password to remember.
 
 ## Channel payload
@@ -121,14 +121,14 @@ The channel receives a templated payload with the variables:
 }
 ```
 
-Templating is your channel's responsibility — duck-auth hands over the
+Templating is your channel's responsibility - duck-auth hands over the
 variables; you decide whether to use Handlebars, MJML, or a SaaS
 template engine.
 
 ## Token lifecycle
 
 - **TTL**: configurable via `ttlMs` (default 10 minutes). Shorter is
-  better — 5 minutes is fine for most users.
+  better - 5 minutes is fine for most users.
 - **Single use**: the row is marked `revokedAt = now` on `complete`.
   Re-clicking an old link returns `AUTH/RECOVERY_TOKEN_INVALID`.
 - **Hashed at rest**: only the SHA-256 of the token is stored. A

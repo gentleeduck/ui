@@ -1,6 +1,6 @@
 ---
 title: Compliance presets
-description: gdpr, hipaa, soc2, fips — apply a regulatory profile in one call. Strictest preset wins.
+description: gdpr, hipaa, soc2, fips - apply a regulatory profile in one call. Strictest preset wins.
 section: Core
 ---
 
@@ -50,7 +50,7 @@ Presets return an `AuthRoot.IConfig` shape that you spread into
 
 ## Strictest preset wins
 
-You can layer presets — the last one is dominant where they conflict:
+You can layer presets - the last one is dominant where they conflict:
 
 ```typescript
 import { gdpr, hipaa } from '@gentleduck/auth/core'
@@ -67,7 +67,7 @@ rather than stacking.
 ### `gdpr`
 
 - `identities.softDeleteGracePeriodMs >= 7 days`.
-- `auth.identities.exportAll` available (always — but the preset wires
+- `auth.identities.exportAll` available (always - but the preset wires
   an audit event on every call).
 - `auth.identities.erase` available, with audit metadata preserved
   post-erasure.
@@ -90,14 +90,14 @@ rather than stacking.
 - `dataAtRest: AesGcmDataAtRest` with a `KeyProvider` (you supply).
 - `channel` must implement an audit hook (HIPAA logs every message).
 - `session.absoluteTtlMs: 30 days` cap (already set by SOC2 layer).
-- `mfa.enforced: true` — at least one MFA factor required per identity.
+- `mfa.enforced: true` - at least one MFA factor required per identity.
 
 ### `fips`
 
 - All `hipaa` requirements.
 - `passwords.hasher: Argon2idHasher(ARGON2ID_COMPLIANCE)`.
 - `JwtTransport.algorithms`: `ES256` / `EdDSA` only. HS256 / RS256 rejected.
-- `dataAtRest: KmsEnvelopeDataAtRest` — local key material disallowed.
+- `dataAtRest: KmsEnvelopeDataAtRest` - local key material disallowed.
 - `anomaly.onDetectorError: 'deny'`.
 - `session.absoluteTtlMs: 7 days` cap.
 - `passwords.minLength: 16`.
@@ -109,7 +109,7 @@ rather than stacking.
 ```typescript
 new AuthRoot({
   ...hipaa({ ... }),
-  passwords: { hasher: new ScryptHasher() },  // ← overrides Argon2 — strict() will fail
+  passwords: { hasher: new ScryptHasher() },  // <- overrides Argon2 - strict() will fail
 })
 // throws AUTH/MISCONFIGURED: { gate: 'compliance', preset: 'hipaa', expected: 'Argon2idHasher' }
 ```
@@ -124,8 +124,8 @@ effective config, and any drift:
 
 ```typescript
 console.log(auth.compliance.report())
-// → { preset: 'hipaa', overrides: [], gates: [...passed], drift: [...] }
+// -> { preset: 'hipaa', overrides: [], gates: [...passed], drift: [...] }
 ```
 
-Useful for compliance attestation reviews — you can include the report
+Useful for compliance attestation reviews - you can include the report
 in your SOC2 audit package.

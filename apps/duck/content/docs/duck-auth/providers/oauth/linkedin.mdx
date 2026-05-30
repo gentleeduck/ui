@@ -84,9 +84,9 @@ oauthProvider({
   tokenEndpoint: 'https://www.linkedin.com/oauth/v2/accessToken',
   userInfoEndpoint: 'https://api.linkedin.com/v2/me',
   scopes: ['r_liteprofile', 'r_emailaddress'],
-  // Separate /v2/emailAddress call needed for the primary email — wire in onSignIn.
+  // Separate /v2/emailAddress call needed for the primary email - wire in onSignIn.
 })
 ```
 
-The OIDC product (the new default) is strictly simpler — migrate when
+The OIDC product (the new default) is strictly simpler - migrate when
 you can.

@@ -136,7 +136,7 @@ if (!decision.allow) {
 ```
 
 The trace from `engine.explain()` shows which condition gated the
-decision — pick that out, surface it as a step-up signal, and the
+decision - pick that out, surface it as a step-up signal, and the
 client retries after MFA.
 
 ## Multi-tenancy
@@ -153,7 +153,7 @@ iam.can({ subject, action, resource, scope: 'org-123' })
 // engine looks up policies + role assignments scoped to 'org-123'
 ```
 
-A single identity can be `admin` in org-1 and `viewer` in org-2 —
+A single identity can be `admin` in org-1 and `viewer` in org-2 -
 iam's scoped role assignments handle that natively. The auth side
 doesn't need to know.
 
@@ -195,7 +195,7 @@ own posts"), multi-tenancy, or audit traces.
 
 ## See also
 
-- [Bridging guide on the auth side →](/duck-auth/guides/iam-bridge)
-- [createAccessConfig() →](/duck-iam/advanced/config/access-config)
-- [Typed $-references →](/duck-iam/advanced/config/dollar-paths)
-- [Explain and debug →](/duck-iam/advanced/explain)
+- [Bridging guide on the auth side ->](/duck-auth/guides/iam-bridge)
+- [createAccessConfig() ->](/duck-iam/advanced/config/access-config)
+- [Typed $-references ->](/duck-iam/advanced/config/dollar-paths)
+- [Explain and debug ->](/duck-iam/advanced/explain)

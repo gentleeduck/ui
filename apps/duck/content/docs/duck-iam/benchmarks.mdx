@@ -31,7 +31,7 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here. Three 
 
 **The "duck-iam 41 KB" headline is misleading. Read on.**
 
-CASL ships at ~6 KB because its surface is small — one `defineAbility` builder + a condition evaluator. duck-iam's headline "41 KB" is the result of `import * from '@gentleduck/iam'` and pulling every adapter, every server middleware, every client wrapper, the builder, the explain tracer, and the validator. **Nobody imports it this way in real code.**
+CASL ships at ~6 KB because its surface is small - one `defineAbility` builder + a condition evaluator. duck-iam's headline "41 KB" is the result of `import * from '@gentleduck/iam'` and pulling every adapter, every server middleware, every client wrapper, the builder, the explain tracer, and the validator. **Nobody imports it this way in real code.**
 
 Realistic deployments (subpath imports + tree-shaking) end up at 15-25 KB, depending on what you wire. See the [Real-world bundle profiles](#real-world-bundle-profiles) section below for measured numbers per use case.
 
@@ -43,28 +43,28 @@ Numbers from `scripts/benchmark.ts` (microsecond-per-op). Bundle sizes from `gzi
 
 ### Core paths
 
-| Path | 2.0.0 | 2.1.0 | Δ |
+| Path | 2.0.0 | 2.1.0 | delta |
 |---|---|---|---|
-| `evaluatePolicy` (simple rule) | 0.68 µs | 0.76 µs | +12% |
-| `evaluatePolicy` (conditions) | 1.33 µs | 1.00 µs | **−25%** |
-| `evaluatePolicy` (target match) | 0.47 µs | 0.68 µs | +45% |
-| `evaluatePolicy` (target skip) | 0.24 µs | 0.24 µs | 0% |
-| `evaluate` (2 policies) | 0.65 µs | 1.24 µs | +91% |
-| `evaluate` (deny path) | 0.58 µs | 0.62 µs | +7% |
+| `evaluatePolicy` (simple rule) | 0.68 us | 0.76 us | +12% |
+| `evaluatePolicy` (conditions) | 1.33 us | 1.00 us | **-25%** |
+| `evaluatePolicy` (target match) | 0.47 us | 0.68 us | +45% |
+| `evaluatePolicy` (target skip) | 0.24 us | 0.24 us | 0% |
+| `evaluate` (2 policies) | 0.65 us | 1.24 us | +91% |
+| `evaluate` (deny path) | 0.58 us | 0.62 us | +7% |
 
 ### Engine paths (cache-warm)
 
-| Path | 2.0.0 | 2.1.0 | Δ |
+| Path | 2.0.0 | 2.1.0 | delta |
 |---|---|---|---|
-| `engine.can()` | 4.86 µs | 5.18 µs | +7% |
-| `engine.check()` | 4.60 µs | 4.60 µs | 0% |
-| `engine.permissions()` (20 checks) | 20.06 µs | 48.08 µs | **+140%** |
-| `engine.explain()` | n/a | 8.02 µs | new |
+| `engine.can()` | 4.86 us | 5.18 us | +7% |
+| `engine.check()` | 4.60 us | 4.60 us | 0% |
+| `engine.permissions()` (20 checks) | 20.06 us | 48.08 us | **+140%** |
+| `engine.explain()` | n/a | 8.02 us | new |
 
 ### Bundle (gzipped, post-slim)
 
 Measured against a clean 2.0.1 `git worktree` baseline (not eyeballed).
-Net 2.0.1 → 2.2.0 delta is **+2.9 KB (+7.5%)** — earlier docs cited a
+Net 2.0.1 -> 2.2.0 delta is **+2.9 KB (+7.5%)** - earlier docs cited a
 ~21 KB pre-cycle number that was estimated from a partial dist build.
 
 | Snapshot | Bundle (gzipped) |
@@ -97,11 +97,11 @@ Net 2.0.1 → 2.2.0 delta is **+2.9 KB (+7.5%)** — earlier docs cited a
 
 ### Honest take
 
-**`engine.permissions()` more than doubled.** Each batch check now fires `onMetrics` + builds `IEvalSignals` + threads `onPolicyError` and the catch arm wraps via `_safeHookCall`. 4 extra allocations per check. The 2-3x cost bought silent-fail-open elimination in batch UI gates — previously a real bug, now structurally impossible.
+**`engine.permissions()` more than doubled.** Each batch check now fires `onMetrics` + builds `IEvalSignals` + threads `onPolicyError` and the catch arm wraps via `_safeHookCall`. 4 extra allocations per check. The 2-3x cost bought silent-fail-open elimination in batch UI gates - previously a real bug, now structurally impossible.
 
-**Core bundle headline +7.5% net (38.4 → 41.3 KB)** _if_ you import the everything-barrel. The 2.1.0 security cycle added ~6 KB raw (44.8 KB peak); the 2.2.0 bundle slim cycle recovered ~3 KB by (1) dropping adapter re-exports from the barrel, (2) lazy-loading the validator chunk, (3) splitting `builder` / `explain` / `validate` into separate subpath entries. Realistic deployments measure 15-25 KB — see below.
+**Core bundle headline +7.5% net (38.4 -> 41.3 KB)** _if_ you import the everything-barrel. The 2.1.0 security cycle added ~6 KB raw (44.8 KB peak); the 2.2.0 bundle slim cycle recovered ~3 KB by (1) dropping adapter re-exports from the barrel, (2) lazy-loading the validator chunk, (3) splitting `builder` / `explain` / `validate` into separate subpath entries. Realistic deployments measure 15-25 KB - see below.
 
-**`engine.can()` ~7% slower.** 0.32 µs added per cache-warm check. You'd need 1 million checks per second sustained before this is measurable.
+**`engine.can()` ~7% slower.** 0.32 us added per cache-warm check. You'd need 1 million checks per second sustained before this is measurable.
 
 **`evaluatePolicy(conditions)` 25% faster.** Per-Engine cache threading de-bounces redundant resolution work in the hot path.
 
@@ -134,12 +134,12 @@ Notes:
 ### How to keep your bundle tight
 
 ```ts
-// ✅ Tight: import only what you use
+// yes Tight: import only what you use
 import { Engine } from '@gentleduck/iam/core'
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
-// ❌ Pulls everything (41 KB)
+// no Pulls everything (41 KB)
 import { Engine, MemoryAdapter } from '@gentleduck/iam'
 ```
 
@@ -334,28 +334,28 @@ const allowed = await prodEngine.check('user-1', 'read', post)
 **The `mode` flag alone does not reduce bundle size.** It's a runtime check. **Import patterns and subpath entries do.** The package is tree-shakeable AND ships per-module entries.
 
 ```ts
-// ✅ Smallest production bundle — import only the fast evaluator
+// yes Smallest production bundle - import only the fast evaluator
 // Tree-shakes away: Engine, explain, builder, config, validate, dev evaluate
 import { evaluateFast } from '@gentleduck/iam/core'
 
-// ✅ Typical backend — pulls engine + adapter + server middleware only
+// yes Typical backend - pulls engine + adapter + server middleware only
 import { Engine } from '@gentleduck/iam/core'
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
-// ✅ Admin-write path — validator is lazy-loaded on first call
+// yes Admin-write path - validator is lazy-loaded on first call
 import { Engine } from '@gentleduck/iam/core'
 await engine.admin.savePolicy(p) // pulls validate chunk on first call
 
-// ❌ Pulls everything (41 KB) — avoid the barrel import
+// no Pulls everything (41 KB) - avoid the barrel import
 import { Engine, MemoryAdapter } from '@gentleduck/iam'
 ```
 
-The validator (12 KB), builder (9 KB), explain tracer, and JSON schema are all behind separate subpath entries — they only ship if you import them directly. The HTTP, Redis, Drizzle, Prisma, and file adapters are subpath-only; the barrel no longer re-exports them.
+The validator (12 KB), builder (9 KB), explain tracer, and JSON schema are all behind separate subpath entries - they only ship if you import them directly. The HTTP, Redis, Drizzle, Prisma, and file adapters are subpath-only; the barrel no longer re-exports them.
 
 ### Why is duck-iam ~41 KB when CASL is ~6 KB?
 
-It is not. 41 KB is the headline if you do `import * from '@gentleduck/iam'`. Almost nobody does. Real deployments are 15-25 KB — see [Real-world bundle profiles](#real-world-bundle-profiles).
+It is not. 41 KB is the headline if you do `import * from '@gentleduck/iam'`. Almost nobody does. Real deployments are 15-25 KB - see [Real-world bundle profiles](#real-world-bundle-profiles).
 
 duck-iam is bigger than CASL because it ships more: validator, fluent builder, explain tracer, multi-adapter contract, hook safety wrappers, per-Engine caches, server middleware for 5 frameworks, client wrappers for 3 frameworks. CASL is one builder + one evaluator. Different products. Use CASL if you need the smallest possible bundle and don't need adapters / explain / lazy validate.
 
