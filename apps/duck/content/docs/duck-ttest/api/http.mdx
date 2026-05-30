@@ -17,39 +17,101 @@ import type {
 } from '@gentleduck/ttest/http'
 ```
 
-## HTTP methods
+Curated HTTP unions and helpers. Constrain client and server APIs to valid methods, status codes, and content types without rolling per-endpoint enums.
+
+## HttpMethod
 
 ```ts
-type HttpMethod       = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE'
-type SafeMethod       = 'GET' | 'HEAD' | 'OPTIONS' | 'TRACE'
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE'
+```
+
+Every standard method per RFC 9110.
+
+## SafeMethod
+
+```ts
+type SafeMethod = 'GET' | 'HEAD' | 'OPTIONS' | 'TRACE'
+```
+
+Methods that must not modify server state. `SafeMethod` ⊂ `IdempotentMethod` ⊂ `HttpMethod`.
+
+## IdempotentMethod
+
+```ts
 type IdempotentMethod = 'GET' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'PUT' | 'DELETE'
 ```
 
-`SafeMethod` ⊂ `IdempotentMethod` ⊂ `HttpMethod`.
+Methods whose repeated invocation has the same effect as a single one — safe to retry.
 
-## IsSafeMethod / IsIdempotentMethod
+## IsSafeMethod
 
 ```ts
-type IsSafeMethod<M extends HttpMethod>
-type IsIdempotentMethod<M extends HttpMethod>
+type IsSafeMethod<M extends HttpMethod> = M extends SafeMethod ? true : false
 ```
 
 ```ts
-type a = IsSafeMethod<'GET'>         // true
+type a = IsSafeMethod<'GET'>   // true
+type b = IsSafeMethod<'POST'>  // false
+```
+
+## IsIdempotentMethod
+
+```ts
+type IsIdempotentMethod<M extends HttpMethod> = M extends IdempotentMethod ? true : false
+```
+
+```ts
+type a = IsIdempotentMethod<'PUT'>   // true
 type b = IsIdempotentMethod<'POST'>  // false
 ```
 
-## Status code classes
+## Informational
 
 ```ts
 type Informational = 100 | 101 | 102 | 103
-type Success       = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 226
-type Redirection   = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308
-type ClientError   = 400 | 401 | 402 | ... | 451
-type ServerError   = 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 510 | 511
+```
 
+1xx status codes.
+
+## Success
+
+```ts
+type Success = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 226
+```
+
+2xx status codes.
+
+## Redirection
+
+```ts
+type Redirection = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308
+```
+
+3xx status codes.
+
+## ClientError
+
+```ts
+type ClientError = 400 | 401 | 402 | ... | 451
+```
+
+4xx status codes — every code IANA currently assigns.
+
+## ServerError
+
+```ts
+type ServerError = 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 510 | 511
+```
+
+5xx status codes.
+
+## HttpStatusCode
+
+```ts
 type HttpStatusCode = Informational | Success | Redirection | ClientError | ServerError
 ```
+
+Union of every standard status code.
 
 ## StatusFamily
 
@@ -57,24 +119,49 @@ type HttpStatusCode = Informational | Success | Redirection | ClientError | Serv
 type StatusFamily<S extends HttpStatusCode>
 ```
 
-Grouping label: `'1xx' | '2xx' | '3xx' | '4xx' | '5xx'`.
+Grouping label — one of `'1xx' | '2xx' | '3xx' | '4xx' | '5xx'`.
 
 ```ts
 type a = StatusFamily<200>  // '2xx'
 type b = StatusFamily<404>  // '4xx'
+type c = StatusFamily<503>  // '5xx'
 ```
 
-## IsSuccess / IsClientError / IsServerError
+## IsSuccess
 
 ```ts
-type IsSuccess    <S extends HttpStatusCode>
-type IsClientError<S extends HttpStatusCode>
-type IsServerError<S extends HttpStatusCode>
+type IsSuccess<S extends HttpStatusCode> = S extends Success ? true : false
+```
+
+```ts
+type a = IsSuccess<200>  // true
+type b = IsSuccess<404>  // false
+```
+
+## IsClientError
+
+```ts
+type IsClientError<S extends HttpStatusCode> = S extends ClientError ? true : false
+```
+
+## IsServerError
+
+```ts
+type IsServerError<S extends HttpStatusCode> = S extends ServerError ? true : false
+```
+
+```ts
+type a = IsServerError<500>  // true
+type b = IsServerError<200>  // false
 ```
 
 ## ContentType
 
-Common MIME types — `'application/json' | 'text/html' | 'image/png' | ...`. See source for the complete list.
+```ts
+type ContentType = 'application/json' | 'text/html' | 'image/png' | ...
+```
+
+Common MIME types. Widen to `string` if you serve unusual ones.
 
 ## HttpRequestShape
 
@@ -88,6 +175,11 @@ interface HttpRequestShape<M extends HttpMethod = HttpMethod, Body = unknown> {
 
 Minimal request descriptor — useful in type-safe client builders.
 
+```ts
+function send<B>(req: HttpRequestShape<'POST', B>): Promise<Response> { /* ... */ }
+send({ method: 'POST', body: { id: 1 } })
+```
+
 ## HttpResponseShape
 
 ```ts
@@ -97,3 +189,13 @@ interface HttpResponseShape<S extends HttpStatusCode = HttpStatusCode, Body = un
   body: Body
 }
 ```
+
+Minimal response descriptor. Pair with `StatusFamily` to type-narrow handlers.
+
+```ts
+function handle<S extends HttpStatusCode>(res: HttpResponseShape<S>): StatusFamily<S> {
+  return (`${Math.floor(res.status / 100)}xx`) as StatusFamily<S>
+}
+```
+
+Edge case: every status union is a literal-number set. `404 satisfies HttpStatusCode` works; `Number('404') satisfies HttpStatusCode` does not — call sites typically need `as const` on numeric literals or an explicit annotation.

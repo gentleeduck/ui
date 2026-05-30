@@ -16,66 +16,159 @@ import type {
 } from '@gentleduck/ttest/css'
 ```
 
-Sized intentionally to avoid blowing up the type-checker. Use for component props that want autocomplete on CSS-shaped strings.
+Curated CSS value unions sized to give autocomplete without blowing up the type-checker. Use for component props that want type-safe CSS-shaped strings; widen to `string` at the consumer boundary for esoteric values.
 
-## Wide-keyword values
+## CSSGlobal
 
 ```ts
 type CSSGlobal = 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer'
 ```
 
-## Color unions
+The CSS-wide keyword values every property accepts.
 
-| Type | Contents |
-| --- | --- |
-| `CSSNamedColor` | All 147 CSS named colors (level 4): `'red' \| 'aliceblue' \| ...`. |
-| `CSSSystemColor` | Theme-aware system colors: `'Canvas' \| 'CanvasText' \| 'LinkText' \| ...`. |
-| `CSSSpecialColor` | `'transparent' \| 'currentColor'`. |
-| `CSSColor` | Union of all of the above plus `` `#${string}` ``, `rgb(...)`, `rgba(...)`, `hsl(...)`, `hsla(...)`, `oklch(...)`, `color(...)`. |
+## CSSNamedColor
 
 ```ts
-const accent: CSSColor = 'rebeccapurple'
-const fg:     CSSColor = '#1a1a1a'
+type CSSNamedColor = 'aliceblue' | 'antiquewhite' | ... | 'yellowgreen'
 ```
 
-## Layout enums
+All 147 CSS named colors (level 4).
 
 ```ts
-type CSSDisplay        = 'block' | 'inline' | 'inline-block' | 'flex' | 'grid' | 'flow-root' | ...
-type CSSPosition       = 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'
-type CSSFlexDirection  = 'row' | 'row-reverse' | 'column' | 'column-reverse'
-type CSSJustifyContent = 'flex-start' | 'center' | 'space-between' | 'space-evenly' | ...
-type CSSAlignItems     = 'flex-start' | 'center' | 'baseline' | 'stretch' | ...
+const accent: CSSNamedColor = 'rebeccapurple'  // ok
+const bad:    CSSNamedColor = 'almostblue'     // Error
 ```
 
-## Cursor / line style
+## CSSSystemColor
 
 ```ts
-type CSSCursor    = 'auto' | 'pointer' | 'grab' | 'grabbing' | 'col-resize' | ...
-type CSSLineStyle = 'none' | 'hidden' | 'dotted' | 'dashed' | 'solid' | 'double' | ...
+type CSSSystemColor = 'Canvas' | 'CanvasText' | 'LinkText' | ...
 ```
 
-## Lengths
+Theme-aware system colors. Capitalized — these are reserved keywords.
+
+## CSSSpecialColor
+
+```ts
+type CSSSpecialColor = 'transparent' | 'currentColor'
+```
+
+## CSSColor
+
+```ts
+type CSSColor =
+  | CSSNamedColor | CSSSystemColor | CSSSpecialColor
+  | `#${string}` | `rgb(${string})` | `rgba(${string})`
+  | `hsl(${string})` | `hsla(${string})` | `oklch(${string})` | `color(${string})`
+```
+
+Union of every supported color form.
+
+```ts
+const a: CSSColor = 'rebeccapurple'                // named
+const b: CSSColor = '#1a1a1a'                      // hex
+const c: CSSColor = 'rgb(255, 0, 0)'               // rgb
+const d: CSSColor = 'oklch(70% 0.15 200)'          // oklch
+```
+
+Edge case: hex shape is `` `#${string}` ``; the union does *not* enforce 3/6/8-digit hex syntax. Validate at runtime if shape matters.
+
+## CSSDisplay
+
+```ts
+type CSSDisplay = 'block' | 'inline' | 'inline-block' | 'flex' | 'grid' | 'flow-root' | ...
+```
+
+## CSSPosition
+
+```ts
+type CSSPosition = 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'
+```
+
+## CSSFlexDirection
+
+```ts
+type CSSFlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
+```
+
+## CSSJustifyContent
+
+```ts
+type CSSJustifyContent =
+  | 'flex-start' | 'flex-end' | 'center'
+  | 'space-between' | 'space-around' | 'space-evenly'
+  | 'start' | 'end' | 'left' | 'right' | 'stretch' | 'normal'
+```
+
+## CSSAlignItems
+
+```ts
+type CSSAlignItems =
+  | 'flex-start' | 'flex-end' | 'center'
+  | 'baseline' | 'first baseline' | 'last baseline'
+  | 'stretch' | 'start' | 'end' | 'self-start' | 'self-end' | 'normal'
+```
+
+## CSSCursor
+
+```ts
+type CSSCursor = 'auto' | 'pointer' | 'grab' | 'grabbing' | 'col-resize' | ...
+```
+
+## CSSLineStyle
+
+```ts
+type CSSLineStyle = 'none' | 'hidden' | 'dotted' | 'dashed' | 'solid' | 'double' | 'groove' | 'ridge' | 'inset' | 'outset'
+```
+
+## CSSLengthUnit
 
 ```ts
 type CSSLengthUnit = 'px' | 'em' | 'rem' | '%' | 'vh' | 'vw' | 'ch' | 'pt' | 'svh' | 'dvw' | ...
+```
+
+Every absolute, relative, and viewport-relative length unit.
+
+## CSSLength
+
+```ts
 type CSSLength = `${number}${CSSLengthUnit}` | '0' | `calc(${string})`
 ```
 
+A length expression: a number with a unit, the bare zero, or any `calc(...)` form.
+
 ```ts
-const gap: CSSLength = '1.5rem'
-const x:   CSSLength = '0'
-const y:   CSSLength = 'calc(100% - 2px)'
+const a: CSSLength = '1.5rem'
+const b: CSSLength = '0'                          // bare zero
+const c: CSSLength = 'calc(100% - 2px)'
+const d: CSSLength = '24'                          // Error — bare numbers other than 0 are rejected
 ```
 
-## CSS variables
+## CSSVar
 
 ```ts
-type CSSVar<Name extends string = string>        = `var(--${Name})` | `var(--${Name}, ${string})`
+type CSSVar<Name extends string = string> = `var(--${Name})` | `var(--${Name}, ${string})`
+```
+
+A `var(...)` reference, optionally with a fallback.
+
+```ts
+const a: CSSVar<'fg'> = 'var(--fg)'
+const b: CSSVar<'fg'> = 'var(--fg, white)'
+const c: CSSVar       = 'var(--anything)'  // wildcard name
+```
+
+## CSSCustomProp
+
+```ts
 type CSSCustomProp<Name extends string = string> = `--${Name}`
 ```
 
+A CSS custom-property name.
+
 ```ts
-const fg: CSSVar<'fg'>     = 'var(--fg)'
-const id: CSSCustomProp    = '--theme'
+const a: CSSCustomProp<'theme'> = '--theme'
+const b: CSSCustomProp          = '--any-name'
 ```
+
+Edge case: every union here is a curated subset. Refusing values outside the curated set is sometimes the goal, sometimes friction. When friction wins, widen to `string` at the consumer boundary.

@@ -11,7 +11,7 @@ import type {
 } from '@gentleduck/ttest/brand'
 ```
 
-Branded types attach a phantom tag to a base type, producing values that are runtime-compatible but type-incompatible with the unbranded base. The tag stores both the base type and the brand name, so `Unbrand` and `BrandOf` can recover them.
+Branded types attach a phantom tag to a base type, producing values that are runtime-compatible but type-incompatible with the unbranded base. The tag stores both the base type and the brand name, so [`Unbrand`](/duck-ttest/api/brand#unbrand) and [`BrandOf`](/duck-ttest/api/brand#brandof) can recover them. For the full pattern see [Guides / Branded types](/duck-ttest/guides/branded-types).
 
 ## Brand
 
@@ -19,7 +19,7 @@ Branded types attach a phantom tag to a base type, producing values that are run
 type Brand<T, B extends string | symbol>
 ```
 
-Nominal wrapper. `Brand<string, 'UserId'>` is incompatible with `Brand<string, 'OrderId'>` and with plain `string`.
+Nominal wrapper. `Brand<string, 'UserId'>` is incompatible with `Brand<string, 'OrderId'>` and with plain `string`. Runtime values are unaffected — the tag is phantom.
 
 ```ts
 type UserId  = Brand<string, 'UserId'>
@@ -27,6 +27,13 @@ type OrderId = Brand<string, 'OrderId'>
 
 const u = 'u_1' as UserId
 const o: OrderId = u  // Error — UserId is not OrderId
+const s: string  = u  // Error — string isn't a UserId either (the inverse holds via Unbrand)
+```
+
+```ts
+// Brands compose with object shapes.
+type Email = Brand<string, 'Email'>
+type User = { id: UserId; email: Email }
 ```
 
 ## Branded
@@ -35,7 +42,7 @@ const o: OrderId = u  // Error — UserId is not OrderId
 type Branded<T, B extends string | symbol> = Brand<T, B>
 ```
 
-Alias of `Brand`. Use whichever reads better.
+Alias of `Brand`. Use whichever reads better in context — some codebases prefer `Branded<T, 'Tag'>` for the adjectival form.
 
 ## Unbrand
 
@@ -47,19 +54,16 @@ Strip the brand, recovering the base type. Returns `T` unchanged for unbranded v
 
 ```ts
 type UserId = Brand<string, 'UserId'>
-type T = Unbrand<UserId>  // string
+type a = Unbrand<UserId>  // string
+type b = Unbrand<string>  // string   (pass-through)
+type c = Unbrand<number>  // number
 ```
 
-## BrandOf
-
 ```ts
-type BrandOf<T>
-```
-
-Recover the brand tag of a branded `T`, or `never`.
-
-```ts
-type T = BrandOf<UserId>  // 'UserId'
+// Serializing a brand at the boundary.
+function serialize(id: UserId): Unbrand<UserId> {
+  return id  // base type — no cast needed downstream
+}
 ```
 
 ## Tagged
@@ -68,18 +72,60 @@ type T = BrandOf<UserId>  // 'UserId'
 type Tagged<T, Tag extends string, TagValue = unknown>
 ```
 
-Brand with a custom `__${Tag}` discriminant key — interoperates with third-party brand styles.
+Brand with a custom `__${Tag}` discriminant key. Interoperates with third-party brand conventions (`type-fest`, `ts-essentials`) that key on a specific property name.
 
 ```ts
 type Money = Tagged<number, 'currency', 'USD'>
-// number & { __currency: 'USD' }
+//        ^? number & { __currency: 'USD' }
+
+const m: Money = 100 as Money
+const eur: Tagged<number, 'currency', 'EUR'> = m  // Error — different __currency
 ```
 
-## Opaque / Nominal
+## Opaque
 
 ```ts
 type Opaque<T, B extends string | symbol = string> = Brand<T, B>
+```
+
+Semantic alias of `Brand` borrowed from the `type-fest` vocabulary. Pick the name that fits your codebase.
+
+```ts
+type Token = Opaque<string, 'JWT'>
+```
+
+## Nominal
+
+```ts
 type Nominal<T, B extends string | symbol> = Brand<T, B>
 ```
 
-Semantic aliases of `Brand`. Pick the name that fits your codebase.
+Another semantic alias — favored in OO-influenced codebases that talk in nominal/structural terms.
+
+```ts
+type EmployeeId = Nominal<number, 'EmployeeId'>
+```
+
+## BrandOf
+
+```ts
+type BrandOf<T>
+```
+
+Recover the brand tag of a branded `T`, or `never` for unbranded values.
+
+```ts
+type UserId = Brand<string, 'UserId'>
+type a = BrandOf<UserId>  // 'UserId'
+type b = BrandOf<string>  // never
+```
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+// Lock the brand tag in a test — defends against accidental brand renames.
+type _ = AssertTrue<Equal<BrandOf<UserId>, 'UserId'>, 'brand tag is UserId'>
+```
+
+Edge case: `Equal<Brand<string, 'X'>, string>` is `false` — branded types do not equal their base. This is by design but a frequent confusion. See [Core / Composing tests](/duck-ttest/core/composing-tests) for the brand-aware assertion pattern.
