@@ -11,7 +11,7 @@ import type {
 } from '@gentleduck/ttest/predicates'
 ```
 
-Whole-object property-modifier checks. Use to assert "this object is fully optional" or "fully readonly" in tests and constraints.
+Whole-object property-modifier checks. Use to assert "this object is fully optional" or "fully readonly" in tests and constraints. Built on top of [`Equal`](/duck-ttest/api/equality), so they perform variance-preserving comparison rather than one-way assignability.
 
 ## IsMutable
 
@@ -19,11 +19,17 @@ Whole-object property-modifier checks. Use to assert "this object is fully optio
 type IsMutable<T> = Equal<{ -readonly [K in keyof T]: T[K] }, T>
 ```
 
-`true` if every property of `T` is mutable (no `readonly`).
+`true` if every property of `T` is mutable (no `readonly` modifier on any key).
 
 ```ts
-type a = IsMutable<{ a: 1 }>           // true
-type b = IsMutable<{ readonly a: 1 }>  // false
+type a = IsMutable<{ a: 1; b: 2 }>                 // true
+type b = IsMutable<{ readonly a: 1; b: 2 }>        // false
+type c = IsMutable<{ readonly a: 1 }>              // false
+```
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+type _ = AssertTrue<IsMutable<{ count: number }>, 'count is mutable'>
 ```
 
 ## IsReadonly
@@ -35,8 +41,16 @@ type IsReadonly<T> = Equal<T, Readonly<T>>
 `true` if every property of `T` is `readonly`.
 
 ```ts
-type a = IsReadonly<{ readonly a: 1 }>  // true
-type b = IsReadonly<{ a: 1 }>           // false
+type a = IsReadonly<{ readonly a: 1; readonly b: 2 }>  // true
+type b = IsReadonly<{ readonly a: 1; b: 2 }>           // false
+type c = IsReadonly<{ a: 1 }>                          // false
+```
+
+```ts
+// Constrain config objects to be immutable at the type level.
+function freeze<T extends object>(value: T): T & (IsReadonly<T> extends true ? unknown : never) {
+  return Object.freeze(value) as never
+}
 ```
 
 ## IsPartial
@@ -48,8 +62,9 @@ type IsPartial<T> = Equal<{ [K in keyof T]?: T[K] }, T>
 `true` if every property of `T` is optional.
 
 ```ts
-type a = IsPartial<{ a?: 1; b?: 2 }>  // true
-type b = IsPartial<{ a: 1 }>          // false
+type a = IsPartial<{ a?: 1; b?: 2 }>     // true
+type b = IsPartial<{ a: 1; b?: 2 }>      // false
+type c = IsPartial<{}>                   // true   (vacuously)
 ```
 
 ## IsRequired
@@ -61,9 +76,16 @@ type IsRequired<T> = Equal<{ [K in keyof T]-?: T[K] }, T>
 `true` if every property of `T` is required.
 
 ```ts
-type a = IsRequired<{ a: 1 }>     // true
-type b = IsRequired<{ a?: 1 }>    // false
+type a = IsRequired<{ a: 1; b: 2 }>      // true
+type b = IsRequired<{ a: 1; b?: 2 }>     // false
+type c = IsRequired<{}>                  // true   (vacuously)
 ```
+
+Edge cases for all four predicates:
+
+- Empty objects (`{}`) trivially pass every modifier check.
+- These are *whole-object* predicates. For per-key arithmetic see [`extraction`](/duck-ttest/api/extraction) — `OptionalKeys`, `RequiredKeys`, `ReadonlyKeys`, `MutableKeys`.
+- `IsRequired<any>` and `IsRequired<unknown>` are not meaningful. Narrow before checking.
 
 <Callout icon={<Zap />}>
 

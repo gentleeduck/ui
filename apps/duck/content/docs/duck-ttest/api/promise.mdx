@@ -13,6 +13,8 @@ import type {
 } from '@gentleduck/ttest/promise'
 ```
 
+Promise-shape transforms. For async-aware function utilities (`AsyncReturnType`, `Awaitable`) see [`async`](/duck-ttest/api/async); these helpers operate on plain `Promise<T>` shapes.
+
 ## UnwrapPromise
 
 ```ts
@@ -24,7 +26,10 @@ Unwrap `Promise<T>` to `T`; pass non-promises through unchanged.
 ```ts
 type a = UnwrapPromise<Promise<number>>  // number
 type b = UnwrapPromise<string>           // string
+type c = UnwrapPromise<Promise<Promise<number>>>  // Promise<number>   (one level only)
 ```
+
+Edge case: only one level is stripped. For full unwrapping use `DeepAwaited`.
 
 ## DeepAwaited
 
@@ -36,16 +41,36 @@ Recursively unwrap nested promises.
 
 ```ts
 type a = DeepAwaited<Promise<Promise<Promise<number>>>>  // number
+type b = DeepAwaited<Promise<string>>                    // string
+type c = DeepAwaited<number>                             // number
 ```
 
-## MaybePromise / Promisable
+Equivalent in behavior to the built-in `Awaited<T>` for `Promise` shapes; use it when you want the explicit name in your docs.
+
+## MaybePromise
 
 ```ts
 type MaybePromise<T> = T | Promise<T>
-type Promisable<T>   = MaybePromise<T>
 ```
 
-For async-or-sync APIs.
+`T` or a promise of `T`. Use for async-or-sync APIs that accept either.
+
+```ts
+function read<T>(getter: () => MaybePromise<T>): Promise<T> {
+  return Promise.resolve(getter())
+}
+
+read(() => 1)                     // ok — sync number
+read(() => Promise.resolve('a'))  // ok — async string
+```
+
+## Promisable
+
+```ts
+type Promisable<T> = MaybePromise<T>
+```
+
+Alias of `MaybePromise` for type-fest parity.
 
 ## PromiseAll
 
@@ -53,10 +78,18 @@ For async-or-sync APIs.
 type PromiseAll<T extends readonly unknown[]> = { [K in keyof T]: Awaited<T[K]> }
 ```
 
-Resolved tuple shape for `Promise.all`-style inputs.
+Resolved tuple shape for `Promise.all`-style inputs. Maps each element through `Awaited`.
 
 ```ts
 type a = PromiseAll<[Promise<1>, Promise<'a'>, 3]>  // [1, 'a', 3]
+type b = PromiseAll<readonly [Promise<number>, Promise<string>]>  // readonly [number, string]
+```
+
+```ts
+// Derive the resolved tuple for a known input.
+async function all<T extends readonly unknown[]>(items: [...T]): Promise<PromiseAll<T>> {
+  return Promise.all(items) as Promise<PromiseAll<T>>
+}
 ```
 
 ## IsPromise
@@ -64,3 +97,17 @@ type a = PromiseAll<[Promise<1>, Promise<'a'>, 3]>  // [1, 'a', 3]
 ```ts
 type IsPromise<T> = T extends Promise<unknown> ? true : false
 ```
+
+`true` iff `T` is a `Promise<unknown>`.
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+
+type _ = [
+  AssertTrue <IsPromise<Promise<number>>>,
+  AssertFalse<IsPromise<number>>,
+  AssertFalse<IsPromise<{ then: (cb: () => void) => void }>>,  // PromiseLike, not Promise
+]
+```
+
+Edge case: `IsPromise` accepts `Promise` only, not `PromiseLike`. For thenables use [`IsPromiseLike`](/duck-ttest/api/guard).

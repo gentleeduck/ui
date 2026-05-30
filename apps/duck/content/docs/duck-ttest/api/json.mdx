@@ -12,16 +12,30 @@ import type {
 } from '@gentleduck/ttest/json'
 ```
 
-## JSONPrimitive / JSONObject / JSONArray / JSONValue
+The closed lattice of JSON-serializable values, plus two transforms that coerce arbitrary types into JSON-shaped types. Use `Jsonify` when the contract is "what comes out the other side of `JSON.parse(JSON.stringify(...))`" and `Jsonifiable` when the contract is "values I will accept as input to `JSON.stringify`".
+
+## JSONPrimitive
 
 ```ts
 type JSONPrimitive = string | number | boolean | null
-type JSONObject    = { [key: string]: JSONValue }
-type JSONArray     = JSONValue[]
-type JSONValue     = JSONPrimitive | JSONObject | JSONArray
 ```
 
-The closed lattice of JSON-serializable types.
+The leaf types in a JSON document. Notably excludes `undefined`, `bigint`, `symbol`, and `Date`.
+
+## JSONObject / JSONArray / JSONValue
+
+```ts
+type JSONObject = { [key: string]: JSONValue }
+type JSONArray  = JSONValue[]
+type JSONValue  = JSONPrimitive | JSONObject | JSONArray
+```
+
+A recursive lattice. `JSONValue` is the closure — every shape produced by `JSON.parse` satisfies it.
+
+```ts
+const ok:  JSONValue = { items: [1, 'two', { nested: null }] }
+const bad: JSONValue = { date: new Date() }  // Error — Date not assignable
+```
 
 ## Jsonify
 
@@ -29,13 +43,36 @@ The closed lattice of JSON-serializable types.
 type Jsonify<T>
 ```
 
-Recursively coerce `T` into a JSON-serializable shape. Drops functions and `Date`; drops `password` and `toJSON` keys; recurses into arrays and objects.
+Recursively coerce `T` into a JSON-serializable shape. The rules:
+
+- Functions are dropped (set to `never`, which removes the key).
+- `Date` is dropped — even though `JSON.stringify` would coerce it to a string, the runtime type and the JSON shape diverge, so the helper is conservative.
+- Keys literally named `password` or `toJSON` are dropped.
+- Arrays recurse on their element type.
+- Plain objects recurse on their values.
 
 ```ts
-type User = { id: number; name: string; password: string; verify(): void; created: Date }
+type User = {
+  id: number
+  name: string
+  password: string
+  verify(): void
+  created: Date
+}
+
 type J = Jsonify<User>
 //   ^? { id: number; name: string }
 ```
+
+```ts
+type Nested = Jsonify<{ items: { id: number; created: Date }[] }>
+//   ^? { items: { id: number }[] }
+```
+
+Edge cases:
+
+- `Jsonify<Date>` is `never`. Coerce to `string` (ISO date) at the boundary if you need it.
+- `Jsonify<undefined>` is `never` — `undefined` is not part of `JSONPrimitive`. Wrap optional fields explicitly: `Jsonify<{ field: string | null }>`.
 
 ## Jsonifiable
 
@@ -43,7 +80,28 @@ type J = Jsonify<User>
 type Jsonifiable<T = unknown>
 ```
 
-A value that survives a `JSON.stringify` / `JSON.parse` round-trip. Objects with `toJSON()` are accepted; the `toJSON` return type must itself be JSON-shaped.
+A value that survives a `JSON.stringify` round-trip. Less destructive than `Jsonify`:
+
+- Functions are dropped.
+- Objects with `toJSON()` are accepted; the `toJSON` return type substitutes for the object.
+- Plain objects recurse on their values.
+- `Date` is accepted (its `toJSON` returns a string).
+
+```ts
+type T = Jsonifiable<{ a: number; b: () => void }>
+//   ^? { a: number }
+
+type D = Jsonifiable<Date>
+//   ^? string   (via Date.prototype.toJSON)
+```
+
+```ts
+function send<T>(payload: Jsonifiable<T>) { /* ... */ }
+send({ id: 1, name: 'Ada' })  // ok
+send({ id: 1, callback: () => {} })  // accepted — callback is dropped at the type level
+```
+
+Pick `Jsonify` when you model the *output* of a JSON round-trip and `Jsonifiable` when you model the *input*.
 
 ## IsJsonValue
 
@@ -52,3 +110,15 @@ type IsJsonValue<T> = T extends JSONValue ? true : false
 ```
 
 `true` iff `T` is structurally assignable to `JSONValue`.
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+
+type _ = [
+  AssertTrue <IsJsonValue<{ a: 1; b: [2, 'three'] }>, 'plain json shape'>,
+  AssertFalse<IsJsonValue<{ d: Date }>,              'Date not in lattice'>,
+  AssertFalse<IsJsonValue<{ f: () => void }>,        'functions not in lattice'>,
+]
+```
+
+Edge case: `IsJsonValue<any>` is `boolean`, not `true` — `any` distributes through both branches. Guard with [`IsAny`](/duck-ttest/api/any) if you suspect leaked `any`.

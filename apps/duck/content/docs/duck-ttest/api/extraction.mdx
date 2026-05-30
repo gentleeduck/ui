@@ -11,6 +11,8 @@ import type {
 } from '@gentleduck/ttest/extraction'
 ```
 
+Per-key arithmetic on object types. The complement of [`predicates`](/duck-ttest/api/predicates) — those check the whole object, these extract the keys that satisfy each modifier.
+
 ## KeysOfType
 
 ```ts
@@ -20,9 +22,17 @@ type KeysOfType<O, T>
 Keys of `O` whose value extends `T`.
 
 ```ts
-type O = { a: number; b: string; c: number }
+type O = { a: number; b: string; c: number; d: boolean }
 type k = KeysOfType<O, number>  // 'a' | 'c'
 ```
+
+```ts
+// Pick by value type.
+type StringKeys = KeysOfType<O, string>           // 'b'
+type Indexable  = KeysOfType<O, number | string>  // 'a' | 'b' | 'c'
+```
+
+Edge case: distribution over a union in `T` is intentional — `KeysOfType<O, number | string>` returns keys whose value matches either side.
 
 ## OptionalKeys
 
@@ -30,11 +40,18 @@ type k = KeysOfType<O, number>  // 'a' | 'c'
 type OptionalKeys<T>
 ```
 
-Keys that are explicitly optional (have `?`).
+Keys that are explicitly optional (declared with `?`).
 
 ```ts
-type T = { a: number; b?: string }
-type k = OptionalKeys<T>  // 'b'
+type T = { a: number; b?: string; c?: boolean }
+type k = OptionalKeys<T>  // 'b' | 'c'
+```
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type _ = AssertTrue<Equal<OptionalKeys<{ id: number; name?: string }>, 'name'>, 'name is the only optional key'>
 ```
 
 ## RequiredKeys
@@ -50,6 +67,13 @@ type T = { a: number; b?: string }
 type k = RequiredKeys<T>  // 'a'
 ```
 
+```ts
+// Constrain a function to receive only the required slice.
+function requireFields<T>(obj: T): Pick<T, RequiredKeys<T>> {
+  return obj as Pick<T, RequiredKeys<T>>
+}
+```
+
 ## ReadonlyKeys
 
 ```ts
@@ -59,8 +83,8 @@ type ReadonlyKeys<T>
 Keys marked `readonly`.
 
 ```ts
-type T = { readonly a: number; b: string }
-type k = ReadonlyKeys<T>  // 'a'
+type T = { readonly a: number; b: string; readonly c: boolean }
+type k = ReadonlyKeys<T>  // 'a' | 'c'
 ```
 
 ## MutableKeys
@@ -75,3 +99,5 @@ Keys not marked `readonly`.
 type T = { readonly a: number; b: string }
 type k = MutableKeys<T>  // 'b'
 ```
+
+Edge case for all key extractors: `keyof any` (i.e. an index signature) is treated as one key, not as the full set. `OptionalKeys<Record<string, unknown>>` is `string` — the index-signature key — which can surprise downstream consumers. Use [`OmitIndexSignature`](/duck-ttest/api/object) first if you want only explicit keys.
