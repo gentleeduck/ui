@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, test } from 'bun:test'
+import { realpathSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -68,24 +69,43 @@ afterEach(async () => {
   await Promise.all(tempDirs.splice(0).map((dir) => fs.rm(dir, { force: true, recursive: true })))
 })
 
+function canonicalise(absolute: string): string {
+  let current = absolute
+  const trailing: string[] = []
+  while (true) {
+    try {
+      const real = realpathSync(current)
+      return trailing.length === 0 ? real : path.join(real, ...trailing.reverse())
+    } catch {
+      const parent = path.dirname(current)
+      if (parent === current) return absolute
+      trailing.push(path.basename(current))
+      current = parent
+    }
+  }
+}
+
 describe('createOutputPaths', () => {
   test('derives all output paths from the resolved config output section', () => {
     const config = createMinimalResolvedConfig()
     const paths = createOutputPaths(config)
+    // createOutputPaths canonicalises the configured base dir so phase outputs
+    // align with `resolveWithinBase` on platforms like macOS where /tmp -> /private/tmp.
+    const canonicalBase = canonicalise(config.output.dir)
 
-    expect(paths.baseDir).toBe(config.output.dir)
-    expect(paths.registryDir).toBe(path.join(config.output.dir, config.output.registryDir))
+    expect(paths.baseDir).toBe(canonicalBase)
+    expect(paths.registryDir).toBe(path.join(canonicalBase, config.output.registryDir))
     expect(paths.componentsDir).toBe(path.join(paths.registryDir, config.output.componentsDir))
     expect(paths.colorsDir).toBe(path.join(paths.registryDir, config.output.colorsDir))
     expect(paths.indexFile).toBe(path.join(paths.registryDir, 'index.json'))
     expect(paths.themesCssFile).toBe(path.join(paths.registryDir, config.output.themesCssFile))
     expect(paths.themesDir).toBe(path.join(paths.registryDir, config.output.themesDir))
-    expect(paths.componentIndexDir).toBe(path.join(config.output.dir, config.output.componentIndexDir))
+    expect(paths.componentIndexDir).toBe(path.join(canonicalBase, config.output.componentIndexDir))
     expect(paths.componentIndexFile).toBe(
-      path.join(config.output.dir, config.output.componentIndexDir, config.output.componentIndexFile),
+      path.join(canonicalBase, config.output.componentIndexDir, config.output.componentIndexFile),
     )
-    expect(paths.cacheDir).toBe(path.join(config.output.dir, config.performance.cacheDir))
-    expect(paths.cacheFile).toBe(path.join(config.output.dir, config.performance.cacheDir, 'build-cache.json'))
+    expect(paths.cacheDir).toBe(path.join(canonicalBase, config.performance.cacheDir))
+    expect(paths.cacheFile).toBe(path.join(canonicalBase, config.performance.cacheDir, 'build-cache.json'))
   })
 
   test('uses different base dirs when config output.dir differs', () => {

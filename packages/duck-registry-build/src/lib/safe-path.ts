@@ -107,6 +107,7 @@ export function isPathWithinBases(candidate: string, baseDirs: readonly string[]
   }
 
   const resolvedCandidate = path.resolve(candidate)
+  const canonicalCandidate = canonicaliseExistingPrefix(resolvedCandidate)
 
   for (const baseDir of baseDirs) {
     let base = path.resolve(baseDir)
@@ -116,12 +117,37 @@ export function isPathWithinBases(candidate: string, baseDirs: readonly string[]
       // Base does not exist yet — fall back to the resolved (non-canonical) path.
     }
 
-    if (resolvedCandidate === base || resolvedCandidate.startsWith(base + path.sep)) {
+    if (
+      resolvedCandidate === base ||
+      resolvedCandidate.startsWith(base + path.sep) ||
+      canonicalCandidate === base ||
+      canonicalCandidate.startsWith(base + path.sep)
+    ) {
       return true
     }
   }
 
   return false
+}
+
+// Resolve the longest existing prefix of `absolute` via realpath, then re-attach
+// the remaining (non-existent) tail. Lets containment checks survive platform
+// quirks like macOS's /var -> /private/var symlink when the candidate itself
+// has already been removed but its parent dir still exists.
+function canonicaliseExistingPrefix(absolute: string): string {
+  let current = absolute
+  const trailing: string[] = []
+  while (true) {
+    try {
+      const real = fs.realpathSync(current)
+      return trailing.length === 0 ? real : path.join(real, ...trailing.reverse())
+    } catch {
+      const parent = path.dirname(current)
+      if (parent === current) return absolute
+      trailing.push(path.basename(current))
+      current = parent
+    }
+  }
 }
 
 // Convenience re-export for callers that only need the patterns (schema regex).

@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { ILoadedRegistryBuildConfig } from '../../config/loader/loader.types'
@@ -27,8 +28,12 @@ function assertSafeOutputDir(dir: string): void {
 
 // All paths are pre-joined here so downstream phases can use them directly.
 export function createOutputPaths(config: ILoadedRegistryBuildConfig['config']): IRegistryBuildOutputPaths {
-  const baseDir = config.output.dir
-  assertSafeOutputDir(baseDir)
+  const configuredDir = config.output.dir
+  assertSafeOutputDir(configuredDir)
+  // Match what `resolveWithinBase` returns so `outputFiles` and `outputPaths`
+  // stay aligned on platforms where the configured dir resolves through a
+  // symlink (e.g. macOS `/var` -> `/private/var`).
+  const baseDir = canonicaliseExistingAncestor(path.resolve(configuredDir))
   const registryDir = path.join(baseDir, config.output.registryDir)
   const componentIndexDir = path.join(baseDir, config.output.componentIndexDir)
   const cacheDir = path.join(baseDir, config.performance.cacheDir)
@@ -54,5 +59,24 @@ export function createPathRegistry(outputPaths: IRegistryBuildOutputPaths): IReg
     named: {
       ...outputPaths,
     },
+  }
+}
+
+// Walk up until an existing ancestor is found, realpath it, then re-attach the
+// tail. Keeps `outputPaths` aligned with `resolveWithinBase` even when the
+// configured output dir does not exist yet on first invocation.
+function canonicaliseExistingAncestor(absolute: string): string {
+  let current = absolute
+  const trailing: string[] = []
+  while (true) {
+    try {
+      const real = fs.realpathSync(current)
+      return trailing.length === 0 ? real : path.join(real, ...trailing.reverse())
+    } catch {
+      const parent = path.dirname(current)
+      if (parent === current) return absolute
+      trailing.push(path.basename(current))
+      current = parent
+    }
   }
 }
