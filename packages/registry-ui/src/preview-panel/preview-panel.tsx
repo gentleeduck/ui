@@ -1,13 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
 import { ButtonGroup } from '../button-group'
+import { toDirection } from '../direction/direction.libs'
 import { Separator } from '../separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import type { IPreviewPanelProps } from './preview-panel.types'
@@ -336,17 +336,18 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       }
     }, [])
 
-    const contentProps = useMemo(
-      // SEC-002: `unsafeHtml` is rendered verbatim and is the caller's responsibility to sanitise.
-      () => (unsafeHtml ? { dangerouslySetInnerHTML: { __html: unsafeHtml } } : { children }),
-      [unsafeHtml, children],
-    )
+    // Dev-only: warn (don't throw) when `unsafeHtml` contains obvious XSS
+    // markers. Production builds skip the scan so prop-drilling sanitised
+    // build-time HTML stays zero-cost.
+    if (IS_DEV && unsafeHtml) {
+      warnOnSuspiciousUnsafeHtml(unsafeHtml)
+    }
 
     const containerStyle = useMemo(
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],
     )
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
 
     return (
       <div
@@ -365,17 +366,50 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
           ref={containerRef}
           className="flex flex-1 items-center justify-center overflow-hidden"
           style={containerStyle}>
-          <div
-            ref={contentRef}
-            className="flex w-full items-center justify-center p-6"
-            style={CONTENT_STYLE}
-            {...contentProps}
-          />
+          {/* SEC-002: `unsafeHtml` is rendered verbatim and is the caller's responsibility to sanitise. */}
+          {unsafeHtml ? (
+            <div
+              ref={contentRef}
+              className="flex w-full items-center justify-center p-6"
+              style={CONTENT_STYLE}
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: caller-owns-sanitisation contract documented on `unsafeHtml` prop
+              dangerouslySetInnerHTML={{ __html: unsafeHtml }}
+            />
+          ) : (
+            <div ref={contentRef} className="flex w-full items-center justify-center p-6" style={CONTENT_STYLE}>
+              {children}
+            </div>
+          )}
         </div>
       </div>
     )
   },
 )
 PreviewPanel.displayName = 'PreviewPanel'
+
+const SUSPICIOUS_HTML_PATTERN = /<script\b|on\w+\s*=/i
+let didWarnUnsafeHtml = false
+
+declare const process: { env?: { NODE_ENV?: string } } | undefined
+
+/** Inlined `__DEV__`-style flag. Dead-code-eliminated by bundlers when `process.env.NODE_ENV === 'production'`. */
+const IS_DEV: boolean = typeof process !== 'undefined' && process?.env?.NODE_ENV !== 'production'
+
+/**
+ * Dev-only sentinel that warns once per session if `unsafeHtml` looks like
+ * it might contain a `<script>` tag or an inline event handler. Not a
+ * sanitiser — the prop's contract is still caller-owns-sanitisation.
+ */
+function warnOnSuspiciousUnsafeHtml(html: string): void {
+  if (didWarnUnsafeHtml) return
+  if (!SUSPICIOUS_HTML_PATTERN.test(html)) return
+  didWarnUnsafeHtml = true
+  // eslint-disable-next-line no-console
+  console.warn(
+    '[PreviewPanel] `unsafeHtml` contains a <script> tag or an inline event handler. ' +
+      'This prop is rendered without sanitisation; you MUST only pass markup you fully trust. ' +
+      'For untrusted content, pass React children instead.',
+  )
+}
 
 export { PreviewPanel, ZoomControls }

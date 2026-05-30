@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
 import { Button } from '../button'
+import { toDirection } from '../direction/direction.libs'
 
 const CollapsibleContext = React.createContext<{
   open: boolean
@@ -32,7 +32,7 @@ const Collapsible = React.forwardRef<
     defaultOpen?: boolean
   }
 >(({ children, className, open: openProp, onOpenChange, defaultOpen, dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)

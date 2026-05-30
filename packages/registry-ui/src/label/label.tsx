@@ -1,14 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 export interface ILabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
 const Label = React.forwardRef<HTMLLabelElement, ILabelProps>(({ className, htmlFor, dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
 
   return (
     // biome-ignore lint/a11y/noLabelWithoutControl: label is composed with form controls externally via htmlFor

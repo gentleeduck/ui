@@ -1,5 +1,4 @@
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
@@ -13,6 +12,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
+import { toDirection } from '../direction/direction.libs'
 import type { IDuckPaginationProps, IPaginationLinkProps } from './pagination.types'
 
 const Pagination = React.forwardRef<
@@ -126,7 +126,7 @@ const PaginationWrapper = (props: IDuckPaginationProps) => {
   const { className: maxRightClassName, icon: maxRightIcon, ...maxRightProps } = props.maxRight ?? {}
   const { className: leftClassName, icon: leftIcon, ...leftProps } = props.left ?? {}
   const { className: maxLeftClassName, icon: maxLeftIcon, ...maxLeftProps } = props.maxLeft ?? {}
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
   const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
   const StartDoubleIcon = direction === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon

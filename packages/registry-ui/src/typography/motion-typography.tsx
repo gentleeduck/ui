@@ -7,21 +7,7 @@ import { slideUp } from '@gentleduck/motion/presets/slide-up'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
-
-const h1ClassName = 'scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl'
-const h2ClassName = 'scroll-m-20 border-b pb-2 font-semibold text-3xl tracking-tight transition-colors first:mt-0'
-const h3ClassName = 'scroll-m-20 font-semibold text-2xl tracking-tight'
-const h4ClassName = 'scroll-m-20 font-semibold text-xl tracking-tight'
-const pClassName = 'leading-7 [&:not(:first-child)]:mt-6'
-const blockquoteClassName = 'mt-6 border-l-2 pl-6 italic rtl:border-r-2 rtl:border-l-0 rtl:pr-6 rtl:pl-0'
-const listClassName = 'my-6 ml-6 list-disc [&>li]:mt-2 rtl:mr-6 rtl:ml-0'
-const inlineCodeClassName = 'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-sm'
-const leadClassName = 'text-muted-foreground text-xl'
-const largeClassName = 'font-semibold text-lg'
-const smallClassName = 'font-medium text-sm leading-none'
-const mutedClassName = 'text-muted-foreground text-sm'
-const tableWrapperClassName = 'my-6 w-full overflow-y-auto'
-const tableClassName = 'w-full'
+import { typographyVariants } from './typography.constants'
 
 type IMotionIndexProps = { index?: number }
 
@@ -44,7 +30,7 @@ const MotionTypographyH1 = React.forwardRef<HTMLHeadingElement, IMotionHeadingPr
         <m.h1
           ref={ref}
           data-slot="typography-h1"
-          className={cn(h1ClassName, className)}
+          className={cn(typographyVariants({ level: 'h1' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -64,7 +50,7 @@ const MotionTypographyH2 = React.forwardRef<HTMLHeadingElement, IMotionHeadingPr
         <m.h2
           ref={ref}
           data-slot="typography-h2"
-          className={cn(h2ClassName, className)}
+          className={cn(typographyVariants({ level: 'h2' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -84,7 +70,7 @@ const MotionTypographyH3 = React.forwardRef<HTMLHeadingElement, IMotionHeadingPr
         <m.h3
           ref={ref}
           data-slot="typography-h3"
-          className={cn(h3ClassName, className)}
+          className={cn(typographyVariants({ level: 'h3' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -104,7 +90,7 @@ const MotionTypographyH4 = React.forwardRef<HTMLHeadingElement, IMotionHeadingPr
         <m.h4
           ref={ref}
           data-slot="typography-h4"
-          className={cn(h4ClassName, className)}
+          className={cn(typographyVariants({ level: 'h4' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -130,7 +116,7 @@ const MotionTypographyP = React.forwardRef<HTMLParagraphElement, IMotionParagrap
         <m.p
           ref={ref}
           data-slot="typography-p"
-          className={cn(pClassName, className)}
+          className={cn(typographyVariants({ level: 'p' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -153,7 +139,7 @@ const MotionTypographyBlockquote = React.forwardRef<
       <m.blockquote
         ref={ref}
         data-slot="typography-blockquote"
-        className={cn(blockquoteClassName, className)}
+        className={cn(typographyVariants({ level: 'blockquote' }), className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}
@@ -195,7 +181,7 @@ const MotionTypographyList = React.forwardRef<
       <m.ul
         ref={ref}
         data-slot="typography-list"
-        className={cn(listClassName, className)}
+        className={cn(typographyVariants({ level: 'list' }), className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}
@@ -226,7 +212,7 @@ const MotionTypographyInlineCode = React.forwardRef<
       <m.code
         ref={ref}
         data-slot="typography-inline-code"
-        className={cn(inlineCodeClassName, className)}
+        className={cn(typographyVariants({ level: 'inlineCode' }), className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}
@@ -245,7 +231,7 @@ const MotionTypographyLead = React.forwardRef<HTMLParagraphElement, IMotionParag
         <m.p
           ref={ref}
           data-slot="typography-lead"
-          className={cn(leadClassName, className)}
+          className={cn(typographyVariants({ level: 'lead' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -268,7 +254,7 @@ const MotionTypographyLarge = React.forwardRef<
       <m.div
         ref={ref}
         data-slot="typography-large"
-        className={cn(largeClassName, className)}
+        className={cn(typographyVariants({ level: 'large' }), className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}
@@ -290,7 +276,7 @@ const MotionTypographySmall = React.forwardRef<
       <m.small
         ref={ref}
         data-slot="typography-small"
-        className={cn(smallClassName, className)}
+        className={cn(typographyVariants({ level: 'small' }), className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}
@@ -309,7 +295,7 @@ const MotionTypographyMuted = React.forwardRef<HTMLParagraphElement, IMotionPara
         <m.p
           ref={ref}
           data-slot="typography-muted"
-          className={cn(mutedClassName, className)}
+          className={cn(typographyVariants({ level: 'muted' }), className)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}
@@ -334,11 +320,15 @@ const MotionTypographyTable = React.forwardRef<HTMLTableElement, IMotionTypograp
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div
-          className={cn(tableWrapperClassName, wrapperClassName)}
+          className={cn(typographyVariants({ level: 'tableWrapper' }), wrapperClassName)}
           initial={content.initial}
           animate={content.animate}
           transition={content.transition}>
-          <table ref={ref} data-slot="typography-table" className={cn(tableClassName, className)} {...props}>
+          <table
+            ref={ref}
+            data-slot="typography-table"
+            className={cn(typographyVariants({ level: 'table' }), className)}
+            {...props}>
             {children}
           </table>
         </m.div>

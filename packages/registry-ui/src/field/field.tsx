@@ -1,17 +1,17 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import type { Variants } from '@gentleduck/variants'
 import React, { useMemo } from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { fieldVariants } from './field.constants'
 
 const FieldSet = React.forwardRef<HTMLFieldSetElement, React.ComponentPropsWithoutRef<'fieldset'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       <fieldset
         ref={ref}

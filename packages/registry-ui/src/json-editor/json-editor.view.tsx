@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { Textarea } from '../textarea'
 import type { IJsonEditorViewProps } from './json-editor.types'
 
@@ -43,7 +43,7 @@ export function JsonEditorView({
   lang,
   onKeyDown,
 }: IJsonEditorViewProps) {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const lineCount = React.useMemo(() => {
     const count = value ? value.split(/\r\n|\r|\n/).length : 1
     return Math.max(1, count)

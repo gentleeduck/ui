@@ -7,25 +7,11 @@ import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { withMotion } from '../_internal/motion-shell'
 import type { IAvatarGroupProps } from './avatar'
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 
-const MotionAvatar = React.forwardRef<React.ComponentRef<typeof Avatar>, React.ComponentPropsWithoutRef<typeof Avatar>>(
-  (props, ref) => {
-    const content = useMotionPreset(scaleIn, { transition: springBouncy })
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.div
-          initial={content.initial}
-          animate={content.animate}
-          transition={content.transition}
-          className="inline-flex">
-          <Avatar ref={ref} {...props} />
-        </m.div>
-      </LazyMotion>
-    )
-  },
-)
+const MotionAvatar = withMotion(Avatar, scaleIn, { transition: springBouncy })
 MotionAvatar.displayName = 'MotionAvatar'
 
 const MotionAvatarGroup = React.forwardRef<HTMLDivElement, IAvatarGroupProps>(
@@ -39,7 +25,7 @@ const MotionAvatarGroup = React.forwardRef<HTMLDivElement, IAvatarGroupProps>(
         <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
           {visibleImgs.map((img, i) => (
             <m.div
-              key={img.id}
+              key={img.id ?? img.src ?? img.alt ?? i}
               initial={content.initial}
               animate={content.animate}
               transition={{ ...content.transition, delay: i * 0.08 }}>

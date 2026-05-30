@@ -1,17 +1,17 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { formatForDisplay } from '@gentleduck/vim/format'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 interface IKbdProps extends React.ComponentPropsWithoutRef<'kbd'> {
   keys?: string
 }
 
 const Kbd = React.forwardRef<HTMLElement, IKbdProps>(({ className, dir, keys, children, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   return (
     <kbd
       className={cn(

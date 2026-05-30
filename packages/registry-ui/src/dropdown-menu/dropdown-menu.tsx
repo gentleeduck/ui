@@ -3,14 +3,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
 import { formatForDisplay } from '@gentleduck/vim/format'
-import { useKeyBind } from '@gentleduck/vim/react'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
-
-function ShortcutBinder({ keys, handler }: { keys: string; handler: () => void }) {
-  useKeyBind(keys, handler, { preventDefault: true })
-  return null
-}
+import { ShortcutBinder } from '../_internal/shortcut-binder'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
