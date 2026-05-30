@@ -59,7 +59,7 @@ app.get('/metrics', (_, res) => {
 
 ### Charting fail-open
 
-`failOpen` is the canary for a silently broken policy set — a hostile
+`failOpen` is the canary for a silently broken policy set - a hostile
 ReDoS-dropped rule, a mass deletion, an adapter outage that drained policies
 to zero. Under `defaultEffect: 'allow'` the boolean `allowed` field hides
 that breakage; `failOpen` surfaces it.

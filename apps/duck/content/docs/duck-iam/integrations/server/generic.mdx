@@ -100,14 +100,14 @@ Returns `true` when the request is allowed, `false` when it must be rejected.
 ```ts
 import { defaultCsrfCheck } from '@gentleduck/iam/server/generic'
 
-// Compose with your own check — accept default behaviour AND require Origin.
+// Compose with your own check - accept default behaviour AND require Origin.
 const allow = new Set(['https://admin.example.com'])
 const csrfCheck = (req: Request) =>
   defaultCsrfCheck(req) && allow.has(req.headers.get('origin') ?? '')
 ```
 
 `Sec-Fetch-Site` is populated by every modern browser; non-browser callers
-(curl, server-to-server) omit it and pass — they must be gated by bearer /
+(curl, server-to-server) omit it and pass - they must be gated by bearer /
 mTLS auth at a layer the admin router can trust.
 
 ---

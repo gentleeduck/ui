@@ -37,8 +37,8 @@ if (ctx?.anomaly?.decision === 'deny') {
 import { impossibleTravelDetector } from '@gentleduck/auth/core'
 
 auth.anomaly.register(impossibleTravelDetector({
-  maxSpeedKmh: 900,          // default — jet speed
-  scoreOnViolation: 100,     // default — maximum
+  maxSpeedKmh: 900,          // default - jet speed
+  scoreOnViolation: 100,     // default - maximum
   geoipProvider: async (ip) => {
     const r = await maxmindLookup(ip)
     return { lat: r.lat, lng: r.lng }
@@ -57,12 +57,12 @@ record, it raises an anomaly signal.
 import { deviceFingerprintDetector } from '@gentleduck/auth/core'
 
 auth.anomaly.register(deviceFingerprintDetector({
-  scoreOnUnknown: 50,   // default — moderate
+  scoreOnUnknown: 50,   // default - moderate
 }))
 ```
 
 Tracks `(userAgent, OS-fingerprint)` per identity. A request from a new
-fingerprint raises a moderate signal — combined with another signal
+fingerprint raises a moderate signal - combined with another signal
 (impossible-travel, IP-reputation), it tips the aggregator into
 `step-up`.
 
@@ -76,7 +76,7 @@ export const ipReputationDetector = (opts: { providerUrl: string }): Anomaly.IDe
   async evaluate({ snapshot, identity }) {
     const score = await fetch(`${opts.providerUrl}?ip=${snapshot.ip}`)
       .then((r) => r.json())
-      .then((r) => r.score as number)   // 0–100
+      .then((r) => r.score as number)   // 0-100
 
     if (score < 30) return null   // no signal
 
@@ -93,7 +93,7 @@ auth.anomaly.register(ipReputationDetector({ providerUrl: 'https://...' }))
 
 Detectors are pure async functions. They:
 - Take a `snapshot` (`ip`, `userAgent`, `geo`) and the resolved `identity`.
-- Return `null` for "no signal" or `AnomalySignal { kind, score (0–100), evidence }`.
+- Return `null` for "no signal" or `AnomalySignal { kind, score (0-100), evidence }`.
 
 ## The aggregator
 
@@ -102,9 +102,9 @@ Detector signals are combined into a single `decision`:
 ```
 total = sum(detector.score for each signal)
 
-total >= 100  → deny
-total >=  50  → step-up
-total <   50  → allow
+total >= 100  -> deny
+total >=  50  -> step-up
+total <   50  -> allow
 ```
 
 You can override the thresholds:
@@ -146,7 +146,7 @@ hard-lock (lockout the identity) when patterns repeat.
 
 ## Fail-open vs fail-closed
 
-Detectors that throw or time out **fail open** by default — the signal
+Detectors that throw or time out **fail open** by default - the signal
 is logged but not raised, and the request proceeds. This is intentional:
 a detector outage shouldn't lock everyone out.
 

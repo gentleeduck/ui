@@ -1,6 +1,6 @@
 ---
 title: Memory adapter
-description: In-memory Maps for identities, sessions, credentials, and orgs. Dev/test only — strict() rejects it in production.
+description: In-memory Maps for identities, sessions, credentials, and orgs. Dev/test only - strict() rejects it in production.
 section: Adapters
 ---
 
@@ -36,7 +36,7 @@ export const auth = new AuthRoot({
 
 ## Typed generics
 
-The adapter is parameterised by `Profile` and `OrgMeta` — they propagate
+The adapter is parameterised by `Profile` and `OrgMeta` - they propagate
 through to your `AuthRoot`:
 
 ```typescript
@@ -70,10 +70,10 @@ The adapter bundles four stores:
 
 | Store | Backing |
 | --- | --- |
-| `adapter.identities` | `Map<id, Identity>` — typed by `Profile`. Implements every `Identity.IStore` method including soft-delete grace, provider linking, merge, erase. |
-| `adapter.sessions` | `Map<sessionIdHash, Session>` — instant revocation, TTL-respecting reads. |
-| `adapter.credentials` | `Map<id, Credential>` — keyed by id; hashed-secret lookup via secondary index. |
-| `adapter.orgs` | `Map<id, Org>` — typed by `OrgMeta`. Memberships via secondary index. |
+| `adapter.identities` | `Map<id, Identity>` - typed by `Profile`. Implements every `Identity.IStore` method including soft-delete grace, provider linking, merge, erase. |
+| `adapter.sessions` | `Map<sessionIdHash, Session>` - instant revocation, TTL-respecting reads. |
+| `adapter.credentials` | `Map<id, Credential>` - keyed by id; hashed-secret lookup via secondary index. |
+| `adapter.orgs` | `Map<id, Org>` - typed by `OrgMeta`. Memberships via secondary index. |
 
 ## Multi-tenant
 

@@ -26,6 +26,8 @@ export const duckAuthSidebar = defineSidebar([
       { title: 'Events', href: '/duck-auth/core/events' },
       { title: 'Anomaly detection', href: '/duck-auth/core/anomaly' },
       { title: 'Compliance presets', href: '/duck-auth/core/compliance' },
+      { title: 'Data at rest', href: '/duck-auth/core/data-at-rest' },
+      { title: 'Captcha', href: '/duck-auth/core/captcha' },
       {
         title: 'Transports',
         href: '/duck-auth/core/transports',
@@ -117,6 +119,7 @@ export const duckAuthSidebar = defineSidebar([
       { title: 'React', href: '/duck-auth/client/react' },
       { title: 'Vue', href: '/duck-auth/client/vue' },
       { title: 'Svelte', href: '/duck-auth/client/svelte' },
+      { title: 'Solid', href: '/duck-auth/client/solid' },
     ],
   },
   {
@@ -131,8 +134,11 @@ export const duckAuthSidebar = defineSidebar([
     title: 'Advanced',
     items: [
       { title: 'Production hardening', href: '/duck-auth/advanced/security' },
+      { title: 'Multi-tenancy', href: '/duck-auth/advanced/multi-tenancy' },
+      { title: 'Webhooks', href: '/duck-auth/advanced/webhooks' },
       { title: 'CLI reference', href: '/duck-auth/advanced/cli' },
       { title: 'OIDC discovery', href: '/duck-auth/advanced/oidc' },
+      { title: 'OIDC OP (provider)', href: '/duck-auth/advanced/oidc-op' },
       { title: 'OpenAPI generator', href: '/duck-auth/advanced/openapi' },
       { title: 'OpenTelemetry', href: '/duck-auth/advanced/telemetry' },
       { title: 'i18n', href: '/duck-auth/advanced/i18n' },

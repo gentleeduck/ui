@@ -1,0 +1,154 @@
+---
+title: Captcha
+description: Pluggable bot defense - Turnstile, hCaptcha, reCAPTCHA v3, and a Null verifier for tests. Wire into signin / signup / magic-link routes.
+section: Core
+---
+
+duck-auth ships four built-in captcha verifiers behind a single
+`Captcha.IVerifier` interface so you can switch providers without
+touching your flow code. Any verifier instance plugs into the same
+host-supplied hook your route handlers call before crossing the
+signin / signup / magic-link boundary.
+
+```typescript
+import {
+  TurnstileVerifier,
+  HCaptchaVerifier,
+  RecaptchaV3Verifier,
+  NullCaptchaVerifier,
+} from '@gentleduck/auth/core'
+```
+
+## `TurnstileVerifier`
+
+Cloudflare Turnstile.
+
+```typescript
+const captcha = new TurnstileVerifier({
+  secret: process.env.TURNSTILE_SECRET!,
+})
+
+const result = await captcha.verify({
+  token: req.body.turnstileToken,
+  remoteip: req.ip,
+})
+
+if (!result.success) {
+  throw new AuthErrorObject('AUTH/CAPTCHA_FAILED', {
+    detail: result.errorCodes?.join(', '),
+  })
+}
+```
+
+The `endpoint` override is rarely needed; defaults to
+`https://challenges.cloudflare.com/turnstile/v0/siteverify`. Pass a
+custom `fetch` for tests or to thread the call through a proxy.
+
+## `HCaptchaVerifier`
+
+hCaptcha. Same shape as Turnstile - swap the class, swap the secret.
+
+```typescript
+const captcha = new HCaptchaVerifier({
+  secret: process.env.HCAPTCHA_SECRET!,
+})
+```
+
+Endpoint defaults to `https://hcaptcha.com/siteverify`.
+
+## `RecaptchaV3Verifier`
+
+Google reCAPTCHA v3. v3 returns a score 0..1; the verifier rejects
+scores below `minScore` (default 0.5).
+
+```typescript
+const captcha = new RecaptchaV3Verifier({
+  secret: process.env.RECAPTCHA_SECRET!,
+  minScore: 0.7,                    // stricter for high-risk flows
+  expectedAction: 'signin',         // bound to your client.execute() action
+})
+
+const result = await captcha.verify({
+  token: req.body.recaptchaToken,
+  remoteip: req.ip,
+})
+```
+
+The verifier also rejects responses whose `action` claim does not
+match `expectedAction` - protecting against a token minted for a
+different page being replayed at signin.
+
+## `NullCaptchaVerifier`
+
+No-op verifier that returns `{ success: true }` for any input. Use
+in tests, dev environments, and code paths where you explicitly want
+captcha disabled (e.g. M2M endpoints).
+
+```typescript
+const captcha = process.env.NODE_ENV === 'production'
+  ? new TurnstileVerifier({ secret: process.env.TURNSTILE_SECRET! })
+  : new NullCaptchaVerifier()
+```
+
+`strict({ env: 'production' })` does NOT reject `NullCaptchaVerifier`
+- it's the host app's responsibility to wire a real verifier when
+captcha is policy. Compliance presets add the check separately.
+
+## Wiring into a route
+
+The verifiers live above the AuthRoot - call them yourself before
+invoking the flow. Pattern:
+
+```typescript
+async function signinHandler(req, res) {
+  const captchaResult = await captcha.verify({
+    token: req.body.turnstileToken,
+    remoteip: req.ip,
+  })
+  if (!captchaResult.success) {
+    res.status(400).json({ error: 'captcha failed' })
+    return
+  }
+
+  const { session } = await auth.flows.signIn({
+    providerId: 'password',
+    input: { email: req.body.email, password: req.body.password },
+  })
+  res.json({ session })
+}
+```
+
+For most apps, this is a 4-line middleware in your framework adapter
+rather than inline per-route code.
+
+## Robustness
+
+Every verifier:
+
+- Caps the supplied `token` at 4096 chars before the network call so
+  a hostile client cannot force a multi-MB POST to the siteverify
+  endpoint.
+- Treats any non-JSON or shape-mismatched siteverify response as
+  failure (returns `{ success: false }` rather than throwing).
+- Rejects truthy non-boolean `success` values (a buggy provider
+  returning `{ success: 'true' }` does not satisfy the gate).
+- Times out network calls via an AbortSignal so a stalled siteverify
+  call cannot stall your signin route.
+
+## Bring your own
+
+Implement `Captcha.IVerifier`:
+
+```typescript
+import type { Captcha } from '@gentleduck/auth/core'
+
+class MyCaptchaVerifier implements Captcha.IVerifier {
+  readonly id = 'my-captcha'
+  async verify(input: Captcha.IVerifyInput): Promise<Captcha.IVerifyResult> {
+    // POST to your provider, parse the response, return { success, errorCodes? }
+  }
+}
+```
+
+Anything that returns the `Captcha.IVerifyResult` shape composes with
+the rest of the library.

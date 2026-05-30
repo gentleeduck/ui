@@ -1,0 +1,160 @@
+---
+title: Devtools panel
+description: Floating React panel for inspecting the engine - flow recorder, decision tester, metrics, policies / roles / subjects. Dev-only, tree-shaken in prod.
+section: Advanced
+---
+
+duck-iam ships an in-app developer-tools panel that lets you inspect
+the engine without leaving the page. It mounts as a floating button
+that opens a side panel with five sub-views: **Flow**, **Decision**,
+**Policies**, **Roles**, **Subjects**, **Metrics**.
+
+```typescript
+import { IamDevtools } from '@gentleduck/iam/dt'
+```
+
+```tsx
+<IamDevtools engine={engine} />
+```
+
+Tree-shaken out by bundlers in production builds because the import
+sits behind a guard that checks `process.env.NODE_ENV !== 'production'`
+(or `import.meta.env.PROD === false` in Vite / Astro / SvelteKit).
+
+## Quick start
+
+```tsx
+import { useEffect, useState } from 'react'
+import { Engine } from '@gentleduck/iam'
+import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamDevtools } from '@gentleduck/iam/dt'
+
+const engine = new Engine({ adapter: new MemoryAdapter({ policies, roles }) })
+
+export function App() {
+  return (
+    <>
+      <YourApp />
+      {process.env.NODE_ENV !== 'production' && <IamDevtools engine={engine} />}
+    </>
+  )
+}
+```
+
+That single call gives you a floating button in the bottom-right. Open
+it, hit "Run", and you've got a live decision tester wired to your
+real engine.
+
+## Panel layout
+
+| Panel | What it shows |
+|---|---|
+| **Flow** | A live stream of every `can` / `check` / `authorize` call: subject, action, resource, the resulting decision, and the matched policy / rule. Backed by `createFlowRecorder`. |
+| **Decision** | A request builder: pick a subject, action, resource, environment. Hit "Run" to see the decision + the rule that matched. Calls `engine.explain()`. |
+| **Policies** | All policies loaded into the engine. Click one to see its rules + targets. |
+| **Roles** | All roles loaded into the engine, including inheritance chains and the synthetic policies they expand to. |
+| **Subjects** | Subjects you've inspected, with their resolved roles + attributes. |
+| **Metrics** | `createMetricsAggregator()` snapshot: p50 / p95 / p99 + allow / deny counts. |
+
+## Position & layout
+
+`IamDevtools` is positional - you choose where the button lives and
+where the panel slides in from.
+
+```tsx
+<IamDevtools
+  engine={engine}
+  buttonPosition="top-right"       // bottom-right (default) | bottom-left | top-right | top-left | relative
+  position="left"                  // bottom (default) | top | left | right
+  inset={12}                       // floating gutter in px around the panel
+  initialIsOpen={false}            // pre-open the panel on mount
+  hideButton                       // hide the FAB - use your own UI hook to toggle
+  storagePrefix="myapp-iam-dt"     // localStorage namespace for panel size + open state
+  initialPanel="metrics"           // which sub-view to start on
+/>
+```
+
+Set `embedded` to render the panel inline (no FAB, no slide
+animation) - useful when you want the devtools as a docked tab in your
+admin UI rather than a floating overlay.
+
+```tsx
+<IamDevtoolsInner engine={engine} embedded />
+```
+
+## Wiring metrics
+
+The Metrics panel reads from any `IDevtoolsMetrics` instance. The
+shipping `createMetricsAggregator` from `@gentleduck/iam/observability/metrics`
+matches the shape, so the two compose:
+
+```tsx
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { IamDevtools } from '@gentleduck/iam/dt'
+
+const metrics = createMetricsAggregator()
+const engine = new Engine({
+  adapter,
+  hooks: { onMetrics: metrics.record },
+})
+
+<IamDevtools engine={engine} metrics={metrics} />
+```
+
+See [metrics aggregator](/duck-iam/integrations/observability/metrics)
+for the full hook surface.
+
+## Wiring the flow recorder
+
+The Flow panel needs an `IFlowRecorder`. Build one via
+`createFlowRecorder` and pass it both as the engine hook bus and as
+the devtools prop:
+
+```tsx
+import { createFlowRecorder } from '@gentleduck/iam/dt'
+
+const flow = createFlowRecorder({ maxEntries: 500 })
+
+const engine = new Engine({
+  adapter,
+  hooks: {
+    onAuthorizeStart: flow.recordStart,
+    onAuthorizeEnd: flow.recordEnd,
+  },
+})
+
+<IamDevtools engine={engine} flow={flow} />
+```
+
+`maxEntries` bounds the in-memory ring; older entries are evicted.
+The recorder exposes `subscribe()` so panels other than the bundled
+Flow view can render the same data.
+
+## Embedding into an existing admin UI
+
+For when you don't want a floating overlay - export the inner
+component and use the three sub-panel renderers directly:
+
+```tsx
+import { IamDevtoolsInner, DecisionInspector, FlowPanel, MetricsPanel } from '@gentleduck/iam/dt'
+
+<Tabs>
+  <Tab title="Decision"><DecisionInspector engine={engine} /></Tab>
+  <Tab title="Flow"><FlowPanel flow={flow} /></Tab>
+  <Tab title="Metrics"><MetricsPanel metrics={metrics} /></Tab>
+</Tabs>
+```
+
+## Production safety
+
+A production build that accidentally imports `@gentleduck/iam/dt`
+won't render the panel - the entry runs `isDevtoolsBlocked()` first
+which returns `true` whenever a production marker is detected
+(`NODE_ENV`, `import.meta.env.PROD`, or an explicit
+`window.__GENTLEDUCK_IAM_DT_DISABLED__ = true`). To force-disable in
+any environment, set the window flag before the panel mounts.
+
+## See also
+
+- [Metrics aggregator](/duck-iam/integrations/observability/metrics) - the recording side of the Metrics panel.
+- [Engine hooks](/duck-iam/advanced/engine/hooks) - all the hooks the devtools listens on.

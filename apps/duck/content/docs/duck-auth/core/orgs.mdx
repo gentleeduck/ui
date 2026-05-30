@@ -11,7 +11,7 @@ with potentially different roles per org. The classic case: a
 freelance designer is `admin` of their own company workspace and
 `viewer` of three client workspaces.
 
-duck-auth doesn't enforce per-org permissions on its own — that's
+duck-auth doesn't enforce per-org permissions on its own - that's
 [duck-iam's job](/duck-iam/core/roles/scoped). The `orgs` facet
 owns the membership data; iam reads it to scope role assignments.
 
@@ -32,7 +32,7 @@ export const auth = new AuthRoot<Profile, never, OrgMeta>({
     identities: adapter.identities,
     sessions: adapter.sessions,
     credentials: adapter.credentials,
-    orgs: adapter.orgs,             // ← enables the facet
+    orgs: adapter.orgs,             // <- enables the facet
   },
 })
 
@@ -61,7 +61,7 @@ await auth.orgs.addMember({
 
 // List an identity's memberships
 const memberships = await auth.orgs.listForIdentity('identity-1')
-// → [{ orgId, identityId, role, joinedAt }, ...]
+// -> [{ orgId, identityId, role, joinedAt }, ...]
 
 // Update a member's role
 await auth.orgs.updateMemberRole({ orgId, identityId, role: 'viewer' })
@@ -87,15 +87,15 @@ const invite = await auth.orgs.createInvitation({
   role: 'editor',
   expiresIn: 7 * 24 * 60 * 60 * 1000,  // 7 days
 })
-// → { token, expiresAt }
-// → channel sends an email containing the link
+// -> { token, expiresAt }
+// -> channel sends an email containing the link
 
 // 2. Invitee clicks the link, signs in if necessary, then:
 await auth.orgs.acceptInvitation({
   token,
   identityId: ctx.identity.id,
 })
-// → adds the membership row, marks invite consumed
+// -> adds the membership row, marks invite consumed
 ```
 
 The invitation token is hashed at rest and single-use. If the invitee

@@ -20,12 +20,12 @@ export const auth = new AuthRoot({
     identities: adapter.identities,
     sessions: adapter.sessions,
     credentials: adapter.credentials,
-    orgs: adapter.orgs,    // optional — enables the orgs facet
+    orgs: adapter.orgs,    // optional - enables the orgs facet
   },
 })
 ```
 
-Adapters are not coupled — you can mix and match. The typical
+Adapters are not coupled - you can mix and match. The typical
 production posture is **SQL for identities/credentials** plus
 **Redis for sessions/limiter/idempotency/events**.
 
@@ -66,19 +66,19 @@ catch the dozen subtle bugs that have bit every adapter ever shipped:
 
 ```
 Dev / test / local CI?
-  → MemoryAuthAdapter
+  -> MemoryAuthAdapter
 
 Single-replica production app, low traffic?
-  → SQL (Drizzle/pg) for everything; no Redis needed
+  -> SQL (Drizzle/pg) for everything; no Redis needed
 
 Multi-replica, sessions across processes, rate limit across processes?
-  → SQL for identities/credentials/orgs + Redis for sessions/limiter
+  -> SQL for identities/credentials/orgs + Redis for sessions/limiter
 
 Stateless JWT, but need DPoP jti replay defence across processes?
-  → SQL + RedisDPoPNonceStore (the JWT is verified locally, no session store needed)
+  -> SQL + RedisDPoPNonceStore (the JWT is verified locally, no session store needed)
 
 Migrating from an existing auth system?
-  → Implement SqlBridge against your existing schema; use bulkCreate to import.
+  -> Implement SqlBridge against your existing schema; use bulkCreate to import.
 ```
 
 ## Writing a custom adapter

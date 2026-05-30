@@ -33,9 +33,9 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@gentleduck/hooks": "^0.2.2",
-    "@gentleduck/libs": "^0.2.2",
-    "@gentleduck/vim": "^0.2.2",
+    "@gentleduck/hooks": "^1.0.0",
+    "@gentleduck/libs": "^1.0.0",
+    "@gentleduck/vim": "^0.3.0",
     "jotai": "^2.14.0",
     "lucide-react": "1.6.0",
     "next": "^16.1.1",
@@ -138,5 +138,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "2.0.1"
+  "version": "3.0.0"
 }

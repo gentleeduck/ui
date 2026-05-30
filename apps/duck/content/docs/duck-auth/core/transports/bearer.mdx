@@ -37,7 +37,7 @@ Authorization: Bearer 01HJX7B2T9XKAZQP1G...
 ## Wire format
 
 The token is a 256-bit random value (base64url-encoded). At rest, the
-session store records a **hash** of the token — even a database leak
+session store records a **hash** of the token - even a database leak
 does not yield usable bearer tokens.
 
 The token is returned to the client **once**, in the JSON intent on
@@ -74,10 +74,10 @@ iOS / Android: store the bearer token in the OS-managed credential store
 or in plain disk files.
 
 ```swift
-// iOS — store
+// iOS - store
 KeychainAccess.set(token, forKey: "duck-auth-session")
 
-// iOS — read
+// iOS - read
 let token = KeychainAccess.get("duck-auth-session")
 request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 ```
@@ -90,20 +90,20 @@ to avoid CORS-credential complexity:
 ```typescript
 // In the SPA
 const { session } = await client.signIn({ email, password })
-localStorage.setItem('duck-sid', session.token)   // ← see warning below
+localStorage.setItem('duck-sid', session.token)   // <- see warning below
 
 // Or, better, in-memory + service worker:
 const inMemoryToken = session.token  // SW intercepts fetch and adds header
 ```
 
-⚠️ `localStorage` is readable by any script on the page; an XSS gives an
+(warning) `localStorage` is readable by any script on the page; an XSS gives an
 attacker the bearer token. Prefer in-memory plus a service worker, or
 move to a same-origin cookie deployment with `CookieTransport`.
 
 ## Combining with DPoP
 
 `BearerTransport` plus `DPoPVerifier` produces **sender-constrained**
-tokens — the bearer is bound to a client public key, and a stolen token
+tokens - the bearer is bound to a client public key, and a stolen token
 is useless without the matching private key:
 
 ```typescript
@@ -119,4 +119,4 @@ const dpop = new DPoPVerifier({
 await dpop.verify(jwt, req.headers.get('dpop')!)
 ```
 
-See [DPoP →](/duck-auth/core/transports/dpop).
+See [DPoP ->](/duck-auth/core/transports/dpop).

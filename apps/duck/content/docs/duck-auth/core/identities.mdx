@@ -6,7 +6,7 @@ section: Core
 
 ## The identities facet
 
-`auth.identities` owns the identity record — the long-lived "who" of the
+`auth.identities` owns the identity record - the long-lived "who" of the
 caller. It is typed by the `Profile` generic you pass to `AuthRoot`:
 
 ```typescript
@@ -32,7 +32,7 @@ const byProvider = await auth.identities.findByProviderSub({
 })
 ```
 
-`tenantId` scopes every lookup — duck-auth is multi-tenant by default,
+`tenantId` scopes every lookup - duck-auth is multi-tenant by default,
 and cross-tenant reads are rejected by the store layer.
 
 ## Linking external accounts
@@ -105,7 +105,7 @@ timestamp, the reason) is preserved.
 
 ```typescript
 const dump = await auth.identities.exportAll(id)
-// → { identity, credentials (without secrets), sessions, providerLinks }
+// -> { identity, credentials (without secrets), sessions, providerLinks }
 ```
 
 Used for GDPR data-portability requests.
@@ -128,7 +128,7 @@ await auth.identities.bulkCreate([
 ])
 ```
 
-The bulk path **does not re-hash** — it expects pre-hashed secrets so
+The bulk path **does not re-hash** - it expects pre-hashed secrets so
 you can pump a Bcrypt or Argon2 dump straight in without breaking the
 existing hashes.
 
@@ -155,7 +155,7 @@ a typed validation error at write time.
 | `identity.updated` | `update()` or `updateProfile()`. |
 | `identity.deleted` | `softDelete()` or `hardDelete()`. |
 | `identity.restored` | `restore()` during the grace window. |
-| `identity.erased` | `erase()` — irreversible. |
+| `identity.erased` | `erase()` - irreversible. |
 | `identity.linked` | `linkProvider()`. |
 | `identity.unlinked` | `unlinkProvider()`. |
 | `identity.merged` | `merge()`. |

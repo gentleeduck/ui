@@ -51,7 +51,7 @@ email or username. The user picks a credential and signs.
 ```typescript
 // Begin: no email needed
 await client.beginProvider('passkey', { sessionId: '...' })
-// → response includes attestation options; client calls navigator.credentials.get(...)
+// -> response includes attestation options; client calls navigator.credentials.get(...)
 
 // Complete: send the assertion back
 await client.signIn({
@@ -70,7 +70,7 @@ registered credentials.
 ```typescript
 // Begin: include the email
 await client.beginProvider('passkey', { email, sessionId: '...' })
-// → response includes assertion options with allowCredentials[] for that identity
+// -> response includes assertion options with allowCredentials[] for that identity
 
 // Complete:
 await client.signIn({
@@ -88,7 +88,7 @@ Use the username flow when:
 ## Registration (enrolment)
 
 ```typescript
-// 1. Begin registration — call when the user opts in.
+// 1. Begin registration - call when the user opts in.
 const challenge = await auth.mfa.passkey.beginRegistration({
   identityId: ctx.identity.id,
   authenticatorSelection: {
@@ -107,7 +107,7 @@ await auth.mfa.passkey.completeRegistration({
   identityId: ctx.identity.id,
   response: credential,
 })
-// → credential persisted to credentials store.
+// -> credential persisted to credentials store.
 ```
 
 ## Challenge store
@@ -149,7 +149,7 @@ passkeyDiscoverable({
 | `'preferred'` | Verify if the authenticator supports it; accept without otherwise. **Default.** |
 | `'discouraged'` | Do not verify. Use for low-risk "remember me" credentials. |
 
-`'preferred'` is the default and the right pick for most apps —
+`'preferred'` is the default and the right pick for most apps -
 defaults gracefully on platform authenticators that always verify
 (Touch ID, Windows Hello), accepts hardware keys that don't.
 

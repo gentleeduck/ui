@@ -21,7 +21,7 @@ const unsubscribe = otel.attach(auth.events)
 ```
 
 Requires `@opentelemetry/api` as a peer dependency. It is **lazy-loaded**
-— apps that don't wire OTel pay no cost.
+- apps that don't wire OTel pay no cost.
 
 ## What it records
 
@@ -30,17 +30,17 @@ Every event on the bus translates to a metric:
 | Event | Metric | Attributes |
 | --- | --- | --- |
 | `session.created` | `auth.session.total` (counter) | `kind`, `aal`, `provider` |
-| `session.created` | `auth.session.active` (up-down counter, +1) | — |
-| `session.revoked` | `auth.session.active` (up-down counter, -1) | — |
+| `session.created` | `auth.session.active` (up-down counter, +1) | - |
+| `session.revoked` | `auth.session.active` (up-down counter, -1) | - |
 | `session.rotated` | `auth.session.rotations.total` | `reason` |
-| `password.changed` | `auth.password.changes.total` | — |
-| `password.reset` | `auth.password.resets.total` | — |
+| `password.changed` | `auth.password.changes.total` | - |
+| `password.reset` | `auth.password.resets.total` | - |
 | `mfa.enrolled` | `auth.mfa.enrolled.total` | `factor` |
 | `mfa.verified` | `auth.mfa.verified.total` | `factor` |
 | `anomaly` | `auth.anomaly.signals.total` | `detector`, `score` |
 | `anomaly` | `auth.anomaly.decisions.total` | `decision` (allow/step-up/deny) |
 | `lockout` | `auth.lockout.total` | `reason` |
-| `identity.created` | `auth.identity.signups.total` | — |
+| `identity.created` | `auth.identity.signups.total` | - |
 
 Plus a histogram per provider:
 
@@ -55,11 +55,11 @@ For trace-level observability, duck-auth emits a span around each
 provider call:
 
 ```
-provider.password.complete  → trace.spanId, trace.traceId
-  ├── store.identity.findByEmail
-  ├── store.credential.findByHashedSecret
-  ├── hasher.verify
-  └── session.rotateOrCreate
+provider.password.complete  -> trace.spanId, trace.traceId
+  |-- store.identity.findByEmail
+  |-- store.credential.findByHashedSecret
+  |-- hasher.verify
+  \-- session.rotateOrCreate
 ```
 
 Spans carry attributes:
@@ -70,7 +70,7 @@ Spans carry attributes:
 - `auth.code` (the `AUTH/*` code on failure)
 
 PII attributes (`email`, `ip`, `userAgent`, profile fields) are
-**redacted by default** — the OTel instrumentation runs every span
+**redacted by default** - the OTel instrumentation runs every span
 attribute through a denylist before emission. To override:
 
 ```typescript
@@ -78,7 +78,7 @@ new OtelInstrumentation({
   meter,
   redact: {
     extraDenylist: ['custom-sensitive-field'],
-    allowlist: [],     // never include these — even if you ask
+    allowlist: [],     // never include these - even if you ask
   },
 })
 ```
@@ -104,7 +104,7 @@ const cfg = soc2({ ... })
 
 The metric names follow OTel semconv conventions where possible. A
 ready-made Grafana dashboard JSON ships under
-`@gentleduck/auth/telemetry/otel/dashboards/grafana.json` — import it
+`@gentleduck/auth/telemetry/otel/dashboards/grafana.json` - import it
 into your Grafana instance to get:
 
 - Sign-in rate / failure rate, by provider.

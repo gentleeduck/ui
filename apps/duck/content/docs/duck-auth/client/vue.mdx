@@ -1,6 +1,6 @@
 ---
 title: Vue client
-description: Vue 3 composables — useSession, useSignIn, useSignOut. Reactive across components and across browser tabs.
+description: Vue 3 composables - useSession, useSignIn, useSignOut. Reactive across components and across browser tabs.
 section: Client
 ---
 
@@ -28,7 +28,7 @@ const { data, status } = useSession()
 </script>
 
 <template>
-  <div v-if="status === 'loading'">Loading…</div>
+  <div v-if="status === 'loading'">Loading...</div>
   <div v-else-if="status === 'guest'">
     <SignInForm />
   </div>
@@ -68,7 +68,7 @@ async function submit() {
     <input v-model="email" type="email" required />
     <input v-model="password" type="password" required />
     <button :disabled="signIn.isLoading.value">
-      {{ signIn.isLoading.value ? 'Signing in…' : 'Sign in' }}
+      {{ signIn.isLoading.value ? 'Signing in...' : 'Sign in' }}
     </button>
     <p v-if="signIn.error.value" class="text-red-500">
       {{ signIn.error.value.code }}

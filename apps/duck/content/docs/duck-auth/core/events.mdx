@@ -26,7 +26,7 @@ const unsubscribe = auth.events.on('session.rotated', (event) => {
 unsubscribe()
 ```
 
-The handler is **awaited** if it returns a promise — the runtime fans out
+The handler is **awaited** if it returns a promise - the runtime fans out
 synchronously to give observers a chance to flush before the request
 returns. Throwing handlers do not break the originating call; the error
 is routed to the `onError` sink (if configured) and the bus moves on.
@@ -45,7 +45,7 @@ export const auth = new AuthRoot({
 ```
 
 `RedisEvents` publishes on a Pub/Sub channel and replays through the
-same `on()` API. Every replica receives every event — useful for cache
+same `on()` API. Every replica receives every event - useful for cache
 invalidation and presence tracking.
 
 ## The event taxonomy
@@ -99,7 +99,7 @@ invalidation and presence tracking.
 | `lockout` | `{ identityId? \| ip?, reason, until }` |
 
 The `lockout` event is the one `strict()` will complain about if no
-listener is attached in production — at minimum, you should be paging on
+listener is attached in production - at minimum, you should be paging on
 or auditing every lockout.
 
 ## WebhookDeliverer
@@ -133,5 +133,5 @@ if (!ok) return new Response('bad signature', { status: 401 })
 ```
 
 Comparisons are constant-time. The deliverer ships with a dead-letter
-sink — failed POSTs are buffered and retried with exponential backoff
+sink - failed POSTs are buffered and retried with exponential backoff
 before being dropped to an `events.deadletter` event for inspection.

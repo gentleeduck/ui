@@ -13,8 +13,8 @@ export const auth = createAuthStore({
   baseUrl: '/auth',
 })
 
-// auth.session — readable Svelte store of the current session state.
-// auth.signIn / auth.signOut / auth.beginProvider — methods.
+// auth.session - readable Svelte store of the current session state.
+// auth.signIn / auth.signOut / auth.beginProvider - methods.
 ```
 
 ## Usage
@@ -45,12 +45,12 @@ export const auth = createAuthStore({
 </script>
 
 {#if $auth.session === undefined}
-  <p>Loading…</p>
+  <p>Loading...</p>
 {:else if $auth.session === null}
   <form on:submit|preventDefault={submit}>
     <input bind:value={email} type="email" required />
     <input bind:value={password} type="password" required />
-    <button disabled={loading}>{loading ? 'Signing in…' : 'Sign in'}</button>
+    <button disabled={loading}>{loading ? 'Signing in...' : 'Sign in'}</button>
     {#if error}<p style="color:red">{error}</p>{/if}
   </form>
 {:else}
@@ -59,7 +59,7 @@ export const auth = createAuthStore({
 {/if}
 ```
 
-`$auth.session` is the reactive accessor — Svelte subscribes
+`$auth.session` is the reactive accessor - Svelte subscribes
 automatically when you reference `$store` in the template.
 
 ## SvelteKit (SSR)

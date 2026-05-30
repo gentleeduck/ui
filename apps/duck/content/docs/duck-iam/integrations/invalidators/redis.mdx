@@ -43,7 +43,7 @@ const invalidator = createRedisInvalidator({
     unsubscribe: (ch) => sub.unsubscribe(ch),
   },
   channel: 'iam:invalidate', // optional; defaults to 'duck-iam:invalidate'
-  secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 — required in prod
+  secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
 })
 
 const engine = new Engine({ adapter, invalidator })
@@ -53,7 +53,7 @@ process.on('SIGTERM', () => engine.dispose())
 
 <Callout type="warning" title="Set `secret` in production (SEC-046)">
 Without `secret`, envelopes are unsigned and accepted from any party with
-PUBLISH rights on the channel — they can wipe caches across the fleet.
+PUBLISH rights on the channel - they can wipe caches across the fleet.
 With `secret`, every envelope is HMAC-SHA256 signed; incoming envelopes
 without a verifying signature are dropped. A one-shot console warn fires
 at construction when no secret is set.
@@ -167,7 +167,7 @@ Works with NATS, Kafka, RabbitMQ, MQTT, or any in-process bus. The contract is t
 | `client` | `RedisInvalidator.IPubSubLike` | -- | Pub/sub adapter with `publish` + `subscribe` (+ optional `unsubscribe`) |
 | `channel` | `string` | `'duck-iam:invalidate'` | Pub/sub channel name |
 | `tenantId` | `string` | -- | Auto-prefixes the channel as `${channel}:tenant:${tenantId}`. Validated against `/^[A-Za-z0-9_-]{1,64}$/`. CAVEAT-1. |
-| `secret` | `string \| null` | `null` | HMAC-SHA256 shared secret. Required in production — without it any party with PUBLISH rights on the channel can wipe caches. |
+| `secret` | `string \| null` | `null` | HMAC-SHA256 shared secret. Required in production - without it any party with PUBLISH rights on the channel can wipe caches. |
 | `onPublishError` | `(err, channel) -> void` | console.warn (rate-limited) | Wire to alerting; non-fatal but cross-instance invalidations are lost. SEC-062. |
 
 The `RedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis and node-redis v4+ satisfy it directly. The full options object conforms to `RedisInvalidator.IConfig`.

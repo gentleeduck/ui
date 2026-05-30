@@ -23,7 +23,7 @@ const channel = new ResendChannel({
 ```
 
 Make sure the `from` address is on a verified domain in your Resend
-dashboard — Resend rejects unverified domains.
+dashboard - Resend rejects unverified domains.
 
 ## With magic-link
 
@@ -69,7 +69,7 @@ templates with React components.
 | 401 Unauthorized | `AUTH/PROVIDER_FAILED` (check the API key) |
 | 422 Unprocessable | `AUTH/PROVIDER_FAILED` (template / from-address issue) |
 | 429 Too Many Requests | `AUTH/RATE_LIMITED` (Resend account rate limit) |
-| 5xx | `AUTH/PROVIDER_FAILED` (transient — client should retry) |
+| 5xx | `AUTH/PROVIDER_FAILED` (transient - client should retry) |
 
 ## Webhook integration
 

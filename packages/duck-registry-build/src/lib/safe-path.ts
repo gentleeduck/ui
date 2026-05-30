@@ -106,23 +106,22 @@ export function isPathWithinBases(candidate: string, baseDirs: readonly string[]
     return false
   }
 
-  const resolvedCandidate = path.resolve(candidate)
-  const canonicalCandidate = canonicaliseExistingPrefix(resolvedCandidate)
+  // Canonicalise the candidate via its existing ancestor so an in-tree symlink
+  // (or the macOS /var -> /private/var alias) does not flip the containment
+  // check to a false negative. Walk up until an ancestor exists; the
+  // canonical-base + non-canonical-tail comparison is still sound because the
+  // tail is the same character sequence in both names.
+  const resolvedCandidate = canonicalisePath(path.resolve(candidate))
 
   for (const baseDir of baseDirs) {
     let base = path.resolve(baseDir)
     try {
       base = fs.realpathSync(base)
     } catch {
-      // Base does not exist yet — fall back to the resolved (non-canonical) path.
+      // Base does not exist yet - fall back to the resolved (non-canonical) path.
     }
 
-    if (
-      resolvedCandidate === base ||
-      resolvedCandidate.startsWith(base + path.sep) ||
-      canonicalCandidate === base ||
-      canonicalCandidate.startsWith(base + path.sep)
-    ) {
+    if (resolvedCandidate === base || resolvedCandidate.startsWith(base + path.sep)) {
       return true
     }
   }
@@ -130,21 +129,19 @@ export function isPathWithinBases(candidate: string, baseDirs: readonly string[]
   return false
 }
 
-// Resolve the longest existing prefix of `absolute` via realpath, then re-attach
-// the remaining (non-existent) tail. Lets containment checks survive platform
-// quirks like macOS's /var -> /private/var symlink when the candidate itself
-// has already been removed but its parent dir still exists.
-function canonicaliseExistingPrefix(absolute: string): string {
-  let current = absolute
-  const trailing: string[] = []
+function canonicalisePath(target: string): string {
+  // Walk up until we find an ancestor that exists, realpath it, then re-append
+  // the non-existent tail. Returns the input unchanged if no ancestor exists.
+  let current = target
+  const tail: string[] = []
   while (true) {
     try {
       const real = fs.realpathSync(current)
-      return trailing.length === 0 ? real : path.join(real, ...trailing.reverse())
+      return tail.length === 0 ? real : path.join(real, ...tail.reverse())
     } catch {
       const parent = path.dirname(current)
-      if (parent === current) return absolute
-      trailing.push(path.basename(current))
+      if (parent === current) return target
+      tail.push(path.basename(current))
       current = parent
     }
   }

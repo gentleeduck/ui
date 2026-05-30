@@ -1,0 +1,172 @@
+---
+title: validation
+description: validatePolicy, validateRoles, validateRole, parsePolicyRow, parseRoleRow + the closed-set limits that the engine enforces at boot.
+section: Advanced
+---
+
+duck-iam ships standalone validators in `@gentleduck/iam/core/validate`
+for when you load policies and roles from sources you don't fully
+trust - admin dashboards, JSON files written by hand, columns in a
+shared database, a staging endpoint that previews proposed changes,
+or a migration tool that copies rows between adapters.
+
+All validators return a `Validate.IResult` with `valid: boolean` and
+an array of `Validate.IIssue` records. Issues have closed-set `code`
+strings so callers can branch on them programmatically.
+
+## `validatePolicy`
+
+Deep-validates an untrusted candidate policy object. Returns issues
+for missing required fields, invalid combining algorithm, malformed
+rules, invalid condition shapes (operator + value + group structure),
+and any field that exceeds the per-field limit.
+
+```typescript
+import { validatePolicy } from '@gentleduck/iam/core/validate'
+
+const result = validatePolicy(jsonFromDatabase)
+if (!result.valid) {
+  throw new Error(result.issues.map((i) => `${i.code}: ${i.message}`).join('\n'))
+}
+// Safe to feed the validated row to the engine
+engine.admin.savePolicy(jsonFromDatabase as AccessControl.IPolicy)
+```
+
+Use this before:
+- inserting an admin-dashboard JSON into the database,
+- calling `engine.admin.savePolicy()` with externally-sourced data,
+- importing a policy bundle from a config file or git repo.
+
+## `validateRoles`
+
+Validates an array of role definitions for cross-role concerns:
+duplicate ids, dangling `inherits` references, circular inheritance
+chains, and roles that have no permissions and no inheritance.
+
+```typescript
+import { validateRoles } from '@gentleduck/iam/core/validate'
+
+const result = validateRoles(rolesFromConfig)
+if (!result.valid) console.error(result.issues)
+```
+
+Run this at boot time over the role bundle you load from your adapter
+or config file. Circular chains are reported as warnings since the
+runtime cuts them with a `seen` set; bad ids are errors.
+
+## `validateRole`
+
+Shape guard for a single Role row. Mirrors `validatePolicy` for the
+RBAC side. Confirms `id` is a non-empty string, `permissions` is an
+array, and (when present) `inherits` is an array of strings. Adapters
+call this after `JSON.parse` to drop tampered rows before they reach
+the evaluator.
+
+```typescript
+import { validateRole } from '@gentleduck/iam/core/validate'
+
+const result = validateRole(row)
+if (!result.valid) continue   // drop the row, move on
+```
+
+## `parsePolicyRow`
+
+Adapter-author helper. Wraps `validatePolicy` and returns the typed
+row on success or `null` on any validation failure - so the boundary
+between `unknown` (from JSON / SQL / Redis) and the typed domain
+crosses through a single function instead of a scatter of `as
+AccessControl.IPolicy<...>` casts.
+
+```typescript
+import { parsePolicyRow } from '@gentleduck/iam/core/validate'
+
+class MyAdapter implements Adapter.IAdapter {
+  async listPolicies() {
+    const rows = await this.myStore.fetchPolicies()
+    const out: AccessControl.IPolicy[] = []
+    for (const row of rows) {
+      const policy = parsePolicyRow(row)
+      if (policy !== null) out.push(policy)
+      // else: drop the malformed row (log it if you want)
+    }
+    return out
+  }
+}
+```
+
+The `TAction` / `TResource` / `TRole` generics are TS-only constraints
+that runtime validation cannot verify; the adapter trusts the strings
+because the same library wrote them via `savePolicy`.
+
+## `parseRoleRow`
+
+Mirror of `parsePolicyRow` for role rows. Same contract: returns the
+typed row on success, `null` on failure.
+
+## Limits enforced by `validatePolicy`
+
+The validators reject inputs that would otherwise blow runtime
+budgets at evaluation time. The closed-set limits live alongside the
+validators so callers can introspect them if they want to surface the
+same caps in their UI.
+
+| Constant | Value | What it caps |
+|---|---|---|
+| `POLICY_LIMITS.rulesPerPolicy` | 1_000 | rules per policy |
+| `POLICY_LIMITS.actionsPerRule` | 100 | actions per rule |
+| `POLICY_LIMITS.resourcesPerRule` | 100 | resources per rule |
+| `POLICY_LIMITS.cartesianPerRule` | 1_000 | actions x resources expansion |
+| `MAX_FIELD_LENGTH` | 256 | field-path strings |
+| `MAX_CONDITION_VALUE_LENGTH` | 1024 | string condition values |
+| `MAX_INHERITANCE_DEPTH` | 8 | role inherits chain depth |
+
+```typescript
+import { POLICY_LIMITS, MAX_FIELD_LENGTH } from '@gentleduck/iam/core/validate'
+```
+
+## ReDoS defense
+
+The `matches` operator runs the candidate string through a heuristic
+catastrophic-backtracking detector before compiling the pattern.
+`detectCatastrophicRegex(pattern)` returns `{ safe: boolean; reason?:
+string }` and `validatePolicy` calls it on every `matches` condition.
+
+The detector refuses common ReDoS shapes:
+- Nested quantifiers (`(a+)+`, `(a*)*`).
+- Alternation inside a quantifier (`(a|a)+`).
+- More than `MAX_UNBOUNDED_QUANTIFIERS` unbounded quantifiers (default 4) in one pattern.
+- Backreference followed by a quantifier (`(\w+)\1+`).
+- Bounded quantifier with large upper bound (`a{1,1000000}`); cap is `MAX_BOUNDED_QUANTIFIER` (default 1_000).
+- Lookaround group containing a quantifier (`(?=(a+)+)`).
+
+Patterns deemed unsafe never compile, so the runtime never sees them.
+A `false` result from a `matches` operator inside a `deny` rule would
+flip the rule to "condition not met -> allow", so the validator's
+guarantee is load-bearing.
+
+## Closed-set codes
+
+Every issue carries a stable, closed-set `code` string. Branch on
+them in your error handling so a code change is a deliberate event:
+
+| Code | Meaning |
+|---|---|
+| `DUPLICATE_ROLE_ID` | Two roles share the same `id` |
+| `MISSING_INHERITED_ROLE` | `inherits` references an unknown role id |
+| `CIRCULAR_INHERITANCE` | Role chain forms a cycle |
+| `EMPTY_ROLE` | Role has neither permissions nor inheritance |
+| `INVALID_TYPE` | Top-level shape is not an object |
+| `MISSING_FIELD` | A required field is missing or empty |
+| `INVALID_EFFECT` | Effect is not `'allow'` or `'deny'` |
+| `INVALID_OPERATOR` | Condition operator is not in the closed set |
+| `INVALID_CONDITION` | Condition group structure is malformed |
+| `LIMIT_EXCEEDED` | A `POLICY_LIMITS` cap was breached |
+| `UNSAFE_REGEX` | `detectCatastrophicRegex` rejected a pattern |
+
+The full `Validate.IIssue` type is exported from
+`@gentleduck/iam/core/validate`.
+
+## See also
+
+- [JSON schema](/duck-iam/advanced/json-schema) - emit a JSON Schema document for editor tooling and out-of-band validators.
+- [Adapter row parsers](/duck-iam/advanced/utilities#row-parsers---adapter-authors) - the `parsePolicyRow` / `parseRoleRow` pattern in context.

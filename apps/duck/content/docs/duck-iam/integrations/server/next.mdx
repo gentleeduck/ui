@@ -35,7 +35,7 @@ async function handler(req: Request, ctx: { params: Promise<{ id: string }> }) {
 
 export const DELETE = withAccess(engine, 'delete', 'post', handler, {
   // SEC-101: `getUserId` is REQUIRED. The constructor throws when omitted.
-  // Never derive identity from request headers — it's spoofable.
+  // Never derive identity from request headers - it's spoofable.
   getUserId: async (req) => {
     const session = await auth()
     return session?.user?.id ?? null
@@ -45,7 +45,7 @@ export const DELETE = withAccess(engine, 'delete', 'post', handler, {
 
 The wrapper automatically reads `params.id` as the resource instance ID. `params` may be a Promise (Next.js 15+) or an object.
 
-<Callout type="warning" title="SEC-101 — `getUserId` is required in 2.1.0">
+<Callout type="warning" title="SEC-101 - `getUserId` is required in 2.1.0">
 `withAccess` throws at construction when `opts.getUserId` is omitted. The
 previous default trusted the `x-user-id` request header, which any
 unauthenticated client can spoof with `curl -H 'X-User-Id: admin'`. Wire it
@@ -134,7 +134,7 @@ import { engine } from '@/lib/engine'
 import { NextResponse } from 'next/server'
 
 const checkAccess = createNextMiddleware(engine, {
-  // SEC-101: derive identity from a verified source — never trust a raw
+  // SEC-101: derive identity from a verified source - never trust a raw
   // header. Cookie session, JWT, or your auth library's session helper.
   getUserId: async (req) => {
     const session = await getServerSession(req)
@@ -247,17 +247,17 @@ Available handlers: `listPolicies`, `listRoles`, `savePolicy`, `saveRole`, `assi
 Mutation handlers (`savePolicy`, `saveRole`, `assignRole`, `revokeRole`) run
 a `Sec-Fetch-Site` check by default (SEC-103 / CAVEAT-2). Browsers populate
 the header automatically; cross-site form posts are rejected with 403,
-same-site / same-origin requests pass. Non-browser callers (no header) pass —
+same-site / same-origin requests pass. Non-browser callers (no header) pass -
 they must be gated by bearer / mTLS.
 
 ```ts
-// Default — cookie-auth admin UIs get CSRF protection with no opt-in.
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
 createAdminHandlers(engine, { authorize })
 
-// Server-to-server bearer/mTLS API — disable the check entirely.
+// Server-to-server bearer/mTLS API - disable the check entirely.
 createAdminHandlers(engine, { authorize, csrfCheck: false })
 
-// Stricter — Origin allowlist.
+// Stricter - Origin allowlist.
 const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
 createAdminHandlers(engine, {
   authorize,

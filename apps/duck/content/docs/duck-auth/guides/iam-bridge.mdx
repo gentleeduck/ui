@@ -13,9 +13,9 @@ engine.
 
 Keeping them separate is intentional:
 
-- You can swap auth providers (NextAuth → duck-auth) without touching
+- You can swap auth providers (NextAuth -> duck-auth) without touching
   authorization.
-- You can swap authorization engines (Casbin → duck-iam) without
+- You can swap authorization engines (Casbin -> duck-iam) without
   touching auth.
 - The auth library doesn't need to know your domain's permission
   model; the iam library doesn't need to know your sign-in flows.
@@ -29,7 +29,7 @@ function you write in your app.
 import type { Identity, Session } from '@gentleduck/auth/core'
 import type { AccessControl } from '@gentleduck/iam'
 
-// Your typed AccessConfig — same one you defined for the iam engine.
+// Your typed AccessConfig - same one you defined for the iam engine.
 type Profile = {
   displayName: string
   externalGroups?: string[]
@@ -127,7 +127,7 @@ if (!decision.allow) {
 ```
 
 `requiresStepUp` is a custom attribute you can add to your iam policies
-— "deny unless AAL is aal2 and session is fresh." The iam evaluator
+- "deny unless AAL is aal2 and session is fresh." The iam evaluator
 returns the reason, and your handler turns it into the auth-side
 step-up flow. Clean separation.
 
@@ -138,16 +138,16 @@ Both libraries are multi-tenant. The convention is to use the same
 
 ```typescript
 const identity = await auth.identities.findById(id, { tenantId: 'org-123' })
-// → identity.tenantId === 'org-123'
+// -> identity.tenantId === 'org-123'
 
 const subject = projectToSubject(identity, session)
-// → subject.tenantId === 'org-123'
+// -> subject.tenantId === 'org-123'
 
 iam.can({ subject, action, resource, scope: 'org-123' })
-// → policy lookup is scoped to 'org-123'
+// -> policy lookup is scoped to 'org-123'
 ```
 
-A subject can be `admin` in org-1 and `viewer` in org-2 — iam's scoped
+A subject can be `admin` in org-1 and `viewer` in org-2 - iam's scoped
 role assignments handle that natively.
 
 ## When to skip iam

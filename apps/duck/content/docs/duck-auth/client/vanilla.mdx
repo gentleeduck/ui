@@ -66,16 +66,16 @@ For magic-link: triggers the email/SMS dispatch.
 ```typescript
 // OAuth
 await client.beginProvider('google', {})
-// → browser navigates to Google
+// -> browser navigates to Google
 
 // Magic-link
 await client.beginProvider('magic-link', { email, channel: 'email' })
-// → 200 { sent: true }
+// -> 200 { sent: true }
 ```
 
 ### `refresh()`
 
-Re-fetches the session without ceremony — useful after a server-side
+Re-fetches the session without ceremony - useful after a server-side
 mutation that you know changed the session shape:
 
 ```typescript

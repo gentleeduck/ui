@@ -7,7 +7,7 @@ section: Adapters
 ## The SQL bridge
 
 duck-auth does not ship a Drizzle or Prisma adapter as a hard dependency.
-Instead, it exposes a thin contract — `SqlBridge.IBridge` — that any ORM
+Instead, it exposes a thin contract - `SqlBridge.IBridge` - that any ORM
 can implement. The bridge is then wrapped into the four stores
 (identities / credentials / sessions / orgs) by `createSqlAuthStores`.
 
@@ -57,7 +57,7 @@ import { createDrizzleSqliteBridge } from '@gentleduck/auth/adapters/drizzle/sql
 The CLI emits ready-to-run DDL that matches the bundled bridges:
 
 ```bash
-bunx @gentleduck/auth migrate pg      # → CREATE TABLE identities, credentials, sessions, ...
+bunx @gentleduck/auth migrate pg      # -> CREATE TABLE identities, credentials, sessions, ...
 bunx @gentleduck/auth migrate mysql
 bunx @gentleduck/auth migrate sqlite
 ```
@@ -140,7 +140,7 @@ mirror them:
   `provider-link` / `totp` / `backup-code`), `hashedSecret` (text,
   indexed for fast lookup), `metadata` (jsonb), `expiresAt`,
   `revokedAt`.
-- **Sessions**: `id` (text PK), `idHash` (text unique — the stored
+- **Sessions**: `id` (text PK), `idHash` (text unique - the stored
   hash of the wire token), `identityId` (FK), `expiresAt`, `aal`
   (`aal1` / `aal2`), `amr` (text[]).
 - **Orgs**: `id` (text PK), `name`, `tenantId`, `meta` (jsonb).
@@ -151,7 +151,7 @@ mirror them:
 Every query takes `tenantId`. The bundled schemas include `tenantId`
 columns on `identities` and `orgs` and filter every read by it. If you
 omit `tenantId` in calls, duck-auth uses `null` as the implicit
-single-tenant value — fine for single-tenant apps.
+single-tenant value - fine for single-tenant apps.
 
 ## Pre-hashed password import
 
