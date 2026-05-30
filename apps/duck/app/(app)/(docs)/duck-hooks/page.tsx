@@ -54,7 +54,7 @@ const features = [
   },
   {
     icon: Clock,
-    title: 'useComputedTimeoutTransition',
+    title: 'scheduleTransitionTimeout',
     description: 'Drive CSS transitions off an element’s computed transition-duration. No hardcoded timeouts.',
     bg: 'bg-sky-500/10',
     color: 'text-sky-500',

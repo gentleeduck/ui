@@ -4,6 +4,7 @@ import {
   Command,
   Database,
   FileCode2,
+  Fingerprint,
   ImageIcon,
   Keyboard,
   KeyRound,
@@ -131,6 +132,14 @@ export const navItems = [
         description: 'Identity and access management — roles, permissions, and policy enforcement.',
         icon: KeyRound,
         color: '#eab308',
+      },
+      {
+        title: '@gentleduck/auth',
+        href: '/duck-auth',
+        description: 'Faceted, framework-agnostic, transport-pluggable authentication for TypeScript.',
+        icon: Fingerprint,
+        color: '#10b981',
+        status: 'wip',
       },
       {
         title: '@gentleduck/template',

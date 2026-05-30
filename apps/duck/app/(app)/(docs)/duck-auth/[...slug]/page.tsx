@@ -6,6 +6,7 @@ import {
   DocsPathBreadcrumb,
   DocsSidebarNav,
   Mdx,
+  trustCompiledMdxBody,
 } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui/badge'
@@ -124,7 +125,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
             ) : null}
           </header>
           <section className="pt-8 pb-12">
-            <Mdx code={doc.body} />
+            <Mdx code={trustCompiledMdxBody(doc.body)} />
           </section>
           <footer>
             <DocsPagerBottom config={sidebar} doc={doc} />
