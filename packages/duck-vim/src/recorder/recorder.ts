@@ -1,10 +1,24 @@
-import { MODIFIER_KEYS } from '../parser/parser'
+import { keyboardEventToDescriptor, MODIFIER_KEY_EVENT_NAMES_LOWER, MODIFIER_KEYS } from '../parser/parser'
 import type { Recorder } from './recorder.types'
 
-/**
- * Records a key combination (modifiers + key) as a canonical binding string.
- * Intended for "press to set shortcut" UIs.
- */
+/** Narrows the `HTMLElement | Document` union to a `KeyboardEvent` listener. */
+function addKeyListener(
+  target: HTMLElement | Document,
+  type: 'keydown' | 'keyup',
+  listener: (e: KeyboardEvent) => void,
+): void {
+  target.addEventListener(type, listener as EventListener)
+}
+
+function removeKeyListener(
+  target: HTMLElement | Document,
+  type: 'keydown' | 'keyup',
+  listener: (e: KeyboardEvent) => void,
+): void {
+  target.removeEventListener(type, listener as EventListener)
+}
+
+/** Records a key combination as a canonical binding string ("press to set shortcut" UIs). */
 export class KeyRecorder {
   private options: Recorder.IKeyRecorderOptions
   private target: HTMLElement | Document | null = null
@@ -24,9 +38,11 @@ export class KeyRecorder {
     this._isRecording = true
     this.heldModifiers.clear()
     this.currentKey = null
+    // Each new recording session starts with a clean slate.
+    this._recorded = null
 
-    target.addEventListener('keydown', this.onKeyDown as EventListener)
-    target.addEventListener('keyup', this.onKeyUp as EventListener)
+    addKeyListener(target, 'keydown', this.onKeyDown)
+    addKeyListener(target, 'keyup', this.onKeyUp)
 
     if (typeof window !== 'undefined') {
       window.addEventListener('blur', this.onBlur)
@@ -38,8 +54,8 @@ export class KeyRecorder {
   stop(): void {
     if (!this._isRecording || !this.target) return
 
-    this.target.removeEventListener('keydown', this.onKeyDown as EventListener)
-    this.target.removeEventListener('keyup', this.onKeyUp as EventListener)
+    removeKeyListener(this.target, 'keydown', this.onKeyDown)
+    removeKeyListener(this.target, 'keyup', this.onKeyUp)
 
     if (typeof window !== 'undefined') {
       window.removeEventListener('blur', this.onBlur)
@@ -78,7 +94,7 @@ export class KeyRecorder {
     e.preventDefault()
     e.stopPropagation()
 
-    const key = e.key.toLowerCase()
+    const lowerKey = e.key.toLowerCase()
 
     if (e.ctrlKey) this.heldModifiers.add('ctrl')
     if (e.altKey) this.heldModifiers.add('alt')
@@ -86,18 +102,18 @@ export class KeyRecorder {
     if (e.shiftKey) this.heldModifiers.add('shift')
 
     // Pure modifier press: just keep tracking, don't emit yet.
-    if (['shift', 'control', 'alt', 'meta'].includes(key)) return
+    if (MODIFIER_KEY_EVENT_NAMES_LOWER.has(lowerKey)) return
 
-    this.currentKey = key === ' ' ? 'space' : key === 'escape' ? 'esc' : key
+    // Reuse the canonical parser descriptor so the recorder's output compares
+    // byte-equal with anything produced by parseKeyBind/normalizeKeyBind.
+    const desc = keyboardEventToDescriptor(e)
+    if (!desc) return
 
-    // Must match parser's MODIFIER_ORDER so recorded strings compare equally.
-    const parts: string[] = []
-    for (const mod of ['alt', 'ctrl', 'meta', 'shift'] as const) {
-      if (this.heldModifiers.has(mod)) parts.push(mod)
-    }
-    parts.push(this.currentKey)
+    // Track currentKey (parser-normalised) so getState() can report active keys.
+    const parts = desc.split('+')
+    this.currentKey = parts[parts.length - 1] ?? null
 
-    this._recorded = parts.join('+')
+    this._recorded = desc
     this.options.onRecord?.(this._recorded)
   }
 
@@ -109,7 +125,7 @@ export class KeyRecorder {
     if (key === 'meta') this.heldModifiers.delete('meta')
     if (key === 'shift') this.heldModifiers.delete('shift')
 
-    if (!['shift', 'control', 'alt', 'meta'].includes(key)) {
+    if (!MODIFIER_KEY_EVENT_NAMES_LOWER.has(key)) {
       this.currentKey = null
     }
   }
@@ -121,15 +137,14 @@ export class KeyRecorder {
   }
 }
 
-/** Real-time snapshot of currently held keys. No recording logic. */
 export class KeyStateTracker {
   private pressed = new Set<string>()
   private target: HTMLElement | Document | null = null
 
   attach(target: HTMLElement | Document = document): void {
     this.target = target
-    target.addEventListener('keydown', this.onKeyDown as EventListener)
-    target.addEventListener('keyup', this.onKeyUp as EventListener)
+    addKeyListener(target, 'keydown', this.onKeyDown)
+    addKeyListener(target, 'keyup', this.onKeyUp)
 
     if (typeof window !== 'undefined') {
       window.addEventListener('blur', this.onBlur)
@@ -139,8 +154,8 @@ export class KeyStateTracker {
   detach(): void {
     if (!this.target) return
 
-    this.target.removeEventListener('keydown', this.onKeyDown as EventListener)
-    this.target.removeEventListener('keyup', this.onKeyUp as EventListener)
+    removeKeyListener(this.target, 'keydown', this.onKeyDown)
+    removeKeyListener(this.target, 'keyup', this.onKeyUp)
 
     if (typeof window !== 'undefined') {
       window.removeEventListener('blur', this.onBlur)

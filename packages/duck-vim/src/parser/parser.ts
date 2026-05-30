@@ -2,8 +2,8 @@ import { resolveMod } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
 import type { Parser } from './parser.types'
 
-/** @internal Raw key aliases to canonical names. */
-export const KEY_ALIASES: Record<string, string> = {
+/** Raw key aliases to canonical names. */
+export const KEY_ALIASES = {
   ' ': 'space',
   escape: 'esc',
   control: 'ctrl',
@@ -11,31 +11,38 @@ export const KEY_ALIASES: Record<string, string> = {
   command: 'meta',
   opt: 'alt',
   option: 'alt',
-}
+} as const satisfies Record<string, string>
 
+/** Canonical (lowercase) modifier names recognised by the parser. */
 export const MODIFIER_KEYS: ReadonlySet<string> = new Set(['ctrl', 'alt', 'meta', 'shift'])
 
+/** `KeyboardEvent.key` values for pure modifier presses. */
+export const MODIFIER_KEY_EVENT_NAMES: ReadonlySet<string> = new Set(['Shift', 'Control', 'Alt', 'Meta'])
+
+/** Lowercased {@link MODIFIER_KEY_EVENT_NAMES} — `event.key.toLowerCase()` yields `'control'` not `'ctrl'`. */
+export const MODIFIER_KEY_EVENT_NAMES_LOWER: ReadonlySet<string> = new Set(['shift', 'control', 'alt', 'meta'])
+
 // Canonical serialization order — keep stable so normalized strings compare equally.
-const MODIFIER_ORDER: ReadonlyArray<'alt' | 'ctrl' | 'meta' | 'shift'> = ['alt', 'ctrl', 'meta', 'shift']
+export const MODIFIER_ORDER: ReadonlyArray<'alt' | 'ctrl' | 'meta' | 'shift'> = ['alt', 'ctrl', 'meta', 'shift']
+
+function tokenize(binding: string): string[] {
+  return binding.split('+').map((p) => p.trim().toLowerCase())
+}
 
 function normalizeKeyPart(part: string): string {
   // Alias lookup before trim/lower because ' ' (space) would otherwise be lost.
-  if (KEY_ALIASES[part]) return KEY_ALIASES[part]
+  if (part in KEY_ALIASES) return KEY_ALIASES[part as keyof typeof KEY_ALIASES]
   const lower = part.toLowerCase().trim()
-  return KEY_ALIASES[lower] ?? lower
+  return (KEY_ALIASES as Record<string, string>)[lower] ?? lower
 }
 
-/**
- * Parses a binding like `Mod+Shift+S` into structured components.
- * `mod` resolves to `meta` on Mac and `ctrl` elsewhere via {@link resolveMod}.
- * @throws if empty, missing a non-modifier key, or containing multiple non-modifiers.
- */
+/** Parse `Mod+Shift+S`. `mod` → `meta` on Mac, `ctrl` elsewhere. Throws on empty/missing-key/multi-key. */
 export function parseKeyBind(binding: string, platform?: Platform.Kind): Parser.IParsedKeyBind {
   if (!binding?.trim()) {
     throw new Error('Key binding string cannot be empty')
   }
 
-  const parts = binding.split('+').map((p) => p.trim().toLowerCase())
+  const parts = tokenize(binding)
   const modifiers: Set<'ctrl' | 'alt' | 'meta' | 'shift'> = new Set()
   let key: string | null = null
 
@@ -94,7 +101,7 @@ export function validateKeyBind(binding: string): Parser.IValidationResult {
     return { valid: false, warnings, errors }
   }
 
-  const parts = binding.split('+').map((p) => p.trim().toLowerCase())
+  const parts = tokenize(binding)
   const seenModifiers = new Set<string>()
   let nonModifierCount = 0
 
@@ -144,9 +151,12 @@ export function validateKeyBind(binding: string): Parser.IValidationResult {
 /**
  * Builds a canonical descriptor from a KeyboardEvent.
  * Returns `null` for pure modifier key presses (Shift/Ctrl/Alt/Meta alone).
+ *
+ * Modifier order follows {@link MODIFIER_ORDER} so the output compares byte-equal
+ * with anything produced by {@link parseKeyBind} → {@link normalizeKeyBind}.
  */
 export function keyboardEventToDescriptor(e: KeyboardEvent): string | null {
-  if (['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return null
+  if (MODIFIER_KEY_EVENT_NAMES.has(e.key)) return null
 
   const parts: string[] = []
   if (e.altKey) parts.push('alt')

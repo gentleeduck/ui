@@ -247,6 +247,82 @@ describe('KeyHandler - enhanced features', () => {
     expect(fn).toHaveBeenCalledTimes(2)
   })
 
+  it('requireReset auto-clears on keyup of the binding key', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'test' }, { requireReset: true })
+    target.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).toHaveBeenCalledOnce()
+
+    // Release the key — should auto-clear `fired`.
+    target.dispatchEvent(new KeyboardEvent('keyup', { key: 'k', bubbles: true }))
+
+    // Now the binding can fire again without manual resetFired().
+    target.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('requireReset auto-clears on keyup for chord bindings', async () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('g+d', { execute: fn, name: 'goto-def' }, { requireReset: true })
+
+    // First chord press
+    target.dispatchEvent(createTestKeyboardEvent('g'))
+    target.dispatchEvent(createTestKeyboardEvent('d'))
+    await new Promise((r) => setTimeout(r, 10))
+    expect(fn).toHaveBeenCalledOnce()
+
+    // Second chord press without releasing — blocked by requireReset
+    target.dispatchEvent(createTestKeyboardEvent('g'))
+    target.dispatchEvent(createTestKeyboardEvent('d'))
+    await new Promise((r) => setTimeout(r, 10))
+    expect(fn).toHaveBeenCalledOnce()
+
+    // Release `d` — should auto-clear `fired` on the `g+d` chord entry.
+    target.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', bubbles: true }))
+
+    // Now the chord can fire again.
+    target.dispatchEvent(createTestKeyboardEvent('g'))
+    target.dispatchEvent(createTestKeyboardEvent('d'))
+    await new Promise((r) => setTimeout(r, 10))
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('honors eventType: "keyup" — fires on keyup, not keydown', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'on-keyup' }, { eventType: 'keyup' })
+
+    // Keydown should NOT fire a keyup-typed binding.
+    target.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).not.toHaveBeenCalled()
+
+    // Keyup fires it.
+    target.dispatchEvent(new KeyboardEvent('keyup', { key: 'k', bubbles: true }))
+    expect(fn).toHaveBeenCalledOnce()
+  })
+
+  it('default eventType is keydown — keyup does not fire it', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'on-keydown' })
+
+    target.dispatchEvent(new KeyboardEvent('keyup', { key: 'k', bubbles: true }))
+    expect(fn).not.toHaveBeenCalled()
+
+    target.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).toHaveBeenCalledOnce()
+  })
+
   it('uses default options from constructor', () => {
     handler = new KeyHandler(registry, 100, { preventDefault: true })
     handler.attach(target)
@@ -505,6 +581,26 @@ describe('KeyHandler - edge cases', () => {
     handler = new KeyHandler(registry, 100)
     handler.attach()
     expect(() => handler.detach()).not.toThrow()
+  })
+
+  it('detach() with no arg removes listener from originally attached target', () => {
+    handler = new KeyHandler(registry, 100)
+    const customTarget = document.createElement('div')
+    document.body.appendChild(customTarget)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'test' })
+
+    handler.attach(customTarget)
+    customTarget.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).toHaveBeenCalledOnce()
+
+    // detach() without arg should clean up the listener on customTarget.
+    handler.detach()
+    customTarget.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).toHaveBeenCalledOnce() // still 1 — listener removed
+
+    document.body.removeChild(customTarget)
   })
 
   it('handles F-key bindings', () => {
