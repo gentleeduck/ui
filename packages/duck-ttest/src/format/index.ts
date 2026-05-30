@@ -48,8 +48,9 @@ export type RgbaColor = `rgba(${number}, ${number}, ${number}, ${number})`
 /** CSS `hsl(h, s%, l%)` value. */
 export type HslColor = `hsl(${number}, ${number}%, ${number}%)`
 
-/** CSS length: number + unit. */
-export type CSSLength = `${number}${'px' | 'em' | 'rem' | '%' | 'vh' | 'vw' | 'ch' | 'pt' | 'pc' | 'cm' | 'mm' | 'in'}`
+// `CSSLength` lives in `~/css` (richer definition: accepts `'0'` and `calc(...)`).
+// Re-exported here so existing imports from `~/format` keep resolving.
+export type { CSSLength } from '~/css'
 
 /** Semver-ish shape: `MAJOR.MINOR.PATCH` with optional pre-release/build. */
 export type Semver =

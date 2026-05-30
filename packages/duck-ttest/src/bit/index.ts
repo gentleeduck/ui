@@ -1,6 +1,8 @@
 // Fixed-length little-endian bit tuples. Tuple form because TS doesn't model
 // numbers as binary — converting an int to bits costs recursion depth per bit.
 
+import type { Add as _Add, Dec as _Dec } from '~/_internal/arith'
+
 export type Bit = 0 | 1
 
 /** Bitwise AND of two same-length bit tuples. */
@@ -54,8 +56,6 @@ type _FromBits<B extends readonly Bit[], Weight extends number, Acc extends numb
 ]
   ? _FromBits<R, _Add<Weight, Weight>, H extends 1 ? _Add<Acc, Weight> : Acc>
   : Acc
-type _Add<A extends number, B extends number> = [...Tuple<A>, ...Tuple<B>]['length'] & number
-type Tuple<N extends number, Acc extends unknown[] = []> = Acc['length'] extends N ? Acc : Tuple<N, [...Acc, unknown]>
 
 /**
  * Left shift by `K`, fixed length: drops highest-order bits, fills right with `0`.
@@ -76,7 +76,3 @@ export type ShiftRight<A extends readonly Bit[], K extends number> = K extends 0
   : A extends readonly [Bit, ...infer Rest extends Bit[]]
     ? ShiftRight<[...Rest, 0], _Dec<K>>
     : A
-
-type _Dec<N extends number, Acc extends unknown[] = []> = [...Acc, unknown]['length'] extends N
-  ? Acc['length'] & number
-  : _Dec<N, [...Acc, unknown]>

@@ -3,5 +3,7 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   ...config,
-  entry: ['./src/**'],
+  // Exclude test files from the published dist — defence in depth alongside
+  // the negated globs in `package.json#files`.
+  entry: ['./src/**/*.ts', '!./src/**/*.test.ts', '!./src/**/*.spec.ts'],
 })

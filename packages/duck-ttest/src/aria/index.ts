@@ -25,6 +25,7 @@ export type WidgetRole =
   | 'radio'
   | 'scrollbar'
   | 'searchbox'
+  // `'separator'` is dual-classified per WAI-ARIA 1.2 (also in `DocumentStructureRole`).
   | 'separator'
   | 'slider'
   | 'spinbutton'
@@ -78,6 +79,7 @@ export type DocumentStructureRole =
   | 'row'
   | 'rowgroup'
   | 'rowheader'
+  // dual-classified per WAI-ARIA 1.2 (also in `WidgetRole`).
   | 'separator'
   | 'strong'
   | 'subscript'
