@@ -3,6 +3,11 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createJiti } from 'jiti'
 
+// Bumped once per loadValueFile call so the ESM URL changes on reloads (watch
+// mode) without depending on `Date.now()` collisions or leaking distinct URLs
+// into the module cache on every millisecond.
+let moduleCacheBuster = 0
+
 export async function loadValueFile(filePath: string): Promise<unknown> {
   const extension = path.extname(filePath).toLowerCase()
   const canUseJiti = ['.ts', '.mts', '.cts', '.js', '.mjs', '.cjs'].includes(extension)
@@ -12,10 +17,17 @@ export async function loadValueFile(filePath: string): Promise<unknown> {
   }
 
   try {
-    const moduleUrl = `${pathToFileURL(filePath).href}?t=${Date.now()}`
-    const module = (await import(moduleUrl)) as Record<string, unknown>
+    moduleCacheBuster += 1
+    const moduleUrl = `${pathToFileURL(filePath).href}?t=${moduleCacheBuster}`
+    const module: unknown = await import(moduleUrl)
 
-    return module['default'] ?? module
+    // Narrow before reaching for `default` — anything else is treated as the
+    // module's value and validated by the caller's Zod schema.
+    if (typeof module === 'object' && module !== null && 'default' in module) {
+      return (module as { default: unknown }).default ?? module
+    }
+
+    return module
   } catch (nativeError) {
     if (canUseJiti) {
       try {

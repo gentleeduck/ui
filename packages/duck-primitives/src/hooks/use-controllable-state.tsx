@@ -32,11 +32,10 @@ export function useControllableState<T>({
 
   // dev-only mode-switch warning. NODE_ENV is constant per build so hook order is stable;
   // production builds strip the whole block.
-  /* eslint-disable react-hooks/rules-of-hooks */
   if (process.env.NODE_ENV !== 'production') {
-    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check  -  the condition is static per build so hook order is stable at runtime
+    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check — the condition is static per build so hook order is stable at runtime
     const isControlledRef = React.useRef(prop !== undefined)
-    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check  -  the condition is static per build so hook order is stable at runtime
+    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check — the condition is static per build so hook order is stable at runtime
     React.useEffect(() => {
       const wasControlled = isControlledRef.current
       if (wasControlled !== isControlled) {
@@ -49,7 +48,6 @@ export function useControllableState<T>({
       isControlledRef.current = isControlled
     }, [isControlled, caller])
   }
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   const setValue = React.useCallback<SetStateFn<T>>(
     (nextValue) => {

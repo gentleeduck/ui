@@ -46,7 +46,9 @@ export function buildCalendarMonth<TDate>(
         isOutside,
         isHidden: isOutside && !showOutsideDays,
         isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
-        // selection module fills these
+        // `isDisabled` only encodes the "hidden outside day" case here; constraints
+        // (`disabled`/`fromDate`/`toDate`) are layered in by `applySelection`. Pipe
+        // the grid through `applySelection` to get the final per-cell flags.
         isSelected: false,
         isDisabled: isOutside && !showOutsideDays,
         isRangeStart: false,
@@ -88,12 +90,7 @@ export function buildMultiMonth<TDate>(
   return months
 }
 
-/**
- * Build month entries for the year picker view.
- *
- * Queries the adapter for the actual month count to support calendar systems
- * with variable months (e.g. Hebrew leap years with 13 months).
- */
+/** Month entries for year picker. Adapter-driven count handles variable systems (Hebrew 13-month leap). */
 export function buildCalendarYear<TDate>(
   adapter: Adapter.IDateAdapter<TDate>,
   viewDate: TDate,

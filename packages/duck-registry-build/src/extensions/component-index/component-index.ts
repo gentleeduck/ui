@@ -9,6 +9,8 @@ export function componentIndexExtension<TType extends RegistryItemType = Registr
 ): IRegistryBuildExtension {
   return {
     name: 'componentIndex',
+    // The cast widens the user's narrow TType to the phase's default
+    // RegistryItemType — safe because the phase only reads `options` shape.
     run: (api) => runComponentIndexPhase(api.context, options as IRegistryBuildComponentIndexPhaseOptions),
     stage: 'afterBuild',
   }

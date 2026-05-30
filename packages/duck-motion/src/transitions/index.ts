@@ -1,4 +1,4 @@
-export { blurHeavy, blurLight, blurMedium } from './blur'
+export { blurLight, blurMedium } from './blur'
 export {
   springBouncy,
   springDefault,
@@ -17,9 +17,6 @@ export {
   shakeKeyframes,
   tweenExit,
   tweenExpand,
-  tweenFast,
-  tweenInstant,
-  tweenMicro,
   tweenNormal,
   tweenShake,
   tweenSlow,

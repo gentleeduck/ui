@@ -5,5 +5,6 @@ import * as React from "react"
 `
 
 export function createViteComponentImport(options: { componentPath: string; id: string }) {
-  return `const ${options.id} = React.lazy(() => import("${options.componentPath}"))\n`
+  // JSON.stringify on componentPath guarantees the path can't break out of the string literal.
+  return `const ${options.id} = React.lazy(() => import(${JSON.stringify(options.componentPath)}))\n`
 }

@@ -19,5 +19,6 @@ export type Xor<A extends boolean, B extends boolean> = A extends true
 /** Exclusive NOR — true iff both inputs are equal. */
 export type Xnor<A extends boolean, B extends boolean> = Not<Xor<A, B>>
 
-/** Type-level ternary. */
-export type If<Cond extends boolean, Then, Else> = Cond extends true ? Then : Else
+// `If` lives in `~/conditional` — re-exported here for ergonomic grouping
+// alongside the other boolean operators.
+export type { If } from '~/conditional'

@@ -6,4 +6,8 @@ declare const expect: (value: unknown) => {
   toContain: (expected: string) => void
   toEqual: (expected: unknown) => void
   toBeUndefined: () => void
+  toThrow: (expected?: string | RegExp) => void
+  not: {
+    toContain: (expected: string) => void
+  }
 }

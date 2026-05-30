@@ -6,28 +6,19 @@ import { getPackageManager } from '../../get-package-manager'
 import { highlighter } from '../../text-styling'
 import { TYPESCRIPT_DEPENDENCIES, tsConfigGeneric, tsConfigNextjs } from './preflight-typescript.constants'
 
+/** Throws on failure; the outer `preflightConfigs` → command-action wrapper handles the exit. */
 export async function installTypescript(cwd: string, spinner: Ora) {
-  try {
-    spinner.text = `Installing ${highlighter.info('TypeScript')}...`
+  spinner.text = `Installing ${highlighter.info('TypeScript')}...`
 
-    spinner.text = `Get ${highlighter.info('package manager')}...`
-    const packageManager = await getPackageManager(cwd)
+  const packageManager = await getPackageManager(cwd)
 
-    spinner.text = `Installing ${highlighter.info('TypeScript')}...`
-    const { failed: installationStep1 } = await execa(
-      packageManager,
-      [packageManager === 'npm' ? 'install' : 'add', ...TYPESCRIPT_DEPENDENCIES, '-D'],
-      {
-        cwd: cwd,
-      },
-    )
-    if (!installationStep1) return
-
-    spinner.fail('Failed to install TypeScript dependencies')
-    process.exit(1)
-  } catch (error) {
-    spinner.fail(`${highlighter.error(error instanceof Error ? error.message : String(error))}`)
-    process.exit(1)
+  const { failed: installationStep1 } = await execa(
+    packageManager,
+    [packageManager === 'npm' ? 'install' : 'add', ...TYPESCRIPT_DEPENDENCIES, '-D'],
+    { cwd },
+  )
+  if (installationStep1) {
+    throw new Error('Failed to install TypeScript dependencies')
   }
 }
 

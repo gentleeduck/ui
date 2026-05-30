@@ -6,6 +6,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui/button'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import * as React from 'react'
 
 interface IDocsPagerProps {
   doc: {
@@ -18,7 +19,8 @@ interface IDocsPagerProps {
 
 export function DocsPagerBottom({ doc, config }: IDocsPagerProps) {
   const fallbackConfig = useDocsConfig()
-  const pager = getPagerForDoc(doc, config ?? fallbackConfig)
+  const resolvedConfig = config ?? fallbackConfig
+  const pager = React.useMemo(() => getPagerForDoc(doc, resolvedConfig), [doc, resolvedConfig])
 
   if (!pager?.prev?.href && !pager?.next?.href) {
     return null
@@ -59,7 +61,8 @@ export function DocsPagerBottom({ doc, config }: IDocsPagerProps) {
 }
 export function DocsPagerTop({ doc, config }: IDocsPagerProps) {
   const fallbackConfig = useDocsConfig()
-  const pager = getPagerForDoc(doc, config ?? fallbackConfig)
+  const resolvedConfig = config ?? fallbackConfig
+  const pager = React.useMemo(() => getPagerForDoc(doc, resolvedConfig), [doc, resolvedConfig])
 
   if (!pager?.prev?.href && !pager?.next?.href) {
     return null
@@ -124,8 +127,7 @@ export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: IDocsCon
   }
 }
 
-/** @internal */
-export function flatten(links: INavItemWithChildren[]): INavItem[] {
+function flatten(links: INavItemWithChildren[]): INavItem[] {
   return links
     .reduce<INavItem[]>((flat, link) => {
       if (link.items?.length) {

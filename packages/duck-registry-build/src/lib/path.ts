@@ -1,11 +1,11 @@
 import path from 'node:path'
 
-/** Replaces backslashes with forward slashes for cross-platform path consistency. */
 export function normalizeSlashes(value: string) {
   return value.replaceAll('\\', '/')
 }
 
-/** Joins path segments using POSIX separators, normalizing backslashes and filtering empty parts. */
+// Filters empty parts so callers can pass `joinPosix(maybeUndefined, name)` without a guard.
+// Always emits POSIX separators so generated paths stay stable across Windows builds.
 export function joinPosix(...parts: string[]) {
   const normalizedParts = parts.filter(Boolean).map((part) => normalizeSlashes(part))
   return path.posix.join(...normalizedParts)

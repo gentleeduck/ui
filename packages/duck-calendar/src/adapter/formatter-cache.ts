@@ -5,12 +5,47 @@
 const MAX_SIZE = 50
 const FORMATTER_CACHE = new Map<string, Intl.DateTimeFormat>()
 
-/** Build a deterministic cache key using JSON.stringify with sorted keys. */
+/**
+ * Fixed-order template of every `Intl.DateTimeFormatOptions` field we look up.
+ * Reading by fixed index drops the `Object.keys().sort()` + `JSON.stringify` cost
+ * the audit flagged on hot `format()` paths.
+ *
+ * Order is stable so two calls with the same options always produce the same key.
+ */
+const OPTION_FIELDS = [
+  'weekday',
+  'era',
+  'year',
+  'month',
+  'day',
+  'hour',
+  'minute',
+  'second',
+  'timeZoneName',
+  'timeZone',
+  'hour12',
+  'hourCycle',
+  'dateStyle',
+  'timeStyle',
+  'fractionalSecondDigits',
+  'dayPeriod',
+  'calendar',
+  'numberingSystem',
+  'formatMatcher',
+  'localeMatcher',
+] as const
+
+/** Build a deterministic cache key by reading a fixed template of option fields. */
 function buildKey(locale: string | undefined, options: Intl.DateTimeFormatOptions): string {
-  const keys = Object.keys(options).sort()
-  const sorted: Record<string, unknown> = {}
-  for (const k of keys) sorted[k] = (options as Record<string, unknown>)[k]
-  return `${locale ?? ''}|${JSON.stringify(sorted)}`
+  let key = locale ?? ''
+  const opts = options as Record<string, unknown>
+  for (const field of OPTION_FIELDS) {
+    const v = opts[field]
+    // `|` + value (or empty) keeps slots positional so `{year:'2-digit'}` and
+    // `{month:'2-digit'}` can never collide.
+    key += `|${v === undefined ? '' : String(v)}`
+  }
+  return key
 }
 
 export function getCachedFormatter(

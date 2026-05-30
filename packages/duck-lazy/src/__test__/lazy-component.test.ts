@@ -1,5 +1,8 @@
 import './setup-dom'
+import React, { act } from 'react'
 import { beforeEach, describe, expect, test } from 'vitest'
+import { DuckLazyComponent } from '../lazy-component/lazy-component'
+import { useLazyLoad } from '../lazy-component/lazy-component.hooks'
 
 // --- IntersectionObserver mock ---
 
@@ -31,8 +34,23 @@ class MockIntersectionObserver {
 // @ts-expect-error - mock
 globalThis.IntersectionObserver = MockIntersectionObserver
 
-// We need React in scope for the hooks
-import React from 'react'
+async function mount(node: React.ReactElement) {
+  const container = document.createElement('div')
+  document.body.appendChild(container)
+  const { createRoot } = await import('react-dom/client')
+  const root = createRoot(container)
+  await act(async () => {
+    root.render(node)
+  })
+  return {
+    container,
+    root,
+    cleanup() {
+      act(() => root.unmount())
+      if (container.parentNode) document.body.removeChild(container)
+    },
+  }
+}
 
 // --- Tests for useLazyLoad ---
 
@@ -44,8 +62,6 @@ describe('useLazyLoad', () => {
   })
 
   test('returns isVisible as false initially', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     let result: ReturnType<typeof useLazyLoad> | undefined
 
     function TestComponent() {
@@ -53,67 +69,36 @@ describe('useLazyLoad', () => {
       return null
     }
 
-    // Manually run through React to extract hook state
-    const container = document.createElement('div')
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
-
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestComponent))
-      })
-      setTimeout(resolve, 500)
-    })
+    const { cleanup } = await mount(React.createElement(TestComponent))
 
     expect(result).toBeDefined()
     expect(result!.isVisible).toBe(false)
-    expect(result!.ComponentRef).toBeDefined()
-
-    root.unmount()
+    expect(result!.ref).toBeDefined()
+    cleanup()
   })
 
   test('sets isVisible to true when intersection is triggered', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     let result: ReturnType<typeof useLazyLoad> | undefined
 
     function TestComponent() {
       result = useLazyLoad({ threshold: 0.5 })
-      // Attach the ref to a real element so the observer can observe it
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
-
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestComponent))
-      })
-      setTimeout(resolve, 500)
-    })
+    const { cleanup } = await mount(React.createElement(TestComponent))
 
     expect(result!.isVisible).toBe(false)
     expect(observedElements.length).toBeGreaterThanOrEqual(1)
 
-    // Simulate the element becoming visible
-    React.startTransition(() => {
+    await act(async () => {
       observerCallback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 500))
-
     expect(result!.isVisible).toBe(true)
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 
   test('passes options to IntersectionObserver', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     const customOptions: IntersectionObserverInit = {
       rootMargin: '50px',
       threshold: 0.25,
@@ -121,92 +106,48 @@ describe('useLazyLoad', () => {
 
     function TestComponent() {
       const result = useLazyLoad(customOptions)
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
+    const { cleanup } = await mount(React.createElement(TestComponent))
 
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestComponent))
-      })
-      setTimeout(resolve, 500)
-    })
-
-    expect(observerOptions).toEqual(customOptions)
-
-    root.unmount()
-    document.body.removeChild(container)
+    expect(observerOptions?.rootMargin).toBe('50px')
+    expect(observerOptions?.threshold).toBe(0.25)
+    cleanup()
   })
 
   test('does not set isVisible when entry is not intersecting', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     let result: ReturnType<typeof useLazyLoad> | undefined
 
     function TestComponent() {
       result = useLazyLoad()
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
+    const { cleanup } = await mount(React.createElement(TestComponent))
 
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestComponent))
-      })
-      setTimeout(resolve, 500)
-    })
-
-    // Simulate not intersecting
-    React.startTransition(() => {
+    await act(async () => {
       observerCallback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 500))
-
     expect(result!.isVisible).toBe(false)
     expect(disconnectCalls).toBe(0)
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 
   test('cleanup calls unobserve on unmount', async () => {
-    const { useLazyLoad } = await import('../lazy-component/lazy-component.hooks')
-
     function TestComponent() {
       const result = useLazyLoad()
-      return React.createElement('div', { ref: result.ComponentRef })
+      return React.createElement('div', { ref: result.ref })
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
+    const { cleanup } = await mount(React.createElement(TestComponent))
 
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestComponent))
-      })
-      setTimeout(resolve, 500)
-    })
+    const observedBefore = observedElements.length
+    cleanup()
 
-    // Unmount to trigger cleanup
-    root.unmount()
-
-    await new Promise<void>((resolve) => setTimeout(resolve, 500))
-
-    // The cleanup should have called unobserve
-    expect(unobserveCalls.length).toBeGreaterThanOrEqual(0)
-
-    document.body.removeChild(container)
+    // unobserve should be called for each observed element during cleanup
+    expect(unobserveCalls.length).toBeGreaterThanOrEqual(observedBefore)
   })
 })
 
@@ -220,35 +161,19 @@ describe('DuckLazyComponent', () => {
   })
 
   test('applies default options (rootMargin "0px", threshold 0)', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TestWrapper() {
       return React.createElement(DuckLazyComponent, {}, 'child content')
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
-
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestWrapper))
-      })
-      setTimeout(resolve, 500)
-    })
+    const { cleanup } = await mount(React.createElement(TestWrapper))
 
     expect(observerOptions).toBeDefined()
     expect(observerOptions!.rootMargin).toBe('0px')
     expect(observerOptions!.threshold).toBe(0)
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 
   test('merges user-provided options over defaults', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TestWrapper() {
       return React.createElement(
         DuckLazyComponent,
@@ -257,91 +182,45 @@ describe('DuckLazyComponent', () => {
       )
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
-
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestWrapper))
-      })
-      setTimeout(resolve, 500)
-    })
+    const { cleanup } = await mount(React.createElement(TestWrapper))
 
     expect(observerOptions!.rootMargin).toBe('100px')
     expect(observerOptions!.threshold).toBe(0.5)
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 
   test('renders placeholder when not visible', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TestWrapper() {
       return React.createElement(DuckLazyComponent, {}, React.createElement('span', {}, 'visible content'))
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
+    const { container, cleanup } = await mount(React.createElement(TestWrapper))
 
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestWrapper))
-      })
-      setTimeout(resolve, 500)
-    })
-
-    // Should have a placeholder div, not the child content
     const wrapper = container.querySelector('[data-slot="wrapper"]')
-    expect(wrapper).toBeDefined()
     expect(wrapper).not.toBeNull()
 
     const placeholder = container.querySelector('[data-slot="placeholder"]')
     expect(placeholder).not.toBeNull()
 
-    // Should not contain the visible content text
     expect(container.textContent).not.toContain('visible content')
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 
   test('renders children when visible', async () => {
-    const { DuckLazyComponent } = await import('../lazy-component/lazy-component')
-
     function TestWrapper() {
       return React.createElement(DuckLazyComponent, {}, React.createElement('span', {}, 'visible content'))
     }
 
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    const { createRoot } = await import('react-dom/client')
-    const root = createRoot(container)
+    const { container, cleanup } = await mount(React.createElement(TestWrapper))
 
-    await new Promise<void>((resolve) => {
-      React.startTransition(() => {
-        root.render(React.createElement(TestWrapper))
-      })
-      setTimeout(resolve, 500)
-    })
-
-    // Simulate intersection
-    React.startTransition(() => {
+    await act(async () => {
       observerCallback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-
-    await new Promise<void>((resolve) => setTimeout(resolve, 500))
 
     expect(container.textContent).toContain('visible content')
 
     const placeholder = container.querySelector('[data-slot="placeholder"]')
     expect(placeholder).toBeNull()
-
-    root.unmount()
-    document.body.removeChild(container)
+    cleanup()
   })
 })

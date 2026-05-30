@@ -29,7 +29,9 @@ export const Tooltip: React.FC<ITooltip.IProps> = (props: ITooltip.IScoped<ITool
   const direction = useDirection(dir)
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null)
   const contentId = useId()
-  const openTimerRef = React.useRef(0)
+  // Use a null sentinel rather than 0 because window.setTimeout in jsdom can return 0
+  // as a legitimate timer id, which would be indistinguishable from "no timer".
+  const openTimerRef = React.useRef<number | null>(null)
   const disableHoverableContent = disableHoverableContentProp ?? providerContext.disableHoverableContent
   const delayDuration = delayDurationProp ?? providerContext.delayDuration
   const wasOpenDelayedRef = React.useRef(false)
@@ -52,35 +54,49 @@ export const Tooltip: React.FC<ITooltip.IProps> = (props: ITooltip.IScoped<ITool
   }, [open])
 
   const handleOpen = React.useCallback(() => {
-    window.clearTimeout(openTimerRef.current)
-    openTimerRef.current = 0
+    if (openTimerRef.current !== null) window.clearTimeout(openTimerRef.current)
+    openTimerRef.current = null
     wasOpenDelayedRef.current = false
     setOpen(true)
   }, [setOpen])
 
   const handleClose = React.useCallback(() => {
-    window.clearTimeout(openTimerRef.current)
-    openTimerRef.current = 0
+    if (openTimerRef.current !== null) window.clearTimeout(openTimerRef.current)
+    openTimerRef.current = null
     setOpen(false)
   }, [setOpen])
 
   const handleDelayedOpen = React.useCallback(() => {
-    window.clearTimeout(openTimerRef.current)
+    if (openTimerRef.current !== null) window.clearTimeout(openTimerRef.current)
     openTimerRef.current = window.setTimeout(() => {
       wasOpenDelayedRef.current = true
       setOpen(true)
-      openTimerRef.current = 0
+      openTimerRef.current = null
     }, delayDuration)
   }, [delayDuration, setOpen])
 
   React.useEffect(() => {
     return () => {
-      if (openTimerRef.current) {
+      if (openTimerRef.current !== null) {
         window.clearTimeout(openTimerRef.current)
-        openTimerRef.current = 0
+        openTimerRef.current = null
       }
     }
   }, [])
+
+  const onTriggerEnter = React.useCallback(() => {
+    if (providerContext.isOpenDelayedRef.current) handleDelayedOpen()
+    else handleOpen()
+  }, [providerContext.isOpenDelayedRef, handleDelayedOpen, handleOpen])
+
+  const onTriggerLeave = React.useCallback(() => {
+    if (disableHoverableContent) {
+      handleClose()
+    } else {
+      if (openTimerRef.current !== null) window.clearTimeout(openTimerRef.current)
+      openTimerRef.current = null
+    }
+  }, [handleClose, disableHoverableContent])
 
   return (
     <PopperPrimitive.Popper {...popperScope}>
@@ -91,18 +107,8 @@ export const Tooltip: React.FC<ITooltip.IProps> = (props: ITooltip.IScoped<ITool
         stateAttribute={stateAttribute}
         trigger={trigger}
         onTriggerChange={setTrigger}
-        onTriggerEnter={React.useCallback(() => {
-          if (providerContext.isOpenDelayedRef.current) handleDelayedOpen()
-          else handleOpen()
-        }, [providerContext.isOpenDelayedRef, handleDelayedOpen, handleOpen])}
-        onTriggerLeave={React.useCallback(() => {
-          if (disableHoverableContent) {
-            handleClose()
-          } else {
-            window.clearTimeout(openTimerRef.current)
-            openTimerRef.current = 0
-          }
-        }, [handleClose, disableHoverableContent])}
+        onTriggerEnter={onTriggerEnter}
+        onTriggerLeave={onTriggerLeave}
         onOpen={handleOpen}
         onClose={handleClose}
         disableHoverableContent={disableHoverableContent}

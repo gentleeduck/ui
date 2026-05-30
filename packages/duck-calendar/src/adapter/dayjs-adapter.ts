@@ -3,15 +3,7 @@ import dayjs from 'dayjs'
 import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
-/**
- * Dayjs date adapter for `@gentleduck/calendar`.
- *
- * Wraps the `dayjs` library behind the {@link Adapter.IDateAdapter} interface so the
- * calendar engine can work with `Dayjs` instances instead of native `Date`.
- * All methods are pure  -  inputs are never mutated.
- *
- * Requires `dayjs` as a peer dependency.
- */
+/** Backed by `dayjs`. See {@link Adapter.IDateAdapter} for the contract. */
 export class DayjsAdapter implements Adapter.IDateAdapter<Dayjs> {
   today(): Dayjs {
     return dayjs().startOf('day')

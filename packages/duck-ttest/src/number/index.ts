@@ -1,7 +1,6 @@
 // Tuple-length recursion arithmetic. TypeScript's recursion limit caps practical N at ~999.
 
-/** A tuple whose length equals `N`. */
-type Tuple<N extends number, Acc extends unknown[] = []> = Acc['length'] extends N ? Acc : Tuple<N, [...Acc, unknown]>
+import type { Add as _Add, Dec as _Dec, Inc as _Inc, Tuple } from '~/_internal/arith'
 
 export type IsZero<N extends number> = N extends 0 ? true : false
 
@@ -21,19 +20,22 @@ export type Negate<N extends number> = N extends 0
       : never
 
 /** `Inc<N>` → `N + 1`. */
-export type Inc<N extends number> = [...Tuple<N>, unknown]['length'] & number
+export type Inc<N extends number> = _Inc<N>
 
 /** `Dec<N>` → `N - 1`; `never` for `0`. */
-export type Dec<N extends number> = Tuple<N> extends [unknown, ...infer R] ? R['length'] & number : never
+export type Dec<N extends number> = _Dec<N>
 
 /** Add two non-negative integers. */
-export type Add<A extends number, B extends number> = [...Tuple<A>, ...Tuple<B>]['length'] & number
+export type Add<A extends number, B extends number> = _Add<A, B>
 
 /** Subtract `B` from `A` where `A >= B`; else `never`. */
 export type Sub<A extends number, B extends number> =
   Tuple<A> extends [...infer R, ...Tuple<B>] ? R['length'] & number : never
 
-/** Multiply two non-negative integers. */
+/**
+ * Multiply two non-negative integers.
+ * @remarks Tuple-recursion cap caps practical use at roughly `A * B ≤ 999`.
+ */
 export type Mul<A extends number, B extends number, Acc extends unknown[] = []> = B extends 0
   ? Acc['length'] & number
   : Mul<A, Dec<B>, [...Acc, ...Tuple<A>]>
@@ -84,7 +86,8 @@ export type Integer<N extends number = number> = `${N}` extends `${bigint}` ? N 
 /** Constrain to positive (non-zero) numbers. */
 export type Positive<N extends number = number> = IsPositive<N> extends true ? N : never
 
-export type NegativeNumber<N extends number = number> = IsNegative<N> extends true ? N : never
+/** Constrain to negative numbers. */
+export type Negative<N extends number = number> = IsNegative<N> extends true ? N : never
 
 /** Constrain to non-negative numbers (>= 0). */
 export type NonNegative<N extends number = number> = IsNegative<N> extends true ? never : N
@@ -156,7 +159,10 @@ export type IsBetween<N extends number, Lo extends number, Hi extends number> =
 export type DigitsOf<N extends number> = _Digits<`${N}`>
 type _Digits<S extends string> = S extends `${infer H}${infer R}` ? [H, ..._Digits<R>] : []
 
-/** Integer power `A ** B`. Tuple-recursion cap limits practical N. */
+/**
+ * Integer power `A ** B`. Tuple-recursion cap limits practical N.
+ * @remarks `Pow<2, 30>` materializes a 1B-element tuple — keep `A ** B ≲ 999`.
+ */
 export type Pow<A extends number, B extends number, Acc extends unknown[] = [unknown]> = B extends 0
   ? Acc['length'] & number
   : Pow<A, Dec<B>, _Replicate<Acc, A>>
@@ -168,13 +174,22 @@ type _Replicate<
   I extends unknown[] = [],
 > = I['length'] extends N ? Out : _Replicate<T, N, [...Out, ...T], [...I, unknown]>
 
-/** Greatest common divisor (Euclidean). */
+/**
+ * Greatest common divisor (Euclidean).
+ * @remarks Recurses by `Mod`; practical use mirrors `Mod`'s tuple cap.
+ */
 export type GCD<A extends number, B extends number> = B extends 0 ? A : GCD<B, Mod<A, B>>
 
-/** Least common multiple. */
+/**
+ * Least common multiple.
+ * @remarks Calls `Mul` and `Div`; same recursion budget applies.
+ */
 export type LCM<A extends number, B extends number> = A extends 0 ? 0 : B extends 0 ? 0 : Mul<Div<A, GCD<A, B>>, B>
 
-/** Factorial. Tuple-recursion caps practical use at ~20. */
+/**
+ * Factorial.
+ * @remarks Tuple-recursion caps practical use at roughly `N ≤ 12` (13! exceeds 999).
+ */
 export type Factorial<N extends number> = N extends 0 | 1 ? 1 : Mul<N, Factorial<Dec<N>>>
 
 /** Clamp `N` to `[Lo, Hi]` inclusive. */

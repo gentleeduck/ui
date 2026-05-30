@@ -1,8 +1,6 @@
 export { Callout } from './callout'
 export {
-  BuildTab,
   CodeBlock,
-  CodeBlockWrapper,
   CodePreview,
   ComponentPreview,
   ComponentSource,
@@ -27,4 +25,4 @@ export {
   LinkBlock,
   LinkedCard,
   P,
-} from './typepography'
+} from './typography'

@@ -2,6 +2,7 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-registry'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
+import { resolveWithinBase } from '~/utils/safe-path'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 export type InstalledComponent = {
@@ -28,7 +29,10 @@ export type ComponentDiff = {
 /** Joins the resolved tsconfig alias path with the duck-ui `aliases.ui` subdir. */
 export function resolveWriteTypePath(duckConfig: DuckUI, writePath: string): string {
   const duckuiWritePath = duckConfig.aliases.ui.split('/').slice(1).join('/')
-  return path.resolve(`${writePath}/${duckuiWritePath}`)
+  // `aliases.ui` is shape-validated by `ALIAS_UI_PATTERN`, but route through `resolveWithinBase`
+  // for parity with `install.service.ts` / `registry-mutation.lib.ts:174` — defence in depth.
+  // When the alias has no subdir (e.g. `~`), `duckuiWritePath` is empty — fall back to the base.
+  return duckuiWritePath ? resolveWithinBase(writePath, duckuiWritePath) : path.resolve(writePath)
 }
 
 /** Each subdirectory is matched against the registry index by `root_folder`. */
@@ -123,9 +127,8 @@ export async function diffComponent(
       if (!file.content) continue
 
       // Registry paths are root_folder-prefixed (e.g. "button/button.tsx"); strip to component-relative.
-      const parts = (file.path as string).split('/')
-      const relative =
-        parts.length > 1 && parts[0] === component.root_folder ? parts.slice(1).join('/') : (file.path as string)
+      const parts = file.path.split('/')
+      const relative = parts.length > 1 && parts[0] === component.root_folder ? parts.slice(1).join('/') : file.path
 
       const localFilePath = path.join(localDir, relative)
       localFilesSet.delete(relative)

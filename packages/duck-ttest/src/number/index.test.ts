@@ -32,7 +32,7 @@ import type {
   Mod,
   Mul,
   Negate,
-  NegativeNumber,
+  Negative,
   NonNegative,
   NumberToString,
   Positive,
@@ -90,14 +90,14 @@ type Test_IsEven_Zero = AssertTrue<IsEven<0>, '0 is even'>
 type Test_N2S = AssertTrue<Equal<NumberToString<42>, '42'>, 'NumberToString stringifies'>
 type Test_S2N = AssertTrue<Equal<StringToNumber<'42'>, 42>, 'StringToNumber parses'>
 
-// Integer / Positive / NonNegative / NegativeNumber / Finite
+// Integer / Positive / NonNegative / Negative / Finite
 type Test_Integer = AssertTrue<Equal<Integer<5>, 5>, 'Integer accepts 5'>
 type Test_Integer_Float = AssertTrue<Equal<Integer<3.14>, never>, 'Integer rejects 3.14'>
 type Test_Positive = AssertTrue<Equal<Positive<5>, 5>, 'Positive accepts 5'>
 type Test_Positive_Zero = AssertTrue<Equal<Positive<0>, never>, 'Positive rejects 0'>
 type Test_NonNeg_Zero = AssertTrue<Equal<NonNegative<0>, 0>, 'NonNegative accepts 0'>
 type Test_NonNeg_Neg = AssertTrue<Equal<NonNegative<-1>, never>, 'NonNegative rejects -1'>
-type Test_Negative = AssertTrue<Equal<NegativeNumber<-3>, -3>, 'NegativeNumber accepts -3'>
+type Test_Negative = AssertTrue<Equal<Negative<-3>, -3>, 'Negative accepts -3'>
 type Test_Finite = AssertTrue<Equal<Finite<42>, 42>, 'Finite accepts 42'>
 
 // Sum / Max / Min

@@ -5,11 +5,11 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import type { Variants } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { buttonGroupVariants } from './button-group.constants'
 
 const MotionButtonGroup = React.forwardRef<
@@ -19,7 +19,7 @@ const MotionButtonGroup = React.forwardRef<
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>

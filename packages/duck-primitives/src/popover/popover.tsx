@@ -22,6 +22,7 @@ export function Popover(props: IPopover.IScoped<IPopover.IProps>) {
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const [hasCustomAnchor, setHasCustomAnchor] = React.useState(false)
   const direction = useDirection(dir)
+  const contentId = useId()
 
   const [open, setOpen] = useControllableState({
     prop: openProp,
@@ -29,19 +30,22 @@ export function Popover(props: IPopover.IScoped<IPopover.IProps>) {
     onChange: onOpenChange,
     caller: POPOVER_NAME,
   })
+  const onOpenToggle = React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])
+  const onCustomAnchorAdd = React.useCallback(() => setHasCustomAnchor(true), [])
+  const onCustomAnchorRemove = React.useCallback(() => setHasCustomAnchor(false), [])
 
   return (
     <PopperPrimitive.Popper {...popperScope}>
       <PopoverProvider
         scope={__scopePopover}
-        contentId={useId()}
+        contentId={contentId}
         triggerRef={triggerRef}
         open={open}
         onOpenChange={setOpen}
-        onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+        onOpenToggle={onOpenToggle}
         hasCustomAnchor={hasCustomAnchor}
-        onCustomAnchorAdd={React.useCallback(() => setHasCustomAnchor(true), [])}
-        onCustomAnchorRemove={React.useCallback(() => setHasCustomAnchor(false), [])}
+        onCustomAnchorAdd={onCustomAnchorAdd}
+        onCustomAnchorRemove={onCustomAnchorRemove}
         modal={modal}
         dir={direction}>
         {children}

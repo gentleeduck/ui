@@ -43,13 +43,13 @@ function Fade() {
 
 ## Features
 
-- **Easing presets** -- `duckEasing.standard`, `duckEasing.spring`
-- **Duration tokens** -- `duckDuration.fast` (150ms), `.normal` (200ms), `.slow` (300ms)
-- **Spring transitions** -- `duckSpringDefault`, `duckSpringSnappy`, `duckSpringGentle`
-- **CSS custom properties** -- `--gentleduck-motion-dur`, `--gentlegentleduck-motion-ease` via `@gentleduck/motion/css`
-- **Reduced motion** -- `useDuckReducedMotion()`, `motionTransition()`, `onDuckReducedMotionChange()`
+- **Easing presets** -- `duckMotionEasing.standard`, `.exit`, `.expo`, `.easeOut`, `.spring`
+- **Duration tokens** -- `duckMotionDurationMs.fast` (150ms), `.normal` (200ms), `.slow` (300ms), `.exit` (180ms fallback)
+- **Spring transitions** -- `springDefault`, `springSnappy`, `springGentle`, `springBouncy`, `springStiff`, `springSmooth`, `springInstant`
+- **CSS custom properties** -- `--gentleduck-motion-dur`, `--gentleduck-motion-ease` via `@gentleduck/motion/css`
+- **Reduced motion** -- `useDuckReducedMotion()`, `motionTransition()`
 - **Animation presets** -- tree-shakeable presets like `fadeIn`, `scaleIn`, `slideUp` with blur and asymmetric exits
-- **Directional presets** -- `createDirectionalPreset('bottom')` for menu/popover animations
+- **Directional presets** -- `createDirectionalPreset('bottom')` for menu/popover animations; `createSlidePreset` for pure slides
 - **Motion library integration** -- `MotionProvider`, `LazyMotion` feature loaders, `useMotionPreset` hook
 
 ## Exports
@@ -58,8 +58,8 @@ function Fade() {
 | --- | --- |
 | `@gentleduck/motion` | Tokens, easing, reduced motion hooks, CVA animation variants |
 | `@gentleduck/motion/css` | CSS file with motion custom properties and reduced motion fallback |
-| `@gentleduck/motion/motion-tokens` | Duration/easing mapped to motion Transition objects, spring presets |
-| `@gentleduck/motion/motion-presets` | `useMotionPreset`, `useDirectionalPreset`, `loadPreset` hooks |
+| `@gentleduck/motion/transitions` | Duration/easing mapped to motion Transition objects, spring presets |
+| `@gentleduck/motion/motion-presets` | `useMotionPreset` hook |
 | `@gentleduck/motion/motion-features` | `loadDomAnimation`, `loadDomMax` LazyMotion feature loaders |
 | `@gentleduck/motion/motion-provider` | `MotionProvider` wrapping LazyMotion + MotionConfig |
 | `@gentleduck/motion/presets` | Individual tree-shakeable preset exports (`fadeIn`, `scaleIn`, etc.) |

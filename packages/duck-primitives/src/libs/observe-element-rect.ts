@@ -68,7 +68,10 @@ function runLoop() {
     }
   }
 
-  rafId = requestAnimationFrame(runLoop)
+  // Schedule next frame only while observers remain; else rAF runs forever.
+  if (observedElements.size > 0) {
+    rafId = requestAnimationFrame(runLoop)
+  }
 }
 
 function rectEquals(rect1: DOMRect, rect2: DOMRect) {

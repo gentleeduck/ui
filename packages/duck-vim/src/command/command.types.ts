@@ -1,9 +1,12 @@
 export namespace Command {
-  /** A command that can be triggered by a keyboard shortcut. */
+  /**
+   * A command that can be triggered by a keyboard shortcut.
+   * `name`/`description` are metadata for command palettes — the runtime only invokes `execute`.
+   */
   export interface ICommand {
     name: string
     description?: string
-    execute: <T>(args?: T) => void | Promise<void>
+    execute: () => void | Promise<void>
   }
 
   /** Per-binding options applied when a key sequence matches. */
@@ -18,13 +21,17 @@ export namespace Command {
     ignoreInputs?: boolean
     /** Event type to listen for. Default: 'keydown' */
     eventType?: 'keydown' | 'keyup'
-    /** Fire only once per key press cycle. Default: false */
+    /**
+     * Fire only once per key press cycle: the binding fires on keydown, then is
+     * blocked until the binding's non-modifier key is released (auto-cleared on
+     * keyup). Consumers can also force-reset via {@link IRegistrationHandle.resetFired}.
+     */
     requireReset?: boolean
     /** What to do when the key is already registered. Default: 'warn' */
     conflictBehavior?: 'warn' | 'error' | 'replace' | 'allow'
   }
 
-  /** Handle returned from {@link RegistryClass.register} for lifecycle control. */
+  /** Handle returned from `Registry.register` for lifecycle control. */
   export interface IRegistrationHandle {
     unregister: () => void
     setEnabled: (enabled: boolean) => void
@@ -38,14 +45,5 @@ export namespace Command {
     command: ICommand
     options: IKeyBindOptions
     fired: boolean
-  }
-
-  /** @internal */
-  export declare class RegistryClass {
-    public register(key: string, command: ICommand): void
-    public hasCommand(key: string): boolean
-    public getCommand(key: string): ICommand | undefined
-    /** True if `key` is a prefix of any registered chord (e.g. `g` for `g+d`). */
-    public isPrefix(key: string): boolean
   }
 }

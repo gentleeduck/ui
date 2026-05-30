@@ -1,8 +1,14 @@
 import * as React from 'react'
 
-/** Subscribe to a CSS media query; returns whether it currently matches. */
 export function useMediaQuery(query: string): boolean {
-  const [value, setValue] = React.useState(false)
+  // Lazy initializer: read the actual match on the client to avoid the
+  // one-frame "non-matching" flash on mount. Falls back to `false` during SSR.
+  const [value, setValue] = React.useState<boolean>(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return false
+    }
+    return window.matchMedia(query).matches
+  })
 
   React.useEffect(() => {
     function onChange(event: MediaQueryListEvent): void {

@@ -1,7 +1,7 @@
 'use client'
 
 export { DocsCopyPage } from './docs/docs-copy-page'
-export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './docs/docs-pager'
+export { DocsPagerBottom, DocsPagerTop, getPagerForDoc } from './docs/docs-pager'
 export { DocsPathBreadcrumb } from './docs/docs-path-breadcrumb'
 export type { IDocsSidebarNavProps } from './docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './docs/docs-sidebar'
@@ -10,9 +10,7 @@ export { DashboardTableOfContents } from './docs/docs-toc'
 export { Mdx } from './mdx/mdx'
 export { Callout } from './mdx/mdx-components/callout'
 export {
-  BuildTab,
   CodeBlock,
-  CodeBlockWrapper,
   CodePreview,
   ComponentPreview,
   ComponentSource,
@@ -37,6 +35,6 @@ export {
   LinkBlock,
   LinkedCard,
   P,
-} from './mdx/mdx-components/typepography'
+} from './mdx/mdx-components/typography'
 
 export { ThemeProvider } from './providers'

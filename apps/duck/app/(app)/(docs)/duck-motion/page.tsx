@@ -20,14 +20,15 @@ const features = [
     icon: Clock,
     title: 'Duration tokens',
     description:
-      '`duckDuration.fast` (150 ms), `.normal` (200 ms), `.slow` (300 ms). Consistent timing across every animated component.',
+      '`duckMotionDurationMs.fast` (150 ms), `.normal` (200 ms), `.slow` (300 ms). Consistent timing across every animated component.',
     bg: 'bg-blue-500/10',
     color: 'text-blue-500',
   },
   {
     icon: Waves,
     title: 'Easing presets',
-    description: '`duckEasing.standard` and `.spring`. Reusable cubic-bezier and spring curves tuned for UI motion.',
+    description:
+      '`duckMotionEasing.standard`, `.exit`, `.expo`, `.easeOut`, and `.spring`. Reusable cubic-bezier curves tuned for UI motion.',
     bg: 'bg-violet-500/10',
     color: 'text-violet-500',
   },
@@ -50,7 +51,7 @@ const features = [
   {
     icon: Gauge,
     title: 'Spring transitions',
-    description: '`duckSpringDefault`, `.snappy`, `.gentle`. Pass them straight to the motion library.',
+    description: '`springDefault`, `springSnappy`, `springGentle`. Pass them straight to the motion library.',
     bg: 'bg-pink-500/10',
     color: 'text-pink-500',
   },

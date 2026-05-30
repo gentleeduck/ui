@@ -37,6 +37,12 @@ export namespace UseCalendar {
     role: 'grid'
     'aria-labelledby': string
     'aria-roledescription': string
+    /**
+     * Stable per-instance grid id. `useCalendar` uses this to scope DOM focus queries
+     * to its own grid, so multi-calendar pages don't grab the first match across the
+     * whole document.
+     */
+    'data-calendar-grid': string
   }
 
   export interface INavProps {

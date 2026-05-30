@@ -1,19 +1,6 @@
-export {
-  blurMount,
-  collapseX,
-  contentTransition,
-  contentTransitionFast,
-  fadeBlur,
-  fadeBlurPopOut,
-  fadeUp,
-  scaleBlur,
-  slideUpBlur,
-  spinIn,
-  tapScale,
-} from './content'
-export { createDirectionalPreset } from './directional'
+export { checkerBounce, contentTransition, contentTransitionFast, spinIn, tapScale } from './content'
+export { createDirectionalPreset, createSlidePreset } from './directional'
 export { fadeIn } from './fade-in'
-export { fadeOut } from './fade-out'
 export { heightAuto } from './height-auto'
 export { popIn } from './pop-in'
 export { rotateIn } from './rotate-in'

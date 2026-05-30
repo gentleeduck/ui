@@ -74,6 +74,7 @@ export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.
   const [valueNode, setValueNode] = React.useState<HTMLSpanElement | null>(null)
   const [valueNodeHasChildren, setValueNodeHasChildren] = React.useState(false)
   const direction = useDirection(dir)
+  const contentId = useId()
   const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen ?? false,
@@ -91,6 +92,17 @@ export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.
   // default true so SSR forms still bubble events without JS
   const isFormControl = trigger ? form || !!trigger.closest('form') : true
   const [nativeOptionsSet, setNativeOptionsSet] = React.useState(new Set<ISelect.INativeOption>())
+
+  const onNativeOptionAdd = React.useCallback<ISelect.INativeOptionsContext['onNativeOptionAdd']>((option) => {
+    setNativeOptionsSet((prev) => new Set(prev).add(option))
+  }, [])
+  const onNativeOptionRemove = React.useCallback<ISelect.INativeOptionsContext['onNativeOptionRemove']>((option) => {
+    setNativeOptionsSet((prev) => {
+      const optionsSet = new Set(prev)
+      optionsSet.delete(option)
+      return optionsSet
+    })
+  }, [])
 
   // Native <select> binds defaultValue only when the matching <option> is mounted at the SAME
   // commit. Items take a few renders to surface their values; key the <select> so React rebuilds
@@ -110,7 +122,7 @@ export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.
         onValueNodeChange={setValueNode}
         valueNodeHasChildren={valueNodeHasChildren}
         onValueNodeHasChildrenChange={setValueNodeHasChildren}
-        contentId={useId()}
+        contentId={contentId}
         value={value}
         onValueChange={setValue}
         open={open}
@@ -121,16 +133,8 @@ export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.
         <Collection.Provider scope={__scopeSelect}>
           <SelectNativeOptionsProvider
             scope={props.__scopeSelect}
-            onNativeOptionAdd={React.useCallback((option) => {
-              setNativeOptionsSet((prev) => new Set(prev).add(option))
-            }, [])}
-            onNativeOptionRemove={React.useCallback((option) => {
-              setNativeOptionsSet((prev) => {
-                const optionsSet = new Set(prev)
-                optionsSet.delete(option)
-                return optionsSet
-              })
-            }, [])}>
+            onNativeOptionAdd={onNativeOptionAdd}
+            onNativeOptionRemove={onNativeOptionRemove}>
             {children}
           </SelectNativeOptionsProvider>
         </Collection.Provider>

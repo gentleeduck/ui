@@ -30,9 +30,8 @@ export const [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentCont
 )
 
 type TooltipContentImplElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
-type TooltipContentElement = TooltipContentImplElement
 
-export const TooltipContent = React.forwardRef<TooltipContentElement, ITooltip.IContentProps>(
+export const TooltipContent = React.forwardRef<TooltipContentImplElement, ITooltip.IContentProps>(
   (props: ITooltip.IScoped<ITooltip.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeTooltip)
     const { forceMount = portalContext.forceMount, side = 'top', ...contentProps } = props
@@ -52,13 +51,11 @@ export const TooltipContent = React.forwardRef<TooltipContentElement, ITooltip.I
 
 TooltipContent.displayName = CONTENT_NAME
 
-type TooltipContentHoverableElement = TooltipContentImplElement
-
-const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement, ITooltip.IContentHoverableProps>(
+const TooltipContentHoverable = React.forwardRef<TooltipContentImplElement, ITooltip.IContentHoverableProps>(
   (props: ITooltip.IScoped<ITooltip.IContentHoverableProps>, forwardedRef) => {
     const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip)
     const providerContext = useTooltipProviderContext(CONTENT_NAME, props.__scopeTooltip)
-    const ref = React.useRef<TooltipContentHoverableElement>(null)
+    const ref = React.useRef<TooltipContentImplElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, ref)
     const [pointerGraceArea, setPointerGraceArea] = React.useState<Polygon | null>(null)
 

@@ -70,7 +70,7 @@ describe('createRegistryBuildCache', () => {
       const cachePath = path.join(tempDir, '.cache', 'build-cache.json')
       const manifest = {
         fileHashes: {},
-        phases: { index: { itemCount: 5 } },
+        phases: { index: { entries: {} } },
         version: 1,
       }
       await writeFile(cachePath, JSON.stringify(manifest))
@@ -80,7 +80,7 @@ describe('createRegistryBuildCache', () => {
         filePath: cachePath,
       })
 
-      expect(cache.getPhaseData('index')).toEqual({ itemCount: 5 })
+      expect(cache.getPhaseData('index')).toEqual({ entries: {} })
     })
 
     test('ignores existing cache file when enabled is false', async () => {
@@ -88,7 +88,7 @@ describe('createRegistryBuildCache', () => {
       const cachePath = path.join(tempDir, '.cache', 'build-cache.json')
       const manifest = {
         fileHashes: {},
-        phases: { index: { itemCount: 5 } },
+        phases: { index: { entries: {} } },
         version: 1,
       }
       await writeFile(cachePath, JSON.stringify(manifest))

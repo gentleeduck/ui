@@ -1,6 +1,6 @@
+export { scheduleTransitionTimeout } from './schedule-transition-timeout'
 export type { IComposeRefs } from './use-composed-refs'
 export { composeRefs, useComposedRefs } from './use-composed-refs'
-export { useComputedTimeoutTransition } from './use-computed-timeout-transition'
 export type { IUseCopyToClipboard } from './use-copy-to-clipboard'
 export { useCopyToClipboard } from './use-copy-to-clipboard'
 export { debounce, useDebounce } from './use-debounce'

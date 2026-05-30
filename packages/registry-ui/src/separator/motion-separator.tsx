@@ -3,10 +3,10 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 const MOTION_SEPARATOR_ANIMATE = { opacity: 1, scaleX: 1, scaleY: 1 } as const
 const MOTION_SEPARATOR_INITIAL_HORIZONTAL = { opacity: 0, scaleX: 0, scaleY: 1 } as const
@@ -18,7 +18,7 @@ const MotionSeparator = React.forwardRef<
     orientation?: 'horizontal' | 'vertical'
   }
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
-  const direction = useDirection(dir as IDirection.Kind)
+  const direction = useDirection(toDirection(dir))
   const isHorizontal = orientation === 'horizontal'
   return (
     <LazyMotion features={loadDomAnimation}>

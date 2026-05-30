@@ -42,19 +42,11 @@ export function useDocsContext() {
 }
 
 export function useDocsConfig() {
-  const { docsConfig } = useDocsContext()
-  if (!docsConfig) {
-    throw new Error('DocsProvider is missing docsConfig. Pass docsConfig to <DocsProvider>.')
-  }
-  return docsConfig
+  return useDocsContext().docsConfig
 }
 
 export function useSiteConfig() {
-  const { siteConfig } = useDocsContext()
-  if (!siteConfig) {
-    throw new Error('DocsProvider is missing siteConfig. Pass siteConfig to <DocsProvider>.')
-  }
-  return siteConfig
+  return useDocsContext().siteConfig
 }
 
 export function useDocsEntries() {

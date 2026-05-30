@@ -9,5 +9,5 @@ const SVG_HTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" 
 </svg>`
 
 export default function Demo() {
-  return <PreviewPanel html={SVG_HTML} maxHeight="350px" className="rounded-lg border bg-card" />
+  return <PreviewPanel unsafeHtml={SVG_HTML} maxHeight="350px" className="rounded-lg border bg-card" />
 }

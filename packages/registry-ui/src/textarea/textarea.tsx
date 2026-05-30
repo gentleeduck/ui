@@ -1,13 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     return (
       <textarea
         className={cn(

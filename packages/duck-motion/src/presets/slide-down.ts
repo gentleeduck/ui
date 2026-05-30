@@ -1,7 +1,5 @@
+import { createSlidePreset } from './directional'
 import type { IMotionPreset } from './types'
 
-export const slideDown: IMotionPreset = {
-  initial: { opacity: 0, y: -8, filter: 'blur(4px)' },
-  animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-  exit: { opacity: 0, y: -30, filter: 'blur(4px)' },
-}
+/** Slide down with light blur. Use for text reveals, labels, and list items anchored to the bottom. */
+export const slideDown: IMotionPreset = createSlidePreset('bottom')

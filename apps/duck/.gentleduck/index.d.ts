@@ -6,6 +6,9 @@ type Collections = (typeof __vc)['collections']
 export type Docs = NonNullable<Collections['docs']['schema']>['_output']
 export declare const docs: Docs[]
 
+export type DuckAuth = NonNullable<Collections['duckAuth']['schema']>['_output']
+export declare const duckAuth: DuckAuth[]
+
 export type DuckCalendar = NonNullable<Collections['duckCalendar']['schema']>['_output']
 export declare const duckCalendar: DuckCalendar[]
 

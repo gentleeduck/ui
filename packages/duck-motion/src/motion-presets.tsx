@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { createDirectionalPreset } from './presets/directional'
 import { fadeIn } from './presets/fade-in'
-import { fadeOut } from './presets/fade-out'
 import { popIn } from './presets/pop-in'
 import { rotateIn } from './presets/rotate-in'
 import { scaleIn } from './presets/scale-in'
@@ -34,7 +33,6 @@ export type {
 
 const presetMap: Record<MotionPresetName, IMotionPreset> = {
   fadeIn,
-  fadeOut,
   scaleIn,
   slideUp,
   slideDown,
@@ -46,43 +44,14 @@ const presetMap: Record<MotionPresetName, IMotionPreset> = {
 
 export interface IUseMotionPresetOptions extends IDuckMotion.IPresetOptions {}
 
-/** Lazy-load a single preset by name. */
-export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
-  const loaders: Record<MotionPresetName, () => Promise<IMotionPreset>> = {
-    fadeIn: () => import('./presets/fade-in').then((m) => m.fadeIn),
-    fadeOut: () => import('./presets/fade-out').then((m) => m.fadeOut),
-    scaleIn: () => import('./presets/scale-in').then((m) => m.scaleIn),
-    slideUp: () => import('./presets/slide-up').then((m) => m.slideUp),
-    slideDown: () => import('./presets/slide-down').then((m) => m.slideDown),
-    slideFromLeft: () => import('./presets/slide-from-left').then((m) => m.slideFromLeft),
-    slideFromRight: () => import('./presets/slide-from-right').then((m) => m.slideFromRight),
-    rotateIn: () => import('./presets/rotate-in').then((m) => m.rotateIn),
-    popIn: () => import('./presets/pop-in').then((m) => m.popIn),
-  }
-  return loaders[name]()
-}
-
-/** Lazy-load a directional preset. */
-export function loadDirectionalPreset(
-  direction: Direction,
-  enterOffset?: number,
-  exitOffset?: number,
-  blur?: number,
-): Promise<IMotionPreset> {
-  return import('./presets/directional').then((m) =>
-    m.createDirectionalPreset(direction, enterOffset, exitOffset, blur),
-  )
-}
-
 function buildResult(preset: IMotionPreset, reduced: boolean, options?: IUseMotionPresetOptions): IMotionPresetResult {
-  const baseTransition: MotionTransitionConfig = options?.transition ?? { ...springDefault }
+  const baseTransition: MotionTransitionConfig = options?.transition ?? springDefault
   const enterTransition: MotionTransitionConfig = reduced
     ? { duration: 0 }
     : { ...(options?.enterTransition ?? baseTransition), ...(options?.delay ? { delay: options.delay } : {}) }
   const exitTransition: MotionTransitionConfig = reduced ? { duration: 0 } : (options?.exitTransition ?? baseTransition)
 
-  // Scale-only override keeps tap press/release snappy regardless of the
-  // base spring chosen by the preset.
+  // Scale-only override keeps tap press snappy regardless of base spring.
   const enterWithTapScale = reduced ? enterTransition : { ...enterTransition, scale: TAP_SCALE_TRANSITION }
 
   return {
@@ -93,19 +62,7 @@ function buildResult(preset: IMotionPreset, reduced: boolean, options?: IUseMoti
   }
 }
 
-/** Async resolver: lazy-loads the preset then returns the animation config. */
-export async function resolveMotionPreset(
-  name: MotionPresetName,
-  options?: IUseMotionPresetOptions,
-): Promise<IMotionPresetResult> {
-  const preset = options?.direction ? await loadDirectionalPreset(options.direction) : await loadPreset(name)
-  return buildResult(preset, false, options)
-}
-
-/**
- * Sync hook accepting either a preset name or preset object. The object form
- * enables tree-shaking since unused presets are never imported.
- */
+/** Accepts preset name or object; object form is tree-shakeable. */
 export function useMotionPreset(
   nameOrPreset: MotionPresetName | IMotionPreset,
   options?: IUseMotionPresetOptions,
@@ -116,36 +73,16 @@ export function useMotionPreset(
     : typeof nameOrPreset === 'string'
       ? presetMap[nameOrPreset]
       : nameOrPreset
-  const result = buildResult(preset, reduced, options)
-
-  if (typeof React.useMemo === 'function') {
-    try {
-      // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
-      return React.useMemo(
-        () => buildResult(preset, reduced, options),
-        [
-          reduced,
-          options?.direction,
-          options?.delay,
-          options?.transition,
-          options?.enterTransition,
-          options?.exitTransition,
-          preset,
-          options,
-        ],
-      )
-    } catch {
-      return result
-    }
-  }
-
-  return result
-}
-
-/** Direction-aware preset for menus/popovers. */
-export function useDirectionalPreset(
-  direction: Direction,
-  options?: Omit<IUseMotionPresetOptions, 'direction'>,
-): IMotionPresetResult {
-  return useMotionPreset('scaleIn', { ...options, direction })
+  return React.useMemo(
+    () => buildResult(preset, reduced, options),
+    [
+      reduced,
+      preset,
+      options?.delay,
+      options?.transition,
+      options?.enterTransition,
+      options?.exitTransition,
+      options?.direction,
+    ],
+  )
 }

@@ -58,15 +58,17 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, IPopover.ICo
     const context = usePopoverContext(CONTENT_NAME, props.__scopePopover)
 
     const contentRef = React.useRef<HTMLDivElement>(null)
-    const composedRefs = useComposedRefs(forwardedRef, contentRef)
+    // Track via state so the aria-hide effect retries if Presence delays mount past
+    // the first commit (refs are not reactive; the empty-deps version silently no-oped).
+    const [content, setContent] = React.useState<HTMLDivElement | null>(null)
+    const composedRefs = useComposedRefs(forwardedRef, contentRef, (node) => setContent(node))
 
     const isRightClickOutsideRef = React.useRef(false)
 
     React.useEffect(() => {
-      const content = contentRef.current
       if (content) return hideOthers(content)
       return
-    }, [])
+    }, [content])
 
     return (
       <RemoveScroll as={Slot} allowPinchZoom enabled={lockScrollProp ?? context.open}>

@@ -1,3 +1,4 @@
+import { duckAuthSidebar } from './duck-auth'
 import { duckCalendarSidebar } from './duck-calendar'
 import { duckCliSidebar } from './duck-cli'
 import { duckGenSidebar } from './duck-gen'
@@ -19,6 +20,7 @@ import { duckUploadSidebar } from './duck-upload'
 import { duckVariantsSidebar } from './duck-variants'
 import { duckVimSidebar } from './duck-vim'
 
+export { duckAuthSidebar } from './duck-auth'
 export { duckCalendarSidebar } from './duck-calendar'
 export { duckCliSidebar } from './duck-cli'
 export { duckGenSidebar } from './duck-gen'
@@ -44,6 +46,7 @@ export { defineSidebar } from './types'
 export { wwwSidebar } from './www'
 
 export const packageSidebars = {
+  'duck-auth': duckAuthSidebar,
   'duck-calendar': duckCalendarSidebar,
   'duck-cli': duckCliSidebar,
   'duck-gen': duckGenSidebar,

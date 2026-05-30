@@ -5,7 +5,6 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
@@ -13,6 +12,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { MotionBadge } from '../badge'
 import { MotionButton } from '../button'
 import { MotionButtonGroup } from '../button-group'
+import { toDirection } from '../direction/direction.libs'
 import { MotionSeparator } from '../separator'
 import { MotionTooltip, MotionTooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import type { IPreviewPanelProps } from './preview-panel.types'
@@ -316,16 +316,11 @@ const MotionPreviewPanel = React.forwardRef<
       }
     }, [])
 
-    const contentProps = useMemo(
-      // SEC-002: `unsafeHtml` is rendered verbatim and is the caller's responsibility to sanitise.
-      () => (unsafeHtml ? { dangerouslySetInnerHTML: { __html: unsafeHtml } } : { children }),
-      [unsafeHtml, children],
-    )
     const containerStyle = useMemo(
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],
     )
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
 
     return (
       <LazyMotion features={loadDomAnimation}>
@@ -353,12 +348,20 @@ const MotionPreviewPanel = React.forwardRef<
             ref={containerRef}
             className="flex flex-1 items-center justify-center overflow-hidden"
             style={containerStyle}>
-            <div
-              ref={contentRef}
-              className="flex w-full items-center justify-center p-6"
-              style={CONTENT_STYLE}
-              {...contentProps}
-            />
+            {/* SEC-002: `unsafeHtml` is rendered verbatim and is the caller's responsibility to sanitise. */}
+            {unsafeHtml ? (
+              <div
+                ref={contentRef}
+                className="flex w-full items-center justify-center p-6"
+                style={CONTENT_STYLE}
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: caller-owns-sanitisation contract documented on `unsafeHtml` prop
+                dangerouslySetInnerHTML={{ __html: unsafeHtml }}
+              />
+            ) : (
+              <div ref={contentRef} className="flex w-full items-center justify-center p-6" style={CONTENT_STYLE}>
+                {children}
+              </div>
+            )}
           </div>
         </m.div>
       </LazyMotion>

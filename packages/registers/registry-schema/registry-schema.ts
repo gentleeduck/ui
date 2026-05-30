@@ -21,11 +21,19 @@ export const registryItemFileSchema = z.object({
 
 export type RegistryItemFile = z.infer<typeof registryItemFileSchema>
 
+// Tailwind `theme` values are flat strings (`'#000'`, `'hsl(...)'`) or
+// nested scales (`{ 50: '#…', 100: '#…' }`). Anything beyond two levels is
+// rejected at parse time — keeps the contract auditable.
+const tailwindThemeValueSchema: z.ZodType<string | Record<string, string>> = z.union([
+  z.string(),
+  z.record(z.string(), z.string()),
+])
+
 export const registryItemTailwindSchema = z.object({
   config: z.object({
     content: z.array(z.string()).optional(),
     plugins: z.array(z.string()).optional(),
-    theme: z.record(z.string(), z.any()).optional(),
+    theme: z.record(z.string(), tailwindThemeValueSchema).optional(),
   }),
 })
 
@@ -36,7 +44,9 @@ export const registryItemCssVarsSchema = z.object({
 
 export const blockChunkSchema = z.object({
   code: z.string().optional(),
-  component: z.any(),
+  // Concrete React element/component injected by the build pipeline.
+  // `unknown` forces narrowing at the call site (`as React.ComponentType`).
+  component: z.unknown(),
   container: z
     .object({
       className: z.string().nullish(),
@@ -53,11 +63,13 @@ export const registryEntrySchema = z.object({
   dependencies: z.array(z.string()).optional(),
   description: z.string().optional(),
   devDependencies: z.array(z.string()).optional(),
-  files: z.array(registryItemFileSchema).optional(),
+  // Required: every entry must declare a `files` array. The build pipeline
+  // populates it from the on-disk source — an `undefined` here is a contract
+  // bug, not a "no files" signal (use `[]` for that). See pass-1 audit T4.
+  files: z.array(registryItemFileSchema),
   name: z.string(),
   registryDependencies: z.array(z.string()).optional(),
   root_folder: z.string(),
-  source: z.string().optional(),
   tailwind: registryItemTailwindSchema.optional(),
   type: registryItemTypeSchema,
 })
@@ -75,7 +87,8 @@ export type Registry = z.infer<typeof registrySchema>
 
 export const blockSchema = registryEntrySchema.extend({
   code: z.string(),
-  component: z.any(),
+  // See `blockChunkSchema.component` — `unknown` keeps the contract honest.
+  component: z.unknown(),
   container: z
     .object({
       className: z.string().nullish(),

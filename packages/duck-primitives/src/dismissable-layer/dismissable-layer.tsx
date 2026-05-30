@@ -8,7 +8,8 @@ import type { IDismissableLayer } from './dismissable-layer.types'
 
 const DISMISSABLE_LAYER_NAME = 'DismissableLayer'
 
-let originalBodyPointerEvents: string
+// Per-document so two React roots opening dismissable layers don't clobber each other's saved value.
+const originalBodyPointerEvents = new WeakMap<Document, string>()
 
 type DismissableLayerElement = React.ComponentRef<typeof Primitive.div>
 
@@ -37,10 +38,10 @@ const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableL
   const [highestLayerWithOutsidePointerEventsDisabled] = Array.from(
     context.layersWithOutsidePointerEventsDisabled,
   ).slice(-1)
-  const highestLayerWithOutsidePointerEventsDisabledIndex = layers.indexOf(
-    // biome-ignore lint/style/noNonNullAssertion: indexOf returns -1 for undefined which is the correct fallback behavior here
-    highestLayerWithOutsidePointerEventsDisabled!,
-  )
+  // undefined → indexOf returns -1 (correct fallback); no non-null assert needed.
+  const highestLayerWithOutsidePointerEventsDisabledIndex = highestLayerWithOutsidePointerEventsDisabled
+    ? layers.indexOf(highestLayerWithOutsidePointerEventsDisabled)
+    : -1
   const index = node ? layers.indexOf(node) : -1
   const isBodyPointerEventsDisabled = context.layersWithOutsidePointerEventsDisabled.size > 0
   const isPointerEventsEnabled = index >= highestLayerWithOutsidePointerEventsDisabledIndex
@@ -77,7 +78,7 @@ const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableL
     if (!node) return
     if (disableOutsidePointerEvents) {
       if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
-        originalBodyPointerEvents = ownerDocument.body.style.pointerEvents
+        originalBodyPointerEvents.set(ownerDocument, ownerDocument.body.style.pointerEvents)
         ownerDocument.body.style.pointerEvents = 'none'
       }
       context.layersWithOutsidePointerEventsDisabled.add(node)
@@ -88,7 +89,8 @@ const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableL
       if (disableOutsidePointerEvents) {
         context.layersWithOutsidePointerEventsDisabled.delete(node)
         if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
-          ownerDocument.body.style.pointerEvents = originalBodyPointerEvents
+          ownerDocument.body.style.pointerEvents = originalBodyPointerEvents.get(ownerDocument) ?? ''
+          originalBodyPointerEvents.delete(ownerDocument)
         }
       }
     }

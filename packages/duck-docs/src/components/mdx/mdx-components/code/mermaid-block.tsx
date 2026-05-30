@@ -1,10 +1,11 @@
 'use client'
 
+import { sanitizeSvg } from '@duck-docs/lib/sanitize-svg'
 import { cn } from '@gentleduck/libs/cn'
 import { PreviewPanelDialog } from '@gentleduck/registry-ui/preview-panel'
 import { Loader } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export interface IMermaidBlockProps {
   chart?: string
@@ -29,7 +30,13 @@ export function MermaidBlock(props: IMermaidBlockProps) {
     setMounted(true)
   }, [])
 
-  const currentSvg = resolvedTheme === 'dark' ? preDark || preLight : preLight || preDark
+  // SECURITY: the SVG arrives through MDX-routed props typed `[key: string]:
+  // unknown`. Scrub `<script>`, `<foreignObject>`, on* handlers, and
+  // `javascript:` URLs before handing the string to `dangerouslySetInnerHTML`
+  // inside `PreviewPanelDialog`.
+  const safeLight = useMemo(() => sanitizeSvg(preLight), [preLight])
+  const safeDark = useMemo(() => sanitizeSvg(preDark), [preDark])
+  const currentSvg = resolvedTheme === 'dark' ? safeDark || safeLight : safeLight || safeDark
 
   if (!mounted) {
     return (
@@ -54,7 +61,6 @@ export function MermaidBlock(props: IMermaidBlockProps) {
 
   return (
     <PreviewPanelDialog
-      // Trusted build-time SVG rendered from MDX-compiled Mermaid source.
       unsafeHtml={currentSvg}
       maxHeight="500px"
       className={cn('my-6', props.className)}

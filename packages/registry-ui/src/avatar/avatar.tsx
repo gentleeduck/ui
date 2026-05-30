@@ -57,8 +57,8 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, IAvatarGroupProps>(
 
     return (
       <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
-        {visibleImgs.map((img) => (
-          <Avatar className={cn('border-2 border-border')} key={img.id}>
+        {visibleImgs.map((img, i) => (
+          <Avatar className={cn('border-2 border-border')} key={img.id ?? img.src ?? img.alt ?? i}>
             <AvatarImage alt={img.alt} src={img.src} />
             <AvatarFallback>{img.fallback?.slice(0, 2) ?? img.alt?.slice(0, 2)}</AvatarFallback>
           </Avatar>

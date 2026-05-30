@@ -34,14 +34,18 @@ export type Narrow<T> =
   | (T extends string | number | boolean | bigint ? T : never)
   | { [K in keyof T]: T[K] extends (...args: any[]) => any ? T[K] : Narrow<T[K]> }
 
+// Internal: `true` if `T` is `Wide` exactly (i.e. `T` is the wide type, not a
+// narrower literal subtype of it).
+type _IsExactly<T, Wide> = [T] extends [Wide] ? ([Wide] extends [T] ? false : true) : false
+
 /** `true` if `T` is a string-literal (not the wider `string`). */
-export type IsStringLiteral<T> = [T] extends [string] ? ([string] extends [T] ? false : true) : false
+export type IsStringLiteral<T> = _IsExactly<T, string>
 
 /** `true` if `T` is a numeric-literal. */
-export type IsNumericLiteral<T> = [T] extends [number] ? ([number] extends [T] ? false : true) : false
+export type IsNumericLiteral<T> = _IsExactly<T, number>
 
 /** `true` if `T` is a boolean-literal. */
-export type IsBooleanLiteral<T> = [T] extends [boolean] ? ([boolean] extends [T] ? false : true) : false
+export type IsBooleanLiteral<T> = _IsExactly<T, boolean>
 
 /** `true` if `T` is a bigint-literal. */
-export type IsBigIntLiteral<T> = [T] extends [bigint] ? ([bigint] extends [T] ? false : true) : false
+export type IsBigIntLiteral<T> = _IsExactly<T, bigint>

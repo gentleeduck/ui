@@ -1,7 +1,7 @@
 'use client'
 
 export { DocsCopyPage } from './components/docs/docs-copy-page'
-export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './components/docs/docs-pager'
+export { DocsPagerBottom, DocsPagerTop, getPagerForDoc } from './components/docs/docs-pager'
 export { DocsPathBreadcrumb } from './components/docs/docs-path-breadcrumb'
 export type { IDocsSidebarNavProps } from './components/docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './components/docs/docs-sidebar'
@@ -10,9 +10,7 @@ export { getIconForLanguageExtension } from './components/icons'
 export { Mdx } from './components/mdx/mdx'
 export { Callout } from './components/mdx/mdx-components/callout'
 export {
-  BuildTab,
   CodeBlock,
-  CodeBlockWrapper,
   CodePreview,
   ComponentPreview,
   ComponentSource,
@@ -37,7 +35,12 @@ export {
   LinkBlock,
   LinkedCard,
   P,
-} from './components/mdx/mdx-components/typepography'
+} from './components/mdx/mdx-components/typography'
+export {
+  type CompiledMdxBody,
+  compileMdxBody,
+  trustCompiledMdxBody,
+} from './components/mdx/mdx-runtime'
 export { ThemeProvider } from './components/providers'
 export {
   DocsProvider,

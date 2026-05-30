@@ -1,20 +1,13 @@
-import * as React from 'react'
+import { useMediaQuery } from '../use-media-query'
 
-const MOBILE_BREAKPOINT = 768
+/** Mobile breakpoint in px — viewports narrower than this match `useIsMobile`. */
+const MOBILE_BREAKPOINT_PX = 768
 
-/** Track whether the viewport is narrower than 768px via `matchMedia`. */
+/** `max-width` is inclusive, so subtract 1 to make the breakpoint behave as strict <. */
+const MOBILE_MAX_WIDTH_PX = MOBILE_BREAKPOINT_PX - 1
+
+const MOBILE_MEDIA_QUERY = `(max-width: ${MOBILE_MAX_WIDTH_PX}px)`
+
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
-
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    }
-    mql.addEventListener('change', onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener('change', onChange)
-  }, [])
-
-  return isMobile ?? false
+  return useMediaQuery(MOBILE_MEDIA_QUERY)
 }

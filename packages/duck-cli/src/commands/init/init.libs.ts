@@ -2,13 +2,13 @@ import path from 'node:path'
 import prompts from 'prompts'
 import { getDuckuiConfig, registryComponentInstall } from '~/utils'
 import { printBanner } from '~/utils/banner'
-import { getRegistryIndex } from '~/utils/get-registry'
 import { preflightConfigs } from '~/utils/preflight-configs'
 import { resolveComponents } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
 import { scaffoldTemplate } from '~/utils/template-scaffold'
 import { isVerbose } from '~/utils/verbose'
 import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { expandAllComponentNames } from '../shared.libs'
 import { type InitOptions, initArgumentsSchema, initOptionsSchema } from './init.dto'
 
 export async function initCommandAction(args: string[], opt: InitOptions) {
@@ -26,11 +26,9 @@ export async function initCommandAction(args: string[], opt: InitOptions) {
       process.exit(0)
     }
 
-    const componentsNames = componentNames
-
     const { workspaceCwd } = await preflightConfigs({ ...options, cwd }, spinner)
 
-    if (componentsNames.length === 0 && !options.all) {
+    if (componentNames.length === 0 && !options.all) {
       if (options.yes) {
         // `--yes` without `--all` or named components: caller wanted a config-only init, so stop here.
         spinner.succeed('Done.')
@@ -52,16 +50,7 @@ export async function initCommandAction(args: string[], opt: InitOptions) {
       spinner.start()
     }
 
-    let finalNames = componentsNames
-
-    if (options.all && componentsNames.length === 0) {
-      spinner.text = 'Fetching all components from registry...'
-      const index = await getRegistryIndex()
-      if (index) {
-        finalNames = index.filter((c) => c.type === 'registry:ui').map((c) => c.name)
-      }
-    }
-
+    const finalNames = await expandAllComponentNames(componentNames, options.all, spinner)
     const components = await resolveComponents(finalNames, spinner)
 
     const duckuiConfig = await getDuckuiConfig(workspaceCwd, spinner)

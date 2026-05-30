@@ -3,6 +3,7 @@ import type { IResolvedRegistryBuildCssTemplates } from '../../../config/types'
 import { generateBaseStylesWithVariables, generateThemeCss } from '../../../extensions/ui/lib/css-generator'
 import type { IRegistryBuildThemeEntry } from '../../../extensions/ui/ui.config.types'
 import { writeJsonIfChanged } from '../../../lib/fs'
+import { assertSafeName, resolveWithinBase } from '../../../lib/safe-path'
 import type { IRegistryBuildContext } from '../../types'
 import type { IRegistryBuildColorsPhaseOptions } from './colors.types'
 
@@ -51,8 +52,11 @@ export function getColorsOutputFiles(context: IRegistryBuildContext, themeNames:
   const outputFiles = [colorsIndexFile]
 
   for (const name of themeNames) {
-    outputFiles.push(path.join(context.getPath('colorsDir'), `${name}.json`))
-    outputFiles.push(path.join(context.getPath('themesDir'), `${name}.json`))
+    // Schema restricts theme keys via `themeEntriesSchema`; assert once more before
+    // joining so the runtime path stays inside colorsDir/themesDir.
+    assertSafeName(name, `theme name`)
+    outputFiles.push(resolveWithinBase(context.getPath('colorsDir'), `${name}.json`, `colors output for "${name}"`))
+    outputFiles.push(resolveWithinBase(context.getPath('themesDir'), `${name}.json`, `theme output for "${name}"`))
   }
 
   if (themeNames.length > 0) {
@@ -75,9 +79,10 @@ export async function processTheme(
     defaultRadius: string
   },
 ): Promise<{ themeCss: string; writtenFiles: string[] }> {
+  assertSafeName(name, `theme name`)
   const radius = entry.radius || options.defaultRadius
-  const colorFile = path.join(context.getPath('colorsDir'), `${name}.json`)
-  const themeFile = path.join(context.getPath('themesDir'), `${name}.json`)
+  const colorFile = resolveWithinBase(context.getPath('colorsDir'), `${name}.json`, `colors output for "${name}"`)
+  const themeFile = resolveWithinBase(context.getPath('themesDir'), `${name}.json`, `theme output for "${name}"`)
   const colorPayload = {
     cssVarsV4: {
       light: entry.light,

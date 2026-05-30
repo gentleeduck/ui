@@ -3,9 +3,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { Label } from '../label'
 import type { CheckedState, ICheckboxGroupProps, ICheckboxProps, ICheckboxWithLabelProps } from './checkbox.types'
 
@@ -24,7 +24,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
     },
     ref,
   ) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
       checkedIndicator,
       indicator,

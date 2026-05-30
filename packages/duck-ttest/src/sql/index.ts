@@ -1,3 +1,13 @@
+import type { JSONValue } from '~/json'
+import type { Trim } from '~/template'
+import type { UnionToIntersection } from '~/union'
+
+// Re-export shared helpers so existing `from '~/sql'` imports keep resolving.
+/** @deprecated Re-exported from canonical home; import from `~/template` instead. */
+export type { Trim } from '~/template'
+/** @deprecated Re-exported from canonical home; import from `~/union` instead. */
+export type { UnionToIntersection } from '~/union'
+
 export type SQLTypeMap = {
   INT: number
   INTEGER: number
@@ -16,7 +26,7 @@ export type SQLTypeMap = {
   DECIMAL: number
   NUMERIC: number
   BLOB: Uint8Array
-  JSON: any
+  JSON: JSONValue
 }
 
 export type WhitespaceChar = ' ' | '\n' | '\t' | '\r'
@@ -32,8 +42,6 @@ export type CollapseWhitespaceSafe<
       : CollapseWhitespaceSafe<Rest, true, `${Acc} `>
     : CollapseWhitespaceSafe<Rest, false, `${Acc}${Char}`>
   : Trim<Acc>
-
-export type Trim<S extends string> = S extends ` ${infer R}` ? Trim<R> : S extends `${infer R} ` ? Trim<R> : S
 
 export type NormalizeSQL<S extends string> = CollapseWhitespaceSafe<S>
 
@@ -90,22 +98,23 @@ export type StripConstraints<S extends string> = S extends `${infer H} DEFAULT $
 
 export type CleanSQLType<S extends string> = UppercaseWord<NormalizeType<StripConstraints<S>>>
 
-// Parenthesis-aware column splitter.
-type Inc<D extends any[]> = [any, ...D]
-type Dec<D extends any[]> = D extends [any, ...infer R] ? R : []
+// Parenthesis-aware column splitter. Depth tracked via tuple length —
+// `unknown[]` rather than `any[]` for stylistic consistency.
+type _IncDepth<D extends unknown[]> = [unknown, ...D]
+type _DecDepth<D extends unknown[]> = D extends [unknown, ...infer R] ? R : []
 
 export type SplitColumns<
   S extends string,
   Sep extends string = ',',
-  Depth extends any[] = [],
+  Depth extends unknown[] = [],
   Curr extends string = '',
   Acc extends string[] = [],
 > = S extends ''
   ? [...Acc, Trim<Curr>]
   : S extends `(${infer Rest}`
-    ? SplitColumns<Rest, Sep, Inc<Depth>, `${Curr}(`, Acc>
+    ? SplitColumns<Rest, Sep, _IncDepth<Depth>, `${Curr}(`, Acc>
     : S extends `)${infer Rest}`
-      ? SplitColumns<Rest, Sep, Dec<Depth>, `${Curr})`, Acc>
+      ? SplitColumns<Rest, Sep, _DecDepth<Depth>, `${Curr})`, Acc>
       : Depth extends []
         ? S extends `${Sep}${infer Rest}`
           ? SplitColumns<Rest, Sep, Depth, '', [...Acc, Trim<Curr>]>
@@ -116,8 +125,10 @@ export type SplitColumns<
           ? SplitColumns<R, Sep, Depth, `${Curr}${F}`, Acc>
           : never
 
-// Non-nullable when: DEFAULT, AUTO_INCREMENT, NOT NULL, or PRIMARY KEY.
-export type IsNullable<S extends string> =
+// SQL column constraints — DEFAULT, AUTO_INCREMENT, NOT NULL, or PRIMARY KEY
+// make a column non-nullable. Distinct from the TS `IsNullable` in `~/primitive`
+// (which talks about `null | undefined` in a TS type) — hence the SQL prefix.
+export type IsSQLNullable<S extends string> =
   HasDefault<S> extends true
     ? false
     : IsAutoIncrement<S> extends true
@@ -129,7 +140,9 @@ export type IsNullable<S extends string> =
           : true
 
 // Optional when: DEFAULT present, or PK + AUTO_INCREMENT, or lacks NOT NULL.
-export type IsOptional<S extends string> =
+// Distinct from the TS `IsOptional` in `~/primitive` (which checks whether
+// `undefined` is in the type) — hence the SQL prefix.
+export type IsSQLOptional<S extends string> =
   HasDefault<S> extends true
     ? true
     : IsPrimaryKey<S> extends true
@@ -149,16 +162,14 @@ export type GetBaseType<S extends string> =
         : unknown
       : ExtractEnum<S>
 
-export type ApplyNullability<Base, S extends string> = IsNullable<S> extends true ? Base | null : Base
+export type ApplyNullability<Base, S extends string> = IsSQLNullable<S> extends true ? Base | null : Base
 
 export type ParseColumnDef<S extends string> = S extends `${infer Name} ${infer Raw}`
-  ? [Trim<Name>, ApplyNullability<GetBaseType<Raw>, Raw>, IsOptional<Raw>]
+  ? [Trim<Name>, ApplyNullability<GetBaseType<Raw>, Raw>, IsSQLOptional<Raw>]
   : never
 
 export type ExtractColumns<SQL extends string> =
   NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer C})` ? SplitColumns<C> : never
-
-export type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never
 
 export type BuildSchemaType<Cols extends readonly string[]> = UnionToIntersection<
   {
@@ -175,15 +186,17 @@ export type InferSchema<S extends string> =
     ? { [K in keyof BuildSchemaType<Cols>]: BuildSchemaType<Cols>[K] }
     : never
 
-export type ResolveRef<T, Schemas extends Record<string, any>> =
+export type ResolveRef<T, Schemas extends Record<string, unknown>> =
   T extends Ref<infer Tbl, infer Col>
     ? Tbl extends keyof Schemas
-      ? Col extends keyof Schemas[Tbl]
-        ? Schemas[Tbl][Col]
+      ? Schemas[Tbl] extends infer Row
+        ? Col extends keyof Row
+          ? Row[Col]
+          : unknown
         : unknown
       : unknown
     : T
 
-export type ResolveFields<T, Schemas extends Record<string, any>> = {
+export type ResolveFields<T, Schemas extends Record<string, unknown>> = {
   [P in keyof T]: ResolveRef<T[P], Schemas>
 }

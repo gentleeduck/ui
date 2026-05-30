@@ -63,14 +63,9 @@ export async function checkTailwindInstalled(cwd: string): Promise<boolean> {
       objectMode: true,
     })
 
-    for (const file of cssFiles) {
-      const content = await fs.readFile(path.join(cwd, file.path), 'utf-8')
-      if (content.includes('@import "tailwindcss"')) {
-        return true
-      }
-    }
-
-    return false
+    // Parallel read; serial loop dominates startup in monorepos with many CSS files.
+    const results = await Promise.all(cssFiles.map((file) => fs.readFile(path.join(cwd, file.path), 'utf-8')))
+    return results.some((content) => content.includes('@import "tailwindcss"'))
   } catch {
     return false
   }
@@ -163,7 +158,13 @@ export async function readDuckuiConfig(cwd: string): Promise<ServiceResult<DuckU
       return { ok: false, error: 'duck-ui.config.json not found' }
     }
     const raw = await fs.readFile(path.join(configRoot, 'duck-ui.config.json'), 'utf8')
-    const parsedResult = duckUiSchema.safeParse(JSON.parse(raw))
+    let json: unknown
+    try {
+      json = JSON.parse(raw)
+    } catch {
+      return { ok: false, error: 'duck-ui.config.json is not valid JSON' }
+    }
+    const parsedResult = duckUiSchema.safeParse(json)
     if (!parsedResult.success) {
       const isLegacyConfig = parsedResult.error.issues.some(
         (issue) => issue.path[0] === 'workspace' && issue.code === 'invalid_type',
@@ -190,7 +191,11 @@ export async function readTsConfig(cwd: string): Promise<ServiceResult<TsConfig>
       return { ok: false, error: 'tsconfig.json not found' }
     }
     const raw = await fs.readFile(path.join(cwd, 'tsconfig.json'), 'utf8')
-    return { ok: true, data: JSON.parse(raw) }
+    try {
+      return { ok: true, data: JSON.parse(raw) as TsConfig }
+    } catch {
+      return { ok: false, error: 'tsconfig.json is not valid JSON' }
+    }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : String(error) }
   }

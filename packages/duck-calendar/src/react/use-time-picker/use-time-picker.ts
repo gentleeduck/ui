@@ -6,16 +6,19 @@ import { useControllableState } from '../utils/use-controllable-state'
 import type { UseTimePicker } from './use-time-picker.types'
 
 // Pre-computed field orders for all 4 combinations  -  avoids filter() on every digit press.
-const FIELD_ORDERS: Record<string, Time.TimeField[]> = {
+// Keyed by `${hourCycle}_${showSeconds}` with a template literal type so the lookup
+// is exhaustive at compile time and typos surface as TS errors instead of `undefined`.
+type FieldOrderKey = `${Time.HourCycle}_${boolean}`
+const FIELD_ORDERS: Record<FieldOrderKey, Time.TimeField[]> = {
   '24_false': ['hour', 'minute'],
   '24_true': ['hour', 'minute', 'second'],
   '12_false': ['hour', 'minute', 'ampm'],
   '12_true': ['hour', 'minute', 'second', 'ampm'],
 }
 
-function nextField(current: Time.TimeField, showSeconds: boolean, hourCycle: '12' | '24'): Time.TimeField | null {
-  const available = FIELD_ORDERS[`${hourCycle}_${showSeconds}`]
-  if (!available) return null
+function nextField(current: Time.TimeField, showSeconds: boolean, hourCycle: Time.HourCycle): Time.TimeField | null {
+  const key: FieldOrderKey = `${hourCycle}_${showSeconds}`
+  const available = FIELD_ORDERS[key]
   const idx = available.indexOf(current)
   if (idx < 0 || idx >= available.length - 1) return null
   return available[idx + 1] ?? null

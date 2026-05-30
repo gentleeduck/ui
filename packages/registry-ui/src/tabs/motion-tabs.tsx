@@ -5,10 +5,10 @@ import { loadDomMax } from '@gentleduck/motion/motion-features'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
 import { springSmooth } from '@gentleduck/motion/transitions/springs'
 import { shakeKeyframes, tweenExpand, tweenShake } from '@gentleduck/motion/transitions/tweens'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+import { toDirection } from '../direction/direction.libs'
 import { type ITabsListProps, type ITabsProps, type ITabsTriggerProps, TabsContext, useTabs } from './tabs'
 
 const BLUR = `blur(${blurLight}px)`
@@ -28,7 +28,7 @@ const MotionTabsContext = React.createContext<{
 
 const MotionTabs = React.forwardRef<HTMLDivElement, ITabsProps>(
   ({ value, defaultValue, onValueChange, dir, children, ...props }, ref) => {
-    const resolvedDir = useDirection(dir as IDirection.Kind)
+    const resolvedDir = useDirection(toDirection(dir))
     const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
     const tabsId = React.useId()
     const [motionDir, setMotionDir] = React.useState(1)

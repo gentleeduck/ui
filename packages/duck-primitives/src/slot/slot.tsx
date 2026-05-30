@@ -1,6 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
+import { getComponentRef } from '../libs/get-component-ref'
 import type { ISlot } from './slot.types'
 
 // unwrap lazy RSC references before any isValidElement check (matches Radix 1.2.4)
@@ -154,27 +155,6 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   }
 
   return merged
-}
-
-// React 18 warns on `element.props.ref`; React 19 warns on `element.ref`.
-// Probe descriptors for `isReactWarning` to pick the non-warning accessor.
-function getComponentRef(element: React.ReactElement) {
-  let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
-  let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
-  if (mayWarn) {
-    return (element as React.ReactElement & { ref?: React.Ref<unknown> }).ref
-  }
-
-  getter = Object.getOwnPropertyDescriptor(element, 'ref')?.get
-  mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
-  if (mayWarn) {
-    return (element.props as { ref?: React.Ref<unknown> }).ref
-  }
-
-  return (
-    (element.props as { ref?: React.Ref<unknown> }).ref ||
-    (element as React.ReactElement & { ref?: React.Ref<unknown> }).ref
-  )
 }
 
 export { Slot, Slottable }

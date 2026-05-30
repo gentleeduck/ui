@@ -1,4 +1,5 @@
-export { cn } from './cn'
+export { chunkByCounts } from './chunk-by-counts'
+export { cn, cnMemo } from './cn'
 export { filteredObject } from './filtered-object'
 export { generateArabicSlug } from './generate-arabic-slug'
 export { getTodayDate } from './get-today-date'

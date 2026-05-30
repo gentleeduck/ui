@@ -43,8 +43,35 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
 
 /** Memoized composeRefs; rebuilds only when any input ref changes. */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: spread refs as deps so the callback updates when any ref changes
-  return React.useCallback(composeRefs(...refs), refs)
+  // Build callback lazily inside useCallback factory; eager `composeRefs(...refs)` would
+  // allocate every render and useCallback only retains the first-captured fn.
+  return React.useCallback<React.RefCallback<T>>(
+    (node) => {
+      let hasCleanup = false
+      const cleanups = refs.map((ref) => {
+        const cleanup = setRef(ref, node)
+        if (!hasCleanup && typeof cleanup === 'function') {
+          hasCleanup = true
+        }
+        return cleanup
+      })
+
+      if (hasCleanup) {
+        return () => {
+          for (let i = 0; i < cleanups.length; i++) {
+            const cleanup = cleanups[i]
+            if (typeof cleanup === 'function') {
+              cleanup()
+            } else {
+              setRef(refs[i], null)
+            }
+          }
+        }
+      }
+    },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: spread refs as deps so the callback updates when any ref changes
+    refs,
+  )
 }
 
 export { composeRefs, useComposedRefs }

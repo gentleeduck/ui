@@ -1,12 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
+import { toDirection } from '../direction/direction.libs'
 import type { CarouselApi, ICarouselContextProps, ICarouselProps } from './carousel.types'
 
 const CarouselContext = React.createContext<ICarouselContextProps | null>(null)
@@ -23,7 +23,7 @@ function useCarousel() {
 
 const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivElement> & ICarouselProps>(
   ({ orientation = 'horizontal', opts, setApi, plugins, className, children, dir, ...props }, ref) => {
-    const direction = useDirection(dir as IDirection.Kind)
+    const direction = useDirection(toDirection(dir))
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,

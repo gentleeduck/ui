@@ -5,11 +5,9 @@ import type { IIndexedRegistryEntry, IRegistryEntry, IRegistryItemFile } from '.
 import { createRegistryFileTree } from '../../../lib/file-tree'
 import { hashValue } from '../../../lib/hash'
 import { joinPosix, normalizeSlashes } from '../../../lib/path'
+import { resolveWithinBase } from '../../../lib/safe-path'
 import type { IRegistryBuildContext } from '../../types'
 
-/**
- * Derive the source reference stored in generated index entries.
- */
 export function getSourceReference(
   source: IRegistryBuildSource,
   context: IRegistryBuildContext,
@@ -19,15 +17,13 @@ export function getSourceReference(
   return joinPosix(baseReference, entry.root_folder)
 }
 
-/**
- * Discover files for entries that rely on source globbing instead of explicit
- * file lists.
- */
 export async function discoverRegistryFiles(
   source: IRegistryBuildSource,
   entry: IRegistryEntry,
 ): Promise<IRegistryItemFile[]> {
-  const discoveryRoot = path.join(source.path, entry.root_folder)
+  // Schema restricts `root_folder`, but assert containment so a hostile registry
+  // can never glob outside `source.path` at build time.
+  const discoveryRoot = resolveWithinBase(source.path, entry.root_folder, `root_folder for "${entry.name}"`)
   const files = (
     await fg(source.glob ?? '**/*.{ts,tsx}', {
       cwd: discoveryRoot,
@@ -55,9 +51,8 @@ export async function discoverRegistryFiles(
   }))
 }
 
-/**
- * Expand file-strategy sources into one indexed entry per discovered file.
- */
+// `indexStrategy: 'file'` fans the source out into one entry per discovered file,
+// using the file's basename as the entry name; `item` keeps the original entry intact.
 export function createIndexedEntries(entry: IIndexedRegistryEntry, source?: IRegistryBuildSource) {
   if (source?.indexStrategy !== 'file' || !entry.files?.length) {
     return [entry]
@@ -70,10 +65,6 @@ export function createIndexedEntries(entry: IIndexedRegistryEntry, source?: IReg
   }))
 }
 
-/**
- * Resolve the concrete file list for a registry entry, normalizing slashes on
- * the way out so downstream emitters stay platform-agnostic.
- */
 export async function resolveRegistryFiles(context: IRegistryBuildContext, entry: IRegistryEntry) {
   const source = context.config.sources[entry.type]
   const files = entry.files?.length ? entry.files : source ? await discoverRegistryFiles(source, entry) : []
@@ -88,10 +79,8 @@ export async function resolveRegistryFiles(context: IRegistryBuildContext, entry
   }
 }
 
-/**
- * Hash only the static parts of an index entry so change detection can short
- * circuit before any expensive work.
- */
+// Static parts only — paired with `createIndexEntrySignature` for the two-stage
+// short-circuit. Excludes file contents and resolved-source state.
 export function createIndexEntryStaticSignature(entry: IRegistryEntry, source?: IRegistryBuildSource) {
   return hashValue({
     entry: {
@@ -113,9 +102,6 @@ export function createIndexEntryStaticSignature(entry: IRegistryEntry, source?: 
   })
 }
 
-/**
- * Hash the final file list and source strategy for an index entry.
- */
 export function createIndexEntrySignature(
   entry: IRegistryEntry,
   source: IRegistryBuildSource | undefined,
@@ -132,10 +118,6 @@ export function createIndexEntrySignature(
   })
 }
 
-/**
- * Build the final index entries, including the derived file tree used by the
- * component and adapter phases.
- */
 export function materializeIndexedEntries(
   context: IRegistryBuildContext,
   entry: IRegistryEntry,

@@ -25,14 +25,9 @@ function getServerSnapshot() {
   return false
 }
 
-/** Whether the user prefers reduced motion. Backed by `useSyncExternalStore`. */
+/** `prefers-reduced-motion: reduce`. SSR-safe; `false` on server. */
 export function useDuckReducedMotion(): boolean {
-  try {
-    // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments
-    return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
-  } catch {
-    return getSnapshot()
-  }
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }
 
 export interface IReducedMotionFallback {
@@ -45,12 +40,4 @@ export function motionTransition<T extends Record<string, unknown>>(
 ): T | IReducedMotionFallback {
   if (reduced) return { duration: 0 }
   return normal
-}
-
-export function onDuckReducedMotionChange(callback: () => void) {
-  return subscribe(callback)
-}
-
-export function getDuckReducedMotionServerSnapshot() {
-  return getServerSnapshot()
 }

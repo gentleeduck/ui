@@ -15,7 +15,7 @@ export type PayloadOf<U, K extends keyof U, V> = OmitTag<NarrowByTag<U, K, V>, K
 /** `true` if `U` has 2+ variants with distinct tag values at `K`. */
 export type IsDiscriminated<U, K extends keyof U> = _IsUnion<TagsOf<U, K>>
 
-type _IsUnion<T, C = T> = [T] extends [never] ? false : T extends any ? ([C] extends [T] ? false : true) : false
+type _IsUnion<T, C = T> = [T] extends [never] ? false : T extends unknown ? ([C] extends [T] ? false : true) : false
 
 /** Pattern-match handler object: `{ [tag]: (variant) => R }`. */
 export type Matchers<U, K extends keyof U, R> = {

@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test'
+import { renderHook } from '@testing-library/react'
 import type { MotionPresetName } from '../motion-presets'
-import { useDirectionalPreset, useMotionPreset } from '../motion-presets'
-import { createDirectionalPreset } from '../presets/directional'
+import { useMotionPreset } from '../motion-presets'
+import { createDirectionalPreset, createSlidePreset } from '../presets/directional'
 import { fadeIn } from '../presets/fade-in'
-import { fadeOut } from '../presets/fade-out'
 import { popIn } from '../presets/pop-in'
 import { rotateIn } from '../presets/rotate-in'
 import { scaleIn } from '../presets/scale-in'
@@ -14,7 +14,6 @@ import { slideUp } from '../presets/slide-up'
 
 const ALL_PRESETS: MotionPresetName[] = [
   'fadeIn',
-  'fadeOut',
   'scaleIn',
   'slideUp',
   'slideDown',
@@ -28,11 +27,6 @@ describe('individual preset exports (tree-shakeable)', () => {
   test('fadeIn has opacity 0 to 1', () => {
     expect(fadeIn.initial.opacity).toBe(0)
     expect(fadeIn.animate.opacity).toBe(1)
-  })
-
-  test('fadeOut has opacity 1 to 0', () => {
-    expect(fadeOut.initial.opacity).toBe(1)
-    expect(fadeOut.animate.opacity).toBe(0)
   })
 
   test('scaleIn has asymmetric exit (0.9 not 0.95)', () => {
@@ -55,19 +49,25 @@ describe('individual preset exports (tree-shakeable)', () => {
     expect(slideDown.exit.y).toBe(-30)
   })
 
-  test('slideFromLeft enters from -8 and exits to -30', () => {
-    expect(slideFromLeft.initial.x).toBe(-8)
-    expect(slideFromLeft.exit.x).toBe(-30)
+  test('slideFromLeft enters from 8 and exits to 30', () => {
+    expect(slideFromLeft.initial.x).toBe(8)
+    expect(slideFromLeft.exit.x).toBe(30)
   })
 
-  test('slideFromRight enters from 8 and exits to 30', () => {
-    expect(slideFromRight.initial.x).toBe(8)
-    expect(slideFromRight.exit.x).toBe(30)
+  test('slideFromRight enters from -8 and exits to -30', () => {
+    expect(slideFromRight.initial.x).toBe(-8)
+    expect(slideFromRight.exit.x).toBe(-30)
   })
 
-  test('slide presets have blur', () => {
+  test('slide presets have light blur', () => {
     expect(slideUp.initial.filter).toBe('blur(4px)')
     expect(slideUp.exit.filter).toBe('blur(4px)')
+  })
+
+  test('slide presets do not introduce scale change (scale stays 1)', () => {
+    expect(slideUp.initial.scale).toBe(1)
+    expect(slideUp.animate.scale).toBe(1)
+    expect(slideUp.exit.scale).toBe(1)
   })
 
   test('rotateIn initial has non-zero rotation', () => {
@@ -144,44 +144,51 @@ describe('createDirectionalPreset', () => {
   })
 })
 
+describe('createSlidePreset', () => {
+  test('produces no scale change (scale 1 across states)', () => {
+    const preset = createSlidePreset('top')
+    expect(preset.initial.scale).toBe(1)
+    expect(preset.animate.scale).toBe(1)
+    expect(preset.exit.scale).toBe(1)
+  })
+
+  test('uses light blur (4px)', () => {
+    const preset = createSlidePreset('top')
+    expect(preset.initial.filter).toBe('blur(4px)')
+    expect(preset.exit.filter).toBe('blur(4px)')
+  })
+
+  test('matches slideUp shape', () => {
+    const preset = createSlidePreset('top')
+    expect(preset.initial.y).toBe(slideUp.initial.y)
+    expect(preset.exit.y).toBe(slideUp.exit.y)
+  })
+})
+
 describe('useMotionPreset', () => {
   test('every preset returns initial, animate, exit, transition', () => {
     for (const name of ALL_PRESETS) {
-      const preset = useMotionPreset(name)
-      expect(preset).toHaveProperty('initial')
-      expect(preset).toHaveProperty('animate')
-      expect(preset).toHaveProperty('exit')
-      expect(preset).toHaveProperty('transition')
+      const { result } = renderHook(() => useMotionPreset(name))
+      expect(result.current).toHaveProperty('initial')
+      expect(result.current).toHaveProperty('animate')
+      expect(result.current).toHaveProperty('exit')
+      expect(result.current).toHaveProperty('transition')
     }
   })
 
   test('direction option overrides preset with directional values', () => {
-    const preset = useMotionPreset('fadeIn', { direction: 'bottom' })
-    expect(preset.initial.y).toBe(-8)
+    const { result } = renderHook(() => useMotionPreset('fadeIn', { direction: 'bottom' }))
+    expect(result.current.initial.y).toBe(-8)
   })
 
   test('delay option adds delay to enter transition', () => {
-    const preset = useMotionPreset('fadeIn', { delay: 0.05 })
-    const animateTransition = preset.animate.transition as Record<string, unknown>
+    const { result } = renderHook(() => useMotionPreset('fadeIn', { delay: 0.05 }))
+    const animateTransition = result.current.animate.transition as Record<string, unknown>
     expect(animateTransition.delay).toBe(0.05)
   })
 
   test('default transition is spring-based', () => {
-    const preset = useMotionPreset('fadeIn')
-    expect(preset.transition).toHaveProperty('type', 'spring')
-  })
-})
-
-describe('useDirectionalPreset', () => {
-  test('returns directional preset for given direction', () => {
-    const preset = useDirectionalPreset('bottom')
-    expect(preset.initial.y).toBe(-8)
-    expect(preset.exit.y).toBe(-30)
-  })
-
-  test('accepts delay', () => {
-    const preset = useDirectionalPreset('top', { delay: 0.03 })
-    const animateTransition = preset.animate.transition as Record<string, unknown>
-    expect(animateTransition.delay).toBe(0.03)
+    const { result } = renderHook(() => useMotionPreset('fadeIn'))
+    expect(result.current.transition).toHaveProperty('type', 'spring')
   })
 })

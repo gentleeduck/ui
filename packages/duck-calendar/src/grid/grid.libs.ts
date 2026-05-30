@@ -1,4 +1,5 @@
 import type { Adapter } from '../adapter'
+import { isGregorianLeap } from '../calendar-system/gregorian'
 
 /**
  * Returns 7 localized weekday names starting from `weekStartDay`.
@@ -51,25 +52,48 @@ export function getLocalizedMonthNames<TDate>(
   })
 }
 
+// Cumulative day-of-year offsets at the start of each month (0-indexed).
+const NON_LEAP_OFFSETS = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
+const LEAP_OFFSETS = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
+
 /**
  * Computes the ISO 8601 week number for a given date.
  * Week 1 is the week containing the first Thursday of the year.
+ *
+ * Pure integer arithmetic on the date's `(year, month, day)` triple  -  no
+ * intermediate `Date` allocations. The previous implementation allocated two
+ * native `Date` objects per call (plus one via `adapter.toDate`); this version
+ * touches only the native `Date` returned by `adapter.toDate`.
  *
  * @param adapter - Any DateAdapter instance.
  * @param date    - The date to compute the week number for.
  */
 export function getWeekNumber<TDate>(adapter: Adapter.IDateAdapter<TDate>, date: TDate): number {
-  // ISO week: week containing Thursday; weeks start on Monday
   const native = adapter.toDate(date)
+  const y = native.getFullYear()
+  const m = native.getMonth() // 0-indexed
+  const d = native.getDate()
+  const jsDow = native.getDay() // 0=Sun..6=Sat
+  const isoDow = jsDow === 0 ? 7 : jsDow
 
-  // Copy and strip time
-  const d = new Date(native.getFullYear(), native.getMonth(), native.getDate())
+  // Ordinal day-of-year for the current date.
+  const offsets = isGregorianLeap(y) ? LEAP_OFFSETS : NON_LEAP_OFFSETS
+  const dayOfYear = (offsets[m] ?? 0) + d
 
-  // Set to nearest Thursday: current date + 4 - current ISO day
-  // ISO day: Mon=1 ... Sun=7
-  const isoDay = d.getDay() === 0 ? 7 : d.getDay()
-  d.setDate(d.getDate() + 4 - isoDay)
+  // Day-of-year of the nearest Thursday (same ISO week as `date`).
+  // This may land in y-1 (week 52/53) or y+1 (week 1).
+  const thursdayDayOfYear = dayOfYear + 4 - isoDow
 
-  const yearStart = new Date(d.getFullYear(), 0, 1)
-  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86_400_000 + 1) / 7)
+  if (thursdayDayOfYear < 1) {
+    // Thursday is in the previous year; count weeks from there.
+    const prevYear = y - 1
+    const prevYearDays = isGregorianLeap(prevYear) ? 366 : 365
+    return Math.ceil((thursdayDayOfYear + prevYearDays) / 7)
+  }
+  const currentYearDays = isGregorianLeap(y) ? 366 : 365
+  if (thursdayDayOfYear > currentYearDays) {
+    // Thursday is in the next year  -  always week 1.
+    return Math.ceil((thursdayDayOfYear - currentYearDays) / 7)
+  }
+  return Math.ceil(thursdayDayOfYear / 7)
 }

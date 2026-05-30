@@ -1,21 +1,19 @@
 import { Command } from 'commander'
-import { requireConfigValue } from '~/utils/require-config-value'
 import { initCommandConfig } from './init.constants'
 import { initCommandAction } from './init.libs'
 
-const { name, description, options, arguments_ } = initCommandConfig
-const option1 = requireConfigValue(options['option1'], 'missing init command option1 config')
-const option2 = requireConfigValue(options['option2'], 'missing init command option2 config')
-const arg1 = requireConfigValue(arguments_['arg1'], 'missing init command arg1 config')
-
 export function initCommand(): Command {
+  const { name, description, options, arguments_ } = initCommandConfig
+  const { yesOption, cwdOption } = options
+  const { componentsArg } = arguments_
+
   const initCommand = new Command(name)
 
   initCommand
     .description(description)
-    .argument(arg1.name, arg1.description, arg1.defaultValue)
-    .option(option1.flags, option1.description, option1.defaultValue)
-    .option(option2.flags, option2.description, option2.defaultValue)
+    .argument(componentsArg.name, componentsArg.description, componentsArg.defaultValue)
+    .option(yesOption.flags, yesOption.description, yesOption.defaultValue)
+    .option(cwdOption.flags, cwdOption.description, cwdOption.defaultValue)
     .option('-p, --project-type <type>', 'project type (NEXT_JS, VITE, TANSTACK_START, UNKNOWN)')
     .option(
       '-b, --base-color <color>',

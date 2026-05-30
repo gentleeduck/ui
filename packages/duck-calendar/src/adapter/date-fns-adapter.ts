@@ -23,17 +23,8 @@ import {
 import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
-/**
- * Date adapter backed by `date-fns` for date arithmetic and `Intl.DateTimeFormat`
- * for locale-aware formatting.
- *
- * `date-fns` operates on native `Date` objects, so `TDate = Date`.
- * All methods return new Date instances  -  inputs are never mutated.
- *
- * Requires `date-fns` as a peer dependency.
- */
+/** Backed by `date-fns`. See {@link Adapter.IDateAdapter} for the contract. */
 export class DateFnsAdapter implements Adapter.IDateAdapter<Date> {
-  /** Returns today's date with time stripped to midnight. */
   today(): Date {
     return startOfDay(new Date())
   }

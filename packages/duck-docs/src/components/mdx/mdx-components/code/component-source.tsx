@@ -15,11 +15,7 @@ interface IComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 type PreElement = React.ReactElement<{ children?: React.ReactNode; __dmcRaw__?: string }>
 type CodeElement = React.ReactElement<{ children?: React.ReactNode }>
 
-/**
- * Walk into a `<div data-dmc-fragment>` wrapper to find the `<pre>` that
- * carries `__dmcRaw__`. dmc's PrettyCode emits one `<pre>` per fragment
- * (CssVars strategy) so we recurse children and stop at the first match.
- */
+// Walks the MDX-emitted fragment to find the `<pre>` carrying `__dmcRaw__`.
 function findPre(node: unknown): PreElement | null {
   if (!React.isValidElement(node)) return null
   const props = (node as React.ReactElement<{ children?: React.ReactNode; __dmcRaw__?: string }>).props
@@ -31,11 +27,7 @@ function findPre(node: unknown): PreElement | null {
   return null
 }
 
-/**
- * Pull a tab label from the `// <filename>` comment that
- * `rehypeComponent` injects as the first line of each code block.
- * Strip the `//` marker, return the trimmed filename.
- */
+// Reads the `// <filename>` marker that the build injects on line 1.
 function getChildLabel(child: React.ReactNode): string {
   if (!React.isValidElement(child)) return 'source'
   const pre = findPre(child)
@@ -43,13 +35,8 @@ function getChildLabel(child: React.ReactNode): string {
   return first.replace(/^\s*\/\/\s*/, '').trim() || 'source'
 }
 
-/**
- * Slice the leading `// <filename>` comment line from a fragment's
- * highlighted body so it doesn't render in the code surface — the
- * filename moves to the tab trigger / figcaption instead. PrettyCode
- * emits one `<span class="line">` per source line, so we just drop the
- * first child of the inner `<code>`.
- */
+// Drops the `// <filename>` marker line so it doesn't render in the body —
+// the filename has already been hoisted into the tab trigger / figcaption.
 function stripLeadingCommentLine(child: React.ReactNode): React.ReactNode {
   if (!React.isValidElement(child)) return child
   const pre = findPre(child)

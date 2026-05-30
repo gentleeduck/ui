@@ -16,53 +16,93 @@ type Block = {
   highlightedCode: string
 }
 
+// SECURITY: allowlist of tag names PrettyCode emits inside a `<pre>` body. Any
+// tag outside this list is dropped — its text children are still recursed
+// over so unexpected wrappers don't blank the highlight tree.
+const ALLOWED_TAGS = new Set(['span', 'code', 'pre', 'mark', 'br', 'div'])
+// SECURITY: allowlist of attributes that may be spread onto a React element
+// from parsed highlighter HTML. `on*` handlers, `href`, `src`, `srcset`,
+// `xlink:href`, and `formaction` are explicitly NOT here — they're the
+// classic vectors for attribute-based XSS when the HTML is attacker-shaped.
+const ALLOWED_ATTRS = new Set([
+  'class',
+  'style',
+  'tabindex',
+  'data-line',
+  'data-highlighted-line',
+  'data-highlighted-line-id',
+  'data-highlighted-chars',
+  'data-chars-id',
+  'data-language',
+  'data-theme',
+  'data-rehype-pretty-code-figure',
+  'data-rehype-pretty-code-title',
+  'data-line-numbers',
+  'data-line-numbers-max-digits',
+  'data-line-number-start',
+  'data-token',
+  'aria-hidden',
+  'aria-label',
+  'role',
+  'id',
+])
+
 function toCamelCase(value: string) {
   return value.replace(/-([a-z])/g, (_, letter: string) => letter.toUpperCase())
 }
 
 function parseInlineStyle(styleText: string): React.CSSProperties {
-  return styleText
-    .split(';')
-    .map((declaration) => declaration.trim())
-    .filter(Boolean)
-    .reduce<Record<string, string>>((styles, declaration) => {
-      const separatorIndex = declaration.indexOf(':')
-      if (separatorIndex === -1) {
-        return styles
-      }
-
-      const property = declaration.slice(0, separatorIndex).trim()
-      const value = declaration.slice(separatorIndex + 1).trim()
-      if (!property || !value) {
-        return styles
-      }
-
-      styles[toCamelCase(property)] = value
-      return styles
-    }, {}) as React.CSSProperties
+  const result: React.CSSProperties = {}
+  for (const declaration of styleText.split(';')) {
+    const trimmed = declaration.trim()
+    if (!trimmed) continue
+    const separatorIndex = trimmed.indexOf(':')
+    if (separatorIndex === -1) continue
+    const property = trimmed.slice(0, separatorIndex).trim()
+    const value = trimmed.slice(separatorIndex + 1).trim()
+    if (!property || !value) continue
+    // Forbid `expression(...)` / `javascript:` payloads sneaking through CSS.
+    if (/expression\s*\(|javascript\s*:/i.test(value)) continue
+    // CSS custom properties (`--foo`) are valid CSSProperties keys; named
+    // props get camelCased. Cast through `Record<string, string>` because
+    // `CSSProperties`'s indexed signature only accepts custom props.
+    ;(result as Record<string, string>)[property.startsWith('--') ? property : toCamelCase(property)] = value
+  }
+  return result
 }
 
-function getElementProps(element: HTMLElement) {
+function getElementProps(element: HTMLElement): Record<string, unknown> {
   const props: Record<string, unknown> = {}
 
   for (const attribute of element.getAttributeNames()) {
-    const value = element.getAttribute(attribute)
-    if (value === null) {
+    const lower = attribute.toLowerCase()
+
+    // SECURITY: block every `on*` event-handler attribute. PrettyCode never
+    // emits these; if one shows up the input is attacker-shaped.
+    if (lower.startsWith('on')) continue
+    // SECURITY: block URL-bearing attributes outright. The highlight tree
+    // has no business with links — anything here is suspect.
+    if (lower === 'href' || lower === 'src' || lower === 'srcset' || lower === 'xlink:href' || lower === 'formaction') {
       continue
     }
+    if (!ALLOWED_ATTRS.has(lower)) continue
 
-    if (attribute === 'class') {
+    const value = element.getAttribute(attribute)
+    if (value === null) continue
+
+    if (lower === 'class') {
       props.className = value
       continue
     }
 
-    if (attribute === 'style') {
+    if (lower === 'style') {
       props.style = parseInlineStyle(value)
       continue
     }
 
-    if (attribute === 'tabindex') {
-      props.tabIndex = Number(value)
+    if (lower === 'tabindex') {
+      const n = Number(value)
+      if (Number.isFinite(n)) props.tabIndex = n
       continue
     }
 
@@ -83,6 +123,12 @@ function renderHtmlNode(node: ChildNode, key: string): React.ReactNode {
 
   const tagName = node.tagName.toLowerCase()
   const children = Array.from(node.childNodes).map((child, index) => renderHtmlNode(child, `${key}-${index}`))
+
+  // SECURITY: tag allowlist. Unknown tags collapse to a fragment so their
+  // text descendants still render but the tag itself disappears.
+  if (!ALLOWED_TAGS.has(tagName)) {
+    return <React.Fragment key={key}>{children}</React.Fragment>
+  }
 
   return React.createElement(tagName, { key, ...getElementProps(node) }, ...children)
 }

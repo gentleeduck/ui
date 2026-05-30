@@ -2,8 +2,6 @@ import { parseKeyBind } from '../parser/parser'
 import type { Parser } from '../parser/parser.types'
 import type { Matcher } from './matcher.types'
 
-const _INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
-
 // button/submit/reset are <input> but not text-entry — bindings should still fire.
 const BUTTON_INPUT_TYPES = new Set(['button', 'submit', 'reset'])
 
@@ -11,8 +9,8 @@ const BUTTON_INPUT_TYPES = new Set(['button', 'submit', 'reset'])
  * True for text-entry elements (text inputs, textareas, selects, contenteditable)
  * where key bindings should be suppressed by `ignoreInputs`.
  */
-export function isInputElement(el: Element | null): boolean {
-  if (!el) return false
+export function isInputElement(el: Element | EventTarget | null): boolean {
+  if (!el || !(el instanceof Element)) return false
 
   const tag = el.tagName
 
@@ -24,8 +22,7 @@ export function isInputElement(el: Element | null): boolean {
 
   if (tag === 'TEXTAREA' || tag === 'SELECT') return true
 
-  const htmlEl = el as HTMLElement
-  if (htmlEl.isContentEditable || htmlEl.contentEditable === 'true') return true
+  if (el instanceof HTMLElement && (el.isContentEditable || el.contentEditable === 'true')) return true
 
   return false
 }
@@ -61,7 +58,7 @@ export function createKeyBindHandler(config: Matcher.IKeyBindHandlerConfig): (ev
 
     if (opts?.enabled === false) return
 
-    if (opts?.ignoreInputs && isInputElement(event.target as Element)) return
+    if (opts?.ignoreInputs && isInputElement(event.target)) return
 
     if (!matchesKeyboardEvent(parsed, event)) return
 
@@ -85,7 +82,7 @@ export function createMultiKeyBindHandler(configs: Matcher.IKeyBindHandlerConfig
 
       if (opts?.enabled === false) continue
 
-      if (opts?.ignoreInputs && isInputElement(event.target as Element)) continue
+      if (opts?.ignoreInputs && isInputElement(event.target)) continue
 
       if (!matchesKeyboardEvent(parsed, event)) continue
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { type IDocsConfig, useDocsConfig } from '@duck-docs/context'
+import { scrollIntoViewWithin } from '@duck-docs/lib/scroll-into-view-within'
 import type { ISidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { ChevronRight } from 'lucide-react'
@@ -37,15 +38,13 @@ export function DocsSidebarNav({ config }: IDocsSidebarNavProps) {
 
   const items = pathname?.startsWith('/charts') ? resolvedConfig.chartsNav : resolvedConfig.sidebarNav
 
-  return (
-    items?.length && (
-      <div className="flex w-full flex-col">
-        {items.map((item) => (
-          <SidebarItem depth={0} item={item} key={getSidebarItemKey(item)} pathname={pathname} />
-        ))}
-      </div>
-    )
-  )
+  return items?.length ? (
+    <div className="flex w-full flex-col">
+      {items.map((item) => (
+        <SidebarItem depth={0} item={item} key={getSidebarItemKey(item)} pathname={pathname} />
+      ))}
+    </div>
+  ) : null
 }
 
 function SidebarItem({
@@ -67,17 +66,7 @@ function SidebarItem({
 
   React.useEffect(() => {
     if (!isCurrent || !linkRef.current) return
-    const scrollParent = linkRef.current.closest<HTMLElement>('[class*="overflow"]')
-    if (!scrollParent) return
-    const el = linkRef.current
-    const scrollRect = scrollParent.getBoundingClientRect()
-    const elRect = el.getBoundingClientRect()
-    if (elRect.top < scrollRect.top || elRect.bottom > scrollRect.bottom) {
-      scrollParent.scrollTo({
-        top: el.offsetTop - scrollParent.offsetTop - scrollParent.clientHeight / 2 + el.clientHeight / 2,
-        behavior: 'smooth',
-      })
-    }
+    scrollIntoViewWithin(linkRef.current, linkRef.current.closest<HTMLElement>('[class*="overflow"]'))
   }, [isCurrent])
 
   const toggle = isCollapsible ? (
@@ -219,13 +208,11 @@ export function DocsSidebarNavItems({
   depth?: number
   accordionDefault?: boolean
 }) {
-  return (
-    items?.length && (
-      <ul className={cn(depth > 0 && 'ml-3 border-l')}>
-        {items.map((item) => (
-          <SidebarItem depth={depth} item={item} key={getSidebarItemKey(item)} pathname={pathname} />
-        ))}
-      </ul>
-    )
-  )
+  return items?.length ? (
+    <ul className={cn(depth > 0 && 'ml-3 border-l')}>
+      {items.map((item) => (
+        <SidebarItem depth={depth} item={item} key={getSidebarItemKey(item)} pathname={pathname} />
+      ))}
+    </ul>
+  ) : null
 }
