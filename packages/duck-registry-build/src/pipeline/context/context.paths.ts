@@ -7,33 +7,39 @@ import type { IRegistryBuildOutputPaths, IRegistryBuildPathRegistry } from '../t
 // Refuse output dirs that would let a hostile config write anywhere on the host.
 // We reject filesystem root, the user's home dir, and any ancestor of cwd
 // because path joining further would still land in a privileged location.
-function assertSafeOutputDir(dir: string): void {
-  const resolved = path.resolve(dir)
-  const root = path.parse(resolved).root
-
-  if (resolved === root) {
-    throw new Error(`Refusing output.dir "${dir}": cannot write to filesystem root.`)
-  }
-
-  const home = os.homedir()
-  if (home && resolved === path.resolve(home)) {
-    throw new Error(`Refusing output.dir "${dir}": cannot write directly to home directory.`)
-  }
-
+// Both the configured (raw resolve) and canonical (realpath-followed) forms
+// must clear every check; otherwise an `output.dir` symlink could pass the
+// raw guard while its target lands in a forbidden tree.
+function assertSafeOutputDir(configured: string, canonical: string): void {
+  const resolved = path.resolve(configured)
+  const home = os.homedir() ? path.resolve(os.homedir()) : ''
   const cwd = path.resolve(process.cwd())
-  if (resolved !== cwd && cwd.startsWith(resolved + path.sep)) {
-    throw new Error(`Refusing output.dir "${dir}": is an ancestor of cwd "${cwd}".`)
+
+  for (const target of [resolved, canonical]) {
+    const root = path.parse(target).root
+
+    if (target === root) {
+      throw new Error(`Refusing output.dir "${configured}": cannot write to filesystem root.`)
+    }
+
+    if (home && target === home) {
+      throw new Error(`Refusing output.dir "${configured}": cannot write directly to home directory.`)
+    }
+
+    if (target !== cwd && cwd.startsWith(target + path.sep)) {
+      throw new Error(`Refusing output.dir "${configured}": is an ancestor of cwd "${cwd}".`)
+    }
   }
 }
 
 // All paths are pre-joined here so downstream phases can use them directly.
 export function createOutputPaths(config: ILoadedRegistryBuildConfig['config']): IRegistryBuildOutputPaths {
   const configuredDir = config.output.dir
-  assertSafeOutputDir(configuredDir)
-  // Match what `resolveWithinBase` returns so `outputFiles` and `outputPaths`
-  // stay aligned on platforms where the configured dir resolves through a
-  // symlink (e.g. macOS `/var` -> `/private/var`).
+  // Canonicalise first so a hostile symlink cannot bypass the root/home/cwd
+  // guard by pointing the configured string at a benign-looking directory
+  // whose realpath lands in a privileged location.
   const baseDir = canonicaliseExistingAncestor(path.resolve(configuredDir))
+  assertSafeOutputDir(configuredDir, baseDir)
   const registryDir = path.join(baseDir, config.output.registryDir)
   const componentIndexDir = path.join(baseDir, config.output.componentIndexDir)
   const cacheDir = path.join(baseDir, config.performance.cacheDir)
