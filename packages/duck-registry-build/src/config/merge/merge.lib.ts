@@ -66,6 +66,7 @@ export function mergeCollectionData(baseData?: unknown | string, nextData?: unkn
     return nextData ?? baseData
   }
 
+  // Both sides are objects (non-array, non-null); narrow once and shallow-merge.
   if (baseData && nextData && !Array.isArray(baseData) && !Array.isArray(nextData)) {
     return {
       ...(baseData as Record<string, unknown>),

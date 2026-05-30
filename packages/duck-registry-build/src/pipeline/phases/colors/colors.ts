@@ -37,13 +37,19 @@ export async function runColorsPhase(
     themeNames,
     themes,
   })
+  // Fan out the three independent discovery probes so a cold build with a missing
+  // cache does not stall on N sequential fs readdir calls.
   const previousOutputFiles = previousCacheState?.outputFiles.length
     ? previousCacheState.outputFiles
-    : [
-        ...(await listFilesRecursively(context.getPath('colorsDir'))),
-        ...(await listFilesRecursively(context.getPath('themesDir'))),
-        ...((await pathExists(context.getPath('themesCssFile'))) ? [context.getPath('themesCssFile')] : []),
-      ]
+    : await Promise.all([
+        listFilesRecursively(context.getPath('colorsDir')),
+        listFilesRecursively(context.getPath('themesDir')),
+        pathExists(context.getPath('themesCssFile')),
+      ]).then(([colorsFiles, themesFiles, themesCssExists]) => [
+        ...colorsFiles,
+        ...themesFiles,
+        ...(themesCssExists ? [context.getPath('themesCssFile')] : []),
+      ])
   const allOutputFilesExist = (await Promise.all(outputFiles.map((filePath) => pathExists(filePath)))).every(Boolean)
 
   if (previousCacheState?.signature === signature && allOutputFilesExist) {
@@ -70,7 +76,11 @@ export async function runColorsPhase(
   }
 
   if (themeNames.length === 0) {
-    const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
+    const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles, [
+      context.getPath('colorsDir'),
+      context.getPath('themesDir'),
+      context.getPath('themesCssFile'),
+    ])
 
     context.cache.setPhaseData<IRegistryBuildColorsCacheState>('colors', {
       outputFiles,
@@ -108,7 +118,11 @@ export async function runColorsPhase(
 
   writtenFiles.push(...themeResults.flatMap((result) => result.writtenFiles))
 
-  const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
+  const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles, [
+    context.getPath('colorsDir'),
+    context.getPath('themesDir'),
+    context.getPath('themesCssFile'),
+  ])
 
   context.cache.setPhaseData<IRegistryBuildColorsCacheState>('colors', {
     outputFiles,

@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
 import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 import { mapConcurrently } from '../../../lib/concurrency'
 import { listFilesRecursively, pathExists, removeStaleFiles, writeJsonIfChanged } from '../../../lib/fs'
+import { resolveWithinBase } from '../../../lib/safe-path'
 import { createRegistryEntryCacheKey, isRegistryEntryAffectedByChangedPaths } from '../../change-detection'
 import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 import { buildComponentPayload, createComponentSignature, createComponentStaticSignature } from './components.lib'
@@ -22,37 +22,47 @@ export async function runComponentsPhase(context: IRegistryBuildContext): Promis
   await fs.mkdir(context.getPath('componentsDir'), { recursive: true })
   const componentResults = await mapConcurrently(index, context.config.performance.parallelism, async (item) => {
     const cacheKey = createRegistryEntryCacheKey(item)
-    const outputFile = path.join(context.getPath('componentsDir'), `${item.name}.json`)
+    // Defense in depth: schema already restricts `item.name`, but assert the path stays
+    // inside the components dir so a hostile name can never write a JSON sibling outside it.
+    const outputFile = resolveWithinBase(
+      context.getPath('componentsDir'),
+      `${item.name}.json`,
+      `component output for "${item.name}"`,
+    )
     const previousCacheEntry = previousCacheState.entries[cacheKey]
     const staticSignature = createComponentStaticSignature(context, item)
     const affectedByChanges = isRegistryEntryAffectedByChangedPaths(context, item)
+    // Cache the fs.access result across the two short-circuit paths so a
+    // cold-cache miss doesn't re-stat the same file.
+    let outputFileExists: boolean | undefined
 
-    if (
-      !affectedByChanges &&
-      previousCacheEntry &&
-      previousCacheEntry.staticSignature === staticSignature &&
-      (await pathExists(outputFile))
-    ) {
-      nextCacheEntries[cacheKey] = previousCacheEntry
+    if (!affectedByChanges && previousCacheEntry && previousCacheEntry.staticSignature === staticSignature) {
+      outputFileExists = await pathExists(outputFile)
+      if (outputFileExists) {
+        nextCacheEntries[cacheKey] = previousCacheEntry
 
-      return {
-        cacheEntry: previousCacheEntry,
-        outputFile,
-        rebuilt: false,
-        wroteFile: false,
+        return {
+          cacheEntry: previousCacheEntry,
+          outputFile,
+          rebuilt: false,
+          wroteFile: false,
+        }
       }
     }
 
     const signature = await createComponentSignature(context, item, staticSignature)
 
-    if (previousCacheEntry && previousCacheEntry.signature === signature && (await pathExists(outputFile))) {
-      nextCacheEntries[cacheKey] = previousCacheEntry
+    if (previousCacheEntry && previousCacheEntry.signature === signature) {
+      outputFileExists = outputFileExists ?? (await pathExists(outputFile))
+      if (outputFileExists) {
+        nextCacheEntries[cacheKey] = previousCacheEntry
 
-      return {
-        cacheEntry: previousCacheEntry,
-        outputFile,
-        rebuilt: false,
-        wroteFile: false,
+        return {
+          cacheEntry: previousCacheEntry,
+          outputFile,
+          rebuilt: false,
+          wroteFile: false,
+        }
       }
     }
 
@@ -76,7 +86,7 @@ export async function runComponentsPhase(context: IRegistryBuildContext): Promis
   const outputFiles = componentResults
     .map((result) => result.outputFile)
     .sort((left, right) => left.localeCompare(right))
-  const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
+  const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles, [context.getPath('componentsDir')])
   const writtenFiles = componentResults
     .filter((result) => result.wroteFile)
     .map((result) => result.outputFile)

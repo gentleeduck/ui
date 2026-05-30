@@ -1,3 +1,4 @@
+import { PRIMARY_FILE_EXTENSIONS } from '../../../config/defaults'
 import type { IIndexedRegistryEntry, RegistryItemTypeMap } from '../../../extensions/ui/ui.registry.types'
 import { hashValue } from '../../../lib/hash'
 import { normalizeSlashes } from '../../../lib/path'
@@ -10,10 +11,8 @@ export function toComponentIdentifier(name: string) {
     .join('')}`
 }
 
-/**
- * Pick the file the framework adapter will dynamic-import: prefers
- * `<name>.tsx`/`.ts` or `<rootBasename>.tsx`/`.ts` over the first file listed.
- */
+// Prefers `<name>.{ts,tsx}` or `<rootBasename>.{ts,tsx}` over the first listed
+// file, so adapters dynamic-import the conventional entry rather than a sibling.
 export function getPrimaryFilePath(item: IIndexedRegistryEntry) {
   const files = item.files ?? []
   if (files.length === 0) {
@@ -22,12 +21,11 @@ export function getPrimaryFilePath(item: IIndexedRegistryEntry) {
 
   const normalizedRootFolder = normalizeSlashes(item.root_folder)
   const rootFolderBaseName = normalizedRootFolder.split('/').pop() ?? item.name
-  const preferredRelativeNames = new Set([
-    `${item.name}.ts`,
-    `${item.name}.tsx`,
-    `${rootFolderBaseName}.ts`,
-    `${rootFolderBaseName}.tsx`,
-  ])
+  const preferredRelativeNames = new Set(
+    [item.name, rootFolderBaseName].flatMap((base) =>
+      PRIMARY_FILE_EXTENSIONS.map((extension) => `${base}${extension}`),
+    ),
+  )
 
   const preferredFile = files.find((file) => {
     const normalizedPath = normalizeSlashes(file.path)
@@ -63,10 +61,8 @@ export function createComponentPath(
   return `${packageBase}/${normalizeSlashes(item.root_folder)}/${relativeFileImportPath}`
 }
 
-/**
- * Hash the normalized phase inputs so warm builds can skip rewriting the
- * generated component index file.
- */
+// `generator` is serialized via toString() so an inline-function change still
+// invalidates the cached output even though the function identity is opaque.
 export function createComponentIndexSignature(options: {
   filteredItems: IIndexedRegistryEntry[]
   framework: string | undefined

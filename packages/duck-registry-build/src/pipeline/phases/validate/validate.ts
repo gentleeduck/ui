@@ -13,14 +13,23 @@ export async function runValidatePhase(context: IRegistryBuildContext): Promise<
     issues.push('`schema.itemTypes` contains duplicate values.')
   }
 
-  for (const [type, source] of Object.entries(context.config.sources) as Array<
-    [RegistryItemType, IRegistryBuildSource]
-  >) {
-    if (!(await pathExists(source.path))) {
+  // Parallelize all source-path existence checks (N sources → 1 stat batch instead of N serial stats).
+  const sourceEntries = Object.entries(context.config.sources) as Array<[RegistryItemType, IRegistryBuildSource]>
+  const sourceExistence = await Promise.all(sourceEntries.map(([, source]) => pathExists(source.path)))
+  for (let i = 0; i < sourceEntries.length; i += 1) {
+    if (!sourceExistence[i]) {
+      const [type, source] = sourceEntries[i] as [RegistryItemType, IRegistryBuildSource]
       issues.push(`Source path does not exist for "${type}": ${source.path}`)
     }
   }
 
+  // Walk every registry entry once, collecting non-IO checks inline and the IO-bound
+  // root-folder existence checks into a single batch we resolve in parallel below.
+  interface IRootFolderCheck {
+    entryRoot: string
+    entryName: string
+  }
+  const rootFolderChecks: IRootFolderCheck[] = []
   let totalItems = 0
 
   for (const [category, entries] of Object.entries(context.config.registries)) {
@@ -50,11 +59,18 @@ export async function runValidatePhase(context: IRegistryBuildContext): Promise<
         continue
       }
 
-      const entryRoot = path.join(source.path, entry.root_folder)
+      rootFolderChecks.push({
+        entryName: entry.name,
+        entryRoot: path.join(source.path, entry.root_folder),
+      })
+    }
+  }
 
-      if (!(await pathExists(entryRoot))) {
-        issues.push(`Entry "${entry.name}" points to a missing source folder: ${entryRoot}`)
-      }
+  const rootFolderExistence = await Promise.all(rootFolderChecks.map((check) => pathExists(check.entryRoot)))
+  for (let i = 0; i < rootFolderChecks.length; i += 1) {
+    if (!rootFolderExistence[i]) {
+      const check = rootFolderChecks[i] as IRootFolderCheck
+      issues.push(`Entry "${check.entryName}" points to a missing source folder: ${check.entryRoot}`)
     }
   }
 

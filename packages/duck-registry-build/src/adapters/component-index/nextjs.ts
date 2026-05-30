@@ -13,22 +13,28 @@ try { dynamic = (await import("next/dynamic.js")).default } catch { dynamic = ()
 `
 
 export function createNextjsComponentImport(options: IRegistryBuildComponentIndexImportOptions) {
-  return `const ${options.id} = dynamic(() => import("${options.componentPath}"), { ssr: ${String(options.ssr)} })\n`
+  // JSON.stringify on componentPath guarantees the path can't break out of the string literal.
+  return `const ${options.id} = dynamic(() => import(${JSON.stringify(options.componentPath)}), { ssr: ${String(
+    options.ssr,
+  )} })\n`
 }
 
 export function createComponentIndexEntry(options: IRegistryBuildComponentIndexEntryOptions) {
   const item = options.item
 
+  // Every user-controlled string is run through JSON.stringify so a hostile registry
+  // entry (e.g. `description: '"; process.exit(); //'`) cannot escape the literal and
+  // inject executable code into the consumer's bundle.
   return `
-  "${item.name}": {
-    name: "${item.name}",
-    description: "${item.description ?? ''}",
-    type: "${item.type}",
+  ${JSON.stringify(item.name)}: {
+    name: ${JSON.stringify(item.name)},
+    description: ${JSON.stringify(item.description ?? '')},
+    type: ${JSON.stringify(item.type)},
     registryDependencies: ${JSON.stringify(item.registryDependencies)},
     files: ${JSON.stringify(item.files, null, 2)},
     component: ${options.id},
-    source: "${item.source ?? ''}",
+    source: ${JSON.stringify(item.source ?? '')},
     categories: ${JSON.stringify(item.categories ?? [])},
-    root_folder: "${item.root_folder}",
+    root_folder: ${JSON.stringify(item.root_folder)},
   },`
 }

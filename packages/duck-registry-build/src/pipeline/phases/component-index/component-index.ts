@@ -29,11 +29,13 @@ export async function runComponentIndexPhase(
   const outputFile = context.getPath('componentIndexFile')
   const filteredItems = index.filter((item) => !componentIndex.excludeTypes.includes(item.type))
   const adapter = getComponentIndexAdapter(componentIndex.framework ?? context.config.componentIndex.framework)
-  const header =
-    !componentIndex.header ||
-    (componentIndex.header === DEFAULT_COMPONENT_INDEX_HEADER && componentIndex.framework !== 'nextjs')
-      ? adapter.defaultHeader
-      : componentIndex.header
+  // Use the framework's default header unless the user has explicitly set a custom one.
+  // The Nextjs default header coincidentally equals DEFAULT_COMPONENT_INDEX_HEADER, so
+  // a "default header + non-Nextjs framework" combination still routes to the adapter.
+  const headerIsUserSupplied =
+    Boolean(componentIndex.header) &&
+    !(componentIndex.header === DEFAULT_COMPONENT_INDEX_HEADER && componentIndex.framework !== 'nextjs')
+  const header = headerIsUserSupplied ? (componentIndex.header as string) : adapter.defaultHeader
 
   const signature = createComponentIndexSignature({
     filteredItems,
