@@ -246,6 +246,19 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
   )
 })
 
+// Hostname-exact match (or subdomain). Substring matching like
+// `href.includes('gentleduck.org')` would treat `evil.com/?ref=gentleduck.org`
+// as internal and prefetch it via next/link.
+function isInternalHref(href: string): boolean {
+  if (href.startsWith('/')) return true
+  try {
+    const u = new URL(href)
+    return u.hostname === 'gentleduck.org' || u.hostname.endsWith('.gentleduck.org')
+  } catch {
+    return false
+  }
+}
+
 const markdownComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="mt-2 scroll-m-20 font-bold text-xl" {...props}>
@@ -273,7 +286,7 @@ const markdownComponents = {
     </p>
   ),
   a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-    if (href?.startsWith('/') || href?.includes('gentleduck.org')) {
+    if (href && isInternalHref(href)) {
       return (
         <Link href={href} className="font-medium text-primary underline underline-offset-4" {...props}>
           {children}
