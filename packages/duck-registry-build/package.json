@@ -9,7 +9,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "commander": "^14.0.1",
+    "commander": "^15.0.0",
     "fast-glob": "^3.3.3",
     "jiti": "^2.6.1",
     "kleur": "^4.1.5",

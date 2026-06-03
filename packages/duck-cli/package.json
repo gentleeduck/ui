@@ -13,7 +13,7 @@
   "dependencies": {
     "@antfu/ni": "^30.0.0",
     "autoprefixer": "^10.4.21",
-    "commander": "^14.0.1",
+    "commander": "^15.0.0",
     "diff": "^9.0.0",
     "execa": "^9.6.0",
     "fast-glob": "^3.3.3",
