@@ -104,7 +104,7 @@
     },
     "packages/deprecated/duck-extension": {
       "name": "@gentleduck/duck-extension",
-      "version": "1.0.11",
+      "version": "1.0.12",
       "dependencies": {
         "@gentleduck/motion": "workspace:*",
         "@tailwindcss/vite": "^4.1.17",
@@ -162,7 +162,7 @@
     },
     "packages/duck-calendar": {
       "name": "@gentleduck/calendar",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -196,7 +196,7 @@
     },
     "packages/duck-cli": {
       "name": "@gentleduck/cli",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "bin": {
         "duck-cli": "dist/index.mjs",
       },
@@ -240,7 +240,7 @@
     },
     "packages/duck-docs": {
       "name": "@gentleduck/docs",
-      "version": "2.0.1",
+      "version": "3.0.0",
       "dependencies": {
         "@gentleduck/md": "^0.4.0",
         "@types/unist": "^3.0.3",
@@ -271,9 +271,9 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@gentleduck/hooks": "^0.2.2",
-        "@gentleduck/libs": "^0.2.2",
-        "@gentleduck/vim": "^0.2.2",
+        "@gentleduck/hooks": "^1.0.0",
+        "@gentleduck/libs": "^1.0.0",
+        "@gentleduck/vim": "^0.3.0",
         "jotai": "^2.14.0",
         "lucide-react": "1.6.0",
         "next": "^16.1.1",
@@ -297,7 +297,7 @@
     },
     "packages/duck-hooks": {
       "name": "@gentleduck/hooks",
-      "version": "0.2.2",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -319,7 +319,7 @@
     },
     "packages/duck-lazy": {
       "name": "@gentleduck/lazy",
-      "version": "1.3.2",
+      "version": "2.0.0",
       "dependencies": {
         "@gentleduck/libs": "workspace:*",
       },
@@ -345,7 +345,7 @@
     },
     "packages/duck-libs": {
       "name": "@gentleduck/libs",
-      "version": "0.2.2",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -362,7 +362,7 @@
     },
     "packages/duck-motion": {
       "name": "@gentleduck/motion",
-      "version": "0.3.4",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -377,7 +377,7 @@
         "tsdown": "catalog:",
       },
       "peerDependencies": {
-        "@gentleduck/variants": "^0.1.24",
+        "@gentleduck/variants": "^1.0.0",
         "motion": ">=12.0.0",
         "react": "^18 || ^19",
       },
@@ -388,10 +388,10 @@
     },
     "packages/duck-primitives": {
       "name": "@gentleduck/primitives",
-      "version": "0.2.14",
+      "version": "0.3.0",
       "dependencies": {
         "@floating-ui/react-dom": "^2.1.7",
-        "@gentleduck/calendar": "^0.3.0",
+        "@gentleduck/calendar": "^0.4.0",
         "aria-hidden": "^1.2.6",
         "react-remove-scroll": "^2.7.2",
       },
@@ -420,7 +420,7 @@
     },
     "packages/duck-query": {
       "name": "@gentleduck/query",
-      "version": "0.1.8",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -434,7 +434,7 @@
     },
     "packages/duck-registry-build": {
       "name": "@gentleduck/registry-build",
-      "version": "0.2.3",
+      "version": "1.0.0",
       "bin": {
         "registry-build": "dist/cli.mjs",
       },
@@ -457,7 +457,7 @@
     },
     "packages/duck-ttest": {
       "name": "@gentleduck/ttest",
-      "version": "0.4.6",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@types/node": "catalog:",
@@ -467,7 +467,7 @@
     },
     "packages/duck-variants": {
       "name": "@gentleduck/variants",
-      "version": "0.1.24",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -483,7 +483,7 @@
     },
     "packages/duck-vim": {
       "name": "@gentleduck/vim",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
@@ -502,7 +502,7 @@
     },
     "packages/registers": {
       "name": "@gentleduck/registers",
-      "version": "0.4.1",
+      "version": "1.0.0",
       "devDependencies": {
         "@gentleduck/typescript-config": "workspace:*",
         "@types/node": "^25.3.0",
@@ -511,7 +511,7 @@
     },
     "packages/registry-blocks": {
       "name": "@gentleduck/registry-blocks",
-      "version": "0.1.8",
+      "version": "0.1.9",
       "dependencies": {
         "@dnd-kit/core": "^6.3.1",
         "@dnd-kit/modifiers": "^9.0.0",
@@ -537,7 +537,7 @@
     },
     "packages/registry-examples": {
       "name": "@gentleduck/registry-examples",
-      "version": "0.2.11",
+      "version": "0.2.12",
       "dependencies": {
         "@gentleduck/calendar": "workspace:*",
         "@gentleduck/primitives": "workspace:*",
@@ -575,7 +575,7 @@
     },
     "packages/registry-internals": {
       "name": "@gentleduck/registry-internals",
-      "version": "0.2.14",
+      "version": "0.2.15",
       "dependencies": {
         "@gentleduck/primitives": "workspace:*",
         "@hookform/resolvers": "^5.2.2",
@@ -612,15 +612,15 @@
     },
     "packages/registry-ui": {
       "name": "@gentleduck/registry-ui",
-      "version": "0.4.4",
+      "version": "0.5.0",
       "dependencies": {
-        "@gentleduck/calendar": "^0.3.0",
-        "@gentleduck/hooks": "^0.2.0",
-        "@gentleduck/libs": "^0.2.0",
-        "@gentleduck/motion": "^0.3.0",
-        "@gentleduck/primitives": "^0.2.11",
-        "@gentleduck/variants": "^0.1.22",
-        "@gentleduck/vim": "^0.2.0",
+        "@gentleduck/calendar": "^0.4.0",
+        "@gentleduck/hooks": "^1.0.0",
+        "@gentleduck/libs": "^1.0.0",
+        "@gentleduck/motion": "^1.0.0",
+        "@gentleduck/primitives": "^0.3.0",
+        "@gentleduck/variants": "^1.0.0",
+        "@gentleduck/vim": "^0.3.0",
         "embla-carousel-react": "8.6.0",
         "lucide-react": "catalog:",
         "next-themes": "^0.4.6",
