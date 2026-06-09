@@ -16,13 +16,13 @@ npm install @gentleduck/hooks
 ## Available Hooks
 
 * `use-composed-refs` - Merge multiple refs into one. Also exports `composeRefs`.
-* `use-computed-timeout-transition` - Read an element's CSS transition duration and fire a callback when it ends.
-* `use-copy-to-clipboard` - Copy text with a configurable reset timeout.
-* `use-debounce` - Debounce a callback. Also exports `debounce`.
+* `schedule-transition-timeout` - Read an element's CSS transition duration and fire a callback when it ends. Exports `scheduleTransitionTimeout` (a plain timer factory, not a hook).
+* `use-copy-to-clipboard` - Copy text with a configurable reset timeout, plus optional `onCopy` and `onError` callbacks.
+* `use-debounce` - Debounce a callback as a real React hook with stable identity and unmount cleanup. Also exports `debounce` for non-React use.
 * `use-is-mobile` - True when the viewport is below 768px.
 * `use-media-query` - Subscribe to a CSS media query and get a boolean.
 * `use-on-open-change` - Manage open/close state with scroll locking and CSS transition timing.
-* `use-stable-id` - Generate a stable, incrementing ID with an optional prefix.
+* `use-stable-id` - SSR-safe ID built on `React.useId` with an optional prefix.
 
 ## Usage
 
