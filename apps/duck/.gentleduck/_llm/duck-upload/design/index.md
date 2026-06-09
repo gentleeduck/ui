@@ -14,13 +14,13 @@ The engine carries a typed completion result all the way through:
 ## Dedupe Without Fake Intents
 
 When `findByChecksum` matches, the engine completes the item via a dedicated internal
-event (`dedupe.ok`) — no synthetic intent. State stays honest and no strategy
+event (`dedupe.ok`) - no synthetic intent. State stays honest and no strategy
 assumptions sneak in.
 
 ## Defaults At Construction
 
 `createUploadStore` resolves config defaults and supplies a default transport
-(`createXHRTransport`) when none is given. Pass only the fields you care about — the
+(`createXHRTransport`) when none is given. Pass only the fields you care about - the
 runtime is always fully specified.
 
 ## Core Does Not Depend On React
