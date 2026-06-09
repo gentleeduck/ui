@@ -2,16 +2,31 @@
 
 Decisions are produced in two stages:
 
-1. **Inside a policy** - the policy's [combining algorithm](/duck-iam/core/policies/combining-algorithms) (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`) folds matching rules into one effect.
-2. **Across policies** - the engine **AND-combines** results. Every policy must allow for the final result to be `allow`.
+1. **Inside a policy** - the policy's [combining algorithm](/duck-iam/core/policies/combining-algorithms) (`AccessControl.CombiningAlgorithm`: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`) folds matching rules into one effect.
+2. **Across policies** - the engine merges per-policy decisions using its `policyCombine` setting (`AccessControl.PolicyCombine`). Defaults to `'and'`; configurable via `IamEngineTypes.IConfig.policyCombine`.
 
-The cross-policy step is **not configurable** - it's fixed engine behavior.
+```typescript
+import { IamEngine } from '@gentleduck/iam'
+
+new IamEngine({
+  adapter,
+  policyCombine: 'and',              // default: every applicable policy must allow
+  // policyCombine: 'allow-overrides', // any applicable allow wins
+  // policyCombine: 'first-applicable', // first decisive policy wins; development mode only
+})
+```
+
+### NotApplicable semantics
+
+A policy whose `targets` don't match the request is **NotApplicable** and contributes nothing to the cross-policy combine - it is *skipped*, not folded as the default effect. This matches XACML and is the safe default: an admin policy that targets `actions: ['admin:*']` should not deny every regular request, it should be invisible to them.
+
+The same rule applies to the auto-generated RBAC policy: if no roles are defined, it's skipped entirely so it can't short-circuit an AND chain.
 
 ***
 
-## Strict AND across policies
+## Strict AND across policies (default)
 
-A combining algorithm resolves conflicts within one policy. Across policies, duck-iam uses strict AND - every policy must allow for the final result to be `allow`.
+`policyCombine: 'and'`. Every **applicable** policy must allow for the final result to be `allow`. The first non-allow short-circuits.
 
 ```typescript
 // Policy A: RBAC-generated, allows editors to update posts
@@ -45,7 +60,7 @@ This shape composes well - adding a new restriction never weakens existing ones.
 When no rules match inside a policy, the engine falls back to `defaultEffect` - `'deny'` by default (fail closed):
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter: myAdapter,
   defaultEffect: 'deny', // this is the default
 })
@@ -54,21 +69,28 @@ const engine = new Engine({
 Fail-closed means an unmatched request denies instead of accidentally allowing. The default applies:
 
 * Inside a policy when no rule matches and the algorithm has nothing to combine
-* After a policy target miss (the policy is skipped, contributes the default effect)
-* After all policies finish without producing a definitive allow
+* After **every** policy was NotApplicable (no applicable policy contributed)
+* After all applicable policies finish without producing a definitive allow
+
+A policy with non-matching targets is **not** folded as the default - it's skipped from the combine entirely. See "NotApplicable semantics" above.
 
 Choose `defaultEffect: 'allow'` only if your policies are explicitly written as deny exceptions on top of an open baseline. The community convention is to keep `'deny'` and add explicit allow rules.
 
 ***
 
-## Why no cross-policy `OR` mode?
+## When to switch off the AND default
 
-duck-iam intentionally doesn't ship a cross-policy `OR` combiner. Two reasons:
+duck-iam now ships three cross-policy combine modes via `IamEngineTypes.IConfig.policyCombine`:
 
-1. **Security ergonomics** - AND-combination means adding a policy can only restrict access. New deny rules can't accidentally weaken existing ones.
-2. **Policy independence** - each policy is auditable on its own. With OR, you'd need to consider all policies together to understand any single decision.
+| Mode | When to use |
+|---|---|
+| `'and'` (default) | Defense in depth. Each new policy can only restrict access. Auditable per policy. |
+| `'allow-overrides'` | Layered grants where one permissive policy must beat stricter ones (e.g. break-glass roles). Any applicable allow wins. |
+| `'first-applicable'` | Ordered-by-specificity policy set, XACML-style. First policy that produces a non-default decision wins. **Development mode only** - `evaluatePolicyFast` can't represent it faithfully so the engine ctor refuses `mode: 'production'` + `'first-applicable'`. |
 
-If you want OR semantics for a specific scenario, encode it inside one policy with `allow-overrides` rather than splitting across two.
+For most apps, stick with `'and'`. Switch to `'allow-overrides'` only when you have a deliberate "this permissive policy must win" pattern; switch to `'first-applicable'` only when policy order is part of your security model.
+
+If you want OR semantics for one specific scenario, prefer encoding it *inside* one policy with `allow-overrides` over splitting across multiple - same effect, smaller blast radius.
 
 ***
 

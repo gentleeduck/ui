@@ -1,18 +1,145 @@
 Benchmarked against **7 libraries**: @casl/ability, casbin, accesscontrol, role-acl, @rbac/rbac, and easy-rbac. Numbers from `vitest bench` on identical authorization scenarios. Sizes verified via bundlephobia on 2026-03-30.
 
-Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here.
+Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here. Three bench suites ship in-tree:
+
+* `test/benchmark.bench.ts` - head-to-head against the six competitor libraries.
+* `src/core/evaluate/__tests__/evaluate.bench.ts` - micro-benchmarks for `evaluatePolicyFast`, `indexPolicy` cold/warm, and cross-policy combine modes.
+* `src/core/resolve/__tests__/resolve.bench.ts` - path resolution and pattern-matching hot paths.
 
 ***
 
 ## The honest verdict
 
-**CASL is faster than us.** On simple RBAC checks, CASL is ~2x faster in production mode - it pre-compiles rules into a hash-map index at build time. duck-iam can't match that while keeping runtime-updatable policies.
+**CASL is faster than us on most micro-benches.** Pre-compiled hash-map dispatch at `build()` time beats a runtime policy engine on raw ops/sec:
 
-**We are faster than everyone else.** In production mode, duck-iam beats easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl.
+* Simple RBAC check: CASL ~2.1x faster than `evaluateFast` raw, ~14x faster end-to-end on cold start.
+* `evaluateFast` raw: ~7.2M ops/s. `engine.can()` cache-warm: ~140k ops/s. The ~54x wrapper overhead is real work the raw path doesn't do - subject resolution, LRU lookup, hook dispatch, IDecision construction in dev mode.
 
-**We ship more features.** Scoped roles, explain/debug traces, lifecycle hooks, batch permissions, 18 condition operators, 5 server middlewares, 3 client libraries. No competitor bundles all of them.
+**duck-iam wins on architecture, not raw speed.** What you get for the overhead:
 
-**We are larger than CASL.** ~21 KB vs ~6 KB. duck-iam includes a full policy engine, RBAC-to-ABAC converter, explain tracer, builder, config validator, and LRU cache. CASL ships none of that.
+* **XACML-grade semantics** - NotApplicable policies are skipped (not folded as default-deny), three cross-policy modes, four in-policy combiners, deterministic priority resolution.
+* **Type-safe adapter contract** - `IamAdapter.IAdapter` with `IReadOptions.signal` for cancellation, generic over actions / resources / roles / scopes.
+* **Property-based oracle** - 1000 random iterations per `(combine, defaultEffect)` pair assert `evaluate` and `evaluateFast` cannot silently disagree.
+* **Snapshot export / import** - `engine.admin.export()` produces a schema-versioned config snapshot for GitOps or staging->prod promotion.
+
+**duck-iam is faster than everyone except CASL.** In production mode, beats easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl on most paths.
+
+**The "duck-iam 41 KB" headline is misleading. Read on.**
+
+CASL ships at ~6 KB because its surface is small - one `defineAbility` builder + a condition evaluator. duck-iam's headline "41 KB" is the result of `import * from '@gentleduck/iam'` and pulling every adapter, every server middleware, every client wrapper, the builder, the explain tracer, and the validator. **Nobody imports it this way in real code.**
+
+Realistic deployments (subpath imports + tree-shaking) end up at 15-25 KB, depending on what you wire. See the [Real-world bundle profiles](#real-world-bundle-profiles) section below for measured numbers per use case.
+
+***
+
+## 2.1.0 measured (security cycle + bundle slim)
+
+Numbers from `scripts/benchmark.ts` (microsecond-per-op). Bundle sizes from `gzip -c | wc -c` on `dist/` chunks resolved via BFS through the import graph. Reproduce via `bun run benchmark` in `packages/duck-iam/`. Machine-relative; absolute numbers will vary, the deltas are the story.
+
+### Core paths
+
+| Path | 2.0.0 | 2.1.0 | delta |
+|---|---|---|---|
+| `evaluatePolicy` (simple rule) | 0.68 us | 0.76 us | +12% |
+| `evaluatePolicy` (conditions) | 1.33 us | 1.00 us | **-25%** |
+| `evaluatePolicy` (target match) | 0.47 us | 0.68 us | +45% |
+| `evaluatePolicy` (target skip) | 0.24 us | 0.24 us | 0% |
+| `evaluate` (2 policies) | 0.65 us | 1.24 us | +91% |
+| `evaluate` (deny path) | 0.58 us | 0.62 us | +7% |
+
+### Engine paths (cache-warm)
+
+| Path | 2.0.0 | 2.1.0 | delta |
+|---|---|---|---|
+| `engine.can()` | 4.86 us | 5.18 us | +7% |
+| `engine.check()` | 4.60 us | 4.60 us | 0% |
+| `engine.permissions()` (20 checks) | 20.06 us | 48.08 us | **+140%** |
+| `engine.explain()` | n/a | 8.02 us | new |
+
+### Bundle (gzipped, post-slim)
+
+Measured against a clean 2.0.1 `git worktree` baseline (not eyeballed).
+Net 2.0.1 -> 2.2.0 delta is **+2.9 KB (+7.5%)** - earlier docs cited a
+\~21 KB pre-cycle number that was estimated from a partial dist build.
+
+| Snapshot | Bundle (gzipped) |
+|---|---|
+| 2.0.1 baseline (clean build) | 38.4 KB |
+| 2.1.0 post-security-cycle | 44.8 KB (+17%) |
+| **2.2.0 post-slim** | **41.3 KB (+7.5% net vs 2.0.1)** |
+
+| Module | Size |
+|---|---|
+| **Headline ("import \* from")** | **41.3 KB** |
+| Core barrel (`@gentleduck/iam/core`) | ~15 KB realistic |
+| `core/validate` (admin only, lazy) | 12 KB chunk |
+| `core/builder` (config-time) | 9 KB chunk |
+| `core/explain` (dev-mode) | separate chunk |
+| `core/schema` (JSON schema export) | 1.3 KB |
+| Memory adapter | 1.7 KB |
+| Prisma adapter | 1.9 KB |
+| Drizzle adapter | 3.0 KB |
+| HTTP adapter | 6.0 KB |
+| Redis adapter | 4.5 KB |
+| Express server | 2.4 KB |
+| Hono server | 2.4 KB |
+| Next.js server | 3.1 KB |
+| NestJS server | 2.9 KB |
+| Generic server | 3.7 KB |
+| React client | 1.3 KB |
+| Vue client | 1.2 KB |
+| Vanilla client | 2.0 KB |
+
+### Honest take
+
+**`engine.permissions()` more than doubled.** Each batch check now fires `onMetrics` + builds `IEvalSignals` + threads `onPolicyError` and the catch arm wraps via `_safeHookCall`. 4 extra allocations per check. The 2-3x cost bought silent-fail-open elimination in batch UI gates - previously a real bug, now structurally impossible.
+
+**Core bundle headline +7.5% net (38.4 -> 41.3 KB)** *if* you import the everything-barrel. The 2.1.0 security cycle added ~6 KB raw (44.8 KB peak); the 2.2.0 bundle slim cycle recovered ~3 KB by (1) dropping adapter re-exports from the barrel, (2) lazy-loading the validator chunk, (3) splitting `builder` / `explain` / `validate` into separate subpath entries. Realistic deployments measure 15-25 KB - see below.
+
+**`engine.can()` ~7% slower.** 0.32 us added per cache-warm check. You'd need 1 million checks per second sustained before this is measurable.
+
+**`evaluatePolicy(conditions)` 25% faster.** Per-Engine cache threading de-bounces redundant resolution work in the hot path.
+
+Raw `evaluateFast()` ops/sec from `vitest bench` (separate suite): still ~7M/s on the production fast path.
+
+***
+
+## Real-world bundle profiles
+
+The 41 KB headline is the worst case. Here is what actual deployments measure (gzipped, subpath imports + standard ESM tree-shaking).
+
+| Profile | Imports | Effective bundle |
+|---|---|---|
+| **Edge function, RBAC-only** | `@gentleduck/iam/core` + `@gentleduck/iam/adapters/memory` | **~17 KB** |
+| **Express + Redis backend** | `@gentleduck/iam/server/express` + `@gentleduck/iam/adapters/redis` | **~22 KB** |
+| **Hono + memory** | `@gentleduck/iam/server/hono` + `@gentleduck/iam/adapters/memory` | **~19 KB** |
+| **Next.js + Drizzle** | `@gentleduck/iam/server/next` + `@gentleduck/iam/adapters/drizzle` | **~21 KB** |
+| **NestJS + Prisma** | `@gentleduck/iam/server/nest` + `@gentleduck/iam/adapters/prisma` | **~20 KB** |
+| **Admin dashboard (adds builder + validate)** | + `@gentleduck/iam/core/builder` + `@gentleduck/iam/core/validate` (lazy) | **+21 KB on admin route only** |
+| **React UI gate (browser)** | `@gentleduck/iam/client/react` | **~1.3 KB** |
+| **Vue UI gate (browser)** | `@gentleduck/iam/client/vue` | **~1.2 KB** |
+| **Vanilla browser gate** | `@gentleduck/iam/client/vanilla` | **~2.0 KB** |
+
+Notes:
+
+* The validator (12 KB) is **lazy-loaded** on first call to `engine.admin.savePolicy/saveRole/import`. Read-only services never pay for it.
+* The builder (9 KB) is only pulled if you import `@gentleduck/iam/core/builder` directly. Apps that store policies as JSON skip it entirely.
+* The explain tracer is **dev-mode only** and a separate chunk; production builds tree-shake it away.
+* Browser-side UI gates ship ~1-2 KB because they wire `useState` to a permission map the server fed them; the engine never enters the browser bundle.
+
+### How to keep your bundle tight
+
+```ts
+// yes Tight: import only what you use
+import { IamEngine } from '@gentleduck/iam/core'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { adminRouter } from '@gentleduck/iam/server/express'
+
+// no Pulls everything (41 KB)
+import { IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
+```
+
+Run `bun run bench` for the head-to-head against `@casl/ability`, `casbin`, `accesscontrol`, `role-acl`, `@rbac/rbac`, `easy-rbac`. Run `bun run benchmark` to emit fresh JSON for the docs site.
 
 ***
 
@@ -26,6 +153,9 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here.
 | **Runtime deps** | 0 | 0 | 5 | 1 | 3 | 0 | 0 |
 | **TypeScript** | Full generics | Full | String-based | Partial | Partial | Yes | No |
 | **Maintained** | Active | Active | Active | No (2020) | Active | Active | No (2021) |
+| **Bundle, "import everything"** | 41 KB | 6 KB | 30 KB | 8.2 KB | n/a | n/a | n/a |
+| **Bundle, realistic backend** | **15-22 KB** | ~6 KB | ~30 KB | ~8 KB | n/a | n/a | n/a |
+| **Bundle, browser UI gate** | **1-2 KB** | ~6 KB | (server only) | (server only) | (server only) | (server only) | (server only) |
 
 ***
 
@@ -127,26 +257,27 @@ export default function ChartBenchmarkIamVs() {
 }
 ```
 
-All numbers are **ops/sec** (higher is faster). Each library solves the **same** authorization problem. CASL condition checks use `subject()` so conditions actually run (bare string checks skip them). duck-iam has two modes: `[DEV]` returns rich Decision objects with timing and reasons, `[PROD]` returns plain booleans with zero overhead.
+All numbers are **ops/sec** (higher is faster). Each library solves the **same** authorization problem. CASL condition checks use `subject()` so conditions run (bare string checks skip them). duck-iam has two modes: `[DEV]` returns rich Decision objects with timing and reasons, `[PROD]` returns plain booleans with zero overhead.
 
 ### Simple RBAC: "can viewer read post?"
 
 | # | Library | ops/sec | vs CASL |
 |---|---|---|---|
-| 1 | **@casl/ability** | 16,857,000 | -- |
-| 2 | @gentleduck/iam `evaluatePolicyFast()` \[PROD] | 8,233,000 | 2x slower |
-| 3 | @gentleduck/iam `evaluateFast()` \[PROD] | 7,737,000 | 2.2x slower |
-| 4 | easy-rbac | 5,003,000 | 3.4x slower |
-| 5 | @rbac/rbac | 2,884,000 | 5.8x slower |
-| 6 | @gentleduck/iam `evaluatePolicy()` \[DEV] | 1,355,000 | 12.4x slower |
-| 7 | @gentleduck/iam `evaluate()` \[DEV] | 1,049,000 | 16x slower |
-| 8 | accesscontrol | 674,000 | 25x slower |
-| 9 | casbin | 143,000 | 118x slower |
-| 10 | role-acl | 140,000 | 120x slower |
+| 1 | **@casl/ability** | 15,200,000 | -- |
+| 2 | @gentleduck/iam `evaluatePolicyFast()` \[PROD] | 7,650,000 | 2x slower |
+| 3 | @gentleduck/iam `evaluateFast()` \[PROD] | 7,200,000 | 2.1x slower |
+| 4 | easy-rbac | 5,003,000 | 3.0x slower |
+| 5 | @rbac/rbac | 2,884,000 | 5.3x slower |
+| 6 | @gentleduck/iam `evaluatePolicy()` \[DEV] | 1,355,000 | 11.2x slower |
+| 7 | @gentleduck/iam `evaluate()` \[DEV] | 1,049,000 | 14.5x slower |
+| 8 | @gentleduck/iam `engine.can()` \[PROD, cache-warm] | 140,000 | 108x slower (54x wrapper overhead vs raw) |
+| 9 | accesscontrol | 674,000 | 22.6x slower |
+| 10 | casbin | 143,000 | 106x slower |
+| 11 | role-acl | 140,000 | 108x slower |
 
 ### ABAC condition check: "can owner update own draft?"
 
-Only libraries with real ABAC condition support. CASL uses `subject()` so conditions run.
+Libraries with ABAC condition support. CASL uses `subject()` so conditions run.
 
 | # | Library | ops/sec | vs CASL |
 |---|---|---|---|
@@ -154,7 +285,7 @@ Only libraries with real ABAC condition support. CASL uses `subject()` so condit
 | 2 | @gentleduck/iam `evaluateFast()` \[PROD] | 1,177,000 | 3.3x slower |
 | 3 | @gentleduck/iam `evaluate()` \[DEV] | 648,000 | 6x slower |
 
-Others excluded - no attribute-based condition support.
+Others excluded: no attribute-based condition support.
 
 ### Role + condition: "can admin delete post?"
 
@@ -199,10 +330,12 @@ Others excluded - no attribute-based condition support.
 | 1 | **@casl/ability** | 3,284,000 | -- |
 | 2 | easy-rbac | 3,118,000 | 1.1x slower |
 | 3 | accesscontrol | 830,000 | 4x slower |
-| 4 | @gentleduck/iam | 311,000 | 10.6x slower |
+| 4 | @gentleduck/iam | 234,000 | 14x slower |
 | 5 | role-acl | 306,000 | 10.7x slower |
 | 6 | @rbac/rbac | 183,000 | 17.9x slower |
 | 7 | casbin | 62,000 | 53x slower |
+
+The cold-start gap reflects the cost of building the policy engine, RBAC-to-ABAC index, condition operator table, and LRU caches at first call - one-time work the rest of the runtime amortises.
 
 ***
 
@@ -230,7 +363,7 @@ Profiled operations in the production fast path:
 | policyApplies | ~0.003 us | Check policy targets |
 | Precomputed cache hit | ~0.080 us | Two nested Map.get calls (action -> resource) |
 | **Total** | **~0.120 us** | |
-| **CASL total** | **~0.060 us** | Single hash lookup + return |
+| **CASL total** | **~0.060 us** | Hash lookup + return |
 
 The gap is not one big bottleneck. It's the sum of small costs a policy engine requires. CASL sidesteps them by freezing rules at build time.
 
@@ -267,41 +400,54 @@ The gap is 60 nanoseconds. At 100 checks per request, that's 6 us - 0.00012% of 
 duck-iam has two execution modes. They change **runtime behavior** and **return types**:
 
 ```ts
-// Development (default) -- rich Decision with timing, reasons, rule refs
-const engine = new Engine({ adapter, mode: 'development' })
+// Development (default) -- rich AccessControl.IDecision with timing, reasons, rule refs
+const engine = new IamEngine({ adapter, mode: 'development' })
 const decision = await engine.check('user-1', 'read', post)
-// decision: Decision { allowed: true, effect: 'allow', reason: '...', duration: 0.5, timestamp: ... }
+// decision: AccessControl.IDecision { allowed: true, effect: 'allow', reason: '...', duration: 0.5, timestamp: ... }
 // engine.explain() is available
 // Hooks (afterEvaluate, onDeny, onError) fire on every check
 
 // Production -- plain boolean, maximum throughput
-const prodEngine = new Engine({ adapter, mode: 'production' })
+const prodEngine = new IamEngine({ adapter, mode: 'production' })
 const allowed = await prodEngine.check('user-1', 'read', post)
 // allowed: true (boolean)
 // No performance.now(), no Date.now(), no object allocation, no reason strings
 // engine.explain() throws -- not available in production
 // Hooks (afterEvaluate, onDeny, onError) are skipped for maximum speed
+// onMetrics still fires in production (primitive-only event, zero overhead when unwired)
 ```
 
 `engine.can()` always returns `boolean` in both modes (for middleware compatibility).
 
 ### Does production mode reduce bundle size?
 
-**The `mode` flag alone does not reduce bundle size.** It's a runtime check. Import patterns do - the package is tree-shakeable, so bundlers drop unused code:
+**The `mode` flag alone does not reduce bundle size.** It's a runtime check. **Import patterns and subpath entries do.** The package is tree-shakeable AND ships per-module entries.
 
 ```ts
-// Smallest production bundle -- import only the fast evaluator
-// Tree-shakes away: Engine, explain, builder, config, validate, dev evaluate
-import { evaluateFast } from '@gentleduck/iam'
-const allowed = evaluateFast(policies, request) // boolean
+// yes Smallest production bundle - import only the fast evaluator
+// Tree-shakes away: IamEngine, explain, builder, config, validate, dev evaluate
+import { evaluateFast } from '@gentleduck/iam/core'
 
-// Full engine -- includes everything (dev + prod paths)
-import { Engine } from '@gentleduck/iam'
+// yes Typical backend - pulls engine + adapter + server middleware only
+import { IamEngine } from '@gentleduck/iam/core'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { adminRouter } from '@gentleduck/iam/server/express'
+
+// yes Admin-write path - validator is lazy-loaded on first call
+import { IamEngine } from '@gentleduck/iam/core'
+await engine.admin.savePolicy(p) // pulls validate chunk on first call
+
+// no Pulls everything (41 KB) - avoid the barrel import
+import { IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 ```
 
-`evaluateFast` + `evaluatePolicyFast` give the smallest bundle when you manage policies yourself. The Engine, explain system, builder, and config validator only ship if imported.
+The validator (12 KB), builder (9 KB), explain tracer, and JSON schema are all behind separate subpath entries - they only ship if you import them directly. The HTTP, Redis, Drizzle, Prisma, and file adapters are subpath-only; the barrel no longer re-exports them.
 
-`engine.explain()` is development-only.
+### Why is duck-iam ~41 KB when CASL is ~6 KB?
+
+It is not. 41 KB is the headline if you do `import * from '@gentleduck/iam'`. Almost nobody does. Real deployments are 15-25 KB - see [Real-world bundle profiles](#real-world-bundle-profiles).
+
+duck-iam is bigger than CASL because it ships more: validator, fluent builder, explain tracer, multi-adapter contract, hook safety wrappers, per-Engine caches, server middleware for 5 frameworks, client wrappers for 3 frameworks. CASL is one builder + one evaluator. Different products. Use CASL if you need the smallest possible bundle and don't need adapters / explain / lazy validate.
 
 ***
 
@@ -436,21 +582,23 @@ Pure evaluation timing, average of 2,000 iterations after 200 warmup rounds.
 
 | Operation | Time |
 |---|---|
-| `evaluatePolicyFast()` -- simple rule | ~0.87 us |
-| `evaluatePolicyFast()` -- with conditions | ~1.61 us |
-| `evaluatePolicy()` \[DEV] -- target match | ~0.59 us |
-| `evaluatePolicy()` -- target skip | ~0.37 us |
-| `evaluate()` -- 2 policies | ~0.70 us |
-| `evaluate()` -- deny path | ~0.96 us |
+| `evaluatePolicyFast()` - simple rule | ~0.87 us |
+| `evaluatePolicyFast()` - with conditions | ~1.61 us |
+| `evaluatePolicy()` \[DEV] - target match | ~0.59 us |
+| `evaluatePolicy()` - target skip | ~0.37 us |
+| `evaluate()` - 2 policies | ~0.70 us |
+| `evaluate()` - deny path | ~0.96 us |
 
 ### Engine Performance (with LRU caching)
 
-| Operation | Time |
-|---|---|
-| `engine.can()` -- cached | ~5.5 us |
-| `engine.check()` -- cached | ~4.2 us |
-| `engine.permissions()` -- 20 checks | ~21 us |
-| `engine.explain()` -- full trace | ~5.7 us |
+| Operation | Time | ops/s |
+|---|---|---|
+| `engine.can()` \[PROD] - cache-warm | ~7.1 us | ~140,000 |
+| `engine.check()` \[DEV] - cache-warm | ~4.2 us | ~238,000 |
+| `engine.permissions()` - 20 checks | ~21 us | ~47,000 batches |
+| `engine.explain()` - full trace | ~5.7 us | ~175,000 |
+
+The gap between raw `evaluateFast()` (~7.2M ops/s) and `engine.can()` cache-warm (~140k ops/s) is wrapper overhead: subject resolution from the LRU, hook dispatch, mode-conditional Decision construction. The wrapper does work the raw evaluator skips.
 
 Times vary by machine. Run `bun run benchmark` for your hardware.
 
@@ -612,13 +760,13 @@ export default function ChartBenchmarkIamCompare() {
 
 ### @gentleduck/iam wins on
 
-* **Feature density**: only library with scoped roles + explain/debug + lifecycle hooks + batch permissions + 18 condition operators + dev/prod mode in one package
-* **Faster than casbin, role-acl, accesscontrol**: 3-50x faster in production mode
-* **Server integration**: 5 framework middlewares (Express, Next.js, Hono, NestJS, generic)
-* **Client libraries**: React, Vue, and vanilla JS with hooks and reactive state
-* **Type safety**: full generic type parameters for actions, resources, roles, and scopes
-* **Explain API**: the only library that tells you exactly why a permission was granted or denied
-* **Dev/Prod mode**: rich debug objects in development, fast booleans in production
+* **XACML-grade semantics**: NotApplicable policies skipped (not folded as default-deny), three cross-policy combine modes (`and`, `allow-overrides`, `first-applicable`), four in-policy combiners with deterministic priority.
+* **Type-safe adapter contract**: `IamAdapter.IAdapter` generic over actions / resources / roles / scopes; `IReadOptions.signal` for `AbortController`-driven cancellation.
+* **Property-based oracle**: trace and fast paths can't silently drift - 1000 random iterations per combine/default-effect pair, six historical drifts caught.
+* **Snapshot export / import**: `engine.admin.export()` -> schema-versioned snapshot for GitOps, environment promotion, backup.
+* **Feature density**: scoped roles, explain/debug, lifecycle hooks (`onPolicyError`, `onMetrics`), batch permissions, 18 condition operators, dev/prod mode in one package.
+* **Faster than casbin, role-acl, accesscontrol** in production mode.
+* **Operability surface**: `preload()`, `healthCheck()`, `stats()`, `dispose()`, cross-instance `IInvalidator`, adapter timeouts, fail-open opt-in.
 
 ### @casl/ability wins on
 
@@ -650,19 +798,19 @@ export default function ChartBenchmarkIamCompare() {
 
 ## Smallest possible bundle
 
-`createAccessConfig()` sets up the whole authorization system in one call, but it pulls in the full config system, validator, and builder. If all you need is policy evaluation, skip the config layer and import the building blocks directly.
+`defineIam()` sets up the whole authorization system in one call, but it pulls in the full config system, validator, and builder. If all you need is policy evaluation, skip the config layer and import the building blocks directly.
 
-Build a typed policy and evaluate it without `createAccessConfig`:
+Build a typed policy and evaluate it without `defineIam`:
 
 ```ts
-import type { Policy, AccessRequest } from '@gentleduck/iam'
+import type { AccessControl, IamRequest } from '@gentleduck/iam'
 import { evaluatePolicyFast } from '@gentleduck/iam'
 
 // Define your action/resource types for type safety
 type Action = 'read' | 'update' | 'delete'
 type Resource = 'post' | 'comment'
 
-const policy: Policy<Action, Resource> = {
+const policy: AccessControl.IPolicy<Action, Resource> = {
   id: 'blog-policy',
   algorithm: 'deny-overrides',
   rules: [
@@ -670,7 +818,7 @@ const policy: Policy<Action, Resource> = {
   ],
 }
 
-const request: AccessRequest<Action, Resource> = {
+const request: IamRequest.IAccessRequest<Action, Resource> = {
   subject: { id: 'user-1', roles: ['viewer'] },
   action: 'read',
   resource: { type: 'post', id: 'post-1' },
@@ -679,7 +827,7 @@ const request: AccessRequest<Action, Resource> = {
 const allowed = evaluatePolicyFast(policy, request) // boolean
 ```
 
-The package is fully tree-shakeable. Anything you don't import drops out: Engine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry - pay only for what you use.
+The package is fully tree-shakeable. Anything you don't import drops out: IamEngine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry: pay only for what you use.
 
 Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `evaluateFast`, `evaluatePolicy`, and the condition operators. Mix and match for the exact surface area you need.
 
@@ -688,7 +836,7 @@ Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `eval
 ## Methodology
 
 * **@gentleduck/iam**: bundle sizes from `dist/` via `gzip -c | wc -c`. Performance via `vitest bench` with N=3 inner loops. Production mode uses `evaluateFast()` with rule indexing (WeakMap-cached per policy, Map lookup by `action:resource`).
-* **@casl/ability**: condition benchmarks use `subject()` for real condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading numbers - we don't do that.
+* **@casl/ability**: condition benchmarks use `subject()` for condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading numbers - we don't do that.
 * **casbin**: real RBAC model (`newModel()` + `StringAdapter`) with role inheritance via grouping rules.
 * **accesscontrol, @rbac/rbac, easy-rbac**: excluded from ABAC benchmarks (no condition support).
 * Competitor sizes from [bundlephobia.com](https://bundlephobia.com), verified 2026-03-30.
@@ -699,6 +847,26 @@ Reproduce:
 
 ```bash
 cd packages/duck-iam
-bun run bench       # vitest bench -- competitive comparison
+bun run bench       # vitest bench -- competitive comparison + micro-benchmarks
 bun run benchmark   # JSON data output + console summary
 ```
+
+***
+
+## Property-based regression guard
+
+The benchmarks above measure speed. A second suite measures **correctness drift** between the trace path (`evaluate`) and the production fast path (`evaluateFast`).
+
+```bash
+src/core/evaluate/__tests__/oracle.test.ts
+```
+
+1000 deterministic-random iterations per `(combine, defaultEffect)` pair. Each iteration generates a policy set with mixed exact / wildcard / colon-prefix / dot-hierarchy / parent-prefix resource patterns plus randomized conditions, scoped roles, and target dimensions. Then asserts:
+
+```typescript
+evaluate(policies, request).allowed === evaluateFast(policies, request)
+```
+
+Why it matters: across thirteen audit rounds the two paths drifted six times (first-match priority order, colon-prefix index, parent-prefix lookup, NotApplicable handling, etc.). Each drift was caught by a regression test added *after* the bug shipped. The oracle is the generative guarantee that the two paths can't silently disagree on inputs the regression suite didn't pick.
+
+Failures surface with the exact seed + policy set + request that diverged - full reproducer in the test error message.

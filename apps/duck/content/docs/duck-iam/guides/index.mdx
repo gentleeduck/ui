@@ -25,9 +25,9 @@ section: Guides
 Declare the actions, resources, and scopes your application uses. This creates a typed factory that constrains all subsequent builders:
 
 ```typescript title="src/lib/access.ts"
-import { createAccessConfig } from "@gentleduck/iam";
+import { defineIam } from "@gentleduck/iam";
 
-export const access = createAccessConfig({
+export const access = defineIam({
   actions: ["create", "read", "update", "delete", "manage"],
   resources: ["post", "comment", "user", "team", "billing"],
   scopes: ["org"],
@@ -82,11 +82,11 @@ export const allRoles = [viewer, editor, moderator, admin];
 ## Step 3: Create the Engine
 
 ```typescript title="src/lib/engine.ts"
-import { MemoryAdapter } from "@gentleduck/iam";
+import { IamMemoryAdapter } from "@gentleduck/iam";
 import { access } from "./access";
 import { allRoles } from "./roles";
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: allRoles,
   assignments: {
     "user-alice": ["admin"],
@@ -194,11 +194,11 @@ await engine.can("user-carol", "update", {
 ## Step 6: Multi-Tenant Scoped Roles
 
 ```typescript title="src/lib/scoped-engine.ts"
-import { MemoryAdapter } from "@gentleduck/iam";
+import { IamMemoryAdapter } from "@gentleduck/iam";
 import { access } from "./access";
 import { allRoles } from "./roles";
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: allRoles,
 });
 
@@ -374,14 +374,14 @@ export default async function Layout({ children }) {
 "use client";
 
 import React from "react";
-import { createAccessControl } from "@gentleduck/iam/client/react";
+import { createIamClient } from "@gentleduck/iam/client/react";
 
 export const {
   AccessProvider,
   useAccess,
   Can,
   Cannot,
-} = createAccessControl(React);
+} = createIamClient(React);
 ```
 
 ```tsx title="src/components/post-actions.tsx"

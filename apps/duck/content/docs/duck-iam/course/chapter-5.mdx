@@ -33,7 +33,7 @@ BlogDuck serves multiple organizations. Alice is an admin in Acme Corp but only 
     **Set up base roles and scoped assignments**
 
     ```typescript title="src/access.ts"
-    const adapter = new MemoryAdapter({
+    const adapter = new IamMemoryAdapter({
       roles: [viewer, editor, admin],
       assignments: {
         'alice': ['viewer'],       // base role (always active)
@@ -48,7 +48,7 @@ BlogDuck serves multiple organizations. Alice is an admin in Acme Corp but only 
     await adapter.assignRole('bob', 'editor', 'acme')
     await adapter.assignRole('bob', 'editor', 'globex')
 
-    export const engine = new Engine({
+    export const engine = new IamEngine({
       adapter,
       // mode: 'production',  // optional - defaults to 'development'
     })

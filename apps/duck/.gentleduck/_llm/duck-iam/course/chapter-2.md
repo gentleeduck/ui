@@ -47,7 +47,7 @@ levels.
 **Register all roles and assign users**
 
 ```typescript title="src/access.ts"
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: {
     'alice': ['viewer'],
@@ -56,7 +56,7 @@ const adapter = new MemoryAdapter({
   },
 })
 
-export const engine = new Engine({ adapter }) // mode defaults to 'development'
+export const engine = new IamEngine({ adapter }) // mode defaults to 'development'
 ```
 
 **Test the hierarchy**
@@ -340,8 +340,8 @@ Validate at startup. It is cheap and prevents silent failures at runtime.
 Full `src/access.ts`
 
 ```typescript
-import { defineRole, Engine, validateRoles } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineRole, IamEngine, validateRoles } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .name('Viewer')
@@ -373,7 +373,7 @@ if (!roleCheck.valid) {
   throw new Error(roleCheck.issues.map(i => `[${i.code}] ${i.message}`).join(', '))
 }
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: {
     'alice': ['viewer'],
@@ -382,7 +382,7 @@ const adapter = new MemoryAdapter({
   },
 })
 
-export const engine = new Engine({ adapter }) // mode defaults to 'development'
+export const engine = new IamEngine({ adapter }) // mode defaults to 'development'
 ```
 
 ***

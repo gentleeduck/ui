@@ -8,12 +8,12 @@ section: Core
 Decisions are produced in two stages:
 
 1. **Inside a policy** - the policy's [combining algorithm](/duck-iam/core/policies/combining-algorithms) (`AccessControl.CombiningAlgorithm`: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`) folds matching rules into one effect.
-2. **Across policies** - the engine merges per-policy decisions using its `policyCombine` setting (`AccessControl.PolicyCombine`). Defaults to `'and'`; configurable via `EngineTypes.IConfig.policyCombine`.
+2. **Across policies** - the engine merges per-policy decisions using its `policyCombine` setting (`AccessControl.PolicyCombine`). Defaults to `'and'`; configurable via `IamEngineTypes.IConfig.policyCombine`.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 
-new Engine({
+new IamEngine({
   adapter,
   policyCombine: 'and',              // default: every applicable policy must allow
   // policyCombine: 'allow-overrides', // any applicable allow wins
@@ -100,7 +100,7 @@ This shape composes well - adding a new restriction never weakens existing ones.
 When no rules match inside a policy, the engine falls back to `defaultEffect` - `'deny'` by default (fail closed):
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter: myAdapter,
   defaultEffect: 'deny', // this is the default
 })
@@ -120,7 +120,7 @@ Choose `defaultEffect: 'allow'` only if your policies are explicitly written as 
 
 ## When to switch off the AND default
 
-duck-iam now ships three cross-policy combine modes via `EngineTypes.IConfig.policyCombine`:
+duck-iam now ships three cross-policy combine modes via `IamEngineTypes.IConfig.policyCombine`:
 
 | Mode | When to use |
 |---|---|

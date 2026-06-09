@@ -22,17 +22,17 @@ the data flows.
 A production deployment that uses one of each:
 
 ```typescript
-import { Engine } from '@gentleduck/iam/core'
-import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { IamEngine } from '@gentleduck/iam/core'
+import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 import { adminRouter, guard } from '@gentleduck/iam/server/express'
-import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
-const adapter = new DrizzleAdapter(db, schema)
-const invalidator = createRedisInvalidator({ client: redis })
+const adapter = new IamDrizzleAdapter(db, schema)
+const invalidator = createIamRedisInvalidator({ client: redis })
 const metrics = createMetricsAggregator()
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   invalidator,
   hooks: { onMetrics: metrics.record },

@@ -1,0 +1,243 @@
+A collection of common patterns. Each recipe is self-contained: copy
+the snippet, swap the actions / resources for yours, and ship.
+
+## Owners can edit their own resources
+
+```typescript
+import { policy, rule, when } from '@gentleduck/iam'
+
+const ownersPolicy = policy('owners', {
+  combine: 'allow-overrides',
+  rules: [
+    rule({
+      effect: 'allow',
+      target: { actions: ['update', 'delete'], resources: ['post', 'comment'] },
+      condition: when().equals('subject.id', '$resource.attributes.ownerId'),
+    }),
+  ],
+})
+```
+
+Pair with a role for **reading** anyone's post:
+
+```typescript
+const viewer = access.defineRole('viewer').grantRead('post', 'comment').build()
+```
+
+A user with `viewer` role can read anyone's post but only update / delete
+their own.
+
+## Public-vs-private resources
+
+```typescript
+const publicReadPolicy = policy('public-read', {
+  combine: 'allow-overrides',
+  rules: [
+    // Anyone can read public posts.
+    rule({
+      effect: 'allow',
+      target: { actions: 'read', resources: 'post' },
+      condition: when().equals('$resource.attributes.visibility', 'public'),
+    }),
+    // Only the owner can read private ones.
+    rule({
+      effect: 'allow',
+      target: { actions: 'read', resources: 'post' },
+      condition: when()
+        .equals('$resource.attributes.visibility', 'private')
+        .equals('subject.id', '$resource.attributes.ownerId'),
+    }),
+  ],
+})
+```
+
+## Role hierarchy
+
+```typescript
+const viewer = access.defineRole('viewer')
+  .grantRead('post', 'comment')
+  .build()
+
+const editor = access.defineRole('editor')
+  .inherits(viewer)
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .build()
+
+const admin = access.defineRole('admin')
+  .inherits(editor)
+  .grant('delete', 'post')
+  .grant('manage', 'user')
+  .build()
+```
+
+`admin` inherits everything `editor` and `viewer` can do.
+
+## Multi-tenant: role per organization
+
+```typescript
+const subject: AccessControl.ISubject = {
+  id: 'user-1',
+  tenantId: 'tenant-1',
+  // Scoped assignments: this user is admin in org-1 and viewer in org-2.
+  scopedRoles: {
+    'org:org-1': ['admin'],
+    'org:org-2': ['viewer'],
+  },
+}
+
+engine.can({ subject, action: 'delete', resource: 'post', scope: 'org:org-1' })
+// -> true (admin in this org)
+
+engine.can({ subject, action: 'delete', resource: 'post', scope: 'org:org-2' })
+// -> false (viewer can't delete)
+```
+
+See [Scoped roles ->](/duck-iam/core/roles/scoped).
+
+## Time-bound access
+
+```typescript
+const businessHoursPolicy = policy('business-hours', {
+  combine: 'allow-overrides',
+  rules: [
+    rule({
+      effect: 'allow',
+      target: { actions: 'export', resources: 'report' },
+      condition: when()
+        .gte('context.timestamp', '$businessHoursStart')
+        .lt('context.timestamp', '$businessHoursEnd'),
+    }),
+  ],
+})
+
+engine.can({
+  subject,
+  action: 'export',
+  resource: 'report',
+  context: {
+    timestamp: Date.now(),
+    businessHoursStart: 9 * 60 * 60 * 1000,
+    businessHoursEnd: 17 * 60 * 60 * 1000,
+  },
+})
+```
+
+## Require MFA for high-risk actions
+
+When you bridge with [duck-auth](/duck-auth), the subject carries the
+session's AAL:
+
+```typescript
+const mfaPolicy = policy('mfa-required', {
+  combine: 'deny-overrides',
+  rules: [
+    // Deny by default for sensitive actions...
+    rule({
+      effect: 'deny',
+      target: { actions: ['delete', 'export'], resources: 'user' },
+    }),
+    // ...unless the session is AAL2.
+    rule({
+      effect: 'allow',
+      target: { actions: ['delete', 'export'], resources: 'user' },
+      condition: when().equals('subject.attributes.aal', 'aal2'),
+    }),
+  ],
+})
+```
+
+The deny is the safety net; the allow lifts it only when the caller is
+authenticated at AAL2.
+
+## Field-level permissions (column-grained)
+
+```typescript
+const fieldsPolicy = policy('fields', {
+  combine: 'first-match',
+  rules: [
+    // Editors can edit everything except billing fields.
+    rule({
+      effect: 'allow',
+      target: { actions: 'update', resources: 'user' },
+      condition: when()
+        .equals('subject.roles', 'editor', { mode: 'includes' })
+        .not(when().intersect('context.fieldsChanged', ['billing.cardNumber', 'billing.address'])),
+    }),
+    // Admins can edit billing.
+    rule({
+      effect: 'allow',
+      target: { actions: 'update', resources: 'user' },
+      condition: when().equals('subject.roles', 'admin', { mode: 'includes' }),
+    }),
+  ],
+})
+
+const decision = engine.can({
+  subject,
+  action: 'update',
+  resource: 'user',
+  context: { fieldsChanged: ['billing.address'] },
+})
+```
+
+Pass the `context.fieldsChanged` from your handler before performing
+the update.
+
+## Audit every deny
+
+```typescript
+const engine = createEngine({
+  ...config,
+  onDeny(decision) {
+    auditLog.write({
+      ts: Date.now(),
+      subjectId: decision.subject.id,
+      action: decision.action,
+      resource: decision.resource,
+      reason: decision.reason,
+    })
+  },
+})
+```
+
+The hook fires on every deny - including denies under the explicit-deny
+combining algorithm - so you have a full audit trail of attempted
+forbidden actions.
+
+## Soft launching a new policy
+
+When deploying a new policy that you're not sure about, run it in
+**shadow mode** alongside the production policy:
+
+```typescript
+const engine = createEngine({ ...config })
+const shadowEngine = createEngine({ ...config, policies: [...config.policies, newPolicy] })
+
+app.post('/api/resource', (req, res) => {
+  const ctx = await auth.resolveSession(req)
+  const subject = projectToSubject(ctx.identity, ctx.session)
+  const args = { subject, action: 'update', resource: 'resource' }
+
+  // Real decision drives behaviour.
+  const realDecision = engine.can(args)
+
+  // Shadow decision drives logging only.
+  const shadowDecision = shadowEngine.can(args)
+  if (realDecision !== shadowDecision) {
+    log.warn({ event: 'shadow-mismatch', args, real: realDecision, shadow: shadowDecision })
+  }
+
+  if (!realDecision) return res.status(403).end()
+  // ...
+})
+```
+
+After a few days with no mismatches, promote the shadow engine to the
+real one.
+
+## See also
+
+* [Pairing with duck-auth ->](/duck-iam/guides/auth-bridge)
+* [Production hardening ->](/duck-iam/guides/production)
+* [Troubleshooting ->](/duck-iam/guides/troubleshooting)

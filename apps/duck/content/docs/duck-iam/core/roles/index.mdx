@@ -30,7 +30,7 @@ const viewer = defineRole('viewer')
 | [inheritance](/duck-iam/core/roles/inheritance) | `inherits()`, multi-parent, cycle handling, depth |
 | [scoped roles](/duck-iam/core/roles/scoped) | Multi-tenancy - role-level scope, permission-level scope, scoped assignments |
 | [conditional permissions](/duck-iam/core/roles/conditional) | `grantWhen()` - attribute-aware grants on roles |
-| [type-safe roles](/duck-iam/core/roles/type-safe) | `createAccessConfig()` constraints, validation, edge cases |
+| [type-safe roles](/duck-iam/core/roles/type-safe) | `defineIam()` constraints, validation, edge cases |
 | [rolesToPolicy](/duck-iam/core/roles/roles-to-policy) | How roles become an ABAC policy under the hood |
 
 ---
@@ -45,7 +45,7 @@ interface AccessControl.IRole {
   permissions: readonly AccessControl.IPermission[]
   inherits?: readonly string[]
   scope?: string
-  metadata?: Readonly<Primitives.Attributes>
+  metadata?: Readonly<IamPrimitives.Attributes>
 }
 
 interface AccessControl.IPermission {
@@ -64,7 +64,7 @@ Each permission is an action/resource pair with optional scope and conditions. R
 
 <MermaidDiagram chart={`flowchart LR
     R["Role: editor"] --> P["Policy"]
-    P --> EV["Engine.evaluate()"]
+    P --> EV["IamEngine.evaluate()"]
 
     subgraph Internal["Behind the scenes"]
         direction TB

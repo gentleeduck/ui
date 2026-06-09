@@ -124,7 +124,7 @@ function matchesScope(
 
 ### resolve
 
-Resolves a dot-path string against an `AccessRequest`. The engine uses this to extract
+Resolves a dot-path string against a `IamRequest.IAccessRequest`. The engine uses this to extract
 field values when evaluating conditions (e.g., `'resource.attributes.ownerId'`).
 
 Supported root paths: `subject.*`, `resource.*`, `environment.*`. Two shorthands exist:
@@ -154,7 +154,7 @@ resolve(request, 'invalid.path')                   // null
 **Signature:**
 
 ```typescript
-function resolve(request: AccessRequest, path: string): AttributeValue
+function resolve(request: IamRequest.IAccessRequest, path: string): AttributeValue
 ```
 
 `AttributeValue` is `string | number | boolean | null | string[] | number[]`.
@@ -206,6 +206,12 @@ unchanged. The engine calls this internally so conditions like
 `{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }`
 work.
 
+The `matches` operator is the one exception: it refuses any `$`-resolved right-hand-side
+to prevent a malicious attribute from injecting a catastrophic regex (ReDoS lockdown).
+A `matches` condition whose `value` resolves through `$subject.*` / `$resource.*` /
+`$environment.*` evaluates to `false` and the leaf is treated as a non-match. Use a
+literal pattern string for `matches`.
+
 ```typescript
 import { resolveConditionValue } from '@gentleduck/iam'
 
@@ -225,7 +231,62 @@ resolveConditionValue(request, 42)                             // 42
 
 ```typescript
 function resolveConditionValue(
-  req: AccessRequest,
+  req: IamRequest.IAccessRequest,
   value: AttributeValue,
 ): AttributeValue
 ```
+
+## Internal behavior worth knowing
+
+A few engine-level invariants the utility functions inherit:
+
+* **Deep-frozen RBAC policy.** The synthetic RBAC policy built from role definitions is
+  recursively `Object.freeze`d in cache. Every consumer (`evaluate`, `explain`,
+  `evaluateFast`) reads the same reference; mutating an array on a shared rule would
+  corrupt every future request, so writes throw in strict mode.
+* **Regex LRU cache for `matches`.** The condition evaluator compiles `matches` patterns
+  once and stores them in an LRU with bounded capacity. Repeated hits skip recompilation;
+  cache eviction is least-recently-used to bound memory under hostile pattern churn.
+* **IamHttpAdapter null on 404.** `IamHttpAdapter.getPolicy(id)` and `IamHttpAdapter.getRole(id)`
+  treat a `404 Not Found` response as "missing" and return `null` rather than throwing.
+  Other non-2xx statuses still throw so transport errors are not silently swallowed.
+* **`matches` operator refuses `$`-resolved RHS.** See `resolveConditionValue` above.
+
+## Row parsers - adapter authors
+
+If you're writing a custom adapter (your data lives in a system that the
+built-in adapters don't speak to), validate every row before returning
+it to the engine. duck-iam ships two helpers for exactly this:
+
+```typescript
+import { parsePolicyRow, parseRoleRow } from '@gentleduck/iam/core/validate'
+
+class MyAdapter implements IamAdapter.IAdapter {
+  async listPolicies() {
+    const rows = await this.myStore.fetchPolicies()
+    const out = []
+    for (const row of rows) {
+      const policy = parsePolicyRow<TAction, TResource, TRole>(row)
+      if (policy !== null) out.push(policy)
+      // else: drop the malformed row (log it if you want, but never
+      // return un-validated rows to the engine)
+    }
+    return out
+  }
+}
+```
+
+`parsePolicyRow` returns `null` on any validation failure; the engine
+treats `null` as "drop this row." This replaces the older pattern of
+calling `validatePolicy(row)` and then casting `row as IPolicy<...>` -
+the cast was a type-safety hole; the parser is not.
+
+Use cases:
+
+* A custom JSON-column SQL adapter where rows can be malformed by hand.
+* A migration tool that reads rows from one store and writes them to
+  another; you want to drop malformed rows instead of crashing.
+* A staging endpoint that lets operators preview policies before commit.
+
+`parseRoleRow` mirrors `parsePolicyRow` for `IamAdapter.IRoleStore.listRoles`
+/ `getRole` return values.

@@ -24,10 +24,10 @@ pnpm add @gentleduck/iam
 Basic setup
 
 ```typescript title="src/lib/access.ts"
-import { createAccessConfig, MemoryAdapter } from "@gentleduck/iam";
+import { defineIam, IamMemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define your application's actions, resources, and scopes
-const access = createAccessConfig({
+const access = defineIam({
   actions: ["create", "read", "update", "delete", "manage"],
   resources: ["post", "comment", "user", "team"],
   scopes: ["org"],
@@ -57,7 +57,7 @@ const admin = access
   .build();
 
 // 3. Create an adapter
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: {
     "user-1": ["admin"],
@@ -137,7 +137,7 @@ duck-iam uses subpath exports:
 
 ```typescript
 // Core engine, builders, memory adapter, types
-import { Engine, defineRole, policy, when, MemoryAdapter } from "@gentleduck/iam";
+import { IamEngine, defineRole, policy, when, IamMemoryAdapter } from "@gentleduck/iam";
 
 // Server integrations
 import { accessMiddleware, guard } from "@gentleduck/iam/server/express";
@@ -146,16 +146,16 @@ import { Authorize, nestAccessGuard } from "@gentleduck/iam/server/nest";
 import { withAccess, checkAccess, getPermissions } from "@gentleduck/iam/server/next";
 
 // Client libraries
-import { createAccessControl } from "@gentleduck/iam/client/react";
+import { createIamClient } from "@gentleduck/iam/client/react";
 import { createVueAccess } from "@gentleduck/iam/client/vue";
 import { AccessClient } from "@gentleduck/iam/client/vanilla";
 
 // Storage adapters
-import { MemoryAdapter } from "@gentleduck/iam/adapters/memory";
-import { PrismaAdapter } from "@gentleduck/iam/adapters/prisma";
-import { DrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
-import { RedisAdapter } from "@gentleduck/iam/adapters/redis";
-import { HttpAdapter } from "@gentleduck/iam/adapters/http";
+import { IamMemoryAdapter } from "@gentleduck/iam/adapters/memory";
+import { IamPrismaAdapter } from "@gentleduck/iam/adapters/prisma";
+import { IamDrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
+import { IamRedisAdapter } from "@gentleduck/iam/adapters/redis";
+import { IamHttpAdapter } from "@gentleduck/iam/adapters/http";
 
 // Drizzle pre-built schemas (pick one dialect)
 import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
@@ -179,7 +179,7 @@ import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
 ## Next Steps
 
 * [Quick Start](/duck-iam/guides): end-to-end walkthrough with roles, policies, server middleware, and client hooks.
-* [Core Concepts](/duck-iam/core): deep dive into the RBAC + ABAC evaluation model.
+* [Core Concepts](/duck-iam/core): the RBAC + ABAC evaluation model.
 * [Integrations](/duck-iam/integrations/adapters): set up Express, Hono, NestJS, or Next.js middleware.
 
 ***
@@ -203,9 +203,9 @@ Yes. The package uses subpath exports such as <code className="rounded bg-muted 
 <code className="rounded bg-muted px-2 py-1">@gentleduck/iam/client/react</code>, and
 <code className="rounded bg-muted px-2 py-1">@gentleduck/iam/adapters/drizzle</code> so framework-specific code stays opt-in.
 
-Do I have to use createAccessConfig() on day one?
+Do I have to use defineIam() on day one?
 
-No. You can start with the untyped builders and add <code className="rounded bg-muted px-2 py-1">createAccessConfig()</code>
+No. You can start with the untyped builders and add <code className="rounded bg-muted px-2 py-1">defineIam()</code>
 when you want compile-time validation for actions, resources, scopes, and roles.
 
 What should I seed first in a new project?
@@ -220,7 +220,7 @@ Yes. Import builders, types, and the engine from
 their subpaths such as <code className="rounded bg-muted px-2 py-1">@gentleduck/iam/server/next</code> or
 <code className="rounded bg-muted px-2 py-1">@gentleduck/iam/client/react</code>.
 
-Why is MemoryAdapter available from both the root package and its own subpath?
+Why is IamMemoryAdapter available from both the root package and its own subpath?
 
 It is exported from the root as a convenience for tests, demos, and quick prototypes. The dedicated subpath
 exists for consistency with the other adapters.
@@ -228,6 +228,6 @@ exists for consistency with the other adapters.
 Why do I not get strong autocomplete immediately after installing?
 
 Strong autocomplete depends on type information, not just the package install. Use
-<code className="rounded bg-muted px-2 py-1">createAccessConfig()</code> with
+<code className="rounded bg-muted px-2 py-1">defineIam()</code> with
 <code className="rounded bg-muted px-2 py-1">as const</code> arrays for actions/resources/scopes, and add a typed
 <code className="rounded bg-muted px-2 py-1">context</code> if you want rich dot-path and `$` value suggestions.

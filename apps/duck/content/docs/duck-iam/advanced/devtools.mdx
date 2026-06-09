@@ -25,11 +25,11 @@ sits behind a guard that checks `process.env.NODE_ENV !== 'production'`
 
 ```tsx
 import { useEffect, useState } from 'react'
-import { Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { IamDevtools } from '@gentleduck/iam/dt'
 
-const engine = new Engine({ adapter: new MemoryAdapter({ policies, roles }) })
+const engine = new IamEngine({ adapter: new IamMemoryAdapter({ policies, roles }) })
 
 export function App() {
   return (
@@ -93,7 +93,7 @@ import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 import { IamDevtools } from '@gentleduck/iam/dt'
 
 const metrics = createMetricsAggregator()
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: { onMetrics: metrics.record },
 })
@@ -115,7 +115,7 @@ import { createFlowRecorder } from '@gentleduck/iam/dt'
 
 const flow = createFlowRecorder({ maxEntries: 500 })
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: {
     onAuthorizeStart: flow.recordStart,

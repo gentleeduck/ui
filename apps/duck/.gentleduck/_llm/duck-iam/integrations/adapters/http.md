@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
 ```
 
 Delegates all storage operations to a remote API via `fetch`. Zero dependencies.
@@ -19,17 +19,17 @@ Delegates all storage operations to a remote API via `fetch`. Zero dependencies.
 ## Usage
 
 ```typescript
-import { HttpAdapter } from '@gentleduck/iam/adapters/http'
-import { Engine } from '@gentleduck/iam'
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
+import { IamEngine } from '@gentleduck/iam'
 
-const adapter = new HttpAdapter({
+const adapter = new IamHttpAdapter({
   baseUrl: 'https://api.example.com/access',
   headers: {
     Authorization: 'Bearer ' + serviceToken,
   },
 })
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 ```
 
 ***
@@ -39,7 +39,7 @@ const engine = new Engine({ adapter })
 Pass a function to compute headers per-request. Useful for rotating tokens or per-request context.
 
 ```typescript
-const adapter = new HttpAdapter({
+const adapter = new IamHttpAdapter({
   baseUrl: 'https://api.example.com/access',
   headers: async () => ({
     Authorization: 'Bearer ' + (await getServiceToken()),
@@ -55,9 +55,9 @@ const adapter = new HttpAdapter({
 Provide your own fetch for environments without a global `fetch`, or to add middleware (logging, retries, tracing).
 
 ```typescript
-import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
 
-const adapter = new HttpAdapter({
+const adapter = new IamHttpAdapter({
   baseUrl: 'https://api.example.com/access',
   fetch: async (url, init) => {
     console.log('Access API request:', url)
@@ -91,15 +91,42 @@ The HTTP adapter expects these REST endpoints on your server:
 | GET | `/subjects/:id/attributes` | Get subject attributes |
 | PATCH | `/subjects/:id/attributes` | Update subject attributes (body: attribute object) |
 
-The built-in Express `adminRouter` covers part of this admin surface, but it does **not** implement the full HTTP adapter contract. To use `HttpAdapter`, either implement the complete endpoint set manually or extend the admin router with the missing item lookups, scoped-role reads, and subject-attribute endpoints.
+The built-in Express `adminRouter` covers part of this admin surface, but it does **not** implement the full HTTP adapter contract. To use `IamHttpAdapter`, either implement the complete endpoint set manually or extend the admin router with the missing item lookups, scoped-role reads, and subject-attribute endpoints.
 
 ***
 
 ## Error handling
 
-The HTTP adapter throws an `Error` with the message `"@gentleduck/iam HTTP {status}: {responseText}"` for any non-2xx response. It does not retry failed requests. Add retry logic in your custom `fetch` function if needed.
+The HTTP adapter throws an `Error` with the message `"@gentleduck/iam HTTP {status}: {responseText}"` for any 4xx response. 5xx responses, `AbortError`, and Node connection errors (`ECONNRESET`, `ECONNREFUSED`, `ETIMEDOUT`, `ENOTFOUND`) are treated as **transient** and retried with exponential backoff + jitter. 4xx is never retried - it's treated as a definitive answer.
+
+`getPolicy(id)` and `getRole(id)` return `null` on a `404`, matching the `IamAdapter.IAdapter` contract.
 
 A `Content-Type: application/json` header is sent on every request. If `headers` is a function, it is awaited before each request.
+
+***
+
+## Retry, timeout, and circuit breaker
+
+IamHttpAdapter ships full SRE plumbing built-in. All four knobs are optional:
+
+```typescript
+new IamHttpAdapter({
+  baseUrl: process.env.IAM_API!,
+  timeoutMs: 2_000,                // per-request abort (default 5_000; 0 disables)
+  retries: 2,                      // 3 total attempts on transient failure (default 2)
+  backoffMs: 100,                  // expo base: 100 -> 200 -> 400 + jitter (default 100)
+  circuitBreakerThreshold: 5,      // open after N consecutive transient failures (default 5; 0 disables)
+  circuitBreakerCooldownMs: 30_000, // cooldown before half-open probe (default 30s)
+})
+```
+
+**Circuit breaker:**
+
+* **Closed** -> traffic flows.
+* **Open** -> reject immediately for `circuitBreakerCooldownMs` (no fetch attempt).
+* **Half-open** -> one probe allowed; success closes, failure re-opens. Concurrent callers reject fast so a recovering upstream doesn't get flooded.
+
+Layered with the engine's own `IConfig.adapterTimeoutMs` - whichever fires first wins.
 
 ***
 
@@ -110,10 +137,35 @@ A `Content-Type: application/json` header is sent on every request. If `headers`
 | `baseUrl` | `string` | -- | Base URL for the access API (trailing slash stripped) |
 | `headers` | `Record or () -> Record or Promise` | `{}` | Static or dynamic headers |
 | `fetch` | `typeof fetch` | `globalThis.fetch` | Custom fetch implementation |
+| `timeoutMs` | `number` | `5000` | Per-request abort timeout. `0` disables. |
+| `retries` | `number` | `2` | Retries on transient failure (3 total attempts). |
+| `backoffMs` | `number` | `100` | Base exponential backoff in ms. |
+| `circuitBreakerThreshold` | `number` | `5` | Consecutive transient failures before opening. `0` disables. |
+| `circuitBreakerCooldownMs` | `number` | `30000` | Cooldown before half-open probe. |
 
 ***
 
 ## Notes
 
-* `HttpAdapter` fetches authorization data over HTTP, but the consuming engine still evaluates permissions **locally**. It is not an outsourcing-evaluation adapter - it just moves storage behind a service boundary.
+* `IamHttpAdapter` fetches authorization data over HTTP, but the consuming engine still evaluates permissions **locally**. It is not an outsourcing-evaluation adapter - it just moves storage behind a service boundary.
 * For server-side evaluation across services, expose `engine.permissions()` as an endpoint and consume the resulting `PermissionMap` on clients via the [client integrations](/duck-iam/integrations/client).
+
+***
+
+## Types
+
+All types live under the `Http` namespace at `@gentleduck/iam/adapters/http`. Type-only - zero bundle cost.
+
+* `Http.IConfig` - constructor config for `IamHttpAdapter` (baseUrl, headers, fetch, retry / timeout / circuit breaker knobs).
+
+```typescript
+import type { Http } from '@gentleduck/iam/adapters/http'
+
+const config: Http.IConfig = {
+  baseUrl: process.env.IAM_API!,
+  timeoutMs: 2_000,
+  retries: 2,
+}
+```
+
+The deprecated bare alias `IHttpAdapterConfig` remains for back-compat and will be removed in 3.0.

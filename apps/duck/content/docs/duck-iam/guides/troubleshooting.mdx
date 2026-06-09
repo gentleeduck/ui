@@ -11,7 +11,7 @@ When a decision surprises you, reach for these tools in order:
 1. **`engine.explain()`** - returns the full evaluation trace: which
    policy matched, which rule, which condition passed or failed, and
    why. Dev mode only. The single most useful tool for debugging.
-2. **`validateRoles()` + `validatePolicy()`** - emit typed `Validate.IIssue`
+2. **`validateRoles()` + `validatePolicy()`** - emit typed `IamValidate.IIssue`
    objects with closed-set codes. Run at boot.
 3. **`engine.stats.get()`** - counters for cache hits, evaluations,
    errors, denies.
@@ -38,7 +38,7 @@ fired.
   using `as` casts, you've defeated the safety net.
 - Inheritance is broken. `editor.inherits('viewer')` requires `viewer`
   to exist in the adapter. Missing inheritance silently no-ops.
-- The action / resource isn't declared in `createAccessConfig`. The
+- The action / resource isn't declared in `defineIam`. The
   config is the closed set; arbitrary strings won't trip rules.
 - A `deny` policy is shadowing the allow. Run `explain()` and look at
   the cross-policy combination decision.
@@ -68,10 +68,10 @@ a TS error.
 
 **Causes & fixes**:
 
-- The `action` or `resource` isn't in your `createAccessConfig`. Add
+- The `action` or `resource` isn't in your `defineIam`. Add
   it to the const-asserted array.
 - You're using `engine.can` without a typed engine. Construct via
-  `createAccessConfig(...).createEngine({ ... })` to propagate types.
+  `defineIam(...).createEngine({ ... })` to propagate types.
 - You're passing dynamic values that lose their literal type. Mark
   them `as const` or assert against your config's union types.
 
@@ -123,7 +123,7 @@ If two replicas disagree on a permission check because one's cache is
 stale, wire an invalidator:
 
 ```typescript
-import { RedisInvalidator } from '@gentleduck/iam/integrations/invalidators/redis'
+import { IamRedisInvalidator } from '@gentleduck/iam/integrations/invalidators/redis'
 
 createEngine({
   invalidator: new RedisInvalidator(redis, { channel: 'iam:invalidate' }),

@@ -3,7 +3,7 @@
 By default, the `When` condition builder accepts any string for `.attr()`, `.resourceAttr()`, `.env()`, and `.check()` field paths. To get autocompletion and type-checked values, pass a `context` phantom field with your application's context type.
 
 ```typescript
-import { createAccessConfig, type DefaultContext } from '@gentleduck/iam'
+import { defineIam, type DefaultContext } from '@gentleduck/iam'
 
 interface AppContext extends DefaultContext {
   subject: {
@@ -30,7 +30,7 @@ interface AppContext extends DefaultContext {
   scope: string
 }
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete'] as const,
   resources: ['post', 'comment', 'user'] as const,
   roles: ['viewer', 'editor', 'admin'] as const,
@@ -87,7 +87,7 @@ interface AppContext extends DefaultContext {
   }
 }
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete'] as const,
   resources: ['post', 'comment', 'user', 'dashboard'] as const,
   context: {} as unknown as AppContext,
@@ -160,7 +160,7 @@ The typed context system uses several TypeScript utility types that work togethe
 | Type | Purpose |
 | --- | --- |
 | `DotPaths<T>` | Generates all valid dot-separated paths through `T` (e.g. `'subject.attributes.status'`). Arrays are treated as leaf paths and functions are skipped. Bails to `never` for string-indexed types to avoid polluting the union with `string`. |
-| `FlexibleDotPaths<T>` | Smart wrapper: returns `DotPaths<T> \| (string & {})` when `T` has open-ended attribute bags (like `DefaultContext`), giving autocomplete for known structural paths while accepting arbitrary strings. For fully typed contexts, returns strict `DotPaths<T>` only. |
+| `FlexibleDotPaths<T>` | Wrapper: returns `DotPaths<T> \| (string & {})` when `T` has open-ended attribute bags (like `DefaultContext`), giving autocomplete for known structural paths while accepting arbitrary strings. For fully typed contexts, returns strict `DotPaths<T>` only. |
 | `PathValue<T, P>` | Resolves the value type at path `P` within `T` |
 | `FieldValue<T, P>` | Like `PathValue` but wraps the result in `ConditionValue` to add `$`-reference support |
 | `ConditionValue<T, V>` | Adapts a value type for condition builders. Non-string values pass through unchanged; string values add `DollarPaths<T>` for `$`-reference autocomplete. Prevents type widening so `env('hour', 'lt', '')` correctly errors when `hour` is `number`. |
@@ -173,10 +173,10 @@ The typed context system uses several TypeScript utility types that work togethe
 | `AttrValue<A, K>` | Resolves the value type for key `K` in attribute bag `A`. Strips `undefined` from optional properties so that `yearsExperience?: number` correctly resolves to `number`, not `AttributeValue`. |
 | `DollarPaths<T>` | Generates `$`-prefixed versions of all dot-paths. Used for autocomplete on dynamic cross-references like `'$subject.id'`. |
 
-The `context` phantom field on `createAccessConfig` captures your context type (`TContext`). This type parameter flows through `AccessConfig` into every builder:
+The `context` phantom field on `defineIam` captures your context type (`TContext`). This type parameter flows through `AccessConfig` into every builder:
 
 ```
-createAccessConfig({ context: {} as AppContext })
+defineIam({ context: {} as AppContext })
   -> AccessConfig<..., TContext=AppContext>
     -> PolicyBuilder<..., TContext>
       -> RuleBuilder<..., TContext>

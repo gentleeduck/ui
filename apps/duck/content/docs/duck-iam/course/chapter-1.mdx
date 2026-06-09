@@ -49,25 +49,25 @@ By the end of this chapter, Alice can read blog posts but not delete them.
     **Create an adapter and engine**
 
     The engine needs an **adapter** to load data (roles, policies, assignments).
-    `MemoryAdapter` stores everything in memory:
+    `IamMemoryAdapter` stores everything in memory:
 
     ```typescript title="src/access.ts"
-    import { defineRole, Engine } from '@gentleduck/iam'
-    import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+    import { defineRole, IamEngine } from '@gentleduck/iam'
+    import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
     export const viewer = defineRole('viewer')
       .grant('read', 'post')
       .grant('read', 'comment')
       .build()
 
-    const adapter = new MemoryAdapter({
+    const adapter = new IamMemoryAdapter({
       roles: [viewer],
       assignments: {
         'alice': ['viewer'],
       },
     })
 
-    export const engine = new Engine({ adapter }) // defaults to mode: 'development'
+    export const engine = new IamEngine({ adapter }) // defaults to mode: 'development'
     ```
 
     `assignments` maps subject IDs to role IDs. A subject can have several roles:
@@ -268,7 +268,7 @@ Resource types support **hierarchical matching** with dots: a permission on
 ## Engine Configuration
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,                    // required: where to load data from
   mode: 'development',        // optional: 'development' | 'production' (default: 'development')
   defaultEffect: 'deny',     // optional: what to return when no rules match (default: 'deny')
@@ -308,22 +308,22 @@ blogduck/
     <AccordionContent>
 
 ```typescript
-import { defineRole, Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineRole, IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .grant('read', 'post')
   .grant('read', 'comment')
   .build()
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer],
   assignments: {
     'alice': ['viewer'],
   },
 })
 
-export const engine = new Engine({ adapter }) // defaults to mode: 'development'
+export const engine = new IamEngine({ adapter }) // defaults to mode: 'development'
 ```
 
     </AccordionContent>
@@ -367,7 +367,7 @@ main()
   <AccordionItem value="c1-why-async">
     <AccordionTrigger>Why is engine.can() async?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Adapters can be databases or HTTP services. Even though `MemoryAdapter` is synchronous,
+      Adapters can be databases or HTTP services. Even though `IamMemoryAdapter` is synchronous,
       the engine API is async to support all adapter types uniformly. The engine caches
       aggressively so subsequent calls are fast even with async adapters.
     </AccordionContent>
@@ -435,10 +435,10 @@ main()
   </AccordionItem>
 
   <AccordionItem value="c1-adapters">
-    <AccordionTrigger>What other adapters are available besides MemoryAdapter?</AccordionTrigger>
+    <AccordionTrigger>What other adapters are available besides IamMemoryAdapter?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      duck-iam ships with four: `MemoryAdapter` (in-memory, for dev/testing),
-      `PrismaAdapter` (Prisma ORM), `DrizzleAdapter` (Drizzle ORM), and `HttpAdapter`
+      duck-iam ships with four: `IamMemoryAdapter` (in-memory, for dev/testing),
+      `IamPrismaAdapter` (Prisma ORM), `IamDrizzleAdapter` (Drizzle ORM), and `IamHttpAdapter`
       (remote REST API). You can also implement the `Adapter` interface directly.
       All adapters are covered in Chapter 8.
     </AccordionContent>

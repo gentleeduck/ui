@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { createAccessControl, createPermissionChecker } from '@gentleduck/iam/client/react'
+import { createIamClient, createPermissionChecker } from '@gentleduck/iam/client/react'
 ```
 
 React is an optional peer dep. The factory accepts your `React` import to avoid a hard version dependency.
@@ -15,9 +15,9 @@ Create the access control system once at app initialization. Pass your React imp
 ```typescript
 // lib/access.tsx
 import React from 'react'
-import { createAccessControl } from '@gentleduck/iam/client/react'
+import { createIamClient } from '@gentleduck/iam/client/react'
 
-export const { AccessProvider, useAccess, usePermissions, Can, Cannot } = createAccessControl(React)
+export const { AccessProvider, useAccess, usePermissions, Can, Cannot } = createIamClient(React)
 ```
 
 Type the system to your action/resource/scope unions:
@@ -27,7 +27,7 @@ type Action = 'create' | 'read' | 'update' | 'delete'
 type Resource = 'post' | 'comment' | 'team'
 type Scope = 'org-1' | 'admin'
 
-export const access = createAccessControl<Action, Resource, Scope>(React)
+export const access = createIamClient<Action, Resource, Scope>(React)
 ```
 
 ***
@@ -207,3 +207,23 @@ import { AccessProvider } from '@gentleduck/iam/client/react'
 ```
 
 For server-side checks inside RSC/Server Actions, use [`checkAccess`](/duck-iam/integrations/server/next) from `@gentleduck/iam/server/next` instead - that hits the engine directly without touching client context.
+
+***
+
+## Types
+
+All types live under the `ReactClient` namespace at `@gentleduck/iam/client/react`. Type-only - zero bundle cost.
+
+* `ReactClient.IContextValue` - shape returned by `useAccess()` and consumed by `Can`/`Cannot` internally (`permissions`, `can`, `cannot`).
+
+```typescript
+import type { ReactClient } from '@gentleduck/iam/client/react'
+
+function useAuditedAccess(): ReactClient.IContextValue {
+  const ctx = useAccess()
+  // ...
+  return ctx
+}
+```
+
+The deprecated bare alias `IContextValue` remains for back-compat and will be removed in 3.0.

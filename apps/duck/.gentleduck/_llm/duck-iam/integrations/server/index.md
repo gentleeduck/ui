@@ -8,15 +8,15 @@ Every integration is a thin adapter over `engine.can()`. No runtime framework de
 
 ## Pick a framework
 
-| Framework | Doc | Subpath |
-| --- | --- | --- |
-| Express | [server/express](/duck-iam/integrations/server/express) | `@gentleduck/iam/server/express` |
-| Hono | [server/hono](/duck-iam/integrations/server/hono) | `@gentleduck/iam/server/hono` |
-| NestJS | [server/nest](/duck-iam/integrations/server/nest) | `@gentleduck/iam/server/nest` |
-| Next.js App Router | [server/next](/duck-iam/integrations/server/next) | `@gentleduck/iam/server/next` |
-| Generic helpers | [server/generic](/duck-iam/integrations/server/generic) | `@gentleduck/iam/server/generic` |
+| Framework | Doc | Subpath | Admin factory |
+| --- | --- | --- | --- |
+| Express | [server/express](/duck-iam/integrations/server/express) | `@gentleduck/iam/server/express` | `adminRouter(engine, { authorize })` |
+| Hono | [server/hono](/duck-iam/integrations/server/hono) | `@gentleduck/iam/server/hono` | `bindAdminRouter(router, engine, { authorize })` |
+| NestJS | [server/nest](/duck-iam/integrations/server/nest) | `@gentleduck/iam/server/nest` | `createAdminOperations(engine, { authorize })` |
+| Next.js App Router | [server/next](/duck-iam/integrations/server/next) | `@gentleduck/iam/server/next` | `createAdminHandlers(engine, { authorize })` |
+| Generic helpers | [server/generic](/duck-iam/integrations/server/generic) | `@gentleduck/iam/server/generic` | - |
 
-All five share the same building blocks: identity extraction, action mapping, resource inference, scope resolution, and decision callbacks. The framework-specific docs cover each one's idioms.
+All five share the same building blocks: identity extraction, action mapping, resource inference, scope resolution, and decision callbacks. Every admin factory requires an `authorize` callback at construction time - mounting admin endpoints unauthenticated is impossible. The framework-specific docs cover each one's idioms.
 
 ***
 

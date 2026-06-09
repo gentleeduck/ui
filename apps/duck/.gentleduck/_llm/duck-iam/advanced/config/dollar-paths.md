@@ -117,7 +117,7 @@ interface AppContext extends DefaultContext {
   resource: { attributes: { tier: 'free' | 'pro' } }
 }
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read'] as const,
   resources: ['post'] as const,
   context: {} as AppContext,

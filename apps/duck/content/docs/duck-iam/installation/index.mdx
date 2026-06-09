@@ -31,10 +31,10 @@ pnpm add @gentleduck/iam
 <Step>Basic setup</Step>
 
 ```typescript title="src/lib/access.ts"
-import { createAccessConfig, MemoryAdapter } from "@gentleduck/iam";
+import { defineIam, IamMemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define your application's actions, resources, and scopes
-const access = createAccessConfig({
+const access = defineIam({
   actions: ["create", "read", "update", "delete", "manage"],
   resources: ["post", "comment", "user", "team"],
   scopes: ["org"],
@@ -64,7 +64,7 @@ const admin = access
   .build();
 
 // 3. Create an adapter
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: {
     "user-1": ["admin"],
@@ -148,7 +148,7 @@ duck-iam uses subpath exports:
     subgraph Core["@gentleduck/iam (core)"]
         direction TB
         C1["Engine, defineRole, policy"]
-        C2["when, MemoryAdapter, types"]
+        C2["when, IamMemoryAdapter, types"]
     end
 
     subgraph Server["@gentleduck/iam/server/*"]
@@ -179,7 +179,7 @@ duck-iam uses subpath exports:
 
 ```typescript
 // Core engine, builders, memory adapter, types
-import { Engine, defineRole, policy, when, MemoryAdapter } from "@gentleduck/iam";
+import { IamEngine, defineRole, policy, when, IamMemoryAdapter } from "@gentleduck/iam";
 
 // Server integrations
 import { accessMiddleware, guard } from "@gentleduck/iam/server/express";
@@ -188,16 +188,16 @@ import { Authorize, nestAccessGuard } from "@gentleduck/iam/server/nest";
 import { withAccess, checkAccess, getPermissions } from "@gentleduck/iam/server/next";
 
 // Client libraries
-import { createAccessControl } from "@gentleduck/iam/client/react";
+import { createIamClient } from "@gentleduck/iam/client/react";
 import { createVueAccess } from "@gentleduck/iam/client/vue";
 import { AccessClient } from "@gentleduck/iam/client/vanilla";
 
 // Storage adapters
-import { MemoryAdapter } from "@gentleduck/iam/adapters/memory";
-import { PrismaAdapter } from "@gentleduck/iam/adapters/prisma";
-import { DrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
-import { RedisAdapter } from "@gentleduck/iam/adapters/redis";
-import { HttpAdapter } from "@gentleduck/iam/adapters/http";
+import { IamMemoryAdapter } from "@gentleduck/iam/adapters/memory";
+import { IamPrismaAdapter } from "@gentleduck/iam/adapters/prisma";
+import { IamDrizzleAdapter } from "@gentleduck/iam/adapters/drizzle";
+import { IamRedisAdapter } from "@gentleduck/iam/adapters/redis";
+import { IamHttpAdapter } from "@gentleduck/iam/adapters/http";
 
 // Drizzle pre-built schemas (pick one dialect)
 import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
@@ -256,9 +256,9 @@ import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
   </AccordionItem>
 
   <AccordionItem value="need-create-access-config">
-    <AccordionTrigger>Do I have to use createAccessConfig() on day one?</AccordionTrigger>
+    <AccordionTrigger>Do I have to use defineIam() on day one?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      No. You can start with the untyped builders and add <code className="rounded bg-muted px-2 py-1">createAccessConfig()</code>
+      No. You can start with the untyped builders and add <code className="rounded bg-muted px-2 py-1">defineIam()</code>
       when you want compile-time validation for actions, resources, scopes, and roles.
     </AccordionContent>
   </AccordionItem>
@@ -282,7 +282,7 @@ import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
   </AccordionItem>
 
   <AccordionItem value="memory-root-vs-subpath">
-    <AccordionTrigger>Why is MemoryAdapter available from both the root package and its own subpath?</AccordionTrigger>
+    <AccordionTrigger>Why is IamMemoryAdapter available from both the root package and its own subpath?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       It is exported from the root as a convenience for tests, demos, and quick prototypes. The dedicated subpath
       exists for consistency with the other adapters.
@@ -293,7 +293,7 @@ import * as schema from "@gentleduck/iam/adapters/drizzle/schema/pg";
     <AccordionTrigger>Why do I not get strong autocomplete immediately after installing?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Strong autocomplete depends on type information, not just the package install. Use
-      <code className="rounded bg-muted px-2 py-1">createAccessConfig()</code> with
+      <code className="rounded bg-muted px-2 py-1">defineIam()</code> with
       <code className="rounded bg-muted px-2 py-1">as const</code> arrays for actions/resources/scopes, and add a typed
       <code className="rounded bg-muted px-2 py-1">context</code> if you want rich dot-path and `$` value suggestions.
     </AccordionContent>

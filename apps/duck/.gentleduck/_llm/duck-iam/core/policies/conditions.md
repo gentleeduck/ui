@@ -78,7 +78,7 @@ Domain-specific helpers for common patterns:
 ```
 
 **Typed dot-paths:** By default, `.attr()`, `.resourceAttr()`, `.env()`, and `.check()`
-accept any string. Pass a `context` phantom field to `createAccessConfig()` to get full
+accept any string. Pass a `context` phantom field to `defineIam()` to get full
 autocompletion and type-checked values. See the
 [type-safe config](/duck-iam/advanced/config) docs.
 
@@ -121,7 +121,7 @@ autocompletion and type-checked values. See the
 
 ## Field resolution
 
-Conditions reference fields using dot-notation paths resolved against the `AccessRequest` at evaluation time.
+Conditions reference fields using dot-notation paths resolved against the `IamRequest.IAccessRequest` at evaluation time.
 
 ### Supported paths
 

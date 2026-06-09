@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 ```
 
 Works with any Drizzle ORM driver. Pre-built schema modules are shipped for all three SQL dialects.
@@ -104,8 +104,8 @@ bunx drizzle-kit migrate
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { eq, and } from 'drizzle-orm'
 import { Pool } from 'pg'
-import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
-import { Engine } from '@gentleduck/iam'
+import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { IamEngine } from '@gentleduck/iam'
 import {
   accessPolicies,
   accessRoles,
@@ -116,7 +116,7 @@ import {
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 const db = drizzle(pool)
 
-const adapter = new DrizzleAdapter({
+const adapter = new IamDrizzleAdapter({
   db,
   tables: {
     policies: accessPolicies,
@@ -127,7 +127,7 @@ const adapter = new DrizzleAdapter({
   ops: { eq, and },
 })
 
-const engine = new Engine({ adapter, cacheTTL: 60 })
+const engine = new IamEngine({ adapter, cacheTTL: 60 })
 ```
 
 ***
@@ -175,3 +175,23 @@ Inherits arrays follow the same pattern: native `text[]` on PG, JSON-stringified
 * Edge runtimes (Drizzle works on Cloudflare D1, Neon serverless, etc.)
 
 For ORM-style queries with relation modeling, see [Prisma](/duck-iam/integrations/adapters/prisma).
+
+***
+
+## Types
+
+All types live under the `Drizzle` namespace at `@gentleduck/iam/adapters/drizzle`. Type-only - zero bundle cost.
+
+* `Drizzle.IConfig` - constructor config for `IamDrizzleAdapter` (`db`, `tables`, `ops`).
+
+```typescript
+import type { Drizzle } from '@gentleduck/iam/adapters/drizzle'
+
+const config: Drizzle.IConfig = {
+  db,
+  tables: { policies, roles, assignments, attrs },
+  ops: { eq, and },
+}
+```
+
+The deprecated bare alias `IDrizzleConfig` remains for back-compat and will be removed in 3.0.

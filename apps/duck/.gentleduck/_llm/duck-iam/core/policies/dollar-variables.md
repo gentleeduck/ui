@@ -74,10 +74,10 @@ The same roots that field paths can use:
 
 ## Type-safe autocomplete
 
-When you use `createAccessConfig()` with a typed context, `$`-references get full autocomplete in your editor. Type `'$'` in any value position and your editor suggests all valid paths.
+When you use `defineIam()` with a typed context, `$`-references get full autocomplete in your editor. Type `'$'` in any value position and your editor suggests all valid paths.
 
 ```typescript
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read', 'update'] as const,
   resources: ['post'] as const,
   context: {} as {

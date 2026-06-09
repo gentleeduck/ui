@@ -12,19 +12,27 @@ Edge-friendly. Works on Bun, Cloudflare Workers, Deno Deploy, Vercel Edge - anyw
 
 Apply access control to all routes under a path pattern. If no user ID is found, the middleware returns 401 immediately.
 
-```typescript
+```ts
 import { accessMiddleware } from '@gentleduck/iam/server/hono'
 
 app.use(
   '/api/*',
   accessMiddleware(engine, {
-    getUserId: (c) => (c.get('userId') as string) ?? c.req.header('x-user-id'),
+    // SEC-101: the default reads `c.get('userId')` only - populate it from
+    // upstream auth (JWT, cookie session). The x-user-id header is no longer
+    // a fallback because any unauth client can spoof it.
+    getUserId: (c) => c.get('userId') as string | null,
     getScope: (c) => c.req.header('x-org-id'),
     onDenied: (c) => c.json({ error: 'Forbidden' }, 403),
     onError: (err, c) => c.json({ error: 'Internal server error' }, 500),
   }),
 )
 ```
+
+`accessMiddleware` and `guard` no longer fall back to the `x-user-id` request
+header. Default identity is `c.get('userId')` only - wire it from upstream
+auth (JWT middleware, cookie session). If you intentionally proxy a verified
+identity header from a trusted ingress, pass `getUserId` explicitly.
 
 ***
 
@@ -80,7 +88,7 @@ accessMiddleware(engine, {
 
 The Hono integration imports zero Node-specific APIs. It works in:
 
-* **Cloudflare Workers** - pair with `RedisAdapter` against Upstash Redis or a KV adapter
+* **Cloudflare Workers** - pair with `IamRedisAdapter` against Upstash Redis or a KV adapter
 * **Deno Deploy** - works with deno-friendly adapters
 * **Bun** - full Node compatibility plus Hono's edge optimizations
 * **Vercel Edge Functions** - bundle the adapter as part of the Edge build
@@ -93,10 +101,74 @@ For database-backed adapters at the edge, ensure your driver supports the runtim
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `getUserId` | `(c) -> string or null` | Context `userId` or `x-user-id` header | Extract the subject ID |
+| `getUserId` | `(c) -> string or null` | `c.get('userId')` only (SEC-101) | Extract the subject ID |
 | `getAction` | `(c) -> string` | HTTP method map | Map the request to an action |
 | `getResource` | `(c) -> Resource` | Infer from URL path | Map the request to a resource |
 | `getEnvironment` | `(c) -> Environment` | CF/forwarded IP + user agent + timestamp | Extract environment context |
 | `getScope` | `(c) -> string or undefined` | `undefined` | Extract scope from the request |
 | `onDenied` | `(c) -> Response` | 403 JSON | Custom denial response |
 | `onError` | `(err, c) -> Response` | 500 JSON | Custom error handler |
+
+***
+
+## Admin router
+
+Bind admin CRUD endpoints onto a Hono router. The `authorize` callback is **required** - the factory throws if it's missing.
+
+```ts
+import { Hono } from 'hono'
+import { bindAdminRouter } from '@gentleduck/iam/server/hono'
+
+const admin = new Hono()
+bindAdminRouter(admin, engine, {
+  authorize: (c) => c.req.header('x-admin-token') === process.env.ADMIN_TOKEN,
+})
+
+app.route('/api/access-admin', admin)
+```
+
+Exposes the same six endpoints as the Express router (GET / PUT `/policies` + `/roles`, POST/DELETE `/subjects/:id/roles[/:roleId]`). Options conform to `IamHono.IAdminOptions` with `authorize` (required) of shape `IamHono.IAdminAuthorize`, plus `onUnauthorized` and `onError`. `bindAdminRouter` is generic over `IamHono.IRouterLike` so it accepts any router implementing the minimal `.get/.put/.post/.delete` surface.
+
+### CSRF protection (default-on)
+
+Mutation handlers (PUT/POST/DELETE) run a `Sec-Fetch-Site` check by default
+(SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
+form posts are rejected with 403, same-site / same-origin requests pass.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
+
+```ts
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
+bindAdminRouter(admin, engine, { authorize })
+
+// Server-to-server bearer/mTLS API - disable the check entirely.
+bindAdminRouter(admin, engine, { authorize, csrfCheck: false })
+
+// Stricter - Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+bindAdminRouter(admin, engine, {
+  authorize,
+  csrfCheck: (c) => ADMIN_ORIGINS.has(c.req.header('origin') ?? ''),
+})
+```
+
+***
+
+## Types
+
+All types live under the `Hono` namespace at `@gentleduck/iam/server/hono`. Type-only - zero bundle cost.
+
+* `IamHono.IOptions` - options for `accessMiddleware` and `guard`.
+* `IamHono.IAdminAuthorize` - signature of the required admin `authorize` callback.
+* `IamHono.IAdminOptions` - options for `bindAdminRouter` (`authorize`, `onUnauthorized`, `onError`).
+* `IamHono.IRouterLike` - minimal router shape `bindAdminRouter` accepts.
+
+```ts
+import type { IamHono } from '@gentleduck/iam/server/hono'
+
+const opts: IamHono.IOptions = {
+  // SEC-101: read from `c.set('userId', ...)` populated by upstream auth.
+  getUserId: (c) => c.get('userId') as string | null,
+}
+```
+
+Deprecated bare aliases (`IHonoOptions`, `IAdminAuthorize`, `IAdminOptions`, `IRouterLike`) remain for back-compat and will be removed in 3.0.

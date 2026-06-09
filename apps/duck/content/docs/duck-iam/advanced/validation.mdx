@@ -10,8 +10,8 @@ trust - admin dashboards, JSON files written by hand, columns in a
 shared database, a staging endpoint that previews proposed changes,
 or a migration tool that copies rows between adapters.
 
-All validators return a `Validate.IResult` with `valid: boolean` and
-an array of `Validate.IIssue` records. Issues have closed-set `code`
+All validators return a `IamValidate.IResult` with `valid: boolean` and
+an array of `IamValidate.IIssue` records. Issues have closed-set `code`
 strings so callers can branch on them programmatically.
 
 ## `validatePolicy`
@@ -80,7 +80,7 @@ AccessControl.IPolicy<...>` casts.
 ```typescript
 import { parsePolicyRow } from '@gentleduck/iam/core/validate'
 
-class MyAdapter implements Adapter.IAdapter {
+class MyAdapter implements IamAdapter.IAdapter {
   async listPolicies() {
     const rows = await this.myStore.fetchPolicies()
     const out: AccessControl.IPolicy[] = []
@@ -163,7 +163,7 @@ them in your error handling so a code change is a deliberate event:
 | `LIMIT_EXCEEDED` | A `POLICY_LIMITS` cap was breached |
 | `UNSAFE_REGEX` | `detectCatastrophicRegex` rejected a pattern |
 
-The full `Validate.IIssue` type is exported from
+The full `IamValidate.IIssue` type is exported from
 `@gentleduck/iam/core/validate`.
 
 ## See also

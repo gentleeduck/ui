@@ -13,9 +13,9 @@ duck-iam ships TypeScript types under per-module namespaces. Two rules:
 Every type lives inside one namespace export per module. Consumers import the namespace once and access members through it:
 
 ```typescript
-import type { AccessControl, Request } from '@gentleduck/iam'
+import type { AccessControl, IamRequest } from '@gentleduck/iam'
 
-function check(policy: AccessControl.IPolicy, req: Request.IAccessRequest): AccessControl.IDecision {
+function check(policy: AccessControl.IPolicy, req: IamRequest.IAccessRequest): AccessControl.IDecision {
   // ...
 }
 ```
@@ -38,7 +38,7 @@ Exported from `@gentleduck/iam`:
 | `Primitives` | `Attributes`, `AttributeValue`, `Scalar` |
 | `Client` | `PermissionKey`, `PermissionMap`, `IPermissionCheck` |
 | `DotPath` | `DotPaths`, `FlexibleDotPaths`, `DollarPaths`, `FlexibleDollarPaths`, `PathValue`, `FieldValue`, `ConditionValue`, `AttrValue`, `AttrValueAt`, `SubjectAttrs`, `SubjectAttrShape`, `ResourceAttrs`, `ResourceAttrShape`, `EnvAttrs`, `EnvAttrShape`, `ResourceAttrMap`, `ResolvedResourceAttrs`, `ResolvedResourceAttrPaths`, `IDefaultContext`, `IAnyAttributes` |
-| `EngineTypes` | `IConfig`, `IHooks`, `IAdmin`, `IMetricsEvent`, `IInvalidator`, `IInvalidateEvent`, `ISnapshot`, `IImportOptions`, `IImportResult`, `IHealth` |
+| `IamEngineTypes` | `IConfig`, `IHooks`, `IAdmin`, `IMetricsEvent`, `IInvalidator`, `IInvalidateEvent`, `ISnapshot`, `IImportOptions`, `IImportResult`, `IHealth` |
 | `Evaluate` | `Combiner`, `IIndexedRule`, `IPolicyRuleIndex` |
 | `Explain` | `IResult`, `ISubjectInfo`, `IPolicyTrace`, `IRuleTrace`, `ILeafTrace`, `IGroupTrace`, `Trace` |
 | `Validate` | `IIssue`, `IResult`, `ValidationCode` |
@@ -63,7 +63,7 @@ Each integration module exports its own option-bag namespace (added in 2.0):
 | `RedisInvalidator` | `@gentleduck/iam/invalidators/redis` | `IConfig`, `IPubSubLike` |
 | `Metrics` | `@gentleduck/iam/observability/metrics` | `IAggregator`, `ISnapshot`, `IConfig` |
 
-The class `Engine` lives next to the `EngineTypes` namespace - same name avoided by suffixing the type-only namespace. `MemoryAdapter` / `FileAdapter` / etc. are classes; their config namespaces (`Memory`, `File`, `Http`, `Redis`, `Drizzle`) hold the option bags. `ReactClient` is named so to avoid clashing with the React package namespace at the import site.
+The class `IamEngine` lives next to the `IamEngineTypes` namespace - same name avoided by suffixing the type-only namespace. `IamMemoryAdapter` / `IamFileAdapter` / etc. are classes; their config namespaces (`Memory`, `File`, `Http`, `Redis`, `Drizzle`) hold the option bags. `ReactClient` is named so to avoid clashing with the React package namespace at the import site.
 
 ---
 
@@ -71,7 +71,7 @@ The class `Engine` lives next to the `EngineTypes` namespace - same name avoided
 
 Three reasons.
 
-**1. Avoid name collisions across modules.** `IResult` exists in both `Validate` and `Explain`. Without namespaces, one of them needs a longer name. With namespaces, both stay short and the context is explicit at the call site (`Validate.IResult` vs `Explain.IResult`).
+**1. Avoid name collisions across modules.** `IResult` exists in both `Validate` and `Explain`. Without namespaces, one of them needs a longer name. With namespaces, both stay short and the context is explicit at the call site (`IamValidate.IResult` vs `IamExplain.IResult`).
 
 **2. One import per module.** Instead of:
 
@@ -117,12 +117,12 @@ function check(p: AccessControl.IPolicy): AccessControl.IDecision { /* ... */ }
 1. Drop the flat names from the import; pull in the namespace instead.
 2. Prefix references: `Policy` -> `AccessControl.IPolicy`, `Rule` -> `AccessControl.IRule`, etc.
 
-The runtime values (`Engine`, `MemoryAdapter`, `policy`, `defineRole`, builders, etc.) are unchanged - only type imports moved.
+The runtime values (`IamEngine`, `IamMemoryAdapter`, `policy`, `defineRole`, builders, etc.) are unchanged - only type imports moved.
 
 ---
 
 ## See also
 
-- [Engine](/duck-iam/advanced/engine) - `EngineTypes.IConfig` and `EngineTypes.IHooks` shapes.
-- [Adapters](/duck-iam/integrations/adapters) - `Adapter.IAdapter` contract.
+- [Engine](/duck-iam/advanced/engine) - `IamEngineTypes.IConfig` and `IamEngineTypes.IHooks` shapes.
+- [Adapters](/duck-iam/integrations/adapters) - `IamAdapter.IAdapter` contract.
 - [Conditions](/duck-iam/core/policies/conditions) - `AccessControl.ICondition` and `AccessControl.IConditionGroup`.

@@ -1,9 +1,9 @@
 ## Factory signature
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
+import { defineIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
   resources: ['post', 'comment', 'user', 'dashboard'] as const,
   scopes: ['org-1', 'org-2'] as const,
@@ -51,7 +51,7 @@ const actions = ['create', 'read', 'update'] as const
 // typeof actions = readonly ['create', 'read', 'update']
 ```
 
-When you pass `as const` arrays to `createAccessConfig()`, the factory uses conditional types to extract the union of literal values:
+When you pass `as const` arrays to `defineIam()`, the factory uses conditional types to extract the union of literal values:
 
 ```typescript
 type TAction = (typeof actions)[number]
@@ -67,7 +67,7 @@ These union types flow through all builders, constraining every parameter: actio
 
 ## What you get back
 
-`createAccessConfig()` returns an `AccessConfig` object with typed builder methods:
+`defineIam()` returns an `AccessConfig` object with typed builder methods:
 
 | Method | Purpose |
 | --- | --- |
@@ -89,7 +89,7 @@ See [methods reference](/duck-iam/advanced/config/methods) for full details.
 Sometimes you need the union types elsewhere - e.g. defining types in a shared module. Extract them from the config:
 
 ```typescript
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update'] as const,
   resources: ['post'] as const,
 })
@@ -105,7 +105,7 @@ In practice, define your unions next to the config and re-export:
 
 ```typescript
 // access.ts
-export const access = createAccessConfig({
+export const access = defineIam({
   actions: ['create', 'read', 'update', 'delete'] as const,
   resources: ['post', 'comment'] as const,
 } as const)
@@ -123,7 +123,7 @@ This is one source of truth for both runtime and type-level uses.
 ### Without `roles`
 
 ```typescript
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read', 'write'] as const,
   resources: ['post'] as const,
   // no roles
@@ -138,7 +138,7 @@ Without a `roles` declaration, role-related parameters accept any string.
 ### Without `scopes`
 
 ```typescript
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read'] as const,
   resources: ['post'] as const,
   // no scopes

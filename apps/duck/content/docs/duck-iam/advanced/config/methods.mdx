@@ -123,9 +123,9 @@ These `ConditionGroup` objects can be reused inside `r.when()`/`r.whenAny()` cal
 Creates a typed engine instance. Permission checks on this engine are constrained to your schema. An optional `mode` parameter sets the engine's operating mode, which flows through the generic for full type safety.
 
 ```typescript
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { 'user-1': ['editor'], 'user-2': ['viewer'] },
   policies: [ownerPolicy],
@@ -136,14 +136,14 @@ const engine = access.createEngine({ adapter })
 
 // Or explicitly set mode for production:
 const prodEngine = access.createEngine({ adapter, mode: 'production' })
-// Engine<TAction, TResource, TRole, TScope, 'production'>
+// IamEngine<TAction, TResource, TRole, TScope, 'production'>
 ```
 
 The `mode` parameter accepts `'development' | 'production'` and defaults to `'development'`. The mode type flows through the generic signature:
 
 ```typescript
 createEngine<'production'>({ adapter, mode: 'production' })
-// => Engine<..., 'production'>
+// => IamEngine<..., 'production'>
 ```
 
 Typed permission checks work the same regardless of mode:
@@ -237,11 +237,11 @@ Checks for:
 A complete example showing how to define and use a typed permission schema for a multi-tenant blog application:
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineIam } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 // 1. Define the permission schema
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete', 'publish', 'manage'] as const,
   resources: ['post', 'comment', 'user', 'analytics', 'settings'] as const,
   scopes: ['org-acme', 'org-globex'] as const,
@@ -302,7 +302,7 @@ const ownerPolicy = access
   .build()
 
 // 5. Create the engine
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, author, editor, admin],
   assignments: { alice: ['admin'], bob: ['editor'], charlie: ['author'] },
   policies: [ownerPolicy],

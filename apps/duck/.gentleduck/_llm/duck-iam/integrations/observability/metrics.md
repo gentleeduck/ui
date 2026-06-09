@@ -1,0 +1,172 @@
+## What it does
+
+`createMetricsAggregator` is a ring-buffer histogram over `IamEngineTypes.IMetricsEvent`. Wire its `.record` method to `hooks.onMetrics` and call `.snapshot()` on demand - a `/metrics` route, a Prometheus scrape, an OTel exporter, whatever your pipeline expects.
+
+No external dependencies, no allocations on the hot path beyond a `Float64Array` slot per recorded event.
+
+***
+
+## Install
+
+```typescript
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+```
+
+***
+
+## Usage
+
+```typescript
+import { IamEngine } from '@gentleduck/iam'
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+
+const metrics = createMetricsAggregator({ sampleSize: 1000 })
+
+const engine = new IamEngine({
+  adapter,
+  hooks: {
+    onMetrics: metrics.record,
+  },
+})
+
+app.get('/metrics', (_, res) => {
+  res.json(metrics.snapshot())
+})
+```
+
+`snapshot()` returns:
+
+```ts
+{
+  total: number    // events recorded since last reset
+  allow: number    // allow verdicts
+  deny: number     // deny verdicts
+  failOpen: number // subset of `allow`: verdicts that fired ONLY because
+                   // `defaultEffect: 'allow'` matched (no applicable policy).
+                   // SEC-044.
+  p50: number      // milliseconds
+  p95: number
+  p99: number
+  max: number
+  samples: number  // current window size (capped at sampleSize)
+}
+```
+
+### Charting fail-open
+
+`failOpen` is the canary for a silently broken policy set - a hostile
+ReDoS-dropped rule, a mass deletion, an adapter outage that drained policies
+to zero. Under `defaultEffect: 'allow'` the boolean `allowed` field hides
+that breakage; `failOpen` surfaces it.
+
+```ts
+// Page when >1% of allows are fail-open in a 1-min window.
+setInterval(() => {
+  const s = metrics.snapshot()
+  if (s.allow > 0 && s.failOpen / s.allow > 0.01) {
+    pager.fire('iam.fail_open_rate', { failOpen: s.failOpen, allow: s.allow })
+  }
+  metrics.reset()
+}, 60_000)
+```
+
+The per-event flag is also available on `IamEngineTypes.IMetricsEvent.failOpen`
+if you want to push it into a label on a Prometheus counter.
+
+***
+
+## Rolling window
+
+The aggregator keeps the most recent `sampleSize` durations (default `1000`) in a fixed-size ring buffer. Beyond the cap, the oldest sample is evicted - no memory growth, no allocation per hit after warmup.
+
+Percentile computation is O(n log n) per `snapshot()` call (sorts the live window). Fine at the default cap; for higher cap values (e.g. `100_000`), call `snapshot()` less frequently - every minute, not every request.
+
+***
+
+## Reset
+
+Call `.reset()` to zero all counters and clear the window. Useful for windowed metrics (e.g. per-minute snapshots):
+
+```typescript
+setInterval(() => {
+  const s = metrics.snapshot()
+  prom.recordIamSnapshot(s)
+  metrics.reset()
+}, 60_000)
+```
+
+***
+
+## Prometheus integration
+
+```typescript
+import { Counter, Histogram } from 'prom-client'
+
+const iamTotal = new Counter({ name: 'iam_evaluations_total', help: '...', labelNames: ['outcome'] })
+const iamLatency = new Histogram({ name: 'iam_evaluation_duration_ms', help: '...' })
+
+const metrics = createMetricsAggregator()
+
+const engine = new IamEngine({
+  adapter,
+  hooks: {
+    onMetrics: (event) => {
+      metrics.record(event)
+      iamTotal.inc({ outcome: event.allowed ? 'allow' : 'deny' })
+      iamLatency.observe(event.durationMs)
+    },
+  },
+})
+```
+
+The aggregator is a *complement* to Prometheus, not a replacement - it gives you a cheap snapshot you can read from inside the process (debug routes, internal admin UIs) without leaving Node.
+
+***
+
+## Constructor config
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sampleSize` | `number` | `1000` | Maximum durations kept in the rolling window |
+
+***
+
+## Multiple aggregators
+
+Want one aggregator for `allow`, another for `deny`? Wire both:
+
+```typescript
+const allowMetrics = createMetricsAggregator()
+const denyMetrics = createMetricsAggregator()
+
+const engine = new IamEngine({
+  adapter,
+  hooks: {
+    onMetrics: (event) => {
+      ;(event.allowed ? allowMetrics : denyMetrics).record(event)
+    },
+  },
+})
+```
+
+Same pattern works for per-resource or per-action breakdowns.
+
+***
+
+## Types
+
+All types live under the `Metrics` namespace at `@gentleduck/iam/observability/metrics`. Type-only - zero bundle cost.
+
+* `Metrics.IAggregator` - return shape of `createMetricsAggregator` (`record`, `snapshot`, `reset`).
+* `Metrics.ISnapshot` - shape returned by `.snapshot()` (`total`, `allow`, `deny`, `failOpen`, `p50`, `p95`, `p99`, `max`, `samples`).
+* `Metrics.IConfig` - constructor config (`sampleSize`).
+
+```typescript
+import type { Metrics } from '@gentleduck/iam/observability/metrics'
+
+const config: Metrics.IConfig = { sampleSize: 1000 }
+const aggregator: Metrics.IAggregator = createMetricsAggregator(config)
+const snap: Metrics.ISnapshot = aggregator.snapshot()
+```
+
+Deprecated bare aliases (`IMetricsAggregator`, `IMetricsSnapshot`, `IMetricsAggregatorConfig`) remain for back-compat and will be removed in 3.0.

@@ -3,7 +3,7 @@
 The `mode` config option chooses the evaluation path:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   mode: 'production', // or 'development' (default)
 })
@@ -11,7 +11,7 @@ const engine = new Engine({
 
 | Mode | Path | Output | Use for |
 | --- | --- | --- | --- |
-| `'development'` (default) | `evaluate()` | Full `Decision` with timing, rule/policy refs, reason | Local dev, `explain()`, debugging |
+| `'development'` (default) | `evaluate()` | Full `AccessControl.IDecision` with timing, rule/policy refs, reason | Local dev, `explain()`, debugging |
 | `'production'` | `evaluateFast()` | Plain `boolean` - no allocations | Deployed services |
 
 ***
@@ -20,10 +20,10 @@ const engine = new Engine({
 
 ### development mode
 
-* `engine.authorize()` returns `Decision` (object with `allowed`, `effect`, `rule`, `policy`, `reason`, `duration`, `timestamp`)
-* `engine.check()` returns `Decision`
+* `engine.authorize()` returns `AccessControl.IDecision` (object with `allowed`, `effect`, `rule`, `policy`, `reason`, `duration`, `timestamp`)
+* `engine.check()` returns `AccessControl.IDecision`
 * `engine.explain()` works (full evaluation trace available)
-* `afterEvaluate` hook receives the `Decision` object
+* `afterEvaluate` and `onDeny` hooks receive the `IDecision` object
 * Timing is recorded - `duration` is the actual evaluation milliseconds
 * All allocations happen - matching rule arrays, intermediate effect tags, etc.
 
@@ -32,11 +32,19 @@ const engine = new Engine({
 * `engine.authorize()` returns plain `boolean`
 * `engine.check()` returns plain `boolean` (same as `can()`)
 * `engine.explain()` **throws** (`Error: explain() is not available in production mode`)
-* `afterEvaluate` hook never fires (the engine takes the fast path that skips Decision construction)
-* No timing recorded
+* `afterEvaluate` and `onDeny` hooks never fire (the engine takes the fast path that skips `IDecision` construction)
+* `onMetrics`, `onError`, and `onPolicyError` still fire - see [hooks](/duck-iam/advanced/engine/hooks)
+* No `duration` timing recorded on the path itself; use `onMetrics` for telemetry
 * Zero-allocation hot path - combined action+resource index, pre-computed unconditional rules
 
 `engine.can()` always returns boolean regardless of mode - it's the simple-API method that works the same way in both modes.
+
+The `IamEngine` constructor refuses two combinations when `mode: 'production'` is set:
+
+* `policyCombine: 'first-applicable'` - the production fast path returns a plain boolean and cannot distinguish "rule fired" from "default applied", so first-applicable is rejected outright.
+* `defaultEffect: 'allow'` without `allowFailOpen: true` - production never falls back to allow-by-default unless you opt in explicitly.
+
+Both cases throw at construction time so misconfigurations fail loudly before serving traffic.
 
 ***
 
@@ -51,7 +59,7 @@ Benchmark numbers from `bun run benchmark`:
 | `engine.permissions()` 20 checks | ~21 us | ~12 us | 1.7x faster |
 | `evaluatePolicyFast()` (one policy) | ~1 us | ~0.5 us | 2x faster |
 
-Production mode is ~2x faster than development on simple checks. The gap widens for batch operations because the per-check Decision allocation cost compounds.
+Production mode is ~2x faster than development on simple checks. The gap widens for batch operations because the per-check `IDecision` allocation cost compounds.
 
 For raw single-policy lookups, duck-iam in production mode is ~2x slower than CASL (8.2M ops/sec vs CASL's 16.8M). CASL pre-compiles rules at build time; duck-iam supports runtime-updatable policies, which costs an extra Map lookup per check.
 
@@ -75,8 +83,8 @@ Switch to production mode in:
 You can mix - different engines for different routes if you really care:
 
 ```typescript
-const debugEngine = new Engine({ adapter, mode: 'development' })
-const prodEngine = new Engine({ adapter, mode: 'production' })
+const debugEngine = new IamEngine({ adapter, mode: 'development' })
+const prodEngine = new IamEngine({ adapter, mode: 'production' })
 
 app.use('/api/debug', accessMiddleware(debugEngine))
 app.use('/api', accessMiddleware(prodEngine))
@@ -91,7 +99,7 @@ But this is rare. Default to one mode per process.
 The engine exposes its mode via the type system:
 
 ```typescript
-const engine = new Engine<MyAction, MyResource, MyRole, MyScope, 'production'>({
+const engine = new IamEngine<MyAction, MyResource, MyRole, MyScope, 'production'>({
   adapter,
   mode: 'production',
 })
@@ -100,20 +108,20 @@ const engine = new Engine<MyAction, MyResource, MyRole, MyScope, 'production'>({
 // `engine.explain()` is unavailable at the type level (and throws at runtime)
 ```
 
-The mode is a **type parameter** of `Engine` - calling `explain()` on a `'production'`-mode engine is a compile-time error if you've declared the mode in the generic. At runtime, it throws if called regardless of the static type.
+The mode is a **type parameter** of `IamEngine` - calling `explain()` on a `'production'`-mode engine is a compile-time error if you've declared the mode in the generic. At runtime, it throws if called regardless of the static type.
 
 ***
 
 ## Caveat: development hooks vs production fast path
 
-`afterEvaluate`, `onDeny`, `onError` hooks receive the `Decision` object - which is only constructed in development mode. In production mode, these hooks **don't fire** because the fast path skips Decision construction entirely.
+`afterEvaluate` and `onDeny` receive the `IDecision` object - only constructed in development mode. In production mode these two hooks **don't fire** because the fast path skips `IDecision` construction entirely.
 
-If you rely on `afterEvaluate` for audit logging in production:
+`onMetrics` is the production-safe telemetry hook: it gets primitive-only events (`subjectId`, `action`, `resource`, `allowed`, `durationMs`, `mode`) on every terminal path in both modes. Wire it for latency, hit-rate, and outcome metrics. `onError` and `onPolicyError` also fire in both modes.
+
+If you need full-decision auditing in production:
 
 * Either run development mode (and pay the ~2x cost)
-* Or move audit logging to `beforeEvaluate` and read the result from the boolean return + your own logic
-
-This is an explicit trade-off - production mode is opt-in for users who care about peak performance and don't need per-call observability.
+* Or wire `onMetrics` for the boolean outcome plus timing and emit your own audit record from there
 
 For batched audit logging, build it into your route handlers or middleware around `engine.can()` instead of relying on engine hooks.
 
@@ -125,10 +133,10 @@ For most apps, development mode is the right default. The 2x performance gap doe
 
 ```typescript
 // Most apps:
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 
 // Only if you're chasing microseconds:
-const engine = new Engine({ adapter, mode: 'production' })
+const engine = new IamEngine({ adapter, mode: 'production' })
 ```
 
 When in doubt, benchmark your actual workload. Adapter latency (DB round-trips, Redis network hops) usually dominates engine evaluation time - and that doesn't change between modes.

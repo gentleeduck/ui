@@ -122,7 +122,7 @@ import {
 
 @Module({
   providers: [
-    createEngineProvider(() => new Engine({ adapter })),
+    createEngineProvider(() => new IamEngine({ adapter })),
     {
       provide: APP_GUARD,
       useFactory: (engine) => ({ canActivate: nestAccessGuard(engine) }),
@@ -133,7 +133,7 @@ import {
 export class AppModule {}
 ```
 
-The engine factory can be async - return a `Promise<Engine>` to support adapter setup that requires `await`.
+The engine factory can be async - return a `Promise<IamEngine>` to support adapter setup that requires `await`.
 
 ---
 

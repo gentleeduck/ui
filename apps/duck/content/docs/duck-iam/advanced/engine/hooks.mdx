@@ -22,9 +22,9 @@ Hooks let you intercept and observe the evaluation lifecycle. All hooks are opti
     DENY_D --> METRICS`} />
 
 ```typescript
-import type { EngineTypes } from '@gentleduck/iam'
+import type { IamEngineTypes } from '@gentleduck/iam'
 
-const hooks: EngineTypes.IHooks = {
+const hooks: IamEngineTypes.IHooks = {
   beforeEvaluate?(request) { /* return modified request */ },
   afterEvaluate?(request, decision) { /* development-mode only */ },
   onDeny?(request, decision)       { /* development-mode only */ },
@@ -34,7 +34,7 @@ const hooks: EngineTypes.IHooks = {
 }
 ```
 
-All six hooks live under `EngineTypes.IHooks`. `afterEvaluate` and `onDeny` only fire in development mode (they receive the full `AccessControl.IDecision`); `onMetrics` and `onError` fire in both modes.
+All six hooks live under `IamEngineTypes.IHooks`. `afterEvaluate` and `onDeny` only fire in development mode (they receive the full `AccessControl.IDecision`); `onMetrics` and `onError` fire in both modes.
 
 ---
 
@@ -167,12 +167,12 @@ Receives the primitive `policyId` (not the full policy object) and the thrown `E
 
 ## onMetrics
 
-Lightweight telemetry hook called once per evaluation. Receives a primitive-only `EngineTypes.IMetricsEvent` - no `IDecision` object, no allocation cost beyond the event itself. Wire it for latency, hit-rate, and outcome metrics in both development and production modes.
+Lightweight telemetry hook called once per evaluation. Receives a primitive-only `IamEngineTypes.IMetricsEvent` - no `IDecision` object, no allocation cost beyond the event itself. Wire it for latency, hit-rate, and outcome metrics in both development and production modes.
 
 ```typescript
-import type { EngineTypes } from '@gentleduck/iam'
+import type { IamEngineTypes } from '@gentleduck/iam'
 
-const hooks: EngineTypes.IHooks = {
+const hooks: IamEngineTypes.IHooks = {
   onMetrics: (event) => {
     metrics.histogram('iam.duration_ms', event.durationMs, {
       action: event.action,
@@ -184,7 +184,7 @@ const hooks: EngineTypes.IHooks = {
 }
 ```
 
-Event shape (`EngineTypes.IMetricsEvent`):
+Event shape (`IamEngineTypes.IMetricsEvent`):
 
 | Field        | Type                  | Notes                                              |
 |---|---|---|
@@ -214,7 +214,7 @@ If you never set `onMetrics`, the only added cost is two boolean checks. No time
 ### Production telemetry example
 
 ```typescript
-new Engine({
+new IamEngine({
   adapter,
   mode: 'production',
   hooks: {

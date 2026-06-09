@@ -117,7 +117,7 @@ import {
 
 @Module({
   providers: [
-    createEngineProvider(() => new Engine({ adapter })),
+    createEngineProvider(() => new IamEngine({ adapter })),
     {
       provide: APP_GUARD,
       useFactory: (engine) => ({ canActivate: nestAccessGuard(engine) }),
@@ -128,7 +128,7 @@ import {
 export class AppModule {}
 ```
 
-The engine factory can be async - return a `Promise<Engine>` to support adapter setup that requires `await`.
+The engine factory can be async - return a `Promise<IamEngine>` to support adapter setup that requires `await`.
 
 ***
 
@@ -158,3 +158,86 @@ The engine factory can be async - return a `Promise<Engine>` to support adapter 
 | --- | --- | --- |
 | `ACCESS_ENGINE_TOKEN` | `string` (`'ACCESS_ENGINE'`) | DI token for the engine |
 | `ACCESS_METADATA_KEY` | `string` (`'duck-iam:authorize'`) | Reflect metadata key for the decorator |
+
+***
+
+## Admin operations
+
+NestJS routes via controllers, so duck-iam ships gated admin *operations* (not a router factory). `createAdminOperations` returns a record of pre-gated functions to plug into your controller methods. The `authorize` callback is **required** - the factory throws if it's missing.
+
+```typescript
+import { Controller, Get, Put, Post, Delete, Inject, Req, Body, Param } from '@nestjs/common'
+import { ACCESS_ENGINE_TOKEN, createAdminOperations } from '@gentleduck/iam/server/nest'
+
+@Controller('admin')
+export class IamAdminController {
+  private readonly h
+
+  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine) {
+    this.h = createAdminOperations(engine, {
+      authorize: (req) => req.user?.role === 'platform-admin',
+    })
+  }
+
+  @Get('policies')        listPolicies(@Req() req) { return this.h.listPolicies(req) }
+  @Get('roles')           listRoles(@Req() req)    { return this.h.listRoles(req) }
+  @Put('policies')        savePolicy(@Req() req, @Body() body) { return this.h.savePolicy(req, body) }
+  @Put('roles')           saveRole(@Req() req, @Body() body)   { return this.h.saveRole(req, body) }
+
+  @Post('subjects/:id/roles')
+  assignRole(@Req() req, @Param('id') id, @Body() body) { return this.h.assignRole(req, id, body) }
+
+  @Delete('subjects/:id/roles/:roleId')
+  revokeRole(@Req() req, @Param('id') id, @Param('roleId') roleId) { return this.h.revokeRole(req, id, roleId) }
+}
+```
+
+Every operation throws `Error & { status: 401 }` when `authorize` returns false - wire your Nest exception filter to map that to a `401` response, or call `authorize` yourself inside a `@UseGuards()` and skip this helper.
+
+### CSRF protection (default-on)
+
+Mutation operations (`savePolicy`, `saveRole`, `assignRole`, `revokeRole`) run
+a `Sec-Fetch-Site` check by default (SEC-103 / CAVEAT-2). Failures throw
+`Error & { status: 403 }`. Browsers populate the header automatically;
+cross-site form posts are rejected, same-site / same-origin requests pass.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
+
+```ts
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
+createAdminOperations(engine, { authorize })
+
+// Server-to-server bearer/mTLS API - disable the check entirely.
+createAdminOperations(engine, { authorize, csrfCheck: false })
+
+// Stricter - Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+createAdminOperations(engine, {
+  authorize,
+  csrfCheck: (req) => ADMIN_ORIGINS.has(req.headers?.origin as string),
+})
+```
+
+The admin operations options object conforms to `Nest.IAdminOptions` with `authorize` of shape `Nest.IAdminAuthorize`. The metadata read by the guard from `@Authorize` conforms to `Nest.IAuthorizeMeta`, and the guard factory accepts `Nest.IGuardOptions`.
+
+***
+
+## Types
+
+All types live under the `Nest` namespace at `@gentleduck/iam/server/nest`. Type-only - zero bundle cost.
+
+* `Nest.IAuthorizeMeta` - shape of the metadata stamped onto a handler by `@Authorize` and `createTypedAuthorize`.
+* `Nest.IGuardOptions` - options for `nestAccessGuard` (`getUserId`, `getEnvironment`, `getResourceId`, `getScope`, `onError`).
+* `Nest.IAdminAuthorize` - signature of the required `authorize` callback for `createAdminOperations`.
+* `Nest.IAdminOptions` - options for `createAdminOperations`.
+
+```typescript
+import type { Nest } from '@gentleduck/iam/server/nest'
+
+const guardOpts: Nest.IGuardOptions = {
+  getUserId: (req) => req.user?.id ?? req.user?.sub,
+}
+
+const meta: Nest.IAuthorizeMeta = { action: 'delete', resource: 'post' }
+```
+
+Deprecated bare aliases (`IAuthorizeMeta`, `IGuardOptions`, `IAdminAuthorize`, `IAdminOptions`) remain for back-compat and will be removed in 3.0.

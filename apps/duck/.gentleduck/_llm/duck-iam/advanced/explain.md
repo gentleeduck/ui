@@ -23,25 +23,25 @@ const result = await engine.explain('user-1', 'delete', {
 })
 ```
 
-### The ExplainResult
+### The IamExplain.IResult
 
 ```typescript
-interface ExplainResult {
-  decision: Decision               // The final allow/deny decision
+interface IResult {
+  decision: AccessControl.IDecision   // The final allow/deny decision
   request: {
-    action: string                 // The action that was checked
-    resourceType: string           // The resource type
-    resourceId?: string            // The resource ID, if provided
-    scope?: string                 // The scope, if provided
+    action: string                    // The action that was checked
+    resourceType: string              // The resource type
+    resourceId?: string               // The resource ID, if provided
+    scope?: string                    // The scope, if provided
   }
   subject: {
-    id: string                     // The subject ID
-    roles: string[]                // The subject's base roles
-    scopedRolesApplied: string[]   // Extra roles added from scoped assignments
+    id: string                        // The subject ID
+    roles: string[]                   // The subject's base roles
+    scopedRolesApplied: string[]      // Extra roles added from scoped assignments
     attributes: Record<string, any>
   }
-  policies: PolicyTrace[]          // Trace of every policy evaluated
-  summary: string                  // Human-readable multi-line summary
+  policies: IamExplain.IPolicyTrace[]    // Trace of every policy evaluated
+  summary: string                     // Human-readable multi-line summary
 }
 ```
 
@@ -86,20 +86,20 @@ This tells you:
 * The RBAC policy had 5 rules but none matched the `delete` action.
 * The `owner-policy` matched, and rule `deny-non-owner-delete` produced the deny.
 
-### Reading PolicyTrace
+### Reading IamExplain.IPolicyTrace
 
-Each entry in `result.policies` is a `PolicyTrace`:
+Each entry in `result.policies` is an `IamExplain.IPolicyTrace`:
 
 ```typescript
-interface PolicyTrace {
-  policyId: string              // Policy identifier
-  policyName: string            // Human-readable policy name
-  algorithm: CombiningAlgorithm // deny-overrides, allow-overrides, etc.
-  targetMatch: boolean          // Did the policy's target filter match?
-  rules: RuleTrace[]            // Trace of every rule in this policy
-  result: 'allow' | 'deny'     // The policy's final per-policy result
-  reason: string                // Human-readable explanation
-  decidingRuleId?: string       // Which rule determined the result
+interface IPolicyTrace {
+  policyId: string                            // Policy identifier
+  policyName: string                          // Human-readable policy name
+  algorithm: AccessControl.CombiningAlgorithm // deny-overrides, allow-overrides, etc.
+  targetMatch: boolean                        // Did the policy's target filter match?
+  rules: IamExplain.IRuleTrace[]                 // Trace of every rule in this policy
+  result: 'allow' | 'deny'                    // The policy's final per-policy result
+  reason: string                              // Human-readable explanation
+  decidingRuleId?: string                     // Which rule determined the result
 }
 ```
 
@@ -118,21 +118,21 @@ for (const pt of result.policies) {
 }
 ```
 
-### Reading RuleTrace
+### Reading IamExplain.IRuleTrace
 
-Each rule inside a policy produces a `RuleTrace`:
+Each rule inside a policy produces an `IamExplain.IRuleTrace`:
 
 ```typescript
-interface RuleTrace {
+interface IRuleTrace {
   ruleId: string
   description?: string
-  effect: 'allow' | 'deny'
+  effect: AccessControl.Effect    // 'allow' | 'deny'
   priority: number
-  actionMatch: boolean       // Did the rule's actions match the request action?
-  resourceMatch: boolean     // Did the rule's resources match the request resource?
-  conditionsMet: boolean     // Did all conditions evaluate to true?
-  conditions: ConditionGroupTrace  // Full condition tree trace
-  matched: boolean           // actionMatch && resourceMatch && conditionsMet
+  actionMatch: boolean            // Did the rule's actions match the request action?
+  resourceMatch: boolean          // Did the rule's resources match the request resource?
+  conditionsMet: boolean          // Did all conditions evaluate to true?
+  conditions: IamExplain.IGroupTrace // Full condition tree trace
+  matched: boolean                // actionMatch && resourceMatch && conditionsMet
 }
 ```
 
@@ -152,24 +152,24 @@ for (const rule of policyTrace.rules) {
 }
 ```
 
-### Reading ConditionTrace
+### Reading the condition trace
 
 Conditions form a tree of logical groups (`all`, `any`, `none`) with leaf conditions at the bottom. The trace preserves this structure.
 
 ```typescript
 // Group node
-interface ConditionGroupTrace {
+interface IGroupTrace {
   type: 'group'
   logic: 'all' | 'any' | 'none'
   result: boolean
-  children: Array<ConditionLeafTrace | ConditionGroupTrace>
+  children: Array<IamExplain.ILeafTrace | IamExplain.IGroupTrace>
 }
 
 // Leaf node
-interface ConditionLeafTrace {
+interface ILeafTrace {
   type: 'condition'
   field: string           // e.g. "resource.attributes.ownerId"
-  operator: string        // e.g. "eq"
+  operator: AccessControl.Operator    // e.g. "eq"
   expected: any           // The value from the condition definition
   actual: any             // The value resolved from the request at runtime
   result: boolean         // Did this condition pass?
@@ -234,23 +234,47 @@ What it checks:
 * Required fields: `id`, `name`, `algorithm`, `rules`
 * Valid combining algorithm (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`)
 * Each rule has: `id`, `effect`, `priority`, `actions`, `resources`
+* `priority` is a finite number - `Number.isFinite(priority)` is required because `NaN` / `Infinity` break `highest-priority` ranking
 * Valid effect values (`allow` or `deny`)
 * Valid operators in conditions
 * Correct condition group structure (`all`/`any`/`none` with arrays)
 * Duplicate rule IDs (warning)
 * Valid `targets` structure if present
+* Unresolvable field references in conditions - code `UNRESOLVABLE_FIELD`
+* Unresolvable `$variable` values in conditions - code `UNRESOLVABLE_VALUE`
+* Inheritance chains exceeding `MAX_INHERITANCE_DEPTH` - code `INHERITANCE_TOO_DEEP`
+* Suspiciously broad allow rules (wildcard action + wildcard resource with no conditions) - code `BROAD_ALLOW`
+* Policy/rule counts, field lengths, and condition nesting exceeding configured caps - code `LIMIT_EXCEEDED`
 
-### ValidationResult
+### Validate-time exports
+
+The validate module also exports a handful of constants and a JSON Schema (Draft 2020-12) that admin tooling can consume:
 
 ```typescript
-interface ValidationResult {
-  valid: boolean                   // true if no errors (warnings are ok)
-  issues: ValidationIssue[]
+import {
+  POLICY_JSON_SCHEMA,     // JSON Schema (Draft 2020-12) for AccessControl.IPolicy
+  POLICY_LIMITS,          // { rulesPerPolicy, actionsPerRule, resourcesPerRule, cartesianPerRule }
+  MAX_INHERITANCE_DEPTH,  // 32 - cap used by INHERITANCE_TOO_DEEP
+  MAX_CONDITION_DEPTH,    // 10 - cap on nested all/any/none groups
+  MAX_FIELD_LENGTH,       // 256 - cap on dot-path field length
+} from '@gentleduck/iam'
+```
+
+Limits are constants in the package; the runtime applies them whether or not you call `validatePolicy` yourself. The JSON Schema is suitable for non-TypeScript consumers, editor schema-driven completion, and admin dashboard form validation.
+
+### IamValidate.IResult
+
+```typescript
+interface IResult {
+  valid: boolean                  // true if no errors (warnings are ok)
+  issues: IamValidate.IIssue[]
 }
 
-interface ValidationIssue {
+interface IIssue {
   type: 'error' | 'warning'       // errors cause valid=false, warnings don't
-  code: string                    // machine-readable code like 'MISSING_FIELD'
+  code: string                    // machine-readable: UNRESOLVABLE_FIELD, UNRESOLVABLE_VALUE,
+                                  //                  INHERITANCE_TOO_DEEP, BROAD_ALLOW, LIMIT_EXCEEDED,
+                                  //                  INVALID_TYPE, MISSING_FIELD, ...
   message: string                 // human-readable description
   roleId?: string                 // which role, if applicable
   path?: string                   // JSON path like 'rules[0].effect'

@@ -6,7 +6,7 @@ section: Integrations
 ## Install
 
 ```typescript
-import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { IamPrismaAdapter } from '@gentleduck/iam/adapters/prisma'
 ```
 
 Stores duck-iam state in your database through Prisma Client. Requires four models in your `schema.prisma`.
@@ -93,13 +93,13 @@ bunx prisma generate
 
 ```typescript
 import { PrismaClient } from '@prisma/client'
-import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
-import { Engine } from '@gentleduck/iam'
+import { IamPrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { IamEngine } from '@gentleduck/iam'
 
 const prisma = new PrismaClient()
-const adapter = new PrismaAdapter(prisma)
+const adapter = new IamPrismaAdapter(prisma)
 
-const engine = new Engine({ adapter, cacheTTL: 60 })
+const engine = new IamEngine({ adapter, cacheTTL: 60 })
 ```
 
 The adapter uses `upsert` for save operations, so calling `savePolicy` or `saveRole` with an existing ID updates the record rather than throwing a conflict error.

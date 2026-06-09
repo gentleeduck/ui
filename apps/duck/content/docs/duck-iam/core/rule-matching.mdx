@@ -87,13 +87,13 @@ If both action and resource match, the rule's `conditions` are evaluated. See [c
 
 The engine has a **fast path** for unconditional rules (empty conditions or `{ all: [] }`) - these are pre-computed at policy load time into a result map, so checking them is an O(1) lookup with no condition traversal.
 
-For conditional rules, the engine evaluates the condition tree against the `Request.IAccessRequest`. Failed conditions cause the rule to be skipped, not the whole policy.
+For conditional rules, the engine evaluates the condition tree against the `IamRequest.IAccessRequest`. Failed conditions cause the rule to be skipped, not the whole policy.
 
 ---
 
 ## Field resolution
 
-Condition `field` values are dot-notation paths resolved against the `Request.IAccessRequest`.
+Condition `field` values are dot-notation paths resolved against the `IamRequest.IAccessRequest`.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Subject_Paths["Subject Fields"]

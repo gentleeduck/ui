@@ -17,7 +17,7 @@ Covers four protection layers in Next.js App Router: route handler wrappers, Ser
 
 Wrap App Router route handlers (GET, POST, DELETE, etc.).
 
-```typescript
+```ts
 import { withAccess } from '@gentleduck/iam/server/next'
 import { engine } from '@/lib/engine'
 import { auth } from '@/lib/auth'
@@ -29,6 +29,8 @@ async function handler(req: Request, ctx: { params: Promise<{ id: string }> }) {
 }
 
 export const DELETE = withAccess(engine, 'delete', 'post', handler, {
+  // SEC-101: `getUserId` is REQUIRED. The constructor throws when omitted.
+  // Never derive identity from request headers - it's spoofable.
   getUserId: async (req) => {
     const session = await auth()
     return session?.user?.id ?? null
@@ -37,6 +39,11 @@ export const DELETE = withAccess(engine, 'delete', 'post', handler, {
 ```
 
 The wrapper automatically reads `params.id` as the resource instance ID. `params` may be a Promise (Next.js 15+) or an object.
+
+`withAccess` throws at construction when `opts.getUserId` is omitted. The
+previous default trusted the `x-user-id` request header, which any
+unauthenticated client can spoof with `curl -H 'X-User-Id: admin'`. Wire it
+from your auth library (NextAuth `auth()`, Clerk `auth()`, cookie session, JWT).
 
 `withAccess()` only auto-binds `params.id`. If your route uses `params.postId` or another
 name, keep the wrapper for coarse route gating and run a deeper `engine.can()` /
@@ -111,16 +118,18 @@ See [client/react](/duck-iam/integrations/client/react) for the consuming side.
 
 Protect routes at the edge before they reach application code:
 
-```typescript
+```ts
 // middleware.ts
 import { createNextMiddleware } from '@gentleduck/iam/server/next'
 import { engine } from '@/lib/engine'
 import { NextResponse } from 'next/server'
 
 const checkAccess = createNextMiddleware(engine, {
+  // SEC-101: derive identity from a verified source - never trust a raw
+  // header. Cookie session, JWT, or your auth library's session helper.
   getUserId: async (req) => {
-    const token = req.headers.get('authorization')?.replace('Bearer ', '')
-    return token ? decodeUserId(token) : null
+    const session = await getServerSession(req)
+    return session?.user?.id ?? null
   },
   rules: [
     { pattern: '/api/admin', resource: 'admin', action: 'manage' },
@@ -168,7 +177,7 @@ When no rule matches a request path, the middleware returns `null` and the reque
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `getUserId` | `(req) -> string or null or Promise` | `x-user-id` header | Extract the subject ID |
+| `getUserId` | `(req) -> string or null or Promise` | **required** (SEC-101) | Extract the subject ID; constructor throws when omitted |
 | `getEnvironment` | `(req) -> Environment` | IP + user agent + timestamp | Extract environment context |
 | `scope` | `string` | `undefined` | Fixed scope for this handler |
 | `onError` | `(err, req) -> Response` | 500 JSON | Custom error handler |
@@ -189,3 +198,88 @@ When no rule matches a request path, the middleware returns `null` and the reque
 | `resource` | `string` | yes | Resource type for matched routes |
 | `action` | `string` | no | Fixed action (defaults to HTTP method map) |
 | `scope` | `string` | no | Required scope for matched routes |
+
+***
+
+## Admin route handlers
+
+`createAdminHandlers` returns pre-bound Route Handlers for admin CRUD. The `authorize` callback is **required** - the factory throws if it's missing.
+
+```ts
+// app/api/admin/policies/route.ts
+import { createAdminHandlers } from '@gentleduck/iam/server/next'
+import { engine } from '@/lib/engine'
+
+const h = createAdminHandlers(engine, {
+  authorize: async (req) => {
+    const session = await getSession(req)
+    return session?.user?.role === 'platform-admin'
+  },
+})
+
+export const GET = h.listPolicies
+export const PUT = h.savePolicy
+```
+
+```ts
+// app/api/admin/subjects/[id]/roles/route.ts
+export const POST = h.assignRole
+
+// app/api/admin/subjects/[id]/roles/[roleId]/route.ts
+export const DELETE = h.revokeRole
+```
+
+Every handler runs `authorize(req)` first; falsy -> `401`. Errors route through optional `onError(err, req)`.
+
+Available handlers: `listPolicies`, `listRoles`, `savePolicy`, `saveRole`, `assignRole`, `revokeRole`.
+
+### CSRF protection (default-on)
+
+Mutation handlers (`savePolicy`, `saveRole`, `assignRole`, `revokeRole`) run
+a `Sec-Fetch-Site` check by default (SEC-103 / CAVEAT-2). Browsers populate
+the header automatically; cross-site form posts are rejected with 403,
+same-site / same-origin requests pass. Non-browser callers (no header) pass -
+they must be gated by bearer / mTLS.
+
+```ts
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
+createAdminHandlers(engine, { authorize })
+
+// Server-to-server bearer/mTLS API - disable the check entirely.
+createAdminHandlers(engine, { authorize, csrfCheck: false })
+
+// Stricter - Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+createAdminHandlers(engine, {
+  authorize,
+  csrfCheck: (req) => ADMIN_ORIGINS.has(req.headers.get('origin') ?? ''),
+})
+```
+
+`withAccess` options conform to `IamNext.IWithAccessOptions`, `createNextMiddleware` options conform to `IamNext.IMiddlewareOptions`, and `createAdminHandlers` options conform to `IamNext.IAdminOptions` with `authorize` of shape `IamNext.IAdminAuthorize`.
+
+***
+
+## Types
+
+All types live under the `Next` namespace at `@gentleduck/iam/server/next`. Type-only - zero bundle cost.
+
+* `IamNext.IWithAccessOptions` - options for `withAccess` (`getUserId`, `getEnvironment`, `scope`, `onError`).
+* `IamNext.IMiddlewareOptions` - options for `createNextMiddleware` (`rules`, `getUserId`, `onError`).
+* `IamNext.IAdminAuthorize` - signature of the required `authorize` callback for `createAdminHandlers`.
+* `IamNext.IAdminOptions` - options for `createAdminHandlers`.
+
+```typescript
+import type { IamNext } from '@gentleduck/iam/server/next'
+
+const opts: IamNext.IWithAccessOptions = {
+  getUserId: async (req) => (await auth())?.user?.id ?? null,
+}
+
+const adminAuth: IamNext.IAdminAuthorize = async (req) => {
+  const session = await getSession(req)
+  return session?.user?.role === 'platform-admin'
+}
+```
+
+Deprecated bare aliases (`IWithAccessOptions`, `IMiddlewareOptions`, `IAdminAuthorize`, `IAdminOptions`) remain for back-compat and will be removed in 3.0.

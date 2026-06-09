@@ -96,12 +96,12 @@ Set `cacheTTL: 5` (or less) so stale data has a small window. Trade-off: more ad
 Wire `IConfig.invalidator` and the engine handles the broadcast for you: every local `engine.admin.*` mutation publishes; every cross-instance event applies locally (with a built-in self-echo filter so a node never re-applies its own event).
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
-import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
-  invalidator: createRedisInvalidator({
+  invalidator: createIamRedisInvalidator({
     client: redisPubSub,
     channel: 'iam:invalidate',
   }),
@@ -115,12 +115,12 @@ The Redis helper expects a minimal pub/sub shape (`publish`, `subscribe`, option
 
 #### Custom invalidator
 
-Want NATS / Kafka / AMQP / your in-process bus? Implement the `EngineTypes.IInvalidator` contract:
+Want NATS / Kafka / AMQP / your in-process bus? Implement the `IamEngineTypes.IInvalidator` contract:
 
 ```typescript
-import type { EngineTypes } from '@gentleduck/iam/core'
+import type { IamEngineTypes } from '@gentleduck/iam/core'
 
-const invalidator: EngineTypes.IInvalidator = {
+const invalidator: IamEngineTypes.IInvalidator = {
   publish(event) {
     // event: { kind: 'all' | 'policies' | 'roles' | 'subject', roleId?, subjectId? }
     nats.publish('iam.invalidate', JSON.stringify(event))
@@ -131,7 +131,7 @@ const invalidator: EngineTypes.IInvalidator = {
   },
 }
 
-const engine = new Engine({ adapter, invalidator })
+const engine = new IamEngine({ adapter, invalidator })
 ```
 
 Delivery is at-least-once: `engine.cache.invalidate*()` methods are idempotent so re-applying the same event is safe.
@@ -147,7 +147,7 @@ Tag policies with a `version` number. Increment on writes. On read, compare vers
 For high-traffic applications:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 300, // 5 minutes - policies/roles change infrequently
   maxCacheSize: 10000, // 10k subjects in memory
@@ -157,7 +157,7 @@ const engine = new Engine({
 For real-time permission changes:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 5, // 5 seconds - near real-time
   maxCacheSize: 500,
@@ -167,7 +167,7 @@ const engine = new Engine({
 For development:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 0, // No caching - always hit the adapter
 })

@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 ```
 
 Stores everything in `Map` instances. Zero dependencies. **Data does not survive process restarts** - use a database adapter for production.
@@ -11,10 +11,10 @@ Stores everything in `Map` instances. Zero dependencies. **Data does not survive
 ## Basic usage
 
 ```typescript
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
-import { Engine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam'
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [
     {
       id: 'admin',
@@ -73,7 +73,7 @@ const adapter = new MemoryAdapter({
   },
 })
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 ```
 
 ***
@@ -83,7 +83,7 @@ const engine = new Engine({ adapter })
 Pass initial attributes for ABAC-style conditions.
 
 ```typescript
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [...],
   assignments: { 'user-1': ['editor'] },
   attributes: {
@@ -133,3 +133,20 @@ const adapter = new MemoryAdapter({
 * **Persistent state across deployments** - every deploy resets
 
 For production, switch to [Prisma](/duck-iam/integrations/adapters/prisma), [Drizzle](/duck-iam/integrations/adapters/drizzle), or [Redis](/duck-iam/integrations/adapters/redis).
+
+***
+
+## Types
+
+Constructor input lives under the `Memory` namespace at `@gentleduck/iam/adapters/memory`. Type-only - zero bundle cost.
+
+* `IamMemory.IInit` - constructor seed input (`roles`, `policies`, `assignments`, `attributes`).
+
+```typescript
+import type { IamMemory } from '@gentleduck/iam/adapters/memory'
+
+const init: IamMemory.IInit = {
+  roles: [/* ... */],
+  assignments: { 'user-1': ['admin'] },
+}
+```

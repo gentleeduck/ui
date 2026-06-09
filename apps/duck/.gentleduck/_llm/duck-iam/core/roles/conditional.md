@@ -14,12 +14,12 @@ const author = defineRole('author')
 
 Authors can create and read any post, but only update or delete posts they own. `isOwner()` produces `resource.attributes.ownerId eq $subject.id`. `$subject.id` is a [variable reference](/duck-iam/core/policies/dollar-variables) resolved at evaluation time.
 
-**Per-resource narrowing:** When using `createAccessConfig()` with a typed `context`
-and `resourceAttributes`, calling `.grantWhen('update', 'post', w => ...)` narrows
-`w.resourceAttr()` to only attributes defined for posts. See the
-[type-safe roles](/duck-iam/core/roles/type-safe) docs.
+  **Per-resource narrowing:** When using `defineIam()` with a typed `context`
+  and `resourceAttributes`, calling `.grantWhen('update', 'post', w => ...)` narrows
+  `w.resourceAttr()` to only attributes defined for posts. See the
+  [type-safe roles](/duck-iam/core/roles/type-safe) docs.
 
-***
+---
 
 ## Complex conditional permissions
 
@@ -39,7 +39,7 @@ const teamLead = defineRole('team-lead')
 
 This grants `approve` on expenses only when the subject is in engineering AND the amount is at most 10,000.
 
-***
+---
 
 ## Combining grantWhen with scope
 
@@ -54,7 +54,7 @@ const orgApprover = defineRole('org-approver')
 
 Effective rule: only fires when scope is `org-1` AND amount <= 10,000.
 
-***
+---
 
 ## When to use grantWhen vs. a standalone policy
 
@@ -69,11 +69,11 @@ Quick decision:
 
 Examples:
 
-* "Authors can edit their own posts" - `grantWhen('update', 'post', w => w.isOwner())` on the `author` role
-* "Block all writes during maintenance mode" - standalone policy with `target({ actions: [...] })`
-* "Require GDPR consent for any user-profile read" - standalone policy targeting `user-profile` resource
+- "Authors can edit their own posts" - `grantWhen('update', 'post', w => w.isOwner())` on the `author` role
+- "Block all writes during maintenance mode" - standalone policy with `target({ actions: [...] })`
+- "Require GDPR consent for any user-profile read" - standalone policy targeting `user-profile` resource
 
-***
+---
 
 ## How grantWhen interacts with role inheritance
 
@@ -90,7 +90,7 @@ const editor = defineRole('editor')
 
 Both rules end up in the synthetic RBAC policy. Under `allow-overrides`, the unconditional rule grants access regardless of ownership. Under `deny-overrides` cross-policy, an explicit deny elsewhere can still block.
 
-***
+---
 
 ## Built-in shortcuts vs. condition builders
 

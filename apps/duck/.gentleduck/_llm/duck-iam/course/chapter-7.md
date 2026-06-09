@@ -44,7 +44,7 @@ it reads the map. Checks are O(1) key lookups.
 
 ```typescript title="src/lib/access-client.tsx"
 import React from 'react'
-import { createAccessControl } from '@gentleduck/iam/client/react'
+import { createIamClient } from '@gentleduck/iam/client/react'
 
 export const {
   AccessProvider,
@@ -53,10 +53,10 @@ export const {
   Can,
   Cannot,
   AccessContext,
-} = createAccessControl(React)
+} = createIamClient(React)
 ```
 
-`createAccessControl` takes the React instance to avoid a hard dependency on React.
+`createIamClient` takes the React instance to avoid a hard dependency on React.
 If you only use the vanilla client, React is never bundled.
 
 | Export | Type | Description |
@@ -473,7 +473,7 @@ All client APIs accept generic type parameters for compile-time checking:
 
 ```typescript
 // React
-const { AccessProvider, useAccess, Can } = createAccessControl<
+const { AccessProvider, useAccess, Can } = createIamClient<
   'read' | 'create' | 'update' | 'delete' | 'manage',  // TAction
   'post' | 'comment' | 'user' | 'dashboard',              // TResource
   'acme' | 'globex'                                        // TScope

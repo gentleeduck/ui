@@ -37,28 +37,41 @@ beforeEvaluateafterEvaluateonDeny, onError"]
 ### Hook Type Signatures
 
 ```typescript
-interface EngineHooks {
+interface IamEngineTypes.IHooks {
   // Runs before evaluation. Can modify the request (enrich with DB data).
   beforeEvaluate?(
-    request: AccessRequest,
-  ): AccessRequest | Promise<AccessRequest>
+    request: IamRequest.IAccessRequest,
+  ): IamRequest.IAccessRequest | Promise<IamRequest.IAccessRequest>
 
   // Runs after evaluation, regardless of outcome.
   afterEvaluate?(
-    request: AccessRequest,
-    decision: Decision,
+    request: IamRequest.IAccessRequest,
+    decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs only when the decision is deny.
   onDeny?(
-    request: AccessRequest,
-    decision: Decision,
+    request: IamRequest.IAccessRequest,
+    decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs if any error occurs during evaluation.
   onError?(
     error: Error,
-    request: AccessRequest,
+    request: IamRequest.IAccessRequest,
+  ): void | Promise<void>
+
+  // Per-evaluation timing + cache-hit telemetry (fires in both modes).
+  onMetrics?(
+    metrics: IamEngineTypes.IMetrics,
+  ): void | Promise<void>
+
+  // Per-policy error capture - fires when a single policy throws,
+  // evaluation continues with remaining policies.
+  onPolicyError?(
+    error: Error,
+    policyId: string,
+    request: IamRequest.IAccessRequest,
   ): void | Promise<void>
 }
 ```
@@ -68,7 +81,7 @@ interface EngineHooks {
 Fetch resource data from a database before evaluation runs:
 
 ```typescript title="src/access.ts"
-export const engine = new Engine({
+export const engine = new IamEngine({
   adapter,
   hooks: {
     beforeEvaluate: async (request) => {
@@ -199,7 +212,7 @@ adapter on the next access.
 ### Configuration
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 60,         // seconds (default: 60, set to 0 to disable)
   maxCacheSize: 1000,   // max cached subjects (default: 1000)
@@ -213,10 +226,10 @@ const engine = new Engine({
 ### Manual Invalidation
 
 ```typescript
-engine.invalidate()                  // clear ALL caches
-engine.invalidateSubject('user-1')   // clear one user's cached data
-engine.invalidatePolicies()          // clear policy cache only
-engine.invalidateRoles()             // clear role + RBAC + ALL subject caches
+engine.cache.invalidate()                  // clear ALL caches
+engine.cache.invalidateSubject('user-1')   // clear one user's cached data
+engine.cache.invalidatePolicies()          // clear policy cache only
+engine.cache.invalidateRoles()             // clear role + RBAC + ALL subject caches
 ```
 
 `invalidateRoles()` also clears the subject cache because subjects cache their resolved
@@ -310,7 +323,7 @@ DENIED: "bob" -> update on post
 
 ```typescript
 interface ExplainResult {
-  decision: Decision                // the final decision
+  decision: AccessControl.IDecision // the final decision
   request: {
     action: string
     resourceType: string
@@ -436,20 +449,20 @@ check picks up the new role. No manual invalidation needed after admin operation
 Full engine with all features
 
 ```typescript
-import { Engine, validateRoles } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine, validateRoles } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { viewer, editor, admin } from './roles'
 import { ownerPolicy } from './policies'
 
 validateRoles([viewer, editor, admin])
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { alice: ['viewer'], bob: ['editor'], charlie: ['admin'] },
   policies: [ownerPolicy],
 })
 
-export const engine = new Engine({
+export const engine = new IamEngine({
   adapter,
   defaultEffect: 'deny',
   cacheTTL: 60,
@@ -497,7 +510,7 @@ What if the cache serves stale data?
 
 The cache has a TTL (default 60 seconds). After that, the next check refreshes from the
 adapter. For immediate consistency after a change, use the Admin API (which auto-invalidates)
-or call `engine.invalidateSubject(id)` manually. For tests, set `cacheTTL: 0`.
+or call `engine.cache.invalidateSubject(id)` manually. For tests, set `cacheTTL: 0`.
 
 Can I use explain() in production?
 
@@ -529,8 +542,8 @@ multiple permissions, or in tests where you construct subjects manually.
 Should I ever change defaultEffect from 'deny'?
 
 Almost never. `'deny'` means unmatched requests are denied (fail-closed). Changing to
-`'allow'` means any request that doesn't match a rule is permitted, a significant
-security risk. The only valid use case is development environments where you want to
+`'allow'` means any request that doesn't match a rule is permitted, a security risk.
+The only valid use case is development environments where you want to
 log denials without blocking requests.
 
 Why does invalidateRoles() also clear the subject cache?

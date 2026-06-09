@@ -1,0 +1,328 @@
+## When to read this
+
+Single-node dev setups can ignore everything here. Read this page before mounting duck-iam in any of these scenarios:
+
+- More than one engine instance behind a load balancer
+- Adapter is over the network (Prisma to a separate DB, IamHttpAdapter, Redis cluster)
+- Policy revocations need to apply quickly (security or compliance requirement)
+- SLOs require p95 / p99 evaluation latency tracking
+
+The package ships a 10-section Deployment Hardening Guide in
+[SECURITY.md](https://github.com/wildduck2/duck-iam/blob/main/packages/duck-iam/SECURITY.md)
+(CAVEAT-3) covering identity sourcing, admin CSRF, Redis tenancy, cache
+scoping, `defaultEffect: 'allow'`, `explain()` output trust, adapter trust,
+file `rootDir`, HTTP `allowedHosts`, and observability wiring. This page is
+the operational playbook; SECURITY.md is the threat model.
+
+---
+
+## Cache TTL trade-off
+
+`cacheTTL` (seconds, default `60`) controls how stale a node's view of policies + roles can get.
+
+- **Lower TTL** (`5`-`30 s`) - quicker convergence after a revoke. Higher load on the adapter (every TTL window every node re-fetches).
+- **Higher TTL** (`60`-`300 s`) - fewer adapter round-trips. A revoked permission can be honored for up to `cacheTTL` on a node that has cached the subject.
+- **Zero TTL** - every check hits the adapter. Useful only with `IamMemoryAdapter` or strong adapter-side caching.
+
+For most production deployments, `cacheTTL: 30` + a cross-instance invalidator (next section) is the right balance.
+
+---
+
+## Multi-instance cache invalidation
+
+Without a broadcaster, `engine.admin.savePolicy()` on pod A leaves pod B-J serving stale grants for `cacheTTL`. Wire `IConfig.invalidator` so every node drops local caches the moment any node mutates state.
+
+```ts
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+
+const engine = new IamEngine({
+  adapter,
+  cacheTTL: 60,
+  invalidator: createIamRedisInvalidator({
+    client: redisPubSub,
+    secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
+    onPublishError: (err, channel) => sentry.captureException(err, { extra: { channel } }),
+  }),
+})
+
+// On shutdown:
+process.on('SIGTERM', () => engine.dispose())
+```
+
+The Redis helper:
+- Embeds an instance UUID in every published event so a node never re-applies its own invalidate (no echo storm).
+- Delivers at-least-once; `engine.cache.invalidate*()` methods are idempotent.
+- Defaults to the `'duck-iam:invalidate'` channel. Pass `tenantId` for the multi-tenant case - see the callout below.
+- `onPublishError` (SEC-062) surfaces publish failures; without it, only a rate-limited `console.warn` fires.
+
+`createIamRedisInvalidator` only needs `publish` + `subscribe` + optional `unsubscribe`. Both ioredis and node-redis v4+ satisfy this shape directly.
+
+On a shared Redis instance, pass `tenantId` so the channel is auto-prefixed
+as `duck-iam:invalidate:tenant:${tenantId}`. Tenant A's revoke must never
+wipe tenant B's cache. The slug is validated against
+`/^[A-Za-z0-9_-]{1,64}$/` to prevent pub/sub-pattern injection from an
+attacker-controlled tenant identifier. Always pair with `secret` -
+unsigned mode lets any party with PUBLISH rights wipe caches across the
+fleet.
+
+---
+
+## Identity sourcing (never trust client headers)
+
+Identity must come from a verified source (cookie session, JWT verified
+by your auth middleware, mTLS). Never accept a raw request header as the
+subject ID - any unauth client can spoof `X-User-Id: admin` with curl.
+Since 2.1.0:
+
+- **Hono** `accessMiddleware` / `guard` read only `c.get('userId')` by default. No `x-user-id` fallback.
+- **Next** `withAccess` requires `getUserId` and throws at construction when omitted.
+- **Express / Nest** defaults read `req.user?.id` populated by upstream auth.
+- **Custom integrations** must extract identity from a trusted source before
+  invoking the engine.
+
+---
+
+## Admin CSRF protection (default-on)
+
+Admin mutation endpoints (`PUT /policies`, `PUT /roles`, `POST/DELETE
+/subjects/:id/roles`) run a `Sec-Fetch-Site` check by default in 2.1.0
+(SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
+form posts are rejected with 403, same-site / same-origin requests pass.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
+
+Cookie-authenticated admin UIs get CSRF protection without operator action.
+Pass `csrfCheck: false` only for server-to-server bearer-token or mTLS APIs
+that intentionally post cross-site. For stricter checks, pass a custom
+predicate (e.g. Origin allowlist). See the per-framework admin docs:
+[express](/duck-iam/integrations/server/express),
+[hono](/duck-iam/integrations/server/hono),
+[nest](/duck-iam/integrations/server/nest),
+[next](/duck-iam/integrations/server/next).
+
+---
+
+## Fail-closed defaults
+
+Production engines refuse three footguns at construction time:
+
+- `mode: 'production'` + `policyCombine: 'first-applicable'` - fast path can't distinguish "rule fired" from "default applied"; ctor throws.
+- `mode: 'production'` + `defaultEffect: 'allow'` - fail-open authorization. Refused unless you pass `allowFailOpen: true` to confirm.
+- Adapter returns more rows than `maxPolicies` / `maxRoles` (defaults `10_000`) - routes to fail-closed deny via `onError`.
+
+Subject-resolution and per-policy evaluation errors **also** fail closed: a thrown error is logged via `hooks.onError` / `hooks.onPolicyError` and the request denies. The engine never silently allows on error.
+
+`allowFailOpen: true` exists to support carefully scoped allowlist policies
+(e.g. internal admin tools where every action *should* require an explicit
+deny). In any deployment where the engine guards user-facing surfaces,
+keep `defaultEffect: 'deny'` and let your policies grant explicitly. Wire
+`onMetrics` and chart `failOpen` (SEC-044) - any non-zero rate under
+`defaultEffect: 'allow'` means a request landed without an applicable
+policy and was allowed by fallback.
+
+---
+
+## Recommended hook set
+
+Wire all five hooks once at startup; cost is zero when unwired.
+
+```typescript
+const engine = new IamEngine({
+  adapter,
+  hooks: {
+    onError: (err, req) => sentry.captureException(err, { extra: { req } }),
+    onPolicyError: (err, policyId) => sentry.captureException(err, { extra: { policyId } }),
+    onDeny: (req, decision) => auditLog.write({ kind: 'deny', req, decision }),
+    onMetrics: (event) => metrics.record(event),
+    afterEvaluate: (req, decision) => {
+      if (process.env.NODE_ENV !== 'production') console.debug('iam', req.action, decision.allowed)
+    },
+  },
+})
+```
+
+- `onError` - adapter failures, condition tree throws. Page on rate.
+- `onPolicyError` - one rotten row in the adapter. Page on rate.
+- `onDeny` - audit log. Required for SOC2 / ISO 27001.
+- `onMetrics` - latency + outcome telemetry. Wire to `createMetricsAggregator()` (next section).
+- `afterEvaluate` - debug only; allocates a `Decision` even in production mode. Disable in prod.
+
+---
+
+## Adapter timeout + IamHttpAdapter retry tuning
+
+`adapterTimeoutMs` (default `5_000`) caps every adapter read. On timeout, the engine aborts via `AbortController` and routes the error through `onError`. Set conservatively - a long timeout under load multiplies into queue depth.
+
+For `IamHttpAdapter`:
+
+```typescript
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
+
+new IamHttpAdapter({
+  baseUrl: process.env.IAM_API!,
+  timeoutMs: 2_000,           // per-request, layered with engine timeout
+  retries: 2,                 // 3 total attempts
+  backoffMs: 100,             // expo: 100 -> 200 -> 400 + jitter
+  circuitBreakerThreshold: 5, // open after 5 consecutive failures
+  circuitBreakerCooldownMs: 30_000,
+})
+```
+
+The circuit breaker:
+- **Closed** -> traffic flows.
+- **Open** -> reject immediately for `circuitBreakerCooldownMs`.
+- **Half-open** -> one probe allowed; success closes, failure re-opens.
+- Half-open concurrency is serialised - only one probe in flight.
+
+For Prisma / Drizzle / Redis adapters, configure retries in the driver itself (Prisma's `pool` settings, ioredis `retryStrategy`, etc.). The engine timeout still applies on top.
+
+---
+
+## Health check probe
+
+```typescript
+app.get('/healthz', async (_, res) => {
+  const h = await engine.healthCheck()
+  res.status(h.ok ? 200 : 503).json(h)
+})
+```
+
+Returns:
+
+```typescript
+{
+  ok: boolean,              // false -> orchestrator pulls the instance
+  adapter: 'ok' | 'fail',
+  cacheHitRate: number,     // 0..1
+  adapterLatencyMs: number,
+  lastError?: string,
+}
+```
+
+Probe runs one `listPolicies` with the configured `adapterTimeoutMs`. Cheap enough to call at 5-10 s intervals.
+
+---
+
+## Metrics aggregation
+
+Wire `createMetricsAggregator()` to `onMetrics` and expose its snapshot:
+
+```ts
+import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+
+const metrics = createMetricsAggregator({ sampleSize: 1000 })
+const engine = new IamEngine({ adapter, hooks: { onMetrics: metrics.record } })
+
+app.get('/metrics', (_, res) => res.json(metrics.snapshot()))
+// -> { total, allow, deny, failOpen, p50, p95, p99, max, samples }
+```
+
+Push the snapshot into your existing Prom / OTel pipeline at your scrape interval. Ring-buffer is fixed-size; no growth.
+
+`failOpen` (SEC-044) counts allow verdicts that fired solely because the
+engine's `defaultEffect: 'allow'` fallback matched (no applicable policy).
+Chart it to detect silent policy-set breakage that the boolean verdict
+alone hides. Under `defaultEffect: 'deny'` it stays at zero.
+
+---
+
+## Cold-start warmup
+
+Boot-time `engine.preload()` primes `mergedPolicyCache` so the first request after deploy doesn't pay the full load + index cost.
+
+```ts
+// app startup
+await engine.preload()
+server.listen(PORT)
+```
+
+Bench shows ~15x speedup on the first call vs cold.
+
+---
+
+## Shared cache flushing (multi-tenant)
+
+`flushSharedCaches()` wipes the process-wide compiled-regex cache
+(matches operator) and the dot-path segment cache. Both are module-globals
+shared across every Engine instance in the process. In multi-tenant
+deployments, a hostile tenant flooding distinct `matches` patterns or
+dot-paths evicts neighbours' hot entries; a periodic flush bounds the
+influence. SEC-050.
+
+```ts
+// Multi-tenant operators: flush every 5 minutes.
+setInterval(() => flushSharedCaches(), 5 * 60 * 1000)
+```
+
+Cost: the next request from every tenant pays one regex-compile per
+matches-pattern and one segment-split per dot-path. Tune the interval
+against your request volume and pattern variety.
+
+For a finer-grained API, `clearRegexCache()` and `clearPathCache()` are also
+exported from the package - call them individually if you only want to flush
+one cache.
+
+---
+
+## Snapshot policies + roles (env promotion)
+
+`engine.admin.export()` / `engine.admin.import()` round-trip schema-versioned configuration snapshots. Use for staging -> prod promotion, GitOps-style policy review, disaster recovery, or `git-`tracked policy bundles.
+
+```typescript
+// Export from staging
+const snapshot = await stagingEngine.admin.export()
+writeFileSync('iam-snapshot.json', JSON.stringify(snapshot, null, 2))
+
+// Import to prod
+const snapshot = JSON.parse(readFileSync('iam-snapshot.json', 'utf8'))
+const result = await prodEngine.admin.import(snapshot, { mode: 'replace' })
+// -> { policiesAdded, policiesDeleted, rolesAdded, rolesDeleted }
+```
+
+- `mode: 'merge'` (default) - upserts every snapshot entry; leaves existing rows alone.
+- `mode: 'replace'` - first deletes every existing policy / role *not* in the snapshot, then upserts. Use for full sync from a source of truth.
+
+Subject assignments are **intentionally excluded** - those are user data, vary per environment, and most adapters can't enumerate subjects cheaply. Migrate assignments separately if needed.
+
+---
+
+## SLO targets
+
+Numbers from the bench harness on a typical Node 22 / x86 box:
+
+| Path | Throughput |
+|---|---|
+| `evaluateFast()` raw | ~7.4 M ops/s |
+| `IamEngine.can()` cache-warm | ~140 k ops/s |
+| Adapter cold miss (IamMemoryAdapter) | adapter-bound |
+
+Target `IamEngine.can()` p95 < 1 ms at sustained QPS. If you breach that:
+
+1. Check `engine.stats.get()` for cache hit rate < 95% - `cacheTTL` too low, or `maxCacheSize` too small.
+2. Check `metrics.snapshot().samples` - are durations dominated by a few outliers? Adapter timeouts firing?
+3. Check `healthCheck()` `adapterLatencyMs` - adapter is the bottleneck. Tune driver pool / add a Redis cache in front.
+
+---
+
+## Pre-flight checklist
+
+Before flipping production traffic on:
+
+- [ ] `mode: 'production'` set
+- [ ] `defaultEffect` not flipped to `'allow'` (or `allowFailOpen: true` justified in PR)
+- [ ] `cacheTTL` tuned to revocation SLA
+- [ ] `IConfig.invalidator` wired if multi-instance
+- [ ] Redis invalidator `secret` set (SEC-046); `tenantId` if multi-tenant (CAVEAT-1); `onPublishError` wired (SEC-062)
+- [ ] Identity derived from verified source (SEC-101) - never `x-user-id` header
+- [ ] Admin routers' default CSRF check (SEC-103) kept on; `csrfCheck: false` only for bearer/mTLS APIs
+- [ ] All five hooks wired (`onError`, `onPolicyError`, `onDeny`, `onMetrics`, `afterEvaluate` only in dev)
+- [ ] `onMetrics` aggregator's `failOpen` charted under `defaultEffect: 'allow'` (SEC-044)
+- [ ] `adapterTimeoutMs` <= upstream SLO
+- [ ] IamHttpAdapter circuit breaker config sized to your fleet
+- [ ] `/healthz` route returns `engine.healthCheck()`
+- [ ] `/metrics` route returns aggregator snapshot
+- [ ] `engine.preload()` in startup
+- [ ] `engine.dispose()` in shutdown
+- [ ] `flushSharedCaches()` scheduled in multi-tenant deployments (SEC-050)
+- [ ] Admin routes mounted behind a real `authorize` callback (not a stub)
+- [ ] Policies bounded under `maxPolicies` (default `10_000`)

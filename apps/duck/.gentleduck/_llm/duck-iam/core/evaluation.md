@@ -43,7 +43,7 @@ This is fixed engine behavior - a restrictive policy cannot be overridden by a p
 
 ### 6. Return the decision
 
-The `Decision` object holds:
+The `AccessControl.IDecision` object holds:
 
 * `allowed` - boolean for code use
 * `effect` - winning `'allow'` or `'deny'`
@@ -52,7 +52,7 @@ The `Decision` object holds:
 * `duration` - evaluation time in milliseconds
 * `timestamp` - when the check happened
 
-In production mode the engine skips Decision construction and returns a plain boolean - see below.
+In production mode the engine skips `AccessControl.IDecision` construction and returns a plain boolean - see below.
 
 ***
 
@@ -61,7 +61,7 @@ In production mode the engine skips Decision construction and returns a plain bo
 The `mode` option chooses the evaluation path:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   mode: 'production', // or 'development' (default)
 })
@@ -69,7 +69,7 @@ const engine = new Engine({
 
 | Mode | Path | Output | Use for |
 | --- | --- | --- | --- |
-| `'development'` (default) | `evaluate()` | Full `Decision` with timing, rule/policy refs, reason | Local dev, `explain()`, debugging |
+| `'development'` (default) | `evaluate()` | Full `AccessControl.IDecision` with timing, rule/policy refs, reason | Local dev, `explain()`, debugging |
 | `'production'` | `evaluateFast()` | Plain `boolean` - no allocations | Deployed services |
 
 Production mode uses pre-computed `Map`s for unconditional rules (CASL-style) and a combined action+resource index for conditional rules. Action + resource lookups are O(1) instead of linear.
@@ -97,7 +97,7 @@ Three caches are layered for speed:
 | `rbacPolicyCache` | Result of `rolesToPolicy()` | `cacheTTL` |
 | `subjectCache` | Per-subject (`subjectId` -> resolved roles + attrs) | `cacheTTL`, max `maxCacheSize` entries |
 
-`engine.admin.*` writes invalidate the relevant caches automatically. Manual invalidation: `engine.invalidatePolicies()`, `engine.invalidateRoles()`, `engine.invalidateSubject(id)`, or `engine.invalidate()` for everything.
+`engine.admin.*` writes invalidate the relevant caches automatically. Manual invalidation: `engine.cache.invalidatePolicies()`, `engine.cache.invalidateRoles()`, `engine.cache.invalidateSubject(id)`, or `engine.cache.invalidate()` for everything.
 
 In multi-instance deploys, broadcast invalidation messages over Redis pub/sub or a cache-coherence protocol so each node clears its LRU when policies change. Without that, nodes may serve stale decisions for up to `cacheTTL`.
 
@@ -118,6 +118,6 @@ console.log(trace.policies) // per-policy breakdowns
 console.log(trace.rules)    // per-rule match details
 ```
 
-`explain()` runs the same pipeline but builds a richer trace object instead of a `Decision`. Side-effect hooks (`onDeny`, `afterEvaluate`) don't fire - it's read-only.
+`explain()` runs the same pipeline but builds a richer `IamExplain.IResult` trace instead of an `AccessControl.IDecision`. Side-effect hooks (`onDeny`, `afterEvaluate`) don't fire - it's read-only.
 
 See [explain and debug](/duck-iam/advanced/explain) for the full trace API.
