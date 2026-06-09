@@ -1,0 +1,86 @@
+```ts
+import type {
+  NarrowByTag, OmitTag, TagsOf, PayloadOf, IsDiscriminated, Matchers,
+} from '@gentleduck/ttest/discriminated'
+```
+
+Works on union types where every variant shares a `kind` / `type` / `tag` slot holding a literal.
+
+## NarrowByTag
+
+```ts
+type NarrowByTag<U, K extends keyof U, V>
+```
+
+Narrow `U` to the variant where `U[K] === V`.
+
+```ts
+type Shape =
+  | { kind: 'circle'; r: number }
+  | { kind: 'square'; side: number }
+
+type Circle = NarrowByTag<Shape, 'kind', 'circle'>  // { kind: 'circle'; r: number }
+```
+
+## OmitTag
+
+```ts
+type OmitTag<U, K extends keyof U>
+```
+
+Strip the tag property `K` from every variant of `U`.
+
+```ts
+type ShapePayload = OmitTag<Shape, 'kind'>
+// { r: number } | { side: number }
+```
+
+## TagsOf
+
+```ts
+type TagsOf<U, K extends keyof U>
+```
+
+Union of all tag values in slot `K`.
+
+```ts
+type Tags = TagsOf<Shape, 'kind'>  // 'circle' | 'square'
+```
+
+## PayloadOf
+
+```ts
+type PayloadOf<U, K extends keyof U, V>
+```
+
+Tag-stripped variant whose tag at `K` equals `V`.
+
+```ts
+type CirclePayload = PayloadOf<Shape, 'kind', 'circle'>  // { r: number }
+```
+
+## IsDiscriminated
+
+```ts
+type IsDiscriminated<U, K extends keyof U>
+```
+
+`true` if `U` has 2+ variants with distinct tag values at `K`.
+
+## Matchers
+
+```ts
+type Matchers<U, K extends keyof U, R> = {
+  [V in U extends unknown ? U[K] & PropertyKey : never]: (variant: NarrowByTag<U, K, V>) => R
+}
+```
+
+Pattern-match handler object — one method per tag value.
+
+```ts
+type ShapeMatchers = Matchers<Shape, 'kind', number>
+// {
+//   circle: (v: { kind: 'circle'; r: number }) => number
+//   square: (v: { kind: 'square'; side: number }) => number
+// }
+```

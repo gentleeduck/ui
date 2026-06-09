@@ -1,0 +1,115 @@
+```ts
+import type {
+  Year, Month, Day, TimeOf, IsLeapYear, DaysInMonth, DayOfWeek,
+  Duration, Milliseconds, Seconds, Minutes, Hours, Days, Weeks, AnyDuration,
+} from '@gentleduck/ttest/date'
+```
+
+ISO-8601 string types (`'2026-04-23'`, `'2026-04-23T12:34:56Z'`) plus branded duration scalars.
+
+## Year
+
+```ts
+type Year<S extends string>
+```
+
+Extract year from a date string.
+
+```ts
+type Y = Year<'2026-04-23'>  // 2026
+```
+
+## Month
+
+```ts
+type Month<S extends string>
+```
+
+Extract month (1–12, leading zero stripped).
+
+```ts
+type M = Month<'2026-04-23'>  // 4
+```
+
+## Day
+
+```ts
+type Day<S extends string>
+```
+
+Extract day of month.
+
+```ts
+type D = Day<'2026-04-23T12:00:00Z'>  // 23
+```
+
+## TimeOf
+
+```ts
+type TimeOf<S extends string>
+```
+
+Extract `HH:MM:SS` from an ISO datetime; `never` if absent.
+
+```ts
+type T = TimeOf<'2026-04-23T12:34:56Z'>  // '12:34:56'
+```
+
+## IsLeapYear
+
+```ts
+type IsLeapYear<Y extends number>
+```
+
+Gregorian leap year: divisible by 4, except centuries not divisible by 400. Implemented by string-suffix matching to avoid tuple arithmetic.
+
+```ts
+type a = IsLeapYear<2024>  // true
+type b = IsLeapYear<2100>  // false
+type c = IsLeapYear<2000>  // true
+```
+
+## DaysInMonth
+
+```ts
+type DaysInMonth<Y extends number, M extends number>
+```
+
+Days in `Month` of `Year`. February returns 29 in leap years.
+
+```ts
+type a = DaysInMonth<2024, 2>  // 29
+type b = DaysInMonth<2026, 2>  // 28
+type c = DaysInMonth<2026, 4>  // 30
+```
+
+## DayOfWeek
+
+```ts
+type DayOfWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7
+```
+
+ISO-8601 day of week: `Mon = 1` ... `Sun = 7`.
+
+## Duration brands
+
+```ts
+type Duration<U extends string> = number & { readonly [_UNIT]: U }
+
+type Milliseconds = Duration<'ms'>
+type Seconds      = Duration<'s'>
+type Minutes      = Duration<'min'>
+type Hours        = Duration<'h'>
+type Days         = Duration<'d'>
+type Weeks        = Duration<'w'>
+
+type AnyDuration = Milliseconds | Seconds | Minutes | Hours | Days | Weeks
+```
+
+Branded `number`s — runtime is still a number, but `Milliseconds` and `Seconds` are not assignable to each other.
+
+```ts
+function sleep(ms: Milliseconds) { /* ... */ }
+sleep(500 as Milliseconds)
+sleep(2 as Seconds)  // Error — Seconds is not Milliseconds.
+```

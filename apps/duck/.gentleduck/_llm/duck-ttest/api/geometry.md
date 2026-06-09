@@ -1,0 +1,96 @@
+```ts
+import type {
+  Point2D, Point3D, Size, Size3D,
+  Rect, Bounds, Bounds3D,
+  Vector2D, Vector3D,
+  AffineMatrix2D, AffineMatrix3D,
+  Direction, Origin,
+  Degrees, Radians,
+} from '@gentleduck/ttest/geometry'
+```
+
+Shape primitives shared by UI / canvas / physics APIs.
+
+## Points
+
+```ts
+interface Point2D { x: number; y: number }
+interface Point3D { x: number; y: number; z: number }
+```
+
+## Sizes
+
+```ts
+interface Size   { width: number; height: number }
+interface Size3D extends Size { depth: number }
+```
+
+## Rect
+
+```ts
+interface Rect extends Point2D, Size {}
+```
+
+Top-left corner plus size.
+
+## Bounds
+
+```ts
+interface Bounds   { minX: number; minY: number; maxX: number; maxY: number }
+interface Bounds3D extends Bounds { minZ: number; maxZ: number }
+```
+
+Axis-aligned bounds described by min/max corners.
+
+## Vectors
+
+```ts
+type Vector2D = Point2D
+type Vector3D = Point3D
+```
+
+Same shape as `Point2D` / `Point3D` but semantically a direction or offset.
+
+## Affine matrices
+
+```ts
+type AffineMatrix2D = readonly [number, number, number, number, number, number, number, number, number]  // 3x3
+type AffineMatrix3D = readonly [/* 16 numbers */]  // 4x4
+```
+
+Row-major homogeneous transforms.
+
+## Direction
+
+```ts
+type Direction = 'north' | 'south' | 'east' | 'west'
+              | 'northeast' | 'northwest' | 'southeast' | 'southwest'
+```
+
+Cardinal and intercardinal directions.
+
+## Origin
+
+```ts
+type Origin =
+  | 'top-left' | 'top-center' | 'top-right'
+  | 'center-left' | 'center' | 'center-right'
+  | 'bottom-left' | 'bottom-center' | 'bottom-right'
+```
+
+Where `(0, 0)` of a rect refers to.
+
+## Angle brands
+
+```ts
+type Degrees = number & { readonly [DEG_UNIT]: 'deg' }
+type Radians = number & { readonly [RAD_UNIT]: 'rad' }
+```
+
+Branded scalars — `Degrees` and `Radians` are not assignable to each other.
+
+```ts
+function rotate(angle: Radians) { /* ... */ }
+rotate(Math.PI as Radians)
+rotate(90 as Degrees)  // Error.
+```

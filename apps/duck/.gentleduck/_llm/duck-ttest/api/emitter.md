@@ -1,0 +1,105 @@
+```ts
+import type {
+  EventMap, Listener, Unsubscribe,
+  EventPayload, EventNames, EmitArgs,
+  Emitter, PubSub, Handlers, EventAction,
+} from '@gentleduck/ttest/emitter'
+```
+
+Type-level scaffolding for typed emitters. Define an `EventMap`; the interfaces here constrain method signatures automatically.
+
+## EventMap
+
+```ts
+type EventMap = Record<string, unknown>
+```
+
+Map of event name → payload type.
+
+```ts
+type AppEvents = {
+  'user.login': { id: string }
+  'user.logout': void
+}
+```
+
+## Listener / Unsubscribe
+
+```ts
+type Listener<P = unknown> = (payload: P) => void
+type Unsubscribe = () => void
+```
+
+## EventPayload / EventNames
+
+```ts
+type EventPayload<M extends EventMap, E extends keyof M> = M[E]
+type EventNames<M extends EventMap> = keyof M & string
+```
+
+```ts
+type Login = EventPayload<AppEvents, 'user.login'>  // { id: string }
+type Names = EventNames<AppEvents>                  // 'user.login' | 'user.logout'
+```
+
+## EmitArgs
+
+```ts
+type EmitArgs<M extends EventMap, E extends keyof M> = M[E] extends void ? [] : [payload: M[E]]
+```
+
+Variadic arg shape — `[]` for `void` payloads, `[payload]` otherwise.
+
+## Emitter
+
+```ts
+interface Emitter<M extends EventMap> {
+  on<E extends keyof M>(event: E, listener: Listener<M[E]>): Unsubscribe
+  off<E extends keyof M>(event: E, listener: Listener<M[E]>): void
+  once<E extends keyof M>(event: E, listener: Listener<M[E]>): Unsubscribe
+  emit<E extends keyof M>(event: E, ...args: EmitArgs<M, E>): void
+}
+```
+
+Drop-in shape for typed emitter classes.
+
+## PubSub
+
+```ts
+interface PubSub<M extends EventMap> {
+  publish<E extends keyof M>(event: E, ...args: EmitArgs<M, E>): void
+  subscribe<E extends keyof M>(event: E, listener: Listener<M[E]>): Unsubscribe
+  subscribeAll(listener: <E extends keyof M>(event: E, payload: M[E]) => void): Unsubscribe
+}
+```
+
+Publish/subscribe variant — `subscribeAll` receives every event with its name.
+
+## Handlers
+
+```ts
+type Handlers<M extends EventMap, R = void> = { [E in keyof M]: (payload: M[E]) => R }
+```
+
+Handler record — one function per event.
+
+```ts
+const handlers: Handlers<AppEvents> = {
+  'user.login':  ({ id }) => console.log(`login ${id}`),
+  'user.logout': ()       => console.log('bye'),
+}
+```
+
+## EventAction
+
+```ts
+type EventAction<M extends EventMap, Tag extends string = 'type', Data extends string = 'payload'>
+```
+
+Union of `{ [Tag]: E; [Data]: M[E] }` actions for redux-style reducers.
+
+```ts
+type Action = EventAction<AppEvents>
+// | { type: 'user.login'; payload: { id: string } }
+// | { type: 'user.logout'; payload: void }
+```

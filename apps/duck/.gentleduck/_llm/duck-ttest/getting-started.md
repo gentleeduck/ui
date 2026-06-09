@@ -1,0 +1,138 @@
+This page walks through a single failing test, the error it produces, and how to fix it. Everything happens at compile time — there is no test runner to install and no command to add to `package.json` beyond `tsc --noEmit`.
+
+## 1. Set up a test folder
+
+Create a folder for type tests anywhere covered by your `tsconfig.json`. A common convention:
+
+```
+src/
+  __type_tests__/
+    user.test-d.ts
+    schema.test-d.ts
+```
+
+The `.test-d.ts` suffix is purely a convention — duck-ttest doesn't care about file names.
+
+## 2. Write a passing test
+
+```ts title="src/__type_tests__/user.test-d.ts"
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type User = { id: number; name: string }
+
+type _Id_Is_Number = AssertTrue<
+  Equal<User['id'], number>,
+  'User.id should be number'
+>
+```
+
+`tsc --noEmit` reports no errors. Done.
+
+## 3. Make it fail
+
+Change the assertion target:
+
+```ts
+type _Id_Is_Number = AssertTrue<
+  Equal<User['id'], string>,
+  'User.id should be number'
+>
+```
+
+Run `tsc --noEmit`:
+
+```
+src/__type_tests__/user.test-d.ts:5:31 - error TS2344:
+  Type 'false' does not satisfy the constraint 'true'.
+```
+
+`AssertTrue<T extends true, Msg extends string>` constrains `T` to `true`. When the constraint fails, the compiler points at the assertion line, and the second generic — your message — is right there in the source.
+
+## 4. Use the message
+
+The message becomes useful when you have a wall of assertions:
+
+```ts
+type assertions = [
+  AssertTrue<Equal<User['id'], number>, 'User.id should be number'>,
+  AssertTrue<Equal<User['name'], string>, 'User.name should be string'>,
+  AssertTrue<Equal<keyof User, 'id' | 'name'>, 'User keys should be id and name'>,
+]
+```
+
+When any one of these breaks, the error includes the surrounding tuple index — narrow it down with the message string.
+
+## 5. Test that something is **not** assignable
+
+`AssertFalse` flips the polarity:
+
+```ts
+import type { AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type _Number_Is_Not_String = AssertFalse<
+  Equal<number, string>,
+  'number must not equal string'
+>
+```
+
+For pure assignability use `IfExtends` from `@gentleduck/ttest/conditional`:
+
+```ts
+import type { IfExtends } from '@gentleduck/ttest/conditional'
+
+type _Owner_Subset = AssertTrue<
+  IfExtends<'admin', 'admin' | 'editor' | 'viewer', true, false>,
+  'admin should be a member of role union'
+>
+```
+
+## 6. Wire it into CI
+
+Add a script to `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test:types": "tsc --noEmit"
+  }
+}
+```
+
+Then run it in CI:
+
+```yaml title=".github/workflows/ci.yml"
+- run: bun install
+- run: bun run test:types
+```
+
+That's the whole runner.
+
+## 7. Test alongside runtime behavior with vitest
+
+If you already use vitest, drop type tests right next to runtime tests:
+
+```ts title="src/user.test.ts"
+import { expect, it } from 'vitest'
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import { createUser, type User } from './user'
+
+it('creates a user', () => {
+  expect(createUser('a')).toEqual({ id: expect.any(Number), name: 'a' })
+})
+
+// Compile-time invariants:
+type _ = [
+  AssertTrue<Equal<ReturnType<typeof createUser>, User>, 'must return User'>,
+]
+```
+
+Vitest runs the runtime test; `tsc` runs the type test. They live in the same file.
+
+## Where next
+
+* [Core / Assertions](/duck-ttest/core/assertions) — every assertion, with edge cases.
+* [Core / Type-level testing](/duck-ttest/core/type-level-testing) — how this composes with `@ts-expect-error` and `tsd`.
+* [Guides / Catching regressions](/duck-ttest/guides/catching-regressions) — folding type tests into a vitest project.

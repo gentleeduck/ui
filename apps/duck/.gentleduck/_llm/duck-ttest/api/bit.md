@@ -1,0 +1,129 @@
+```ts
+import type {
+  Bit, BitAnd, BitOr, BitXor, BitNot,
+  PopCount, FromBits, ShiftLeft, ShiftRight,
+} from '@gentleduck/ttest/bit'
+```
+
+Bits are modeled as fixed-length little-endian tuples of `0 | 1`. TypeScript doesn't model numbers as binary, so each helper costs recursion depth per bit. Keep tuple length modest — 8-bit and 16-bit shapes are comfortable, 32+ bits start to strain the type-checker.
+
+## Bit
+
+```ts
+type Bit = 0 | 1
+```
+
+The single-bit alphabet. Use as the constraint on every tuple-shaped generic in this module.
+
+```ts
+type Byte = readonly [Bit, Bit, Bit, Bit, Bit, Bit, Bit, Bit]
+```
+
+## BitAnd
+
+```ts
+type BitAnd<A extends readonly Bit[], B extends readonly Bit[]>
+```
+
+Element-wise logical AND over two same-length bit tuples.
+
+```ts
+type a = BitAnd<[1, 1, 0, 1], [1, 0, 1, 1]>  // [1, 0, 0, 1]
+type b = BitAnd<[1, 1], [1, 1]>              // [1, 1]
+```
+
+## BitOr
+
+```ts
+type BitOr<A extends readonly Bit[], B extends readonly Bit[]>
+```
+
+Element-wise logical OR.
+
+```ts
+type a = BitOr<[1, 0, 0, 1], [0, 1, 0, 1]>  // [1, 1, 0, 1]
+```
+
+## BitXor
+
+```ts
+type BitXor<A extends readonly Bit[], B extends readonly Bit[]>
+```
+
+Element-wise XOR.
+
+```ts
+type a = BitXor<[1, 1, 0, 1], [1, 0, 1, 1]>  // [0, 1, 1, 0]
+type b = BitXor<[1, 1, 1], [1, 1, 1]>        // [0, 0, 0]
+```
+
+## BitNot
+
+```ts
+type BitNot<A extends readonly Bit[]>
+```
+
+Element-wise inversion.
+
+```ts
+type a = BitNot<[1, 0, 1]>     // [0, 1, 0]
+type b = BitNot<[0, 0, 0, 0]>  // [1, 1, 1, 1]
+```
+
+## PopCount
+
+```ts
+type PopCount<A extends readonly Bit[], Acc extends unknown[] = []>
+```
+
+Number of `1` bits in the tuple. The `Acc` parameter is internal — don't pass it explicitly.
+
+```ts
+type a = PopCount<[1, 0, 1, 1, 0]>  // 3
+type b = PopCount<[0, 0, 0, 0]>     // 0
+type c = PopCount<[1, 1, 1, 1]>     // 4
+```
+
+## FromBits
+
+```ts
+type FromBits<B extends readonly Bit[]>
+```
+
+Convert a little-endian bit tuple to a number literal.
+
+```ts
+type a = FromBits<[1, 0, 1]>     // 5    (1*1 + 0*2 + 1*4)
+type b = FromBits<[1, 1, 1, 1]>  // 15
+type c = FromBits<[0, 0, 0]>     // 0
+```
+
+Edge case: arithmetic happens via tuple length, so the result is bounded by the recursive arithmetic limits of [`number`](/duck-ttest/api/number). Larger numbers will hit `Type instantiation is excessively deep`.
+
+## ShiftLeft
+
+```ts
+type ShiftLeft<A extends readonly Bit[], K extends number>
+```
+
+Fixed-length left shift. Drops the high bit, fills the low end with `0`.
+
+```ts
+type a = ShiftLeft<[1, 0, 1, 0], 1>  // [0, 1, 0, 1]
+type b = ShiftLeft<[1, 0, 1, 0], 2>  // [0, 0, 1, 0]
+```
+
+## ShiftRight
+
+```ts
+type ShiftRight<A extends readonly Bit[], K extends number>
+```
+
+Fixed-length right shift. Drops the low bit, fills the high end with `0`.
+
+```ts
+type a = ShiftRight<[1, 0, 1, 0], 1>  // [0, 1, 0, 0]
+type b = ShiftRight<[1, 1, 1, 1], 2>  // [1, 1, 0, 0]
+```
+
+Edge case across all helpers: tuples are *little-endian* — index 0 is the least-significant bit. This matters when interpreting `FromBits` results or comparing with hand-written binary literals.

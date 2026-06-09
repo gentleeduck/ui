@@ -1,0 +1,86 @@
+```ts
+import type {
+  ReturnTypeSafe, ParametersSafe, Curried, Promisify,
+} from '@gentleduck/ttest/function'
+```
+
+Safer variants of the built-in `ReturnType` / `Parameters` (they degrade to `never` instead of erroring on non-callable input) plus two function transforms. For class constructors see [`class`](/duck-ttest/api/class); for async-aware return types see [`async`](/duck-ttest/api/async).
+
+## ReturnTypeSafe
+
+```ts
+type ReturnTypeSafe<F> = F extends (...args: any[]) => infer R ? R : never
+```
+
+Return type of `F`, or `never` for non-functions. Unlike the built-in `ReturnType<T>`, this does not require `T extends (...args: any) => any` at the call site, so it composes safely inside larger conditionals.
+
+```ts
+type a = ReturnTypeSafe<() => string>           // string
+type b = ReturnTypeSafe<(n: number) => boolean> // boolean
+type c = ReturnTypeSafe<string>                 // never
+type d = ReturnTypeSafe<undefined>              // never
+```
+
+```ts
+// Compose without prior callable check.
+type ResultOf<F> = ReturnTypeSafe<F> | 'no-fn'
+type a = ResultOf<() => 1>    // 1 | 'no-fn'
+type b = ResultOf<number>     // 'no-fn'   (never collapses out of the union)
+```
+
+## ParametersSafe
+
+```ts
+type ParametersSafe<F> = F extends (...args: infer P) => any ? P : never
+```
+
+Parameter tuple, or `never` for non-functions.
+
+```ts
+type a = ParametersSafe<(x: number, y: string) => void>  // [x: number, y: string]
+type b = ParametersSafe<() => 1>                          // []
+type c = ParametersSafe<{ kind: 'data' }>                 // never
+```
+
+Edge case: overloaded function types collapse to the last overload's parameters — this matches the built-in `Parameters` behavior.
+
+## Curried
+
+```ts
+type Curried<F>
+```
+
+Curried form: an n-ary function becomes a chain of unary functions.
+
+```ts
+type f = (a: number, b: string, c: boolean) => Date
+type c = Curried<f>
+//   ^? (a: number) => (b: string) => (c: boolean) => Date
+```
+
+```ts
+// Zero-arg and unary functions are pass-through.
+type a = Curried<() => 1>            // () => 1
+type b = Curried<(x: number) => 1>   // (x: number) => 1
+```
+
+## Promisify
+
+```ts
+type Promisify<F> = F extends (...args: infer P) => infer R ? (...args: P) => Promise<R> : never
+```
+
+Wrap the return type of `F` in `Promise`. Use to derive the async signature of a sync API surface, or to type a `.then`-able adapter.
+
+```ts
+type f = (n: number) => string
+type p = Promisify<f>  // (n: number) => Promise<string>
+```
+
+```ts
+type Sync  = { read(): string; write(s: string): void }
+type Async = { [K in keyof Sync]: Promisify<Sync[K]> }
+//          ^? { read: () => Promise<string>; write: (s: string) => Promise<void> }
+```
+
+Edge case: `Promisify<F>` on a function that already returns `Promise<T>` produces `(...args: P) => Promise<Promise<T>>`. Use [`Awaited`](/duck-ttest/api/promise) or [`DeepAwaited`](/duck-ttest/api/promise) on the result if you need flat promises.

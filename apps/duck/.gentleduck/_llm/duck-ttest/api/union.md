@@ -1,0 +1,98 @@
+```ts
+import type {
+  UnionToIntersection,
+  ExcludeKeys, OverlappingKeys, Only, XOR,
+} from '@gentleduck/ttest/union'
+```
+
+Set-theoretic operations on unions and on the keys of two object types. Pair with [`object`](/duck-ttest/api/object) for the broader key-arithmetic suite and [`discriminated`](/duck-ttest/api/discriminated) when the union is tagged.
+
+## UnionToIntersection
+
+```ts
+type UnionToIntersection<U> =
+  (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+```
+
+Convert a union to an intersection by exploiting the contravariant position of function parameters. `A | B` → `A & B`.
+
+```ts
+type a = UnionToIntersection<{ a: 1 } | { b: 2 }>
+//   ^? { a: 1 } & { b: 2 }
+
+type b = UnionToIntersection<'x' | 'y'>
+//   ^? 'x' & 'y'   (= never — string literals are disjoint)
+```
+
+```ts
+// Combine handler shapes from a union of event objects.
+type Handlers<U> = UnionToIntersection<U extends { kind: infer K extends string }
+  ? { [P in K]: (e: U) => void }
+  : never>
+```
+
+Edge case: the helper consumes its input contravariantly. `UnionToIntersection<any>` is `any` and `UnionToIntersection<never>` is `unknown` — both are unhelpful, so check with [`IsAny`](/duck-ttest/api/any) / [`IsNever`](/duck-ttest/api/any) first.
+
+## ExcludeKeys
+
+```ts
+type ExcludeKeys<O, K extends keyof any> = Omit<O, Extract<keyof O, K>>
+```
+
+Remove keys `K` from object type `O`. Equivalent to `Omit` but the constraint on `K` is `keyof any` (any `PropertyKey`) rather than `keyof O`, so the helper does not error when `K` is wider than `O`'s keys.
+
+```ts
+type a = ExcludeKeys<{ a: 1; b: 2; c: 3 }, 'b' | 'c'>  // { a: 1 }
+type b = ExcludeKeys<{ a: 1 }, 'missing'>              // { a: 1 }   (vs `StrictOmit`, which errors)
+```
+
+## OverlappingKeys
+
+```ts
+type OverlappingKeys<A, B> = Extract<keyof A, keyof B>
+```
+
+Keys present in both `A` and `B`.
+
+```ts
+type a = OverlappingKeys<{ a: 1; b: 2 }, { b: 3; c: 4 }>  // 'b'
+type b = OverlappingKeys<{ a: 1 }, { b: 2 }>              // never
+```
+
+## Only
+
+```ts
+type Only<A, B> = { [K in Exclude<keyof A, keyof B>]: A[K] }
+```
+
+Properties of `A` whose keys are not in `B`. The set-difference building block for `XOR`.
+
+```ts
+type a = Only<{ a: 1; common: 2 }, { common: 3; b: 4 }>
+//   ^? { a: 1 }
+```
+
+## XOR
+
+```ts
+type XOR<A, B> = Only<A, B> | Only<B, A>
+```
+
+Symmetric difference: keys exclusive to `A` or `B`, not both. Useful for "one shape or the other" payloads.
+
+```ts
+type a = XOR<{ a: number; common: string }, { b: boolean; common: string }>
+//   ^? { a: number } | { b: boolean }
+```
+
+```ts
+// "Pass a URL or an inline file, never both."
+type Source = XOR<{ url: string }, { contents: string }>
+declare function load(src: Source): void
+
+load({ url: '/x' })                         // ok
+load({ contents: 'hi' })                    // ok
+load({ url: '/x', contents: 'hi' })         // Error
+```
+
+Edge case: for objects that share *no* keys, `XOR<A, B>` collapses to `A | B`. Prefer [`MergeExclusive`](/duck-ttest/api/object) when you want a stricter "at most one shape" constraint that also rejects the empty-key overlap case.

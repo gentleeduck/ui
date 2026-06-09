@@ -1,0 +1,64 @@
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+```
+
+Two thin assertion types that surface a string message at the point of failure. The predicate goes in the first generic; a human-readable message goes in the second. When the predicate fails its constraint, the compiler reports the assertion line with the message visible in the diagnostic. Pair with [`Equal`](/duck-ttest/api/equality), [`NotEqual`](/duck-ttest/api/equality), or any boolean utility.
+
+## AssertTrue
+
+```ts
+type AssertTrue<T extends true, Msg extends string> = T extends true ? true : never & Msg
+```
+
+Asserts that `T` is `true`. On failure the compiler emits `TS2344: Type 'false' does not satisfy the constraint 'true'` on the assertion line.
+
+```ts
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type pass = AssertTrue<Equal<1, 1>, '1 equals 1'>
+type fail = AssertTrue<Equal<1, 2>, '1 does not equal 2'>
+//          ^ TS2344: Type 'false' does not satisfy the constraint 'true'.
+```
+
+```ts
+// Compose multiple checks into a tuple. The compiler reports the failing index.
+type _ = [
+  AssertTrue<Equal<1, 1>, 'one equals one'>,
+  AssertTrue<Equal<{ a: 1 }, { a: 1 }>, 'shape equality'>,
+]
+```
+
+Edge cases:
+
+* The constraint is `extends true`, not `extends boolean`. `AssertTrue<boolean, ...>` fails because `boolean` is `true | false`.
+* `any` satisfies `extends true` — guard public types with [`IsAny`](/duck-ttest/api/any) before asserting.
+
+## AssertFalse
+
+```ts
+type AssertFalse<T extends false, Msg extends string> = T extends false ? true : never & Msg
+```
+
+Negative-polarity twin of `AssertTrue`. Use when negation is the natural reading rather than wrapping in `Not<...>`.
+
+```ts
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type pass = AssertFalse<Equal<1, 2>, '1 must not equal 2'>
+type fail = AssertFalse<Equal<1, 1>, '1 must not equal 2'>
+//          ^ TS2344: Type 'true' does not satisfy the constraint 'false'.
+```
+
+```ts
+import type { IsAny } from '@gentleduck/ttest/any'
+
+// Lock public types against any leaks.
+type _no_leak = AssertFalse<IsAny<User['id']>, 'User.id must not be any'>
+```
+
+Edge cases:
+
+* `AssertFalse<boolean, ...>` fails — `boolean` is not exactly `false`.
+* `AssertFalse<never, ...>` passes because `never extends false` holds vacuously. Prefer [`IsNever`](/duck-ttest/api/any) when `never` is the actual target.
+
+For the broader assertion workflow see [Core / Assertions](/duck-ttest/core/assertions).

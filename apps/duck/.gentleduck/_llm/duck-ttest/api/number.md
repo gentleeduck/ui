@@ -1,0 +1,162 @@
+```ts
+import type {
+  IsZero, IsNegative, IsPositive,
+  Abs, Negate, Inc, Dec,
+  Add, Sub, Mul, Div, Mod, Pow,
+  Gt, Lt, Gte, Lte, Eq, Compare,
+  IsEven, IsOdd,
+  NumberToString, StringToNumber,
+  Integer, Positive, Negative, NonNegative, Finite,
+  Sum, Max, Min, Clamp,
+  EnumerateRange, IsBetween, DigitsOf,
+  GCD, LCM, Factorial, IsPowerOfTwo,
+} from '@gentleduck/ttest/number'
+```
+
+Arithmetic implemented via tuple-length recursion. TypeScript's recursion limit caps practical N at about 999 — most helpers note their effective cap.
+
+## Sign guards
+
+```ts
+type IsZero    <N extends number>
+type IsNegative<N extends number>
+type IsPositive<N extends number>
+```
+
+```ts
+type a = IsZero<0>      // true
+type b = IsNegative<-3> // true
+type c = IsPositive<5>  // true
+```
+
+## Abs / Negate
+
+```ts
+type Abs   <N extends number>
+type Negate<N extends number>
+```
+
+```ts
+type a = Abs<-3>     // 3
+type b = Negate<3>   // -3
+type c = Negate<-3>  // 3
+```
+
+## Inc / Dec
+
+```ts
+type Inc<N extends number>  // N + 1
+type Dec<N extends number>  // N - 1; never for 0
+```
+
+## Add / Sub / Mul / Div / Mod / Pow
+
+```ts
+type Add<A, B>  // both non-negative
+type Sub<A, B>  // A >= B; else never
+type Mul<A, B>  // tuple-recursion cap: A * B <= 999
+type Div<A, B>  // floor(A / B); B must be positive
+type Mod<A, B>  // A mod B; B must be positive
+type Pow<A, B>  // A ** B; tuple cost is A^B
+```
+
+```ts
+type a = Add<2, 3>  // 5
+type b = Sub<5, 2>  // 3
+type c = Mul<4, 5>  // 20
+type d = Div<10, 3> // 3
+type e = Mod<10, 3> // 1
+type f = Pow<2, 5>  // 32
+```
+
+## Comparisons
+
+```ts
+type Gt <A extends number, B extends number>
+type Lt <A extends number, B extends number>
+type Gte<A extends number, B extends number>
+type Lte<A extends number, B extends number>
+type Eq <A extends number, B extends number>
+type Compare<A extends number, B extends number>  // -1 | 0 | 1
+```
+
+## Parity
+
+```ts
+type IsEven<N extends number>
+type IsOdd <N extends number>
+```
+
+## String conversion
+
+```ts
+type NumberToString<N extends number> = `${N}`
+type StringToNumber<S extends string>
+```
+
+## Refinements
+
+```ts
+type Integer    <N extends number = number>  // bigint-shaped: no decimal point
+type Positive   <N extends number = number>  // > 0
+type Negative   <N extends number = number>  // < 0
+type NonNegative<N extends number = number>  // >= 0
+type Finite     <N extends number = number>  // excludes Infinity / -Infinity / NaN
+```
+
+## Aggregations
+
+```ts
+type Sum  <T extends readonly number[]>
+type Max  <T extends readonly number[]>
+type Min  <T extends readonly number[]>
+type Clamp<N extends number, Lo extends number, Hi extends number>
+```
+
+```ts
+type a = Sum<[1, 2, 3]>     // 6
+type b = Max<[3, 7, 2, 8]>  // 8
+type c = Min<[3, 7, 2, 8]>  // 2
+type d = Clamp<10, 0, 5>    // 5
+```
+
+## EnumerateRange
+
+```ts
+type EnumerateRange<Start extends number, End extends number>
+```
+
+Union of integers in `[Start, End)`.
+
+```ts
+type r = EnumerateRange<3, 7>  // 3 | 4 | 5 | 6
+```
+
+## IsBetween
+
+```ts
+type IsBetween<N extends number, Lo extends number, Hi extends number>
+```
+
+`Lo <= N <= Hi`.
+
+## DigitsOf
+
+```ts
+type DigitsOf<N extends number>
+```
+
+Tuple of decimal digits.
+
+```ts
+type a = DigitsOf<1205>  // ['1', '2', '0', '5']
+```
+
+## GCD / LCM / Factorial / IsPowerOfTwo
+
+```ts
+type GCD     <A, B>            // Euclidean
+type LCM     <A, B>
+type Factorial<N>              // practical cap ~ N <= 12
+type IsPowerOfTwo<N>           // 1 | 2 | 4 | 8 | ... | 1024
+```
