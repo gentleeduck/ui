@@ -9,7 +9,7 @@ section: Providers
 ```typescript
 import { apiKey } from '@gentleduck/auth/providers/api-key'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   apiKeys: {
     prefix: 'ak_live_',    // user-visible token prefix
@@ -109,11 +109,11 @@ const { token, key } = await auth.apiKeys.rotate({ keyId })
 In handlers, check scopes against the resolved session:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.post('/api/logs', async (req, res) => {
   const ctx = await auth.resolveSession(req)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
   if (ctx.session.kind === 'apikey') {
     await auth.apiKeys.requireScopes(ctx.session.apiKeyId, ['logs:write'])
@@ -132,7 +132,7 @@ For browser-issued sessions (`kind: 'user'`), `requireScopes` is a no-op
 A common pattern is two prefixes for dev vs prod:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   apiKeys: {
     prefix: process.env.NODE_ENV === 'production' ? 'ak_live_' : 'ak_test_',
   },

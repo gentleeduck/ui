@@ -12,7 +12,7 @@ and a pointer to the deep-dive.
 
 ## Core terms
 
-### `AuthRoot`
+### `AuthEngine`
 
 The single runtime entry point. You construct it once at boot with all
 config (transport, stores, providers, channels, presets) and pass it to
@@ -22,7 +22,7 @@ See [Core overview ->](/duck-auth/core).
 
 ### Facet
 
-A typed sub-object on `AuthRoot` exposing a single concern (sessions,
+A typed sub-object on `AuthEngine` exposing a single concern (sessions,
 identities, passwords, providers, MFA, flows, API keys, M2M, orgs,
 plugins, operations, idempotency, hijack, anomaly). All 14 facets are
 described in [Core overview](/duck-auth/core).
@@ -76,9 +76,9 @@ See [Transports ->](/duck-auth/core/transports).
 
 ### Adapter
 
-A bundle of storage backends - `Identity.IStore`, `Session.IStore`,
-`Credential.IStore`, optionally `Org.IStore`. duck-auth ships
-`MemoryAuthAdapter`, the Redis bundle, and a SQL bridge with Drizzle
+A bundle of storage backends - `AuthIdentity.IStore`, `AuthSession.IStore`,
+`AuthCredential.IStore`, optionally `AuthOrg.IStore`. duck-auth ships
+`AuthMemoryAdapter`, the Redis bundle, and a SQL bridge with Drizzle
 references.
 
 See [Adapters ->](/duck-auth/adapters).
@@ -204,7 +204,7 @@ duck-auth ships `AesGcmDataAtRest` (local key) and
 ### `strict()`
 
 The boot-time validator. Called as `auth.strict({ env: 'production' })`,
-it rejects insecure configuration (`MemoryAdapter` in production,
+it rejects insecure configuration (`IamMemoryAdapter` in production,
 `NoopLimiter`, `secure: false` cookies, etc.) before the first
 request.
 
@@ -228,7 +228,7 @@ multiple orgs with different roles in each. Pairs with
 
 ## Error terms
 
-### `AuthErrorObject`
+### `AuthError`
 
 The typed error class. Carries `code` (closed set of `AUTH/*`
 strings), `status` (HTTP), and `meta` (denylist-redacted on

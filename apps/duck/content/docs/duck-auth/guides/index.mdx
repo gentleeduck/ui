@@ -32,16 +32,16 @@ bunx @gentleduck/auth migrate pg > drizzle/0001_auth.sql
 psql $DATABASE_URL < drizzle/0001_auth.sql
 ```
 
-<Step>Wire `AuthRoot`</Step>
+<Step>Wire `AuthEngine`</Step>
 
 ```typescript title="src/lib/auth.ts"
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import { Argon2idHasher, AuthRoot } from '@gentleduck/auth/core'
+import { Argon2idHasher, AuthEngine } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
 import { createDrizzlePgBridge } from '@gentleduck/auth/adapters/drizzle/pg'
 import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
-import { MemoryLimiter } from '@gentleduck/auth/limiters/memory'
+import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
 import { magicLink } from '@gentleduck/auth/providers/magic-link'
 import { password } from '@gentleduck/auth/providers/password'
 import { ResendChannel } from '@gentleduck/auth/channels/resend'
@@ -52,7 +52,7 @@ const db = drizzle(pool)
 const bridge = createDrizzlePgBridge(db, schema)
 const sql = createSqlAuthStores({ bridge })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   baseUrl: 'http://localhost:3000',
   transport: new CookieTransport({ secure: false, name: 'duck-sid' }),
   stores: {
@@ -60,7 +60,7 @@ export const auth = new AuthRoot({
     credentials: sql.credentials,
     sessions: sql.sessions,
   },
-  limiter: new MemoryLimiter({ max: 5, windowMs: 60_000 }),
+  limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
   passwords: { hasher: new Argon2idHasher() },
 })
 
@@ -93,7 +93,7 @@ auth.strict({ env: process.env.NODE_ENV === 'production' ? 'production' : 'devel
 
 ```typescript title="src/server.ts"
 import express from 'express'
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 import {
   mountProviderBegin,
   mountSession,
@@ -115,7 +115,7 @@ app.post('/auth/providers/:providerId/begin', (req, res, next) =>
 app.get('/api/me', async (req, res, next) => {
   try {
     const ctx = await auth.resolveSession(req)
-    if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+    if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
     res.json({ identity: ctx.identity })
   } catch (err) {
     next(err)
@@ -123,7 +123,7 @@ app.get('/api/me', async (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  if (err instanceof AuthErrorObject) {
+  if (err instanceof AuthError) {
     res.status(err.status).json(err.toJSON())
     return
   }

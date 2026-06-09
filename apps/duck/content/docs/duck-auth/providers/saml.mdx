@@ -24,7 +24,7 @@ const client = new SAML({
   // ... other @node-saml options
 })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     samlProvider({
@@ -137,7 +137,7 @@ function buildAuthForTenant(tenant: TenantConfig) {
     // ...
   })
 
-  return new AuthRoot({
+  return new AuthEngine({
     // ...
     providers: [
       samlProvider({
@@ -151,7 +151,7 @@ function buildAuthForTenant(tenant: TenantConfig) {
 }
 ```
 
-Or cache `AuthRoot` instances per tenant and pick the right one per request.
+Or cache `AuthEngine` instances per tenant and pick the right one per request.
 
 ## SP metadata
 

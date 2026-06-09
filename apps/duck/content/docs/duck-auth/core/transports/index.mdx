@@ -10,14 +10,14 @@ A transport is the bridge between the in-memory `Session` and the wire.
 It owns three operations:
 
 ```typescript
-interface Transport.ITransport {
+interface AuthTransport.ITransport {
   extract(req: { headers: Headers }): Promise<{ kind: 'session-id' | 'jwt'; value: string } | null>
   issue(session: Session, intents: Intent[]): Intent[]
   revoke(): Intent[]
 }
 ```
 
-You wire exactly one transport into `AuthRoot.config.transport` - or a
+You wire exactly one transport into `AuthEngine.config.transport` - or a
 `CompositeTransport` that tries several in order.
 
 ## The four shipped transports

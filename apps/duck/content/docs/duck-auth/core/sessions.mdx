@@ -25,7 +25,7 @@ await auth.sessions.revoke({ sessionId })
 ## Lifetime tuning
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   session: {
     ttlMs: 7 * 24 * 60 * 60 * 1000,       // sliding window per use
     absoluteTtlMs: 30 * 24 * 60 * 60 * 1000,  // hard cap regardless of activity
@@ -82,20 +82,20 @@ const { session, identity, anomaly } = ctx
 ## Step-up
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 async function deleteAccount(req: Request) {
   const ctx = await auth.resolveSession(req)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
   // High-risk action: require a fresh re-auth within the last 5 minutes.
   if (Date.now() - ctx.session.lastReauthAt > auth.config.session.freshnessMs) {
-    throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED')
+    throw new AuthError('AUTH/STEP_UP_REQUIRED')
   }
 
   // Or: require MFA at AAL2+
   if (ctx.session.aal !== 'aal2') {
-    throw new AuthErrorObject('AUTH/AAL_INSUFFICIENT')
+    throw new AuthError('AUTH/AAL_INSUFFICIENT')
   }
 
   // Proceed...

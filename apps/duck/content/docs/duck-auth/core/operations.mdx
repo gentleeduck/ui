@@ -32,7 +32,7 @@ Every call to `resolveSession`, `flows.signIn`, `flows.signOut`, every
 provider's `begin`/`complete`, and every facet mutation raises:
 
 ```typescript
-throw new AuthErrorObject('AUTH/MAINTENANCE', {
+throw new AuthError('AUTH/MAINTENANCE', {
   since: '2026-05-27T10:00:00Z',
   reason: 'database-migration',
 })
@@ -50,7 +50,7 @@ Reads (`identities.findById`, `orgs.listForIdentity`,
 Writes raise:
 
 ```typescript
-throw new AuthErrorObject('AUTH/READONLY_MODE', {
+throw new AuthError('AUTH/READONLY_MODE', {
   since: '2026-05-27T10:00:00Z',
   reason: 'incident-2026-05-27',
 })
@@ -71,7 +71,7 @@ import { RedisOperationsStore } from '@gentleduck/auth/adapters/redis'
 
 const redis = new Redis(process.env.REDIS_URL!)
 
-new AuthRoot({
+new AuthEngine({
   // ...
   operations: {
     store: new RedisOperationsStore(redis, { key: 'auth:ops' }),
@@ -89,7 +89,7 @@ For "the system is in maintenance mode but admins still need to fix
 it" workflows, support a bypass key:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   // ...
   operations: {
     bypassKey: process.env.OPS_BYPASS_KEY,

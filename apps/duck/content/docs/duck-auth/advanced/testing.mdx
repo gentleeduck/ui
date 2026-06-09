@@ -10,7 +10,7 @@ section: Advanced
 import { createTestAuth } from '@gentleduck/auth/test'
 
 const auth = createTestAuth()
-// Defaults: MemoryAuthAdapter, BearerTransport, MemoryLimiter, ScryptHasher.
+// Defaults: AuthMemoryAdapter, BearerTransport, AuthMemoryLimiter, ScryptHasher.
 ```
 
 That's the entire setup for 90% of tests. Need to wire a real provider?

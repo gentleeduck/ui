@@ -1,19 +1,19 @@
 ---
 title: Core overview
-description: AuthRoot is the single faceted root. Sessions, identities, passwords, providers, MFA, flows, API keys, M2M, orgs, idempotency, hijack policy, anomaly - all on one instance.
+description: AuthEngine is the single faceted root. Sessions, identities, passwords, providers, MFA, flows, API keys, M2M, orgs, idempotency, hijack policy, anomaly - all on one instance.
 section: Core
 ---
 
-## What is `AuthRoot`?
+## What is `AuthEngine`?
 
-`AuthRoot` is the runtime entry point for duck-auth. You instantiate it once
+`AuthEngine` is the runtime entry point for duck-auth. You instantiate it once
 at boot, wire it with the transport, stores, and providers you want, and
 hand the instance to your framework adapter.
 
 ```typescript
-import { AuthRoot } from '@gentleduck/auth/core'
+import { AuthEngine } from '@gentleduck/auth/core'
 
-export const auth = new AuthRoot({ /* config */ })
+export const auth = new AuthEngine({ /* config */ })
 ```
 
 Every concern is exposed as a typed **facet** on the instance. There is no
@@ -25,7 +25,7 @@ hidden global, no module-level state, no implicit singleton.
 | --- | --- |
 | `sessions` | Create / rotate / revoke / resolve sessions. The fixation-defence rotation matrix (DESIGN section 37) routes every privilege change through `rotateOrCreate()`. |
 | `identities` | CRUD + linking + merge + GDPR (soft-delete, restore, erase, exportAll, bulkCreate). Typed `Profile` generic. |
-| `passwords` | Hash / verify / `needsRehash` against the configured `Hasher.IHasher`. Auto-rehash on successful sign-in if hasher params drift. |
+| `passwords` | Hash / verify / `needsRehash` against the configured `AuthHasher.IHasher`. Auto-rehash on successful sign-in if hasher params drift. |
 | `providers` | Registry and dispatcher for every sign-in method. `auth.providers.use(...)` registers; the flows facet dispatches. |
 | `mfa` | TOTP (RFC 6238), backup codes (constant-time compare), WebAuthn-MFA factor enrolment. |
 | `flows` | High-level flows: `signIn`, `signOut`, `signUp` state machine, password reset, email change, impersonate. |
@@ -41,14 +41,14 @@ hidden global, no module-level state, no implicit singleton.
 ## Constructor at a glance
 
 ```typescript
-import { AuthRoot, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
+import { AuthEngine, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
-import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
-import { MemoryLimiter } from '@gentleduck/auth/limiters/memory'
+import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
+import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
 
-const adapter = new MemoryAuthAdapter()
+const adapter = new AuthMemoryAdapter()
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   baseUrl: 'http://localhost:3000',
   transport: new CookieTransport({ secure: false }),
   stores: {
@@ -58,7 +58,7 @@ export const auth = new AuthRoot({
     // orgs is optional - pass adapter.orgs to enable the orgs facet
   },
   events: new InMemoryEvents(),
-  limiter: new MemoryLimiter({ max: 5, windowMs: 60_000 }),
+  limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
   passwords: { hasher: new ScryptHasher() },
 })
 ```
@@ -68,12 +68,12 @@ export const auth = new AuthRoot({
 | `baseUrl` | Issuer for JWTs, OIDC discovery, signed redirect callbacks. |
 | `transport` | The session carrier (`CookieTransport` / `BearerTransport` / `JwtTransport` / `CompositeTransport`). |
 | `stores` | `identities`, `sessions`, `credentials`, optionally `orgs`. Implements the per-table store interfaces. |
-| `limiter` | Rate-limiter. Use `MemoryLimiter` in dev; Redis-backed in production. `strict()` rejects `NoopLimiter` in production. |
+| `limiter` | Rate-limiter. Use `AuthMemoryLimiter` in dev; Redis-backed in production. `strict()` rejects `NoopLimiter` in production. |
 | `session` | Per-session TTLs: `ttlMs` (default 7d), `absoluteTtlMs` (default 30d), `freshnessMs` (default 5m). |
 | `identities` | `softDeleteGracePeriodMs` (default 7d), `profileMaxBytes` (default 16 KiB). |
 | `passwords` | `hasher` plus optional `minLength` / `maxLength` / `rejectCommon`. |
-| `providers` | Array of `Provider.IProvider` instances to register at boot. |
-| `events` | `Events.IBus`. Default is `InMemoryEvents` - swap to `RedisEvents` or a custom bus for fan-out. |
+| `providers` | Array of `AuthProvider.IProvider` instances to register at boot. |
+| `events` | `AuthEvents.IBus`. Default is `InMemoryEvents` - swap to `AuthRedisEvents` or a custom bus for fan-out. |
 | `mfa` | `issuer`, `backupCodeCount`, `backupCodeLen`. |
 | `apiKeys` | `prefix` (e.g. `ak_live_`), `randomBytes`. |
 | `hijack` | Detection sensitivity + reaction (`ignore`/`rotate`/`mfa`/`revoke`). |
@@ -108,7 +108,7 @@ If `anomaly` detectors are wired and `requestSnapshot` is provided,
 
 ## Strict mode
 
-`AuthRoot.strict()` is a boot-time validator. Call it after construction
+`AuthEngine.strict()` is a boot-time validator. Call it after construction
 to catch misconfigurations early.
 
 ```typescript
@@ -119,8 +119,8 @@ auth.strict({ env: 'production' })   // throws AUTH/MISCONFIGURED
 In **production**, `strict` rejects:
 
 - `CookieTransport.secure: false`
-- `MemoryAuthAdapter` (the in-memory dev store)
-- `MemoryLimiter` (the in-memory dev limiter) or no limiter at all
+- `AuthMemoryAdapter` (the in-memory dev store)
+- `AuthMemoryLimiter` (the in-memory dev limiter) or no limiter at all
 - No listeners attached to the `lockout` event
 - Insecure JWT keys (short HS256 secret, missing kid)
 - Compliance preset violations (HIPAA/FIPS require Argon2 + dataAtRest)
@@ -131,14 +131,14 @@ list of gates.
 
 ## Typed generics
 
-`AuthRoot<Profile, Tenant, OrgMeta>` is parameterised by three shapes:
+`AuthEngine<Profile, Tenant, OrgMeta>` is parameterised by three shapes:
 
 ```typescript
 type Profile = { displayName: string; avatarUrl?: string }
 type Tenant = { region: 'eu' | 'us'; tier: 'free' | 'pro' }
 type OrgMeta = { plan: 'team' | 'enterprise' }
 
-export const auth = new AuthRoot<Profile, Tenant, OrgMeta>({
+export const auth = new AuthEngine<Profile, Tenant, OrgMeta>({
   /* config */
 })
 ```
@@ -153,7 +153,7 @@ The generics propagate everywhere: `auth.identities.findById(id)` returns
 - [Identities ->](/duck-auth/core/identities) - CRUD, linking, GDPR.
 - [Passwords ->](/duck-auth/core/passwords) - `ScryptHasher`, `Argon2idHasher`.
 - [Transports ->](/duck-auth/core/transports) - Cookie, Bearer, JWT, Composite, DPoP.
-- [Events ->](/duck-auth/core/events) - `InMemoryEvents`, `RedisEvents`, `WebhookDeliverer`.
+- [Events ->](/duck-auth/core/events) - `InMemoryEvents`, `AuthRedisEvents`, `WebhookDeliverer`.
 - [Anomaly ->](/duck-auth/core/anomaly) - detectors and the step-up decision.
 - [Compliance ->](/duck-auth/core/compliance) - `gdpr`, `hipaa`, `soc2`, `fips`.
 - [Errors ->](/duck-auth/core/errors) - every `AUTH/*` code and its status.

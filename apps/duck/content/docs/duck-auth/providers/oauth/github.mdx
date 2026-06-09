@@ -16,7 +16,7 @@ section: Providers
 ```typescript
 import { github } from '@gentleduck/auth/providers/oauth/github'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     github({
@@ -106,7 +106,7 @@ onSignIn: async ({ profile }) => {
   }).then((r) => r.json())
 
   if (!orgs.some((o) => o.login === 'example-org')) {
-    throw new AuthErrorObject('AUTH/PROVIDER_FAILED', {
+    throw new AuthError('AUTH/PROVIDER_FAILED', {
       reason: 'not-in-org',
     })
   }

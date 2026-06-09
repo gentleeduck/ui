@@ -41,20 +41,20 @@ const verifier = new DPoPVerifier({
 })
 ```
 
-For production, swap to `RedisDPoPNonceStore` so jti replay detection
+For production, swap to `AuthRedisDPoPNonceStore` so jti replay detection
 spans replicas.
 
 ## Verifying a request
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.get('/api/secret', async (req, res) => {
   const ctx = await auth.resolveSession(req)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
   const dpopHeader = req.headers.get('dpop')
-  if (!dpopHeader) throw new AuthErrorObject('AUTH/DPOP_INVALID')
+  if (!dpopHeader) throw new AuthError('AUTH/DPOP_INVALID')
 
   await verifier.verify(ctx.session.jwt, dpopHeader)
   // jti replay -> AUTH/DPOP_INVALID
@@ -127,15 +127,15 @@ records its `jti`; a duplicate `jti` is rejected.
 | Store | Use case |
 | --- | --- |
 | `MemoryDPoPNonceStore` | Dev / test. Per-process; replicas have independent stores. |
-| `RedisDPoPNonceStore(client, { ttlMs })` | Production. Shared across all replicas. |
+| `AuthRedisDPoPNonceStore(client, { ttlMs })` | Production. Shared across all replicas. |
 
 ```typescript
 import Redis from 'ioredis'
-import { RedisDPoPNonceStore } from '@gentleduck/auth/adapters/redis'
+import { AuthRedisDPoPNonceStore } from '@gentleduck/auth/adapters/redis'
 
 const verifier = new DPoPVerifier({
   publicKey,
-  nonces: new RedisDPoPNonceStore(new Redis(process.env.REDIS_URL!), {
+  nonces: new AuthRedisDPoPNonceStore(new Redis(process.env.REDIS_URL!), {
     ttlMs: 10 * 60 * 1000,
   }),
 })

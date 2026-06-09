@@ -58,9 +58,9 @@ as you need.
 Yes. Two patterns:
 
 1. **Same store, multiple AuthRoots**: each app constructs its own
-   `AuthRoot` against the shared Postgres + Redis. Identities are
+   `AuthEngine` against the shared Postgres + Redis. Identities are
    shared; sessions are app-specific.
-2. **One AuthRoot, many domains**: deploy a single auth service at
+2. **One AuthEngine, many domains**: deploy a single auth service at
    `auth.example.com` and use `CookieTransport` with `domain: '.example.com'`
    so the cookie is shared across `app1.example.com`, `app2.example.com`.
 
@@ -70,10 +70,10 @@ verify JWTs locally.
 
 ## Can I have my own provider?
 
-Yes. Implement `Provider.IProvider`:
+Yes. Implement `AuthProvider.IProvider`:
 
 ```typescript
-const myProvider: Provider.IProvider<IBegin, IComplete> = {
+const myProvider: AuthProvider.IProvider<IBegin, IComplete> = {
   id: 'my-provider',
   async begin(input, ctx) { /* ... */ },
   async complete(input, ctx) { /* ... */ },

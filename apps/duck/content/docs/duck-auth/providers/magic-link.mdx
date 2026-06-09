@@ -10,7 +10,7 @@ section: Providers
 import { magicLink } from '@gentleduck/auth/providers/magic-link'
 import { ResendChannel } from '@gentleduck/auth/channels/resend'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     magicLink({

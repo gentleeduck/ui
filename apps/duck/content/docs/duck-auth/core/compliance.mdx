@@ -26,18 +26,18 @@ import { hipaa } from '@gentleduck/auth/core'
 
 const config = hipaa({
   stores: { /* ... */ },
-  events: new RedisEvents(redis),
+  events: new AuthRedisEvents(redis),
   channels: { email: new SesChannel({ ... }) },
 })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   ...config,
   // your own overrides go after
 })
 ```
 
-Presets return an `AuthRoot.IConfig` shape that you spread into
-`new AuthRoot({ ... })`. Add your own keys after to override.
+Presets return an `AuthEngine.IConfig` shape that you spread into
+`new AuthEngine({ ... })`. Add your own keys after to override.
 
 ## Available presets
 
@@ -104,10 +104,10 @@ rather than stacking.
 
 ## Strict mode + presets
 
-`AuthRoot.strict({ env: 'production' })` cross-checks the preset:
+`AuthEngine.strict({ env: 'production' })` cross-checks the preset:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   ...hipaa({ ... }),
   passwords: { hasher: new ScryptHasher() },  // <- overrides Argon2 - strict() will fail
 })

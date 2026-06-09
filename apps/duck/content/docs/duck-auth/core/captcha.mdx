@@ -34,7 +34,7 @@ const result = await captcha.verify({
 })
 
 if (!result.success) {
-  throw new AuthErrorObject('AUTH/CAPTCHA_FAILED', {
+  throw new AuthError('AUTH/CAPTCHA_FAILED', {
     detail: result.errorCodes?.join(', '),
   })
 }
@@ -96,7 +96,7 @@ captcha is policy. Compliance presets add the check separately.
 
 ## Wiring into a route
 
-The verifiers live above the AuthRoot - call them yourself before
+The verifiers live above the AuthEngine - call them yourself before
 invoking the flow. Pattern:
 
 ```typescript

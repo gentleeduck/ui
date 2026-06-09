@@ -88,11 +88,11 @@ const spec = buildOpenApiSpec({
 Most handlers will call `auth.resolveSession(req)` to gate access:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.get('/api/me', async (req, res) => {
   const ctx = await auth.resolveSession(req)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
   res.json(ctx.identity)
 })
 ```

@@ -18,10 +18,10 @@ for the architectural rationale.
   `operations`, `idempotency`, `hijack`, `anomaly`.
 - **Transports** - `CookieTransport`, `BearerTransport`, `JwtTransport`
   (HS256/ES256/RS256/EdDSA), `CompositeTransport`, plus `DPoPVerifier`
-  with `MemoryDPoPNonceStore` and `RedisDPoPNonceStore`.
-- **Adapters** - `MemoryAuthAdapter`, the Redis bundle
-  (`RedisSessionStore`, `RedisLimiter`, `RedisIdempotencyStore`,
-  `RedisEvents`, `RedisDPoPNonceStore`, `FakeRedis`), the SQL bridge
+  with `MemoryDPoPNonceStore` and `AuthRedisDPoPNonceStore`.
+- **Adapters** - `AuthMemoryAdapter`, the Redis bundle
+  (`AuthRedisSessionStore`, `AuthRedisLimiter`, `AuthRedisIdempotencyStore`,
+  `AuthRedisEvents`, `AuthRedisDPoPNonceStore`, `FakeRedis`), the SQL bridge
   (`SqlBridge.IBridge`, `createSqlAuthStores`), and the Drizzle
   reference implementations for pg / mysql / sqlite.
 - **Providers** - password, magic-link, six OAuth providers (Google,
@@ -48,7 +48,7 @@ for the architectural rationale.
 - Session fixation defence via the 7-row rotation matrix.
 - Username enumeration defence: constant-time verify, identical error
   code + timing for "wrong email" and "wrong password".
-- 13-key denylist on `AuthErrorObject.toJSON()` to scrub sensitive meta.
+- 13-key denylist on `AuthError.toJSON()` to scrub sensitive meta.
 - PKCE-S256 mandatory on every OAuth flow.
 - Signed `state` (HMAC-SHA256) with 10-minute expiry.
 - OIDC nonce replay defence.

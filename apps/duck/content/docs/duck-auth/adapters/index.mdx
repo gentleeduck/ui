@@ -6,16 +6,16 @@ section: Adapters
 
 ## What is an adapter?
 
-An adapter is a bundle of store implementations: `Identity.IStore`,
-`Session.IStore`, `Credential.IStore`, optionally `Org.IStore`. You wire
-the stores into `AuthRoot.stores`:
+An adapter is a bundle of store implementations: `AuthIdentity.IStore`,
+`AuthSession.IStore`, `AuthCredential.IStore`, optionally `AuthOrg.IStore`. You wire
+the stores into `AuthEngine.stores`:
 
 ```typescript
-import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
+import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
 
-const adapter = new MemoryAuthAdapter()
+const adapter = new AuthMemoryAdapter()
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   stores: {
     identities: adapter.identities,
     sessions: adapter.sessions,
@@ -33,7 +33,7 @@ production posture is **SQL for identities/credentials** plus
 
 | Adapter | Stores | When to pick |
 | --- | --- | --- |
-| [`MemoryAuthAdapter`](/duck-auth/adapters/memory) | identities, sessions, credentials, orgs | Dev/test only. `strict()` rejects it in production. |
+| [`AuthMemoryAdapter`](/duck-auth/adapters/memory) | identities, sessions, credentials, orgs | Dev/test only. `strict()` rejects it in production. |
 | [`adapters/redis`](/duck-auth/adapters/redis) | sessions, idempotency, DPoP nonce, limiter, events | Production session store + cross-process state. |
 | [`adapters/sql` + Drizzle examples](/duck-auth/adapters/sql) | identities, credentials, sessions, orgs | Production durable store. Bundled schemas for pg / mysql / sqlite. |
 
@@ -66,7 +66,7 @@ catch the dozen subtle bugs that have bit every adapter ever shipped:
 
 ```
 Dev / test / local CI?
-  -> MemoryAuthAdapter
+  -> AuthMemoryAdapter
 
 Single-replica production app, low traffic?
   -> SQL (Drizzle/pg) for everything; no Redis needed
@@ -75,7 +75,7 @@ Multi-replica, sessions across processes, rate limit across processes?
   -> SQL for identities/credentials/orgs + Redis for sessions/limiter
 
 Stateless JWT, but need DPoP jti replay defence across processes?
-  -> SQL + RedisDPoPNonceStore (the JWT is verified locally, no session store needed)
+  -> SQL + AuthRedisDPoPNonceStore (the JWT is verified locally, no session store needed)
 
 Migrating from an existing auth system?
   -> Implement SqlBridge against your existing schema; use bulkCreate to import.
@@ -93,7 +93,7 @@ const stores = createSqlAuthStores({
   bridge: myDrizzleBridge,    // your SqlBridge.IBridge implementation
 })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   stores: {
     identities: stores.identities,
     sessions: stores.sessions,

@@ -4,7 +4,7 @@ description: Field-level encryption for sensitive Identity.profile values - AES-
 section: Core
 ---
 
-duck-auth ships two `DataAtRest.IAdapter` implementations so sensitive
+duck-auth ships two `AuthDataAtRest.IAdapter` implementations so sensitive
 fields on `Identity.profile` (SSN, DOB, phone, full name, etc.) never
 land in the database in plaintext. Both are wire-compatible: the same
 record can be re-encrypted under a different adapter without a
@@ -30,7 +30,7 @@ const dataAtRest = new AesGcmDataAtRest({
 ```
 
 The `previousKeys` ring keeps old kid'd ciphertexts decryptable during
-rotation. Wire `dataAtRest` into your AuthRoot or via the bridge your
+rotation. Wire `dataAtRest` into your AuthEngine or via the bridge your
 adapter exposes - duck-auth itself only requires the interface.
 
 ### Plaintext cap
@@ -117,6 +117,6 @@ Vault Transit, Azure Key Vault, or in-house HSMs.
 ## Compliance presets
 
 HIPAA, SOC2, and FIPS presets in `strict({ env: 'production' })`
-require a non-null `dataAtRest` on the AuthRoot. FIPS further requires
+require a non-null `dataAtRest` on the AuthEngine. FIPS further requires
 KMS-envelope (refuses local AES-GCM); see
 [Production hardening](/duck-auth/advanced/security#compliance-presets).

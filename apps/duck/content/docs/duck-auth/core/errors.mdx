@@ -4,14 +4,14 @@ description: Every AUTH/* error code, the HTTP status it maps to, and the wire-s
 section: Core
 ---
 
-## `AuthErrorObject`
+## `AuthError`
 
-Every typed error duck-auth raises is an `AuthErrorObject`:
+Every typed error duck-auth raises is an `AuthError`:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
-throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
+throw new AuthError('AUTH/INVALID_CREDENTIALS', {
   email,
 }, {
   providerId: 'password',
@@ -121,12 +121,12 @@ throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
 
 | Code | Status | Meaning |
 | --- | --- | --- |
-| `AUTH/MISCONFIGURED` | 500 | Raised by `AuthRoot.strict()` when a production gate fails (NoopLimiter, MemoryAdapter, etc.). |
+| `AUTH/MISCONFIGURED` | 500 | Raised by `AuthEngine.strict()` when a production gate fails (NoopLimiter, IamMemoryAdapter, etc.). |
 
 ## Wire-safe serialisation
 
 ```typescript
-const err = new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
+const err = new AuthError('AUTH/INVALID_CREDENTIALS', {
   email: 'ada@example.com',
   password: 'plaintext!',       // <- will be stripped
   attemptCount: 3,
@@ -146,7 +146,7 @@ The denylist applies to: `password`, `passwordHash`, `secret`, `token`,
 The recommended pattern is to switch on `code`, not status:
 
 ```typescript
-const handle = (err: AuthErrorObject) => {
+const handle = (err: AuthError) => {
   switch (err.code) {
     case 'AUTH/INVALID_CREDENTIALS':
       return { title: 'Invalid email or password', tone: 'error' as const }

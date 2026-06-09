@@ -69,9 +69,9 @@ fingerprint raises a moderate signal - combined with another signal
 ## Writing a custom detector
 
 ```typescript
-import type { Anomaly } from '@gentleduck/auth/core'
+import type { AuthAnomaly } from '@gentleduck/auth/core'
 
-export const ipReputationDetector = (opts: { providerUrl: string }): Anomaly.IDetector => ({
+export const ipReputationDetector = (opts: { providerUrl: string }): AuthAnomaly.IDetector => ({
   id: 'ip-reputation',
   async evaluate({ snapshot, identity }) {
     const score = await fetch(`${opts.providerUrl}?ip=${snapshot.ip}`)
@@ -110,7 +110,7 @@ total <   50  -> allow
 You can override the thresholds:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   anomaly: {
     thresholds: { deny: 80, stepUp: 40 },
   },
@@ -122,11 +122,11 @@ new AuthRoot({
 When the aggregator returns `step-up`:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 if (ctx.anomaly.decision === 'step-up') {
   // Require a fresh re-auth or MFA challenge
-  throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED', {
+  throw new AuthError('AUTH/STEP_UP_REQUIRED', {
     signals: ctx.anomaly.signals,
   })
 }
@@ -137,7 +137,7 @@ When it returns `deny`:
 ```typescript
 if (ctx.anomaly.decision === 'deny') {
   await auth.hijack.lockout(ctx.identity.id, { reason: 'anomaly-deny' })
-  throw new AuthErrorObject('AUTH/LOCKED')
+  throw new AuthError('AUTH/LOCKED')
 }
 ```
 
@@ -153,7 +153,7 @@ a detector outage shouldn't lock everyone out.
 For high-security deployments, override the policy:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   anomaly: {
     onDetectorError: 'deny',  // 'allow' (default) | 'step-up' | 'deny'
   },

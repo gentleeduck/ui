@@ -11,7 +11,7 @@ section: Advanced
 
 ## Why OIDC discovery?
 
-When your `AuthRoot` issues JWTs (via `JwtTransport`), downstream
+When your `AuthEngine` issues JWTs (via `JwtTransport`), downstream
 services may want to **verify those JWTs locally** without calling
 your auth service. OIDC discovery is the standard way to publish:
 

@@ -8,7 +8,7 @@ section: Advanced
 
 Two surfaces in duck-auth produce user-facing strings:
 
-1. **Errors** - `AuthErrorObject.code` is stable, but the message you
+1. **Errors** - `AuthError.code` is stable, but the message you
    show is localised.
 2. **Channels** - the magic-link, password-reset, and email-verify
    templates need translation.
@@ -42,7 +42,7 @@ const i18n = new I18nMessageCatalog({
   },
 })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   i18n: { locale: 'en', catalog: i18n },
 })
 ```
@@ -62,9 +62,9 @@ literally - convenient for templates you haven't filled in yet.
 The `Accept-Language` header is the typical signal:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
-function handleAuthError(err: AuthErrorObject, req: Request) {
+function handleAuthError(err: AuthError, req: Request) {
   const locale = pickLocale(req.headers.get('accept-language'), ['en', 'es', 'de'])
   const message = i18n.t(err.code, { locale, vars: err.meta })
 
@@ -92,7 +92,7 @@ lingui.activate('en')
 
 const resolver = new LinguiResolver(lingui)
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   i18n: { locale: 'en', catalog: resolver },
 })
 ```
@@ -105,7 +105,7 @@ your app - Crowdin / Transifex workflows just work.
 Channels read i18n vars from the runtime:
 
 ```typescript
-class CustomChannel implements Channel.IChannel {
+class CustomChannel implements AuthChannel.IChannel {
   async send({ templateId, identity, vars, locale }) {
     const subject = this.i18n.t(`${templateId}.subject`, { locale, vars })
     const body = this.i18n.t(`${templateId}.body`, { locale, vars })
@@ -143,7 +143,7 @@ providers can use it:
 const provider = {
   id: 'custom',
   async complete(input, ctx) {
-    throw new AuthErrorObject('AUTH/INVALID_CREDENTIALS', {
+    throw new AuthError('AUTH/INVALID_CREDENTIALS', {
       // attach a pre-localised message; the framework adapter passes it through.
       message: ctx.i18n?.t('AUTH/INVALID_CREDENTIALS', { locale: ctx.locale }),
     })

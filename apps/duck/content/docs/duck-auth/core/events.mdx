@@ -1,6 +1,6 @@
 ---
 title: Events
-description: InMemoryEvents, RedisEvents, the typed event taxonomy, and WebhookDeliverer for signed outbound delivery.
+description: InMemoryEvents, AuthRedisEvents, the typed event taxonomy, and WebhookDeliverer for signed outbound delivery.
 section: Core
 ---
 
@@ -8,13 +8,13 @@ section: Core
 
 duck-auth emits every lifecycle event (identity created, session rotated,
 MFA enrolled, anomaly signalled, lockout fired) through a single
-`Events.IBus`. The default is `InMemoryEvents`; production deployments
-swap to `RedisEvents` for cross-process fan-out.
+`AuthEvents.IBus`. The default is `InMemoryEvents`; production deployments
+swap to `AuthRedisEvents` for cross-process fan-out.
 
 ```typescript
 import { InMemoryEvents } from '@gentleduck/auth/core'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   events: new InMemoryEvents(),
 })
 
@@ -31,20 +31,20 @@ synchronously to give observers a chance to flush before the request
 returns. Throwing handlers do not break the originating call; the error
 is routed to the `onError` sink (if configured) and the bus moves on.
 
-## RedisEvents (production)
+## AuthRedisEvents (production)
 
 ```typescript
-import { RedisEvents } from '@gentleduck/auth/adapters/redis'
+import { AuthRedisEvents } from '@gentleduck/auth/adapters/redis'
 import Redis from 'ioredis'
 
 const redis = new Redis(process.env.REDIS_URL!)
 
-export const auth = new AuthRoot({
-  events: new RedisEvents(redis, { channel: 'auth-events' }),
+export const auth = new AuthEngine({
+  events: new AuthRedisEvents(redis, { channel: 'auth-events' }),
 })
 ```
 
-`RedisEvents` publishes on a Pub/Sub channel and replays through the
+`AuthRedisEvents` publishes on a Pub/Sub channel and replays through the
 same `on()` API. Every replica receives every event - useful for cache
 invalidation and presence tracking.
 

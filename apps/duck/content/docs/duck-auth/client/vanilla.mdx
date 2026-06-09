@@ -18,7 +18,7 @@ const client = createAuthClient({
 ```
 
 The result implements `VanillaClient.IClient<Profile>`. All methods are
-async; errors throw `AuthErrorObject`.
+async; errors throw `AuthError`.
 
 ## Methods
 
@@ -37,7 +37,7 @@ const { ok, session, identity } = await client.signIn({
 On success: returns `{ ok: true, session, identity, body }` and updates
 the internal session state.
 
-On failure: throws an `AuthErrorObject`. The `code` field is what the
+On failure: throws an `AuthError`. The `code` field is what the
 UI should branch on.
 
 ### `signOut()`

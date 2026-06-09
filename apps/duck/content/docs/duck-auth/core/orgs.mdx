@@ -20,13 +20,13 @@ owns the membership data; iam reads it to scope role assignments.
 The orgs facet is **optional**. Wire `stores.orgs` to enable:
 
 ```typescript
-import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
+import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
 
 type OrgMeta = { plan: 'team' | 'enterprise' }
 
-const adapter = new MemoryAuthAdapter<Profile, OrgMeta>()
+const adapter = new AuthMemoryAdapter<Profile, OrgMeta>()
 
-export const auth = new AuthRoot<Profile, never, OrgMeta>({
+export const auth = new AuthEngine<Profile, never, OrgMeta>({
   // ...
   stores: {
     identities: adapter.identities,

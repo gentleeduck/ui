@@ -1,10 +1,10 @@
 ---
 title: Production hardening
-description: Every gate AuthRoot.strict() enforces, plus the threat model and the OWASP Top 10 mapping.
+description: Every gate AuthEngine.strict() enforces, plus the threat model and the OWASP Top 10 mapping.
 section: Advanced
 ---
 
-## `AuthRoot.strict()`
+## `AuthEngine.strict()`
 
 `strict()` is the boot-time validator. Call it after construction; it
 runs synchronously, no I/O.
@@ -33,9 +33,9 @@ In **production** mode, `strict` rejects:
 
 ### Storage gates
 
-- `MemoryAuthAdapter` (the dev/test in-process adapter).
-- `MemoryLimiter` (or no limiter at all).
-- A `Session.IStore` that is not durable across process restarts.
+- `AuthMemoryAdapter` (the dev/test in-process adapter).
+- `AuthMemoryLimiter` (or no limiter at all).
+- A `AuthSession.IStore` that is not durable across process restarts.
 - An `events.IBus` that doesn't fan out across replicas, **unless**
   you've explicitly opted out of multi-replica.
 
@@ -80,7 +80,7 @@ and every threat the host application must own. Highlights:
 | Refresh-token theft | Family-id reuse detection - single reuse revokes the whole family. |
 | JWT alg confusion | `alg` pinned per `kid`; never inferred from the JWT header. |
 | Session-fixation on MFA | `rotateOrCreate` after every MFA pass; AAL upgrade requires new session id. |
-| Password leak via logs | `AuthErrorObject.toJSON()` strips 13 sensitive meta keys on every serialise. |
+| Password leak via logs | `AuthError.toJSON()` strips 13 sensitive meta keys on every serialise. |
 | Cross-tenant read | Every store method takes `tenantId`; cross-tenant requests return `null`. |
 | Timing attacks (passwords, magic-links, API keys) | Constant-time compare via `crypto.timingSafeEqual` for every credential verify. |
 | Webhook spoofing | HMAC-SHA256 signature on every outbound webhook body; constant-time verify. |
@@ -146,7 +146,7 @@ import Redis from 'ioredis'
 import {
   Argon2idHasher,
   ARGON2ID_COMPLIANCE,
-  AuthRoot,
+  AuthEngine,
   csrfGuard,
   hipaa,
   impossibleTravelDetector,
@@ -154,10 +154,10 @@ import {
 } from '@gentleduck/auth/core'
 import { JwtTransport } from '@gentleduck/auth/core/transport'
 import {
-  RedisDPoPNonceStore,
-  RedisEvents,
-  RedisLimiter,
-  RedisSessionStore,
+  AuthRedisDPoPNonceStore,
+  AuthRedisEvents,
+  AuthRedisLimiter,
+  AuthRedisSessionStore,
 } from '@gentleduck/auth/adapters/redis'
 import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
 import { createDrizzlePgBridge } from '@gentleduck/auth/adapters/drizzle/pg'
@@ -166,14 +166,14 @@ const redis = new Redis(process.env.REDIS_URL!)
 const drizzleBridge = createDrizzlePgBridge(db, schema)
 const sql = createSqlAuthStores({ bridge: drizzleBridge })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   ...hipaa({
     stores: {
       identities: sql.identities,
       credentials: sql.credentials,
-      sessions: new RedisSessionStore(redis),
+      sessions: new AuthRedisSessionStore(redis),
     },
-    events: new RedisEvents(redis),
+    events: new AuthRedisEvents(redis),
     channels: { email: new SesChannel({ ... }) },
   }),
   baseUrl: 'https://api.example.com',
@@ -187,7 +187,7 @@ export const auth = new AuthRoot({
     ttlMs: 15 * 60 * 1000,
     refresh: { cookieName: '__Host-duck-refresh', ttlMs: 30 * 24 * 60 * 60 * 1000 },
   }),
-  limiter: new RedisLimiter(redis),
+  limiter: new AuthRedisLimiter(redis),
   passwords: { hasher: new Argon2idHasher(ARGON2ID_COMPLIANCE) },
 })
 

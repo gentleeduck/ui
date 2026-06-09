@@ -7,12 +7,12 @@ section: Core
 ## The identities facet
 
 `auth.identities` owns the identity record - the long-lived "who" of the
-caller. It is typed by the `Profile` generic you pass to `AuthRoot`:
+caller. It is typed by the `Profile` generic you pass to `AuthEngine`:
 
 ```typescript
 type Profile = { displayName: string; avatarUrl?: string }
 
-export const auth = new AuthRoot<Profile>({ /* ... */ })
+export const auth = new AuthEngine<Profile>({ /* ... */ })
 
 const id = await auth.identities.create({
   email: 'ada@example.com',
@@ -73,7 +73,7 @@ credential to the primary, and emits `identity.merged`.
 Identities support a configurable grace period before hard deletion:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   identities: {
     softDeleteGracePeriodMs: 7 * 24 * 60 * 60 * 1000,  // 7 days default
   },
@@ -137,7 +137,7 @@ existing hashes.
 Profiles are size-bounded to prevent storage abuse:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   identities: {
     profileMaxBytes: 16 * 1024,  // default 16 KiB
   },

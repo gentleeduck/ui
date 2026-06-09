@@ -6,11 +6,11 @@ section: Advanced
 
 ## What it does
 
-duck-auth's OpenAPI generator introspects your `AuthRoot` instance and
+duck-auth's OpenAPI generator introspects your `AuthEngine` instance and
 emits an OpenAPI 3.1 specification for every mounted route - `/signin`,
 `/signout`, `/session`, and one `/providers/:providerId/begin` per
 registered provider. The spec includes request schemas, response
-schemas, every typed `AuthErrorObject` code, and security schemes.
+schemas, every typed `AuthError` code, and security schemes.
 
 Use cases:
 

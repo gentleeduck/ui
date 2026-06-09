@@ -15,7 +15,7 @@ section: Providers
 ```typescript
 import { discord } from '@gentleduck/auth/providers/oauth/discord'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     discord({
@@ -87,7 +87,7 @@ discord({
 
     const inMyServer = guilds.some((g) => g.id === '999999999999999999')
     if (!inMyServer) {
-      throw new AuthErrorObject('AUTH/PROVIDER_FAILED', {
+      throw new AuthError('AUTH/PROVIDER_FAILED', {
         reason: 'not-in-guild',
       })
     }
