@@ -21,3 +21,6 @@ jobs:
           fail-on-severity: high
           comment-summary-in-pr: on-failure
           deny-licenses: AGPL-3.0, LGPL-2.0
+          # Trusted security tooling intentionally added to CI; exempt from the
+          # AGPL deny policy (trufflehog is AGPL-3.0; trivy-action has no SPDX license).
+          allow-dependencies-licenses: pkg:githubactions/trufflesecurity/trufflehog, pkg:githubactions/aquasecurity/trivy-action
