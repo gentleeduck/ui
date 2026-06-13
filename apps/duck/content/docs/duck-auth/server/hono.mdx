@@ -35,11 +35,11 @@ export default app
 ## Resolving sessions in handlers
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.get('/api/me', async (c) => {
   const ctx = await auth.resolveSession(c.req.raw)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
   return c.json(ctx.identity)
 })
 ```
@@ -82,10 +82,10 @@ once per worker if you can amortise the cost.
 
 ```typescript
 import { HTTPException } from 'hono/http-exception'
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.onError((err, c) => {
-  if (err instanceof AuthErrorObject) {
+  if (err instanceof AuthError) {
     return c.json(err.toJSON(), err.status)
   }
   if (err instanceof HTTPException) {

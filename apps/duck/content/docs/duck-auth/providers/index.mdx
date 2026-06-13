@@ -1,6 +1,6 @@
 ---
 title: Providers
-description: Password, magic-link, six OAuth providers, WebAuthn passkeys, API keys, and SAML. Every provider is an instance of Provider.IProvider.
+description: Password, magic-link, six OAuth providers, WebAuthn passkeys, API keys, and SAML. Every provider is an instance of AuthProvider.IProvider.
 section: Providers
 ---
 
@@ -10,7 +10,7 @@ A provider is a typed sign-in method. Every provider implements the same
 two-step interface:
 
 ```typescript
-interface Provider.IProvider<Begin, Complete, Profile> {
+interface AuthProvider.IProvider<Begin, Complete, Profile> {
   id: string
   begin(input: Begin, ctx: ProviderContext): Promise<Intent[]>
   complete(input: Complete, ctx: ProviderContext): Promise<Intent[]>
@@ -22,13 +22,13 @@ interface Provider.IProvider<Begin, Complete, Profile> {
 - `complete` - verify the result. Returns `Intent[]` - usually a
   `startSession` intent followed by a `redirect`.
 
-You register providers on `AuthRoot`:
+You register providers on `AuthEngine`:
 
 ```typescript
 import { password } from '@gentleduck/auth/providers/password'
 import { google } from '@gentleduck/auth/providers/oauth/google'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     password({ ... }),
@@ -62,11 +62,11 @@ Every `begin` and `complete` call receives a `ProviderContext`:
 
 ```typescript
 interface ProviderContext {
-  auth: AuthRoot
+  auth: AuthEngine
   req: { headers: Headers; method: string; url: string }
   tenantId?: string
-  events: Events.IBus
-  limiter: Limiter.ILimiter
+  events: AuthEvents.IBus
+  limiter: AuthLimiter.ILimiter
   i18n?: I18n.IResolver
   trace?: { spanId: string; traceId: string }
 }
@@ -141,17 +141,17 @@ google({
 
 ## Writing a custom provider
 
-Implement `Provider.IProvider`:
+Implement `AuthProvider.IProvider`:
 
 ```typescript
-import type { Provider } from '@gentleduck/auth/core'
+import type { AuthProvider } from '@gentleduck/auth/core'
 
 interface IBeginInput { email: string }
 interface ICompleteInput { token: string }
 
 export function myProvider<Profile>(opts: {
   findIdentityByEmail: (email: string) => Promise<{ id: string } | null>
-}): Provider.IProvider<IBeginInput, ICompleteInput, Profile> {
+}): AuthProvider.IProvider<IBeginInput, ICompleteInput, Profile> {
   return {
     id: 'my-provider',
     async begin({ email }, ctx) {

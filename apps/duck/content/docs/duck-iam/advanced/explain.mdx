@@ -8,7 +8,7 @@ section: Advanced
 When a permission check returns the wrong answer, duck-iam ships two debugging tools:
 
 <MermaidDiagram chart={`flowchart LR
-    subgraph Result["Explain.IResult"]
+    subgraph Result["IamExplain.IResult"]
         direction TB
         DEC["decision\nallowed, effect, duration"]
         REQ["request\naction, resource, scope"]
@@ -16,10 +16,10 @@ When a permission check returns the wrong answer, duck-iam ships two debugging t
         SUM["summary\nhuman-readable text"]
     end
 
-    subgraph Policies["policies: Explain.IPolicyTrace[]"]
+    subgraph Policies["policies: IamExplain.IPolicyTrace[]"]
         direction TB
         PT["IPolicyTrace\npolicyId, algorithm, targetMatch"]
-        PT --> PT_R["rules: Explain.IRuleTrace[]"]
+        PT --> PT_R["rules: IamExplain.IRuleTrace[]"]
         PT --> PT_RES["result: allow / deny"]
     end
 
@@ -62,7 +62,7 @@ const result = await engine.explain('user-1', 'delete', {
 })
 ```
 
-### The Explain.IResult
+### The IamExplain.IResult
 
 ```typescript
 interface IResult {
@@ -79,7 +79,7 @@ interface IResult {
     scopedRolesApplied: string[]      // Extra roles added from scoped assignments
     attributes: Record<string, any>
   }
-  policies: Explain.IPolicyTrace[]    // Trace of every policy evaluated
+  policies: IamExplain.IPolicyTrace[]    // Trace of every policy evaluated
   summary: string                     // Human-readable multi-line summary
 }
 ```
@@ -124,9 +124,9 @@ This tells you:
 - The RBAC policy had 5 rules but none matched the `delete` action.
 - The `owner-policy` matched, and rule `deny-non-owner-delete` produced the deny.
 
-### Reading Explain.IPolicyTrace
+### Reading IamExplain.IPolicyTrace
 
-Each entry in `result.policies` is an `Explain.IPolicyTrace`:
+Each entry in `result.policies` is an `IamExplain.IPolicyTrace`:
 
 ```typescript
 interface IPolicyTrace {
@@ -134,7 +134,7 @@ interface IPolicyTrace {
   policyName: string                          // Human-readable policy name
   algorithm: AccessControl.CombiningAlgorithm // deny-overrides, allow-overrides, etc.
   targetMatch: boolean                        // Did the policy's target filter match?
-  rules: Explain.IRuleTrace[]                 // Trace of every rule in this policy
+  rules: IamExplain.IRuleTrace[]                 // Trace of every rule in this policy
   result: 'allow' | 'deny'                    // The policy's final per-policy result
   reason: string                              // Human-readable explanation
   decidingRuleId?: string                     // Which rule determined the result
@@ -156,9 +156,9 @@ for (const pt of result.policies) {
 }
 ```
 
-### Reading Explain.IRuleTrace
+### Reading IamExplain.IRuleTrace
 
-Each rule inside a policy produces an `Explain.IRuleTrace`:
+Each rule inside a policy produces an `IamExplain.IRuleTrace`:
 
 ```typescript
 interface IRuleTrace {
@@ -169,7 +169,7 @@ interface IRuleTrace {
   actionMatch: boolean            // Did the rule's actions match the request action?
   resourceMatch: boolean          // Did the rule's resources match the request resource?
   conditionsMet: boolean          // Did all conditions evaluate to true?
-  conditions: Explain.IGroupTrace // Full condition tree trace
+  conditions: IamExplain.IGroupTrace // Full condition tree trace
   matched: boolean                // actionMatch && resourceMatch && conditionsMet
 }
 ```
@@ -200,7 +200,7 @@ interface IGroupTrace {
   type: 'group'
   logic: 'all' | 'any' | 'none'
   result: boolean
-  children: Array<Explain.ILeafTrace | Explain.IGroupTrace>
+  children: Array<IamExplain.ILeafTrace | IamExplain.IGroupTrace>
 }
 
 // Leaf node
@@ -300,12 +300,12 @@ import {
 
 Limits are constants in the package; the runtime applies them whether or not you call `validatePolicy` yourself. The JSON Schema is suitable for non-TypeScript consumers, editor schema-driven completion, and admin dashboard form validation.
 
-### Validate.IResult
+### IamValidate.IResult
 
 ```typescript
 interface IResult {
   valid: boolean                  // true if no errors (warnings are ok)
-  issues: Validate.IIssue[]
+  issues: IamValidate.IIssue[]
 }
 
 interface IIssue {

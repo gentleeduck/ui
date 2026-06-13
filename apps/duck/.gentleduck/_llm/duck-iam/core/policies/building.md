@@ -30,8 +30,8 @@ const weekendDeny = policy('deny-weekends')
 | `algorithm(a)` | Combining algorithm - see [combining algorithms](/duck-iam/core/policies/combining-algorithms) |
 | `target(t)` | Scope the policy to specific actions, resources, or roles - see [policy targets](/duck-iam/core/policies/targets) |
 | `rule(id, fn)` | Add a rule using an inline builder |
-| `addRule(rule)` | Add a pre-built `Rule` object |
-| `build()` | Produce the final `Policy` object |
+| `addRule(rule)` | Add a pre-built `AccessControl.IRule` object |
+| `build()` | Produce the final `AccessControl.IPolicy` object |
 
 ***
 

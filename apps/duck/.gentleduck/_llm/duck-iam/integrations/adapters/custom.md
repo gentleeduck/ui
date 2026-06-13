@@ -1,41 +1,46 @@
 ## The Adapter interface
 
-Any object satisfying this interface can plug into `Engine`:
+Any object satisfying this interface can plug into `IamEngine`:
 
 ```typescript
-import type { Adapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
+import type { IamAdapter, AccessControl, IamRequest, Attributes } from '@gentleduck/iam'
 
-interface Adapter<TAction, TResource, TRole, TScope> {
+interface IamAdapter.IAdapter<TAction, TResource, TRole, TScope> {
   // PolicyStore
-  listPolicies(): Promise<Policy<TAction, TResource, TRole>[]>
-  getPolicy(id: string): Promise<Policy<TAction, TResource, TRole> | null>
-  savePolicy(policy: Policy<TAction, TResource, TRole>): Promise<void>
+  listPolicies(opts?: IamAdapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole>[]>
+  getPolicy(id: string, opts?: IamAdapter.IReadOptions): Promise<AccessControl.IPolicy<TAction, TResource, TRole> | null>
+  savePolicy(policy: AccessControl.IPolicy<TAction, TResource, TRole>): Promise<void>
   deletePolicy(id: string): Promise<void>
 
   // RoleStore
-  listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]>
-  getRole(id: string): Promise<Role<TAction, TResource, TRole, TScope> | null>
-  saveRole(role: Role<TAction, TResource, TRole, TScope>): Promise<void>
+  listRoles(opts?: IamAdapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope>[]>
+  getRole(id: string, opts?: IamAdapter.IReadOptions): Promise<AccessControl.IRole<TAction, TResource, TRole, TScope> | null>
+  saveRole(role: AccessControl.IRole<TAction, TResource, TRole, TScope>): Promise<void>
   deleteRole(id: string): Promise<void>
 
   // SubjectStore
-  getSubjectRoles(subjectId: string): Promise<TRole[]>
-  getSubjectScopedRoles?(subjectId: string): Promise<ScopedRole<TRole, TScope>[]>
+  getSubjectRoles(subjectId: string, opts?: IamAdapter.IReadOptions): Promise<TRole[]>
+  getSubjectScopedRoles?(subjectId: string, opts?: IamAdapter.IReadOptions): Promise<IamRequest.IScopedRole<TRole, TScope>[]>
   assignRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
   revokeRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
-  getSubjectAttributes(subjectId: string): Promise<Attributes>
+  getSubjectAttributes(subjectId: string, opts?: IamAdapter.IReadOptions): Promise<Attributes>
   setSubjectAttributes(subjectId: string, attrs: Attributes): Promise<void>
 }
 ```
 
 `getSubjectScopedRoles` is **optional**. If your application doesn't use scoped roles, omit it. When absent, the engine treats scoped assignments as empty and continues with global role evaluation only.
 
+Adapter read methods now accept an optional `opts?: IamAdapter.IReadOptions` argument carrying a `signal?: AbortSignal`.
+The engine uses it to honor `adapterTimeoutMs` and to abort in-flight reads when an invalidation arrives.
+Custom adapters can either forward the signal to the underlying client (recommended for network/DB calls) or safely
+ignore it - the engine treats both as valid.
+
 ***
 
 ## Example: DynamoDB sketch
 
 ```typescript
-import type { Adapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
+import type { IamAdapter, Policy, Role, Attributes, ScopedRole } from '@gentleduck/iam'
 import type { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 
 export class DynamoAdapter implements Adapter {
@@ -79,7 +84,7 @@ export class DynamoAdapter implements Adapter {
 ## Example: MongoDB sketch
 
 ```typescript
-import type { Adapter, Policy } from '@gentleduck/iam'
+import type { IamAdapter, Policy } from '@gentleduck/iam'
 import type { Db } from 'mongodb'
 
 export class MongoAdapter implements Adapter {
@@ -117,7 +122,7 @@ export class MongoAdapter implements Adapter {
 
 If you store scoped and unscoped assignments together, `getSubjectRoles` should return **only unscoped assignments**, and `getSubjectScopedRoles` should return only scoped. The engine merges them based on request scope.
 
-The `MemoryAdapter` actually returns both from `getSubjectRoles` (which then gets deduplicated by the engine) - both shapes work. The cleaner contract is split.
+The `IamMemoryAdapter` returns both from `getSubjectRoles` (which then gets deduplicated by the engine) - both shapes work. The cleaner contract is split.
 
 ### Attribute merging
 
@@ -131,10 +136,10 @@ For high-contention attribute writes, use database transactions (`SELECT ... FOR
 
 ## Testing custom adapters
 
-Use `MemoryAdapter` as a behavioral reference. Your adapter should produce identical engine results for the same inputs.
+Use `IamMemoryAdapter` as a behavioral reference. Your adapter should produce identical engine results for the same inputs.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 import { YourAdapter } from './your-adapter'
 
 const adapter = new YourAdapter(/* config */)
@@ -151,7 +156,7 @@ await adapter.saveRole({
 await adapter.assignRole('user-1', 'editor')
 
 // Test
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 const canUpdate = await engine.can('user-1', 'update', { type: 'post', attributes: {} })
 const canDelete = await engine.can('user-1', 'delete', { type: 'post', attributes: {} })
 

@@ -1,0 +1,178 @@
+Type tests are most valuable when they run on every change. This guide shows the wiring.
+
+## In a vitest project
+
+duck-ttest assertions compile through vitest's TypeScript transform — failing assertions block the test run with the message in the diagnostic.
+
+```ts title="src/user.test.ts"
+import { describe, it, expect } from 'vitest'
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+import { createUser, type User } from './user'
+
+describe('createUser', () => {
+  it('returns a User', () => {
+    const u = createUser('Ada')
+    expect(u).toMatchObject({ name: 'Ada' })
+  })
+
+  // type assertions — these break the build, not the test
+  type _ = [
+    AssertTrue<Equal<ReturnType<typeof createUser>, User>, 'must return User'>,
+    AssertTrue<Equal<User['name'], string>, 'name is string'>,
+  ]
+})
+```
+
+## In a `tsc` CI step
+
+Most reliable for libraries — the same compile your consumers run.
+
+```json title="package.json"
+{
+  "scripts": {
+    "test:types": "tsc --noEmit",
+    "test": "vitest && bun run test:types"
+  }
+}
+```
+
+```yaml title=".github/workflows/ci.yml"
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - run: bun run test
+```
+
+## In a monorepo with turbo
+
+```json title="turbo.json"
+{
+  "tasks": {
+    "check-types": {
+      "dependsOn": ["^check-types"],
+      "outputs": []
+    }
+  }
+}
+```
+
+```bash
+turbo run check-types
+```
+
+Each package gets its own type-check; failures surface per package.
+
+## In a pre-commit hook
+
+For libraries that publish types, run on staged files only:
+
+```sh title=".husky/pre-commit"
+#!/usr/bin/env sh
+bun run lint-staged
+bun run test:types
+```
+
+If `test:types` regularly takes more than a few seconds, scope it to the changed package instead of the whole repo.
+
+## Stable test names
+
+Compiler errors point at the file and line. Name your assertion-bundle types so the IDE hover tells the story:
+
+```ts
+type _Subject_Id_Is_Branded = AssertTrue<
+  Equal<Subject['id'], UserId>,
+  'Subject.id must be the branded UserId, not raw string'
+>
+```
+
+When this fails, two things help: the type alias name (in the editor hover) and the message string (in the diagnostic).
+
+## Detecting `any` leaks
+
+`any` silently passes most equality checks. Guard against it explicitly:
+
+```ts
+import type { AssertFalse } from '@gentleduck/ttest/assert'
+import type { IsAny } from '@gentleduck/ttest/any'
+
+type _no_leaks = [
+  AssertFalse<IsAny<User['id']>,     'User.id leaked any'>,
+  AssertFalse<IsAny<User['email']>,  'User.email leaked any'>,
+  AssertFalse<IsAny<UserRow['name']>, 'UserRow.name leaked any'>,
+]
+```
+
+Add one of these per public type that takes a tight contract. A future generic loosening that resolves to `any` will trip the assertion.
+
+## Detecting accidental widening
+
+When you constrain a public API with `as const` or `Narrow`, regressions show up as widened literals.
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+const ACTIONS = ['create', 'read', 'update', 'delete'] as const
+type Action = typeof ACTIONS[number]
+
+type _ = AssertTrue<
+  Equal<Action, 'create' | 'read' | 'update' | 'delete'>,
+  'ACTIONS widened to string — did someone drop the `as const`?'
+>
+```
+
+If a refactor drops `as const`, `Action` becomes `string` and the assertion fires.
+
+## Anti-patterns
+
+### Assertions that pass for the wrong reason
+
+```ts
+// Both sides resolve to `any` — the assertion is vacuous.
+type _ = AssertTrue<Equal<typeof someApi, any>, 'api shape'>
+```
+
+Pair every potentially-`any` assertion with an `IsAny` guard. Otherwise a future refactor that loosens the contract to `any` keeps the assertion green.
+
+```ts
+type _ = [
+  AssertFalse<IsAny<typeof someApi>, 'api shape must not be any'>,
+  AssertTrue <Equal<typeof someApi, ApiShape>, 'api shape matches contract'>,
+]
+```
+
+### Putting type tests in the same file as the runtime exports
+
+```ts
+// src/user.ts
+export type User = { /* ... */ }
+export function createUser(name: string): User { /* ... */ }
+
+// Anti-pattern: same file, mixed concern.
+type _ = AssertTrue<Equal<ReturnType<typeof createUser>, User>, 'returns User'>
+```
+
+The assertion compiles into the published artifact. Move it to `user.test-d.ts` or `user.test.ts` — files that production code never imports.
+
+### Asserting against runtime values
+
+```ts
+const ROLES = ['admin', 'editor']  // no `as const`
+type _ = AssertTrue<Equal<typeof ROLES[number], 'admin' | 'editor'>, 'roles'>
+// FAILS — `ROLES` widens to `string[]`, so the inferred member is `string`.
+```
+
+The fix is at the runtime declaration: `['admin', 'editor'] as const`. The assertion then catches future drift, not the present-day declaration sloppiness.
+
+## See also
+
+* [Core / Type-level testing](/duck-ttest/core/type-level-testing) — the three runner workflows.
+* [Core / Composing tests](/duck-ttest/core/composing-tests) — naming, grouping, and performance.
+* [API / any](/duck-ttest/api/any) — `IsAny` and friends.

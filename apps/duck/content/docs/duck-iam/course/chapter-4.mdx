@@ -61,12 +61,12 @@ await engine.can('bob', 'update',
 
 ### engine.authorize()
 
-The low-level method takes a full `Request.IAccessRequest` object:
+The low-level method takes a full `IamRequest.IAccessRequest` object:
 
 ```typescript
-import type { Request } from '@gentleduck/iam'
+import type { IamRequest } from '@gentleduck/iam'
 
-const request: Request.IAccessRequest = {
+const request: IamRequest.IAccessRequest = {
   subject: {
     id: 'bob',
     roles: ['editor', 'viewer'],
@@ -97,13 +97,13 @@ Development mode (default) returns rich `Decision` objects and enables `explain(
 Production mode strips that overhead and returns booleans.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 
 // Development mode (default) - rich Decision objects, explain() available
-const devEngine = new Engine({ adapter })
+const devEngine = new IamEngine({ adapter })
 
 // Production mode - fast booleans, no explain()
-const prodEngine = new Engine({ adapter, mode: 'production' })
+const prodEngine = new IamEngine({ adapter, mode: 'production' })
 ```
 
 ### What Changes Between Modes
@@ -127,7 +127,7 @@ short-circuiting and returns a full debug trace.
 ### Development Mode
 
 ```typescript
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 
 // check() returns a full Decision
 const decision = await engine.check('bob', 'update', {
@@ -156,7 +156,7 @@ console.log(trace.summary)
 ### Production Mode
 
 ```typescript
-const engine = new Engine({ adapter, mode: 'production' })
+const engine = new IamEngine({ adapter, mode: 'production' })
 
 // can() still returns boolean (same as dev)
 const allowed = await engine.can('bob', 'update', {
@@ -228,33 +228,33 @@ Hooks run at key points in the evaluation lifecycle.
 ### Hook Type Signatures
 
 ```typescript
-interface EngineTypes.IHooks {
+interface IamEngineTypes.IHooks {
   // Runs before evaluation. Can modify the request (enrich with DB data).
   beforeEvaluate?(
-    request: Request.IAccessRequest,
-  ): Request.IAccessRequest | Promise<Request.IAccessRequest>
+    request: IamRequest.IAccessRequest,
+  ): IamRequest.IAccessRequest | Promise<IamRequest.IAccessRequest>
 
   // Runs after evaluation, regardless of outcome.
   afterEvaluate?(
-    request: Request.IAccessRequest,
+    request: IamRequest.IAccessRequest,
     decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs only when the decision is deny.
   onDeny?(
-    request: Request.IAccessRequest,
+    request: IamRequest.IAccessRequest,
     decision: AccessControl.IDecision,
   ): void | Promise<void>
 
   // Runs if any error occurs during evaluation.
   onError?(
     error: Error,
-    request: Request.IAccessRequest,
+    request: IamRequest.IAccessRequest,
   ): void | Promise<void>
 
   // Per-evaluation timing + cache-hit telemetry (fires in both modes).
   onMetrics?(
-    metrics: EngineTypes.IMetrics,
+    metrics: IamEngineTypes.IMetrics,
   ): void | Promise<void>
 
   // Per-policy error capture - fires when a single policy throws,
@@ -262,7 +262,7 @@ interface EngineTypes.IHooks {
   onPolicyError?(
     error: Error,
     policyId: string,
-    request: Request.IAccessRequest,
+    request: IamRequest.IAccessRequest,
   ): void | Promise<void>
 }
 ```
@@ -274,7 +274,7 @@ interface EngineTypes.IHooks {
     Fetch resource data from a database before evaluation runs:
 
     ```typescript title="src/access.ts"
-    export const engine = new Engine({
+    export const engine = new IamEngine({
       adapter,
       hooks: {
         beforeEvaluate: async (request) => {
@@ -415,7 +415,7 @@ adapter on the next access.
 ### Configuration
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 60,         // seconds (default: 60, set to 0 to disable)
   maxCacheSize: 1000,   // max cached subjects (default: 1000)
@@ -655,20 +655,20 @@ check picks up the new role. No manual invalidation needed after admin operation
     <AccordionContent>
 
 ```typescript
-import { Engine, validateRoles } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine, validateRoles } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { viewer, editor, admin } from './roles'
 import { ownerPolicy } from './policies'
 
 validateRoles([viewer, editor, admin])
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { alice: ['viewer'], bob: ['editor'], charlie: ['admin'] },
   policies: [ownerPolicy],
 })
 
-export const engine = new Engine({
+export const engine = new IamEngine({
   adapter,
   defaultEffect: 'deny',
   cacheTTL: 60,

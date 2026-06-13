@@ -265,7 +265,7 @@ createAdminHandlers(engine, {
 })
 ```
 
-`withAccess` options conform to `Next.IWithAccessOptions`, `createNextMiddleware` options conform to `Next.IMiddlewareOptions`, and `createAdminHandlers` options conform to `Next.IAdminOptions` with `authorize` of shape `Next.IAdminAuthorize`.
+`withAccess` options conform to `IamNext.IWithAccessOptions`, `createNextMiddleware` options conform to `IamNext.IMiddlewareOptions`, and `createAdminHandlers` options conform to `IamNext.IAdminOptions` with `authorize` of shape `IamNext.IAdminAuthorize`.
 
 ---
 
@@ -273,19 +273,19 @@ createAdminHandlers(engine, {
 
 All types live under the `Next` namespace at `@gentleduck/iam/server/next`. Type-only - zero bundle cost.
 
-- `Next.IWithAccessOptions` - options for `withAccess` (`getUserId`, `getEnvironment`, `scope`, `onError`).
-- `Next.IMiddlewareOptions` - options for `createNextMiddleware` (`rules`, `getUserId`, `onError`).
-- `Next.IAdminAuthorize` - signature of the required `authorize` callback for `createAdminHandlers`.
-- `Next.IAdminOptions` - options for `createAdminHandlers`.
+- `IamNext.IWithAccessOptions` - options for `withAccess` (`getUserId`, `getEnvironment`, `scope`, `onError`).
+- `IamNext.IMiddlewareOptions` - options for `createNextMiddleware` (`rules`, `getUserId`, `onError`).
+- `IamNext.IAdminAuthorize` - signature of the required `authorize` callback for `createAdminHandlers`.
+- `IamNext.IAdminOptions` - options for `createAdminHandlers`.
 
 ```typescript
-import type { Next } from '@gentleduck/iam/server/next'
+import type { IamNext } from '@gentleduck/iam/server/next'
 
-const opts: Next.IWithAccessOptions = {
+const opts: IamNext.IWithAccessOptions = {
   getUserId: async (req) => (await auth())?.user?.id ?? null,
 }
 
-const adminAuth: Next.IAdminAuthorize = async (req) => {
+const adminAuth: IamNext.IAdminAuthorize = async (req) => {
   const session = await getSession(req)
   return session?.user?.role === 'platform-admin'
 }

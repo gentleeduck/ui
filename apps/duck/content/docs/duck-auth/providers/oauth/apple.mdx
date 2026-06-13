@@ -21,7 +21,7 @@ section: Providers
 import { apple } from '@gentleduck/auth/providers/oauth/apple'
 import { readFileSync } from 'node:fs'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     apple({

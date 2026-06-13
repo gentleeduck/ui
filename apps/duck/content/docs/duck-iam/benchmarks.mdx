@@ -23,7 +23,7 @@ Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here. Three 
 **duck-iam wins on architecture, not raw speed.** What you get for the overhead:
 
 - **XACML-grade semantics** - NotApplicable policies are skipped (not folded as default-deny), three cross-policy modes, four in-policy combiners, deterministic priority resolution.
-- **Type-safe adapter contract** - `Adapter.IAdapter` with `IReadOptions.signal` for cancellation, generic over actions / resources / roles / scopes.
+- **Type-safe adapter contract** - `IamAdapter.IAdapter` with `IReadOptions.signal` for cancellation, generic over actions / resources / roles / scopes.
 - **Property-based oracle** - 1000 random iterations per `(combine, defaultEffect)` pair assert `evaluate` and `evaluateFast` cannot silently disagree.
 - **Snapshot export / import** - `engine.admin.export()` produces a schema-versioned config snapshot for GitOps or staging->prod promotion.
 
@@ -135,12 +135,12 @@ Notes:
 
 ```ts
 // yes Tight: import only what you use
-import { Engine } from '@gentleduck/iam/core'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam/core'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
 // no Pulls everything (41 KB)
-import { Engine, MemoryAdapter } from '@gentleduck/iam'
+import { IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 ```
 
 Run `bun run bench` for the head-to-head against `@casl/ability`, `casbin`, `accesscontrol`, `role-acl`, `@rbac/rbac`, `easy-rbac`. Run `bun run benchmark` to emit fresh JSON for the docs site.
@@ -311,14 +311,14 @@ duck-iam has two execution modes. They change **runtime behavior** and **return 
 
 ```ts
 // Development (default) -- rich AccessControl.IDecision with timing, reasons, rule refs
-const engine = new Engine({ adapter, mode: 'development' })
+const engine = new IamEngine({ adapter, mode: 'development' })
 const decision = await engine.check('user-1', 'read', post)
 // decision: AccessControl.IDecision { allowed: true, effect: 'allow', reason: '...', duration: 0.5, timestamp: ... }
 // engine.explain() is available
 // Hooks (afterEvaluate, onDeny, onError) fire on every check
 
 // Production -- plain boolean, maximum throughput
-const prodEngine = new Engine({ adapter, mode: 'production' })
+const prodEngine = new IamEngine({ adapter, mode: 'production' })
 const allowed = await prodEngine.check('user-1', 'read', post)
 // allowed: true (boolean)
 // No performance.now(), no Date.now(), no object allocation, no reason strings
@@ -335,20 +335,20 @@ const allowed = await prodEngine.check('user-1', 'read', post)
 
 ```ts
 // yes Smallest production bundle - import only the fast evaluator
-// Tree-shakes away: Engine, explain, builder, config, validate, dev evaluate
+// Tree-shakes away: IamEngine, explain, builder, config, validate, dev evaluate
 import { evaluateFast } from '@gentleduck/iam/core'
 
 // yes Typical backend - pulls engine + adapter + server middleware only
-import { Engine } from '@gentleduck/iam/core'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam/core'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
 // yes Admin-write path - validator is lazy-loaded on first call
-import { Engine } from '@gentleduck/iam/core'
+import { IamEngine } from '@gentleduck/iam/core'
 await engine.admin.savePolicy(p) // pulls validate chunk on first call
 
 // no Pulls everything (41 KB) - avoid the barrel import
-import { Engine, MemoryAdapter } from '@gentleduck/iam'
+import { IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 ```
 
 The validator (12 KB), builder (9 KB), explain tracer, and JSON schema are all behind separate subpath entries - they only ship if you import them directly. The HTTP, Redis, Drizzle, Prisma, and file adapters are subpath-only; the barrel no longer re-exports them.
@@ -461,7 +461,7 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 ### @gentleduck/iam wins on
 
 - **XACML-grade semantics**: NotApplicable policies skipped (not folded as default-deny), three cross-policy combine modes (`and`, `allow-overrides`, `first-applicable`), four in-policy combiners with deterministic priority.
-- **Type-safe adapter contract**: `Adapter.IAdapter` generic over actions / resources / roles / scopes; `IReadOptions.signal` for `AbortController`-driven cancellation.
+- **Type-safe adapter contract**: `IamAdapter.IAdapter` generic over actions / resources / roles / scopes; `IReadOptions.signal` for `AbortController`-driven cancellation.
 - **Property-based oracle**: trace and fast paths can't silently drift - 1000 random iterations per combine/default-effect pair, six historical drifts caught.
 - **Snapshot export / import**: `engine.admin.export()` -> schema-versioned snapshot for GitOps, environment promotion, backup.
 - **Feature density**: scoped roles, explain/debug, lifecycle hooks (`onPolicyError`, `onMetrics`), batch permissions, 18 condition operators, dev/prod mode in one package.
@@ -498,12 +498,12 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 
 ## Smallest possible bundle
 
-`createAccessConfig()` sets up the whole authorization system in one call, but it pulls in the full config system, validator, and builder. If all you need is policy evaluation, skip the config layer and import the building blocks directly.
+`defineIam()` sets up the whole authorization system in one call, but it pulls in the full config system, validator, and builder. If all you need is policy evaluation, skip the config layer and import the building blocks directly.
 
-Build a typed policy and evaluate it without `createAccessConfig`:
+Build a typed policy and evaluate it without `defineIam`:
 
 ```ts
-import type { AccessControl, Request } from '@gentleduck/iam'
+import type { AccessControl, IamRequest } from '@gentleduck/iam'
 import { evaluatePolicyFast } from '@gentleduck/iam'
 
 // Define your action/resource types for type safety
@@ -518,7 +518,7 @@ const policy: AccessControl.IPolicy<Action, Resource> = {
   ],
 }
 
-const request: Request.IAccessRequest<Action, Resource> = {
+const request: IamRequest.IAccessRequest<Action, Resource> = {
   subject: { id: 'user-1', roles: ['viewer'] },
   action: 'read',
   resource: { type: 'post', id: 'post-1' },
@@ -527,7 +527,7 @@ const request: Request.IAccessRequest<Action, Resource> = {
 const allowed = evaluatePolicyFast(policy, request) // boolean
 ```
 
-The package is fully tree-shakeable. Anything you don't import drops out: Engine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry: pay only for what you use.
+The package is fully tree-shakeable. Anything you don't import drops out: IamEngine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry: pay only for what you use.
 
 Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `evaluateFast`, `evaluatePolicy`, and the condition operators. Mix and match for the exact surface area you need.
 

@@ -19,10 +19,10 @@ if (!allowed) {
 ```typescript
 engine.can(
   subjectId: string,
-  action: string,
-  resource: Resource,
-  environment?: Environment,
-  scope?: string,
+  action: TAction,
+  resource: IamRequest.IResource<TResource>,
+  environment?: IamRequest.IAccessRequest['environment'],
+  scope?: TScope,
 ): Promise<boolean>
 ```
 
@@ -32,7 +32,7 @@ engine.can(
 
 ## engine.check()
 
-Same as `can()` but returns the full `Decision` object instead of a boolean (in development mode):
+Same as `can()` but returns the full `AccessControl.IDecision` object instead of a boolean (in development mode):
 
 ```typescript
 const decision = await engine.check('user-1', 'delete', {
@@ -47,7 +47,7 @@ if (!decision.allowed) {
 }
 ```
 
-In production mode, `check()` returns a plain `boolean` - same as `can()`. The Decision object is a development-mode feature.
+In production mode, `check()` returns a plain `boolean` - same as `can()`. The `IDecision` object is a development-mode feature.
 
 Use `check()` when you want to log/audit the deciding policy and rule, not just the outcome.
 
@@ -55,7 +55,7 @@ Use `check()` when you want to log/audit the deciding policy and rule, not just 
 
 ## engine.authorize()
 
-Takes a complete `AccessRequest` object. The low-level method that `can()` and `check()` call internally. Use it when you already have a resolved subject:
+Takes a complete `IamRequest.IAccessRequest` object. The low-level method that `can()` and `check()` call internally. Use it when you already have a resolved subject:
 
 ```typescript
 const subject = await engine.resolveSubject('user-1') // internal helper
@@ -141,6 +141,8 @@ const perms = await engine.permissions('user-1', [
 
 For large arrays (50+ checks), `permissions()` outperforms a loop by 10x+.
 
+The return type is `AccessControl.ModePermissionMap<TMode>` - a `boolean` value per key in production mode, an `AccessControl.IDecision` per key in development mode.
+
 ***
 
 ## engine.explain()
@@ -159,11 +161,100 @@ console.log(result.policies) // per-policy breakdowns
 console.log(result.rules) // per-rule match details with actual vs expected values
 ```
 
-`explain()` runs the same pipeline as `check()` but builds a richer trace object instead of a `Decision`. Side-effect hooks (`afterEvaluate`, `onDeny`, `onError`) **do not fire** - it's read-only.
+`explain()` runs the same pipeline as `check()` but builds a richer trace object instead of an `IDecision`. Side-effect hooks (`afterEvaluate`, `onDeny`, `onError`) **do not fire** - it's read-only.
 
 `beforeEvaluate` does run, since it can affect the evaluation (e.g. adding timestamp to the environment).
 
 See [explain and debug](/duck-iam/advanced/explain) for the full trace API.
+
+***
+
+## engine.preload()
+
+Warms `mergedPolicyCache` so the first request after boot doesn't pay the full `listPolicies` + `listRoles` + `rolesToPolicy` + index-build cost. Call once at app startup.
+
+```typescript
+// app startup
+await engine.preload()
+server.listen(PORT)
+```
+
+Bench shows ~15x speedup on the first call vs cold.
+
+***
+
+## engine.healthCheck()
+
+Liveness + readiness probe. One timed-out `listPolicies` round-trip plus a cache-hit-rate snapshot. Wire to `/healthz`. Returns an `IamEngineTypes.IHealth`:
+
+```typescript
+interface IHealth {
+  ok: boolean              // false means the orchestrator should pull this instance
+  adapter: 'ok' | 'fail'   // adapter probe outcome
+  cacheHitRate: number     // aggregate hit rate across caches; 0 when no traffic yet
+  adapterLatencyMs: number // round-trip latency of the probe
+  lastError?: string       // present when `adapter === 'fail'`
+}
+```
+
+```typescript
+app.get('/healthz', async (_, res) => {
+  const h = await engine.healthCheck()
+  res.status(h.ok ? 200 : 503).json(h)
+})
+```
+
+Cheap enough for 5-10 s probe intervals.
+
+***
+
+## engine.cache
+
+Cache-invalidation facet. Four targeted flushes for use after policy/role/subject mutations. Pass `{ broadcast: false }` when applying an event received from another instance.
+
+```typescript
+engine.cache.invalidate(opts?)                  // drop every cache + in-flight resolver
+engine.cache.invalidateSubject(subjectId, opts?) // drop one subject's resolved roles + attrs
+engine.cache.invalidatePolicies(opts?)           // drop cached policies (after policy CRUD)
+engine.cache.invalidateRoles(roleId?, opts?)     // drop cached roles + RBAC policy; selectively drops affected subjects
+```
+
+With an `invalidator` wired, each call publishes an event so peer instances flush their local caches. Pass `{ broadcast: false }` to suppress the publish when *applying* an inbound event (otherwise instances ping-pong).
+
+Module-level `flushSharedCaches()` (separate import) wipes the **process-wide** regex + path caches shared across every Engine. Schedule periodically in multi-tenant deployments.
+
+```typescript
+import { flushSharedCaches } from '@gentleduck/iam'
+setInterval(flushSharedCaches, 5 * 60 * 1000)
+```
+
+***
+
+## engine.stats.get() / engine.stats.reset()
+
+Cache hit / miss counters per cache. Use for alerting on cache-effectiveness regressions in production.
+
+```typescript
+const s = engine.stats.get()
+// -> { policies, roles, rbacPolicy, mergedPolicies, subjects }
+//     each { hits, misses, size }
+
+engine.stats.reset() // zero the counters
+```
+
+Counters accumulate from construction; reset on a sampling interval if you want windowed metrics.
+
+***
+
+## engine.dispose()
+
+Releases the cross-instance invalidator subscription. Call on shutdown.
+
+```typescript
+process.on('SIGTERM', () => engine.dispose())
+```
+
+No-op if no `invalidator` was wired. Safe to call multiple times.
 
 ***
 
@@ -173,6 +264,10 @@ See [explain and debug](/duck-iam/advanced/explain) for the full trace API.
 | --- | --- |
 | Simple yes/no check | `can()` |
 | Decision metadata (rule/policy/reason) | `check()` |
-| Pre-built AccessRequest | `authorize()` |
+| Pre-built `IamRequest.IAccessRequest` | `authorize()` |
 | Batch checks for UI hydration | `permissions()` |
 | Debugging why a decision happened | `explain()` |
+| Warm cache at boot | `preload()` |
+| `/healthz` probe | `healthCheck()` |
+| Cache effectiveness telemetry | `stats()` / `resetStats()` |
+| Shutdown cleanup | `dispose()` |

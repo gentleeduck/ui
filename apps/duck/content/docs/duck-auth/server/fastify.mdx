@@ -45,10 +45,10 @@ is reached.
 ## Error handling
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.setErrorHandler((err, req, reply) => {
-  if (err instanceof AuthErrorObject) {
+  if (err instanceof AuthError) {
     return reply.code(err.status).send(err.toJSON())
   }
   reply.send(err)

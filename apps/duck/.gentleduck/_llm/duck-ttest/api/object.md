@@ -1,0 +1,221 @@
+```ts
+import type {
+  Simplify, Prettify, Override, Assign,
+  DeepPartial, DeepRequired, DeepReadonly, DeepMutable, DeepWritable, DeepNonNullable,
+  Mutable, Writable,
+  PartialBy, RequiredBy, ReadonlyBy, MutableBy,
+  StrictOmit, StrictPick, Except,
+  ValueOf, Entries, FromEntries, Invert, RenameKey,
+  RequireAtLeastOne, RequireExactlyOne, RequireAllOrNone, RequireOneOrNone,
+  NonEmptyObject,
+  DeepPick, DeepOmit, Get, Paths,
+  MergeDeep, MergeAll, OverrideProperties,
+  OmitIndexSignature, PickIndexSignature, KeysOfUnion,
+  Schema, SetOptional, SetRequired, SetReadonly, SetMutable,
+  OmitNever, Without, ReplaceValue, DeepReplaceValue,
+  PickRequired, PickOptional,
+  ConditionalPick, ConditionalExcept, PickByType, OmitByType,
+  MergeExclusive,
+  CamelCaseKeys, PascalCaseKeys, SnakeCaseKeys, KebabCaseKeys,
+  DeepCamelCaseKeys, DeepPascalCaseKeys, DeepSnakeCaseKeys, DeepKebabCaseKeys,
+  Pluck, SetKeyType, SharedKeys, DiffKeys,
+  HasSameKeys, CommonKeys, ConditionalKeys,
+  DistributedOmit, DistributedPick,
+  EmptyObject, UnknownRecord, IsEmptyRecord,
+} from '@gentleduck/ttest/object'
+```
+
+The largest module. Grouped below by concern.
+
+## Simplification
+
+```ts
+type Simplify<T> = { [K in keyof T]: T[K] } & {}
+type Prettify<T> = Simplify<T>
+```
+
+Flatten an intersection into a single object — improves IDE hover output.
+
+```ts
+type a = Simplify<{ a: 1 } & { b: 2 }>  // { a: 1; b: 2 }
+```
+
+## Override / Assign
+
+```ts
+type Override<A, B> = Simplify<Omit<A, keyof B> & B>
+type Assign<A, B>   = Override<A, B>
+```
+
+Override properties of `A` with `B`. Keys in `B` win.
+
+## Deep transforms
+
+```ts
+type DeepPartial    <T>  // every property recursively optional
+type DeepRequired   <T>  // every property recursively required
+type DeepReadonly   <T>  // every property recursively readonly
+type DeepMutable    <T>  // strip readonly recursively
+type DeepWritable   <T> = DeepMutable<T>
+type DeepNonNullable<T>  // strip null|undefined recursively
+```
+
+All stop at the `Builtin` lattice (`Date`, `Map`, `Set`, `Promise`, etc.) — they don't recurse into class instances.
+
+## Shallow mutability
+
+```ts
+type Mutable <T>  // -readonly on all top-level keys
+type Writable<T> = Mutable<T>
+```
+
+## Per-key modifiers
+
+```ts
+type PartialBy <T, K extends keyof T>
+type RequiredBy<T, K extends keyof T>
+type ReadonlyBy<T, K extends keyof T>
+type MutableBy <T, K extends keyof T>
+```
+
+Mark *some* keys with the modifier; leave the rest untouched.
+
+```ts
+type T = PartialBy<{ a: 1; b: 2 }, 'a'>  // { a?: 1; b: 2 }
+```
+
+`SetOptional` / `SetRequired` / `SetReadonly` / `SetMutable` are aliases for type-fest parity.
+
+## Strict Pick / Omit
+
+```ts
+type StrictOmit<T, K extends keyof T> = Omit<T, K>
+type StrictPick<T, K extends keyof T> = Pick<T, K>
+type Except    <T, K extends keyof T> = Omit<T, K>
+```
+
+Like `Omit` / `Pick` but constrained — `K` must be a real key of `T`.
+
+## Values, entries, key arithmetic
+
+```ts
+type ValueOf<T> = T[keyof T]
+type Entries<T>           // union of [key, value] tuples
+type FromEntries<T extends readonly [PropertyKey, unknown]>
+type Invert<T extends Record<PropertyKey, PropertyKey>>
+type RenameKey<T, From extends keyof T, To extends PropertyKey>
+```
+
+## RequireAtLeastOne / ExactlyOne / AllOrNone / OneOrNone
+
+Combinatorial key constraints. See examples in the source.
+
+```ts
+type T = { a?: 1; b?: 2; c?: 3 }
+type r = RequireAtLeastOne<T, 'a' | 'b'>
+// → { a: 1; b?: 2; c?: 3 } | { a?: 1; b: 2; c?: 3 }
+```
+
+## Dotted paths
+
+```ts
+type DeepPick<T, Path extends string>
+type DeepOmit<T, Path extends string>
+type Get     <T, Path extends string>
+type Paths   <T, D extends number = 6>
+```
+
+Operate on `'a.b.c'`-style dotted paths. `Paths<T, D>` is depth-capped at `D = 6` by default — lower for very wide objects.
+
+```ts
+type T = { a: { b: { c: number } } }
+type x = Get   <T, 'a.b.c'>  // number
+type y = DeepPick<T, 'a.b'>  // { a: { b: { c: number } } }
+type p = Paths<T>            // 'a' | 'a.b' | 'a.b.c'
+```
+
+## Merges
+
+```ts
+type MergeDeep<A, B>
+type MergeAll <T extends readonly object[]>
+type OverrideProperties<A, B extends Partial<Record<keyof A, unknown>>>
+```
+
+## Index signature surgery
+
+```ts
+type OmitIndexSignature<T>  // keep only explicit keys
+type PickIndexSignature<T>  // keep only the index signature
+type KeysOfUnion<T>         // union of every key present in any union member
+```
+
+## Schema / Replace
+
+```ts
+type Schema<T, V>                  // replace every leaf with V
+type OmitNever<T>                  // drop never-valued keys
+type Without<T, V>                 // drop keys whose value extends V
+type ReplaceValue<T, From, To>
+type DeepReplaceValue<T, From, To>
+```
+
+## Required / Optional pickers
+
+```ts
+type PickRequired<T>
+type PickOptional<T>
+type ConditionalPick  <T, U>  // keys whose value extends U
+type ConditionalExcept<T, U>
+type PickByType<T, U> = ConditionalPick<T, U>
+type OmitByType<T, U> = ConditionalExcept<T, U>
+```
+
+## MergeExclusive
+
+```ts
+type MergeExclusive<A, B>  // A xor B
+```
+
+Mutually-exclusive merge — exactly one shape wins.
+
+## Case conversion
+
+Shallow and deep variants for camelCase, PascalCase, snake\_case, kebab-case:
+
+```ts
+type CamelCaseKeys      <T>
+type PascalCaseKeys     <T>
+type SnakeCaseKeys      <T>
+type KebabCaseKeys      <T>
+
+type DeepCamelCaseKeys  <T>
+type DeepPascalCaseKeys <T>
+type DeepSnakeCaseKeys  <T>
+type DeepKebabCaseKeys  <T>
+```
+
+```ts
+type T = { user_id: number; full_name: string }
+type k = CamelCaseKeys<T>  // { userId: number; fullName: string }
+```
+
+## Misc
+
+```ts
+type Pluck<T, K extends keyof T>       // T[K]
+type SetKeyType<T, K, V>               // replace T[K] with V
+type SharedKeys<A, B>                  // keys in both
+type DiffKeys  <A, B>                  // keys in A but not B
+type HasSameKeys<A, B>                 // boolean
+type CommonKeys<U>                     // keys in every union member
+type ConditionalKeys<T, Condition>     // keys whose value extends Condition
+type DistributedOmit<T, K extends keyof any>
+type DistributedPick<T, K extends keyof any>
+type EmptyObject   = Record<PropertyKey, never>
+type UnknownRecord = Record<PropertyKey, unknown>
+type IsEmptyRecord<T>
+type NonEmptyObject<T>
+```
+
+`DistributedOmit` / `DistributedPick` preserve discriminated unions where the built-in `Omit` / `Pick` collapse them.

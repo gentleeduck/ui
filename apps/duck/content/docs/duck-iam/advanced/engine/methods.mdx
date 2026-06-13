@@ -25,8 +25,8 @@ if (!allowed) {
 engine.can(
   subjectId: string,
   action: TAction,
-  resource: Request.IResource<TResource>,
-  environment?: Request.IAccessRequest['environment'],
+  resource: IamRequest.IResource<TResource>,
+  environment?: IamRequest.IAccessRequest['environment'],
   scope?: TScope,
 ): Promise<boolean>
 ```
@@ -60,7 +60,7 @@ Use `check()` when you want to log/audit the deciding policy and rule, not just 
 
 ## engine.authorize()
 
-Takes a complete `Request.IAccessRequest` object. The low-level method that `can()` and `check()` call internally. Use it when you already have a resolved subject:
+Takes a complete `IamRequest.IAccessRequest` object. The low-level method that `can()` and `check()` call internally. Use it when you already have a resolved subject:
 
 ```typescript
 const subject = await engine.resolveSubject('user-1') // internal helper
@@ -190,7 +190,7 @@ Bench shows ~15x speedup on the first call vs cold.
 
 ## engine.healthCheck()
 
-Liveness + readiness probe. One timed-out `listPolicies` round-trip plus a cache-hit-rate snapshot. Wire to `/healthz`. Returns an `EngineTypes.IHealth`:
+Liveness + readiness probe. One timed-out `listPolicies` round-trip plus a cache-hit-rate snapshot. Wire to `/healthz`. Returns an `IamEngineTypes.IHealth`:
 
 ```typescript
 interface IHealth {
@@ -269,7 +269,7 @@ No-op if no `invalidator` was wired. Safe to call multiple times.
 | --- | --- |
 | Simple yes/no check | `can()` |
 | Decision metadata (rule/policy/reason) | `check()` |
-| Pre-built `Request.IAccessRequest` | `authorize()` |
+| Pre-built `IamRequest.IAccessRequest` | `authorize()` |
 | Batch checks for UI hydration | `permissions()` |
 | Debugging why a decision happened | `explain()` |
 | Warm cache at boot | `preload()` |

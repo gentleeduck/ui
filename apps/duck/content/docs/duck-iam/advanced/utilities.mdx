@@ -129,7 +129,7 @@ function matchesScope(
 
 ### resolve
 
-Resolves a dot-path string against a `Request.IAccessRequest`. The engine uses this to extract
+Resolves a dot-path string against a `IamRequest.IAccessRequest`. The engine uses this to extract
 field values when evaluating conditions (e.g., `'resource.attributes.ownerId'`).
 
 Supported root paths: `subject.*`, `resource.*`, `environment.*`. Two shorthands exist:
@@ -159,7 +159,7 @@ resolve(request, 'invalid.path')                   // null
 **Signature:**
 
 ```typescript
-function resolve(request: Request.IAccessRequest, path: string): AttributeValue
+function resolve(request: IamRequest.IAccessRequest, path: string): AttributeValue
 ```
 
 `AttributeValue` is `string | number | boolean | null | string[] | number[]`.
@@ -236,7 +236,7 @@ resolveConditionValue(request, 42)                             // 42
 
 ```typescript
 function resolveConditionValue(
-  req: Request.IAccessRequest,
+  req: IamRequest.IAccessRequest,
   value: AttributeValue,
 ): AttributeValue
 ```
@@ -252,7 +252,7 @@ A few engine-level invariants the utility functions inherit:
 - **Regex LRU cache for `matches`.** The condition evaluator compiles `matches` patterns
   once and stores them in an LRU with bounded capacity. Repeated hits skip recompilation;
   cache eviction is least-recently-used to bound memory under hostile pattern churn.
-- **HttpAdapter null on 404.** `HttpAdapter.getPolicy(id)` and `HttpAdapter.getRole(id)`
+- **IamHttpAdapter null on 404.** `IamHttpAdapter.getPolicy(id)` and `IamHttpAdapter.getRole(id)`
   treat a `404 Not Found` response as "missing" and return `null` rather than throwing.
   Other non-2xx statuses still throw so transport errors are not silently swallowed.
 - **`matches` operator refuses `$`-resolved RHS.** See `resolveConditionValue` above.
@@ -266,7 +266,7 @@ it to the engine. duck-iam ships two helpers for exactly this:
 ```typescript
 import { parsePolicyRow, parseRoleRow } from '@gentleduck/iam/core/validate'
 
-class MyAdapter implements Adapter.IAdapter {
+class MyAdapter implements IamAdapter.IAdapter {
   async listPolicies() {
     const rows = await this.myStore.fetchPolicies()
     const out = []
@@ -293,5 +293,5 @@ Use cases:
   another; you want to drop malformed rows instead of crashing.
 - A staging endpoint that lets operators preview policies before commit.
 
-`parseRoleRow` mirrors `parsePolicyRow` for `Adapter.IRoleStore.listRoles`
+`parseRoleRow` mirrors `parsePolicyRow` for `IamAdapter.IRoleStore.listRoles`
 / `getRole` return values.

@@ -6,7 +6,7 @@ section: Integrations
 ## Install
 
 ```typescript
-import { FileAdapter } from '@gentleduck/iam/adapters/file'
+import { IamFileAdapter } from '@gentleduck/iam/adapters/file'
 ```
 
 JSON-on-disk store. Single-file persistence with read-through cache + write-back on every mutation. Single-writer: multiple processes against the same file will clobber each other without external locking. Suitable for CLIs, dev fixtures, and single-process apps.
@@ -19,15 +19,15 @@ For production with concurrent writers, use [Redis](/duck-iam/integrations/adapt
 
 ```typescript
 import fs from 'node:fs/promises'
-import { FileAdapter } from '@gentleduck/iam/adapters/file'
-import { Engine } from '@gentleduck/iam'
+import { IamFileAdapter } from '@gentleduck/iam/adapters/file'
+import { IamEngine } from '@gentleduck/iam'
 
-const adapter = new FileAdapter({
+const adapter = new IamFileAdapter({
   path: '/var/lib/myapp/iam.json',
   fs,
 })
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 
 await adapter.savePolicy({
   id: 'allow-read',
@@ -48,9 +48,9 @@ The adapter creates the parent directory on first write (`fs.mkdir(..., { recurs
 ## Configuration
 
 ```typescript
-import type { File } from '@gentleduck/iam/adapters/file'
+import type { IamFile } from '@gentleduck/iam/adapters/file'
 
-const init: File.IInit = {
+const init: IamFile.IInit = {
   path: '/var/lib/myapp/iam.json',
   fs: await import('node:fs/promises'),
 }
@@ -59,7 +59,7 @@ const init: File.IInit = {
 | Option | Type     | Notes                                                                          |
 |---|---|---|
 | `path` | `string` | Absolute path to the JSON store. Created on first write if missing.            |
-| `fs`   | `File.IFS` | Filesystem driver - `node:fs/promises`-compatible. See "Custom FS" below. |
+| `fs`   | `IamFile.IFS` | Filesystem driver - `node:fs/promises`-compatible. See "Custom FS" below. |
 
 ---
 
@@ -93,12 +93,12 @@ Indented with `JSON.stringify(state, null, 2)` so the file is human-editable. Ha
 
 ## Custom filesystem
 
-`File.IFS` is the minimal `node:fs/promises` surface the adapter needs. Implement it for in-memory testing, S3-backed durability, or any other backend:
+`IamFile.IFS` is the minimal `node:fs/promises` surface the adapter needs. Implement it for in-memory testing, S3-backed durability, or any other backend:
 
 ```typescript
-import type { File } from '@gentleduck/iam/adapters/file'
+import type { IamFile } from '@gentleduck/iam/adapters/file'
 
-const inMemoryFS: File.IFS = {
+const inMemoryFS: IamFile.IFS = {
   files: new Map<string, string>(),
   async readFile(path) {
     const v = this.files.get(path)
@@ -113,7 +113,7 @@ const inMemoryFS: File.IFS = {
   },
 }
 
-const adapter = new FileAdapter({ path: '/store.json', fs: inMemoryFS })
+const adapter = new IamFileAdapter({ path: '/store.json', fs: inMemoryFS })
 ```
 
 Tests in the package use this pattern - no real filesystem touched.
@@ -126,12 +126,12 @@ The adapter starts with empty state when the file is missing or malformed:
 
 ```typescript
 // File doesn't exist
-const adapter = new FileAdapter({ path: '/nope/iam.json', fs })
+const adapter = new IamFileAdapter({ path: '/nope/iam.json', fs })
 await adapter.listPolicies() // -> []
 
 // File is invalid JSON
 fs.writeFileSync('/store.json', 'not-json{')
-const adapter2 = new FileAdapter({ path: '/store.json', fs })
+const adapter2 = new IamFileAdapter({ path: '/store.json', fs })
 await adapter2.listPolicies() // -> []   (does not throw)
 ```
 
@@ -168,5 +168,5 @@ no Apps requiring transactional cross-key updates
 ## See also
 
 - [Memory adapter](/duck-iam/integrations/adapters/memory) - same shape, in-process only, no persistence.
-- [Custom adapter](/duck-iam/integrations/adapters/custom) - implement `Adapter.IAdapter` for any backend.
+- [Custom adapter](/duck-iam/integrations/adapters/custom) - implement `IamAdapter.IAdapter` for any backend.
 - [Adapter comparison](/duck-iam/integrations/adapters/comparison) - feature matrix across all storage backends.

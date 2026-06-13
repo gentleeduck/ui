@@ -37,7 +37,7 @@ for (const event of SENSITIVE) {
 
 ## Encryption at rest
 
-Profile data (`Identity.IIdentity.profile`) is the most-likely place to
+Profile data (`AuthIdentity.IIdentity.profile`) is the most-likely place to
 store PII. Wrap the identities store with `AesGcmDataAtRest`:
 
 ```typescript

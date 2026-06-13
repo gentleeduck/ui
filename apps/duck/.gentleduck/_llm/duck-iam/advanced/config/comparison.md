@@ -1,6 +1,6 @@
 ## At a glance
 
-| Concern | Untyped | Typed (`createAccessConfig`) |
+| Concern | Untyped | Typed (`defineIam`) |
 | --- | --- | --- |
 | Action typo (`'raed'` vs `'read'`) | Silent runtime fail | Compile error |
 | Unknown resource type | Silent runtime fail | Compile error |
@@ -48,7 +48,7 @@ For logic bugs, write tests. For caching, see [engine caching](/duck-iam/advance
 ## Untyped (direct imports)
 
 ```typescript
-import { defineRole, Engine, MemoryAdapter, policy } from '@gentleduck/iam'
+import { defineRole, IamEngine, IamMemoryAdapter, policy } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .grant('raed', 'post') // typo: "raed" instead of "read" - NO error
@@ -64,7 +64,7 @@ const restrictPolicy = policy('restrict')
   )
   .build()
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 await engine.can('user-1', 'raed', { type: 'post', attributes: {} })
 // Silently returns false because no role grants "raed"
 ```
@@ -83,12 +83,12 @@ Cons:
 
 ***
 
-## Typed (createAccessConfig)
+## Typed (defineIam)
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
+import { defineIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete'] as const,
   resources: ['post', 'comment'] as const,
   roles: ['viewer', 'editor'] as const,
@@ -124,19 +124,19 @@ Drop-in: replace your imports with a single config and re-derive the types.
 **Before:**
 
 ```typescript
-import { defineRole, policy, Engine, MemoryAdapter } from '@gentleduck/iam'
+import { defineRole, policy, IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').build()
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 ```
 
 **After:**
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineIam } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read'] as const,
   resources: ['post'] as const,
   roles: ['viewer'] as const,
@@ -146,7 +146,7 @@ const viewer = access.defineRole('viewer').grant('read', 'post').build()
 const engine = access.createEngine({ adapter })
 ```
 
-The role/policy data shape is unchanged - adapters, evaluation, and serialization all work the same. You just change the builder entry points.
+The role/policy data shape is unchanged - adapters, evaluation, and serialization all work the same. You change the builder entry points.
 
 ***
 
@@ -157,7 +157,7 @@ You can mix typed and untyped builders in one app:
 ```typescript
 import { policy } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read'] as const,
   resources: ['post'] as const,
 })

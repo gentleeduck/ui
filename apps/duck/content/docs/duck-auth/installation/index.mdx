@@ -54,14 +54,14 @@ Install only what you wire:
 <Step>60-second quickstart (Memory adapter)</Step>
 
 ```typescript title="src/lib/auth.ts"
-import { AuthRoot, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
+import { AuthEngine, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
-import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
-import { MemoryLimiter } from '@gentleduck/auth/limiters/memory'
+import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
+import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
 
-const adapter = new MemoryAuthAdapter()
+const adapter = new AuthMemoryAdapter()
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   baseUrl: 'http://localhost:3000',
   transport: new CookieTransport({ secure: false, name: 'duck-sid' }),
   stores: {
@@ -70,7 +70,7 @@ export const auth = new AuthRoot({
     credentials: adapter.credentials,
   },
   events: new InMemoryEvents(),
-  limiter: new MemoryLimiter({ max: 5, windowMs: 60_000 }),
+  limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
   passwords: { hasher: new ScryptHasher() },
 })
 ```
@@ -165,6 +165,6 @@ bunx @gentleduck/auth emit-openapi > openapi.yaml
 
 ## Next steps
 
-- [Core overview ->](/duck-auth/core) - the `AuthRoot` config and 14 facets.
+- [Core overview ->](/duck-auth/core) - the `AuthEngine` config and 14 facets.
 - [Quickstart guide ->](/duck-auth/guides) - wire password + magic-link end-to-end.
 - [Production checklist ->](/duck-auth/advanced/security) - the gates that `strict()` enforces.

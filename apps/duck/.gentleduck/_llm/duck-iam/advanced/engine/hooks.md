@@ -3,13 +3,19 @@
 Hooks let you intercept and observe the evaluation lifecycle. All hooks are optional and can be synchronous or async.
 
 ```typescript
-interface EngineHooks {
-  beforeEvaluate?(request: AccessRequest): AccessRequest | Promise<AccessRequest>
-  afterEvaluate?(request: AccessRequest, decision: Decision): void | Promise<void>
-  onDeny?(request: AccessRequest, decision: Decision): void | Promise<void>
-  onError?(error: Error, request: AccessRequest): void | Promise<void>
+import type { IamEngineTypes } from '@gentleduck/iam'
+
+const hooks: IamEngineTypes.IHooks = {
+  beforeEvaluate?(request) { /* return modified request */ },
+  afterEvaluate?(request, decision) { /* development-mode only */ },
+  onDeny?(request, decision)       { /* development-mode only */ },
+  onError?(error, request)         { /* both modes */ },
+  onPolicyError?(error, policyId)  { /* both modes - fail-skip per-policy */ },
+  onMetrics?(event)                { /* both modes - primitive payload */ },
 }
 ```
+
+All six hooks live under `IamEngineTypes.IHooks`. `afterEvaluate` and `onDeny` only fire in development mode (they receive the full `AccessControl.IDecision`); `onMetrics` and `onError` fire in both modes.
 
 ***
 
@@ -123,13 +129,101 @@ Triggered on:
 
 ***
 
+## onPolicyError
+
+Fires when evaluation of a *single* policy throws (malformed rule, bad condition tree, adapter returning garbage). The offending policy is treated as `NotApplicable` so the rest of the policy set continues to evaluate - one rotten row in the adapter does not crash the request. This hook is the only signal the operator gets that a stored row is broken.
+
+```typescript
+hooks: {
+  onPolicyError: (error, policyId) => {
+    sentry.captureException(error, { extra: { policyId } })
+    log.warn(`duck-iam: policy "${policyId}" skipped during evaluation`)
+  },
+}
+```
+
+Receives the primitive `policyId` (not the full policy object) and the thrown `Error`. Fires in both modes. Sub-millisecond cost - wire it.
+
+***
+
+## onMetrics
+
+Lightweight telemetry hook called once per evaluation. Receives a primitive-only `IamEngineTypes.IMetricsEvent` - no `IDecision` object, no allocation cost beyond the event itself. Wire it for latency, hit-rate, and outcome metrics in both development and production modes.
+
+```typescript
+import type { IamEngineTypes } from '@gentleduck/iam'
+
+const hooks: IamEngineTypes.IHooks = {
+  onMetrics: (event) => {
+    metrics.histogram('iam.duration_ms', event.durationMs, {
+      action: event.action,
+      resource: event.resource,
+      allowed: String(event.allowed),
+      mode: event.mode,
+    })
+  },
+}
+```
+
+Event shape (`IamEngineTypes.IMetricsEvent`):
+
+| Field        | Type                  | Notes                                              |
+|---|---|---|
+| `subjectId`  | `string`              | Subject ID the check ran against.                  |
+| `action`     | `TAction`             | Action that was checked.                           |
+| `resource`   | `TResource`           | Resource type that was checked.                    |
+| `allowed`    | `boolean`             | Final verdict.                                     |
+| `durationMs` | `number`              | Wall-clock evaluation time.                        |
+| `mode`       | `'production' \| 'development'` | Engine mode at the time of the call. |
+
+### Why a separate hook?
+
+`afterEvaluate` and `onDeny` are dev-mode-only: they receive `AccessControl.IDecision`, which the production fast-path skips allocating. `onMetrics` runs in both modes because the engine never has to build an `IDecision` to fire it - only six primitives flow through. Production callers get telemetry without paying the dev-mode allocation cost.
+
+### Zero overhead when unwired
+
+The engine guards `performance.now()` itself on hook presence:
+
+```typescript
+const t0 = this.hooks.onMetrics ? performance.now() : 0
+// ...evaluate...
+this.emitMetrics(req, allowed, t0)  // no-op when hook is undefined
+```
+
+If you never set `onMetrics`, the only added cost is two boolean checks. No timestamps captured, no event objects allocated.
+
+### Production telemetry example
+
+```typescript
+new IamEngine({
+  adapter,
+  mode: 'production',
+  hooks: {
+    onMetrics: (event) => {
+      // OpenTelemetry / Prometheus / StatsD - your pick.
+      otel.recordDuration('iam.authorize', event.durationMs)
+      otel.recordCounter('iam.decisions', 1, {
+        outcome: event.allowed ? 'allow' : 'deny',
+        action: event.action,
+      })
+    },
+  },
+})
+```
+
+***
+
 ## Execution order
 
 For `authorize()` / `can()` / `check()`:
 
 ```
-beforeEvaluate -> evaluate -> afterEvaluate -> onDeny (if denied) -> onError (on exception)
+beforeEvaluate -> evaluate -> afterEvaluate -> onDeny (if denied) -> onMetrics
+                                                    ^
+                                       onError (on exception) -> onMetrics
 ```
+
+`onMetrics` fires on every terminal path - success, denied, or error - so timing data never drops a request.
 
 For `permissions()` batch checks:
 

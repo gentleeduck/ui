@@ -1,6 +1,6 @@
 ## What is an adapter?
 
-Adapters are duck-iam's storage layer. They implement the `Adapter` interface, which combines three stores:
+Adapters are duck-iam's storage layer. They implement `IamAdapter.IAdapter`, which combines three stores:
 
 * **PolicyStore** - CRUD for access policies (rules, conditions, combining algorithms)
 * **RoleStore** - CRUD for roles (permissions, inheritance, scopes)
@@ -9,9 +9,9 @@ Adapters are duck-iam's storage layer. They implement the `Adapter` interface, w
 Every adapter is fully typed against your app's action, resource, role, and scope unions.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter: yourAdapter,
   defaultEffect: 'deny',
   cacheTTL: 60,
@@ -25,27 +25,28 @@ const engine = new Engine({
 | Adapter | Use case | Persistence | Peer dep |
 | --- | --- | --- | --- |
 | [**Memory**](/duck-iam/integrations/adapters/memory) | Dev, testing, prototyping | None (in-process) | None |
+| [**File**](/duck-iam/integrations/adapters/file) | CLIs, dev fixtures, single-process apps | JSON on disk | `node:fs/promises` (pluggable) |
 | [**Prisma**](/duck-iam/integrations/adapters/prisma) | Production w/ Prisma | Any Prisma-supported DB | `@prisma/client` |
 | [**Drizzle**](/duck-iam/integrations/adapters/drizzle) | Production w/ Drizzle | PG, MySQL, SQLite | `drizzle-orm` |
 | [**Redis**](/duck-iam/integrations/adapters/redis) | Distributed deploys | Redis-compatible KV | `ioredis` or `redis` |
 | [**HTTP**](/duck-iam/integrations/adapters/http) | Microservices split | Remote API | None (uses `fetch`) |
 | [**Custom**](/duck-iam/integrations/adapters/custom) | Any other backend | Your choice | Your choice |
 
-All adapters are interchangeable. Start with `MemoryAdapter` during development and switch to a database adapter in production without changing engine, builder, or middleware code.
+All adapters are interchangeable. Start with `IamMemoryAdapter` during development and switch to a database adapter in production without changing engine, builder, or middleware code.
 
 ***
 
 ## How adapters fit in
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 // 1. Pick a storage backend
-const adapter = new MemoryAdapter({ /* seed */ })
+const adapter = new IamMemoryAdapter({ /* seed */ })
 
 // 2. Wrap it in an engine
-const engine = new Engine({ adapter, defaultEffect: 'deny' })
+const engine = new IamEngine({ adapter, defaultEffect: 'deny' })
 
 // 3. Use the engine - same API regardless of adapter
 const allowed = await engine.can('user-1', 'read', { type: 'post', attributes: {} })

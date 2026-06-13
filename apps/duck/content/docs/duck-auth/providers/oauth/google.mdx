@@ -14,7 +14,7 @@ section: Providers
 ```typescript
 import { google } from '@gentleduck/auth/providers/oauth/google'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     google({
@@ -105,7 +105,7 @@ hosted domain. Use it to restrict sign-ins to your company:
 ```typescript
 onSignIn: async ({ profile }) => {
   if (profile.hd !== 'example.com') {
-    throw new AuthErrorObject('AUTH/PROVIDER_FAILED', {
+    throw new AuthError('AUTH/PROVIDER_FAILED', {
       reason: 'unauthorized-domain',
     })
   }

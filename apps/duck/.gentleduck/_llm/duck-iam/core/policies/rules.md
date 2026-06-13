@@ -23,7 +23,7 @@ A rule has four core pieces:
 | `whenAny(fn)` | Conditions where ANY can be true (OR logic) |
 | `forScope(...scopes)` | Restrict this rule to specific scopes. Composes with `when()` |
 | `meta(m)` | Arbitrary metadata |
-| `build()` | Produce the final `Rule` object |
+| `build()` | Produce the final `AccessControl.IRule` object |
 
 ***
 

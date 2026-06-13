@@ -113,10 +113,10 @@ Use `mode: 'production'` for maximum throughput. Production mode skips Decision 
 allocation, timing, and hooks, giving roughly 2x faster:
 
 ```typescript title="src/access.ts"
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 import { adapter } from './adapter'
 
-export const engine = new Engine({
+export const engine = new IamEngine({
   adapter,
   mode: 'production', // recommended for servers -- ~2x faster, no Decision overhead
 })
@@ -194,7 +194,12 @@ app.post('/api/admin/users',
 import { Router } from 'express'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
-app.use('/api/access-admin', adminRouter(engine)(() => Router()))
+app.use(
+  '/api/access-admin',
+  adminRouter(engine, {
+    authorize: (req) => /* your check, e.g. req.user?.roles.includes('admin') */ true,
+  })(() => Router()),
+)
 ```
 
 **Exposed endpoints:**
@@ -290,13 +295,13 @@ via dependency injection using the `ACCESS_ENGINE_TOKEN` injection token.
 ```typescript title="src/access/access.guard.ts"
 import { CanActivate, ExecutionContext, Injectable, Inject } from '@nestjs/common'
 import { nestAccessGuard, ACCESS_ENGINE_TOKEN } from '@gentleduck/iam/server/nest'
-import type { Engine } from '@gentleduck/iam'
+import type { IamEngine } from '@gentleduck/iam'
 
 @Injectable()
 export class AccessGuard implements CanActivate {
   private check: ReturnType<typeof nestAccessGuard>
 
-  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine: Engine) {
+  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine: IamEngine) {
     this.check = nestAccessGuard(engine, {
       getUserId: (req) => req.user?.id || req.user?.sub,
       getScope: (req) => req.headers['x-organization'],

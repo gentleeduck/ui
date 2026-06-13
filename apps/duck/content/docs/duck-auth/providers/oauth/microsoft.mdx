@@ -15,7 +15,7 @@ section: Providers
 ```typescript
 import { microsoft } from '@gentleduck/auth/providers/oauth/microsoft'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     microsoft({
@@ -76,7 +76,7 @@ inside `onSignIn`:
 onSignIn: async ({ profile }) => {
   const allowedTenants = ['<contoso tid>', '<fabrikam tid>']
   if (!allowedTenants.includes(profile.tid)) {
-    throw new AuthErrorObject('AUTH/PROVIDER_FAILED', {
+    throw new AuthError('AUTH/PROVIDER_FAILED', {
       reason: 'tenant-not-whitelisted',
     })
   }

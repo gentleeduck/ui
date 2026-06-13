@@ -5,7 +5,7 @@ section: Integrations
 ---
 ## What it does
 
-`createMetricsAggregator` is a ring-buffer histogram over `EngineTypes.IMetricsEvent`. Wire its `.record` method to `hooks.onMetrics` and call `.snapshot()` on demand - a `/metrics` route, a Prometheus scrape, an OTel exporter, whatever your pipeline expects.
+`createMetricsAggregator` is a ring-buffer histogram over `IamEngineTypes.IMetricsEvent`. Wire its `.record` method to `hooks.onMetrics` and call `.snapshot()` on demand - a `/metrics` route, a Prometheus scrape, an OTel exporter, whatever your pipeline expects.
 
 No external dependencies, no allocations on the hot path beyond a `Float64Array` slot per recorded event.
 
@@ -22,12 +22,12 @@ import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 ## Usage
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
 const metrics = createMetricsAggregator({ sampleSize: 1000 })
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: {
     onMetrics: metrics.record,
@@ -75,7 +75,7 @@ setInterval(() => {
 }, 60_000)
 ```
 
-The per-event flag is also available on `EngineTypes.IMetricsEvent.failOpen`
+The per-event flag is also available on `IamEngineTypes.IMetricsEvent.failOpen`
 if you want to push it into a label on a Prometheus counter.
 
 ---
@@ -112,7 +112,7 @@ const iamLatency = new Histogram({ name: 'iam_evaluation_duration_ms', help: '..
 
 const metrics = createMetricsAggregator()
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: {
     onMetrics: (event) => {
@@ -144,7 +144,7 @@ Want one aggregator for `allow`, another for `deny`? Wire both:
 const allowMetrics = createMetricsAggregator()
 const denyMetrics = createMetricsAggregator()
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: {
     onMetrics: (event) => {

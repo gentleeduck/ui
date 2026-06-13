@@ -67,7 +67,7 @@ const { data } = useSession<Profile>()
 ```
 
 For a fully end-to-end type-safe stack, share the `Profile` type
-between your `AuthRoot` config (server) and your client setup (browser)
+between your `AuthEngine` config (server) and your client setup (browser)
 through your monorepo's shared types package.
 
 ## Cross-tab session sync
@@ -81,7 +81,7 @@ false` if you don't want it.
 
 ## Error handling
 
-All clients raise the typed `AuthErrorObject` (or a wire-equivalent
+All clients raise the typed `AuthError` (or a wire-equivalent
 `{ code, status, meta }` object on the React `useSignIn().error` field).
 Branch on `error.code`, not on HTTP status - codes are stable across
 versions.

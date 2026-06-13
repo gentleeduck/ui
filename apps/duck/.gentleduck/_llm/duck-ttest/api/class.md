@@ -1,0 +1,106 @@
+```ts
+import type {
+  Class, AbstractClass,
+  InstanceTypeSafe, ConstructorParametersSafe, IsClass,
+} from '@gentleduck/ttest/class'
+```
+
+Constructor signatures expressed as type-level shapes. Use these to constrain dependency-injection containers, factory generics, or registries that hold class references. For plain functions see [`function`](/duck-ttest/api/function).
+
+## Class
+
+```ts
+type Class<T = unknown, Args extends unknown[] = any[]> = new (...args: Args) => T
+```
+
+A concrete class constructor that produces instances of `T`. `Args` defaults to `any[]` so the helper is permissive about arity.
+
+```ts
+function inject<T>(Ctor: Class<T, [string]>, name: string): T {
+  return new Ctor(name)
+}
+
+class Service { constructor(public name: string) {} }
+const s = inject(Service, 'analytics')  // s: Service
+```
+
+```ts
+// Constrain a registry to concrete classes only.
+const registry: Record<string, Class<any>> = {
+  service: Service,
+}
+```
+
+## AbstractClass
+
+```ts
+type AbstractClass<T = unknown, Args extends unknown[] = any[]> = abstract new (...args: Args) => T
+```
+
+An abstract class constructor. Accepts both concrete and abstract classes — useful when you want to constrain a generic to "anything `instanceof`-checkable" without forbidding abstracts.
+
+```ts
+abstract class Base { abstract greet(): string }
+class Hello extends Base { greet() { return 'hi' } }
+
+function isInstanceOf<T>(value: unknown, Ctor: AbstractClass<T>): value is T {
+  return value instanceof Ctor
+}
+
+isInstanceOf(new Hello(), Base)  // true
+```
+
+## InstanceTypeSafe
+
+```ts
+type InstanceTypeSafe<C> = C extends new (...args: any[]) => infer T ? T : never
+```
+
+Instance type of constructor `C`, or `never` for non-constructors. Safer than the built-in `InstanceType<T>`, which errors on non-class input.
+
+```ts
+class User { constructor(public name: string) {} }
+
+type a = InstanceTypeSafe<typeof User>  // User
+type b = InstanceTypeSafe<typeof Date>  // Date
+type c = InstanceTypeSafe<string>       // never
+```
+
+## ConstructorParametersSafe
+
+```ts
+type ConstructorParametersSafe<C> = C extends new (...args: infer P) => any ? P : never
+```
+
+Constructor parameter tuple, or `never`.
+
+```ts
+class User { constructor(public id: number, public name: string) {} }
+
+type a = ConstructorParametersSafe<typeof User>  // [id: number, name: string]
+type b = ConstructorParametersSafe<typeof Date>  // [] | [number] | [string] | ...  (overloads collapse to last)
+type c = ConstructorParametersSafe<() => void>   // never
+```
+
+Edge case: like `ParametersSafe`, overloaded constructors collapse to the last overload — matches the built-in behavior.
+
+## IsClass
+
+```ts
+type IsClass<T> = T extends new (...args: any[]) => any ? true : false
+```
+
+`true` iff `T` is a constructor signature.
+
+```ts
+import type { AssertTrue, AssertFalse } from '@gentleduck/ttest/assert'
+
+type _ = [
+  AssertTrue <IsClass<typeof Date>>,
+  AssertTrue <IsClass<typeof User>>,
+  AssertFalse<IsClass<() => void>>,
+  AssertFalse<IsClass<{ kind: 'data' }>>,
+]
+```
+
+Edge case: arrow functions and plain functions are not constructors — `IsClass<() => void>` is `false`. Use [`IsFunction`](/duck-ttest/api/guard) or `ReturnTypeSafe` for those.

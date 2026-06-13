@@ -1,0 +1,93 @@
+```ts
+import type {
+  Primitive, Falsy, Truthy,
+  Nullish, NonNullish, Nullable, Maybe,
+  Builtin, NonPrimitive,
+  IsPrimitive, IsOptional, IsNullable,
+  Arrayable, MultidimensionalArray,
+} from '@gentleduck/ttest/primitive'
+```
+
+## Primitive
+
+```ts
+type Primitive = string | number | boolean | bigint | symbol | null | undefined
+```
+
+Every JavaScript primitive.
+
+## Falsy / Truthy
+
+```ts
+type Falsy     = '' | 0 | 0n | false | null | undefined
+type Truthy<T> = Exclude<T, Falsy>
+```
+
+```ts
+type T = Truthy<string | null>  // string  (but '' is allowed at runtime — Truthy excludes only the literal '')
+```
+
+## Nullish / NonNullish / Nullable / Maybe
+
+```ts
+type Nullish      = null | undefined
+type NonNullish<T> = Exclude<T, Nullish>
+type Nullable<T>  = T | null
+type Maybe<T>     = T | null | undefined
+```
+
+## Builtin
+
+```ts
+type Builtin =
+  | Primitive
+  | Date | Error | RegExp | ArrayBuffer | DataView
+  | Map<unknown, unknown> | Set<unknown>
+  | WeakMap<WeakKey, unknown> | WeakSet<WeakKey>
+  | Promise<unknown>
+  | Function
+```
+
+The recursion stop-set used by `DeepPartial`, `DeepReadonly`, etc. — types where "go deeper" doesn't make sense.
+
+## NonPrimitive
+
+```ts
+type NonPrimitive = Exclude<{}, Primitive>
+```
+
+Anything that is not a primitive — objects, arrays, functions, class instances.
+
+## IsPrimitive
+
+```ts
+type IsPrimitive<T> = T extends Primitive ? true : false
+```
+
+## Arrayable / MultidimensionalArray
+
+```ts
+type Arrayable<T>              = T | readonly T[]
+type MultidimensionalArray<T>  = T | ReadonlyArray<MultidimensionalArray<T>>
+```
+
+`Arrayable` is the common "T or T\[]" pattern. `MultidimensionalArray` is its recursive cousin — `T | T[] | T[][] | ...`.
+
+## IsOptional
+
+```ts
+type IsOptional<T> = undefined extends T ? true : false
+```
+
+`true` if `T` includes `undefined`.
+
+}>
+  This is the **TS-level** `IsOptional`. For SQL column-string analysis use [`IsSQLOptional`](/duck-ttest/api/sql).
+
+## IsNullable
+
+```ts
+type IsNullable<T> = null extends T ? true : undefined extends T ? true : false
+```
+
+`true` if `T` includes `null` or `undefined`. The SQL-level counterpart is [`IsSQLNullable`](/duck-ttest/api/sql).

@@ -18,7 +18,7 @@ import {
   passkeyUsername,
 } from '@gentleduck/auth/providers/passkey'
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   // ...
   providers: [
     passkeyDiscoverable({

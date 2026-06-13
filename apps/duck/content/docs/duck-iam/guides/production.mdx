@@ -9,7 +9,7 @@ order: 99
 Single-node dev setups can ignore everything here. Read this page before mounting duck-iam in any of these scenarios:
 
 - More than one engine instance behind a load balancer
-- Adapter is over the network (Prisma to a separate DB, HttpAdapter, Redis cluster)
+- Adapter is over the network (Prisma to a separate DB, IamHttpAdapter, Redis cluster)
 - Policy revocations need to apply quickly (security or compliance requirement)
 - SLOs require p95 / p99 evaluation latency tracking
 
@@ -30,7 +30,7 @@ the operational playbook; SECURITY.md is the threat model.
 
 - **Lower TTL** (`5`-`30 s`) - quicker convergence after a revoke. Higher load on the adapter (every TTL window every node re-fetches).
 - **Higher TTL** (`60`-`300 s`) - fewer adapter round-trips. A revoked permission can be honored for up to `cacheTTL` on a node that has cached the subject.
-- **Zero TTL** - every check hits the adapter. Useful only with `MemoryAdapter` or strong adapter-side caching.
+- **Zero TTL** - every check hits the adapter. Useful only with `IamMemoryAdapter` or strong adapter-side caching.
 
 For most production deployments, `cacheTTL: 30` + a cross-instance invalidator (next section) is the right balance.
 
@@ -41,13 +41,13 @@ For most production deployments, `cacheTTL: 30` + a cross-instance invalidator (
 Without a broadcaster, `engine.admin.savePolicy()` on pod A leaves pod B-J serving stale grants for `cacheTTL`. Wire `IConfig.invalidator` so every node drops local caches the moment any node mutates state.
 
 ```ts
-import { Engine } from '@gentleduck/iam'
-import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 60,
-  invalidator: createRedisInvalidator({
+  invalidator: createIamRedisInvalidator({
     client: redisPubSub,
     secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
     onPublishError: (err, channel) => sentry.captureException(err, { extra: { channel } }),
@@ -64,7 +64,7 @@ The Redis helper:
 - Defaults to the `'duck-iam:invalidate'` channel. Pass `tenantId` for the multi-tenant case - see the callout below.
 - `onPublishError` (SEC-062) surfaces publish failures; without it, only a rate-limited `console.warn` fires.
 
-`createRedisInvalidator` only needs `publish` + `subscribe` + optional `unsubscribe`. Both ioredis and node-redis v4+ satisfy this shape directly.
+`createIamRedisInvalidator` only needs `publish` + `subscribe` + optional `unsubscribe`. Both ioredis and node-redis v4+ satisfy this shape directly.
 
 <Callout type="warning" title="SECURITY - multi-tenant Redis (CAVEAT-1)">
 On a shared Redis instance, pass `tenantId` so the channel is auto-prefixed
@@ -143,7 +143,7 @@ policy and was allowed by fallback.
 Wire all five hooks once at startup; cost is zero when unwired.
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   hooks: {
     onError: (err, req) => sentry.captureException(err, { extra: { req } }),
@@ -165,16 +165,16 @@ const engine = new Engine({
 
 ---
 
-## Adapter timeout + HttpAdapter retry tuning
+## Adapter timeout + IamHttpAdapter retry tuning
 
 `adapterTimeoutMs` (default `5_000`) caps every adapter read. On timeout, the engine aborts via `AbortController` and routes the error through `onError`. Set conservatively - a long timeout under load multiplies into queue depth.
 
-For `HttpAdapter`:
+For `IamHttpAdapter`:
 
 ```typescript
-import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
 
-new HttpAdapter({
+new IamHttpAdapter({
   baseUrl: process.env.IAM_API!,
   timeoutMs: 2_000,           // per-request, layered with engine timeout
   retries: 2,                 // 3 total attempts
@@ -227,7 +227,7 @@ Wire `createMetricsAggregator()` to `onMetrics` and expose its snapshot:
 import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
 const metrics = createMetricsAggregator({ sampleSize: 1000 })
-const engine = new Engine({ adapter, hooks: { onMetrics: metrics.record } })
+const engine = new IamEngine({ adapter, hooks: { onMetrics: metrics.record } })
 
 app.get('/metrics', (_, res) => res.json(metrics.snapshot()))
 // -> { total, allow, deny, failOpen, p50, p95, p99, max, samples }
@@ -309,10 +309,10 @@ Numbers from the bench harness on a typical Node 22 / x86 box:
 | Path | Throughput |
 |---|---|
 | `evaluateFast()` raw | ~7.4 M ops/s |
-| `Engine.can()` cache-warm | ~140 k ops/s |
-| Adapter cold miss (MemoryAdapter) | adapter-bound |
+| `IamEngine.can()` cache-warm | ~140 k ops/s |
+| Adapter cold miss (IamMemoryAdapter) | adapter-bound |
 
-Target `Engine.can()` p95 < 1 ms at sustained QPS. If you breach that:
+Target `IamEngine.can()` p95 < 1 ms at sustained QPS. If you breach that:
 
 1. Check `engine.stats.get()` for cache hit rate < 95% - `cacheTTL` too low, or `maxCacheSize` too small.
 2. Check `metrics.snapshot().samples` - are durations dominated by a few outliers? Adapter timeouts firing?
@@ -334,7 +334,7 @@ Before flipping production traffic on:
 - [ ] All five hooks wired (`onError`, `onPolicyError`, `onDeny`, `onMetrics`, `afterEvaluate` only in dev)
 - [ ] `onMetrics` aggregator's `failOpen` charted under `defaultEffect: 'allow'` (SEC-044)
 - [ ] `adapterTimeoutMs` <= upstream SLO
-- [ ] HttpAdapter circuit breaker config sized to your fleet
+- [ ] IamHttpAdapter circuit breaker config sized to your fleet
 - [ ] `/healthz` route returns `engine.healthCheck()`
 - [ ] `/metrics` route returns aggregator snapshot
 - [ ] `engine.preload()` in startup

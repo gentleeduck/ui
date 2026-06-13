@@ -5,7 +5,7 @@ duck-iam provides two ways to define permissions:
 | Approach | Best for |
 | --- | --- |
 | **Untyped builders** - `defineRole()`, `policy()`, `defineRule()`, `when()` from the root | Quick prototypes, scripts, library code |
-| **Typed config** - `createAccessConfig()` | Production apps, anywhere typos cost real money |
+| **Typed config** - `defineIam()` | Production apps, anywhere typos cost real money |
 
 For production applications, use the typed config. It prevents an entire class of bugs where a permission check silently fails because of a typo in an action or resource name.
 
@@ -15,7 +15,7 @@ For production applications, use the typed config. It prevents an entire class o
 
 | Page | Covers |
 | --- | --- |
-| [createAccessConfig](/duck-iam/advanced/config/access-config) | Factory, input shape, optional fields |
+| [defineIam](/duck-iam/advanced/config/access-config) | Factory, input shape, optional fields |
 | [typed context](/duck-iam/advanced/config/context) | Per-resource attribute narrowing, `DotPaths`, value autocomplete |
 | [`$`-references with types](/duck-iam/advanced/config/dollar-paths) | `DollarPaths` autocomplete on values |
 | [methods reference](/duck-iam/advanced/config/methods) | `defineRole`, `policy`, `defineRule`, `when`, `createEngine`, `checks`, `validateRoles`, `validatePolicy` |
@@ -28,23 +28,23 @@ For production applications, use the typed config. It prevents an entire class o
 ### Untyped (direct imports)
 
 ```typescript
-import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
+import { defineRole, IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .grant('raed', 'post') // typo: "raed" instead of "read" - NO error
   .build()
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 await engine.can('user-1', 'raed', { type: 'post', attributes: {} })
 // No TypeScript error, but silently fails at runtime because no role grants "raed"
 ```
 
-### Typed (createAccessConfig)
+### Typed (defineIam)
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
+import { defineIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete'] as const,
   resources: ['post', 'comment'] as const,
 })
@@ -62,9 +62,9 @@ The typed version catches the typo immediately. For any application with more th
 ## Quick start
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
+import { defineIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
   resources: ['post', 'comment', 'user', 'dashboard'] as const,
   scopes: ['org-1', 'org-2'] as const,
@@ -86,7 +86,7 @@ await engine.can('user-1', 'read', { type: 'post', attributes: {} })
 
 | Scenario | Recommendation |
 | --- | --- |
-| Production application | Use `createAccessConfig()` for type safety |
+| Production application | Use `defineIam()` for type safety |
 | Quick prototype or spike | Untyped imports are faster to set up |
 | Dynamic permissions from DB | Use untyped for the dynamic parts, validate with `validatePolicy()` |
 | Library or framework code | Use generic type parameters for maximum flexibility |

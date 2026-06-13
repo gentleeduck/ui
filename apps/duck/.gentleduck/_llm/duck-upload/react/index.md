@@ -1,4 +1,4 @@
-The React layer is thin on purpose — context and subscription helpers only. Upload
+The React layer is thin on purpose - context and subscription helpers only. Upload
 logic stays in the core engine.
 
 ## Provider

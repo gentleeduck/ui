@@ -10,7 +10,7 @@ section: Channels
   directly in your terminal, without setting up SMTP.
 - **Tests**: `TestChannel` captures every send into an array for assertion.
 - **Benchmarks**: `NoopChannel` discards sends, so you measure
-  AuthRoot throughput without an outbound bottleneck.
+  AuthEngine throughput without an outbound bottleneck.
 
 `ConsoleChannel` is never appropriate for production.
 
@@ -66,5 +66,5 @@ const channel = new NoopChannel({ kind: 'email' })
 
 Returns `{ ok: true, providerMessageId: 'noop:<incrementing>' }`
 without doing anything. Use this when running benchmarks against
-`AuthRoot` itself and you don't want SMTP / API latency in the
+`AuthEngine` itself and you don't want SMTP / API latency in the
 measurement.

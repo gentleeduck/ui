@@ -20,7 +20,7 @@ const author = defineRole('author')
 Authors can create and read any post, but only update or delete posts they own. `isOwner()` produces `resource.attributes.ownerId eq $subject.id`. `$subject.id` is a [variable reference](/duck-iam/core/policies/dollar-variables) resolved at evaluation time.
 
 <Callout type="info">
-  **Per-resource narrowing:** When using `createAccessConfig()` with a typed `context`
+  **Per-resource narrowing:** When using `defineIam()` with a typed `context`
   and `resourceAttributes`, calling `.grantWhen('update', 'post', w => ...)` narrows
   `w.resourceAttr()` to only attributes defined for posts. See the
   [type-safe roles](/duck-iam/core/roles/type-safe) docs.

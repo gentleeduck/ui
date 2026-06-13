@@ -2,7 +2,7 @@
 
 Roles tell you "this user is an editor." They cannot answer "can this editor update
 **this specific post**?" For that, you need policies with conditions. By the end of this
-chapter, BlogDuck will enforce owner-only editing -- editors can only update posts they wrote.
+chapter, BlogDuck will enforce owner-only editing - editors can only update posts they wrote.
 
 when ownerId != subject.id"]
   end
@@ -67,7 +67,7 @@ export const ownerPolicy = policy('owner-restrictions')
 ```typescript title="src/access.ts"
 import { ownerPolicy } from './policies'
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: {
     'alice': ['viewer'],
@@ -81,7 +81,7 @@ const adapter = new MemoryAdapter({
 **Test with resource attributes**
 
 ```typescript title="src/main.ts"
-// Bob (editor) updating his own post -- should be allowed
+// Bob (editor) updating his own post - should be allowed
 const ownPost = await engine.can('bob', 'update', {
   type: 'post',
   id: 'post-1',
@@ -89,7 +89,7 @@ const ownPost = await engine.can('bob', 'update', {
 })
 console.log('Bob update own post:', ownPost)  // true
 
-// Bob updating someone else's post -- should be denied
+// Bob updating someone else's post - should be denied
 const otherPost = await engine.can('bob', 'update', {
   type: 'post',
   id: 'post-2',
@@ -116,9 +116,9 @@ resource.attributes.ownerId= 'alice'"]
 
 Each condition has three parts:
 
-1. **Field** -- a dot-notation path into the request context (`resource.attributes.ownerId`)
-2. **Operator** -- how to compare (`eq`, `neq`, `gt`, `in`, `contains`, etc.)
-3. **Value** -- what to compare against (a literal or a `$`-variable)
+1. **Field** - a dot-notation path into the request context (`resource.attributes.ownerId`)
+2. **Operator** - how to compare (`eq`, `neq`, `gt`, `in`, `contains`, etc.)
+3. **Value** - what to compare against (a literal or a `$`-variable)
 
 ### Field Resolution
 
@@ -142,7 +142,7 @@ Only `subject`, `resource`, and `environment` roots are allowed. Paths like
 `__proto__`, `constructor`, and `prototype` are blocked to prevent prototype pollution.
 
 If a field does not exist, it resolves to `null`. A `neq` check against a missing field
-evaluates to `true`, so the deny rule fires. Missing data always results in a deny.
+evaluates to `true`, so the deny rule fires. Missing data results in a deny.
 
 ### All Available Operators
 
@@ -197,7 +197,7 @@ The `when()` callback receives a `When` builder. Here is every method available:
 ### Raw Condition
 
 ```typescript
-// The general-purpose method -- all other methods are shortcuts for this
+// The general-purpose method - all other methods are shortcuts for this
 .when(w => w.check('resource.attributes.ownerId', 'neq', '$subject.id'))
 ```
 
@@ -289,13 +289,13 @@ These handle the field paths automatically:
 By default, all conditions in a `.when()` are AND-combined. Use nesting for OR and NOT logic:
 
 ```typescript
-// ALL must pass (AND) -- the default
+// ALL must pass (AND) - the default
 .when(w => w
   .isOwner()
   .resourceAttr('status', 'neq', 'locked')
 )
 
-// ANY can pass (OR) -- use .or()
+// ANY can pass (OR) - use .or()
 .when(w => w
   .or(o => o
     .role('admin')
@@ -303,13 +303,13 @@ By default, all conditions in a `.when()` are AND-combined. Use nesting for OR a
   )
 )
 
-// NONE can pass (NOT) -- use .not()
+// NONE can pass (NOT) - use .not()
 .when(w => w
   .not(n => n.role('banned'))
   .isOwner()
 )
 
-// Explicit AND nesting -- use .and()
+// Explicit AND nesting - use .and()
 .when(w => w
   .or(o => o
     .role('admin')
@@ -359,7 +359,7 @@ Each rule inside a policy is built with a `RuleBuilder`:
 ```typescript
 policy('my-policy')
   .rule('my-rule', r => r
-    .allow()                      // or .deny() -- the rule's effect
+    .allow()                      // or .deny() - the rule's effect
     .desc('Allow editors to update their own posts')  // description
     .on('update', 'delete')       // which actions this rule applies to
     .of('post', 'comment')        // which resource types
@@ -502,7 +502,7 @@ policy('post-restrictions')
 ```
 
 If a request does not match the target (e.g., action is `read`), the policy is skipped
-and returns the default effect. Target fields are all optional; omitting a field means
+and returns the default effect. Target fields are optional; omitting a field means
 "match all":
 
 | Target Field | Effect |
@@ -597,7 +597,7 @@ What if I forget to pass ownerId in the resource attributes?
 
 `resource.attributes.ownerId` resolves to `null`. The `neq` operator evaluates
 `null neq 'bob'` as `true`, so the deny rule fires. Omitting attributes results in
-a deny -- you cannot accidentally grant access by missing data.
+a deny - you cannot accidentally grant access by missing data.
 
 How do I make admins exempt from the owner restriction?
 

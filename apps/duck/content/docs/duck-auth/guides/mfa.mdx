@@ -126,19 +126,19 @@ For high-risk actions, require a **fresh** MFA verify within the
 configured `freshnessMs`:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.post('/api/account/delete', async (req, res) => {
   const ctx = await auth.resolveSession(req)
-  if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+  if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
   if (ctx.session.aal !== 'aal2') {
-    throw new AuthErrorObject('AUTH/AAL_INSUFFICIENT')
+    throw new AuthError('AUTH/AAL_INSUFFICIENT')
   }
 
   const freshnessMs = 5 * 60 * 1000
   if (Date.now() - ctx.session.lastReauthAt > freshnessMs) {
-    throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED')
+    throw new AuthError('AUTH/STEP_UP_REQUIRED')
   }
 
   // Proceed with the irreversible action.
@@ -154,7 +154,7 @@ HIPAA and FIPS compliance presets set `mfa.enforced: true` automatically.
 For manual control:
 
 ```typescript
-new AuthRoot({
+new AuthEngine({
   mfa: {
     enforced: true,    // every identity must enrol before signing in
     factors: ['totp', 'passkey'],   // allowed enrolment options

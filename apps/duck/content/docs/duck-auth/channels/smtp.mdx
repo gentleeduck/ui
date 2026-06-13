@@ -99,7 +99,7 @@ If you operate two SMTP relays for redundancy, pick whichever has
 better deliverability:
 
 ```typescript
-class MultiSmtpChannel implements Channel.IChannel {
+class MultiSmtpChannel implements AuthChannel.IChannel {
   constructor(private channels: SmtpChannel[]) {}
   async send(input) {
     for (const ch of this.channels) {

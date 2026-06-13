@@ -13,16 +13,16 @@ everything together into a production-grade authorization system.
 <MermaidDiagram chart={`flowchart TD
     subgraph Config["1. Type-Safe Config"]
         direction LR
-        C1["createAccessConfig()"]
+        C1["defineIam()"]
         C2["actions, resources, scopes"]
         C3["Typed builders everywhere"]
     end
 
     subgraph Adapter["2. Database Adapter"]
         direction LR
-        A1["PrismaAdapter"]
-        A2["DrizzleAdapter"]
-        A3["HttpAdapter"]
+        A1["IamPrismaAdapter"]
+        A2["IamDrizzleAdapter"]
+        A3["IamHttpAdapter"]
     end
 
     subgraph Validate["3. Startup Validation"]
@@ -41,7 +41,7 @@ everything together into a production-grade authorization system.
 
 ## Type-Safe Configuration
 
-`createAccessConfig` is the foundation of a production setup. It locks down your actions,
+`defineIam` is the foundation of a production setup. It locks down your actions,
 resources, and scopes so the entire stack is type-checked at compile time.
 
 <Steps>
@@ -49,9 +49,9 @@ resources, and scopes so the entire stack is type-checked at compile time.
     **Define your configuration**
 
     ```typescript title="src/access.ts"
-    import { createAccessConfig } from '@gentleduck/iam'
+    import { defineIam } from '@gentleduck/iam'
 
-    export const access = createAccessConfig({
+    export const access = defineIam({
       actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
       resources: ['post', 'comment', 'user', 'dashboard'] as const,
       scopes: ['acme', 'globex'] as const,
@@ -184,7 +184,7 @@ Scopes and roles are optional. If you don't need multi-tenancy, omit `scopes` en
 If you don't need typed role IDs, omit `roles`:
 
 ```typescript
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['read', 'write', 'delete'] as const,
   resources: ['post', 'comment'] as const,
   // no scopes -- single-tenant app
@@ -193,7 +193,7 @@ const access = createAccessConfig({
 
 ### The AccessConfig Output Object
 
-`createAccessConfig()` returns an object with typed factory methods:
+`defineIam()` returns an object with typed factory methods:
 
 | Method | Returns | Purpose |
 | --- | --- | --- |
@@ -201,7 +201,7 @@ const access = createAccessConfig({
 | `policy(id)` | `PolicyBuilder<TAction, TResource, TRole, TScope>` | Create a policy with typed rules and role checks |
 | `defineRule(id)` | `RuleBuilder<TAction, TResource, TScope, TRole>` | Create a standalone rule with typed conditions |
 | `when()` | `When<TAction, TResource, TRole, TScope>` | Create a standalone condition group with typed `.role()` |
-| `createEngine(config)` | `Engine<TAction, TResource, TRole, TScope>` | Create a typed engine instance |
+| `createEngine(config)` | `IamEngine<TAction, TResource, TRole, TScope>` | Create a typed engine instance |
 | `checks(arr)` | `T` (pass-through) | Type-validate permission check definitions |
 | `validateRoles(roles)` | `ValidationResult` | Validate role definitions at startup |
 | `validatePolicy(input)` | `ValidationResult` | Validate policy from untrusted source |
@@ -370,14 +370,14 @@ via a visited set. If role A inherits B and B inherits A, the walk stops at the 
 
 duck-iam provides four adapters for persistent storage.
 
-### MemoryAdapter
+### IamMemoryAdapter
 
 For prototyping, testing, and simple apps:
 
 ```typescript
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   policies: [ownerPolicy],
   roles: [viewer, editor, admin],
   assignments: {
@@ -402,7 +402,7 @@ interface MemoryAdapterInit<TAction, TResource, TRole, TScope> {
 }
 ```
 
-The MemoryAdapter stores everything in `Map` objects. Internally it tracks assignments as
+The IamMemoryAdapter stores everything in `Map` objects. Internally it tracks assignments as
 `{ role, scope? }` pairs. The `assignments` init option only sets unscoped (base) roles.
 For scoped assignments, use `adapter.assignRole(subjectId, roleId, scope)` after creation.
 
@@ -413,14 +413,14 @@ For scoped assignments, use `adapter.assignRole(subjectId, roleId, scope)` after
 - `assignRole()` prevents duplicates before inserting
 - `setSubjectAttributes()` merges into existing attributes (does not replace)
 
-### PrismaAdapter
+### IamPrismaAdapter
 
 ```typescript title="src/access.ts"
-import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { IamPrismaAdapter } from '@gentleduck/iam/adapters/prisma'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
-const adapter = new PrismaAdapter(prisma)
+const adapter = new IamPrismaAdapter(prisma)
 ```
 
 <MermaidDiagram chart={`flowchart LR
@@ -496,18 +496,18 @@ The adapter maps between duck-iam types and database columns:
 | `assignment.scope` | `accessAssignment.scope` | `String?` | `null` = base role, non-null = scoped |
 | `attrs.data` | `accessSubjectAttr.data` | `Json` | Merged on write, full object on read |
 
-The PrismaAdapter uses `upsert` for save operations (create or update). For `revokeRole`,
+The IamPrismaAdapter uses `upsert` for save operations (create or update). For `revokeRole`,
 it uses `deleteMany` with a compound filter on `(subjectId, roleId, scope)`.
 
-### DrizzleAdapter
+### IamDrizzleAdapter
 
 ```typescript title="src/access.ts"
-import { DrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
+import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 import { db } from './db'
 import { eq, and } from 'drizzle-orm'
 import * as tables from './schema'
 
-const adapter = new DrizzleAdapter({
+const adapter = new IamDrizzleAdapter({
   db,
   tables: {
     policies: tables.accessPolicies,
@@ -541,7 +541,7 @@ interface DrizzleConfig {
 }
 ```
 
-**Key differences from PrismaAdapter:**
+**Key differences from IamPrismaAdapter:**
 
 - JSON columns may store as `string`. The adapter handles both `string` (parses with
   `JSON.parse`) and object (uses directly) values
@@ -588,14 +588,14 @@ export const accessSubjectAttrs = sqliteTable('access_subject_attrs', {
 })
 ```
 
-### HttpAdapter
+### IamHttpAdapter
 
 For microservice architectures where a central service manages authorization:
 
 ```typescript title="src/access.ts"
-import { HttpAdapter } from '@gentleduck/iam/adapters/http'
+import { IamHttpAdapter } from '@gentleduck/iam/adapters/http'
 
-const adapter = new HttpAdapter({
+const adapter = new IamHttpAdapter({
   baseUrl: 'https://auth.internal.company.com/access',
   headers: () => ({
     Authorization: `Bearer ${getServiceToken()}`,
@@ -625,7 +625,7 @@ interface HttpAdapterConfig {
 - All requests include `Content-Type: application/json`
 - Non-OK responses throw `Error` with `duck-iam HTTP ${status}: ${body}`
 
-#### HttpAdapter Endpoint Mapping
+#### IamHttpAdapter Endpoint Mapping
 
 The adapter maps each store method to an HTTP endpoint:
 
@@ -654,7 +654,7 @@ with Express + admin router, and have other services connect via the HTTP adapte
 Implement the `Adapter` interface to connect any storage backend:
 
 ```typescript
-import type { Adapter, Attributes, Policy, Role, ScopedRole } from '@gentleduck/iam'
+import type { IamAdapter, Attributes, Policy, Role, ScopedRole } from '@gentleduck/iam'
 
 export class MongoAdapter implements Adapter {
   constructor(private db: Db) {}
@@ -752,7 +752,7 @@ The engine uses four LRU caches to minimize adapter calls:
         SC["subjectCache (size: maxCacheSize)<br/>Key: subjectId -> Subject"]
     end
 
-    subgraph Config["EngineTypes.IConfig"]
+    subgraph Config["IamEngineTypes.IConfig"]
         TTL["cacheTTL: 60 (seconds)"]
         MAX["maxCacheSize: 1000"]
     end
@@ -1176,12 +1176,12 @@ and loaded the policies yourself.
 
     ```typescript title="__tests__/access.test.ts"
     import { describe, it, expect } from 'vitest'
-    import { Engine } from '@gentleduck/iam'
-    import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+    import { IamEngine } from '@gentleduck/iam'
+    import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
     import { viewer, editor, admin, ownerPolicy } from '../src/access'
 
     function createTestEngine() {
-      const adapter = new MemoryAdapter({
+      const adapter = new IamMemoryAdapter({
         roles: [viewer, editor, admin],
         assignments: {
           'alice': ['viewer'],
@@ -1190,7 +1190,7 @@ and loaded the policies yourself.
         },
         policies: [ownerPolicy],
       })
-      return new Engine({ adapter, cacheTTL: 0 })
+      return new IamEngine({ adapter, cacheTTL: 0 })
     }
 
     describe('RBAC', () => {
@@ -1288,14 +1288,14 @@ and loaded the policies yourself.
     ```typescript
     describe('multi-tenant', () => {
       it('scoped roles apply per tenant', async () => {
-        const adapter = new MemoryAdapter({
+        const adapter = new IamMemoryAdapter({
           roles: [viewer, admin],
           assignments: { 'alice': ['viewer'] },
         })
         // Add scoped assignments programmatically
         await adapter.assignRole('alice', 'admin', 'acme')
 
-        const engine = new Engine({ adapter, cacheTTL: 0 })
+        const engine = new IamEngine({ adapter, cacheTTL: 0 })
 
         // With scope: admin in acme
         const acme = await engine.can('alice', 'manage',
@@ -1422,11 +1422,11 @@ and loaded the policies yourself.
     describe('hooks', () => {
       it('calls afterEvaluate on every check', async () => {
         const logs: string[] = []
-        const adapter = new MemoryAdapter({
+        const adapter = new IamMemoryAdapter({
           roles: [viewer],
           assignments: { 'alice': ['viewer'] },
         })
-        const engine = new Engine({
+        const engine = new IamEngine({
           adapter,
           cacheTTL: 0,
           hooks: {
@@ -1442,11 +1442,11 @@ and loaded the policies yourself.
 
       it('calls onDeny only when denied', async () => {
         const denied: string[] = []
-        const adapter = new MemoryAdapter({
+        const adapter = new IamMemoryAdapter({
           roles: [viewer],
           assignments: { 'alice': ['viewer'] },
         })
-        const engine = new Engine({
+        const engine = new IamEngine({
           adapter,
           cacheTTL: 0,
           hooks: {
@@ -1465,11 +1465,11 @@ and loaded the policies yourself.
 
       it('calls onError when adapter fails', async () => {
         const errors: Error[] = []
-        const adapter = new MemoryAdapter()
+        const adapter = new IamMemoryAdapter()
         // Simulate adapter failure
         adapter.getSubjectRoles = async () => { throw new Error('DB down') }
 
-        const engine = new Engine({
+        const engine = new IamEngine({
           adapter,
           cacheTTL: 0,
           hooks: { onError: async (err) => { errors.push(err) } },
@@ -1491,11 +1491,11 @@ and loaded the policies yourself.
     ```typescript
     describe('admin', () => {
       it('assigns and revokes roles', async () => {
-        const adapter = new MemoryAdapter({
+        const adapter = new IamMemoryAdapter({
           roles: [viewer, editor],
           assignments: { 'alice': ['viewer'] },
         })
-        const engine = new Engine({ adapter, cacheTTL: 0 })
+        const engine = new IamEngine({ adapter, cacheTTL: 0 })
 
         // Initially viewer only
         let result = await engine.can('alice', 'create', {
@@ -1521,8 +1521,8 @@ and loaded the policies yourself.
       })
 
       it('saves and retrieves policies', async () => {
-        const adapter = new MemoryAdapter()
-        const engine = new Engine({ adapter, cacheTTL: 0 })
+        const adapter = new IamMemoryAdapter()
+        const engine = new IamEngine({ adapter, cacheTTL: 0 })
 
         await engine.admin.savePolicy(ownerPolicy)
         const retrieved = await engine.admin.getPolicy('owner-restrictions')
@@ -1591,7 +1591,7 @@ and loaded the policies yourself.
 | Practice | Why |
 | --- | --- |
 | Use `cacheTTL: 0` in tests | Ensures every check hits the adapter fresh |
-| Use `MemoryAdapter` for unit tests | No database setup needed |
+| Use `IamMemoryAdapter` for unit tests | No database setup needed |
 | Use `engine.can()` for simple pass/fail | Returns `boolean`, cleaner assertions |
 | Use `engine.check()` when inspecting decisions | Returns full `Decision` object |
 | Use `engine.explain()` for debugging failures | Shows exactly which rule/condition failed |
@@ -1605,8 +1605,8 @@ and loaded the policies yourself.
 
 Before shipping BlogDuck:
 
-- [ ] Set `mode: 'production'` on high-traffic servers; use `createAccessConfig` with `as const`
-- [ ] Replace `MemoryAdapter` with `PrismaAdapter`, `DrizzleAdapter`, or `HttpAdapter`
+- [ ] Set `mode: 'production'` on high-traffic servers; use `defineIam` with `as const`
+- [ ] Replace `IamMemoryAdapter` with `IamPrismaAdapter`, `IamDrizzleAdapter`, or `IamHttpAdapter`
 - [ ] Call `validateRoles()` and `validatePolicy()` at startup and fail fast on errors
 - [ ] Call `engine.preload()` at boot to warm the policy + role caches before serving traffic
 - [ ] Wire `engine.healthCheck()` to a `/healthz` endpoint so the platform can gate rollouts
@@ -1615,7 +1615,7 @@ Before shipping BlogDuck:
 - [ ] Register `hooks.onMetrics` + `hooks.onPolicyError` for evaluation telemetry and per-policy errors
 - [ ] Expose `engine.stats.get()` on an internal endpoint to watch cache hit rate, evictions, and adapter latency
 - [ ] Use `engine.admin.export()` / `engine.admin.import()` to promote roles + policies between environments
-- [ ] If using `HttpAdapter`, set `retries` and `circuitBreakerThreshold` to survive flaky upstreams
+- [ ] If using `IamHttpAdapter`, set `retries` and `circuitBreakerThreshold` to survive flaky upstreams
 - [ ] Protect the admin router with your own authorization check; validate dynamic policies before saving
 - [ ] Server enforces permissions on every request (Chapter 6); client uses permission maps for UI hints only (Chapter 7)
 - [ ] Write tests for every role, policy, and scoped permission - both allowed and denied paths
@@ -1628,12 +1628,12 @@ Before shipping BlogDuck:
     <AccordionContent>
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
-import { PrismaAdapter } from '@gentleduck/iam/adapters/prisma'
+import { defineIam } from '@gentleduck/iam'
+import { IamPrismaAdapter } from '@gentleduck/iam/adapters/prisma'
 import { PrismaClient } from '@prisma/client'
 
 // 1. Type-safe config
-export const access = createAccessConfig({
+export const access = defineIam({
   actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
   resources: ['post', 'comment', 'user', 'dashboard'] as const,
   scopes: ['acme', 'globex'] as const,
@@ -1679,7 +1679,7 @@ if (!policyCheck.valid) throw new Error(policyCheck.issues.map(i => i.message).j
 
 // 5. Database adapter
 const prisma = new PrismaClient()
-const adapter = new PrismaAdapter(prisma)
+const adapter = new IamPrismaAdapter(prisma)
 
 // 6. Engine with hooks
 export const engine = access.createEngine({
@@ -1724,7 +1724,7 @@ export const appChecks = access.checks([
     <AccordionContent className="text-muted-foreground">
       Without `as const`, TypeScript widens the array types to `string[]`. The config will
       still work at runtime, but you lose compile-time checking. Any string will be accepted
-      as an action or resource. Always use `as const` with `createAccessConfig` to get the
+      as an action or resource. Always use `as const` with `defineIam` to get the
       full type safety benefits.
     </AccordionContent>
   </AccordionItem>
@@ -1732,9 +1732,9 @@ export const appChecks = access.checks([
   <AccordionItem value="c8-which-adapter">
     <AccordionTrigger>Which database adapter should I use?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Use `PrismaAdapter` if you already use Prisma. Use `DrizzleAdapter` if you already use
-      Drizzle. Use `HttpAdapter` in microservice architectures where a central service manages
-      authorization. Use `MemoryAdapter` for prototyping, testing, and simple apps that do not
+      Use `IamPrismaAdapter` if you already use Prisma. Use `IamDrizzleAdapter` if you already use
+      Drizzle. Use `IamHttpAdapter` in microservice architectures where a central service manages
+      authorization. Use `IamMemoryAdapter` for prototyping, testing, and simple apps that do not
       need persistence. You can also implement your own adapter by implementing the `Adapter`
       interface which extends `PolicyStore`, `RoleStore`, and `SubjectStore`.
     </AccordionContent>
@@ -1756,7 +1756,7 @@ export const appChecks = access.checks([
     <AccordionContent className="text-muted-foreground">
       Yes. Implement the `Adapter` interface which extends `PolicyStore`, `RoleStore`, and
       `SubjectStore`. That is 14 methods total (4 for PolicyStore, 4 for RoleStore, 6 for
-      SubjectStore). `getSubjectScopedRoles` is optional. See the `MemoryAdapter` source code
+      SubjectStore). `getSubjectScopedRoles` is optional. See the `IamMemoryAdapter` source code
       as a reference implementation. It is the simplest adapter and shows all required methods.
       Make sure `getSubjectRoles()` returns only base (unscoped) roles, `savePolicy/saveRole()`
       upserts, and `setSubjectAttributes()` merges rather than replaces.
@@ -1764,7 +1764,7 @@ export const appChecks = access.checks([
   </AccordionItem>
 
   <AccordionItem value="c8-migrate">
-    <AccordionTrigger>How do I migrate from MemoryAdapter to a database?</AccordionTrigger>
+    <AccordionTrigger>How do I migrate from IamMemoryAdapter to a database?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Replace the adapter in your engine configuration. The engine API does not change. All
       your roles, policies, and permission checks work exactly the same. Create the database
@@ -1818,7 +1818,7 @@ export const appChecks = access.checks([
   </AccordionItem>
 
   <AccordionItem value="c8-http-adapter-auth">
-    <AccordionTrigger>How do I authenticate the HttpAdapter?</AccordionTrigger>
+    <AccordionTrigger>How do I authenticate the IamHttpAdapter?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
       Pass a `headers` function that returns the auth headers. The function can be async,
       so you can fetch fresh tokens dynamically: `headers: async () => ({ Authorization:

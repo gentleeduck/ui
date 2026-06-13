@@ -102,7 +102,7 @@ function UploadPage() {
       <ul>
         {items.map((item) => (
           <li key={item.localId}>
-            {item.file?.name} — {item.phase}
+            {item.file?.name} - {item.phase}
             {item.phase === 'uploading' && ` (${Math.round(item.progress ?? 0)}%)`}
           </li>
         ))}

@@ -1,0 +1,88 @@
+```ts
+import type {
+  TrimLeft, TrimRight, Trim,
+  CapitalizeWords, SnakeToCamel,
+} from '@gentleduck/ttest/template'
+```
+
+String-shape transforms expressed as type-level recursion on template literals. The companion to [`object`](/duck-ttest/api/object) `*CaseKeys` — these operate on a single string, those operate on every key of an object.
+
+## TrimLeft
+
+```ts
+type TrimLeft<S extends string>
+```
+
+Strip leading whitespace (space, newline, tab).
+
+```ts
+type a = TrimLeft<'  hello'>   // 'hello'
+type b = TrimLeft<'\n\thello'> // 'hello'
+type c = TrimLeft<'hello'>     // 'hello'
+```
+
+## TrimRight
+
+```ts
+type TrimRight<S extends string>
+```
+
+Strip trailing whitespace.
+
+```ts
+type a = TrimRight<'hello   '>   // 'hello'
+type b = TrimRight<'hello\n'>    // 'hello'
+```
+
+## Trim
+
+```ts
+type Trim<S extends string> = TrimLeft<TrimRight<S>>
+```
+
+Strip both sides.
+
+```ts
+type a = Trim<'  hello  '>           // 'hello'
+type b = Trim<'\n  hello world  \t'> // 'hello world'
+```
+
+Edge case: `Trim<string>` is `string`. Whitespace stripping only narrows literal types — a wide `string` passes through unchanged.
+
+## CapitalizeWords
+
+```ts
+type CapitalizeWords<S extends string>
+```
+
+Capitalize each space-separated word; lowercase the rest. Useful for headers, button labels, and titles authored as identifiers.
+
+```ts
+type a = CapitalizeWords<'hello WORLD'>     // 'Hello World'
+type b = CapitalizeWords<'order details'>   // 'Order Details'
+type c = CapitalizeWords<'mixedCASEinput'>  // 'Mixedcaseinput'
+```
+
+Edge case: the transform splits on a single space character only. Tabs and multiple spaces leave the residue inside a "word".
+
+## SnakeToCamel
+
+```ts
+type SnakeToCamel<S extends string>
+```
+
+Convert `snake_case` to `camelCase` by removing underscores and capitalizing the character that follows.
+
+```ts
+type a = SnakeToCamel<'user_name'>           // 'userName'
+type b = SnakeToCamel<'first_name_initial'>  // 'firstNameInitial'
+type c = SnakeToCamel<'already_camel'>       // 'alreadyCamel'
+type d = SnakeToCamel<'noUnderscores'>       // 'noUnderscores'
+```
+
+Edge cases:
+
+* `SnakeToCamel<'__double__'>` produces `'Double_'` — the helper assumes single underscores.
+* `SnakeToCamel<string>` is `string` — wide strings pass through.
+
+For object-key case conversion at scale see [`object`](/duck-ttest/api/object) — `CamelCaseKeys`, `SnakeCaseKeys`, and their deep variants build on these primitives.

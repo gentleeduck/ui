@@ -1,0 +1,76 @@
+## The space
+
+TypeScript / Node authorization libraries cluster around four
+archetypes:
+
+1. **DSL-based engines** - OPA (Rego), Cedar (AWS).
+2. **JSON / object policy engines** - Casbin, AccessControl.js.
+3. **Code-first builders** - CASL, Oso, duck-iam.
+4. **Hosted policy services** - Permit.io, Cerbos Cloud.
+
+duck-iam is in archetype 3 with a single twist: it runs RBAC and ABAC
+through one evaluation pipeline. You don't pick one; you write both
+side by side and the engine combines them.
+
+## Quick table
+
+| | duck-iam | Casbin | CASL | Oso | OPA / Cedar | AccessControl.js |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Language** | TypeScript native | TS / Go / Python / many | TS native | TS + Rust | DSL (Rego / Cedar) | TS native |
+| **RBAC** | First-class | Yes (RBAC model) | Yes | Yes | Yes | Yes |
+| **ABAC (conditions)** | First-class | Yes (with caveats) | Yes (limited) | Yes | Yes | No |
+| **One unified pipeline** | Yes | Two model file types | Pipeline per ability | One pipeline | One DSL | RBAC only |
+| **Combining algorithms** | 4 in-policy + 3 cross-policy | Custom matcher | Subject-side `every` | Single policy | Custom in Rego | Not applicable |
+| **Multi-tenant** | First-class scoped roles | Manual via subjects | Manual | Manual | Manual | No |
+| **`explain()` traces** | Yes (dev mode) | Limited | Limited | `inspect()` | OPA explain | No |
+| **Hot-reload policies** | Yes (adapter-driven) | Yes (watcher) | Reload at app level | Yes (load_files) | Yes | Reload at app level |
+| **TypeScript inference** | Const-typed actions/resources/roles | Stringly-typed | Strong | Strong | None (DSL) | Stringly-typed |
+| **Dev/prod modes** | Yes (boolean fast path) | No | No | No | No | No |
+| **Server adapters shipped** | Express, Hono, NestJS, Next.js | Bring-your-own | Bring-your-own | Bring-your-own | Bring-your-own | Bring-your-own |
+| **Client components shipped** | React, Vue, vanilla | No | `` for React | No | No | No |
+| **Performance (decisions/sec)** | <1us prod mode | ~10us | ~20us | ~10us | ~50us (remote) | ~5us |
+| **License** | MIT | Apache 2 | MIT | Apache 2 | Apache 2 | MIT |
+
+See [Benchmarks ->](/duck-iam/benchmarks) for the duck-iam numbers
+against seven libraries.
+
+## When to pick duck-iam
+
+- You're building a TypeScript app and want strict types on every
+  action / resource / role name.
+- You need both RBAC and ABAC, and don't want to maintain two
+  separate policy systems.
+- You need multi-tenant scoped roles (different roles per org).
+- You want `explain()` traces that say exactly which rule
+  matched and why.
+- You want a dev/prod toggle that drops decision overhead to <1us.
+
+## When to pick something else
+
+- **OPA / Cedar**: when you need a *language-agnostic* policy service
+  (one set of policies enforced from Go, Python, TypeScript, etc.).
+  duck-iam is TS-only.
+- **Casbin**: when you need a battle-tested engine with broad
+  ecosystem support and don't mind less type safety.
+- **Hosted policy service (Permit, Cerbos Cloud)**: when you'd rather
+  not run your own policy runtime and want a polished policy editor
+  UI.
+- **CASL**: when your concerns are mostly about scoping ORM queries
+  (CASL has tight integrations with TypeORM / Sequelize / Mongoose).
+
+## What duck-iam is *not*
+
+- **Not a permission marketplace.** Define your own actions and
+  resources; we don't ship a generic "manage:user" taxonomy.
+- **Not an audit/SIEM.** Hooks are first-class, but you bring the
+  log sink.
+- **Not authentication.** Pair with [duck-auth](/duck-auth) for the
+  identity side.
+
+## See also
+
+- [Benchmarks ->](/duck-iam/benchmarks) - duck-iam vs Casbin / CASL /
+  Oso / accesscontrol / @casl/ability / RBAC / express-jwt-permissions.
+- [Pairing with duck-auth ->](/duck-iam/guides/auth-bridge) - the
+  identity bridge.
+- [Cookbook ->](/duck-iam/guides/cookbook) - patterns.

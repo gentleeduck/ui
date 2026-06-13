@@ -51,11 +51,11 @@ Every authorization check assembles an `AccessRequest`:
 The entity making the request - usually a user or service account.
 
 ```typescript
-interface Request.ISubject {
+interface IamRequest.ISubject {
   id: string
   roles: readonly string[]
-  scopedRoles?: readonly Request.IScopedRole[]
-  attributes: Primitives.Attributes
+  scopedRoles?: readonly IamRequest.IScopedRole[]
+  attributes: IamPrimitives.Attributes
 }
 ```
 
@@ -70,10 +70,10 @@ The engine resolves a subject from `subjectId` on every check (cached after the 
 The thing being accessed - a post, document, settings page.
 
 ```typescript
-interface Request.IResource {
+interface IamRequest.IResource {
   type: string // e.g. "post", "comment", "dashboard.settings"
   id?: string // optional instance ID
-  attributes: Primitives.Attributes
+  attributes: IamPrimitives.Attributes
 }
 ```
 
@@ -116,15 +116,15 @@ See [scoped roles](/duck-iam/core/roles/scoped) for the three scoping mechanisms
 Request-time context: IP, user agent, timestamp, plus any custom fields conditions need:
 
 ```typescript
-interface Request.IEnvironment {
+interface IamRequest.IEnvironment {
   ip?: string
   userAgent?: string
   timestamp?: number
-  [key: string]: Primitives.AttributeValue | undefined // custom fields
+  [key: string]: IamPrimitives.AttributeValue | undefined // custom fields
 }
 ```
 
-The server middleware integrations (Express, Hono, Nest, Next) build a default `Request.IEnvironment` from request headers. Add custom fields like `region`, `dayOfWeek`, `maintenanceMode`, etc. for time/geo/feature-flag rules.
+The server middleware integrations (Express, Hono, Nest, Next) build a default `IamRequest.IEnvironment` from request headers. Add custom fields like `region`, `dayOfWeek`, `maintenanceMode`, etc. for time/geo/feature-flag rules.
 
 ---
 
@@ -133,16 +133,16 @@ The server middleware integrations (Express, Hono, Nest, Next) build a default `
 The full context for an authorization check:
 
 ```typescript
-interface Request.IAccessRequest {
-  subject: Request.ISubject
+interface IamRequest.IAccessRequest {
+  subject: IamRequest.ISubject
   action: string
-  resource: Request.IResource
+  resource: IamRequest.IResource
   scope?: string
-  environment?: Request.IEnvironment
+  environment?: IamRequest.IEnvironment
 }
 ```
 
-`engine.can()` and `engine.check()` build this object internally - you supply the parts. `engine.authorize()` accepts a pre-built `Request.IAccessRequest` directly for advanced use.
+`engine.can()` and `engine.check()` build this object internally - you supply the parts. `engine.authorize()` accepts a pre-built `IamRequest.IAccessRequest` directly for advanced use.
 
 ---
 
@@ -203,7 +203,7 @@ interface AccessControl.IRule {
   actions: readonly string[]
   resources: readonly string[]
   conditions: AccessControl.IConditionGroup
-  metadata?: Readonly<Primitives.Attributes>
+  metadata?: Readonly<IamPrimitives.Attributes>
 }
 ```
 
@@ -219,7 +219,7 @@ A single condition checks one field against one value:
 interface AccessControl.ICondition {
   field: string // e.g. "subject.attributes.department"
   operator: AccessControl.Operator // e.g. "eq", "in", "contains"
-  value?: Primitives.AttributeValue
+  value?: IamPrimitives.AttributeValue
 }
 ```
 

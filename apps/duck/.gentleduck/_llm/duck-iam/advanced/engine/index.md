@@ -1,17 +1,17 @@
 ## What the engine does
 
-The `Engine` is the central evaluator. You create an engine with an adapter and optional configuration, then call its methods to check permissions. The engine loads roles and policies from the adapter, resolves the subject, runs the evaluation pipeline, and returns a decision.
+The `IamEngine` is the central evaluator. You create an engine with an adapter and optional configuration, then call its methods to check permissions. The engine loads roles and policies from the adapter, resolves the subject, runs the evaluation pipeline, and returns a decision.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { 'user-1': ['editor'] },
 })
 
-const engine = new Engine({ adapter })
+const engine = new IamEngine({ adapter })
 ```
 
 ***
@@ -20,44 +20,80 @@ const engine = new Engine({ adapter })
 
 | Page | Covers |
 | --- | --- |
-| [methods](/duck-iam/advanced/engine/methods) | `can`, `check`, `authorize`, `permissions`, `explain` |
-| [hooks](/duck-iam/advanced/engine/hooks) | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` |
-| [caching](/duck-iam/advanced/engine/caching) | The four LRU caches, invalidation, tuning |
-| [admin API](/duck-iam/advanced/engine/admin) | `engine.admin.*` for runtime CRUD |
-| [modes](/duck-iam/advanced/engine/modes) | Development vs production mode, performance trade-offs |
+| [methods](/duck-iam/advanced/engine/methods) | `can`, `check`, `authorize`, `permissions`, `explain`, `preload`, `healthCheck`, `stats`, `dispose` |
+| [hooks](/duck-iam/advanced/engine/hooks) | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics` |
+| [caching](/duck-iam/advanced/engine/caching) | The four LRU caches, invalidation, multi-instance via `invalidator` |
+| [admin API](/duck-iam/advanced/engine/admin) | `engine.admin.*` CRUD plus `export()` / `import()` snapshots |
+| [modes](/duck-iam/advanced/engine/modes) | Development vs production mode, performance trade-offs, production guards |
 
 ***
 
-## EngineConfig
+## IamEngineTypes.IConfig
 
-The constructor accepts an `EngineConfig`:
+The constructor accepts an `IamEngineTypes.IConfig`:
 
 ```typescript
-interface EngineConfig {
-  adapter: Adapter // Required. Storage backend.
-  defaultEffect?: Effect // Default 'deny'.
-  cacheTTL?: number // Default 60 seconds.
-  maxCacheSize?: number // Default 1000 subjects.
-  mode?: Mode // 'development' (default) | 'production'.
-  hooks?: EngineHooks // Lifecycle hooks.
+interface IConfig {
+  adapter: IamAdapter.IAdapter             // Required. Storage backend.
+  defaultEffect?: AccessControl.Effect  // Default 'deny'.
+  cacheTTL?: number                     // Default 60 seconds.
+  maxCacheSize?: number                 // Default 1000 subjects.
+  mode?: AccessControl.Mode             // 'development' (default) | 'production'.
+  hooks?: IamEngineTypes.IHooks            // Lifecycle hooks.
+  adapterTimeoutMs?: number             // Per-adapter-call timeout (default 5000 ms).
+  maxPolicies?: number                  // Hard cap on policies loaded (default 10000, fail-closed).
+  maxRoles?: number                     // Hard cap on roles loaded (default 10000, fail-closed).
+  allowFailOpen?: boolean               // Required to combine production + defaultEffect: 'allow'.
+  invalidator?: IamEngineTypes.IInvalidator // Cross-instance cache invalidation broadcaster.
+  policyCombine?: AccessControl.PolicyCombine // How multiple policies combine.
 }
 ```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `adapter` | `Adapter` | -- | The storage backend. Required. |
-| `defaultEffect` | `'allow' \| 'deny'` | `'deny'` | Decision when no rules match |
+| `adapter` | `IamAdapter.IAdapter` | -- | The storage backend. Required. |
+| `defaultEffect` | `'allow' \| 'deny'` | `'deny'` | Final effect when no rule matches |
 | `cacheTTL` | `number` | `60` | How long cached data lives, in seconds |
 | `maxCacheSize` | `number` | `1000` | Max subjects in the LRU cache |
 | `mode` | `'development' \| 'production'` | `'development'` | Evaluation mode - see [modes](/duck-iam/advanced/engine/modes) |
-| `hooks` | `EngineHooks` | `{}` | Lifecycle hooks - see [hooks](/duck-iam/advanced/engine/hooks) |
+| `hooks` | `IamEngineTypes.IHooks` | `{}` | Lifecycle hooks - see [hooks](/duck-iam/advanced/engine/hooks) |
+| `adapterTimeoutMs` | `number` | `5000` | Aborts adapter reads via `AbortController` once the budget elapses. Set `0` to disable. |
+| `maxPolicies` | `number` | `10000` | Hard cap on policies loaded from the adapter. Overruns throw at load time (fail-closed). |
+| `maxRoles` | `number` | `10000` | Hard cap on roles loaded from the adapter. Overruns throw at load time (fail-closed). |
+| `allowFailOpen` | `boolean` | `false` | Required when combining `mode: 'production'` with `defaultEffect: 'allow'` |
+| `invalidator` | `IamEngineTypes.IInvalidator` | -- | Cross-instance pub/sub broadcaster - see [caching](/duck-iam/advanced/engine/caching) |
+| `policyCombine` | `'and' \| 'allow-overrides' \| 'first-applicable'` | `'and'` | How decisions from multiple policies combine - see [cross-policy](/duck-iam/core/cross-policy) |
+
+### Production guards
+
+The constructor refuses two combinations when `mode: 'production'` is set:
+
+* `policyCombine: 'first-applicable'` - throws. The fast path returns a plain boolean and cannot distinguish "rule fired" from "default applied", so first-applicable is dev-mode only.
+* `defaultEffect: 'allow'` without `allowFailOpen: true` - throws. Fail-open in a production authorization engine is a security footgun; opt in explicitly.
+
+Both throw at construction time so misconfigurations never serve traffic.
+
+### Hooks reference
+
+`IamEngineTypes.IHooks` accepts the lifecycle hooks plus two operational hooks:
+
+| Hook | When it fires | Description |
+| --- | --- | --- |
+| `beforeEvaluate` | Before every evaluation | Mutate the request (enrich subject/resource attrs) |
+| `afterEvaluate` | After every evaluation (dev mode) | Audit logging, metrics on the resulting decision |
+| `onDeny` | Only when the decision is `deny` | Security alerts, denial logging |
+| `onError` | Any uncaught error during evaluation | Error tracking; engine then fails closed |
+| `onMetrics` | After each evaluation in either mode | Receives timing + cache-hit telemetry for dashboards |
+| `onPolicyError` | When a single policy throws during evaluation | Per-policy error capture without aborting evaluation |
+
+See [hooks](/duck-iam/advanced/engine/hooks) for full signatures and examples.
 
 ***
 
 ## Full configuration example
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   defaultEffect: 'deny',
   cacheTTL: 120,
@@ -89,19 +125,19 @@ const engine = new Engine({
 
 ***
 
-## The Decision object
+## The IDecision object
 
-Every authorization check in development mode returns a `Decision`:
+Every authorization check in development mode returns an `AccessControl.IDecision`:
 
 ```typescript
-interface Decision {
-  allowed: boolean // The final yes/no answer
-  effect: 'allow' | 'deny'
-  rule?: Rule // Which rule decided
-  policy?: string // Which policy ID
-  reason: string // Human-readable explanation
-  duration: number // Evaluation time in milliseconds
-  timestamp: number // When the decision was made (Date.now())
+interface IDecision {
+  allowed: boolean                 // The final yes/no answer
+  effect: AccessControl.Effect     // 'allow' | 'deny'
+  rule?: AccessControl.IRule       // Which rule decided
+  policy?: string                  // Which policy ID
+  reason: string                   // Human-readable explanation
+  duration: number                 // Evaluation time in milliseconds
+  timestamp: number                // When the decision was made (Date.now())
 }
 ```
 
@@ -147,13 +183,13 @@ interface Decision {
 }
 ```
 
-In production mode, `engine.authorize()` returns a plain `boolean` - no Decision allocation. See [modes](/duck-iam/advanced/engine/modes).
+In production mode, `engine.authorize()` returns a plain `boolean` - no `IDecision` allocation. See [modes](/duck-iam/advanced/engine/modes).
 
 ***
 
 ## Low-level helpers
 
-Most applications only need the `Engine`, but two adjacent exports are worth knowing about:
+Most applications only need the `IamEngine`, but two adjacent exports are worth knowing about:
 
 ```typescript
 import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
@@ -167,17 +203,17 @@ import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
 ## Putting it together
 
 ```typescript
-import { defineRole, Engine, MemoryAdapter } from '@gentleduck/iam'
+import { defineRole, IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').grant('read', 'comment').build()
 const editor = defineRole('editor').inherits('viewer').grant('create', 'post').grant('update', 'post').build()
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor],
   assignments: { 'user-1': ['editor'] },
 })
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   defaultEffect: 'deny',
   cacheTTL: 60,

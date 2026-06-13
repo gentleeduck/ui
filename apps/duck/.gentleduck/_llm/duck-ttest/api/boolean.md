@@ -1,0 +1,103 @@
+```ts
+import type { And, Or, Not, Xor, Xnor, If } from '@gentleduck/ttest/boolean'
+```
+
+The standard boolean truth table on type-level `true` / `false`, plus a re-export of [`If`](/duck-ttest/api/conditional) for ergonomic grouping. Use these to compose larger predicates from the `Is*` helpers in [`any`](/duck-ttest/api/any), [`guard`](/duck-ttest/api/guard), and [`predicates`](/duck-ttest/api/predicates).
+
+## And
+
+```ts
+type And<A extends boolean, B extends boolean>
+```
+
+Logical AND. `true` only when both inputs are exactly `true`.
+
+```ts
+type a = And<true,  true>   // true
+type b = And<true,  false>  // false
+type c = And<false, true>   // false
+type d = And<false, false>  // false
+```
+
+```ts
+import type { IsString } from '@gentleduck/ttest/guard'
+import type { IsLiteral } from '@gentleduck/ttest/literal'
+
+type IsStringLit<T> = And<IsString<T>, IsLiteral<T>>
+type a = IsStringLit<'hi'>    // true
+type b = IsStringLit<string>  // false
+```
+
+## Or
+
+```ts
+type Or<A extends boolean, B extends boolean>
+```
+
+Logical OR. `true` when either input is exactly `true`.
+
+```ts
+type a = Or<true,  false>  // true
+type b = Or<false, true>   // true
+type c = Or<false, false>  // false
+```
+
+## Not
+
+```ts
+type Not<A extends boolean>
+```
+
+Logical negation.
+
+```ts
+type a = Not<true>   // false
+type b = Not<false>  // true
+```
+
+Edge case: `Not<boolean>` is `boolean` — the distribution over `true | false` flips each member back to a union of both.
+
+## Xor
+
+```ts
+type Xor<A extends boolean, B extends boolean>
+```
+
+Exclusive OR — `true` iff exactly one input is `true`. Useful for "one or the other but not both" assertions.
+
+```ts
+type a = Xor<true,  false>  // true
+type b = Xor<false, true>   // true
+type c = Xor<true,  true>   // false
+type d = Xor<false, false>  // false
+```
+
+## Xnor
+
+```ts
+type Xnor<A extends boolean, B extends boolean> = Not<Xor<A, B>>
+```
+
+Exclusive NOR — `true` iff both inputs are equal. Equivalent to type-level equality on `boolean`.
+
+```ts
+type a = Xnor<true,  true>   // true
+type b = Xnor<false, false>  // true
+type c = Xnor<true,  false>  // false
+```
+
+## If
+
+Re-exported from [`conditional`](/duck-ttest/api/conditional). Type-level ternary kept here for ergonomic grouping with boolean operators.
+
+```ts
+type If<Cond extends boolean, Then, Else> = Cond extends true ? Then : Else
+```
+
+```ts
+type Branch<C extends boolean> = If<C, 'yes', 'no'>
+type a = Branch<true>   // 'yes'
+type b = Branch<false>  // 'no'
+```
+
+Edge case: every boolean operator here constrains both generics to `boolean`. Passing `boolean` (the union `true | false`) distributes — the result is also `boolean`. Pin to a literal first if that is not what you want.

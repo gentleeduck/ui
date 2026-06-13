@@ -7,7 +7,7 @@ section: Getting Started
 ## What is duck-auth?
 
 duck-auth is an authentication library built around a single faceted root,
-`AuthRoot`. Every concern - sessions, identities, passwords, providers,
+`AuthEngine`. Every concern - sessions, identities, passwords, providers,
 MFA, flows, API keys, machine-to-machine, organizations, idempotency,
 hijack policy, anomaly detection - is a typed facet you wire once at
 boot and pass into the runtime.
@@ -40,13 +40,13 @@ router with one adapter import.
 
 | Feature | Description |
 | --- | --- |
-| 14-facet root | `AuthRoot` exposes sessions, identities, passwords, providers, mfa, flows, apiKeys, m2m, orgs, plugins, operations, idempotency, hijack, anomaly. |
+| 14-facet root | `AuthEngine` exposes sessions, identities, passwords, providers, mfa, flows, apiKeys, m2m, orgs, plugins, operations, idempotency, hijack, anomaly. |
 | Framework-agnostic | Express, Hono, Next.js (app router), Fastify, Koa, Elysia, NestJS, gRPC, and a generic Web-Fetch executor. |
 | Pluggable transports | `CookieTransport`, `BearerTransport`, `JwtTransport` (HS256/ES256/RS256/EdDSA), `CompositeTransport`, plus `DPoPVerifier` for RFC 9449 sender-constrained tokens. |
 | Provider library | Password, magic-link, six OAuth (Google, GitHub, LinkedIn, Microsoft, Discord, Apple), WebAuthn passkeys (discoverable + username), API keys, SAML. |
 | Storage adapters | Memory (dev/test), Redis (session/idempotency/limiter/events/DPoP nonce), SQL bridge with bundled Drizzle examples for pg / mysql / sqlite. |
 | Channels | Console, SMTP, Resend, AWS SES, Twilio, WebPush, plus Test and Noop. |
-| Strict mode | `AuthRoot.strict({ env: 'production' })` rejects dev-only footguns at boot: insecure cookies, NoopLimiter, MemoryAdapter, missing lockout listeners, weak JWT keys, missing compliance presets. |
+| Strict mode | `AuthEngine.strict({ env: 'production' })` rejects dev-only footguns at boot: insecure cookies, NoopLimiter, IamMemoryAdapter, missing lockout listeners, weak JWT keys, missing compliance presets. |
 | Compliance presets | `gdpr`, `hipaa`, `soc2`, `fips` - strictest preset wins. Each enforces hashing, dataAtRest, channel, and anomaly minimums. |
 | Anomaly detection | Impossible-travel and device-fingerprint detectors, plus an aggregator that emits `allow` / `deny` / `step-up`. |
 | Observability | OpenTelemetry instrumentation, `WebhookDeliverer` with HMAC-signed outbound delivery, OpenAPI 3.1 generator, OIDC discovery, JWKS rotation. |
@@ -61,9 +61,9 @@ router with one adapter import.
         CLIENT["Client (Vanilla / React / Vue / Svelte / Solid)"]
     end
 
-    subgraph Root["AuthRoot"]
+    subgraph Root["AuthEngine"]
         direction TB
-        ROOT["AuthRoot config"]
+        ROOT["AuthEngine config"]
         ROOT --> FACETS["14 facets: sessions / identities / passwords / providers / mfa / flows / apiKeys / m2m / orgs / plugins / operations / idempotency / hijack / anomaly"]
     end
 
@@ -87,7 +87,7 @@ router with one adapter import.
 
     subgraph Adapters["Storage adapters"]
         direction TB
-        MEM["MemoryAuthAdapter"]
+        MEM["AuthMemoryAdapter"]
         REDIS["Redis stores"]
         SQL["SqlBridge (Drizzle pg/mysql/sqlite)"]
     end
@@ -98,7 +98,7 @@ router with one adapter import.
     Root --> Providers
     Root --> Adapters`} />
 
-`AuthRoot` is the runtime entry point. You construct it once at boot,
+`AuthEngine` is the runtime entry point. You construct it once at boot,
 pass the transport, stores, and providers you want, and hand the
 resulting instance to the framework adapter that mounts the routes.
 
@@ -128,7 +128,7 @@ the architectural rationale lives in [`DESIGN.md`](https://github.com/gentleeduc
 ## Next steps
 
 - [Installation ->](/duck-auth/installation) - install the package, scaffold via the CLI, and run the 60-second quickstart.
-- [Core concepts ->](/duck-auth/core) - read about `AuthRoot`, facets, and the request lifecycle.
+- [Core concepts ->](/duck-auth/core) - read about `AuthEngine`, facets, and the request lifecycle.
 - [Providers ->](/duck-auth/providers) - wire password, magic-link, OAuth, passkey, API-key, or SAML.
 - [Adapters ->](/duck-auth/adapters) - Memory, Redis, SQL (Drizzle examples for pg / mysql / sqlite).
 - [Security ->](/duck-auth/advanced/security) - production hardening, `strict()`, compliance presets, threat model.

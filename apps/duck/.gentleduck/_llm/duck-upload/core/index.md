@@ -1,4 +1,4 @@
-The core module holds the upload engine, contracts, persistence layer, and utilities. Framework-agnostic — works without React.
+The core module holds the upload engine, contracts, persistence layer, and utilities. Framework-agnostic - works without React.
 
 ## Exports
 

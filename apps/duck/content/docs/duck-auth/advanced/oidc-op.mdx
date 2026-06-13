@@ -23,7 +23,7 @@ distributed claims, RP-initiated logout.
 import { createOidcOP, MemoryClientStore } from '@gentleduck/auth/oidc/op'
 
 const op = createOidcOP({
-  auth,                     // AuthRoot instance from defineAuth(...)
+  auth,                     // AuthEngine instance from defineAuth(...)
   config: {
     issuer: 'https://auth.example.com',
     supportedScopes: ['openid', 'profile', 'email', 'offline_access'],

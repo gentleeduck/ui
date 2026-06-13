@@ -9,11 +9,11 @@ Every authorization check assembles an `AccessRequest`:
 The entity making the request - usually a user or service account.
 
 ```typescript
-interface Subject {
+interface IamRequest.ISubject {
   id: string
   roles: readonly string[]
-  scopedRoles?: readonly ScopedRole[]
-  attributes: Record<string, AttributeValue>
+  scopedRoles?: readonly IamRequest.IScopedRole[]
+  attributes: IamPrimitives.Attributes
 }
 ```
 
@@ -28,10 +28,10 @@ The engine resolves a subject from `subjectId` on every check (cached after the 
 The thing being accessed - a post, document, settings page.
 
 ```typescript
-interface Resource {
+interface IamRequest.IResource {
   type: string // e.g. "post", "comment", "dashboard.settings"
   id?: string // optional instance ID
-  attributes: Record<string, AttributeValue>
+  attributes: IamPrimitives.Attributes
 }
 ```
 
@@ -65,15 +65,15 @@ See [scoped roles](/duck-iam/core/roles/scoped) for the three scoping mechanisms
 Request-time context: IP, user agent, timestamp, plus any custom fields conditions need:
 
 ```typescript
-interface Environment {
+interface IamRequest.IEnvironment {
   ip?: string
   userAgent?: string
   timestamp?: number
-  [key: string]: AttributeValue | undefined // custom fields
+  [key: string]: IamPrimitives.AttributeValue | undefined // custom fields
 }
 ```
 
-The server middleware integrations (Express, Hono, Nest, Next) build a default `Environment` from request headers. Add custom fields like `region`, `dayOfWeek`, `maintenanceMode`, etc. for time/geo/feature-flag rules.
+The server middleware integrations (Express, Hono, Nest, Next) build a default `IamRequest.IEnvironment` from request headers. Add custom fields like `region`, `dayOfWeek`, `maintenanceMode`, etc. for time/geo/feature-flag rules.
 
 ***
 
@@ -82,16 +82,16 @@ The server middleware integrations (Express, Hono, Nest, Next) build a default `
 The full context for an authorization check:
 
 ```typescript
-interface AccessRequest {
-  subject: Subject
+interface IamRequest.IAccessRequest {
+  subject: IamRequest.ISubject
   action: string
-  resource: Resource
+  resource: IamRequest.IResource
   scope?: string
-  environment?: Environment
+  environment?: IamRequest.IEnvironment
 }
 ```
 
-`engine.can()` and `engine.check()` build this object internally - you supply the parts. `engine.authorize()` accepts a pre-built `AccessRequest` directly for advanced use.
+`engine.can()` and `engine.check()` build this object internally - you supply the parts. `engine.authorize()` accepts a pre-built `IamRequest.IAccessRequest` directly for advanced use.
 
 ***
 
@@ -100,10 +100,10 @@ interface AccessRequest {
 The output of an authorization check (in development mode):
 
 ```typescript
-interface Decision {
+interface AccessControl.IDecision {
   allowed: boolean // the boolean you need
   effect: 'allow' | 'deny'
-  rule?: Rule // which rule decided
+  rule?: AccessControl.IRule // which rule decided
   policy?: string // which policy it came from
   reason: string // human-readable explanation
   duration: number // evaluation time in ms
@@ -111,7 +111,7 @@ interface Decision {
 }
 ```
 
-In **production mode**, `engine.authorize()` returns a plain `boolean` - no `Decision` allocation. `engine.can()` always returns boolean regardless of mode (it's the simple-API method).
+In **production mode**, `engine.authorize()` returns a plain `boolean` - no `AccessControl.IDecision` allocation. `engine.can()` always returns boolean regardless of mode (it's the simple-API method).
 
 ***
 
@@ -120,13 +120,13 @@ In **production mode**, `engine.authorize()` returns a plain `boolean` - no `Dec
 A named collection of rules with a combining algorithm:
 
 ```typescript
-interface Policy {
+interface AccessControl.IPolicy {
   id: string
   name: string
   description?: string
   version?: number
-  algorithm: CombiningAlgorithm // 'deny-overrides' | 'allow-overrides' | 'first-match' | 'highest-priority'
-  rules: readonly Rule[]
+  algorithm: AccessControl.CombiningAlgorithm // 'deny-overrides' | 'allow-overrides' | 'first-match' | 'highest-priority'
+  rules: readonly AccessControl.IRule[]
   targets?: {
     actions?: readonly string[]
     resources?: readonly string[]
@@ -144,14 +144,15 @@ See [policies](/duck-iam/core/policies) for the full builder API and combining a
 A single authorization statement inside a policy:
 
 ```typescript
-interface Rule {
+interface AccessControl.IRule {
   id: string
-  effect: 'allow' | 'deny'
+  effect: AccessControl.Effect // 'allow' | 'deny'
   description?: string
   priority: number
   actions: readonly string[]
   resources: readonly string[]
-  conditions: ConditionGroup
+  conditions: AccessControl.IConditionGroup
+  metadata?: Readonly<IamPrimitives.Attributes>
 }
 ```
 
@@ -164,20 +165,20 @@ A rule fires when the action matches, the resource matches, and all conditions p
 A single condition checks one field against one value:
 
 ```typescript
-interface Condition {
+interface AccessControl.ICondition {
   field: string // e.g. "subject.attributes.department"
-  operator: Operator // e.g. "eq", "in", "contains"
-  value?: AttributeValue
+  operator: AccessControl.Operator // e.g. "eq", "in", "contains"
+  value?: IamPrimitives.AttributeValue
 }
 ```
 
 Conditions are grouped using logical operators:
 
 ```typescript
-type ConditionGroup =
-  | { all: Array<Condition | ConditionGroup> } // AND
-  | { any: Array<Condition | ConditionGroup> } // OR
-  | { none: Array<Condition | ConditionGroup> } // NOT (none must be true)
+type AccessControl.IConditionGroup =
+  | { all: Array<AccessControl.ICondition | AccessControl.IConditionGroup> } // AND
+  | { any: Array<AccessControl.ICondition | AccessControl.IConditionGroup> } // OR
+  | { none: Array<AccessControl.ICondition | AccessControl.IConditionGroup> } // NOT (none must be true)
 ```
 
 Groups nest up to 10 levels. Past that, evaluation returns `false` (fail closed).

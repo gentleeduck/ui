@@ -52,16 +52,16 @@ Malformed payloads return 400 before reaching the duck-auth runtime.
 ## Cold-start posture
 
 Elysia + Bun starts in <20ms. duck-auth adds a few ms (loading lazy
-peers, instantiating the AuthRoot). For best cold-start, avoid wiring
+peers, instantiating the AuthEngine). For best cold-start, avoid wiring
 peers you don't use - the lazy-load is per-feature.
 
 ## Error handling
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.onError(({ code, error, set }) => {
-  if (error instanceof AuthErrorObject) {
+  if (error instanceof AuthError) {
     set.status = error.status
     return error.toJSON()
   }

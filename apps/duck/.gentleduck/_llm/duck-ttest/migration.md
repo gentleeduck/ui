@@ -1,0 +1,92 @@
+This page mirrors `packages/duck-ttest/MIGRATION.md`. Follow it before bumping the dependency.
+
+## Subpath renames
+
+A pass of canonicalization removed three duplicated/typo'd sub-paths. Update your imports.
+
+| Old subpath | New subpath | Notes |
+| --- | --- | --- |
+| `@gentleduck/ttest/predictates` | `@gentleduck/ttest/predicates` | Typo fix. |
+| `@gentleduck/ttest/domain` | `@gentleduck/ttest/json` + `@gentleduck/ttest/format` | Split. `JSONValue` etc. live in `json`; structural format strings live in `format`. |
+| `@gentleduck/ttest/objects` | `@gentleduck/ttest/object` | Singular is canonical. |
+
+**Find-and-replace:**
+
+```bash
+# In your project
+rg -l '@gentleduck/ttest/predictates' | xargs sed -i 's|/predictates|/predicates|g'
+rg -l '@gentleduck/ttest/objects'     | xargs sed -i 's|/objects|/object|g'
+# 'domain' splits — review each import by hand and route to /json or /format.
+```
+
+## Type renames
+
+| Old name | New name | Reason |
+| --- | --- | --- |
+| `NegativeNumber` (from `~/number`) | `Negative` | Symmetric with peer `NonNegative`. |
+| `IsOptional` (from `~/sql`) | `IsSQLOptional` | Avoid semantic collision with `~/primitive`'s `IsOptional`. |
+| `IsNullable` (from `~/sql`) | `IsSQLNullable` | Avoid semantic collision with `~/primitive`'s `IsNullable`. |
+
+The TS-level `IsOptional` and `IsNullable` (from `@gentleduck/ttest/primitive`) check whether `undefined` or `null` is part of a TS type. The SQL-level helpers check column-constraint strings inside DDL parsing. They are not interchangeable.
+
+```ts
+// Before
+import type { IsOptional as IsSqlOpt } from '@gentleduck/ttest/sql'
+
+// After
+import type { IsSQLOptional } from '@gentleduck/ttest/sql'
+```
+
+## Behavior change: `SQLTypeMap['JSON']`
+
+| Symbol | Before | After |
+| --- | --- | --- |
+| `SQLTypeMap['JSON']` | `any` | `JSONValue` (imported from `~/json`) |
+
+If you relied on the `any` widening, narrow your value to `JSONValue` (a recursive `string \| number \| boolean \| null \| JSONObject \| JSONArray`) or cast at the boundary:
+
+```ts
+import type { JSONValue } from '@gentleduck/ttest/json'
+
+const row = await db.fetchRow() as { settings: JSONValue }
+//                                              ^ was `any` in v0.x
+```
+
+## Back-compat re-exports (deprecated)
+
+These symbols still re-export from `~/sql` with `@deprecated` JSDoc. They will be removed in a future major.
+
+* `Trim` — canonical home is `@gentleduck/ttest/template`.
+* `UnionToIntersection` — canonical home is `@gentleduck/ttest/union`.
+
+```ts
+// Before
+import type { Trim, UnionToIntersection } from '@gentleduck/ttest/sql'
+
+// After
+import type { Trim } from '@gentleduck/ttest/template'
+import type { UnionToIntersection } from '@gentleduck/ttest/union'
+```
+
+## If you build duck-ttest locally
+
+The renamed folders (`predicates/`, `json/`, `format/`, `object/`) won't overwrite stale `predictates/`, `domain/`, `objects/` in `dist/`. Delete `dist/` before rebuilding:
+
+```bash
+cd packages/duck-ttest
+rm -rf dist
+bun run build
+```
+
+The npm tarball only ships `src/`, so registry consumers are unaffected — this only matters when iterating on duck-ttest itself.
+
+## Checklist
+
+* \[ ] All `/predictates` → `/predicates`.
+* \[ ] All `/objects` → `/object`.
+* \[ ] All `/domain` imports split into `/json` or `/format`.
+* \[ ] `NegativeNumber` → `Negative`.
+* \[ ] `IsOptional` from `~/sql` → `IsSQLOptional`.
+* \[ ] `IsNullable` from `~/sql` → `IsSQLNullable`.
+* \[ ] `Trim` / `UnionToIntersection` imports moved off `~/sql`.
+* \[ ] Any `SQLTypeMap['JSON']` usage typed against `JSONValue` instead of `any`.

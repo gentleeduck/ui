@@ -26,7 +26,7 @@ function you write in your app.
 ## The bridge
 
 ```typescript title="src/lib/projectToSubject.ts"
-import type { Identity, Session } from '@gentleduck/auth/core'
+import type { AuthIdentity, AuthSession } from '@gentleduck/auth/core'
 import type { AccessControl } from '@gentleduck/iam'
 
 // Your typed AccessConfig - same one you defined for the iam engine.
@@ -60,7 +60,7 @@ them into the iam-side `Subject`. Once you have that, the rest of your
 handlers look identical:
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 import { auth } from '~/lib/auth'
 import { iam } from '~/lib/iam'
 import { projectToSubject } from '~/lib/projectToSubject'
@@ -68,7 +68,7 @@ import { projectToSubject } from '~/lib/projectToSubject'
 app.post('/api/posts/:id/delete', async (req, res, next) => {
   try {
     const ctx = await auth.resolveSession(req)
-    if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+    if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
     const subject = projectToSubject(ctx.identity, ctx.session)
     const post = await getPost(req.params.id)
@@ -119,7 +119,7 @@ const decision = iam.explain({
 })
 
 if (decision.requiresStepUp) {
-  throw new AuthErrorObject('AUTH/STEP_UP_REQUIRED')
+  throw new AuthError('AUTH/STEP_UP_REQUIRED')
 }
 if (!decision.allow) {
   return res.status(403).end()
@@ -157,7 +157,7 @@ multi-tenancy), iam may be overkill. You can drive permissions
 directly off `identity.profile.role` or `session.aal`:
 
 ```typescript
-if (session.aal !== 'aal2') throw new AuthErrorObject('AUTH/AAL_INSUFFICIENT')
+if (session.aal !== 'aal2') throw new AuthError('AUTH/AAL_INSUFFICIENT')
 if (identity.profile.role !== 'admin') return res.status(403).end()
 ```
 

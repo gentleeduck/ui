@@ -1,60 +1,72 @@
-## 1.7.0
+## 3.0.0
 
-### Minor Changes
+### Breaking - Engine facet split (cache + stats)
 
-* 0e80f84: Add Redis adapter, Drizzle schemas, and full integration test coverage.
+Engine had 16 public methods on one class. Folded the cache-invalidation and observability clusters into two facets so the root surface stays focused on evaluation. Evaluation (`authorize`, `can`, `check`, `explain`, `permissions`) and lifecycle (`constructor`, `dispose`, `preload`, `healthCheck`) stay flat - hot path, single noun.
 
-  **New: `RedisAdapter`** at `@gentleduck/iam/adapters/redis`. Distributed key/value backend with idempotent `assignRole` (set semantics), multi-tenant `keyPrefix`, and a minimal `RedisLike` interface that ioredis, node-redis v4+, and Upstash all satisfy directly.
+#### Migration
 
-  **New: pre-built Drizzle schemas** at `@gentleduck/iam/adapters/drizzle/schema/{pg,mysql,sqlite}`. Drop-in tables for all three SQL dialects with the right column types, FK cascade on `roleId`, unique index on `(subjectId, roleId, scope)`, and auto-managed `created_at`/`updated_at`. Generate migrations via `drizzle-kit generate`.
+```ts
+// Before (<= 2.x)                          // After (3.0)
+engine.invalidate(opts)                    engine.cache.invalidate(opts)
+engine.invalidateSubject(id, opts)         engine.cache.invalidateSubject(id, opts)
+engine.invalidatePolicies(opts)            engine.cache.invalidatePolicies(opts)
+engine.invalidateRoles(id?, opts)          engine.cache.invalidateRoles(id?, opts)
+engine.stats()                             engine.stats.get()
+engine.resetStats()                        engine.stats.reset()
+engine.flushSharedCaches()                 // REMOVED
+                                           import { flushSharedCaches } from '@gentleduck/iam'
+```
 
-  **Test coverage expansion**: every adapter, server middleware, and client integration now has dedicated tests. Total test count went from 309 to 498. New test files:
+Mechanical `sed` per call site - no behavior change. Codemod:
 
-  * `adapters/prisma`, `adapters/drizzle`, `adapters/http`, `adapters/redis`
-  * `server/express`, `server/hono`, `server/nest`, `server/next`
-  * `client/react`, `client/vue`
+```sh
+sed -i -E \
+  -e 's/(engine[A-Za-z]*)\.invalidate\(/\1.cache.invalidate(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidateSubject\(/\1.cache.invalidateSubject(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidatePolicies\(/\1.cache.invalidatePolicies(/g' \
+  -e 's/(engine[A-Za-z]*)\.invalidateRoles\(/\1.cache.invalidateRoles(/g' \
+  -e 's/(engine[A-Za-z]*)\.stats\(\)/\1.stats.get()/g' \
+  -e 's/(engine[A-Za-z]*)\.resetStats\(\)/\1.stats.reset()/g' \
+  src/**/*.ts
+```
 
-  **Optional peer deps added**: `drizzle-orm`, `ioredis`, `redis` (all optional).
+#### Why 3.0 now
 
-## 1.6.2
+* `flushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
+* Flat surface drops from 16 -> 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
 
-### Patch Changes
+#### What did not change
 
-* 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.
+* `engine.authorize / can / check / explain / permissions` - identical signatures + semantics.
+* `engine.preload / dispose / healthCheck` - unchanged.
+* Bundle size stable at 41.6 KB (internal refactor, no shape change).
+* 948/948 tests pass after bulk rename.
 
-## 1.6.1
+***
 
-### Patch Changes
+## 2.1.0
 
-* Add package README for npm page. Remove special characters from all documentation.
+### Adversarial security audit cycle (21 rescans, ~60 fix commits)
 
-## 1.6.0
+A second multi-round audit pass after 2.0.0, run by independent adversarial security-auditor agents plus a silent-failure hunter and a code-smell scanner. **21 rescan cycles** uncovered 1 CRITICAL, 7 HIGH, 11 Medium, 12 Low, and 4 Info findings on top of the 2.0.0 hardening. Three consecutive clean rescans (Med+ free) declared the source tree exhausted: *"the package is genuinely hard to break."*
 
-### Minor Changes
+The change set is **mostly backward compatible** with three intentional default changes that close trivial auth-bypass / CSRF footguns.
 
-* Performance: evaluatePolicyFast now 2x vs CASL (was 5.2x). Inlined hot path, added pre-computed results cache for unconditional rules, fixed empty conditions bug, added combined action+resource index.
+### What the audit found
 
-## 1.5.0
+The audit was deliberately adversarial. After the 2.0.0 P0/P1 work, prior assumptions were re-attacked from fresh angles. A representative sampling:
 
-### Minor Changes
-
-* e682b61: Add optional scope parameter to grant() for permission-level scoping
-
-  The `grant()` method now accepts an optional third `scope` argument:
-  `.grant('update', 'post', 'org-1')`. This enables permission-level
-  scoping directly without needing `grantScoped()`. The existing
-  `grantScoped(scope, action, resource)` method remains available.
-
-  Also fixed incorrect `first-applicable` references in JSDoc comments
-  to use the correct algorithm names `first-match` and `highest-priority`.
-
-## 1.4.0
-
-### Minor Changes
-
-* 72c449b: Add FlexibleDollarPaths for $-value autocomplete and fix AttrValue for optional properties
-
-  * FlexibleDollarPaths\subject.id) even without a custom context
+* **Total silent fail-open** in `IamFileAdapter._loadState` - EACCES, EISDIR, EIO swallowed -> empty store -> `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
+* **Permanent data destruction** in `IamFileAdapter` - a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
+* **Trivial auth bypass via spoofable header** in Hono `accessMiddleware` and Next `withAccess` - both defaulted `getUserId` to `x-user-id` request header. `curl -H 'X-User-Id: admin' ...` ran authorize() under the spoofed identity (SEC-101 HIGH).
+* **Decision rewriting via throwing hooks** - `afterEvaluate`/`onDeny` inside `authorize`'s try caught and turned allow into deny; `onMetrics` could escape the fail-closed catch entirely (SEC-055/056 HIGH).
+* **Silent fail-open in batch checks** - `permissions()` passed `undefined` for `onPolicyError`, so a per-policy throw vanished and UI gates silently allowed under `defaultEffect:'allow'` (SEC-057 HIGH).
+* **Silent ABAC denial** - Redis/Drizzle `getSubjectAttributes` returned `{}` on corruption, conditions silently flipped to deny with no operator signal (SEC-058 HIGH).
+* **SSRF via fetch redirect** - construction-time `allowedHosts` validator runs once on `baseUrl`; redirects to `169.254.169.254` or internal hosts followed silently. Now `redirect: 'error'` (SEC-042 HIGH).
+* **Cross-backend authorization drift** - file/memory `getSubjectRoles` returned unscoped-only; redis/drizzle/prisma returned all collapsed. Same subject decided differently across adapters (SEC-059).
+* **Permanent admin DoS** - symlink-escape rejection parked the rejected promise in `_loadInFlight` forever; every subsequent `_loadState()` returned the same rejection. Adapter unusable until process restart (SEC-063).
+* **Validator error reflection** - `assertValidOrThrow` echoed `Invalid algorithm "subject.id) even without a custom context
   * AttrValue now strips undefined from optional properties - yearsExperience?: number correctly resolves to number instead of falling back to AttributeValue
   * StringConditionValue no longer includes (string & \{}) internally - the flexible string fallback is handled at the method signature level via FlexibleDollarPaths
 
@@ -86,13 +98,13 @@
 
 ### Minor Changes
 
-* Add DollarPaths type for $-variable autocomplete in conditions, refactor core into modular folders, and add comprehensive JSDoc and inline FAQs to documentation
+* Add DollarPaths type for $-variable autocomplete in conditions, refactor core into modular folders, and add JSDoc and inline FAQs to documentation
 
 ## 1.2.0
 
 ### Minor Changes
 
-* 7fe860f: Add TContext type parameter for typed dot-path intellisense and per-resource attribute narrowing. Split types.ts into modular types/ directory. Add comprehensive JSDoc across all source files.
+* 7fe860f: Add TContext type parameter for typed dot-path intellisense and per-resource attribute narrowing. Split types.ts into modular types/ directory. Add JSDoc across all source files.
 
 ## 1.1.2
 
@@ -110,4 +122,4 @@
 
 ### Minor Changes
 
-* 29ed55d: Initial release of @gentleduck/iam - identity and access management utilities.
+* 29ed55d: Initial release of @gentleduck/iam: identity and access management utilities.

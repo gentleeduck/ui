@@ -1,11 +1,11 @@
 ---
 title: adapters overview
-description: Storage layer for duck-iam - pick a built-in adapter (Memory, File, Prisma, Drizzle, Redis, HTTP) or implement Adapter.IAdapter for custom backends.
+description: Storage layer for duck-iam - pick a built-in adapter (Memory, File, Prisma, Drizzle, Redis, HTTP) or implement IamAdapter.IAdapter for custom backends.
 section: Integrations
 ---
 ## What is an adapter?
 
-Adapters are duck-iam's storage layer. They implement `Adapter.IAdapter`, which combines three stores:
+Adapters are duck-iam's storage layer. They implement `IamAdapter.IAdapter`, which combines three stores:
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Adapter_Interface["Adapter Interface"]
@@ -34,12 +34,12 @@ Adapters are duck-iam's storage layer. They implement `Adapter.IAdapter`, which 
 
     subgraph Implementations["Built-in Implementations"]
         direction LR
-        MEM["MemoryAdapter\nIn-process Maps\nDev / Testing"]
-        FIL["FileAdapter\nJSON on disk\nCLIs / single-process"]
-        PRI["PrismaAdapter\nPrisma Client\nProduction DB"]
-        DRI["DrizzleAdapter\nDrizzle ORM\nProduction DB"]
-        RED["RedisAdapter\nioredis / node-redis\nDistributed cache"]
-        HTT["HttpAdapter\nfetch() calls\nRemote service"]
+        MEM["IamMemoryAdapter\nIn-process Maps\nDev / Testing"]
+        FIL["IamFileAdapter\nJSON on disk\nCLIs / single-process"]
+        PRI["IamPrismaAdapter\nPrisma Client\nProduction DB"]
+        DRI["IamDrizzleAdapter\nDrizzle ORM\nProduction DB"]
+        RED["IamRedisAdapter\nioredis / node-redis\nDistributed cache"]
+        HTT["IamHttpAdapter\nfetch() calls\nRemote service"]
     end
 
     Adapter_Interface --> Implementations`} />
@@ -51,9 +51,9 @@ Adapters are duck-iam's storage layer. They implement `Adapter.IAdapter`, which 
 Every adapter is fully typed against your app's action, resource, role, and scope unions.
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
+import { IamEngine } from '@gentleduck/iam'
 
-const engine = new Engine({
+const engine = new IamEngine({
   adapter: yourAdapter,
   defaultEffect: 'deny',
   cacheTTL: 60,
@@ -74,21 +74,21 @@ const engine = new Engine({
 | [**HTTP**](/duck-iam/integrations/adapters/http) | Microservices split | Remote API | None (uses `fetch`) |
 | [**Custom**](/duck-iam/integrations/adapters/custom) | Any other backend | Your choice | Your choice |
 
-All adapters are interchangeable. Start with `MemoryAdapter` during development and switch to a database adapter in production without changing engine, builder, or middleware code.
+All adapters are interchangeable. Start with `IamMemoryAdapter` during development and switch to a database adapter in production without changing engine, builder, or middleware code.
 
 ---
 
 ## How adapters fit in
 
 ```typescript
-import { Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 // 1. Pick a storage backend
-const adapter = new MemoryAdapter({ /* seed */ })
+const adapter = new IamMemoryAdapter({ /* seed */ })
 
 // 2. Wrap it in an engine
-const engine = new Engine({ adapter, defaultEffect: 'deny' })
+const engine = new IamEngine({ adapter, defaultEffect: 'deny' })
 
 // 3. Use the engine - same API regardless of adapter
 const allowed = await engine.can('user-1', 'read', { type: 'post', attributes: {} })

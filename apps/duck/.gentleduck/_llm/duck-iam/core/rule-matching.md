@@ -73,13 +73,13 @@ If both action and resource match, the rule's `conditions` are evaluated. See [c
 
 The engine has a **fast path** for unconditional rules (empty conditions or `{ all: [] }`) - these are pre-computed at policy load time into a result map, so checking them is an O(1) lookup with no condition traversal.
 
-For conditional rules, the engine evaluates the condition tree against the `AccessRequest`. Failed conditions cause the rule to be skipped, not the whole policy.
+For conditional rules, the engine evaluates the condition tree against the `IamRequest.IAccessRequest`. Failed conditions cause the rule to be skipped, not the whole policy.
 
 ***
 
 ## Field resolution
 
-Condition `field` values are dot-notation paths resolved against the `AccessRequest`.
+Condition `field` values are dot-notation paths resolved against the `IamRequest.IAccessRequest`.
 
 Top-level paths the engine resolves:
 

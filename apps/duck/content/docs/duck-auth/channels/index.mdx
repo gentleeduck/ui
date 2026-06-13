@@ -8,7 +8,7 @@ section: Channels
 
 A channel is an outbound transport for messages - magic links,
 verification emails, password resets, MFA codes, anomaly alerts. Every
-channel implements `Channel.IChannel`:
+channel implements `AuthChannel.IChannel`:
 
 ```typescript
 interface IChannel {
@@ -60,7 +60,7 @@ typed `vars` payload from the runtime; rendering the body is your
 channel's responsibility:
 
 ```typescript
-class CustomResendChannel implements Channel.IChannel {
+class CustomResendChannel implements AuthChannel.IChannel {
   id = 'custom-resend'
   kind = 'email' as const
 

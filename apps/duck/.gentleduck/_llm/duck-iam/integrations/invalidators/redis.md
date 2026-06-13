@@ -1,0 +1,186 @@
+## What it does
+
+`createIamRedisInvalidator` wires a duck-iam engine to a Redis pub/sub channel so every node in a fleet drops its local caches when *any* node mutates a policy, role, or subject. Without it, `engine.admin.savePolicy()` on pod A leaves pods B - J serving stale grants for up to `cacheTTL` seconds. With it, mutations propagate within one round-trip.
+
+***
+
+## Install
+
+The invalidator has zero runtime dependencies. Pair it with your existing Redis client (ioredis or node-redis v4+).
+
+```typescript
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+```
+
+***
+
+## Usage
+
+Pass it into `IConfig.invalidator`:
+
+```ts
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import Redis from 'ioredis'
+
+const pub = new Redis()
+const sub = new Redis() // subscriber must be a separate connection
+
+const invalidator = createIamRedisInvalidator({
+  client: {
+    publish: (ch, msg) => pub.publish(ch, msg),
+    subscribe: (ch, handler) => {
+      sub.subscribe(ch)
+      sub.on('message', (chan, message) => {
+        if (chan === ch) handler(message)
+      })
+    },
+    unsubscribe: (ch) => sub.unsubscribe(ch),
+  },
+  channel: 'iam:invalidate', // optional; defaults to 'duck-iam:invalidate'
+  secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
+})
+
+const engine = new IamEngine({ adapter, invalidator })
+
+process.on('SIGTERM', () => engine.dispose())
+```
+
+Without `secret`, envelopes are unsigned and accepted from any party with
+PUBLISH rights on the channel - they can wipe caches across the fleet.
+With `secret`, every envelope is HMAC-SHA256 signed; incoming envelopes
+without a verifying signature are dropped. A one-shot console warn fires
+at construction when no secret is set.
+
+***
+
+## How it works
+
+Every local `engine.admin.*` mutation publishes a discriminated-union event:
+
+```typescript
+type IInvalidateEvent =
+  | { kind: 'all' }
+  | { kind: 'policies' }
+  | { kind: 'roles'; roleId?: string }
+  | { kind: 'subject'; subjectId: string }
+```
+
+Every engine subscribed to the same channel receives the event and applies the matching local invalidate (`invalidate*({ broadcast: false })`) so it doesn't re-publish - no echo storm.
+
+Each engine instance embeds a per-process UUID in every published event. The subscriber filters out messages with its own UUID, so a node never re-applies its own mutation.
+
+***
+
+## Multi-tenant channels
+
+In multi-tenant deployments where different tenants must not cross-invalidate,
+pass `tenantId` and the invalidator auto-prefixes the channel as
+`duck-iam:invalidate:tenant:${tenantId}` (or `${channel}:tenant:${tenantId}`
+when `channel` is also given). CAVEAT-1.
+
+```ts
+createIamRedisInvalidator({
+  client,
+  secret: process.env.IAM_INVALIDATE_SECRET,
+  tenantId: req.tenantSlug, // validated against /^[A-Za-z0-9_-]{1,64}$/
+})
+```
+
+`tenantId` is validated against `/^[A-Za-z0-9_-]{1,64}$/` so an
+attacker-controlled tenant slug cannot inject pub/sub wildcards (`*`) or
+whitespace that would confuse downstream subscribers. Invalid slugs throw at
+construction.
+
+Building the channel name yourself with `channel: '...'` still works for
+existing deployments, but `tenantId` is the recommended path for new code.
+
+***
+
+## Publish failures
+
+`engine.admin.*` mutations call `publish()` synchronously; a thrown error is
+non-fatal for the local engine (it already applied the invalidation) but
+remote nodes will not receive the broadcast. Wire `onPublishError` to your
+alerting pipeline so a long-lived Redis outage does not silently desync
+caches across nodes. SEC-062.
+
+```ts
+createIamRedisInvalidator({
+  client,
+  secret: process.env.IAM_INVALIDATE_SECRET,
+  onPublishError: (err, channel) => {
+    metrics.increment('iam.invalidator.publish_failed', { channel })
+    sentry.captureException(err, { extra: { channel } })
+  },
+})
+```
+
+Without the hook, the invalidator falls back to a rate-limited
+`console.warn` so the failure is not totally silent.
+
+***
+
+## Delivery semantics
+
+At-least-once. `engine.cache.invalidate*()` methods are idempotent - applying the same event twice is safe. If the Redis client drops a message, that node's cache stays stale for at most `cacheTTL` seconds; the next request after expiry will re-fetch from the adapter.
+
+If `publish` throws synchronously, the local invalidate already applied - the failure is non-fatal. Remote nodes will pick up the change on TTL.
+
+***
+
+## Custom transports
+
+If Redis isn't your transport, implement `IamEngineTypes.IInvalidator` directly:
+
+```typescript
+import type { IamEngineTypes } from '@gentleduck/iam/core'
+
+const invalidator: IamEngineTypes.IInvalidator = {
+  publish(event) {
+    nats.publish('iam.invalidate', JSON.stringify(event))
+  },
+  subscribe(handler) {
+    const sub = nats.subscribe('iam.invalidate', (msg) =>
+      handler(JSON.parse(msg.data)),
+    )
+    return () => sub.unsubscribe()
+  },
+}
+```
+
+Works with NATS, Kafka, RabbitMQ, MQTT, or any in-process bus. The contract is the same: `publish` is synchronous (or returns a Promise; engine doesn't await), `subscribe` returns a teardown function.
+
+***
+
+## Constructor config
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `client` | `IamRedisInvalidator.IPubSubLike` | -- | Pub/sub adapter with `publish` + `subscribe` (+ optional `unsubscribe`) |
+| `channel` | `string` | `'duck-iam:invalidate'` | Pub/sub channel name |
+| `tenantId` | `string` | -- | Auto-prefixes the channel as `${channel}:tenant:${tenantId}`. Validated against `/^[A-Za-z0-9_-]{1,64}$/`. CAVEAT-1. |
+| `secret` | `string \| null` | `null` | HMAC-SHA256 shared secret. Required in production - without it any party with PUBLISH rights on the channel can wipe caches. |
+| `onPublishError` | `(err, channel) -> void` | console.warn (rate-limited) | Wire to alerting; non-fatal but cross-instance invalidations are lost. SEC-062. |
+
+The `IamRedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis and node-redis v4+ satisfy it directly. The full options object conforms to `IamRedisInvalidator.IConfig`.
+
+***
+
+## Types
+
+All types live under the `RedisInvalidator` namespace at `@gentleduck/iam/invalidators/redis`. Type-only - zero bundle cost.
+
+* `IamRedisInvalidator.IPubSubLike` - minimal pub/sub client surface (`publish`, `subscribe`, optional `unsubscribe`).
+* `IamRedisInvalidator.IConfig` - constructor config for `createIamRedisInvalidator` (`client`, optional `channel`).
+
+```typescript
+import type { IamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+
+const config: IamRedisInvalidator.IConfig = {
+  client: pubSubClient,
+  channel: 'iam:invalidate',
+}
+```
+
+Deprecated bare aliases (`IRedisPubSubLike`, `IRedisInvalidatorConfig`) remain for back-compat and will be removed in 3.0.

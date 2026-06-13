@@ -102,14 +102,40 @@ once you have the real resource ID and attributes.
 
 ## Admin router
 
-Mount a pre-built admin API for managing policies, roles, and assignments.
+Mount a pre-built admin API for managing policies, roles, and assignments. The `authorize` callback is **required** - the factory throws at boot if it's missing.
 
-```typescript
+```ts
 import express from 'express'
 import { adminRouter } from '@gentleduck/iam/server/express'
 
-const createRouter = adminRouter(engine)
+const createRouter = adminRouter(engine, {
+  authorize: (req) => req.user?.role === 'platform-admin',
+})
 app.use('/api/access-admin', createRouter(() => express.Router()))
+```
+
+Every endpoint (read + write) runs `authorize(req)` before dispatching. Falsy returns produce `401 Unauthorized`; thrown errors route through `onError` (default `500`).
+
+### CSRF protection (default-on)
+
+Mutation handlers (PUT/POST/DELETE) run a `Sec-Fetch-Site` check by default
+(SEC-103 / CAVEAT-2). Browsers populate the header automatically; cross-site
+form posts are rejected with 403, same-site / same-origin requests pass.
+Non-browser callers (no header) pass - they must be gated by bearer / mTLS.
+
+```ts
+// Default - cookie-auth admin UIs get CSRF protection with no opt-in.
+adminRouter(engine, { authorize })
+
+// Server-to-server bearer/mTLS API - disable the check entirely.
+adminRouter(engine, { authorize, csrfCheck: false })
+
+// Stricter - Origin allowlist.
+const ADMIN_ORIGINS = new Set(['https://admin.example.com'])
+adminRouter(engine, {
+  authorize,
+  csrfCheck: (req) => ADMIN_ORIGINS.has(req.headers.origin as string),
+})
 ```
 
 The built-in delete route revokes by `subjectId` + `roleId` only. If you store both global and
@@ -127,7 +153,14 @@ This exposes:
 | POST | `/subjects/:id/roles` | Assign a role to a subject |
 | DELETE | `/subjects/:id/roles/:roleId` | Revoke a role from a subject |
 
-The admin router does **not** secure itself - mount it behind your own admin-only authentication.
+`adminRouter` options:
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `authorize` | `(req) -> boolean \| Promise<boolean>` | **required** | Per-request guard. Mounting unauthenticated is impossible. |
+| `csrfCheck` | `((req) -> boolean) \| false` | built-in `Sec-Fetch-Site` (SEC-103) | CSRF guard for mutations; `false` to disable |
+| `onUnauthorized` | `(req, res) -> void` | `401` JSON | Custom unauthorized response |
+| `onError` | `(err, req, res) -> void` | `500` JSON | Custom error handler |
 
 ***
 
@@ -142,3 +175,28 @@ The admin router does **not** secure itself - mount it behind your own admin-onl
 | `getScope` | `(req) -> string or undefined` | `undefined` | Extract scope (e.g. org ID, team ID) |
 | `onDenied` | `(req, res) -> void` | 403 JSON | Custom denial response |
 | `onError` | `(err, req, res, next) -> void` | 500 JSON | Custom error handler |
+
+The full options object conforms to `Express.IOptions`. The admin router options conform to `Express.IAdminRouterOptions`, and the required `authorize` callback signature is `Express.IAdminAuthorize`.
+
+***
+
+## Types
+
+All types live under the `Express` namespace at `@gentleduck/iam/server/express`. Type-only - zero bundle cost.
+
+* `Express.IOptions` - options for `accessMiddleware` and `guard` (identity, action, resource, scope, environment, and failure handlers).
+* `Express.IAdminAuthorize` - signature of the required `authorize` callback for `adminRouter`.
+* `Express.IAdminRouterOptions` - options for `adminRouter` (`authorize`, `onUnauthorized`, `onError`).
+
+```typescript
+import type { Express } from '@gentleduck/iam/server/express'
+
+const opts: Express.IOptions = {
+  getUserId: (req) => req.user?.id,
+  getScope: (req) => req.headers['x-org-id'] as string | undefined,
+}
+
+const adminAuth: Express.IAdminAuthorize = (req) => req.user?.role === 'platform-admin'
+```
+
+Deprecated bare aliases (`IExpressOptions`, `IAdminAuthorize`, `IAdminRouterOptions`) remain for back-compat and will be removed in 3.0.

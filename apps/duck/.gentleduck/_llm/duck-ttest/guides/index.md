@@ -1,0 +1,138 @@
+A grab bag of patterns that keep showing up. Each one references the modules involved.
+
+## Pin a literal in a generic parameter
+
+```ts
+import type { Narrow } from '@gentleduck/ttest/literal'
+
+function defineRoles<T extends ReadonlyArray<string> & Narrow<T>>(roles: T): T {
+  return roles
+}
+
+const r = defineRoles(['admin', 'editor'])  // type: readonly ['admin', 'editor']
+```
+
+Without `Narrow`, TypeScript widens to `readonly string[]`.
+
+## Exclude `any` from a generic parameter
+
+```ts
+import type { NotAny } from '@gentleduck/ttest/any'
+
+function safe<T>(value: T & (NotAny<T> extends true ? unknown : never)): T {
+  return value
+}
+
+safe(1)            // ok
+safe<any>(1 as any)  // Error.
+```
+
+## Strip a brand for serialization
+
+```ts
+import type { Brand, Unbrand } from '@gentleduck/ttest/brand'
+
+type UserId = Brand<string, 'UserId'>
+
+function toJSON<T>(value: T): Unbrand<T> {
+  return value as Unbrand<T>
+}
+```
+
+See [Branded types](/duck-ttest/guides/branded-types) for the full pattern.
+
+## Pattern-match a discriminated union
+
+```ts
+import type { Matchers } from '@gentleduck/ttest/discriminated'
+
+type Shape =
+  | { kind: 'circle'; r: number }
+  | { kind: 'square'; side: number }
+
+function dispatch<R>(shape: Shape, handlers: Matchers<Shape, 'kind', R>): R {
+  return handlers[shape.kind](shape as any)
+}
+
+dispatch({ kind: 'circle', r: 1 }, {
+  circle: (c) => c.r * c.r * Math.PI,
+  square: (s) => s.side * s.side,
+})
+```
+
+See [Discriminated unions](/duck-ttest/guides/discriminated-unions).
+
+## Type-safe `Object.entries`
+
+```ts
+import type { Entries } from '@gentleduck/ttest/object'
+
+function entries<T extends object>(o: T): Entries<T>[] {
+  return Object.entries(o) as Entries<T>[]
+}
+```
+
+## Validate a route shape at the type level
+
+```ts
+import type { PathParams, BuildPath } from '@gentleduck/ttest/router'
+
+function link<P extends string, Params extends PathParams<P>>(pattern: P, params: Params): BuildPath<P, Params> {
+  // runtime substitution omitted
+  return undefined as any
+}
+
+const href = link('/users/:id', { id: 42 })  // type: '/users/42'
+```
+
+## Catch JSON-leaks at the boundary
+
+```ts
+import type { JSONValue, Jsonify } from '@gentleduck/ttest/json'
+
+async function persist<T>(value: Jsonify<T>): Promise<void> {
+  // value is guaranteed JSON-serializable at the type level
+}
+
+persist({ id: 1, name: 'Ada' })       // ok
+persist({ created: new Date() })      // Date is stripped → never  → Error
+persist({ run: () => {} })            // function stripped → never → Error
+```
+
+## Cap recursion in deep utilities
+
+```ts
+import type { Paths } from '@gentleduck/ttest/object'
+
+type Config = {
+  // ...deep tree...
+}
+
+type Top  = Paths<Config, 2>  // cheap: only first two levels
+type Full = Paths<Config>     // default cap 6 — usually fine, but slow on very wide trees
+```
+
+## Build a typed event emitter
+
+```ts
+import type { Emitter, EventMap } from '@gentleduck/ttest/emitter'
+
+type AppEvents = {
+  'user.login':  { id: string }
+  'user.logout': void
+}
+
+declare const bus: Emitter<AppEvents>
+
+const off = bus.on('user.login', ({ id }) => console.log(id))
+bus.emit('user.logout')         // ok, no payload
+bus.emit('user.login', { id: '1' })
+bus.emit('user.login', { wrong: 1 })  // Error.
+```
+
+## See also
+
+* [Branded types](/duck-ttest/guides/branded-types)
+* [Discriminated unions](/duck-ttest/guides/discriminated-unions)
+* [Schema builders](/duck-ttest/guides/schema-builders)
+* [Catching regressions](/duck-ttest/guides/catching-regressions)

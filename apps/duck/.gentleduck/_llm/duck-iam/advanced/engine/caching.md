@@ -25,16 +25,16 @@ Subjects are resolved **individually**, so the engine keeps a separate cache ent
 
 ```typescript
 // Clear everything
-engine.invalidate()
+engine.cache.invalidate()
 
 // Clear a specific user's cached data (after role change, attribute update)
-engine.invalidateSubject('user-1')
+engine.cache.invalidateSubject('user-1')
 
 // Clear cached policies (after adding/removing/editing policies)
-engine.invalidatePolicies()
+engine.cache.invalidatePolicies()
 
 // Clear cached roles and all subjects (subjects depend on roles)
-engine.invalidateRoles()
+engine.cache.invalidateRoles()
 ```
 
 `invalidateRoles()` clears the subject cache too because resolved subjects include role names from the role definitions - if a role is renamed/deleted, every cached subject is potentially stale.
@@ -68,23 +68,48 @@ Set `cacheTTL: 5` (or less) so stale data has a small window. Trade-off: more ad
 
 ### Pub/sub invalidation
 
-Broadcast invalidation events on policy/role changes:
+Wire `IConfig.invalidator` and the engine handles the broadcast for you: every local `engine.admin.*` mutation publishes; every cross-instance event applies locally (with a built-in self-echo filter so a node never re-applies its own event).
 
 ```typescript
-// Node A - after a write
-await engine.admin.saveRole(updatedRole)
-await redis.publish('iam:invalidate', JSON.stringify({ kind: 'roles' }))
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 
-// Node B - listener
-redis.subscribe('iam:invalidate', (msg) => {
-  const { kind } = JSON.parse(msg)
-  if (kind === 'roles') engine.invalidateRoles()
-  if (kind === 'policies') engine.invalidatePolicies()
-  if (kind === 'subject') engine.invalidateSubject(JSON.parse(msg).subjectId)
+const engine = new IamEngine({
+  adapter,
+  invalidator: createIamRedisInvalidator({
+    client: redisPubSub,
+    channel: 'iam:invalidate',
+  }),
 })
+
+// On shutdown - release the subscription
+process.on('SIGTERM', () => engine.dispose())
 ```
 
-This pattern works with any pub/sub layer - Redis, NATS, Kafka, AMQP, etc.
+The Redis helper expects a minimal pub/sub shape (`publish`, `subscribe`, optional `unsubscribe`) - both ioredis and node-redis v4+ satisfy it directly. Default channel is `'duck-iam:invalidate'`; override with `channel` for multi-tenant deployments.
+
+#### Custom invalidator
+
+Want NATS / Kafka / AMQP / your in-process bus? Implement the `IamEngineTypes.IInvalidator` contract:
+
+```typescript
+import type { IamEngineTypes } from '@gentleduck/iam/core'
+
+const invalidator: IamEngineTypes.IInvalidator = {
+  publish(event) {
+    // event: { kind: 'all' | 'policies' | 'roles' | 'subject', roleId?, subjectId? }
+    nats.publish('iam.invalidate', JSON.stringify(event))
+  },
+  subscribe(handler) {
+    const sub = nats.subscribe('iam.invalidate', (msg) => handler(JSON.parse(msg.data)))
+    return () => sub.unsubscribe()
+  },
+}
+
+const engine = new IamEngine({ adapter, invalidator })
+```
+
+Delivery is at-least-once: `engine.cache.invalidate*()` methods are idempotent so re-applying the same event is safe.
 
 ### Versioned policies
 
@@ -97,7 +122,7 @@ Tag policies with a `version` number. Increment on writes. On read, compare vers
 For high-traffic applications:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 300, // 5 minutes - policies/roles change infrequently
   maxCacheSize: 10000, // 10k subjects in memory
@@ -107,7 +132,7 @@ const engine = new Engine({
 For real-time permission changes:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 5, // 5 seconds - near real-time
   maxCacheSize: 500,
@@ -117,7 +142,7 @@ const engine = new Engine({
 For development:
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,
   cacheTTL: 0, // No caching - always hit the adapter
 })

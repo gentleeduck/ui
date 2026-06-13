@@ -7,7 +7,7 @@ section: Core
 ## When to use
 
 `CompositeTransport` lets you run **two or more** transports off a single
-`AuthRoot`. The typical case: you serve a first-party web app and a
+`AuthEngine`. The typical case: you serve a first-party web app and a
 public API from the same hostname.
 
 ```
@@ -34,7 +34,7 @@ const transport = new CompositeTransport({
   ],
 })
 
-export const auth = new AuthRoot({ transport, /* ... */ })
+export const auth = new AuthEngine({ transport, /* ... */ })
 ```
 
 - `primary` - the transport used for issuing sessions (sign-in, refresh).

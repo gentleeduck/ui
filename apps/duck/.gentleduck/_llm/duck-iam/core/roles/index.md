@@ -13,7 +13,7 @@ const viewer = defineRole('viewer')
   .build()
 ```
 
-`defineRole()` returns a `RoleBuilder`. `.build()` produces the plain `Role` object.
+`defineRole()` returns a `RoleBuilder`. `.build()` produces the plain `AccessControl.IRole` object.
 
 ***
 
@@ -25,7 +25,7 @@ const viewer = defineRole('viewer')
 | [inheritance](/duck-iam/core/roles/inheritance) | `inherits()`, multi-parent, cycle handling, depth |
 | [scoped roles](/duck-iam/core/roles/scoped) | Multi-tenancy - role-level scope, permission-level scope, scoped assignments |
 | [conditional permissions](/duck-iam/core/roles/conditional) | `grantWhen()` - attribute-aware grants on roles |
-| [type-safe roles](/duck-iam/core/roles/type-safe) | `createAccessConfig()` constraints, validation, edge cases |
+| [type-safe roles](/duck-iam/core/roles/type-safe) | `defineIam()` constraints, validation, edge cases |
 | [rolesToPolicy](/duck-iam/core/roles/roles-to-policy) | How roles become an ABAC policy under the hood |
 
 ***
@@ -33,25 +33,25 @@ const viewer = defineRole('viewer')
 ## Role object structure
 
 ```typescript
-interface Role {
+interface AccessControl.IRole {
   id: string
   name: string
   description?: string
-  permissions: readonly Permission[]
+  permissions: readonly AccessControl.IPermission[]
   inherits?: readonly string[]
   scope?: string
-  metadata?: Record<string, AttributeValue>
+  metadata?: Readonly<IamPrimitives.Attributes>
 }
 
-interface Permission {
+interface AccessControl.IPermission {
   action: string | '*'
   resource: string | '*'
   scope?: string | '*'
-  conditions?: ConditionGroup
+  conditions?: AccessControl.IConditionGroup
 }
 ```
 
-Each permission is an action/resource pair with optional scope and conditions. Roles are stored as plain JSON in the adapter - no runtime classes.
+Each permission is an action/resource pair with optional scope and conditions. Roles are stored as plain JSON in the adapter - no runtime classes. See [types & namespaces](/duck-iam/types) for the full namespace map.
 
 ***
 

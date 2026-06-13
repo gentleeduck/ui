@@ -6,7 +6,6 @@ import {
   DocsPathBreadcrumb,
   DocsSidebarNav,
   Mdx,
-  trustCompiledMdxBody,
 } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
@@ -99,7 +98,7 @@ const WwwPage = async ({ params }: { params: Promise<{ slug?: string[] }> }) => 
             </div>
           </header>
           <section className="pt-8 pb-12">
-            <Mdx code={trustCompiledMdxBody(doc.body)} />
+            <Mdx code={doc.body as any} />
           </section>
           <footer>
             <DocsPagerBottom doc={doc} />

@@ -38,12 +38,12 @@ app.listen(3000)
 ## In a route
 
 ```typescript
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
 app.get('/api/me', async (req, res, next) => {
   try {
     const ctx = await auth.resolveSession(req)
-    if (!ctx) throw new AuthErrorObject('AUTH/UNAUTHENTICATED')
+    if (!ctx) throw new AuthError('AUTH/UNAUTHENTICATED')
 
     res.json({ identity: ctx.identity, aal: ctx.session.aal })
   } catch (err) {
@@ -53,7 +53,7 @@ app.get('/api/me', async (req, res, next) => {
 
 // Centralised error handler.
 app.use((err, req, res, next) => {
-  if (err instanceof AuthErrorObject) {
+  if (err instanceof AuthError) {
     res.status(err.status).json(err.toJSON())
     return
   }

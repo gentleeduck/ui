@@ -64,8 +64,8 @@ The change set is **mostly backward compatible** with three intentional default 
 
 The audit was deliberately adversarial. After the 2.0.0 P0/P1 work, prior assumptions were re-attacked from fresh angles. A representative sampling:
 
-- **Total silent fail-open** in `FileAdapter._loadState` - EACCES, EISDIR, EIO swallowed -> empty store -> `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
-- **Permanent data destruction** in `FileAdapter` - a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
+- **Total silent fail-open** in `IamFileAdapter._loadState` - EACCES, EISDIR, EIO swallowed -> empty store -> `defaultEffect` decided every request. With `'allow'` that's "permit everything until restart" (SEC-054 CRITICAL).
+- **Permanent data destruction** in `IamFileAdapter` - a single transient JSON parse failure silently populated `_cache = {}`, next `_flush()` overwrote the corrupt-but-recoverable file (SEC-064 HIGH).
 - **Trivial auth bypass via spoofable header** in Hono `accessMiddleware` and Next `withAccess` - both defaulted `getUserId` to `x-user-id` request header. `curl -H 'X-User-Id: admin' ...` ran authorize() under the spoofed identity (SEC-101 HIGH).
 - **Decision rewriting via throwing hooks** - `afterEvaluate`/`onDeny` inside `authorize`'s try caught and turned allow into deny; `onMetrics` could escape the fail-closed catch entirely (SEC-055/056 HIGH).
 - **Silent fail-open in batch checks** - `permissions()` passed `undefined` for `onPolicyError`, so a per-policy throw vanished and UI gates silently allowed under `defaultEffect:'allow'` (SEC-057 HIGH).
@@ -86,7 +86,7 @@ Plus 50+ smaller fixes covering cache races, listener swallow, audit string leak
 
 **Admin routers CSRF-check by default.** `adminRouter` / `bindAdminRouter` / `createAdminHandlers` / `createAdminOperations` all apply `defaultCsrfCheck` (rejects `Sec-Fetch-Site: cross-site|cross-origin`). Bearer-token / mTLS APIs opt out via `csrfCheck: false`. Cookie-auth admin UIs get protection without any opt-in. **CAVEAT-2.**
 
-**`FileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt - refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
+**`IamFileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt - refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
 
 **Redis/Drizzle `getSubjectAttributes` throws on corrupt blob.** Engine routes through `onError` + fail-closed deny + onMetrics. Was silently `{}`. **SEC-058.**
 
@@ -107,7 +107,7 @@ import { defaultCsrfCheck } from '@gentleduck/iam/server/generic'
 adminRouter(engine, { authorize, csrfCheck: false })
 
 // Redis invalidator: per-tenant channel + publish error hook
-createRedisInvalidator({
+createIamRedisInvalidator({
   client,
   secret,
   tenantId: 'acme',                              // 'duck-iam:invalidate:tenant:acme'
@@ -128,12 +128,12 @@ import { clearPathCache } from '@gentleduck/iam/core/resolve'
 
 ### Type additions
 
-- `EngineTypes.IMetricsEvent.failOpen: boolean`
+- `IamEngineTypes.IMetricsEvent.failOpen: boolean`
 - `Metrics.ISnapshot.failOpen: number`
-- `RedisInvalidator.IConfig.tenantId?: string`
-- `RedisInvalidator.IConfig.onPublishError?: (err, channel) => void`
-- `AdminAudit.IOptions.csrfCheck?: ((req) => boolean) | false`
-- `Validate.ValidationCode` extended with `'ERR_REGEX_CATASTROPHIC'`
+- `IamRedisInvalidator.IConfig.tenantId?: string`
+- `IamRedisInvalidator.IConfig.onPublishError?: (err, channel) => void`
+- `IamAdminAudit.IOptions.csrfCheck?: ((req) => boolean) | false`
+- `IamValidate.ValidationCode` extended with `'ERR_REGEX_CATASTROPHIC'`
 
 ### Deployment hardening
 
@@ -176,7 +176,7 @@ Cookie-auth admin UIs need no changes - default protects them.
 
 If you relied on **`getSubjectAttributes`** returning `{}` for corrupt rows, wire `setSubjectAttributes` (which now recovers automatically) or add a `try/catch` at your call site.
 
-If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyError` and handle the thrown error from the read path.
+If you relied on **`IamFileAdapter`** silently emptying on errors, wire `onPolicyError` and handle the thrown error from the read path.
 
 ### Tests
 
@@ -195,7 +195,7 @@ If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyEr
 
 18-round audit-driven hardening pass plus a full type-API refactor matching the duck-* monorepo convention. Breaking change: every interface now lives under a per-module namespace with an `I` prefix.
 
-**Type API: namespaced + I-prefixed.** Every interface now lives under a per-module namespace (`AccessControl`, `Request`, `Adapter`, `Primitives`, `Client`, `DotPath`, `EngineTypes`, `Evaluate`, `Explain`, `Validate`, `Config`, `Memory`, `File`). Interface names carry an `I` prefix; type aliases stay bare.
+**Type API: namespaced + I-prefixed.** Every interface now lives under a per-module namespace (`AccessControl`, `Request`, `Adapter`, `Primitives`, `Client`, `DotPath`, `IamEngineTypes`, `Evaluate`, `Explain`, `Validate`, `Config`, `Memory`, `File`). Interface names carry an `I` prefix; type aliases stay bare.
 
 **Engine correctness fixes:**
 
@@ -214,11 +214,11 @@ If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyEr
 
 **New APIs:**
 
-- **`AccessControl.PolicyCombine`** - cross-policy combine strategy (`'and'` / `'allow-overrides'` / `'first-applicable'`). Configurable via `Engine.policyCombine`.
-- **`EngineTypes.IMetricsEvent` + `onMetrics` hook** - primitive-only telemetry payload fired once per evaluation in both dev and prod modes. Zero overhead when unwired.
-- **`FileAdapter`** at `@gentleduck/iam/adapters/file` - JSON-on-disk store with pluggable `File.IFS` interface.
+- **`AccessControl.PolicyCombine`** - cross-policy combine strategy (`'and'` / `'allow-overrides'` / `'first-applicable'`). Configurable via `IamEngine.policyCombine`.
+- **`IamEngineTypes.IMetricsEvent` + `onMetrics` hook** - primitive-only telemetry payload fired once per evaluation in both dev and prod modes. Zero overhead when unwired.
+- **`IamFileAdapter`** at `@gentleduck/iam/adapters/file` - JSON-on-disk store with pluggable `IamFile.IFS` interface.
 - **`POLICY_JSON_SCHEMA`** - Draft 2020-12 JSON schema export for non-TS consumers and editor tooling.
-- **`Engine.stats()` / `resetStats()`** - cache hit/miss counters per cache.
+- **`IamEngine.stats()` / `resetStats()`** - cache hit/miss counters per cache.
 - **Validator semantic checks** - emits `UNRESOLVABLE_FIELD`, `UNRESOLVABLE_VALUE`, `INHERITANCE_TOO_DEEP`, `BROAD_ALLOW`, `LIMIT_EXCEEDED` codes.
 - **`POLICY_LIMITS`** - DoS bounds (1000 rules/policy, 100 actions/rule, 100 resources/rule, 1000 action x resource cartesian/rule).
 - **`MAX_INHERITANCE_DEPTH = 32`** exported from `core/rbac`. Validator errors on chains that exceed it.
@@ -241,8 +241,8 @@ If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyEr
 - `IConfig.invalidator` - cross-instance cache-invalidation broadcaster contract.
 - `hooks.onPolicyError` - routed when a single policy throws; fail-skip, not fail-crash.
 - `hooks.onMetrics` - primitive-only telemetry event fired once per evaluation in both modes.
-- HttpAdapter retry + per-request timeout + circuit-breaker (`retries`, `backoffMs`, `timeoutMs`, `circuitBreakerThreshold`, `circuitBreakerCooldownMs`).
-- `createRedisInvalidator` at `@gentleduck/iam/invalidators/redis` - pub/sub helper with self-echo filtering.
+- IamHttpAdapter retry + per-request timeout + circuit-breaker (`retries`, `backoffMs`, `timeoutMs`, `circuitBreakerThreshold`, `circuitBreakerCooldownMs`).
+- `createIamRedisInvalidator` at `@gentleduck/iam/invalidators/redis` - pub/sub helper with self-echo filtering.
 - `createMetricsAggregator` at `@gentleduck/iam/observability/metrics` - p50 / p95 / p99 over `onMetrics` events.
 - Hono `bindAdminRouter`, Next.js `createAdminHandlers`, NestJS `createAdminOperations` - all require `authorize` callback.
 - Express `adminRouter(engine, { authorize })` - `authorize` is now required (was optional).
@@ -250,7 +250,7 @@ If you relied on **`FileAdapter`** silently emptying on errors, wire `onPolicyEr
 **Security fixes:**
 
 - `matches` operator refuses `$`-resolved RHS values (ReDoS via user-controlled regex).
-- HttpAdapter `getPolicy` / `getRole` return `null` on 404 instead of throwing.
+- IamHttpAdapter `getPolicy` / `getRole` return `null` on 404 instead of throwing.
 - Validator depth bound (`MAX_CONDITION_DEPTH=10`) and field-length cap (`MAX_FIELD_LENGTH=256`).
 - Regex cache is LRU on hit, not FIFO on insert.
 - Synthesised RBAC policy is deep-frozen (every rule + conditions tree).
@@ -285,11 +285,11 @@ Every bare integration-config interface is now wrapped in a type-only namespace;
 - `Redis.ILike` + `Redis.IConfig` - `@gentleduck/iam/adapters/redis`
 - `Drizzle.IConfig` - `@gentleduck/iam/adapters/drizzle`
 - `Express.IOptions` + `Express.IAdminAuthorize` + `Express.IAdminRouterOptions` - `@gentleduck/iam/server/express`
-- `Hono.IOptions` + `Hono.IAdminAuthorize` + `Hono.IAdminOptions` + `Hono.IRouterLike` - `@gentleduck/iam/server/hono`
+- `IamHono.IOptions` + `IamHono.IAdminAuthorize` + `IamHono.IAdminOptions` + `IamHono.IRouterLike` - `@gentleduck/iam/server/hono`
 - `Nest.IAuthorizeMeta` + `Nest.IGuardOptions` + `Nest.IAdminAuthorize` + `Nest.IAdminOptions` - `@gentleduck/iam/server/nest`
-- `Next.IWithAccessOptions` + `Next.IMiddlewareOptions` + `Next.IAdminAuthorize` + `Next.IAdminOptions` - `@gentleduck/iam/server/next`
+- `IamNext.IWithAccessOptions` + `IamNext.IMiddlewareOptions` + `IamNext.IAdminAuthorize` + `IamNext.IAdminOptions` - `@gentleduck/iam/server/next`
 - `ReactClient.IContextValue` - `@gentleduck/iam/client/react`
-- `RedisInvalidator.IPubSubLike` + `RedisInvalidator.IConfig` - `@gentleduck/iam/invalidators/redis`
+- `IamRedisInvalidator.IPubSubLike` + `IamRedisInvalidator.IConfig` - `@gentleduck/iam/invalidators/redis`
 - `Metrics.IAggregator` + `Metrics.ISnapshot` + `Metrics.IConfig` - `@gentleduck/iam/observability/metrics`
 - `AccessControl.OpFn` moved into the core `AccessControl` namespace.
 
@@ -301,7 +301,7 @@ Every new namespace is type-only (interfaces + type aliases only, no runtime val
 
 - 0e80f84: Add Redis adapter, Drizzle schemas, and full integration test coverage.
 
-  **New: `RedisAdapter`** at `@gentleduck/iam/adapters/redis`. Distributed key/value backend with idempotent `assignRole` (set semantics), multi-tenant `keyPrefix`, and a minimal `RedisLike` interface that ioredis, node-redis v4+, and Upstash all satisfy directly.
+  **New: `IamRedisAdapter`** at `@gentleduck/iam/adapters/redis`. Distributed key/value backend with idempotent `assignRole` (set semantics), multi-tenant `keyPrefix`, and a minimal `RedisLike` interface that ioredis, node-redis v4+, and Upstash all satisfy directly.
 
   **New: pre-built Drizzle schemas** at `@gentleduck/iam/adapters/drizzle/schema/{pg,mysql,sqlite}`. Drop-in tables for all three SQL dialects with the right column types, FK cascade on `roleId`, unique index on `(subjectId, roleId, scope)`, and auto-managed `created_at`/`updated_at`. Generate migrations via `drizzle-kit generate`.
 

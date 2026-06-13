@@ -25,7 +25,7 @@ decorators.
 ```typescript title="account.controller.ts"
 import { Controller, Get } from '@nestjs/common'
 import { AuthGuard, CurrentIdentity } from '@gentleduck/auth/server/nestjs'
-import type { Identity } from '@gentleduck/auth/core'
+import type { AuthIdentity } from '@gentleduck/auth/core'
 
 @Controller('account')
 @UseGuards(AuthGuard)
@@ -64,11 +64,11 @@ For freshness checks (sensitive irreversible action), pair with
 
 ```typescript title="auth.filter.ts"
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
-import { AuthErrorObject } from '@gentleduck/auth/core'
+import { AuthError } from '@gentleduck/auth/core'
 
-@Catch(AuthErrorObject)
+@Catch(AuthError)
 export class AuthErrorFilter implements ExceptionFilter {
-  catch(err: AuthErrorObject, host: ArgumentsHost) {
+  catch(err: AuthError, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const reply = ctx.getResponse()
     reply.status(err.status).json(err.toJSON())

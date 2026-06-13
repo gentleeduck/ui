@@ -37,25 +37,25 @@ export const viewer = defineRole('viewer')
 **Create an adapter and engine**
 
 The engine needs an **adapter** to load data (roles, policies, assignments).
-`MemoryAdapter` stores everything in memory:
+`IamMemoryAdapter` stores everything in memory:
 
 ```typescript title="src/access.ts"
-import { defineRole, Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineRole, IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .grant('read', 'post')
   .grant('read', 'comment')
   .build()
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer],
   assignments: {
     'alice': ['viewer'],
   },
 })
 
-export const engine = new Engine({ adapter }) // defaults to mode: 'development'
+export const engine = new IamEngine({ adapter }) // defaults to mode: 'development'
 ```
 
 `assignments` maps subject IDs to role IDs. A subject can have several roles:
@@ -184,13 +184,13 @@ RBAC and ABAC share one evaluation pipeline. Roles are shorthand for policies.
 
 ## The Decision Object
 
-`engine.check()` returns a `Decision`:
+`engine.check()` returns a `AccessControl.IDecision`:
 
 ```typescript
-interface Decision {
+interface AccessControl.IDecision {
   allowed: boolean        // true or false
   effect: 'allow' | 'deny'  // same as allowed, as a string
-  rule?: Rule             // the rule that decided (if any)
+  rule?: AccessControl.IRule  // the rule that decided (if any)
   policy?: string         // the policy ID that decided
   reason: string          // human-readable explanation
   duration: number        // how long evaluation took (ms)
@@ -250,7 +250,7 @@ Resource types support **hierarchical matching** with dots: a permission on
 ## Engine Configuration
 
 ```typescript
-const engine = new Engine({
+const engine = new IamEngine({
   adapter,                    // required: where to load data from
   mode: 'development',        // optional: 'development' | 'production' (default: 'development')
   defaultEffect: 'deny',     // optional: what to return when no rules match (default: 'deny')
@@ -287,22 +287,22 @@ blogduck/
 Full `src/access.ts`
 
 ```typescript
-import { defineRole, Engine } from '@gentleduck/iam'
-import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+import { defineRole, IamEngine } from '@gentleduck/iam'
+import { IamMemoryAdapter } from '@gentleduck/iam/adapters/memory'
 
 export const viewer = defineRole('viewer')
   .grant('read', 'post')
   .grant('read', 'comment')
   .build()
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer],
   assignments: {
     'alice': ['viewer'],
   },
 })
 
-export const engine = new Engine({ adapter }) // defaults to mode: 'development'
+export const engine = new IamEngine({ adapter }) // defaults to mode: 'development'
 ```
 
 Full `src/main.ts`
@@ -333,7 +333,7 @@ main()
 
 Why is engine.can() async?
 
-Adapters can be databases or HTTP services. Even though `MemoryAdapter` is synchronous,
+Adapters can be databases or HTTP services. Even though `IamMemoryAdapter` is synchronous,
 the engine API is async to support all adapter types uniformly. The engine caches
 aggressively so subsequent calls are fast even with async adapters.
 
@@ -377,10 +377,10 @@ Yes: `'alice': ['viewer', 'commenter']`. The engine resolves permissions from al
 assigned roles and their ancestors, deduplicates, and combines with `allow-overrides`.
 If any role grants a permission, the RBAC layer allows it.
 
-What other adapters are available besides MemoryAdapter?
+What other adapters are available besides IamMemoryAdapter?
 
-duck-iam ships with four: `MemoryAdapter` (in-memory, for dev/testing),
-`PrismaAdapter` (Prisma ORM), `DrizzleAdapter` (Drizzle ORM), and `HttpAdapter`
+duck-iam ships with four: `IamMemoryAdapter` (in-memory, for dev/testing),
+`IamPrismaAdapter` (Prisma ORM), `IamDrizzleAdapter` (Drizzle ORM), and `IamHttpAdapter`
 (remote REST API). You can also implement the `Adapter` interface directly.
 All adapters are covered in Chapter 8.
 

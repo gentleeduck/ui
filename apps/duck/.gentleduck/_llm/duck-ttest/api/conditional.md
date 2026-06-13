@@ -1,0 +1,108 @@
+```ts
+import type { If, IfExtends, Switch, Match } from '@gentleduck/ttest/conditional'
+```
+
+Type-level branching primitives. `If` and `IfExtends` cover the two-way case; `Switch` keys into a record of cases; `Match` does ordered pattern matching against `[When, Then]` tuples.
+
+## If
+
+```ts
+type If<Cond extends boolean, Then, Else> = Cond extends true ? Then : Else
+```
+
+Type-level ternary on a `boolean` condition.
+
+```ts
+type A = If<true,  'yes', 'no'>  // 'yes'
+type B = If<false, 'yes', 'no'>  // 'no'
+```
+
+```ts
+import type { IsString } from '@gentleduck/ttest/guard'
+type Render<T> = If<IsString<T>, `[${T & string}]`, never>
+type a = Render<'foo'>   // '[foo]'
+type b = Render<number>  // never
+```
+
+Edge case: `If<boolean, A, B>` is `A | B` — `boolean` distributes through both branches. Pin to `true` or `false` first.
+
+## IfExtends
+
+```ts
+type IfExtends<A, B, Then, Else> = A extends B ? Then : Else
+```
+
+Branch on assignability rather than on a precomputed boolean.
+
+```ts
+type A = IfExtends<'admin', 'admin' | 'user', true, false>  // true
+type B = IfExtends<string,  number,            true, false> // false
+```
+
+```ts
+type Trim<S extends string> = IfExtends<S, ` ${infer R}`, Trim<R>, S>
+type a = Trim<'   hi'>  // 'hi'
+```
+
+Edge case: `IfExtends` distributes over unions in `A`. `IfExtends<'a' | 'b', 'a', 1, 0>` is `1 | 0`. Wrap in `[A] extends [B]` if you want the no-distribute version — see [`equality`](/duck-ttest/api/equality) `ShallowEqual` for the standard pattern.
+
+## Switch
+
+```ts
+type Switch<Value extends PropertyKey, Cases, Default = never>
+```
+
+Match `Value` against a record of `Case => Result`; falls back to `Default`.
+
+```ts
+type Status = Switch<'pending', { pending: 1; done: 2; error: 3 }, 0>  // 1
+type Miss   = Switch<'other',   { pending: 1; done: 2 }, 0>            // 0
+```
+
+```ts
+// Map an HTTP status family to a sentinel.
+type Label<S extends 'success' | 'redirect' | 'error'> = Switch<S, {
+  success:  'ok'
+  redirect: '3xx'
+  error:    'fail'
+}>
+type a = Label<'success'>   // 'ok'
+type b = Label<'redirect'>  // '3xx'
+```
+
+Edge case: `Value` must extend `PropertyKey` (`string | number | symbol`). For non-key values use `Match`.
+
+## Match
+
+```ts
+type Match<Value, Cases extends readonly (readonly [unknown, unknown])[], Default = never>
+```
+
+Match `Value` against ordered `[When, Then]` tuples. First-match wins.
+
+```ts
+type Label<T> = Match<T, [
+  [string,  'str'],
+  [number,  'num'],
+  [boolean, 'bool'],
+], 'other'>
+
+type a = Label<'hi'>  // 'str'
+type b = Label<42>    // 'num'
+type c = Label<true>  // 'bool'
+type d = Label<null>  // 'other'
+```
+
+```ts
+// Ordering matters — narrower cases first.
+type ChainOrder<T> = Match<T, [
+  [readonly [],         'empty'],
+  [readonly [unknown],  'single'],
+  [readonly unknown[],  'many'],
+], 'not-array'>
+type a = ChainOrder<readonly []>          // 'empty'
+type b = ChainOrder<readonly [1]>         // 'single'
+type c = ChainOrder<readonly [1, 2, 3]>   // 'many'
+```
+
+Edge case: deep `Match` chains over a long `Cases` tuple are recursion-heavy. Split or cap depth in performance-sensitive files (see [Core / Composing tests](/duck-ttest/core/composing-tests) on performance).

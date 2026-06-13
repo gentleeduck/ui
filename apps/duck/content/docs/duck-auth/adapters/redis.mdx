@@ -12,11 +12,11 @@ you pick the stores you need:
 
 | Class | Replaces |
 | --- | --- |
-| `RedisSessionStore` | `MemoryAuthAdapter.sessions` |
-| `RedisIdempotencyStore` | The default in-memory `idempotency` cache. |
-| `RedisDPoPNonceStore` | `MemoryDPoPNonceStore`. |
-| `RedisLimiter` | `MemoryLimiter`. |
-| `RedisEvents` | `InMemoryEvents`. |
+| `AuthRedisSessionStore` | `AuthMemoryAdapter.sessions` |
+| `AuthRedisIdempotencyStore` | The default in-memory `idempotency` cache. |
+| `AuthRedisDPoPNonceStore` | `MemoryDPoPNonceStore`. |
+| `AuthRedisLimiter` | `AuthMemoryLimiter`. |
+| `AuthRedisEvents` | `InMemoryEvents`. |
 | `FakeRedis` | A test-only in-memory `RedisLike.IClient`. |
 
 Identities, credentials, and orgs **do not** belong in Redis - use the
@@ -28,26 +28,26 @@ cross-process coordination.
 ```typescript
 import Redis from 'ioredis'
 import {
-  RedisDPoPNonceStore,
-  RedisEvents,
-  RedisIdempotencyStore,
-  RedisLimiter,
-  RedisSessionStore,
+  AuthRedisDPoPNonceStore,
+  AuthRedisEvents,
+  AuthRedisIdempotencyStore,
+  AuthRedisLimiter,
+  AuthRedisSessionStore,
 } from '@gentleduck/auth/adapters/redis'
 import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
 
 const redis = new Redis(process.env.REDIS_URL!)
 const sql = createSqlAuthStores({ bridge: myDrizzleBridge })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   stores: {
     identities: sql.identities,
     credentials: sql.credentials,
-    sessions: new RedisSessionStore(redis, { keyPrefix: 'sess:', ttl: 7 * 24 * 60 * 60 }),
+    sessions: new AuthRedisSessionStore(redis, { keyPrefix: 'sess:', ttl: 7 * 24 * 60 * 60 }),
     orgs: sql.orgs,
   },
-  limiter: new RedisLimiter(redis, { keyPrefix: 'ratelimit:' }),
-  events: new RedisEvents(redis, { channel: 'auth-events' }),
+  limiter: new AuthRedisLimiter(redis, { keyPrefix: 'ratelimit:' }),
+  events: new AuthRedisEvents(redis, { channel: 'auth-events' }),
 })
 ```
 
@@ -61,9 +61,9 @@ const upstash = new UpstashRedis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
-const auth = new AuthRoot({
+const auth = new AuthEngine({
   // ...
-  stores: { sessions: new RedisSessionStore(upstash) },
+  stores: { sessions: new AuthRedisSessionStore(upstash) },
 })
 ```
 
@@ -71,10 +71,10 @@ const auth = new AuthRoot({
 `get`, `set`, `del`, `incr`, `expire`, `pttl`, `keys`, `multi`,
 `subscribe`/`publish` works.
 
-## RedisSessionStore
+## AuthRedisSessionStore
 
 ```typescript
-new RedisSessionStore(client, {
+new AuthRedisSessionStore(client, {
   keyPrefix: 'sess:',       // default
   ttl: 7 * 24 * 60 * 60,    // default 7 days, in seconds
 })
@@ -86,10 +86,10 @@ with TTL. Revocation = `DEL`. Lookup = `GET` + JSON parse.
 The session id is **hashed at rest** - even a Redis dump does not yield
 usable bearer tokens.
 
-## RedisLimiter
+## AuthRedisLimiter
 
 ```typescript
-new RedisLimiter(client, {
+new AuthRedisLimiter(client, {
   keyPrefix: 'ratelimit:',  // default
   slideWindow: true,        // sliding-window algorithm
 })
@@ -99,10 +99,10 @@ Sliding-window rate limiter. Per-bucket atomic via `MULTI` + `INCR` +
 `EXPIRE`. Used by every provider's `limiterKeyPrefix` to enforce
 per-email / per-IP / per-key buckets.
 
-## RedisIdempotencyStore
+## AuthRedisIdempotencyStore
 
 ```typescript
-new RedisIdempotencyStore(client, {
+new AuthRedisIdempotencyStore(client, {
   keyPrefix: 'idempotency:',  // default
   ttl: 24 * 60 * 60,          // default 24 hours
 })
@@ -112,10 +112,10 @@ Stores the result of an idempotent request keyed by the
 `Idempotency-Key` header. Subsequent requests with the same key return
 the cached result without re-executing.
 
-## RedisDPoPNonceStore
+## AuthRedisDPoPNonceStore
 
 ```typescript
-new RedisDPoPNonceStore(client, {
+new AuthRedisDPoPNonceStore(client, {
   ttlMs: 10 * 60 * 1000,    // default 10 minutes
 })
 ```
@@ -123,10 +123,10 @@ new RedisDPoPNonceStore(client, {
 JTI replay guard for DPoP proofs. Every accepted DPoP `jti` is recorded
 with TTL; duplicates return `AUTH/DPOP_INVALID`.
 
-## RedisEvents
+## AuthRedisEvents
 
 ```typescript
-new RedisEvents(client, {
+new AuthRedisEvents(client, {
   channel: 'auth-events',   // default
 })
 ```
@@ -146,7 +146,7 @@ Use cases:
 import { FakeRedis } from '@gentleduck/auth/adapters/redis'
 
 const redis = new FakeRedis()
-const limiter = new RedisLimiter(redis)
+const limiter = new AuthRedisLimiter(redis)
 
 // FakeRedis implements the same RedisLike.IClient interface as ioredis,
 // but stores in-process. No Docker, no `redis-server`, no port to bind.

@@ -1,0 +1,140 @@
+A page of accumulated rules from real codebases.
+
+## File naming
+
+Pick one of:
+
+* `*.test-d.ts` — convention borrowed from `tsd`. Good when type tests are separate from runtime tests.
+* `*.test.ts` — co-locate with runtime tests when using vitest / jest / bun-test.
+* `*.types.test.ts` — explicit, no ambiguity.
+
+duck-ttest does not care which you pick — the runner is `tsc`. Pick one and stick to it across the project.
+
+## Group with tuples
+
+A single tuple type acts as a "describe block":
+
+```ts
+type userTests = [
+  AssertTrue<Equal<User['id'], number>, 'id is number'>,
+  AssertTrue<Equal<User['email'], string>, 'email is string'>,
+  AssertFalse<Equal<User, undefined>, 'User defined'>,
+]
+```
+
+The compiler reports the tuple-element index when something breaks. Names like `userTests`, `schemaTests`, `routerTests` map cleanly to vitest `describe` blocks if you mix the two.
+
+## Name assertions by what they assert
+
+Compare:
+
+```ts
+// Vague
+type t1 = AssertTrue<Equal<X, Y>, 'works'>
+
+// Clear
+type _Subject_Id_Is_Brand = AssertTrue<Equal<X, Y>, 'Subject.id should be Brand<string, "SubjectId">'>
+```
+
+The message goes into the error; the type alias name goes into the IDE hover. Make both useful.
+
+## Brand-aware assertions
+
+Branded types do not equal their base. This is by design — but it's a common source of confusing failures:
+
+```ts
+import type { Brand } from '@gentleduck/ttest/brand'
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type UserId = Brand<string, 'UserId'>
+
+// FAILS — UserId is not equal to string.
+type bad = AssertTrue<Equal<UserId, string>, 'no'>
+
+// Use Unbrand or assert against the brand explicitly.
+import type { Unbrand } from '@gentleduck/ttest/brand'
+type good = AssertTrue<Equal<Unbrand<UserId>, string>, 'unbranded matches base'>
+```
+
+## `any` is contagious
+
+Once `any` appears anywhere inside a generic argument, `Equal` cooperates with you (returns `false` against most non-`any` types). But this can also produce false passes if you're not careful:
+
+```ts
+type wrong = AssertTrue<Equal<any, any>, 'always passes'>
+//                       ^ both sides are any — Equal returns true
+```
+
+Always test against the **expected** concrete type, never `any`. If you must, use `IsAny` from `@gentleduck/ttest/any`:
+
+```ts
+import type { IsAny } from '@gentleduck/ttest/any'
+type leaky = AssertFalse<IsAny<MyApiResponse>, 'API response leaked any'>
+```
+
+## One assertion per concern
+
+If you find yourself reading `Equal<X & Y, Z & W>`, split it:
+
+```ts
+// Hard to read on failure
+type combined = AssertTrue<Equal<User & Admin, AdminUser>, 'merge works'>
+
+// Each piece reports its own failure
+type _ = [
+  AssertTrue<Equal<AdminUser['id'], User['id']>, 'id preserved'>,
+  AssertTrue<Equal<AdminUser['role'], Admin['role']>, 'role added'>,
+  AssertTrue<Equal<keyof AdminUser, keyof User | keyof Admin>, 'keys merged'>,
+]
+```
+
+## Distribution traps
+
+Naked conditional types distribute over unions. This is usually what you want, but inside an assertion it often isn't:
+
+```ts
+import type { AssertTrue } from '@gentleduck/ttest/assert'
+import type { Equal } from '@gentleduck/ttest/equality'
+
+type Wrap<T> = T extends unknown ? [T] : never
+
+type bad = AssertTrue<Equal<Wrap<'a' | 'b'>, ['a' | 'b']>, 'wraps the union'>
+//                                ^ FAILS — Wrap distributes, so the LHS is `['a'] | ['b']`
+```
+
+The fix is the standard `[T] extends [U]` wrap that disables distribution:
+
+```ts
+type WrapNoDist<T> = [T] extends [unknown] ? [T] : never
+
+type good = AssertTrue<Equal<WrapNoDist<'a' | 'b'>, ['a' | 'b']>, 'wraps once'>
+```
+
+A similar trap shows up around `never` — `never` distributes to `never`, so `T extends X ? Y : Z` with `T = never` is just `never`. Always wrap in `[T]` if the assertion's correctness depends on `never` being a single inhabited type.
+
+## Keep test files leaf-only
+
+If a `.test-d.ts` re-exports types that production code imports, you've created a circular path. Treat test files as leaves of the import graph — they import production types, never the other way around.
+
+## When tests get slow
+
+A few signs:
+
+* `tsc --noEmit` jumps from \< 1s to 5+ s after adding a test file.
+* Editor hovers freeze on the file.
+* IDE auto-import suggestions disappear.
+
+Common culprits:
+
+* A `Reduce<...>` or `Match<...>` over a long tuple where the per-element type-function is itself non-trivial.
+* A `Paths<T>` against a deeply nested object without the depth cap.
+* A `MatchesGlob<S, '**'>` over a wide string union.
+
+The fix is usually to extract the helper type and parameterize the test rather than reconstructing it inline.
+
+## See also
+
+* [Core / Assertions](/duck-ttest/core/assertions) — the underlying API.
+* [API / fp](/duck-ttest/api/fp) — `Reduce` / `Match` are useful but recursion-heavy.
+* [API / object](/duck-ttest/api/object) — `Paths<T, D>` and its depth cap.

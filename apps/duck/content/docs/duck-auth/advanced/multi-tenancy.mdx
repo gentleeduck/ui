@@ -5,7 +5,7 @@ section: Advanced
 ---
 
 duck-auth threads a `TenantContext` through every facet, store, and
-event so a multi-tenant app can reuse the same `AuthRoot` across
+event so a multi-tenant app can reuse the same `AuthEngine` across
 tenants without leaking state between them. The two ways to scope a
 call are:
 
@@ -88,7 +88,7 @@ async function readIdentityForAdmin(id: string, explicit?: TenantContext) {
 
 Adapters use this pattern: they accept an explicit `TenantContext` on
 the public surface but fall back to the ALS ambient when none is
-passed. The user-supplied stores triple plugged into `AuthRoot.stores`
+passed. The user-supplied stores triple plugged into `AuthEngine.stores`
 must do the same to stay compatible with the ambient flow.
 
 ## Storage layer wiring

@@ -34,30 +34,29 @@ are converted into policies internally, so one condition engine handles everythi
 
 | Feature | Description |
 | --- | --- |
-| Unified RBAC + ABAC | Roles and policies coexist in one evaluation pipeline. |
-| Type-safe config | `createAccessConfig()` locks down actions, resources, and scopes at the type level. |
-| Fluent builders | `defineRole()`, `defineRule()`, `policy()`, `when()`: chainable, readable, type-checked. |
-| Combining algorithms | `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority` per policy. |
+| Unified RBAC + ABAC | Roles and policies share one evaluation pipeline. RBAC roles convert to a synthetic `__rbac__` policy at load time. |
+| Type-safe config | `defineIam()` constrains actions, resources, scopes, and role IDs at the type level. |
+| Combining algorithms | Four in-policy algorithms (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`); three cross-policy modes (`and`, `allow-overrides`, `first-applicable`) via `IamEngineTypes.IConfig.policyCombine`. |
 | Multi-tenant scopes | Scoped role assignments: different roles per organization, workspace, or project. |
-| Server integrations | Express middleware, Hono middleware, NestJS guard + decorator, Next.js route wrappers. |
-| Client libraries | React provider + hooks, Vue plugin + composables, framework-agnostic vanilla client. |
-| Pluggable adapters | Memory (built-in), Prisma, Drizzle, HTTP -- or write your own by implementing the `Adapter` interface. |
-| Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` -- intercept and observe every decision. |
-| Dev/Prod mode | Rich diagnostics in development, fast booleans in production. [Benchmarks](/duck-iam/benchmarks). |
-| Explain / debug | `engine.explain()` produces a detailed trace of every policy, rule, and condition evaluated. |
-| Validation | `validateRoles()` and `validatePolicy()` catch config mistakes like dangling inherits and cycles. |
+| Pluggable adapters | Memory, File, Prisma, Drizzle, Redis, HTTP - or write your own by implementing `IamAdapter.IAdapter`. `IamAdapter.IReadOptions.signal` supports per-call `AbortSignal` cancellation. |
+| Server + client integrations | Express, Hono, Nest, Next middleware; React + Vue + vanilla clients. Each module ships its own typed namespace (`Express.IOptions`, `ReactClient.IContextValue`, ...). |
+| Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics` - observe / transform every decision. `onMetrics` is primitive-only and fires in both modes. |
+| Dev/Prod mode | Development returns rich `AccessControl.IDecision` objects + `explain()`; production returns plain `boolean` with zero allocation. See [benchmarks](/duck-iam/benchmarks) and the [production guide](/duck-iam/guides/production). |
+| Explain / debug | `engine.explain()` returns `IamExplain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
+| Validation + limits | `validateRoles()` and `validatePolicy()` emit `IamValidate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
+| Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats.get()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
 
 ## Architecture Overview
 
 duck-iam has four core concepts:
 
-**Engine**: The evaluator. Create an `Engine` with an adapter, then call `engine.can()`,
+**Engine**: The evaluator. Create an `IamEngine` with an `IamEngineTypes.IConfig`, then call `engine.can()`,
 `engine.check()`, `engine.permissions()`, or `engine.explain()`. The engine loads roles and
 policies from the adapter, resolves the subject, and runs evaluation.
 
 **Adapter**: The storage backend. Adapters implement `PolicyStore + RoleStore + SubjectStore`.
-`MemoryAdapter` is for testing and small apps. `PrismaAdapter` and `DrizzleAdapter` are for
-production databases. `HttpAdapter` fetches from a remote service.
+`IamMemoryAdapter` is for testing and small apps. `IamPrismaAdapter` and `IamDrizzleAdapter` are for
+production databases. `IamHttpAdapter` fetches from a remote service.
 
 **Policies**: ABAC rules organized into policy objects. Each policy has a combining algorithm
 and a list of rules. Each rule has an effect (allow/deny), target actions and resources,
@@ -76,13 +75,13 @@ When an authorization request comes in, the engine follows this pipeline:
 2. **Enrich scoped roles**: If the request has a scope (`org-1`, for example), merge in roles assigned to that scope.
 3. **Load policies**: Fetch ABAC policies from the adapter. Convert RBAC roles into a synthetic policy.
 4. **Evaluate**: For each policy, check if it applies to the request. For each matching rule, evaluate conditions against the request context. Apply the policy's combining algorithm to produce a per-policy decision.
-5. **Combine**: A deny from any policy means the overall result is deny.
-6. **Return decision**: The `Decision` object contains `allowed`, `effect`, the matching `rule` and `policy`, a `reason` string, and timing information.
+5. **Combine**: Apply `policyCombine` across policy results. With the default `'and'`, any deny is final. NotApplicable policies (targets miss) are skipped, not folded as default-deny.
+6. **Return decision**: In development mode the engine returns an `AccessControl.IDecision` with `allowed`, `effect`, the matching `rule` and `policy`, a `reason` string, and timing. In production it returns a plain `boolean`.
 
 ## Quick Example
 
 ```typescript
-import { defineRole, Engine, MemoryAdapter } from "@gentleduck/iam";
+import { defineRole, IamEngine, IamMemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define roles
 const viewer = defineRole("viewer")
@@ -103,12 +102,12 @@ const admin = defineRole("admin")
   .build();
 
 // 2. Create adapter and engine
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { "user-1": ["editor"], "user-2": ["viewer"] },
 });
 
-const engine = new Engine({ adapter });
+const engine = new IamEngine({ adapter });
 
 // 3. Check permissions
 await engine.can("user-1", "read", { type: "post", attributes: {} });
@@ -130,11 +129,19 @@ await engine.can("user-1", "delete", { type: "post", attributes: {} });
 | --- | --- |
 | [Installation](/duck-iam/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
 | [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
-| [Core Concepts](/duck-iam/core) | Deep dive into roles, policies, rules, conditions, and combining algorithms. |
+| [Production deployment](/duck-iam/guides/production) | SRE playbook: TTL trade-offs, multi-node invalidation, hooks, retry / circuit breaker, health probe, metrics. |
+| [Pairing with duck-auth](/duck-iam/guides/auth-bridge) | Wire authentication (duck-auth) and authorization (duck-iam) with a tiny `projectToSubject` function. |
+| [Cookbook](/duck-iam/guides/cookbook) | Copy-pasteable patterns: owners, public-vs-private, time-bound access, MFA gates, field-level permissions. |
+| [Troubleshooting](/duck-iam/guides/troubleshooting) | Diagnostic toolbox, common errors, performance gotchas. |
+| [Core Concepts](/duck-iam/core) | Roles, policies, rules, conditions, and combining algorithms. |
 | [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
 | [Advanced](/duck-iam/advanced/config) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
 | [Benchmarks](/duck-iam/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |
 | [FAQs](/www/faqs) | Common questions and answers. |
+
+## See also
+
+* **[@gentleduck/auth](/duck-auth)** - pairs with duck-iam for end-to-end identity + authorization. duck-auth proves *who* the caller is; duck-iam decides *what* they may do.
 
 ## Contributing
 
@@ -159,10 +166,10 @@ server integrations work against small request shapes, so you only pay for the s
 
 Which adapter should I start with?
 
-Start with <code className="rounded bg-muted px-2 py-1">MemoryAdapter</code> for tests, local dev,
-and first prototypes. Move to <code className="rounded bg-muted px-2 py-1">PrismaAdapter</code> or
-<code className="rounded bg-muted px-2 py-1">DrizzleAdapter</code> when you want persistent policies,
-roles, and assignments. Use <code className="rounded bg-muted px-2 py-1">HttpAdapter</code> when your
+Start with <code className="rounded bg-muted px-2 py-1">IamMemoryAdapter</code> for tests, local dev,
+and first prototypes. Move to <code className="rounded bg-muted px-2 py-1">IamPrismaAdapter</code> or
+<code className="rounded bg-muted px-2 py-1">IamDrizzleAdapter</code> when you want persistent policies,
+roles, and assignments. Use <code className="rounded bg-muted px-2 py-1">IamHttpAdapter</code> when your
 authorization data already lives behind a separate API or shared auth service.
 
 Can I keep my app tables and access tables in the same database?

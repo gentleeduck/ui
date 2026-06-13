@@ -1,11 +1,11 @@
 ## The setup
 
-A blog with editors, admins, and content safety rules. Let's wire roles + ABAC together.
+A blog with editors, admins, and content safety rules. Wire roles + ABAC together below.
 
 ```typescript
-import { createAccessConfig } from '@gentleduck/iam'
+import { defineIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = defineIam({
   actions: ['create', 'read', 'update', 'delete', 'publish'] as const,
   resources: ['post', 'comment', 'user'] as const,
   scopes: ['org-alpha', 'org-beta'] as const,

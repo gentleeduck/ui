@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { IamRedisAdapter } from '@gentleduck/iam/adapters/redis'
 ```
 
 Distributed key/value backend. Works with [`ioredis`](https://github.com/redis/ioredis), [`node-redis`](https://github.com/redis/node-redis) v4+, or any client matching the `RedisLike` interface.
@@ -29,39 +29,39 @@ bun add redis
 
 ```typescript
 import Redis from 'ioredis'
-import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
-import { Engine } from '@gentleduck/iam'
+import { IamRedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { IamEngine } from '@gentleduck/iam'
 
 const redis = new Redis(process.env.REDIS_URL!)
 
-const adapter = new RedisAdapter({
+const adapter = new IamRedisAdapter({
   client: redis,
   keyPrefix: 'iam:',
 })
 
-const engine = new Engine({ adapter, cacheTTL: 60 })
+const engine = new IamEngine({ adapter, cacheTTL: 60 })
 ```
 
 ### node-redis (v4+)
 
 ```typescript
 import { createClient } from 'redis'
-import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { IamRedisAdapter } from '@gentleduck/iam/adapters/redis'
 
 const client = createClient({ url: process.env.REDIS_URL })
 await client.connect()
 
-const adapter = new RedisAdapter({ client, keyPrefix: 'iam:' })
+const adapter = new IamRedisAdapter({ client, keyPrefix: 'iam:' })
 ```
 
 ### Upstash Redis (REST)
 
 ```typescript
 import { Redis } from '@upstash/redis'
-import { RedisAdapter } from '@gentleduck/iam/adapters/redis'
+import { IamRedisAdapter } from '@gentleduck/iam/adapters/redis'
 
 const redis = Redis.fromEnv()
-const adapter = new RedisAdapter({ client: redis, keyPrefix: 'iam:' })
+const adapter = new IamRedisAdapter({ client: redis, keyPrefix: 'iam:' })
 ```
 
 Upstash's client implements the same surface duck-iam needs - drop in directly.
@@ -116,8 +116,8 @@ ioredis and node-redis v4+ both satisfy this directly. For custom clients, imple
 Use `keyPrefix` to share a Redis instance across tenants without cross-talk:
 
 ```typescript
-const tenant1 = new RedisAdapter({ client, keyPrefix: 'iam:tenant1:' })
-const tenant2 = new RedisAdapter({ client, keyPrefix: 'iam:tenant2:' })
+const tenant1 = new IamRedisAdapter({ client, keyPrefix: 'iam:tenant1:' })
+const tenant2 = new IamRedisAdapter({ client, keyPrefix: 'iam:tenant2:' })
 
 // Same tenant, different prefix -> fully isolated
 await tenant1.savePolicy({ id: 'p1', /* ... */ })
@@ -131,14 +131,14 @@ await tenant2.getPolicy('p1') // null
 Redis adds a network hop per cache miss. Combine with Engine's in-process LRU for best of both:
 
 ```typescript
-const engine = new Engine({
-  adapter: new RedisAdapter({ client: redis }),
+const engine = new IamEngine({
+  adapter: new IamRedisAdapter({ client: redis }),
   cacheTTL: 60, // 1-minute LRU TTL
   maxCacheSize: 10_000,
 })
 ```
 
-Hot reads stay in-process. After TTL expiry or `engine.invalidate()`, the next read hits Redis. Use Redis pub/sub to broadcast `engine.invalidate()` calls across nodes when policies change.
+Hot reads stay in-process. After TTL expiry or `engine.cache.invalidate()`, the next read hits Redis. Use Redis pub/sub to broadcast `engine.cache.invalidate()` calls across nodes when policies change.
 
 ***
 
@@ -153,6 +153,26 @@ Hot reads stay in-process. After TTL expiry or `engine.invalidate()`, the next r
 
 ## When NOT to use
 
-* Single-instance apps - `MemoryAdapter` is faster and free
+* Single-instance apps - `IamMemoryAdapter` is faster and free
 * Massive policy sets (>100k rules) - relational adapters scale better with proper indexes
 * No Redis already in stack - adds infra burden; consider Postgres adapter instead
+
+***
+
+## Types
+
+All types live under the `Redis` namespace at `@gentleduck/iam/adapters/redis`. Type-only - zero bundle cost.
+
+* `Redis.ILike` - minimal Redis client surface the adapter calls (get/set/del/hset/hget/hdel/hkeys/hvals/hgetall/sadd/srem/smembers).
+* `Redis.IConfig` - constructor config for `IamRedisAdapter` (`client` + optional `keyPrefix`).
+
+```typescript
+import type { Redis } from '@gentleduck/iam/adapters/redis'
+
+const config: Redis.IConfig = {
+  client: ioredis,
+  keyPrefix: 'iam:',
+}
+```
+
+Deprecated bare aliases (`RedisLike`, `RedisAdapterConfig`) remain for back-compat and will be removed in 3.0.

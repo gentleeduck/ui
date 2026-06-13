@@ -106,7 +106,7 @@ API:
 | `mutate(args)` | Fire-and-forget version. Errors go on `signIn.error`. |
 | `mutateAsync(args)` | Returns the result or throws. |
 | `isLoading` | True while the request is in flight. |
-| `error` | The `AuthErrorObject` from the last failure (cleared on next call). |
+| `error` | The `AuthError` from the last failure (cleared on next call). |
 | `data` | The `{ session, identity }` from the last success. |
 | `reset()` | Clear `error` and `data`. |
 
@@ -219,7 +219,7 @@ client, so your auth-aware components render without a real server.
 ## Errors
 
 The `error` field on `useSignIn` / `useSignOut` / `useBeginProvider` is
-a typed `AuthErrorObject`. Branch on `error.code`:
+a typed `AuthError`. Branch on `error.code`:
 
 ```tsx
 {signIn.error?.code === 'AUTH/INVALID_CREDENTIALS' && <p>Wrong email or password</p>}

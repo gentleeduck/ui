@@ -195,7 +195,7 @@ The admin API is the right surface for:
 
 Don't use it for:
 
-* Data migrations - write directly to the adapter database for speed, then call `engine.invalidate()`
+* Data migrations - write directly to the adapter database for speed, then call `engine.cache.invalidate()`
 * Bulk imports - same reason; admin's per-item cache invalidation is overhead
 * Read-only data export - call the adapter directly to skip cache machinery
 
@@ -203,17 +203,41 @@ Don't use it for:
 
 ## Securing the admin surface
 
-`engine.admin` is **not authenticated**. It's a programmatic interface - anyone with a reference to `engine` can call it.
-
-If you expose admin endpoints over HTTP (e.g. via the [Express admin router](/duck-iam/integrations/server/express)), wrap them in your own admin-only auth check:
+`engine.admin` is **not authenticated** at the programmatic level - anyone with a reference to `engine` can call it. The shipped HTTP admin routers, on the other hand, refuse to construct without an `authorize` callback:
 
 ```typescript
+import { adminRouter } from '@gentleduck/iam/server/express'
+
 app.use(
   '/api/access-admin',
   requireAuth(), // your auth middleware
-  requireRole('platform-admin'), // your authz check
-  adminRouter(engine)(() => express.Router()),
+  adminRouter(engine, {
+    authorize: (req) => req.user?.role === 'platform-admin',
+  })(() => express.Router()),
 )
 ```
 
-Same for Hono, Nest, Next, etc. The shipped admin routers don't ship with auth baked in - that's a deliberate separation of concerns.
+Mounting an admin router unauthenticated is no longer possible - the factory throws at boot when `authorize` is missing. Same secure-by-default contract on the Hono `bindAdminRouter`, Next.js `createAdminHandlers`, and NestJS `createAdminOperations` factories.
+
+***
+
+## Snapshot export / import
+
+`engine.admin.export()` returns a schema-versioned `ISnapshot` of policies + roles (subject assignments are intentionally excluded - they're user data, not config). `engine.admin.import(snapshot, { mode })` applies one back.
+
+```typescript
+// Export from staging
+const snapshot = await stagingEngine.admin.export()
+writeFileSync('iam-snapshot.json', JSON.stringify(snapshot, null, 2))
+
+// Import to prod
+const snapshot = JSON.parse(readFileSync('iam-snapshot.json', 'utf8'))
+const result = await prodEngine.admin.import(snapshot, { mode: 'replace' })
+// -> { policiesAdded, policiesDeleted, rolesAdded, rolesDeleted }
+```
+
+* `mode: 'merge'` (default) - upserts every entry; existing rows not in the snapshot are untouched.
+* `mode: 'replace'` - deletes every existing policy / role *not* present in the snapshot, then upserts. Use for full sync from a source of truth.
+* Unknown `schemaVersion` throws *before* any write - snapshots never half-apply.
+
+Use for environment promotion (staging -> prod), GitOps-style policy review, disaster recovery, or `git`-tracked policy bundles.

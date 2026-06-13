@@ -5,7 +5,7 @@ section: Integrations
 ---
 ## What it does
 
-`createRedisInvalidator` wires a duck-iam engine to a Redis pub/sub channel so every node in a fleet drops its local caches when *any* node mutates a policy, role, or subject. Without it, `engine.admin.savePolicy()` on pod A leaves pods B - J serving stale grants for up to `cacheTTL` seconds. With it, mutations propagate within one round-trip.
+`createIamRedisInvalidator` wires a duck-iam engine to a Redis pub/sub channel so every node in a fleet drops its local caches when *any* node mutates a policy, role, or subject. Without it, `engine.admin.savePolicy()` on pod A leaves pods B - J serving stale grants for up to `cacheTTL` seconds. With it, mutations propagate within one round-trip.
 
 ---
 
@@ -14,7 +14,7 @@ section: Integrations
 The invalidator has zero runtime dependencies. Pair it with your existing Redis client (ioredis or node-redis v4+).
 
 ```typescript
-import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 ```
 
 ---
@@ -24,14 +24,14 @@ import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 Pass it into `IConfig.invalidator`:
 
 ```ts
-import { Engine } from '@gentleduck/iam'
-import { createRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import { IamEngine } from '@gentleduck/iam'
+import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 import Redis from 'ioredis'
 
 const pub = new Redis()
 const sub = new Redis() // subscriber must be a separate connection
 
-const invalidator = createRedisInvalidator({
+const invalidator = createIamRedisInvalidator({
   client: {
     publish: (ch, msg) => pub.publish(ch, msg),
     subscribe: (ch, handler) => {
@@ -46,7 +46,7 @@ const invalidator = createRedisInvalidator({
   secret: process.env.IAM_INVALIDATE_SECRET, // SEC-046 - required in prod
 })
 
-const engine = new Engine({ adapter, invalidator })
+const engine = new IamEngine({ adapter, invalidator })
 
 process.on('SIGTERM', () => engine.dispose())
 ```
@@ -87,7 +87,7 @@ pass `tenantId` and the invalidator auto-prefixes the channel as
 when `channel` is also given). CAVEAT-1.
 
 ```ts
-createRedisInvalidator({
+createIamRedisInvalidator({
   client,
   secret: process.env.IAM_INVALIDATE_SECRET,
   tenantId: req.tenantSlug, // validated against /^[A-Za-z0-9_-]{1,64}$/
@@ -113,7 +113,7 @@ alerting pipeline so a long-lived Redis outage does not silently desync
 caches across nodes. SEC-062.
 
 ```ts
-createRedisInvalidator({
+createIamRedisInvalidator({
   client,
   secret: process.env.IAM_INVALIDATE_SECRET,
   onPublishError: (err, channel) => {
@@ -138,12 +138,12 @@ If `publish` throws synchronously, the local invalidate already applied - the fa
 
 ## Custom transports
 
-If Redis isn't your transport, implement `EngineTypes.IInvalidator` directly:
+If Redis isn't your transport, implement `IamEngineTypes.IInvalidator` directly:
 
 ```typescript
-import type { EngineTypes } from '@gentleduck/iam/core'
+import type { IamEngineTypes } from '@gentleduck/iam/core'
 
-const invalidator: EngineTypes.IInvalidator = {
+const invalidator: IamEngineTypes.IInvalidator = {
   publish(event) {
     nats.publish('iam.invalidate', JSON.stringify(event))
   },
@@ -164,13 +164,13 @@ Works with NATS, Kafka, RabbitMQ, MQTT, or any in-process bus. The contract is t
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `client` | `RedisInvalidator.IPubSubLike` | -- | Pub/sub adapter with `publish` + `subscribe` (+ optional `unsubscribe`) |
+| `client` | `IamRedisInvalidator.IPubSubLike` | -- | Pub/sub adapter with `publish` + `subscribe` (+ optional `unsubscribe`) |
 | `channel` | `string` | `'duck-iam:invalidate'` | Pub/sub channel name |
 | `tenantId` | `string` | -- | Auto-prefixes the channel as `${channel}:tenant:${tenantId}`. Validated against `/^[A-Za-z0-9_-]{1,64}$/`. CAVEAT-1. |
 | `secret` | `string \| null` | `null` | HMAC-SHA256 shared secret. Required in production - without it any party with PUBLISH rights on the channel can wipe caches. |
 | `onPublishError` | `(err, channel) -> void` | console.warn (rate-limited) | Wire to alerting; non-fatal but cross-instance invalidations are lost. SEC-062. |
 
-The `RedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis and node-redis v4+ satisfy it directly. The full options object conforms to `RedisInvalidator.IConfig`.
+The `IamRedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis and node-redis v4+ satisfy it directly. The full options object conforms to `IamRedisInvalidator.IConfig`.
 
 ---
 
@@ -178,13 +178,13 @@ The `RedisInvalidator.IPubSubLike` shape is intentionally minimal - both ioredis
 
 All types live under the `RedisInvalidator` namespace at `@gentleduck/iam/invalidators/redis`. Type-only - zero bundle cost.
 
-- `RedisInvalidator.IPubSubLike` - minimal pub/sub client surface (`publish`, `subscribe`, optional `unsubscribe`).
-- `RedisInvalidator.IConfig` - constructor config for `createRedisInvalidator` (`client`, optional `channel`).
+- `IamRedisInvalidator.IPubSubLike` - minimal pub/sub client surface (`publish`, `subscribe`, optional `unsubscribe`).
+- `IamRedisInvalidator.IConfig` - constructor config for `createIamRedisInvalidator` (`client`, optional `channel`).
 
 ```typescript
-import type { RedisInvalidator } from '@gentleduck/iam/invalidators/redis'
+import type { IamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
 
-const config: RedisInvalidator.IConfig = {
+const config: IamRedisInvalidator.IConfig = {
   client: pubSubClient,
   channel: 'iam:invalidate',
 }

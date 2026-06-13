@@ -16,7 +16,7 @@ import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
 
 const stores = createSqlAuthStores({ bridge })
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   stores: {
     identities: stores.identities,
     credentials: stores.credentials,

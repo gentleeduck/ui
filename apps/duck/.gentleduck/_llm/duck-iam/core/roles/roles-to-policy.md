@@ -7,6 +7,7 @@ For each role, the function:
 1. **Flattens** the inheritance chain into all permissions (own and inherited)
 2. **Creates a Rule per permission** with:
    * `effect: 'allow'`
+   * `id: '__rbac__#N'` - opaque sequential counter, not derived from role / action / resource
    * `actions` and `resources` from the permission
    * `subject.roles contains "<roleId>"` as a condition
    * `scope eq "<scope>"` when the permission or role is scoped
@@ -31,13 +32,13 @@ const viewer = defineRole('viewer')
 Becomes:
 
 ```typescript
-{
+const policy: AccessControl.IPolicy = {
   id: '__rbac__',
   name: 'RBAC Policies',
   algorithm: 'allow-overrides',
   rules: [
     {
-      id: 'rbac.viewer.read.post.0',
+      id: '__rbac__#0',
       effect: 'allow',
       actions: ['read'],
       resources: ['post'],
@@ -46,7 +47,7 @@ Becomes:
       }
     },
     {
-      id: 'rbac.viewer.read.comment.1',
+      id: '__rbac__#1',
       effect: 'allow',
       actions: ['read'],
       resources: ['comment'],
@@ -57,6 +58,8 @@ Becomes:
   ]
 }
 ```
+
+Rule IDs are opaque counters (`__rbac__#N`) - never derived from role / action / resource. Don't pattern-match against them or build admin tooling that assumes the old dotted shape.
 
 ***
 
@@ -84,7 +87,7 @@ The engine caches the result of `rolesToPolicy()` to avoid recomputing on every 
 
 * `engine.admin.saveRole()` is called
 * `engine.admin.deleteRole()` is called
-* `engine.invalidateRoles()` is called manually
+* `engine.cache.invalidateRoles()` is called manually
 * The role-load TTL expires (configurable via `cacheTTL`)
 
 In production, this means role evaluations hit a hot in-process cache, not the adapter. See [engine caching](/duck-iam/advanced/engine).

@@ -382,7 +382,8 @@ function VirtualCommandList({
 
     try {
       if (!searchIndex) throw new Error('no index')
-      const sanitized = search.replace(/[:*~+\-^]/g, '\\$&')
+      // Also escape backslash so a user-typed `\` does not double as the escape char.
+      const sanitized = search.replace(/[\\:*~+\-^]/g, '\\$&')
       const terms = sanitized.trim().split(/\s+/).filter(Boolean)
       if (terms.length === 0) return flatRows
 

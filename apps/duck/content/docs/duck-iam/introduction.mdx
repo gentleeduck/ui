@@ -40,15 +40,15 @@ are converted into policies internally, so one condition engine handles everythi
 | Feature | Description |
 | --- | --- |
 | Unified RBAC + ABAC | Roles and policies share one evaluation pipeline. RBAC roles convert to a synthetic `__rbac__` policy at load time. |
-| Type-safe config | `createAccessConfig()` constrains actions, resources, scopes, and role IDs at the type level. |
-| Combining algorithms | Four in-policy algorithms (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`); three cross-policy modes (`and`, `allow-overrides`, `first-applicable`) via `EngineTypes.IConfig.policyCombine`. |
+| Type-safe config | `defineIam()` constrains actions, resources, scopes, and role IDs at the type level. |
+| Combining algorithms | Four in-policy algorithms (`deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`); three cross-policy modes (`and`, `allow-overrides`, `first-applicable`) via `IamEngineTypes.IConfig.policyCombine`. |
 | Multi-tenant scopes | Scoped role assignments: different roles per organization, workspace, or project. |
-| Pluggable adapters | Memory, File, Prisma, Drizzle, Redis, HTTP - or write your own by implementing `Adapter.IAdapter`. `Adapter.IReadOptions.signal` supports per-call `AbortSignal` cancellation. |
+| Pluggable adapters | Memory, File, Prisma, Drizzle, Redis, HTTP - or write your own by implementing `IamAdapter.IAdapter`. `IamAdapter.IReadOptions.signal` supports per-call `AbortSignal` cancellation. |
 | Server + client integrations | Express, Hono, Nest, Next middleware; React + Vue + vanilla clients. Each module ships its own typed namespace (`Express.IOptions`, `ReactClient.IContextValue`, ...). |
 | Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError`, `onPolicyError`, `onMetrics` - observe / transform every decision. `onMetrics` is primitive-only and fires in both modes. |
 | Dev/Prod mode | Development returns rich `AccessControl.IDecision` objects + `explain()`; production returns plain `boolean` with zero allocation. See [benchmarks](/duck-iam/benchmarks) and the [production guide](/duck-iam/guides/production). |
-| Explain / debug | `engine.explain()` returns `Explain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
-| Validation + limits | `validateRoles()` and `validatePolicy()` emit `Validate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
+| Explain / debug | `engine.explain()` returns `IamExplain.IResult` with per-policy, per-rule, per-condition traces. Dev mode only. |
+| Validation + limits | `validateRoles()` and `validatePolicy()` emit `IamValidate.IIssue` with closed-set codes. `POLICY_LIMITS` caps rule / action / resource counts; `MAX_INHERITANCE_DEPTH` caps role chains. |
 | Operability surface | `engine.preload()`, `engine.healthCheck()`, `engine.stats.get()`, `engine.admin.export() / import()` snapshots, `IConfig.invalidator` for cross-instance cache coherence, adapter timeouts, fail-open opt-in. |
 
 ## Architecture Overview
@@ -75,12 +75,12 @@ duck-iam has four core concepts:
 
     subgraph Storage["Storage Adapters"]
         direction TB
-        MEM["MemoryAdapter\n(dev/testing)"]
-        FILE_AD["FileAdapter\n(JSON on disk)"]
-        PRISMA["PrismaAdapter\n(production DB)"]
-        DRIZZLE["DrizzleAdapter\n(production DB)"]
-        REDIS["RedisAdapter\n(distributed cache)"]
-        HTTP_AD["HttpAdapter\n(remote service)"]
+        MEM["IamMemoryAdapter\n(dev/testing)"]
+        FILE_AD["IamFileAdapter\n(JSON on disk)"]
+        PRISMA["IamPrismaAdapter\n(production DB)"]
+        DRIZZLE["IamDrizzleAdapter\n(production DB)"]
+        REDIS["IamRedisAdapter\n(distributed cache)"]
+        HTTP_AD["IamHttpAdapter\n(remote service)"]
     end
 
     SERVER --> ENGINE
@@ -88,13 +88,13 @@ duck-iam has four core concepts:
     ENGINE --> PERM_MAP["PermissionMap"]
     PERM_MAP --> CLIENT`} />
 
-**Engine**: The evaluator. Create an `Engine` with an `EngineTypes.IConfig`, then call `engine.can()`,
+**Engine**: The evaluator. Create an `IamEngine` with an `IamEngineTypes.IConfig`, then call `engine.can()`,
 `engine.check()`, `engine.permissions()`, or `engine.explain()`. The engine loads roles and
 policies from the adapter, resolves the subject, and runs evaluation.
 
 **Adapter**: The storage backend. Adapters implement `PolicyStore + RoleStore + SubjectStore`.
-`MemoryAdapter` is for testing and small apps. `PrismaAdapter` and `DrizzleAdapter` are for
-production databases. `HttpAdapter` fetches from a remote service.
+`IamMemoryAdapter` is for testing and small apps. `IamPrismaAdapter` and `IamDrizzleAdapter` are for
+production databases. `IamHttpAdapter` fetches from a remote service.
 
 **Policies**: ABAC rules organized into policy objects. Each policy has a combining algorithm
 and a list of rules. Each rule has an effect (allow/deny), target actions and resources,
@@ -143,7 +143,7 @@ When an authorization request comes in, the engine follows this pipeline:
 ## Quick Example
 
 ```typescript
-import { defineRole, Engine, MemoryAdapter } from "@gentleduck/iam";
+import { defineRole, IamEngine, IamMemoryAdapter } from "@gentleduck/iam";
 
 // 1. Define roles
 const viewer = defineRole("viewer")
@@ -164,12 +164,12 @@ const admin = defineRole("admin")
   .build();
 
 // 2. Create adapter and engine
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: [viewer, editor, admin],
   assignments: { "user-1": ["editor"], "user-2": ["viewer"] },
 });
 
-const engine = new Engine({ adapter });
+const engine = new IamEngine({ adapter });
 
 // 3. Check permissions
 await engine.can("user-1", "read", { type: "post", attributes: {} });
@@ -236,10 +236,10 @@ Open an issue or pull request on the
   <AccordionItem value="which-adapter-first">
     <AccordionTrigger>Which adapter should I start with?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Start with <code className="rounded bg-muted px-2 py-1">MemoryAdapter</code> for tests, local dev,
-      and first prototypes. Move to <code className="rounded bg-muted px-2 py-1">PrismaAdapter</code> or
-      <code className="rounded bg-muted px-2 py-1">DrizzleAdapter</code> when you want persistent policies,
-      roles, and assignments. Use <code className="rounded bg-muted px-2 py-1">HttpAdapter</code> when your
+      Start with <code className="rounded bg-muted px-2 py-1">IamMemoryAdapter</code> for tests, local dev,
+      and first prototypes. Move to <code className="rounded bg-muted px-2 py-1">IamPrismaAdapter</code> or
+      <code className="rounded bg-muted px-2 py-1">IamDrizzleAdapter</code> when you want persistent policies,
+      roles, and assignments. Use <code className="rounded bg-muted px-2 py-1">IamHttpAdapter</code> when your
       authorization data already lives behind a separate API or shared auth service.
     </AccordionContent>
   </AccordionItem>

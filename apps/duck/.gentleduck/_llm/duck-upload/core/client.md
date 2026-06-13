@@ -117,7 +117,7 @@ The `StoreOptions` interface holds everything needed to build the store runtime:
 ## Plugins
 
 Plugins extend the store's behavior without forking the engine. Each plugin gets a
-minimal proxy with `on`, `dispatch`, and `getSnapshot` — enough to observe events and
+minimal proxy with `on`, `dispatch`, and `getSnapshot` - enough to observe events and
 drive behavior, not enough to break internal state.
 
 ```typescript title="src/lib/plugins/analytics.ts"
@@ -152,10 +152,10 @@ const client = createUploadClient({
 
 ### Plugin Guidelines
 
-* Plugins should be read-only — don't mutate state directly.
+* Plugins should be read-only - don't mutate state directly.
 * Use `dispatch` only for well-defined side effects (e.g. auto-retry).
 * Plugin `setup` errors are caught and logged in development mode.
-* Plugin names are for debugging — keep them descriptive.
+* Plugin names are for debugging - keep them descriptive.
 
 ## Hooks
 
@@ -197,9 +197,9 @@ The fingerprint function must be synchronous to keep `addFiles` fast.
 
 ## Next Steps
 
-* [Engine](/duck-upload/core/engine) — state machine, scheduling, and retry details.
-* [Contracts](/duck-upload/core/contracts) — the UploadApi, transport, and strategy interfaces.
-* [Persistence](/duck-upload/core/persistence) — configure state persistence.
+* [Engine](/duck-upload/core/engine) - state machine, scheduling, and retry details.
+* [Contracts](/duck-upload/core/contracts) - the UploadApi, transport, and strategy interfaces.
+* [Persistence](/duck-upload/core/persistence) - configure state persistence.
 
 ***
 

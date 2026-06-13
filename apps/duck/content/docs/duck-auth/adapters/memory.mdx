@@ -6,7 +6,7 @@ section: Adapters
 
 ## When to use
 
-`MemoryAuthAdapter` is the dev/test adapter. It holds every store in
+`AuthMemoryAdapter` is the dev/test adapter. It holds every store in
 in-process `Map<string, T>` instances. Use it for:
 
 - Local development (no database setup required).
@@ -14,17 +14,17 @@ in-process `Map<string, T>` instances. Use it for:
 - Storybook decorators.
 - Demos and examples.
 
-`AuthRoot.strict({ env: 'production' })` rejects `MemoryAuthAdapter`
+`AuthEngine.strict({ env: 'production' })` rejects `AuthMemoryAdapter`
 unconditionally.
 
 ## Setup
 
 ```typescript
-import { MemoryAuthAdapter } from '@gentleduck/auth/adapters/memory'
+import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
 
-const adapter = new MemoryAuthAdapter()
+const adapter = new AuthMemoryAdapter()
 
-export const auth = new AuthRoot({
+export const auth = new AuthEngine({
   stores: {
     identities: adapter.identities,
     sessions: adapter.sessions,
@@ -37,13 +37,13 @@ export const auth = new AuthRoot({
 ## Typed generics
 
 The adapter is parameterised by `Profile` and `OrgMeta` - they propagate
-through to your `AuthRoot`:
+through to your `AuthEngine`:
 
 ```typescript
 type Profile = { displayName: string }
 type OrgMeta = { plan: 'team' | 'enterprise' }
 
-const adapter = new MemoryAuthAdapter<Profile, OrgMeta>()
+const adapter = new AuthMemoryAdapter<Profile, OrgMeta>()
 ```
 
 ## Resetting state
@@ -52,8 +52,8 @@ For tests, recreate the adapter to wipe state:
 
 ```typescript
 beforeEach(() => {
-  const adapter = new MemoryAuthAdapter()
-  auth = new AuthRoot({ stores: adapter, /* ... */ })
+  const adapter = new AuthMemoryAdapter()
+  auth = new AuthEngine({ stores: adapter, /* ... */ })
 })
 ```
 
@@ -70,14 +70,14 @@ The adapter bundles four stores:
 
 | Store | Backing |
 | --- | --- |
-| `adapter.identities` | `Map<id, Identity>` - typed by `Profile`. Implements every `Identity.IStore` method including soft-delete grace, provider linking, merge, erase. |
+| `adapter.identities` | `Map<id, Identity>` - typed by `Profile`. Implements every `AuthIdentity.IStore` method including soft-delete grace, provider linking, merge, erase. |
 | `adapter.sessions` | `Map<sessionIdHash, Session>` - instant revocation, TTL-respecting reads. |
 | `adapter.credentials` | `Map<id, Credential>` - keyed by id; hashed-secret lookup via secondary index. |
 | `adapter.orgs` | `Map<id, Org>` - typed by `OrgMeta`. Memberships via secondary index. |
 
 ## Multi-tenant
 
-Like every adapter, `MemoryAuthAdapter` is multi-tenant. Every method
+Like every adapter, `AuthMemoryAdapter` is multi-tenant. Every method
 that takes a `tenantId` filters by it. Cross-tenant reads return `null`,
 never throw, never leak.
 
@@ -92,6 +92,6 @@ you push to tens of thousands, switch to SQL.
 - **No persistence**: every process restart wipes everything.
 - **No fan-out**: one process per replica; sessions don't cross.
 - **No cron jobs**: there's nothing to vacuum expired sessions other
-  than the next call's lazy expiry check. Use `MemoryLimiter` likewise.
+  than the next call's lazy expiry check. Use `AuthMemoryLimiter` likewise.
 
 For production: switch to `adapters/sql` + `adapters/redis`.

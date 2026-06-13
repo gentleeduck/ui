@@ -22,7 +22,7 @@ const admin = defineRole('admin').name('Admin').inherits('editor').grantAll('*')
 
 Chain: `viewer -> editor -> admin`. An admin gets everything an editor can do (including everything a viewer can do), plus unrestricted access.
 
-***
+---
 
 ## How inheritance is resolved
 
@@ -30,7 +30,7 @@ The engine calls `resolveEffectiveRoles()` when loading a subject. For a user wi
 
 `rolesToPolicy()` flattens the inheritance chain when generating the ABAC policy. The editor role's rules include its own and viewer's permissions, each gated by a `subject.roles contains "editor"` condition.
 
-***
+---
 
 ## Cycles are safe
 
@@ -38,7 +38,7 @@ If role A inherits from B which inherits from A, the visited set breaks the recu
 
 `validateRoles()` flags cycles as warnings (not errors) because the runtime handles them safely, but circular inheritance is almost always a modeling mistake worth fixing.
 
-***
+---
 
 ## Multiple inheritance
 
@@ -55,7 +55,7 @@ const moderator = defineRole('moderator')
 
 This pulls permissions from `viewer` and `commenter`, then adds the moderator's own.
 
-***
+---
 
 ## Caveat: removing inherited permissions
 
@@ -76,7 +76,7 @@ const restriction = policy('restrict-editor-deletes')
 
 The `deny-overrides` semantics in cross-policy AND-combination ensure the deny wins. See [combining algorithms](/duck-iam/core/policies/combining-algorithms).
 
-***
+---
 
 ## Deep chains
 

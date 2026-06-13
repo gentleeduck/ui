@@ -5,9 +5,9 @@
 Declare the actions, resources, and scopes your application uses. This creates a typed factory that constrains all subsequent builders:
 
 ```typescript title="src/lib/access.ts"
-import { createAccessConfig } from "@gentleduck/iam";
+import { defineIam } from "@gentleduck/iam";
 
-export const access = createAccessConfig({
+export const access = defineIam({
   actions: ["create", "read", "update", "delete", "manage"],
   resources: ["post", "comment", "user", "team", "billing"],
   scopes: ["org"],
@@ -62,11 +62,11 @@ export const allRoles = [viewer, editor, moderator, admin];
 ## Step 3: Create the Engine
 
 ```typescript title="src/lib/engine.ts"
-import { MemoryAdapter } from "@gentleduck/iam";
+import { IamMemoryAdapter } from "@gentleduck/iam";
 import { access } from "./access";
 import { allRoles } from "./roles";
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: allRoles,
   assignments: {
     "user-alice": ["admin"],
@@ -132,7 +132,7 @@ export const businessHoursPolicy = access
 await engine.admin.savePolicy(businessHoursPolicy);
 ```
 
-The `first-match` algorithm evaluates rules in order: the deny rule fires for writes outside 9--18 UTC, and the catch-all allow rule handles everything else.
+The `first-match` algorithm evaluates rules in order: the deny rule fires for writes outside 9-18 UTC, and the catch-all allow rule handles everything else.
 
 ## Step 5: Owner-Only Conditions
 
@@ -174,11 +174,11 @@ await engine.can("user-carol", "update", {
 ## Step 6: Multi-Tenant Scoped Roles
 
 ```typescript title="src/lib/scoped-engine.ts"
-import { MemoryAdapter } from "@gentleduck/iam";
+import { IamMemoryAdapter } from "@gentleduck/iam";
 import { access } from "./access";
 import { allRoles } from "./roles";
 
-const adapter = new MemoryAdapter({
+const adapter = new IamMemoryAdapter({
   roles: allRoles,
 });
 
@@ -354,14 +354,14 @@ export default async function Layout({ children }) {
 "use client";
 
 import React from "react";
-import { createAccessControl } from "@gentleduck/iam/client/react";
+import { createIamClient } from "@gentleduck/iam/client/react";
 
 export const {
   AccessProvider,
   useAccess,
   Can,
   Cannot,
-} = createAccessControl(React);
+} = createIamClient(React);
 ```
 
 ```tsx title="src/components/post-actions.tsx"
@@ -419,7 +419,8 @@ console.log(trace.policies);
 
 ## Next Steps
 
-* [Core Concepts](/duck-iam/core): deep dive into policies, rules, conditions, and combining algorithms.
+* [Production deployment guide](/duck-iam/guides/production): cache TTL trade-offs, multi-node invalidation, fail-closed defaults, hook set, adapter retry / circuit breaker tuning, health checks, metrics aggregator, snapshot env-promotion - the SRE playbook for going live.
+* [Core Concepts](/duck-iam/core): policies, rules, conditions, and combining algorithms.
 * [Integrations](/duck-iam/integrations/adapters): detailed API reference for every server and client integration.
 * [Advanced](/duck-iam/advanced/config): evaluation hooks, custom adapters, caching configuration, and validation.
 * [FAQs](/www/faqs): common questions and troubleshooting tips.

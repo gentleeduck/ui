@@ -19,7 +19,7 @@ Permission Check"]
 
   subgraph CH4["Chapter 4"]
       direction TB
-      C4["The EngineIn Depth"]
+      C4["The IamEngineIn Depth"]
   end
 
   subgraph CH5["Chapter 5"]
@@ -77,7 +77,7 @@ Start with [Chapter 1: Your First Permission Check](/duck-iam/course/chapter-1).
 
 | Chapter | Topic | What You Learn |
 | --- | --- | --- |
-| [1](/duck-iam/course/chapter-1) | Your First Permission Check | Roles, Engine, MemoryAdapter, `engine.can()` |
+| [1](/duck-iam/course/chapter-1) | Your First Permission Check | Roles, Engine, IamMemoryAdapter, `engine.can()` |
 | [2](/duck-iam/course/chapter-2) | Role Hierarchies | Inheritance, multiple roles, wildcards, validation |
 | [3](/duck-iam/course/chapter-3) | Policies, Rules, and Conditions | ABAC, combining algorithms, condition operators, `$` variables |
 | [4](/duck-iam/course/chapter-4) | The Engine In Depth | Hooks, caching, batch permissions, explain, Admin API |

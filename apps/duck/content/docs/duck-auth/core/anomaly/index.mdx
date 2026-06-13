@@ -6,7 +6,7 @@ section: Core
 
 ## What this is
 
-`AuthRoot.anomaly` is a pluggable detector chain. Every call to
+`AuthEngine.anomaly` is a pluggable detector chain. Every call to
 `resolveSession(req, { requestSnapshot })` runs the registered detectors
 and produces a single decision: `allow`, `step-up`, or `deny`.
 
