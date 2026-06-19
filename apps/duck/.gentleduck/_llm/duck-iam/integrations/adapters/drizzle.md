@@ -28,8 +28,10 @@ import {
 } from '@gentleduck/iam/adapters/drizzle/schema/pg'
 ```
 
-* `jsonb` for rules, permissions, targets, metadata, attributes
-* Native `text[]` for `inherits`
+* `jsonb` for rules, permissions, targets, metadata, attributes, and `inherits`
+* GIN indexes on `rules` and `permissions` for containment search (`@>`)
+* Partial indexes for scoped roles and assignments (`WHERE scope IS NOT NULL`)
+* Unique constraints use `NULLS NOT DISTINCT` so global rows (NULL scope) stay unique
 * `timestamptz` with `defaultNow()` and auto-updated `updated_at`
 
 ### MySQL
@@ -45,7 +47,8 @@ import {
 
 * `json` columns (MySQL native)
 * `varchar(191)` for IDs (utf8mb4 + index-friendly)
-* `datetime(3)` with millisecond precision
+* `datetime(3)` with per-row `CURRENT_TIMESTAMP(3)` precision
+* `COALESCE(scope, '')` unique indexes so global rows stay unique (MySQL has no `NULLS NOT DISTINCT`)
 
 ### SQLite
 
@@ -58,17 +61,21 @@ import {
 } from '@gentleduck/iam/adapters/drizzle/schema/sqlite'
 ```
 
-* `text` for JSON columns (adapter auto-parses on read, stringifies on write)
+* `text` for JSON columns - requires the adapter in `json: 'string'` mode
 * `integer` ms epoch for timestamps
+* `COALESCE(scope, '')` unique indexes + partial indexes for scoped rows
 * Default `[]` for `inherits` text column
 
 ***
 
 ## What each schema includes
 
-* Primary keys, FK cascade on `roleId` -> `accessRoles.id`
-* Unique index on `(subjectId, roleId, scope)` for idempotent assignments
-* Lookup index on `subjectId` for fast role queries
+* Named constraints throughout: `pk_` primary key, `fk_` foreign key, `uq_` unique, `idx_` index, `ch_` check
+* FK cascade on `roleId` -> `accessRoles.id`
+* Unique on `(subjectId, roleId, scope)` for idempotent assignments, with NULL scopes collapsed (`NULLS NOT DISTINCT` on PG, `COALESCE` on MySQL/SQLite)
+* Lookup index on `subjectId` plus a `roleId` index for FK deletes and reverse lookups
+* CHECK constraints: non-blank name/subject, `version >= 1`, valid algorithm
+* `created_by` / `updated_by` audit columns (set via triggers or admin writes; the adapter leaves them NULL)
 * Auto-managed `created_at` / `updated_at`
 
 ***
@@ -143,6 +150,8 @@ const engine = new IamEngine({ adapter, cacheTTL: 60 })
 | `tables.attrs` | Drizzle table | Subject attributes table reference |
 | `ops.eq` | `(col, val) -> condition` | Drizzle `eq` operator |
 | `ops.and` | `(...conditions) -> condition` | Drizzle `and` operator |
+| `json` | `'native' \| 'string'` | JSON encoding. `'native'` (default) writes objects to `jsonb`/`json`; `'string'` JSON-stringifies for SQLite/text columns. Optional. |
+| `onPolicyError` | `(err, ctx) -> void` | Called when a stored row fails JSON parse or shape validation; the row is dropped. Optional. |
 
 You can swap in your own table definitions if you need extra columns or a different naming scheme - only the column names listed in the schema files are required.
 
@@ -150,13 +159,23 @@ You can swap in your own table definitions if you need extra columns or a differ
 
 ## JSON handling
 
-The Drizzle adapter handles JSON serialization automatically:
+The `json` config option controls how payload columns (`rules`, `targets`, `permissions`, `inherits`, `metadata`, `data`) are written:
 
-* **PostgreSQL** - `jsonb` columns pass through as parsed objects
-* **MySQL** - `json` columns pass through as parsed objects
-* **SQLite** - `text` columns are JSON.parse'd on read and JSON.stringify'd on write
+* **`json: 'native'` (default)** - writes plain objects/arrays. Use with PostgreSQL `jsonb` and MySQL `json` so the data stays queryable (GIN indexes, `jsonb_typeof`, no double-encoding).
+* **`json: 'string'`** - `JSON.stringify`s every payload. Required for SQLite (TEXT columns) or any text-backed column.
 
-Inherits arrays follow the same pattern: native `text[]` on PG, JSON-stringified array on MySQL/SQLite.
+The read path accepts both shapes, so switching modes is migration-safe. For SQLite:
+
+```typescript
+const adapter = new IamDrizzleAdapter({
+  db,
+  tables: { policies: accessPolicies, roles: accessRoles, assignments: accessAssignments, attrs: accessSubjectAttrs },
+  ops: { eq, and },
+  json: 'string', // SQLite stores JSON as TEXT
+})
+```
+
+On PostgreSQL `inherits` is now `jsonb` (an array of parent role IDs), aligning with the shared adapter's serialization across all three dialects.
 
 ***
 
