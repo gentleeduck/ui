@@ -4,6 +4,9 @@
       "authentications",
       "signup"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/signup-1/signup-1.constants.tsx",
@@ -20,8 +23,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/signup-1",
     "type": "registry:block",
@@ -44,6 +46,9 @@
       "authentications",
       "login"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/login-1/login-1.tsx",
@@ -60,8 +65,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/login-1",
     "type": "registry:block",
@@ -91,6 +95,9 @@
       "authentications",
       "login"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/login-2/login-2.tsx",
@@ -107,8 +114,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/login-2",
     "type": "registry:block",
@@ -138,6 +144,9 @@
       "authentications",
       "login"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/login-3/login-3.tsx",
@@ -154,8 +163,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/login-3",
     "type": "registry:block",
@@ -185,6 +193,9 @@
       "authentications",
       "login"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/login-4/login-4.tsx",
@@ -201,8 +212,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/login-4",
     "type": "registry:block",
@@ -232,6 +242,9 @@
       "authentications",
       "login"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "authentications/login-5/login-5.tsx",
@@ -248,8 +261,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "authentications/login-5",
     "type": "registry:block",
@@ -474,6 +486,9 @@
       "dashboards",
       "dashboard"
     ],
+    "dependencies": [
+      "react-hook-form"
+    ],
     "files": [
       {
         "path": "dashboards/dashboard-1/dashboard-1.tsx",
@@ -522,8 +537,7 @@
       "input",
       "avatar",
       "separator",
-      "label",
-      "react-hook-form"
+      "label"
     ],
     "root_folder": "dashboards/dashboard-1",
     "type": "registry:block",
@@ -33715,8 +33729,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -33804,8 +33818,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -33893,8 +33907,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -33982,8 +33996,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -34071,8 +34085,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -34160,8 +34174,8 @@
       "@gentleduck/primitives"
     ],
     "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
     "type": "registry:internal",
+    "source": "/registry-internals/src/internal-primitives",
     "tree": [
       {
         "children": [
@@ -35009,6 +35023,10 @@
     ],
     "files": [
       {
+        "path": "combobox/combobox.constants.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "combobox/combobox.tsx",
         "type": "registry:ui"
       },
@@ -35038,6 +35056,11 @@
     "type": "registry:ui",
     "source": "/registry-ui/src/combobox",
     "tree": [
+      {
+        "name": "combobox.constants.ts",
+        "path": "combobox/combobox.constants.ts",
+        "type": "file"
+      },
       {
         "name": "combobox.tsx",
         "path": "combobox/combobox.tsx",
@@ -35197,6 +35220,10 @@
     ],
     "files": [
       {
+        "path": "direction/direction.libs.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "direction/direction.tsx",
         "type": "registry:ui"
       },
@@ -35210,6 +35237,11 @@
     "type": "registry:ui",
     "source": "/registry-ui/src/direction",
     "tree": [
+      {
+        "name": "direction.libs.ts",
+        "path": "direction/direction.libs.ts",
+        "type": "file"
+      },
       {
         "name": "direction.tsx",
         "path": "direction/direction.tsx",
@@ -35887,7 +35919,7 @@
         "type": "registry:ui"
       },
       {
-        "path": "sheet/sheet.constants.tsx",
+        "path": "sheet/sheet.constants.ts",
         "type": "registry:ui"
       },
       {
@@ -35911,8 +35943,8 @@
         "type": "file"
       },
       {
-        "name": "sheet.constants.tsx",
-        "path": "sheet/sheet.constants.tsx",
+        "name": "sheet.constants.ts",
+        "path": "sheet/sheet.constants.ts",
         "type": "file"
       },
       {
@@ -36468,6 +36500,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "typography/typography.constants.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "typography/typography.tsx",
         "type": "registry:ui"
       }
@@ -36485,6 +36521,11 @@
       {
         "name": "motion-typography.tsx",
         "path": "typography/motion-typography.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography.constants.ts",
+        "path": "typography/typography.constants.ts",
         "type": "file"
       },
       {
