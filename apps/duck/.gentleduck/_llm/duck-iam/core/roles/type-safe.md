@@ -33,7 +33,7 @@ const viewer = access
 
 // Role checks in conditions are also typed
 const ownerPolicy = access
-  .policy('owner-only')
+  .definePolicy('owner-only')
   .rule('admin-override', (r) =>
     r
       .allow()
@@ -45,7 +45,7 @@ const ownerPolicy = access
   .build()
 ```
 
-`access.defineRole()`, `access.policy()`, `access.defineRule()`, and `access.when()` return builders constrained to the declared actions, resources, scopes, and roles. Types flow through the chain - from `grantWhen()` callbacks to `whenAny()` conditions.
+`access.defineRole()`, `access.definePolicy()`, `access.defineRule()`, and `access.when()` return builders constrained to the declared actions, resources, scopes, and roles. Types flow through the chain - from `grantWhen()` callbacks to `whenAny()` conditions.
 
 ***
 

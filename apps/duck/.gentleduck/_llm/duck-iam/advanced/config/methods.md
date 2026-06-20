@@ -34,13 +34,13 @@ See [roles](/duck-iam/core/roles) for the full role builder API.
 
 ***
 
-## access.policy()
+## access.definePolicy()
 
-Creates a typed policy builder. Rules within the policy are constrained to your schema. The builder uses the same API as the standalone `policy()` function.
+Creates a typed policy builder. Rules within the policy are constrained to your schema. The builder uses the same API as the standalone `definePolicy()` function.
 
 ```typescript
 const ownerPolicy = access
-  .policy('owner-only')
+  .definePolicy('owner-only')
   .name('Owner Only')
   .algorithm('deny-overrides')
   .rule('owner-update', (r) =>
@@ -81,7 +81,7 @@ const ownerRule = access
   .build()
 
 // Add to a policy with .addRule():
-const p = access.policy('my-policy').name('My Policy').algorithm('deny-overrides').addRule(ownerRule).build()
+const p = access.definePolicy('my-policy').name('My Policy').algorithm('deny-overrides').addRule(ownerRule).build()
 ```
 
 ***
@@ -279,7 +279,7 @@ if (!roleCheck.valid) {
 
 // 4. Define policies for fine-grained rules
 const ownerPolicy = access
-  .policy('owner-restrictions')
+  .definePolicy('owner-restrictions')
   .name('Owner Restrictions')
   .algorithm('deny-overrides')
   .rule('authors-own-posts-only', (r) =>

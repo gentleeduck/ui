@@ -65,7 +65,7 @@ your config's actions, resources, and scopes.
 **Define typed policies**
 
 ```typescript title="src/access.ts"
-export const ownerPolicy = access.policy('owner-restrictions')
+export const ownerPolicy = access.definePolicy('owner-restrictions')
   .name('Owner Restrictions')
   .algorithm('deny-overrides')
   .rule('deny-non-owner-update', r => r
@@ -1386,7 +1386,7 @@ Before shipping BlogDuck:
 * \[ ] If using `IamHttpAdapter`, set `retries` and `circuitBreakerThreshold` to survive flaky upstreams
 * \[ ] Protect the admin router with your own authorization check; validate dynamic policies before saving
 * \[ ] Server enforces permissions on every request (Chapter 6); client uses permission maps for UI hints only (Chapter 7)
-* \[ ] Write tests for every role, policy, and scoped permission - both allowed and denied paths
+* \[ ] Write tests for every role, definePolicy, and scoped permission - both allowed and denied paths
 
 ## Complete Production Setup
 
@@ -1423,7 +1423,7 @@ export const admin = access.defineRole('admin')
   .build()
 
 // 3. Policies
-export const ownerPolicy = access.policy('owner-restrictions')
+export const ownerPolicy = access.definePolicy('owner-restrictions')
   .name('Owner Restrictions')
   .algorithm('deny-overrides')
   .rule('deny-non-owner-update', r => r

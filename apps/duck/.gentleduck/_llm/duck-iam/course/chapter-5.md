@@ -331,7 +331,7 @@ If `scopedRolesApplied` is empty, check:
 Reference the scope in policy conditions:
 
 ```typescript
-const tenantPolicy = policy('tenant-isolation')
+const tenantPolicy = definePolicy('tenant-isolation')
   .algorithm('deny-overrides')
   .rule('deny-cross-tenant', r => r
     .deny()

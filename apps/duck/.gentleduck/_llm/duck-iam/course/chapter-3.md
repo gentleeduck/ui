@@ -33,9 +33,9 @@ Use both together. Roles handle broad access grants; policies handle fine-graine
 **Create an owner-only policy**
 
 ```typescript title="src/policies.ts"
-import { policy } from '@gentleduck/iam'
+import { definePolicy } from '@gentleduck/iam'
 
-export const ownerPolicy = policy('owner-restrictions')
+export const ownerPolicy = definePolicy('owner-restrictions')
   .name('Owner Restrictions')
   .algorithm('deny-overrides')
   .rule('deny-non-owner-update', r => r
@@ -50,7 +50,7 @@ export const ownerPolicy = policy('owner-restrictions')
   .build()
 ```
 
-* `policy('owner-restrictions')` creates a policy with ID `owner-restrictions`
+* `definePolicy('owner-restrictions')` creates a policy with ID `owner-restrictions`
 * `.algorithm('deny-overrides')`: if any rule denies, the policy denies
 * `.rule('deny-non-owner-update', ...)` defines a rule inside the policy
 * `.deny()` sets this rule's effect to deny
@@ -357,7 +357,7 @@ These return `ConditionGroup` objects that can be used in rules.
 Each rule inside a policy is built with a `RuleBuilder`:
 
 ```typescript
-policy('my-policy')
+definePolicy('my-policy')
   .rule('my-rule', r => r
     .allow()                      // or .deny() - the rule's effect
     .desc('Allow editors to update their own posts')  // description
@@ -448,7 +448,7 @@ const ownerCheck = defineRule('owner-check')
   .build()
 
 // Add to a policy
-const myPolicy = policy('my-policy')
+const myPolicy = definePolicy('my-policy')
   .algorithm('deny-overrides')
   .addRule(ownerCheck)    // add pre-built rule
   .rule('other-rule', r => r.deny().on('*').of('secret'))  // inline rule
@@ -458,7 +458,7 @@ const myPolicy = policy('my-policy')
 ## The Complete PolicyBuilder API
 
 ```typescript
-policy('my-policy')
+definePolicy('my-policy')
   .name('My Policy')                     // human-readable name (defaults to ID)
   .desc('Restricts access to posts')     // description
   .version(2)                            // version number
@@ -488,7 +488,7 @@ policy('my-policy')
 Targets skip an entire policy when the request does not match:
 
 ```typescript
-policy('post-restrictions')
+definePolicy('post-restrictions')
   .algorithm('deny-overrides')
   .target({
     actions: ['update', 'delete'],   // only evaluate for these actions
@@ -564,9 +564,9 @@ The engine evaluates policies in order and short-circuits on the first deny.
 Full `src/policies.ts`
 
 ```typescript
-import { policy } from '@gentleduck/iam'
+import { definePolicy } from '@gentleduck/iam'
 
-export const ownerPolicy = policy('owner-restrictions')
+export const ownerPolicy = definePolicy('owner-restrictions')
   .name('Owner Restrictions')
   .algorithm('deny-overrides')
   .rule('deny-non-owner-update', r => r

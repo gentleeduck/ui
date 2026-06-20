@@ -42,7 +42,7 @@ Every `When` builder created through `access` gets full intellisense:
 
 ```typescript
 access
-  .policy('banned-users')
+  .definePolicy('banned-users')
   .rule('block-banned', (r) =>
     r
       .deny()
@@ -55,7 +55,7 @@ access
   .build()
 
 access
-  .policy('maintenance')
+  .definePolicy('maintenance')
   .rule('deny-writes', (r) =>
     r
       .deny()
@@ -99,7 +99,7 @@ const access = defineIam({
 ```typescript
 // .of('post') -> resourceAttr shows: 'ownerId' | 'status' | 'title'
 access
-  .policy('post-title')
+  .definePolicy('post-title')
   .rule('deny-empty', (r) =>
     r
       .deny()
@@ -112,7 +112,7 @@ access
 
 // .of('comment') -> resourceAttr shows: 'ownerId' | 'body'
 access
-  .policy('comment-body')
+  .definePolicy('comment-body')
   .rule('deny-empty', (r) =>
     r
       .deny()
@@ -126,7 +126,7 @@ access
 // .of('*') -> resourceAttr shows union of ALL keys:
 // 'ownerId' | 'status' | 'title' | 'body' | 'email' | 'name'
 access
-  .policy('global-owner')
+  .definePolicy('global-owner')
   .rule('deny-non-owner', (r) =>
     r
       .deny()

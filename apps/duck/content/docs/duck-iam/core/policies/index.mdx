@@ -44,7 +44,7 @@ Each topic has its own page:
 
 | Page | Covers |
 | --- | --- |
-| [building policies](/duck-iam/core/policies/building) | `policy()` builder, `defineRule()`, wildcards, hierarchical resources |
+| [building policies](/duck-iam/core/policies/building) | `definePolicy()` builder, `defineRule()`, wildcards, hierarchical resources |
 | [rules](/duck-iam/core/policies/rules) | Rule structure, effect, priority, scopes, metadata |
 | [conditions](/duck-iam/core/policies/conditions) | The `When` builder - operators, semantic shortcuts, field paths |
 | [`$`-variable references](/duck-iam/core/policies/dollar-variables) | Compare two fields on the same request via `$subject.id` etc. |
@@ -58,9 +58,9 @@ Each topic has its own page:
 ## Quick example
 
 ```typescript
-import { policy } from '@gentleduck/iam'
+import { definePolicy } from '@gentleduck/iam'
 
-const weekendDeny = policy('deny-weekends')
+const weekendDeny = definePolicy('deny-weekends')
   .name('Deny on Weekends')
   .desc('Block all write operations on weekends')
   .version(1)

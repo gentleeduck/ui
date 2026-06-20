@@ -24,7 +24,7 @@ duck-iam provides two ways to define permissions:
 
 | Approach | Best for |
 | --- | --- |
-| **Untyped builders** - `defineRole()`, `policy()`, `defineRule()`, `when()` from the root | Quick prototypes, scripts, library code |
+| **Untyped builders** - `defineRole()`, `definePolicy()`, `defineRule()`, `when()` from the root | Quick prototypes, scripts, library code |
 | **Typed config** - `defineIam()` | Production apps, anywhere typos cost real money |
 
 For production applications, use the typed config. It prevents an entire class of bugs where a permission check silently fails because of a typo in an action or resource name.

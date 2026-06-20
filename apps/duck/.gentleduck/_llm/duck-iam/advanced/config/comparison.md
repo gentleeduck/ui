@@ -48,13 +48,13 @@ For logic bugs, write tests. For caching, see [engine caching](/duck-iam/advance
 ## Untyped (direct imports)
 
 ```typescript
-import { defineRole, IamEngine, IamMemoryAdapter, policy } from '@gentleduck/iam'
+import { defineRole, IamEngine, IamMemoryAdapter, definePolicy } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer')
   .grant('raed', 'post') // typo: "raed" instead of "read" - NO error
   .build()
 
-const restrictPolicy = policy('restrict')
+const restrictPolicy = definePolicy('restrict')
   .rule('block', (r) =>
     r
       .deny()
@@ -124,7 +124,7 @@ Drop-in: replace your imports with a single config and re-derive the types.
 **Before:**
 
 ```typescript
-import { defineRole, policy, IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
+import { defineRole, definePolicy, IamEngine, IamMemoryAdapter } from '@gentleduck/iam'
 
 const viewer = defineRole('viewer').grant('read', 'post').build()
 const engine = new IamEngine({ adapter })
@@ -155,7 +155,7 @@ The role/policy data shape is unchanged - adapters, evaluation, and serializatio
 You can mix typed and untyped builders in one app:
 
 ```typescript
-import { policy } from '@gentleduck/iam'
+import { definePolicy } from '@gentleduck/iam'
 
 const access = defineIam({
   actions: ['read'] as const,
@@ -163,10 +163,10 @@ const access = defineIam({
 })
 
 // Typed for app-defined policies
-const myPolicy = access.policy('my-app').rule(/* ... */).build()
+const myPolicy = access.definePolicy('my-app').rule(/* ... */).build()
 
 // Untyped for dynamic policies loaded from DB
-const dynamicPolicy = policy('dynamic').rule(/* ... */).build()
+const dynamicPolicy = definePolicy('dynamic').rule(/* ... */).build()
 
 await access.validatePolicy(dynamicPolicy) // runtime check
 

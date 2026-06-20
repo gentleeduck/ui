@@ -4,9 +4,9 @@ the snippet, swap the actions / resources for yours, and ship.
 ## Owners can edit their own resources
 
 ```typescript
-import { policy, rule, when } from '@gentleduck/iam'
+import { definePolicy, rule, when } from '@gentleduck/iam'
 
-const ownersPolicy = policy('owners', {
+const ownersPolicy = definePolicy('owners', {
   combine: 'allow-overrides',
   rules: [
     rule({
@@ -30,7 +30,7 @@ their own.
 ## Public-vs-private resources
 
 ```typescript
-const publicReadPolicy = policy('public-read', {
+const publicReadPolicy = definePolicy('public-read', {
   combine: 'allow-overrides',
   rules: [
     // Anyone can read public posts.
@@ -98,7 +98,7 @@ See [Scoped roles ->](/duck-iam/core/roles/scoped).
 ## Time-bound access
 
 ```typescript
-const businessHoursPolicy = policy('business-hours', {
+const businessHoursPolicy = definePolicy('business-hours', {
   combine: 'allow-overrides',
   rules: [
     rule({
@@ -129,7 +129,7 @@ When you bridge with [duck-auth](/duck-auth), the subject carries the
 session's AAL:
 
 ```typescript
-const mfaPolicy = policy('mfa-required', {
+const mfaPolicy = definePolicy('mfa-required', {
   combine: 'deny-overrides',
   rules: [
     // Deny by default for sensitive actions...
@@ -153,7 +153,7 @@ authenticated at AAL2.
 ## Field-level permissions (column-grained)
 
 ```typescript
-const fieldsPolicy = policy('fields', {
+const fieldsPolicy = definePolicy('fields', {
   combine: 'first-match',
   rules: [
     // Editors can edit everything except billing fields.

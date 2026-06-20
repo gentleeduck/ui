@@ -106,7 +106,7 @@ A policy that denies access outside of business hours:
 import { access } from "./access";
 
 export const businessHoursPolicy = access
-  .policy("business-hours")
+  .definePolicy("business-hours")
   .name("Business Hours Only")
   .desc("Deny write operations outside 9 AM - 6 PM UTC")
   .algorithm("first-match")

@@ -14,7 +14,7 @@
 The default and most conservative algorithm. **Any deny beats any allow.**
 
 ```typescript
-const p = policy('strict')
+const p = definePolicy('strict')
   .algorithm('deny-overrides')
   .rule('allow-read', (r) => r.allow().on('read').of('post'))
   .rule('deny-drafts', (r) =>
@@ -43,7 +43,7 @@ Use this for restriction policies - a single deny blocks access regardless of ho
 The inverse: **any allow beats any deny.** Used by the auto-generated RBAC policy.
 
 ```typescript
-const p = policy('permissive')
+const p = definePolicy('permissive')
   .algorithm('allow-overrides')
   .rule('deny-default', (r) => r.deny().on('*').of('*'))
   .rule('vip-access', (r) =>
@@ -72,7 +72,7 @@ Use this for deny-by-default policies where specific allow rules grant access.
 The first matching rule wins. **Order matters.**
 
 ```typescript
-const p = policy('firewall')
+const p = definePolicy('firewall')
   .algorithm('first-match')
   .rule('block-bad-ip', (r) =>
     r
@@ -108,7 +108,7 @@ Use this for firewall-style ordered rule lists.
 The matching rule with the highest `priority` wins.
 
 ```typescript
-const p = policy('priority')
+const p = definePolicy('priority')
   .algorithm('highest-priority')
   .rule('normal-allow', (r) => r.allow().on('read').of('post').priority(10))
   .rule('elevated-deny', (r) =>

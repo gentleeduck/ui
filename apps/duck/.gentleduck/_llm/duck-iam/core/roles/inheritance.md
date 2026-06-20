@@ -67,7 +67,7 @@ For finer-grain control, use an ABAC deny rule:
 const restrictedEditor = defineRole('restricted-editor').inherits('editor').build()
 
 // Add a separate policy:
-const restriction = policy('restrict-editor-deletes')
+const restriction = definePolicy('restrict-editor-deletes')
   .target({ roles: ['restricted-editor'] })
   .algorithm('deny-overrides')
   .rule('no-delete', (r) => r.deny().on('delete').of('post'))

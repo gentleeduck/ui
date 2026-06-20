@@ -143,7 +143,7 @@ A typical setup has 3-5 policies:
 //    algorithm: 'allow-overrides'
 
 // 2. Business hours restriction
-const businessHours = policy('business-hours')
+const businessHours = definePolicy('business-hours')
   .target({ actions: ['create', 'update', 'delete'] })
   .algorithm('first-match')
   .rule('deny-off-hours', /* ... */)
@@ -151,14 +151,14 @@ const businessHours = policy('business-hours')
   .build()
 
 // 3. Content safety (banned users, owner-only deletes)
-const contentSafety = policy('content-safety')
+const contentSafety = definePolicy('content-safety')
   .algorithm('deny-overrides')
   .rule('block-banned', /* ... */)
   .rule('owner-delete-only', /* ... */)
   .build()
 
 // 4. Geo-fencing (optional)
-const geoFence = policy('geo-fence')
+const geoFence = definePolicy('geo-fence')
   .target({ actions: ['*'] })
   .algorithm('first-match')
   .rule('block-restricted-regions', /* ... */)

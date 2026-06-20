@@ -91,7 +91,7 @@ common pattern: gate sensitive actions on the session's AAL or
 freshness:
 
 ```typescript
-policy('admin-actions', {
+definePolicy('admin-actions', {
   combine: 'deny-overrides',
   rules: [
     rule({

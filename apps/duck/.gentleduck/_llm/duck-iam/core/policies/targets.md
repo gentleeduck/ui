@@ -7,7 +7,7 @@ Targets scope a whole policy to specific actions, resources, or roles. A request
 ## Setting targets
 
 ```typescript
-const adminPolicy = policy('admin-only')
+const adminPolicy = definePolicy('admin-only')
   .name('Admin-Only Policy')
   .target({
     roles: ['admin', 'super-admin'],
@@ -45,7 +45,7 @@ For hierarchical matching, see [building policies](/duck-iam/core/policies/build
 ## Combining targets
 
 ```typescript
-const writePolicy = policy('write-restrictions')
+const writePolicy = definePolicy('write-restrictions')
   .name('Write Restrictions')
   .target({
     actions: ['create', 'update', 'delete'],
@@ -82,7 +82,7 @@ When a policy is skipped on target mismatch, the engine uses `defaultEffect` for
 //   - Set engine defaultEffect: 'allow', OR
 //   - Add a separate baseline-allow policy
 
-const restriction = policy('weekend-block')
+const restriction = definePolicy('weekend-block')
   .target({ actions: ['create', 'update', 'delete'] })  // skipped for reads
   .rule('deny-weekends', (r) =>
     r.deny().on('*').of('*').when((w) => w.env('dayOfWeek', 'in', [0, 6])),

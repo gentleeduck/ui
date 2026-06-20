@@ -45,7 +45,7 @@ const editor = access
 
 ```typescript
 const businessHours = access
-  .policy('business-hours')
+  .definePolicy('business-hours')
   .name('Business Hours Only')
   .desc('Deny write operations outside business hours')
   .target({ actions: ['create', 'update', 'delete', 'publish'] })
@@ -71,7 +71,7 @@ Targets the policy to writes only - read requests skip it entirely.
 
 ```typescript
 const contentSafety = access
-  .policy('content-safety')
+  .definePolicy('content-safety')
   .name('Content Safety')
   .algorithm('deny-overrides')
   .rule('owner-delete-only', (r) =>

@@ -28,7 +28,7 @@ are converted into policies internally, so one condition engine handles everythi
 
 - **Role inheritance**: `admin` inherits from `editor`, which inherits from `viewer`. Permissions cascade.
 - **Policies with conditions**: "Allow delete on `post` when `resource.attributes.ownerId` equals `$subject.id`."
-- **Type-safe builders**: `defineRole()`, `policy()`, `when()`, all constrained to your declared actions, resources, and scopes.
+- **Type-safe builders**: `defineRole()`, `definePolicy()`, `when()`, all constrained to your declared actions, resources, and scopes.
 - **Four combining algorithms**: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`.
 - **Multi-tenant scoping**: A user can be `admin` in org-1 and `viewer` in org-2.
 - **Caching**: LRU caches for policies, roles, and resolved subjects with configurable TTL.
@@ -131,7 +131,7 @@ When an authorization request comes in, the engine follows this pipeline:
 
     O --> Q["5. Return AccessControl.IDecision"]
     P --> Q
-    Q --> R["allowed, effect, rule, policy, reason, duration"]`} />
+    Q --> R["allowed, effect, rule, definePolicy, reason, duration"]`} />
 
 1. **Resolve subject**: Load the user's roles, scoped roles, and attributes from the adapter.
 2. **Enrich scoped roles**: If the request has a scope (`org-1`, for example), merge in roles assigned to that scope.

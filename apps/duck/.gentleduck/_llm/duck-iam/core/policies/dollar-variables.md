@@ -86,7 +86,7 @@ const access = defineIam({
   },
 })
 
-access.policy('post-tier').rule('match-tier', (r) =>
+access.definePolicy('post-tier').rule('match-tier', (r) =>
   r
     .allow()
     .on('read')

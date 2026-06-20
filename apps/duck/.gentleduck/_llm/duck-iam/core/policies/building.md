@@ -1,11 +1,11 @@
-## policy()
+## definePolicy()
 
-Build policies with `policy()`:
+Build policies with `definePolicy()`:
 
 ```typescript
-import { policy } from '@gentleduck/iam'
+import { definePolicy } from '@gentleduck/iam'
 
-const weekendDeny = policy('deny-weekends')
+const weekendDeny = definePolicy('deny-weekends')
   .name('Deny on Weekends')
   .desc('Block all write operations on weekends')
   .version(1)
@@ -40,7 +40,7 @@ const weekendDeny = policy('deny-weekends')
 Define rules inline within a policy:
 
 ```typescript
-const myPolicy = policy('content-policy')
+const myPolicy = definePolicy('content-policy')
   .name('Content Policy')
   .algorithm('deny-overrides')
   .rule('allow-read', (r) => r.allow().on('read').of('post', 'comment'))
@@ -86,7 +86,7 @@ const maintenanceDeny = defineRule('maintenance-deny')
   .when((w) => w.env('maintenanceMode', 'eq', true))
   .build()
 
-const myPolicy = policy('my-policy')
+const myPolicy = definePolicy('my-policy')
   .name('My Policy')
   .algorithm('highest-priority')
   .addRule(ownerOnly)

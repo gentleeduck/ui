@@ -20,7 +20,7 @@ type DollarPaths<TContext> = `$${DotPaths<TContext>}`
 
 ```typescript
 access
-  .policy('owner-only')
+  .definePolicy('owner-only')
   .rule('deny-non-owner', (r) =>
     r
       .deny()
