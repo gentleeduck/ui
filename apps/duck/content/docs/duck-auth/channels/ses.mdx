@@ -14,11 +14,11 @@ bun add @aws-sdk/client-ses
 
 ```typescript
 import { SESClient } from '@aws-sdk/client-ses'
-import { SesChannel } from '@gentleduck/auth/channels/ses'
+import { AuthSesChannel } from '@gentleduck/auth/channels/ses'
 
 const client = new SESClient({ region: 'us-east-1' })
 
-const channel = new SesChannel({
+const channel = new AuthSesChannel({
   client,
   from: 'no-reply@example.com',
   id: 'ses',
@@ -87,7 +87,7 @@ app.post('/webhooks/ses', async (req, res) => {
 SES has account-level send rate (msg/s) and daily quotas. Once you
 leave the sandbox, quotas auto-scale based on reputation. duck-auth
 itself does not throttle outbound; if you push above SES limits,
-`SendEmail` returns `Throttling` and `SesChannel` raises
+`SendEmail` returns `Throttling` and `AuthSesChannel` raises
 `AUTH/RATE_LIMITED`.
 
 For backfill / bulk transactional (rare in auth flows), shard sends

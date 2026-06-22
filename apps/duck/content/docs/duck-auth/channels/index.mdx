@@ -28,13 +28,13 @@ Wire channels into providers that need outbound delivery (most notably
 
 ```typescript
 import { magicLink } from '@gentleduck/auth/providers/magic-link'
-import { ResendChannel } from '@gentleduck/auth/channels/resend'
-import { TwilioChannel } from '@gentleduck/auth/channels/twilio'
+import { AuthResendChannel } from '@gentleduck/auth/channels/resend'
+import { AuthTwilioChannel } from '@gentleduck/auth/channels/twilio'
 
 magicLink({
   channels: {
-    email: new ResendChannel({ apiKey: ..., from: 'no-reply@example.com' }),
-    sms: new TwilioChannel({ accountSid, authToken, from }),
+    email: new AuthResendChannel({ apiKey: ..., from: 'no-reply@example.com' }),
+    sms: new AuthTwilioChannel({ accountSid, authToken, from }),
   },
   // ...
 })
@@ -44,14 +44,14 @@ magicLink({
 
 | Channel | Import | Kind |
 | --- | --- | --- |
-| [`ConsoleChannel`](/duck-auth/channels/console) | `@gentleduck/auth/channels/console` | email / sms / webpush - dev |
-| [`SmtpChannel`](/duck-auth/channels/smtp) | `@gentleduck/auth/channels/smtp` | email - any nodemailer-compatible SMTP relay |
-| [`ResendChannel`](/duck-auth/channels/resend) | `@gentleduck/auth/channels/resend` | email - Resend transactional API |
-| [`SesChannel`](/duck-auth/channels/ses) | `@gentleduck/auth/channels/ses` | email - AWS SES |
-| [`TwilioChannel`](/duck-auth/channels/twilio) | `@gentleduck/auth/channels/twilio` | sms - Twilio Programmable Messaging |
-| [`WebPushChannel`](/duck-auth/channels/webpush) | `@gentleduck/auth/channels/webpush` | webpush - Web Push protocol with VAPID |
-| `TestChannel` | `@gentleduck/auth/channels/console` | captures sends into an outbox array - for tests |
-| `NoopChannel` | `@gentleduck/auth/channels/console` | discards sends, always returns ok - for benchmarks |
+| [`AuthConsoleChannel`](/duck-auth/channels/console) | `@gentleduck/auth/channels/console` | email / sms / webpush - dev |
+| [`AuthSmtpChannel`](/duck-auth/channels/smtp) | `@gentleduck/auth/channels/smtp` | email - any nodemailer-compatible SMTP relay |
+| [`AuthResendChannel`](/duck-auth/channels/resend) | `@gentleduck/auth/channels/resend` | email - Resend transactional API |
+| [`AuthSesChannel`](/duck-auth/channels/ses) | `@gentleduck/auth/channels/ses` | email - AWS SES |
+| [`AuthTwilioChannel`](/duck-auth/channels/twilio) | `@gentleduck/auth/channels/twilio` | sms - Twilio Programmable Messaging |
+| [`AuthWebPushChannel`](/duck-auth/channels/webpush) | `@gentleduck/auth/channels/webpush` | webpush - Web Push protocol with VAPID |
+| `AuthTestChannel` | `@gentleduck/auth/channels/console` | captures sends into an outbox array - for tests |
+| `AuthNoopChannel` | `@gentleduck/auth/channels/console` | discards sends, always returns ok - for benchmarks |
 
 ## Templating
 
@@ -94,9 +94,9 @@ enough; for full control, implement your own.
 ```typescript
 magicLink({
   channels: {
-    email: new ResendChannel({ ... }),
-    sms: new TwilioChannel({ ... }),
-    webpush: new WebPushChannel({ ... }),
+    email: new AuthResendChannel({ ... }),
+    sms: new AuthTwilioChannel({ ... }),
+    webpush: new AuthWebPushChannel({ ... }),
   },
 })
 

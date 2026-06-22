@@ -37,20 +37,20 @@ psql $DATABASE_URL < drizzle/0001_auth.sql
 ```typescript title="src/lib/auth.ts"
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import { Argon2idHasher, AuthEngine } from '@gentleduck/auth/core'
+import { AuthArgon2idHasher, AuthEngine } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
 import { createDrizzlePgBridge } from '@gentleduck/auth/adapters/drizzle/pg'
-import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { authCreateSqlStores } from '@gentleduck/auth/adapters/sql'
 import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
 import { magicLink } from '@gentleduck/auth/providers/magic-link'
 import { password } from '@gentleduck/auth/providers/password'
-import { ResendChannel } from '@gentleduck/auth/channels/resend'
+import { AuthResendChannel } from '@gentleduck/auth/channels/resend'
 import { schema } from './db/schema'
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 const db = drizzle(pool)
 const bridge = createDrizzlePgBridge(db, schema)
-const sql = createSqlAuthStores({ bridge })
+const sql = authCreateSqlStores({ bridge })
 
 export const auth = new AuthEngine({
   baseUrl: 'http://localhost:3000',
@@ -61,7 +61,7 @@ export const auth = new AuthEngine({
     sessions: sql.sessions,
   },
   limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
-  passwords: { hasher: new Argon2idHasher() },
+  passwords: { hasher: new AuthArgon2idHasher() },
 })
 
 auth.providers.use(
@@ -74,7 +74,7 @@ auth.providers.use(
 auth.providers.use(
   magicLink({
     channels: {
-      email: new ResendChannel({
+      email: new AuthResendChannel({
         apiKey: process.env.RESEND_API_KEY!,
         from: 'no-reply@example.com',
       }),
@@ -95,21 +95,21 @@ auth.strict({ env: process.env.NODE_ENV === 'production' ? 'production' : 'devel
 import express from 'express'
 import { AuthError } from '@gentleduck/auth/core'
 import {
-  mountProviderBegin,
-  mountSession,
-  mountSignIn,
-  mountSignOut,
+  authMountProviderBegin,
+  authMountSession,
+  authMountSignIn,
+  authMountSignOut,
 } from '@gentleduck/auth/server/express'
 import { auth } from './lib/auth'
 
 const app = express()
 app.use(express.json())
 
-app.post('/auth/signin', mountSignIn(auth))
-app.post('/auth/signout', mountSignOut(auth))
-app.get('/auth/session', mountSession(auth))
+app.post('/auth/signin', authMountSignIn(auth))
+app.post('/auth/signout', authMountSignOut(auth))
+app.get('/auth/session', authMountSession(auth))
 app.post('/auth/providers/:providerId/begin', (req, res, next) =>
-  mountProviderBegin(auth, req.params.providerId)(req, res, next),
+  authMountProviderBegin(auth, req.params.providerId)(req, res, next),
 )
 
 app.get('/api/me', async (req, res, next) => {
@@ -136,7 +136,7 @@ app.listen(3000)
 <Step>Drop in the React client</Step>
 
 ```tsx title="src/App.tsx"
-import { AuthProvider, useSession, useSignIn, useSignOut } from '@gentleduck/auth/client/react'
+import { AuthProvider, authUseSession, authUseSignIn, authUseSignOut } from '@gentleduck/auth/client/react'
 
 export function App() {
   return (
@@ -147,9 +147,9 @@ export function App() {
 }
 
 function Page() {
-  const { data, status } = useSession()
-  const signIn = useSignIn()
-  const signOut = useSignOut()
+  const { data, status } = authUseSession()
+  const signIn = authUseSignIn()
+  const signOut = authUseSignOut()
 
   if (status === 'loading') return <p>Loading...</p>
 
@@ -188,8 +188,8 @@ function Page() {
 - Argon2id hashing.
 - Password + magic-link sign-in.
 - Cookie-based session, HttpOnly, SameSite=Lax.
-- React client with `useSession` / `useSignIn` / `useSignOut`.
-- CSRF guard available via `csrfGuard` (wire it on mutating routes).
+- React client with `authUseSession` / `authUseSignIn` / `authUseSignOut`.
+- CSRF guard available via `authCsrfGuard` (wire it on mutating routes).
 
 ## What's next
 

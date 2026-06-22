@@ -25,9 +25,9 @@ Every OAuth provider takes the same shape (with provider-specific defaults
 already applied):
 
 ```typescript
-import { google } from '@gentleduck/auth/providers/oauth/google'
+import { authGoogle } from '@gentleduck/auth/providers/oauth/google'
 
-google({
+authGoogle({
   clientId: process.env.GOOGLE_CLIENT_ID!,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
   redirectUri: 'https://app.example.com/auth/google/callback',

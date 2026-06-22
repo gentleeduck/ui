@@ -198,14 +198,14 @@ See [Compliance presets ->](/duck-auth/core/compliance).
 ### `dataAtRest`
 
 Field-level encryption for sensitive credentials and profile data.
-duck-auth ships `AesGcmDataAtRest` (local key) and
-`KmsEnvelopeDataAtRest` (AWS KMS or your own KMS).
+duck-auth ships `AuthAesGcmDataAtRest` (local key) and
+`AuthKmsEnvelopeDataAtRest` (AWS KMS or your own KMS).
 
 ### `strict()`
 
 The boot-time validator. Called as `auth.strict({ env: 'production' })`,
 it rejects insecure configuration (`IamMemoryAdapter` in production,
-`NoopLimiter`, `secure: false` cookies, etc.) before the first
+`AuthNoopLimiter`, `secure: false` cookies, etc.) before the first
 request.
 
 See [Production hardening ->](/duck-auth/advanced/security).

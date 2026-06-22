@@ -1,5 +1,5 @@
 ---
-title: ResendChannel
+title: AuthResendChannel
 description: Resend.com transactional email channel.
 section: Channels
 ---
@@ -13,9 +13,9 @@ bun add resend
 ## Setup
 
 ```typescript
-import { ResendChannel } from '@gentleduck/auth/channels/resend'
+import { AuthResendChannel } from '@gentleduck/auth/channels/resend'
 
-const channel = new ResendChannel({
+const channel = new AuthResendChannel({
   apiKey: process.env.RESEND_API_KEY!,
   from: 'no-reply@example.com',
   id: 'resend',
@@ -38,11 +38,11 @@ auth.providers.use(
 
 ## Templating
 
-For branded emails, subclass `ResendChannel` and override
+For branded emails, subclass `AuthResendChannel` and override
 `renderMessage()` to produce the HTML / text body:
 
 ```typescript
-class BrandedResendChannel extends ResendChannel {
+class BrandedResendChannel extends AuthResendChannel {
   async renderMessage({ templateId, vars }) {
     switch (templateId) {
       case 'magic-link':

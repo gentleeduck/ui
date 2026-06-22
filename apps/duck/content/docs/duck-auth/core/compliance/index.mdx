@@ -38,12 +38,12 @@ for (const event of SENSITIVE) {
 ## Encryption at rest
 
 Profile data (`AuthIdentity.IIdentity.profile`) is the most-likely place to
-store PII. Wrap the identities store with `AesGcmDataAtRest`:
+store PII. Wrap the identities store with `AuthAesGcmDataAtRest`:
 
 ```typescript
-import { AesGcmDataAtRest } from '@gentleduck/auth/core/dataAtRest'
+import { AuthAesGcmDataAtRest } from '@gentleduck/auth/core/dataAtRest'
 
-const wrapped = AesGcmDataAtRest.wrapIdentitiesStore(
+const wrapped = AuthAesGcmDataAtRest.wrapIdentitiesStore(
   adapter.identities,
   { keyset: process.env.PII_KEYSET },
 )

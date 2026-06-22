@@ -27,9 +27,9 @@ automatically.
 ## Building the discovery document
 
 ```typescript
-import { buildOidcDiscovery } from '@gentleduck/auth/oidc'
+import { authBuildOidcDiscovery } from '@gentleduck/auth/oidc'
 
-const discovery = buildOidcDiscovery({
+const discovery = authBuildOidcDiscovery({
   issuer: 'https://api.example.com',
   prefix: '/auth',                 // default
   jwksPath: '/.well-known/jwks.json',  // default
@@ -124,7 +124,7 @@ The minimal OIDC issuer:
 
 ```typescript
 import { JwtTransport } from '@gentleduck/auth/core/transport'
-import { buildJwksHandler, buildOidcDiscovery } from '@gentleduck/auth/oidc'
+import { buildJwksHandler, authBuildOidcDiscovery } from '@gentleduck/auth/oidc'
 
 const transport = new JwtTransport({
   signKey: { kid: 'k1', key: signKey },
@@ -133,7 +133,7 @@ const transport = new JwtTransport({
   ttlMs: 15 * 60 * 1000,
 })
 
-const discovery = buildOidcDiscovery({
+const discovery = authBuildOidcDiscovery({
   issuer: 'https://api.example.com',
   signingAlgs: ['ES256'],
 })

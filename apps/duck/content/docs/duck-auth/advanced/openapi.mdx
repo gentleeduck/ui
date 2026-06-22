@@ -1,6 +1,6 @@
 ---
 title: OpenAPI generator
-description: buildOpenApiSpec + renderOpenApiYaml - emit an OpenAPI 3.1 spec for the mounted auth routes.
+description: authBuildOpenApiSpec + authRenderOpenApiYaml - emit an OpenAPI 3.1 spec for the mounted auth routes.
 section: Advanced
 ---
 
@@ -28,7 +28,7 @@ The simplest path:
 bunx @gentleduck/auth emit-openapi --out openapi.yaml
 ```
 
-The CLI loads your `auth.ts`, calls `buildOpenApiSpec`, and writes the
+The CLI loads your `auth.ts`, calls `authBuildOpenApiSpec`, and writes the
 result to disk.
 
 Flags:
@@ -41,10 +41,10 @@ Flags:
 ## Generate programmatically
 
 ```typescript
-import { buildOpenApiSpec, renderOpenApiYaml } from '@gentleduck/auth/openapi'
+import { authBuildOpenApiSpec, authRenderOpenApiYaml } from '@gentleduck/auth/openapi'
 import { auth } from './lib/auth'
 
-const spec = buildOpenApiSpec({
+const spec = authBuildOpenApiSpec({
   baseUrl: 'https://api.example.com',
   title: 'Example Auth',
   version: '1.0.0',
@@ -52,7 +52,7 @@ const spec = buildOpenApiSpec({
   providers: ['password', 'magic-link', 'google', 'github', 'passkey'],
 })
 
-console.log(renderOpenApiYaml(spec))
+console.log(authRenderOpenApiYaml(spec))
 ```
 
 Or write to disk:
@@ -60,7 +60,7 @@ Or write to disk:
 ```typescript
 import { writeFile } from 'node:fs/promises'
 
-const yaml = renderOpenApiYaml(spec)
+const yaml = authRenderOpenApiYaml(spec)
 await writeFile('openapi.yaml', yaml, 'utf-8')
 ```
 
@@ -120,10 +120,10 @@ For richer codegen (operations as fetch wrappers), try
 
 ## Customising the spec
 
-Override or add fields after `buildOpenApiSpec`:
+Override or add fields after `authBuildOpenApiSpec`:
 
 ```typescript
-const spec = buildOpenApiSpec({ baseUrl: '...', title: 'My API' })
+const spec = authBuildOpenApiSpec({ baseUrl: '...', title: 'My API' })
 
 spec.info.contact = { name: 'API team', email: 'api@example.com' }
 spec.info.license = { name: 'MIT', url: 'https://opensource.org/license/mit' }

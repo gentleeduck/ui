@@ -14,12 +14,12 @@ section: Providers
 4. Copy the client ID and client secret.
 
 ```typescript
-import { github } from '@gentleduck/auth/providers/oauth/github'
+import { authGithub } from '@gentleduck/auth/providers/oauth/github'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    github({
+    authGithub({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
       redirectUri: 'https://app.example.com/auth/github/callback',
@@ -64,10 +64,10 @@ Same shape as every other OAuth provider:
 
 ```typescript
 // Express
-app.get('/auth/github/callback', mountSignIn(auth))
+app.get('/auth/github/callback', authMountSignIn(auth))
 
 // Next.js - app/auth/github/callback/route.ts
-export const GET = nextSignIn(auth)
+export const GET = authNextSignIn(auth)
 ```
 
 ## What the profile contains

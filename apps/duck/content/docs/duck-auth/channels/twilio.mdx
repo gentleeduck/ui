@@ -1,5 +1,5 @@
 ---
-title: TwilioChannel
+title: AuthTwilioChannel
 description: Twilio Programmable Messaging for SMS magic-link and MFA codes.
 section: Channels
 ---
@@ -13,9 +13,9 @@ bun add twilio
 ## Setup
 
 ```typescript
-import { TwilioChannel } from '@gentleduck/auth/channels/twilio'
+import { AuthTwilioChannel } from '@gentleduck/auth/channels/twilio'
 
-const channel = new TwilioChannel({
+const channel = new AuthTwilioChannel({
   accountSid: process.env.TWILIO_ACCOUNT_SID!,
   authToken: process.env.TWILIO_AUTH_TOKEN!,
   from: '+15005550006',   // your purchased Twilio phone number
@@ -63,7 +63,7 @@ Expires in 10 minutes.
 Customise by subclassing:
 
 ```typescript
-class BrandedTwilio extends TwilioChannel {
+class BrandedTwilio extends AuthTwilioChannel {
   async renderMessage({ templateId, vars }) {
     return {
       to: vars.phone,   // resolve from identity.profile.phone
@@ -89,7 +89,7 @@ maximise deliverability:
 For 6-digit MFA codes (TOTP / phone verification):
 
 ```typescript
-class MfaTwilio extends TwilioChannel {
+class MfaTwilio extends AuthTwilioChannel {
   async renderMessage({ templateId, vars }) {
     if (templateId === 'mfa-code') {
       return {

@@ -1,6 +1,6 @@
 ---
 title: Vue client
-description: Vue 3 composables - useSession, useSignIn, useSignOut. Reactive across components and across browser tabs.
+description: Vue 3 composables - authUseSession, authUseSignIn, authUseSignOut. Reactive across components and across browser tabs.
 section: Client
 ---
 
@@ -18,13 +18,13 @@ const auth = createAuth({
 createApp(App).use(auth).mount('#app')
 ```
 
-## `useSession`
+## `authUseSession`
 
 ```vue
 <script setup lang="ts">
-import { useSession } from '@gentleduck/auth/client/vue'
+import { authUseSession } from '@gentleduck/auth/client/vue'
 
-const { data, status } = useSession()
+const { data, status } = authUseSession()
 </script>
 
 <template>
@@ -39,18 +39,18 @@ const { data, status } = useSession()
 </template>
 ```
 
-`useSession()` returns a `Ref` (under the hood, it's a composable
+`authUseSession()` returns a `Ref` (under the hood, it's a composable
 backed by `ref()` + the vanilla client's `onChange` subscription).
 Use it in `<template>` directly.
 
-## `useSignIn` / `useSignOut`
+## `authUseSignIn` / `authUseSignOut`
 
 ```vue
 <script setup lang="ts">
-import { useSignIn, useSignOut } from '@gentleduck/auth/client/vue'
+import { authUseSignIn, authUseSignOut } from '@gentleduck/auth/client/vue'
 
-const signIn = useSignIn()
-const signOut = useSignOut()
+const signIn = authUseSignIn()
+const signOut = authUseSignOut()
 
 const email = ref('')
 const password = ref('')
@@ -115,7 +115,7 @@ createAuth({
 
 ```vue
 <script setup>
-const signIn = useSignIn()
+const signIn = authUseSignIn()
 </script>
 
 <template>

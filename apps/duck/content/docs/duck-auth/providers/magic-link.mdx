@@ -8,14 +8,14 @@ section: Providers
 
 ```typescript
 import { magicLink } from '@gentleduck/auth/providers/magic-link'
-import { ResendChannel } from '@gentleduck/auth/channels/resend'
+import { AuthResendChannel } from '@gentleduck/auth/channels/resend'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
     magicLink({
       channels: {
-        email: new ResendChannel({
+        email: new AuthResendChannel({
           apiKey: process.env.RESEND_API_KEY!,
           from: 'no-reply@example.com',
         }),
@@ -68,9 +68,9 @@ Pass `email`, `sms`, and `webpush` channels; the client picks one:
 ```typescript
 magicLink({
   channels: {
-    email: new ResendChannel({ ... }),
-    sms: new TwilioChannel({ ... }),
-    webpush: new WebPushChannel({ ... }),
+    email: new AuthResendChannel({ ... }),
+    sms: new AuthTwilioChannel({ ... }),
+    webpush: new AuthWebPushChannel({ ... }),
   },
   // ...
 })

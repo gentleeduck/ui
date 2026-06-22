@@ -43,9 +43,9 @@ Every shipped adapter passes the same compliance test matrix exported from:
 
 ```typescript
 import {
-  runCredentialStoreCompliance,
-  runIdentityStoreCompliance,
-  runSessionStoreCompliance,
+  authRunCredentialStoreCompliance,
+  authRunIdentityStoreCompliance,
+  authRunSessionStoreCompliance,
 } from '@gentleduck/auth/adapters/__compliance__'
 ```
 
@@ -87,9 +87,9 @@ A custom adapter is any object that implements the three (or four) store
 interfaces. The most ergonomic path is the **SQL bridge**:
 
 ```typescript
-import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { authCreateSqlStores } from '@gentleduck/auth/adapters/sql'
 
-const stores = createSqlAuthStores({
+const stores = authCreateSqlStores({
   bridge: myDrizzleBridge,    // your SqlBridge.IBridge implementation
 })
 

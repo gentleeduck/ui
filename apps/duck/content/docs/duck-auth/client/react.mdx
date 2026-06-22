@@ -1,6 +1,6 @@
 ---
 title: React client
-description: <AuthProvider>, useSession, useSignIn, useSignOut, useBeginProvider. React 16.8+.
+description: <AuthProvider>, authUseSession, authUseSignIn, authUseSignOut, authUseBeginProvider. React 16.8+.
 section: Client
 ---
 
@@ -28,13 +28,13 @@ Props:
 | `initialState` | Hydrate from a server-rendered snapshot. Pair with `noInitialFetch: true`. |
 | `fetch` | Override the fetch implementation. |
 
-## `useSession`
+## `authUseSession`
 
 ```tsx
-import { useSession } from '@gentleduck/auth/client/react'
+import { authUseSession } from '@gentleduck/auth/client/react'
 
 function Header() {
-  const { data, status } = useSession()
+  const { data, status } = authUseSession()
 
   if (status === 'loading') return <Skeleton />
   if (status === 'guest') return <SignInButton />
@@ -59,17 +59,17 @@ Generic over `Profile`:
 ```tsx
 type Profile = { displayName: string; avatarUrl?: string }
 
-const { data, status } = useSession<Profile>()
+const { data, status } = authUseSession<Profile>()
 // data?.identity.profile.displayName  <- typed
 ```
 
-## `useSignIn`
+## `authUseSignIn`
 
 ```tsx
-import { useSignIn } from '@gentleduck/auth/client/react'
+import { authUseSignIn } from '@gentleduck/auth/client/react'
 
 function SignInForm() {
-  const signIn = useSignIn()
+  const signIn = authUseSignIn()
 
   return (
     <form
@@ -110,13 +110,13 @@ API:
 | `data` | The `{ session, identity }` from the last success. |
 | `reset()` | Clear `error` and `data`. |
 
-## `useSignOut`
+## `authUseSignOut`
 
 ```tsx
-import { useSignOut } from '@gentleduck/auth/client/react'
+import { authUseSignOut } from '@gentleduck/auth/client/react'
 
 function SignOutButton() {
-  const signOut = useSignOut()
+  const signOut = authUseSignOut()
   return (
     <button onClick={() => signOut.mutate()} disabled={signOut.isLoading}>
       Sign out
@@ -125,13 +125,13 @@ function SignOutButton() {
 }
 ```
 
-## `useBeginProvider`
+## `authUseBeginProvider`
 
 ```tsx
-import { useBeginProvider } from '@gentleduck/auth/client/react'
+import { authUseBeginProvider } from '@gentleduck/auth/client/react'
 
 function GoogleSignIn() {
-  const begin = useBeginProvider()
+  const begin = authUseBeginProvider()
   return (
     <button onClick={() => begin.mutate({ providerId: 'google', input: {} })}>
       Sign in with Google
@@ -140,7 +140,7 @@ function GoogleSignIn() {
 }
 
 function MagicLinkRequest() {
-  const begin = useBeginProvider()
+  const begin = authUseBeginProvider()
   return (
     <form
       onSubmit={async (e) => {
@@ -205,10 +205,10 @@ Now the first paint is already authenticated - no flash of guest UI.
 ## Storybook decorator
 
 ```tsx
-import { withAuth } from '@gentleduck/auth/client/react/storybook'
+import { authWithStorybook } from '@gentleduck/auth/client/react/storybook'
 
 export const MyStory = {
-  decorators: [withAuth({ baseUrl: '/auth' })],
+  decorators: [authWithStorybook({ baseUrl: '/auth' })],
   render: () => <SignInButton />,
 }
 ```
@@ -218,7 +218,7 @@ client, so your auth-aware components render without a real server.
 
 ## Errors
 
-The `error` field on `useSignIn` / `useSignOut` / `useBeginProvider` is
+The `error` field on `authUseSignIn` / `authUseSignOut` / `authUseBeginProvider` is
 a typed `AuthError`. Branch on `error.code`:
 
 ```tsx

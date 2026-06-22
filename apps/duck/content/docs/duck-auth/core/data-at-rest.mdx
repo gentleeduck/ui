@@ -10,7 +10,7 @@ land in the database in plaintext. Both are wire-compatible: the same
 record can be re-encrypted under a different adapter without a
 migration as long as the ciphertext format markers stay distinct.
 
-## `AesGcmDataAtRest`
+## `AuthAesGcmDataAtRest`
 
 Local-key AES-256-GCM with deterministic per-record DEK derivation
 (`DEK = sha256(masterKey || identityId || field)`). Every encrypt
@@ -18,9 +18,9 @@ samples a fresh 12-byte IV, so the GCM birthday bound is ~2^48
 encryptions per (identity, field) pair.
 
 ```typescript
-import { AesGcmDataAtRest } from '@gentleduck/auth/core/dataAtRest'
+import { AuthAesGcmDataAtRest } from '@gentleduck/auth/core/dataAtRest'
 
-const dataAtRest = new AesGcmDataAtRest({
+const dataAtRest = new AuthAesGcmDataAtRest({
   kid: 'k1',
   masterKey: Buffer.from(process.env.DUCK_AUTH_MASTER_KEY_K1!, 'base64'),
   previousKeys: [
@@ -39,7 +39,7 @@ Each `encrypt()` rejects plaintexts longer than 1 MiB to prevent a
 hostile caller driving multi-GB encrypt cycles + base64 expansion via
 this surface.
 
-## `KmsEnvelopeDataAtRest`
+## `AuthKmsEnvelopeDataAtRest`
 
 Envelope encryption against any `Kms.IProvider`. A fresh per-record
 DEK is requested from the KMS, the plaintext is encrypted locally
@@ -48,11 +48,11 @@ stored together. `decrypt` unwraps the DEK via the KMS and runs the
 AES-GCM inverse locally.
 
 ```typescript
-import { KmsEnvelopeDataAtRest } from '@gentleduck/auth/core/dataAtRest'
-import { AwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
+import { AuthKmsEnvelopeDataAtRest } from '@gentleduck/auth/core/dataAtRest'
+import { AuthAwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
 
-const dataAtRest = new KmsEnvelopeDataAtRest({
-  kms: new AwsKmsProvider({
+const dataAtRest = new AuthKmsEnvelopeDataAtRest({
+  kms: new AuthAwsKmsProvider({
     keyId: 'alias/duck-auth-data-at-rest',
     client: new KmsClient({ region: 'us-east-1' }),
   }),
@@ -75,7 +75,7 @@ field}`, so the KMS itself enforces that a wrapped DEK can only be
 unwrapped for the same record it was generated for. This is the **AAD
 pin** that protects against ciphertext relocation attacks across rows.
 
-## `AwsKmsProvider`
+## `AuthAwsKmsProvider`
 
 Reference `Kms.IProvider` for AWS KMS. Lazy-loads `@aws-sdk/client-kms`
 so the AWS SDK stays an OPTIONAL peerDep - the rest of duck-auth never
@@ -83,9 +83,9 @@ pulls it in.
 
 ```typescript
 import { KmsClient } from '@aws-sdk/client-kms'
-import { AwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
+import { AuthAwsKmsProvider } from '@gentleduck/auth/core/dataAtRest'
 
-const provider = new AwsKmsProvider({
+const provider = new AuthAwsKmsProvider({
   keyId: 'alias/duck-auth-data-at-rest',
   client: new KmsClient({ region: 'us-east-1' }),
 })
@@ -111,7 +111,7 @@ class GcpKmsProvider implements Kms.IProvider {
 }
 ```
 
-Wrap it in `KmsEnvelopeDataAtRest` and ship. The same recipe works for
+Wrap it in `AuthKmsEnvelopeDataAtRest` and ship. The same recipe works for
 Vault Transit, Azure Key Vault, or in-house HSMs.
 
 ## Compliance presets

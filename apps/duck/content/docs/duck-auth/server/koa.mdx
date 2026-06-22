@@ -11,10 +11,10 @@ import Koa from 'koa'
 import Router from '@koa/router'
 import bodyParser from 'koa-bodyparser'
 import {
-  koaProviderBegin,
-  koaSession,
-  koaSignIn,
-  koaSignOut,
+  authKoaProviderBegin,
+  authKoaSession,
+  authKoaSignIn,
+  authKoaSignOut,
 } from '@gentleduck/auth/server/koa'
 import { auth } from './lib/auth'
 
@@ -23,14 +23,14 @@ const router = new Router()
 
 app.use(bodyParser())
 
-router.post('/auth/signin', koaSignIn(auth))
-router.post('/auth/signout', koaSignOut(auth))
-router.get('/auth/session', koaSession(auth))
+router.post('/auth/signin', authKoaSignIn(auth))
+router.post('/auth/signout', authKoaSignOut(auth))
+router.get('/auth/session', authKoaSession(auth))
 router.post('/auth/providers/:providerId/begin', (ctx) =>
-  koaProviderBegin(auth, ctx.params.providerId)(ctx),
+  authKoaProviderBegin(auth, ctx.params.providerId)(ctx),
 )
 // OAuth callbacks reuse the sign-in handler.
-router.get('/auth/google/callback', koaSignIn(auth))
+router.get('/auth/google/callback', authKoaSignIn(auth))
 
 app.use(router.routes())
 app.use(router.allowedMethods())

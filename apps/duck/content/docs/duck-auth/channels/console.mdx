@@ -1,6 +1,6 @@
 ---
-title: ConsoleChannel
-description: Logs messages to stdout for development. Plus TestChannel (captures into an outbox) and NoopChannel (discards).
+title: AuthConsoleChannel
+description: Logs messages to stdout for development. Plus AuthTestChannel (captures into an outbox) and AuthNoopChannel (discards).
 section: Channels
 ---
 
@@ -8,18 +8,18 @@ section: Channels
 
 - **Development**: see magic-link URLs and password-reset codes printed
   directly in your terminal, without setting up SMTP.
-- **Tests**: `TestChannel` captures every send into an array for assertion.
-- **Benchmarks**: `NoopChannel` discards sends, so you measure
+- **Tests**: `AuthTestChannel` captures every send into an array for assertion.
+- **Benchmarks**: `AuthNoopChannel` discards sends, so you measure
   AuthEngine throughput without an outbound bottleneck.
 
-`ConsoleChannel` is never appropriate for production.
+`AuthConsoleChannel` is never appropriate for production.
 
-## ConsoleChannel
+## AuthConsoleChannel
 
 ```typescript
-import { ConsoleChannel } from '@gentleduck/auth/channels/console'
+import { AuthConsoleChannel } from '@gentleduck/auth/channels/console'
 
-const channel = new ConsoleChannel({
+const channel = new AuthConsoleChannel({
   kind: 'email',                       // | 'sms' | 'webpush'
   id: 'console',                       // shown in audit events
   sink: (line) => console.log(line),   // optional override
@@ -36,12 +36,12 @@ prints a JSON line:
 The `sink` override is useful in tests if you want to capture lines
 into a buffer instead of stdout.
 
-## TestChannel
+## AuthTestChannel
 
 ```typescript
-import { TestChannel } from '@gentleduck/auth/channels/console'
+import { AuthTestChannel } from '@gentleduck/auth/channels/console'
 
-const channel = new TestChannel({ kind: 'email' })
+const channel = new AuthTestChannel({ kind: 'email' })
 
 // ... run the test, trigger a provider send ...
 
@@ -56,12 +56,12 @@ channel.outbox = []  // clear between assertions
 
 The outbox is a public array; treat it as inspectable test state.
 
-## NoopChannel
+## AuthNoopChannel
 
 ```typescript
-import { NoopChannel } from '@gentleduck/auth/channels/console'
+import { AuthNoopChannel } from '@gentleduck/auth/channels/console'
 
-const channel = new NoopChannel({ kind: 'email' })
+const channel = new AuthNoopChannel({ kind: 'email' })
 ```
 
 Returns `{ ok: true, providerMessageId: 'noop:<incrementing>' }`

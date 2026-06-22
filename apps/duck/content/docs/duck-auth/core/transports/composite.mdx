@@ -99,8 +99,8 @@ from the web app - same handler, same `auth.resolveSession()` call.
 
 ## Caveat: CSRF only on cookie path
 
-`csrfGuard()` only runs CSRF checks if the resolved session came in via
+`authCsrfGuard()` only runs CSRF checks if the resolved session came in via
 a cookie. Bearer/JWT routes are exempt (no cookies, no CSRF) - but the
-mixed router still needs to call `csrfGuard()` defensively. The guard
+mixed router still needs to call `authCsrfGuard()` defensively. The guard
 reads the transport hint and silently passes through for non-cookie
 sessions.

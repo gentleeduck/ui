@@ -121,7 +121,7 @@ throw new AuthError('AUTH/INVALID_CREDENTIALS', {
 
 | Code | Status | Meaning |
 | --- | --- | --- |
-| `AUTH/MISCONFIGURED` | 500 | Raised by `AuthEngine.strict()` when a production gate fails (NoopLimiter, IamMemoryAdapter, etc.). |
+| `AUTH/MISCONFIGURED` | 500 | Raised by `AuthEngine.strict()` when a production gate fails (AuthNoopLimiter, IamMemoryAdapter, etc.). |
 
 ## Wire-safe serialisation
 

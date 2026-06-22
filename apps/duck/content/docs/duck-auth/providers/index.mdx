@@ -26,13 +26,13 @@ You register providers on `AuthEngine`:
 
 ```typescript
 import { password } from '@gentleduck/auth/providers/password'
-import { google } from '@gentleduck/auth/providers/oauth/google'
+import { authGoogle } from '@gentleduck/auth/providers/oauth/google'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
     password({ ... }),
-    google({ ... }),
+    authGoogle({ ... }),
   ],
 })
 
@@ -97,7 +97,7 @@ For OAuth, SAML, and other federated providers, `onSignIn` is the
 extension point that lets you provision identities just-in-time:
 
 ```typescript
-google({
+authGoogle({
   // ...
   onSignIn: async ({ profile, tenantId }) => {
     let identity = await auth.identities.findByProviderSub({
@@ -129,7 +129,7 @@ session and emits the intents.
 your typed `Profile` generic:
 
 ```typescript
-google({
+authGoogle({
   // ...
   profileToIdentityProfile: (profile) => ({
     displayName: profile.name,

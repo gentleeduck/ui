@@ -14,7 +14,7 @@ defence-in-depth bit out of the box:
 - `HttpOnly` (JavaScript cannot read or modify the cookie).
 - `SameSite=Lax` (no cross-site POST gives the cookie up).
 - Constant-time session lookup with a hashed-at-rest session id.
-- Double-submit CSRF defence wired through `csrfGuard`.
+- Double-submit CSRF defence wired through `authCsrfGuard`.
 
 ## Constructor
 
@@ -52,16 +52,16 @@ id - even a database leak does not yield usable session tokens.
 ## CSRF defence
 
 Cookies ride along on cross-site POST/PUT/DELETE, so every state-mutating
-endpoint must call `csrfGuard`:
+endpoint must call `authCsrfGuard`:
 
 ```typescript
-import { csrfGuard, issueCsrfToken } from '@gentleduck/auth/core'
+import { authCsrfGuard, authIssueCsrfToken } from '@gentleduck/auth/core'
 
 // Issue: on session start, set a non-HttpOnly companion cookie.
 const intents = await auth.flows.signIn({ providerId: 'password', input })
 intents.push({ kind: 'setCookie', cookie: {
   name: '__Host-duck-csrf',
-  value: issueCsrfToken(),
+  value: authIssueCsrfToken(),
   path: '/',
   secure: true,
   sameSite: 'lax',
@@ -69,12 +69,12 @@ intents.push({ kind: 'setCookie', cookie: {
 }})
 
 // Verify: on every state-mutating request.
-await csrfGuard(auth, req)  // throws AUTH/CSRF on mismatch
+await authCsrfGuard(auth, req)  // throws AUTH/CSRF on mismatch
 ```
 
 The CSRF token is double-submit: the client reads `__Host-duck-csrf`
 from the cookie and echoes it back as `X-CSRF-Token` on every mutating
-request. `csrfGuard` constant-time-compares them.
+request. `authCsrfGuard` constant-time-compares them.
 
 GET/HEAD/OPTIONS are exempt, as are Bearer/JWT routes (no cookies, no
 CSRF).
@@ -82,9 +82,9 @@ CSRF).
 ## Sign-out
 
 ```typescript
-import { mountSignOut } from '@gentleduck/auth/server/express'
+import { authMountSignOut } from '@gentleduck/auth/server/express'
 
-app.post('/auth/signout', mountSignOut(auth))
+app.post('/auth/signout', authMountSignOut(auth))
 ```
 
 The transport emits a `Set-Cookie` with `Max-Age=0` to clear the cookie

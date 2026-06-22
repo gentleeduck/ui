@@ -18,13 +18,13 @@ section: Providers
    and your team id.
 
 ```typescript
-import { apple } from '@gentleduck/auth/providers/oauth/apple'
+import { authApple } from '@gentleduck/auth/providers/oauth/apple'
 import { readFileSync } from 'node:fs'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    apple({
+    authApple({
       clientId: 'com.example.app',                            // Services ID
       teamId: process.env.APPLE_TEAM_ID!,                     // 10-character team id
       keyId: process.env.APPLE_KEY_ID!,                       // 10-character key id
@@ -76,11 +76,11 @@ export const auth = new AuthEngine({
 
 ```typescript
 // Express
-app.post('/auth/apple/callback', mountSignIn(auth))
+app.post('/auth/apple/callback', authMountSignIn(auth))
 
 // Next.js
 // app/auth/apple/callback/route.ts
-export const POST = nextSignIn(auth)
+export const POST = authNextSignIn(auth)
 ```
 
 ## Required: ASCII Apple JS button

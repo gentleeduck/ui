@@ -89,15 +89,15 @@ The SOC2 and HIPAA compliance presets configure OTel with the audit-log
 sink wired in. You get:
 
 - Every event emitted to OTel.
-- Every event also delivered via `WebhookDeliverer` to a signed audit
+- Every event also delivered via `AuthWebhookDeliverer` to a signed audit
   log endpoint.
 - PII redaction enforced at every layer.
 
 ```typescript
-import { soc2 } from '@gentleduck/auth/core'
+import { authApplyCompliancePreset } from '@gentleduck/auth/core'
 
-const cfg = soc2({ ... })
-// cfg.telemetry includes OtelInstrumentation; cfg.events.middleware includes the redaction layer.
+const cfg = authApplyCompliancePreset(base, 'soc2')
+// result.events.middleware includes the PII redaction layer.
 ```
 
 ## Dashboards

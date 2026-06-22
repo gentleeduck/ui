@@ -54,7 +54,7 @@ Output:
 [v] baseUrl set: https://api.example.com
 [v] transport: JwtTransport with 2 verify keys
 [v] limiter: AuthRedisLimiter
-[x] events: InMemoryEvents - strict() requires cross-process delivery in production
+[x] events: AuthInMemoryEvents - strict() requires cross-process delivery in production
 [x] no listener attached to 'lockout' event
 
 2 failed gates. Run `duck-auth doctor --explain` for fix suggestions.

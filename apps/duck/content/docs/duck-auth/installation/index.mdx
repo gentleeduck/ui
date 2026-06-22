@@ -54,7 +54,7 @@ Install only what you wire:
 <Step>60-second quickstart (Memory adapter)</Step>
 
 ```typescript title="src/lib/auth.ts"
-import { AuthEngine, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
+import { AuthEngine, AuthInMemoryEvents, AuthScryptHasher } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
 import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
 import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
@@ -69,9 +69,9 @@ export const auth = new AuthEngine({
     sessions: adapter.sessions,
     credentials: adapter.credentials,
   },
-  events: new InMemoryEvents(),
+  events: new AuthInMemoryEvents(),
   limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
-  passwords: { hasher: new ScryptHasher() },
+  passwords: { hasher: new AuthScryptHasher() },
 })
 ```
 
@@ -79,15 +79,15 @@ export const auth = new AuthEngine({
 
 ```typescript title="src/server.ts (Express)"
 import express from 'express'
-import { mountSignIn, mountSignOut, mountSession } from '@gentleduck/auth/server/express'
+import { authMountSignIn, authMountSignOut, authMountSession } from '@gentleduck/auth/server/express'
 import { auth } from './lib/auth'
 
 const app = express()
 app.use(express.json())
 
-app.post('/auth/signin', mountSignIn(auth))
-app.post('/auth/signout', mountSignOut(auth))
-app.get('/auth/session', mountSession(auth))
+app.post('/auth/signin', authMountSignIn(auth))
+app.post('/auth/signout', authMountSignOut(auth))
+app.get('/auth/session', authMountSession(auth))
 
 app.listen(3000)
 ```
@@ -107,7 +107,7 @@ If you prefer a scaffolded starter, the CLI emits a complete `auth.ts`
 plus a `.env` template.
 
 ```bash
-# Quickstart: Memory adapter, ScryptHasher, CookieTransport
+# Quickstart: Memory adapter, AuthScryptHasher, CookieTransport
 bunx @gentleduck/auth init src/lib
 
 # Production: Redis adapter, Argon2id, JwtTransport with rotated keys

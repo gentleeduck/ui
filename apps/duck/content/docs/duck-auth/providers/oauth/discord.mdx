@@ -13,12 +13,12 @@ section: Providers
 4. Copy the client ID and client secret.
 
 ```typescript
-import { discord } from '@gentleduck/auth/providers/oauth/discord'
+import { authDiscord } from '@gentleduck/auth/providers/oauth/discord'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    discord({
+    authDiscord({
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
       redirectUri: 'https://app.example.com/auth/discord/callback',
@@ -77,7 +77,7 @@ Discord's `/users/@me`:
 If your app should only allow members of a specific Discord server:
 
 ```typescript
-discord({
+authDiscord({
   // ...
   scopes: ['identify', 'email', 'guilds'],
   onSignIn: async ({ profile }) => {

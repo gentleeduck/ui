@@ -12,12 +12,12 @@ section: Providers
 3. Copy the client ID and client secret.
 
 ```typescript
-import { google } from '@gentleduck/auth/providers/oauth/google'
+import { authGoogle } from '@gentleduck/auth/providers/oauth/google'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    google({
+    authGoogle({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       redirectUri: 'https://app.example.com/auth/google/callback',
@@ -54,22 +54,22 @@ export const auth = new AuthEngine({
 ## Callback route
 
 ```typescript title="Express"
-import { mountSignIn } from '@gentleduck/auth/server/express'
+import { authMountSignIn } from '@gentleduck/auth/server/express'
 
-app.get('/auth/google/callback', mountSignIn(auth))
+app.get('/auth/google/callback', authMountSignIn(auth))
 ```
 
 ```typescript title="Next.js"
 // app/auth/google/callback/route.ts
-import { nextSignIn } from '@gentleduck/auth/server/next'
-export const GET = nextSignIn(auth)
+import { authNextSignIn } from '@gentleduck/auth/server/next'
+export const GET = authNextSignIn(auth)
 ```
 
 ## Triggering sign-in
 
 ```typescript
 // React
-const begin = useBeginProvider()
+const begin = authUseBeginProvider()
 <button onClick={() => begin.mutate({ providerId: 'google', input: {} })}>
   Sign in with Google
 </button>
@@ -119,8 +119,8 @@ If you have a separate Google project for staging vs production, use
 two providers with different `providerId`s:
 
 ```typescript
-google({ providerId: 'google-prod', clientId: ..., clientSecret: ... }),
-google({ providerId: 'google-staging', clientId: ..., clientSecret: ... }),
+authGoogle({ providerId: 'google-prod', clientId: ..., clientSecret: ... }),
+authGoogle({ providerId: 'google-staging', clientId: ..., clientSecret: ... }),
 ```
 
 The runtime keys them separately; the client picks via
@@ -137,7 +137,7 @@ If you don't need refresh tokens (you only need a one-shot sign-in),
 override the begin call:
 
 ```typescript
-google({
+authGoogle({
   // ...
   extraAuthParams: { access_type: 'online' },
 })

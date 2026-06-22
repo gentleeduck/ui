@@ -10,10 +10,10 @@ The simplest mount is a single catch-all route handler that dispatches
 to the right duck-auth handler:
 
 ```typescript title="app/api/auth/[...auth]/route.ts"
-import { mountNext } from '@gentleduck/auth/server/next'
+import { authMountNext } from '@gentleduck/auth/server/next'
 import { auth } from '~/lib/auth'
 
-export const { GET, POST } = mountNext(auth)
+export const { GET, POST } = authMountNext(auth)
 ```
 
 This installs handlers for `signin`, `signout`, `session`, and
@@ -26,27 +26,27 @@ If you need per-route control (different rate-limit middleware, custom
 logging), mount each handler separately:
 
 ```typescript title="app/api/auth/signin/route.ts"
-import { nextSignIn } from '@gentleduck/auth/server/next'
+import { authNextSignIn } from '@gentleduck/auth/server/next'
 import { auth } from '~/lib/auth'
 
-export const POST = nextSignIn(auth)
+export const POST = authNextSignIn(auth)
 ```
 
 ```typescript title="app/api/auth/signout/route.ts"
-import { nextSignOut } from '@gentleduck/auth/server/next'
-export const POST = nextSignOut(auth)
+import { authNextSignOut } from '@gentleduck/auth/server/next'
+export const POST = authNextSignOut(auth)
 ```
 
 ```typescript title="app/api/auth/session/route.ts"
-import { nextSession } from '@gentleduck/auth/server/next'
-export const GET = nextSession(auth)
+import { authNextSession } from '@gentleduck/auth/server/next'
+export const GET = authNextSession(auth)
 ```
 
 ```typescript title="app/api/auth/providers/[providerId]/begin/route.ts"
-import { nextProviderBegin } from '@gentleduck/auth/server/next'
+import { authNextProviderBegin } from '@gentleduck/auth/server/next'
 
 export async function POST(req: Request, { params }: { params: { providerId: string } }) {
-  return nextProviderBegin(auth, params.providerId)(req)
+  return authNextProviderBegin(auth, params.providerId)(req)
 }
 ```
 
@@ -56,8 +56,8 @@ Each OAuth provider redirects back to a callback URL. Mount the sign-in
 handler under each callback path so the redirect resolves cleanly:
 
 ```typescript title="app/api/auth/google/callback/route.ts"
-import { nextSignIn } from '@gentleduck/auth/server/next'
-export const GET = nextSignIn(auth)
+import { authNextSignIn } from '@gentleduck/auth/server/next'
+export const GET = authNextSignIn(auth)
 ```
 
 The provider extracts `code`, `state`, and the PKCE verifier from the
@@ -140,11 +140,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 ```tsx title="components/SignInButton.tsx"
 'use client'
 
-import { useSession, useSignIn } from '@gentleduck/auth/client/react'
+import { authUseSession, authUseSignIn } from '@gentleduck/auth/client/react'
 
 export function SignInButton() {
-  const { data, status } = useSession()
-  const signIn = useSignIn()
+  const { data, status } = authUseSession()
+  const signIn = authUseSignIn()
 
   if (status === 'authed') return <span>Hi, {data.identity.profile.displayName}</span>
   return (

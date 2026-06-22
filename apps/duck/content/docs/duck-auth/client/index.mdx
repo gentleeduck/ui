@@ -1,6 +1,6 @@
 ---
 title: Client libraries
-description: Vanilla createAuthClient + React AuthProvider + hooks. Vue, Svelte, and Solid clients are also shipped.
+description: Vanilla authCreateClient + React AuthProvider + hooks. Vue, Svelte, and Solid clients are also shipped.
 section: Client
 ---
 
@@ -12,7 +12,7 @@ routes so your UI doesn't have to know the wire shape. They:
 - Track session state with `loading` / `authed` / `guest` semantics.
 - Provide a `signIn(providerId, input)` that handles the right HTTP
   method and surfaces typed errors.
-- Re-render reactive views (React `useSession`, Vue `useSession`,
+- Re-render reactive views (React `authUseSession`, Vue `authUseSession`,
   Svelte stores, Solid signals) when the session changes.
 - Subscribe to `session.rotated` / `session.revoked` so a sign-out in
   one tab signs you out in every tab.
@@ -22,9 +22,9 @@ routes so your UI doesn't have to know the wire shape. They:
 | Client | Import | Notes |
 | --- | --- | --- |
 | [Vanilla](/duck-auth/client/vanilla) | `@gentleduck/auth/client/vanilla` | Framework-agnostic. Zero dependencies. |
-| [React](/duck-auth/client/react) | `@gentleduck/auth/client/react` | `<AuthProvider>` + `useSession` + `useSignIn` + `useBeginProvider`. |
-| Vue | `@gentleduck/auth/client/vue` | `createAuth()` + `useSession`. |
-| Svelte | `@gentleduck/auth/client/svelte` | `createAuthStore()` reactive store. |
+| [React](/duck-auth/client/react) | `@gentleduck/auth/client/react` | `<AuthProvider>` + `authUseSession` + `authUseSignIn` + `authUseBeginProvider`. |
+| Vue | `@gentleduck/auth/client/vue` | `createAuth()` + `authUseSession`. |
+| Svelte | `@gentleduck/auth/client/svelte` | `authCreateStore()` reactive store. |
 | Solid | `@gentleduck/auth/client/solid` | `createAuthSignal()`. |
 
 ## Anatomy of a sign-in
@@ -59,10 +59,10 @@ Every client is generic over `Profile`:
 type Profile = { displayName: string; avatarUrl?: string }
 
 // Vanilla
-const client = createAuthClient<Profile>()
+const client = authCreateClient<Profile>()
 
-// React - pass through useSession's generic
-const { data } = useSession<Profile>()
+// React - pass through authUseSession's generic
+const { data } = authUseSession<Profile>()
 // data.identity.profile is typed as Profile
 ```
 
@@ -82,12 +82,12 @@ false` if you don't want it.
 ## Error handling
 
 All clients raise the typed `AuthError` (or a wire-equivalent
-`{ code, status, meta }` object on the React `useSignIn().error` field).
+`{ code, status, meta }` object on the React `authUseSignIn().error` field).
 Branch on `error.code`, not on HTTP status - codes are stable across
 versions.
 
 ```typescript
-const signIn = useSignIn()
+const signIn = authUseSignIn()
 
 await signIn.mutateAsync({ providerId: 'password', input: { email, password } })
 

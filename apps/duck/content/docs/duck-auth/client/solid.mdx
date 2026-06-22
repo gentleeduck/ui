@@ -1,6 +1,6 @@
 ---
 title: Solid client
-description: SolidJS provider + hooks - useSession, useSignIn, useSignOut. Built on createSignal so updates are fine-grained.
+description: SolidJS provider + hooks - authUseSession, authUseSignIn, authUseSignOut. Built on createSignal so updates are fine-grained.
 section: Client
 ---
 
@@ -21,16 +21,16 @@ render(
 )
 ```
 
-`AuthProvider` accepts the same options as `createAuthClient` plus an optional
+`AuthProvider` accepts the same options as `authCreateClient` plus an optional
 `client` prop if you want to share an existing vanilla client.
 
-## `useSession`
+## `authUseSession`
 
 ```tsx
-import { useSession } from '@gentleduck/auth/client/solid'
+import { authUseSession } from '@gentleduck/auth/client/solid'
 
 function App() {
-  const { data, status } = useSession()
+  const { data, status } = authUseSession()
 
   return (
     <>
@@ -47,14 +47,14 @@ function App() {
 `data` and `status` are signals (call them to read). Updates are reactive and
 fine-grained so only the components that read them re-render.
 
-## `useSignIn` / `useSignOut`
+## `authUseSignIn` / `authUseSignOut`
 
 ```tsx
-import { useSignIn } from '@gentleduck/auth/client/solid'
+import { authUseSignIn } from '@gentleduck/auth/client/solid'
 import { createSignal } from 'solid-js'
 
 function SignInForm() {
-  const signIn = useSignIn()
+  const signIn = authUseSignIn()
   const [email, setEmail] = createSignal('')
   const [password, setPassword] = createSignal('')
 
@@ -114,5 +114,5 @@ discrimination:
 ## Reactivity across tabs
 
 The Solid client subscribes to `BroadcastChannel` updates from the vanilla
-client. Signing in or out in one tab updates the `useSession` signal in every
+client. Signing in or out in one tab updates the `authUseSession` signal in every
 other tab automatically.

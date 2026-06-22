@@ -41,7 +41,7 @@ hidden global, no module-level state, no implicit singleton.
 ## Constructor at a glance
 
 ```typescript
-import { AuthEngine, InMemoryEvents, ScryptHasher } from '@gentleduck/auth/core'
+import { AuthEngine, AuthInMemoryEvents, AuthScryptHasher } from '@gentleduck/auth/core'
 import { CookieTransport } from '@gentleduck/auth/core/transport'
 import { AuthMemoryAdapter } from '@gentleduck/auth/adapters/memory'
 import { AuthMemoryLimiter } from '@gentleduck/auth/limiters/memory'
@@ -57,9 +57,9 @@ export const auth = new AuthEngine({
     credentials: adapter.credentials,
     // orgs is optional - pass adapter.orgs to enable the orgs facet
   },
-  events: new InMemoryEvents(),
+  events: new AuthInMemoryEvents(),
   limiter: new AuthMemoryLimiter({ max: 5, windowMs: 60_000 }),
-  passwords: { hasher: new ScryptHasher() },
+  passwords: { hasher: new AuthScryptHasher() },
 })
 ```
 
@@ -68,12 +68,12 @@ export const auth = new AuthEngine({
 | `baseUrl` | Issuer for JWTs, OIDC discovery, signed redirect callbacks. |
 | `transport` | The session carrier (`CookieTransport` / `BearerTransport` / `JwtTransport` / `CompositeTransport`). |
 | `stores` | `identities`, `sessions`, `credentials`, optionally `orgs`. Implements the per-table store interfaces. |
-| `limiter` | Rate-limiter. Use `AuthMemoryLimiter` in dev; Redis-backed in production. `strict()` rejects `NoopLimiter` in production. |
+| `limiter` | Rate-limiter. Use `AuthMemoryLimiter` in dev; Redis-backed in production. `strict()` rejects `AuthNoopLimiter` in production. |
 | `session` | Per-session TTLs: `ttlMs` (default 7d), `absoluteTtlMs` (default 30d), `freshnessMs` (default 5m). |
 | `identities` | `softDeleteGracePeriodMs` (default 7d), `profileMaxBytes` (default 16 KiB). |
 | `passwords` | `hasher` plus optional `minLength` / `maxLength` / `rejectCommon`. |
 | `providers` | Array of `AuthProvider.IProvider` instances to register at boot. |
-| `events` | `AuthEvents.IBus`. Default is `InMemoryEvents` - swap to `AuthRedisEvents` or a custom bus for fan-out. |
+| `events` | `AuthEvents.IBus`. Default is `AuthInMemoryEvents` - swap to `AuthRedisEvents` or a custom bus for fan-out. |
 | `mfa` | `issuer`, `backupCodeCount`, `backupCodeLen`. |
 | `apiKeys` | `prefix` (e.g. `ak_live_`), `randomBytes`. |
 | `hijack` | Detection sensitivity + reaction (`ignore`/`rotate`/`mfa`/`revoke`). |
@@ -151,9 +151,9 @@ The generics propagate everywhere: `auth.identities.findById(id)` returns
 
 - [Sessions ->](/duck-auth/core/sessions) - the 7-row rotation matrix.
 - [Identities ->](/duck-auth/core/identities) - CRUD, linking, GDPR.
-- [Passwords ->](/duck-auth/core/passwords) - `ScryptHasher`, `Argon2idHasher`.
+- [Passwords ->](/duck-auth/core/passwords) - `AuthScryptHasher`, `AuthArgon2idHasher`.
 - [Transports ->](/duck-auth/core/transports) - Cookie, Bearer, JWT, Composite, DPoP.
-- [Events ->](/duck-auth/core/events) - `InMemoryEvents`, `AuthRedisEvents`, `WebhookDeliverer`.
+- [Events ->](/duck-auth/core/events) - `AuthInMemoryEvents`, `AuthRedisEvents`, `AuthWebhookDeliverer`.
 - [Anomaly ->](/duck-auth/core/anomaly) - detectors and the step-up decision.
 - [Compliance ->](/duck-auth/core/compliance) - `gdpr`, `hipaa`, `soc2`, `fips`.
 - [Errors ->](/duck-auth/core/errors) - every `AUTH/*` code and its status.

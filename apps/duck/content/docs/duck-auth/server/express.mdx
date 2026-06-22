@@ -9,28 +9,28 @@ section: Server
 ```typescript
 import express from 'express'
 import {
-  mountProviderBegin,
-  mountSession,
-  mountSignIn,
-  mountSignOut,
+  authMountProviderBegin,
+  authMountSession,
+  authMountSignIn,
+  authMountSignOut,
 } from '@gentleduck/auth/server/express'
 import { auth } from './lib/auth'
 
 const app = express()
 app.use(express.json())                  // duck-auth expects JSON bodies
 
-app.post('/auth/signin', mountSignIn(auth))
-app.post('/auth/signout', mountSignOut(auth))
-app.get('/auth/session', mountSession(auth))
+app.post('/auth/signin', authMountSignIn(auth))
+app.post('/auth/signout', authMountSignOut(auth))
+app.get('/auth/session', authMountSession(auth))
 
 // Provider begin: redirect to OAuth IdP, send a magic link, etc.
 app.post('/auth/providers/:providerId/begin', (req, res, next) => {
-  return mountProviderBegin(auth, req.params.providerId)(req, res, next)
+  return authMountProviderBegin(auth, req.params.providerId)(req, res, next)
 })
 
 // OAuth callback: re-use the sign-in handler with the providerId pre-set.
-app.get('/auth/google/callback', mountSignIn(auth))
-app.get('/auth/github/callback', mountSignIn(auth))
+app.get('/auth/google/callback', authMountSignIn(auth))
+app.get('/auth/github/callback', authMountSignIn(auth))
 
 app.listen(3000)
 ```
@@ -66,7 +66,7 @@ app.use((err, req, res, next) => {
 For custom routes where you need to drive the runtime by hand:
 
 ```typescript
-import { applyIntents } from '@gentleduck/auth/server/express'
+import { authApplyIntents } from '@gentleduck/auth/server/express'
 
 app.post('/auth/custom', async (req, res, next) => {
   try {
@@ -74,26 +74,26 @@ app.post('/auth/custom', async (req, res, next) => {
       providerId: 'password',
       input: req.body,
     })
-    applyIntents(intents, res)
+    authApplyIntents(intents, res)
   } catch (err) {
     next(err)
   }
 })
 ```
 
-`applyIntents` mutates `res` - it sets cookies via `res.cookie(...)`,
+`authApplyIntents` mutates `res` - it sets cookies via `res.cookie(...)`,
 writes the JSON body, sets status and headers. Equivalent to what the
 shipped mount helpers do internally.
 
 ## CSRF guard
 
 ```typescript
-import { csrfGuard } from '@gentleduck/auth/core'
+import { authCsrfGuard } from '@gentleduck/auth/core'
 
 app.use(async (req, res, next) => {
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
     try {
-      await csrfGuard(auth, req)
+      await authCsrfGuard(auth, req)
     } catch (err) {
       next(err)
       return

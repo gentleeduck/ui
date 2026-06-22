@@ -31,12 +31,12 @@ if (ctx?.anomaly?.decision === 'deny') {
 
 ## Shipped detectors
 
-### `impossibleTravelDetector`
+### `authImpossibleTravelDetector`
 
 ```typescript
-import { impossibleTravelDetector } from '@gentleduck/auth/core'
+import { authImpossibleTravelDetector } from '@gentleduck/auth/core'
 
-auth.anomaly.register(impossibleTravelDetector({
+auth.anomaly.register(authImpossibleTravelDetector({
   maxSpeedKmh: 900,          // default - jet speed
   scoreOnViolation: 100,     // default - maximum
   geoipProvider: async (ip) => {

@@ -9,25 +9,25 @@ section: Server
 ```typescript
 import { Hono } from 'hono'
 import {
-  honoProviderBegin,
-  honoSession,
-  honoSignIn,
-  honoSignOut,
+  authHonoProviderBegin,
+  authHonoSession,
+  authHonoSignIn,
+  authHonoSignOut,
 } from '@gentleduck/auth/server/hono'
 import { auth } from './lib/auth'
 
 const app = new Hono()
 
-app.post('/auth/signin', honoSignIn(auth))
-app.post('/auth/signout', honoSignOut(auth))
-app.get('/auth/session', honoSession(auth))
+app.post('/auth/signin', authHonoSignIn(auth))
+app.post('/auth/signout', authHonoSignOut(auth))
+app.get('/auth/session', authHonoSession(auth))
 app.post('/auth/providers/:providerId/begin', (c) =>
-  honoProviderBegin(auth, c.req.param('providerId'))(c)
+  authHonoProviderBegin(auth, c.req.param('providerId'))(c)
 )
 
 // OAuth callbacks reuse the sign-in handler.
-app.get('/auth/google/callback', honoSignIn(auth))
-app.get('/auth/github/callback', honoSignIn(auth))
+app.get('/auth/google/callback', authHonoSignIn(auth))
+app.get('/auth/github/callback', authHonoSignIn(auth))
 
 export default app
 ```
@@ -52,8 +52,8 @@ that natively, so no adapter glue is needed.
 Hono on Cloudflare Workers is well-supported, but there are two gotchas
 for duck-auth:
 
-1. **No Node built-ins**: `ScryptHasher` uses `node:crypto`. On Workers,
-   either use `Argon2idHasher` (peer dep), or use a custom WebCrypto-based
+1. **No Node built-ins**: `AuthScryptHasher` uses `node:crypto`. On Workers,
+   either use `AuthArgon2idHasher` (peer dep), or use a custom WebCrypto-based
    hasher.
 2. **No `process.env`**: read secrets from `c.env` instead:
 
@@ -71,7 +71,7 @@ app.use('*', async (c, next) => {
 })
 
 app.post('/auth/signin', async (c) => {
-  return honoSignIn(c.get('auth'))(c)
+  return authHonoSignIn(c.get('auth'))(c)
 })
 ```
 

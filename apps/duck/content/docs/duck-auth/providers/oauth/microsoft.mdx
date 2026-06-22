@@ -13,12 +13,12 @@ section: Providers
 4. Note the **Application (client) ID** and the **Directory (tenant) ID**.
 
 ```typescript
-import { microsoft } from '@gentleduck/auth/providers/oauth/microsoft'
+import { authMicrosoft } from '@gentleduck/auth/providers/oauth/microsoft'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    microsoft({
+    authMicrosoft({
       clientId: process.env.MICROSOFT_CLIENT_ID!,
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
       tenant: process.env.MICROSOFT_TENANT_ID!,   // or 'common' for multi-tenant

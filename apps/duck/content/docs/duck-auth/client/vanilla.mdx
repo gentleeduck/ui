@@ -1,15 +1,15 @@
 ---
 title: Vanilla client
-description: Framework-agnostic createAuthClient. Promise-based signIn / signOut / getSession + onChange subscription.
+description: Framework-agnostic authCreateClient. Promise-based signIn / signOut / getSession + onChange subscription.
 section: Client
 ---
 
 ## Constructor
 
 ```typescript
-import { createAuthClient } from '@gentleduck/auth/client/vanilla'
+import { authCreateClient } from '@gentleduck/auth/client/vanilla'
 
-const client = createAuthClient({
+const client = authCreateClient({
   baseUrl: '/auth',              // default
   fetch: globalThis.fetch,       // override for SSR / Node tests
   headers: { 'X-App': 'web' },   // sent on every call
@@ -119,11 +119,11 @@ type State<Profile> =
 ## Constructing a Profile-typed client
 
 ```typescript
-import { createAuthClient } from '@gentleduck/auth/client/vanilla'
+import { authCreateClient } from '@gentleduck/auth/client/vanilla'
 
 type Profile = { displayName: string; avatarUrl?: string }
 
-export const client = createAuthClient<Profile>()
+export const client = authCreateClient<Profile>()
 // client.signIn -> Profile is inferred
 // client.onChange((state) => state?.identity.profile.displayName)
 ```
@@ -132,7 +132,7 @@ export const client = createAuthClient<Profile>()
 
 ```typescript
 // auth.ts
-export const client = createAuthClient()
+export const client = authCreateClient()
 
 // app.tsx
 client.onChange((state) => {
@@ -155,7 +155,7 @@ For SSR, pass a custom `fetch` that forwards cookies from the incoming
 request:
 
 ```typescript
-const ssrClient = createAuthClient({
+const ssrClient = authCreateClient({
   baseUrl: 'http://localhost:3000/auth',
   fetch: async (url, init) => {
     return fetch(url, {
@@ -169,5 +169,5 @@ const initialState = await ssrClient.getSession()
 ```
 
 The initial state ships down to the client in the HTML, and the
-client-side `createAuthClient` rehydrates from it without an extra
+client-side `authCreateClient` rehydrates from it without an extra
 round trip.

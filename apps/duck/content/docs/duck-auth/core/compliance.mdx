@@ -9,7 +9,7 @@ section: Core
 duck-auth ships four compliance presets that wire a coherent set of
 configuration overrides for the named regulatory scope:
 
-- Replace `ScryptHasher` with `Argon2idHasher` (HIPAA / FIPS).
+- Replace `AuthScryptHasher` with `AuthArgon2idHasher` (HIPAA / FIPS).
 - Force `dataAtRest` encryption on identities and credentials.
 - Register `authImpossibleTravelDetector` + `deviceFingerprintDetector`.
 - Tighten password policy (minLength 14+).
@@ -22,13 +22,18 @@ configuration overrides for the named regulatory scope:
 Apply one preset to a `stores` / `events` / `channels` triple:
 
 ```typescript
-import { hipaa } from '@gentleduck/auth/core'
+import { authApplyCompliancePreset } from '@gentleduck/auth/core'
 
-const config = hipaa({
-  stores: { /* ... */ },
-  events: new AuthRedisEvents(redis),
-  channels: { email: new AuthSesChannel({ ... }) },
-})
+const config = authApplyCompliancePreset(
+  {
+    baseUrl: process.env.APP_URL!,
+    stores: { /* ... */ },
+    events: new AuthRedisEvents(redis),
+    channels: { email: new AuthSesChannel({ ... }) },
+    transport: new AuthCookieTransport({ name: 'duck-sid', secure: true }),
+  },
+  'hipaa',
+)
 
 export const auth = new AuthEngine({
   ...config,
@@ -36,8 +41,8 @@ export const auth = new AuthEngine({
 })
 ```
 
-Presets return an `AuthEngineTypes.IConfig` shape that you spread into
-`new AuthEngine({ ... })`. Add your own keys after to override.
+`authApplyCompliancePreset(base, preset)` returns an `AuthEngineTypes.IConfig` shape.
+Add your own keys after to override.
 
 ## Available presets
 
@@ -53,10 +58,13 @@ Presets return an `AuthEngineTypes.IConfig` shape that you spread into
 You can layer presets - the last one is dominant where they conflict:
 
 ```typescript
-import { gdpr, hipaa } from '@gentleduck/auth/core'
+import { authApplyCompliancePreset } from '@gentleduck/auth/core'
 
-const layered = { ...gdpr({ ... }), ...hipaa({ ... }) }
-// HIPAA wins on overlapping keys (Argon2 vs scrypt)
+// Apply both — HIPAA wins on overlapping keys (Argon2 vs scrypt)
+const layered = authApplyCompliancePreset(
+  authApplyCompliancePreset(base, 'gdpr'),
+  'hipaa',
+)
 ```
 
 For ergonomic clarity, prefer applying the strictest preset directly
@@ -78,14 +86,14 @@ rather than stacking.
 - All `gdpr` requirements.
 - `authImpossibleTravelDetector` + `deviceFingerprintDetector` registered.
 - `anomaly.onDetectorError: 'step-up'`.
-- `WebhookDeliverer` wired to ship every audit event to an external sink.
+- `AuthWebhookDeliverer` wired to ship every audit event to an external sink.
 - `session.absoluteTtlMs: 30 days` cap.
 - `OtelInstrumentation` recommended (a warning fires at boot if absent).
 
 ### `hipaa`
 
 - All `soc2` requirements.
-- `passwords.hasher: Argon2idHasher(AUTH_ARGON2ID_COMPLIANCE)`.
+- `passwords.hasher: AuthArgon2idHasher(ARGON2ID_COMPLIANCE)`.
 - `passwords.minLength: 14`.
 - `dataAtRest: AuthAesGcmDataAtRest` with a `KeyProvider` (you supply).
 - `channel` must implement an audit hook (HIPAA logs every message).
@@ -95,7 +103,7 @@ rather than stacking.
 ### `fips`
 
 - All `hipaa` requirements.
-- `passwords.hasher: Argon2idHasher(AUTH_ARGON2ID_COMPLIANCE)`.
+- `passwords.hasher: AuthArgon2idHasher(ARGON2ID_COMPLIANCE)`.
 - `JwtTransport.algorithms`: `ES256` / `EdDSA` only. HS256 / RS256 rejected.
 - `dataAtRest: AuthKmsEnvelopeDataAtRest` - local key material disallowed.
 - `anomaly.onDetectorError: 'deny'`.
@@ -109,9 +117,9 @@ rather than stacking.
 ```typescript
 new AuthEngine({
   ...hipaa({ ... }),
-  passwords: { hasher: new ScryptHasher() },  // <- overrides Argon2 - strict() will fail
+  passwords: { hasher: new AuthScryptHasher() },  // <- overrides Argon2 - strict() will fail
 })
-// throws AUTH/MISCONFIGURED: { gate: 'compliance', preset: 'hipaa', expected: 'Argon2idHasher' }
+// throws AUTH/MISCONFIGURED: { gate: 'compliance', preset: 'hipaa', expected: 'AuthArgon2idHasher' }
 ```
 
 The preset is the source of truth; manual overrides that violate it are

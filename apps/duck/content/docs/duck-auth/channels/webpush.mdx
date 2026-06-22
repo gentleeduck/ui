@@ -1,5 +1,5 @@
 ---
-title: WebPushChannel
+title: AuthWebPushChannel
 description: Web Push protocol with VAPID. Deliver magic-link prompts to a user's existing browser tab without email.
 section: Channels
 ---
@@ -31,9 +31,9 @@ client (it's safe to expose); the private key stays server-side.
 ## Setup
 
 ```typescript
-import { WebPushChannel } from '@gentleduck/auth/channels/webpush'
+import { AuthWebPushChannel } from '@gentleduck/auth/channels/webpush'
 
-const channel = new WebPushChannel({
+const channel = new AuthWebPushChannel({
   vapidPublicKey: process.env.VAPID_PUBLIC_KEY!,
   vapidPrivateKey: process.env.VAPID_PRIVATE_KEY!,
   vapidSubject: 'mailto:admin@example.com',
@@ -128,6 +128,6 @@ try {
 }
 ```
 
-duck-auth's shipped `WebPushChannel` already removes 410-returning
+duck-auth's shipped `AuthWebPushChannel` already removes 410-returning
 subscriptions automatically - the manual handling is only needed if
 you subclass and override `send()`.

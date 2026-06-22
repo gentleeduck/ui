@@ -1,6 +1,6 @@
 ---
 title: Internationalisation
-description: I18nMessageCatalog (zero-dep) + LinguiResolver. Translate every AUTH/* error code and channel template.
+description: AuthI18nMessageCatalog (zero-dep) + AuthLinguiResolver. Translate every AUTH/* error code and channel template.
 section: Advanced
 ---
 
@@ -15,14 +15,14 @@ Two surfaces in duck-auth produce user-facing strings:
 
 duck-auth ships a resolver-agnostic facet for both.
 
-## Built-in: `I18nMessageCatalog`
+## Built-in: `AuthI18nMessageCatalog`
 
 Zero dependencies. Define your messages inline:
 
 ```typescript
-import { I18nMessageCatalog } from '@gentleduck/auth/i18n'
+import { AuthI18nMessageCatalog } from '@gentleduck/auth/i18n'
 
-const i18n = new I18nMessageCatalog({
+const i18n = new AuthI18nMessageCatalog({
   defaultLocale: 'en',
   messages: {
     en: {
@@ -80,17 +80,17 @@ The `code` stays stable on the wire (for client-side branching); the
 
 ## Lingui adapter
 
-For apps already using `@lingui/core`, the `LinguiResolver` plugs in:
+For apps already using `@lingui/core`, the `AuthLinguiResolver` plugs in:
 
 ```typescript
 import { i18n as lingui } from '@lingui/core'
-import { LinguiResolver } from '@gentleduck/auth/i18n'
+import { AuthLinguiResolver } from '@gentleduck/auth/i18n'
 
 lingui.load('en', enMessages)
 lingui.load('es', esMessages)
 lingui.activate('en')
 
-const resolver = new LinguiResolver(lingui)
+const resolver = new AuthLinguiResolver(lingui)
 
 export const auth = new AuthEngine({
   i18n: { locale: 'en', catalog: resolver },
@@ -115,7 +115,7 @@ class CustomChannel implements AuthChannel.IChannel {
 }
 ```
 
-The shipped channels (`ConsoleChannel`, `SmtpChannel`, etc.) already
+The shipped channels (`AuthConsoleChannel`, `AuthSmtpChannel`, etc.) already
 call into the resolver - pass `i18n` to the channel constructor.
 
 ## Listing supported locales

@@ -1,38 +1,38 @@
 ---
 title: Multi-tenancy
-description: withTenant + currentTenant - AsyncLocalStorage-backed tenant scope that flows through every facet, store, and event without threading TenantContext by hand.
+description: authWithTenant + authCurrentTenant - AsyncLocalStorage-backed tenant scope that flows through every facet, store, and event without threading AuthTenantContext by hand.
 section: Advanced
 ---
 
-duck-auth threads a `TenantContext` through every facet, store, and
+duck-auth threads a `AuthTenantContext` through every facet, store, and
 event so a multi-tenant app can reuse the same `AuthEngine` across
 tenants without leaking state between them. The two ways to scope a
 call are:
 
-1. **Explicit** - pass `TenantContext` as the last arg on every store
+1. **Explicit** - pass `AuthTenantContext` as the last arg on every store
    and facet call.
-2. **Ambient** - wrap a request in `withTenant(tenantId, fn)`; every
-   nested call sees `currentTenant()` resolve to the same value.
+2. **Ambient** - wrap a request in `authWithTenant(tenantId, fn)`; every
+   nested call sees `authCurrentTenant()` resolve to the same value.
 
 Ambient is usually right for HTTP / job runners; explicit is right
 for cross-tenant admin flows where one call legitimately spans
 several tenants.
 
 ```typescript
-import { withTenant, currentTenant, resolveTenant } from '@gentleduck/auth/core'
+import { authWithTenant, authCurrentTenant, authResolveTenant } from '@gentleduck/auth/core'
 ```
 
-## `withTenant`
+## `authWithTenant`
 
 Wrap a function (sync or async) so every awaitable inside it
 observes the supplied `tenantId`:
 
 ```typescript
-import { withTenant } from '@gentleduck/auth/core'
+import { authWithTenant } from '@gentleduck/auth/core'
 
 app.use((req, _res, next) => {
   const tenantId = extractTenantFromSubdomain(req.hostname)
-  withTenant(tenantId, () => next())
+  authWithTenant(tenantId, () => next())
 })
 ```
 
@@ -43,7 +43,7 @@ audit-visible rather than implicit.
 ```typescript
 // Daily job runner
 for (const tenant of tenants) {
-  await withTenant(tenant.id, () => runDailyJobsFor(tenant))
+  await authWithTenant(tenant.id, () => runDailyJobsFor(tenant))
 }
 ```
 
@@ -52,48 +52,48 @@ Every facet call inside the closure (`auth.identities.create`,
 ambient tenant before reaching the store - no manual threading
 required.
 
-## `currentTenant`
+## `authCurrentTenant`
 
-Read the active scope. Returns `undefined` when no `withTenant`
-wrapper is active, otherwise the `TenantContext` bound by the
+Read the active scope. Returns `undefined` when no `authWithTenant`
+wrapper is active, otherwise the `AuthTenantContext` bound by the
 nearest wrapper.
 
 ```typescript
-import { currentTenant } from '@gentleduck/auth/core'
+import { authCurrentTenant } from '@gentleduck/auth/core'
 
 function logWithTenant(message: string) {
-  const ctx = currentTenant()
+  const ctx = authCurrentTenant()
   logger.info({ tenantId: ctx?.tenantId, message })
 }
 ```
 
-Library code should prefer `resolveTenant` (below) which also
-considers a caller-supplied explicit `TenantContext`.
+Library code should prefer `authResolveTenant` (below) which also
+considers a caller-supplied explicit `AuthTenantContext`.
 
-## `resolveTenant`
+## `authResolveTenant`
 
-Pick the effective `TenantContext` for a single call. Explicit
+Pick the effective `AuthTenantContext` for a single call. Explicit
 caller-supplied context wins over the ALS ambient - so
-`withTenant` is a default, not a fence. Callers can still scope a
+`authWithTenant` is a default, not a fence. Callers can still scope a
 single call across a different tenant on purpose.
 
 ```typescript
-import { resolveTenant } from '@gentleduck/auth/core'
+import { authResolveTenant } from '@gentleduck/auth/core'
 
-async function readIdentityForAdmin(id: string, explicit?: TenantContext) {
-  const ctx = resolveTenant(explicit)
+async function readIdentityForAdmin(id: string, explicit?: AuthTenantContext) {
+  const ctx = authResolveTenant(explicit)
   return store.identities.findById(id, ctx)
 }
 ```
 
-Adapters use this pattern: they accept an explicit `TenantContext` on
+Adapters use this pattern: they accept an explicit `AuthTenantContext` on
 the public surface but fall back to the ALS ambient when none is
 passed. The user-supplied stores triple plugged into `AuthEngine.stores`
 must do the same to stay compatible with the ambient flow.
 
 ## Storage layer wiring
 
-Stores must accept a `TenantContext` last-arg on every method that
+Stores must accept a `AuthTenantContext` last-arg on every method that
 returns rows. The shipping memory / redis / SQL adapters do this
 already:
 
@@ -113,12 +113,12 @@ themselves; see [adapter custom guide](/duck-auth/adapters/#bringing-your-own).
 ### Subdomain-keyed tenants
 
 ```typescript
-import { withTenant } from '@gentleduck/auth/core'
+import { authWithTenant } from '@gentleduck/auth/core'
 import { auth } from './auth'
 
 app.use((req, res, next) => {
   const tenantId = req.hostname.split('.')[0] // 'acme' from 'acme.app.example'
-  withTenant(tenantId, () => next())
+  authWithTenant(tenantId, () => next())
 })
 
 // All routes downstream see auth.sessions.create() etc. scoped to `acme`
@@ -129,7 +129,7 @@ app.use((req, res, next) => {
 ```typescript
 app.use((req, _res, next) => {
   const tenantId = req.headers['x-tenant-id'] as string | undefined
-  withTenant(tenantId, () => next())
+  authWithTenant(tenantId, () => next())
 })
 ```
 
@@ -140,17 +140,17 @@ right after `resolveSession`:
 
 ```typescript
 const resolved = await auth.resolveSession({ headers: req.headers })
-await withTenant(resolved?.session.tenantId, () => handler(req, res))
+await authWithTenant(resolved?.session.tenantId, () => handler(req, res))
 ```
 
 ### Cross-tenant admin call
 
 When an admin route legitimately needs to query a different tenant,
-pass an explicit `TenantContext` and bypass the ambient:
+pass an explicit `AuthTenantContext` and bypass the ambient:
 
 ```typescript
 app.get('/admin/audit', async (req, res) => {
-  await withTenant('superadmin', async () => {
+  await authWithTenant('superadmin', async () => {
     // Inside the admin scope, but we want to read tenant-A's identities:
     const identity = await auth.identities.findById(req.query.id, { tenantId: 'tenant-a' })
     res.json(identity)
@@ -158,7 +158,7 @@ app.get('/admin/audit', async (req, res) => {
 })
 ```
 
-`resolveTenant({ tenantId: 'tenant-a' })` resolves to `tenant-a`
+`authResolveTenant({ tenantId: 'tenant-a' })` resolves to `tenant-a`
 regardless of the surrounding ALS scope.
 
 ## Strict-mode boot check
@@ -167,7 +167,7 @@ regardless of the surrounding ALS scope.
 itself - it's a single-vs-multi mode decision your app makes. When a
 preset adds tenancy enforcement (some compliance configs do), the
 check verifies that every facet call resolves a non-null
-`TenantContext` so a request that bypassed the ambient is rejected
+`AuthTenantContext` so a request that bypassed the ambient is rejected
 rather than silently leaking globals.
 
 ## See also

@@ -9,12 +9,12 @@ section: Adapters
 duck-auth does not ship a Drizzle or Prisma adapter as a hard dependency.
 Instead, it exposes a thin contract - `SqlBridge.IBridge` - that any ORM
 can implement. The bridge is then wrapped into the four stores
-(identities / credentials / sessions / orgs) by `createSqlAuthStores`.
+(identities / credentials / sessions / orgs) by `authCreateSqlStores`.
 
 ```typescript
-import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { authCreateSqlStores } from '@gentleduck/auth/adapters/sql'
 
-const stores = createSqlAuthStores({ bridge })
+const stores = authCreateSqlStores({ bridge })
 
 export const auth = new AuthEngine({
   stores: {
@@ -42,7 +42,7 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 const db = drizzle(pool)
 
 const bridge = createDrizzlePgBridge(db, schema)   // schema = your Drizzle tables
-const stores = createSqlAuthStores({ bridge })
+const stores = authCreateSqlStores({ bridge })
 ```
 
 Equivalent imports for MySQL and SQLite:

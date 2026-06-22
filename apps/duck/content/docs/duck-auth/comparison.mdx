@@ -34,7 +34,7 @@ hosted plane.
 | **Multi-tenant orgs** | Yes (built-in `orgs` facet) | No | Yes | DIY | DIY |
 | **Compliance presets** | GDPR / SOC2 / HIPAA / FIPS | None | SOC2 (managed) | None | None |
 | **`strict()` boot gate** | Yes | No | N/A (hosted) | No | No |
-| **Audit log** | Built-in event bus + `WebhookDeliverer` | None | Built-in | DIY | None |
+| **Audit log** | Built-in event bus + `AuthWebhookDeliverer` | None | Built-in | DIY | None |
 | **OpenAPI spec** | Generated from runtime | No | Yes | No | No |
 | **OpenTelemetry** | Built-in (`@gentleduck/auth/telemetry/otel`) | None | None | None | None |
 | **CLI** | `init` / `doctor` / `keys` / `migrate` / `emit-openapi` | None | Limited | None | None |

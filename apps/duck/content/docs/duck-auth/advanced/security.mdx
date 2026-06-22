@@ -43,11 +43,11 @@ In **production** mode, `strict` rejects:
 
 - No listener attached to the `lockout` event. At minimum you should be
   paging on or auditing every lockout.
-- No `WebhookDeliverer` configured under SOC2 / HIPAA presets.
+- No `AuthWebhookDeliverer` configured under SOC2 / HIPAA presets.
 
 ### Compliance gates
 
-- HIPAA / FIPS without `Argon2idHasher`.
+- HIPAA / FIPS without `AuthArgon2idHasher`.
 - FIPS with `HS256` or `RS256` JWTs.
 - HIPAA / FIPS without `dataAtRest` encryption.
 - HIPAA without an audit-hooked channel.
@@ -144,13 +144,13 @@ bun audit
 ```typescript
 import Redis from 'ioredis'
 import {
-  Argon2idHasher,
+  AuthArgon2idHasher,
   ARGON2ID_COMPLIANCE,
   AuthEngine,
-  csrfGuard,
+  authCsrfGuard,
   hipaa,
-  impossibleTravelDetector,
-  WebhookDeliverer,
+  authImpossibleTravelDetector,
+  AuthWebhookDeliverer,
 } from '@gentleduck/auth/core'
 import { JwtTransport } from '@gentleduck/auth/core/transport'
 import {
@@ -159,12 +159,12 @@ import {
   AuthRedisLimiter,
   AuthRedisSessionStore,
 } from '@gentleduck/auth/adapters/redis'
-import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { authCreateSqlStores } from '@gentleduck/auth/adapters/sql'
 import { createDrizzlePgBridge } from '@gentleduck/auth/adapters/drizzle/pg'
 
 const redis = new Redis(process.env.REDIS_URL!)
 const drizzleBridge = createDrizzlePgBridge(db, schema)
-const sql = createSqlAuthStores({ bridge: drizzleBridge })
+const sql = authCreateSqlStores({ bridge: drizzleBridge })
 
 export const auth = new AuthEngine({
   ...hipaa({
@@ -174,7 +174,7 @@ export const auth = new AuthEngine({
       sessions: new AuthRedisSessionStore(redis),
     },
     events: new AuthRedisEvents(redis),
-    channels: { email: new SesChannel({ ... }) },
+    channels: { email: new AuthSesChannel({ ... }) },
   }),
   baseUrl: 'https://api.example.com',
   transport: new JwtTransport({
@@ -188,13 +188,13 @@ export const auth = new AuthEngine({
     refresh: { cookieName: '__Host-duck-refresh', ttlMs: 30 * 24 * 60 * 60 * 1000 },
   }),
   limiter: new AuthRedisLimiter(redis),
-  passwords: { hasher: new Argon2idHasher(ARGON2ID_COMPLIANCE) },
+  passwords: { hasher: new AuthArgon2idHasher(ARGON2ID_COMPLIANCE) },
 })
 
-auth.anomaly.register(impossibleTravelDetector({ ... }))
+auth.anomaly.register(authImpossibleTravelDetector({ ... }))
 auth.events.on('lockout', alertOpsTeam)
 
-const webhook = new WebhookDeliverer({
+const webhook = new AuthWebhookDeliverer({
   url: 'https://audit.example.com/auth',
   secret: process.env.WEBHOOK_SECRET!,
 })

@@ -1,5 +1,5 @@
 ---
-title: SmtpChannel
+title: AuthSmtpChannel
 description: Nodemailer-compatible SMTP relay. Works with Postmark, Mailgun, custom SMTP servers - anywhere you have credentials.
 section: Channels
 ---
@@ -10,15 +10,15 @@ section: Channels
 bun add nodemailer
 ```
 
-`SmtpChannel` lazy-loads `nodemailer` - apps that don't use SMTP pay
+`AuthSmtpChannel` lazy-loads `nodemailer` - apps that don't use SMTP pay
 no cost.
 
 ## Setup
 
 ```typescript
-import { SmtpChannel } from '@gentleduck/auth/channels/smtp'
+import { AuthSmtpChannel } from '@gentleduck/auth/channels/smtp'
 
-const channel = new SmtpChannel({
+const channel = new AuthSmtpChannel({
   from: 'no-reply@example.com',
   host: 'smtp.example.com',
   port: 587,
@@ -51,10 +51,10 @@ auth.providers.use(
 
 The channel handles the SMTP delivery; rendering the message body is
 your responsibility. The default templates are minimal - for branded
-emails, subclass `SmtpChannel` and override `renderMessage()`:
+emails, subclass `AuthSmtpChannel` and override `renderMessage()`:
 
 ```typescript
-class BrandedSmtpChannel extends SmtpChannel {
+class BrandedSmtpChannel extends AuthSmtpChannel {
   async renderMessage({ templateId, vars }) {
     if (templateId === 'magic-link') {
       return {
@@ -100,7 +100,7 @@ better deliverability:
 
 ```typescript
 class MultiSmtpChannel implements AuthChannel.IChannel {
-  constructor(private channels: SmtpChannel[]) {}
+  constructor(private channels: AuthSmtpChannel[]) {}
   async send(input) {
     for (const ch of this.channels) {
       try {
@@ -114,5 +114,5 @@ class MultiSmtpChannel implements AuthChannel.IChannel {
 }
 ```
 
-Or shard by region / tenant - pass a different `SmtpChannel` per
+Or shard by region / tenant - pass a different `AuthSmtpChannel` per
 tenant if you have customer-specific routing.

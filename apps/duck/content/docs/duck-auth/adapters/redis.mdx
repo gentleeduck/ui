@@ -1,6 +1,6 @@
 ---
 title: Redis adapter bundle
-description: Production session store + idempotency cache + DPoP nonce store + sliding-window limiter + cross-process events. Works against ioredis, @upstash/redis, or an in-tree FakeRedis.
+description: Production session store + idempotency cache + DPoP nonce store + sliding-window limiter + cross-process events. Works against ioredis, @upstash/redis, or an in-tree AuthFakeRedis.
 section: Adapters
 ---
 
@@ -16,8 +16,8 @@ you pick the stores you need:
 | `AuthRedisIdempotencyStore` | The default in-memory `idempotency` cache. |
 | `AuthRedisDPoPNonceStore` | `MemoryDPoPNonceStore`. |
 | `AuthRedisLimiter` | `AuthMemoryLimiter`. |
-| `AuthRedisEvents` | `InMemoryEvents`. |
-| `FakeRedis` | A test-only in-memory `RedisLike.IClient`. |
+| `AuthRedisEvents` | `AuthInMemoryEvents`. |
+| `AuthFakeRedis` | A test-only in-memory `AuthRedisLike.IClient`. |
 
 Identities, credentials, and orgs **do not** belong in Redis - use the
 SQL bridge for durable rows and Redis for the volatile state that needs
@@ -34,10 +34,10 @@ import {
   AuthRedisLimiter,
   AuthRedisSessionStore,
 } from '@gentleduck/auth/adapters/redis'
-import { createSqlAuthStores } from '@gentleduck/auth/adapters/sql'
+import { authCreateSqlStores } from '@gentleduck/auth/adapters/sql'
 
 const redis = new Redis(process.env.REDIS_URL!)
-const sql = createSqlAuthStores({ bridge: myDrizzleBridge })
+const sql = authCreateSqlStores({ bridge: myDrizzleBridge })
 
 export const auth = new AuthEngine({
   stores: {
@@ -67,7 +67,7 @@ const auth = new AuthEngine({
 })
 ```
 
-`RedisLike.IClient` is the abstraction - any Redis client that exposes
+`AuthRedisLike.IClient` is the abstraction - any Redis client that exposes
 `get`, `set`, `del`, `incr`, `expire`, `pttl`, `keys`, `multi`,
 `subscribe`/`publish` works.
 
@@ -140,15 +140,15 @@ Use cases:
   active right now?").
 - Streaming to an audit log SaaS without a queueing layer.
 
-## FakeRedis (for tests)
+## AuthFakeRedis (for tests)
 
 ```typescript
-import { FakeRedis } from '@gentleduck/auth/adapters/redis'
+import { AuthFakeRedis } from '@gentleduck/auth/adapters/redis'
 
-const redis = new FakeRedis()
+const redis = new AuthFakeRedis()
 const limiter = new AuthRedisLimiter(redis)
 
-// FakeRedis implements the same RedisLike.IClient interface as ioredis,
+// AuthFakeRedis implements the same AuthRedisLike.IClient interface as ioredis,
 // but stores in-process. No Docker, no `redis-server`, no port to bind.
 ```
 

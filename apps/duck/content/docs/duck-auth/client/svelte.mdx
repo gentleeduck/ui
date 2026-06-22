@@ -7,9 +7,9 @@ section: Client
 ## Setup
 
 ```typescript title="src/lib/auth.ts"
-import { createAuthStore } from '@gentleduck/auth/client/svelte'
+import { authCreateStore } from '@gentleduck/auth/client/svelte'
 
-export const auth = createAuthStore({
+export const auth = authCreateStore({
   baseUrl: '/auth',
 })
 
@@ -87,10 +87,10 @@ export const load: LayoutServerLoad = ({ locals }) => {
 ```
 
 ```typescript title="src/lib/auth.ts (client)"
-import { createAuthStore } from '@gentleduck/auth/client/svelte'
+import { authCreateStore } from '@gentleduck/auth/client/svelte'
 
 export function makeAuth(initialState: any) {
-  return createAuthStore({
+  return authCreateStore({
     baseUrl: '/auth',
     noInitialFetch: true,
     initialState,

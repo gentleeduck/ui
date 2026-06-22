@@ -1,23 +1,23 @@
 ---
 title: Webhooks
-description: WebhookDeliverer broadcasts AuthEngine events to HTTP endpoints with HMAC-signed bodies, exponential backoff, SSRF guards, and dead-letter sinks.
+description: AuthWebhookDeliverer broadcasts AuthEngine events to HTTP endpoints with HMAC-signed bodies, exponential backoff, SSRF guards, and dead-letter sinks.
 section: Advanced
 ---
 
-`WebhookDeliverer` fans out duck-auth events to one or more HTTPS
+`AuthWebhookDeliverer` fans out duck-auth events to one or more HTTPS
 endpoints. Every payload is HMAC-signed so receivers can verify
 authenticity, oversized bodies are dropped at 1 MiB, and the SSRF
 guard rejects loopback / private / link-local / cloud-metadata target
 hosts at construction.
 
 ```typescript
-import { WebhookDeliverer } from '@gentleduck/auth/core'
+import { AuthWebhookDeliverer } from '@gentleduck/auth/core'
 ```
 
 ## Setup
 
 ```typescript
-const webhooks = new WebhookDeliverer({
+const webhooks = new AuthWebhookDeliverer({
   endpoints: [
     {
       url: 'https://hooks.example.com/duck-auth',
@@ -84,17 +84,17 @@ HMAC-SHA256(secret, `${timestamp}.${body}`)
 ```
 
 `timestamp` is the same millis embedded in the payload. Sign with
-`signWebhookBody` on either side, verify with
-`verifyWebhookSignature` - both exported from the same module:
+`authSignWebhookBody` on either side, verify with
+`authVerifyWebhookSignature` - both exported from the same module:
 
 ```typescript
-import { signWebhookBody, verifyWebhookSignature } from '@gentleduck/auth/core'
+import { authSignWebhookBody, authVerifyWebhookSignature } from '@gentleduck/auth/core'
 
-// Sender side (typically you do not call this - WebhookDeliverer does)
-const sig = signWebhookBody(secret, body, timestamp)
+// Sender side (typically you do not call this - AuthWebhookDeliverer does)
+const sig = authSignWebhookBody(secret, body, timestamp)
 
 // Receiver side
-if (!verifyWebhookSignature(secret, body, signatureHeader, { timestamp, toleranceMs: 5 * 60_000 })) {
+if (!authVerifyWebhookSignature(secret, body, signatureHeader, { timestamp, toleranceMs: 5 * 60_000 })) {
   res.status(401).end()
   return
 }
@@ -129,7 +129,7 @@ of choice (SQS, Redis Stream, plain file) so an operator can replay
 later.
 
 ```typescript
-const sink: WebhookDeliverer.IDeadLetterSink = {
+const sink: AuthWebhookDeliverer.IDeadLetterSink = {
   async put(entry) {
     await redis.xadd('auth-webhook-dlq', '*', 'data', JSON.stringify(entry))
   },

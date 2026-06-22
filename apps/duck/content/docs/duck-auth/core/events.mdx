@@ -1,6 +1,6 @@
 ---
 title: Events
-description: InMemoryEvents, AuthRedisEvents, the typed event taxonomy, and WebhookDeliverer for signed outbound delivery.
+description: AuthInMemoryEvents, AuthRedisEvents, the typed event taxonomy, and AuthWebhookDeliverer for signed outbound delivery.
 section: Core
 ---
 
@@ -8,14 +8,14 @@ section: Core
 
 duck-auth emits every lifecycle event (identity created, session rotated,
 MFA enrolled, anomaly signalled, lockout fired) through a single
-`AuthEvents.IBus`. The default is `InMemoryEvents`; production deployments
+`AuthEvents.IBus`. The default is `AuthInMemoryEvents`; production deployments
 swap to `AuthRedisEvents` for cross-process fan-out.
 
 ```typescript
-import { InMemoryEvents } from '@gentleduck/auth/core'
+import { AuthInMemoryEvents } from '@gentleduck/auth/core'
 
 export const auth = new AuthEngine({
-  events: new InMemoryEvents(),
+  events: new AuthInMemoryEvents(),
 })
 
 const unsubscribe = auth.events.on('session.rotated', (event) => {
@@ -102,15 +102,15 @@ The `lockout` event is the one `strict()` will complain about if no
 listener is attached in production - at minimum, you should be paging on
 or auditing every lockout.
 
-## WebhookDeliverer
+## AuthWebhookDeliverer
 
 For outbound integrations (audit log SaaS, CRM, downstream services),
 ship every event over signed HTTPS:
 
 ```typescript
-import { WebhookDeliverer } from '@gentleduck/auth/core'
+import { AuthWebhookDeliverer } from '@gentleduck/auth/core'
 
-const deliverer = new WebhookDeliverer({
+const deliverer = new AuthWebhookDeliverer({
   url: 'https://example.com/auth-events',
   secret: process.env.WEBHOOK_SECRET!,
 })
@@ -124,11 +124,11 @@ The body is HMAC-SHA256 signed; the signature rides on an
 `X-Duck-Auth-Signature` header. On the receiving side:
 
 ```typescript
-import { verifyWebhookSignature } from '@gentleduck/auth/core'
+import { authVerifyWebhookSignature } from '@gentleduck/auth/core'
 
 const raw = await req.text()
 const sig = req.headers.get('x-duck-auth-signature')!
-const ok = verifyWebhookSignature(raw, sig, process.env.WEBHOOK_SECRET!)
+const ok = authVerifyWebhookSignature(raw, sig, process.env.WEBHOOK_SECRET!)
 if (!ok) return new Response('bad signature', { status: 401 })
 ```
 

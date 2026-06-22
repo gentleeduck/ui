@@ -13,12 +13,12 @@ section: Providers
 4. Copy the client ID and client secret.
 
 ```typescript
-import { linkedin } from '@gentleduck/auth/providers/oauth/linkedin'
+import { authLinkedin } from '@gentleduck/auth/providers/oauth/linkedin'
 
 export const auth = new AuthEngine({
   // ...
   providers: [
-    linkedin({
+    authLinkedin({
       clientId: process.env.LINKEDIN_CLIENT_ID!,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
       redirectUri: 'https://app.example.com/auth/linkedin/callback',

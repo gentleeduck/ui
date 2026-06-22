@@ -86,10 +86,10 @@ See [Writing a custom provider ->](/duck-auth/providers#writing-a-custom-provide
 
 ## Can I have my own adapter?
 
-Yes. Implement `SqlBridge.IBridge` and pass it to `createSqlAuthStores`:
+Yes. Implement `SqlBridge.IBridge` and pass it to `authCreateSqlStores`:
 
 ```typescript
-const stores = createSqlAuthStores({ bridge: myBridge })
+const stores = authCreateSqlStores({ bridge: myBridge })
 ```
 
 Or implement the four store interfaces directly. Run the [compliance
@@ -101,7 +101,7 @@ implementation.
 Yes, with caveats:
 
 - **Vercel Edge / Cloudflare Workers**: use `JwtTransport` (no DB
-  hits per request) and `Argon2idHasher` (Node's `crypto.scrypt` isn't
+  hits per request) and `AuthArgon2idHasher` (Node's `crypto.scrypt` isn't
   on Workers).
 - **AWS Lambda**: works as-is. Cold-start cost is ~300ms for the first
   request after a deploy - pin a warmer if that matters.
@@ -111,7 +111,7 @@ Yes, with caveats:
 
 ## How fast is it?
 
-A signin endpoint with `ScryptHasher` defaults is ~30ms per call
+A signin endpoint with `AuthScryptHasher` defaults is ~30ms per call
 (20ms hash + 5ms DB + 5ms cookie issue). With Argon2id at OWASP
 defaults, ~80ms. JWT verify (no DB hit) is <1ms.
 

@@ -29,7 +29,7 @@ thing to mTLS for browser SPAs and mobile apps.
 
 ```typescript
 import {
-  computeJwkThumbprint,
+  authComputeJwkThumbprint,
   DPoPVerifier,
   MemoryDPoPNonceStore,
 } from '@gentleduck/auth/core/transport'
@@ -88,7 +88,7 @@ For internal services that mint short-lived JWTs and want to bind them
 to the DPoP key:
 
 ```typescript
-import { bindPayloadToDPoP } from '@gentleduck/auth/core/transport'
+import { authBindPayloadToDPoP } from '@gentleduck/auth/core/transport'
 
 const payload = {
   sub: 'identity-id',
@@ -96,7 +96,7 @@ const payload = {
   exp: Math.floor(Date.now() / 1000) + 60,
 }
 
-const bound = bindPayloadToDPoP(payload, dpopHeader)
+const bound = authBindPayloadToDPoP(payload, dpopHeader)
 // bound = { ...payload, cnf: { jkt: '<thumbprint>' } }
 
 const jwt = await transport.signJwt(bound)
@@ -111,9 +111,9 @@ along with the token.
 For custom flows that need to compute the RFC 7638 thumbprint of a JWK:
 
 ```typescript
-import { computeJwkThumbprint } from '@gentleduck/auth/core/transport'
+import { authComputeJwkThumbprint } from '@gentleduck/auth/core/transport'
 
-const jkt = await computeJwkThumbprint(clientJwk)
+const jkt = await authComputeJwkThumbprint(clientJwk)
 // -> 'kIQ-AzaP-...' (43-character base64url)
 ```
 

@@ -59,9 +59,9 @@ The client persists the token. Subsequent requests carry it on the
 ## Sign-out
 
 ```typescript
-import { mountSignOut } from '@gentleduck/auth/server/express'
+import { authMountSignOut } from '@gentleduck/auth/server/express'
 
-app.post('/auth/signout', mountSignOut(auth))
+app.post('/auth/signout', authMountSignOut(auth))
 ```
 
 The handler reads the `Authorization` header, revokes the session row,

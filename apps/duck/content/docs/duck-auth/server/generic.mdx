@@ -8,7 +8,7 @@ section: Server
 
 The generic adapter is the lowest-level mount point. It exposes:
 
-- `executeIntents(intents, baseStatus?) -> Response` - turn `Intent[]`
+- `authExecuteIntents(intents, baseStatus?) -> Response` - turn `Intent[]`
   into a `Response`.
 - `parseSignInBody(raw)` - validate a sign-in JSON payload.
 - `parseProviderBeginBody(raw)` - validate a provider-begin payload.
@@ -24,7 +24,7 @@ Use it when:
 ## Bun (native)
 
 ```typescript
-import { executeIntents, parseSignInBody } from '@gentleduck/auth/server/generic'
+import { authExecuteIntents, parseSignInBody } from '@gentleduck/auth/server/generic'
 import { auth } from './lib/auth'
 
 Bun.serve({
@@ -37,7 +37,7 @@ Bun.serve({
       if (!body) return new Response('Bad Request', { status: 400 })
 
       const intents = await auth.flows.signIn(body)
-      return executeIntents(intents)
+      return authExecuteIntents(intents)
     }
 
     if (url.pathname === '/auth/session' && req.method === 'GET') {
@@ -54,7 +54,7 @@ Bun.serve({
 ## Deno
 
 ```typescript
-import { executeIntents } from '@gentleduck/auth/server/generic'
+import { authExecuteIntents } from '@gentleduck/auth/server/generic'
 import { auth } from './lib/auth.ts'
 
 Deno.serve({ port: 3000 }, async (req) => {
@@ -62,7 +62,7 @@ Deno.serve({ port: 3000 }, async (req) => {
   if (url.pathname === '/auth/signin' && req.method === 'POST') {
     const body = await req.json()
     const intents = await auth.flows.signIn(body)
-    return executeIntents(intents)
+    return authExecuteIntents(intents)
   }
   // ...
   return new Response('Not Found', { status: 404 })
@@ -72,7 +72,7 @@ Deno.serve({ port: 3000 }, async (req) => {
 ## Cloudflare Workers
 
 ```typescript
-import { executeIntents } from '@gentleduck/auth/server/generic'
+import { authExecuteIntents } from '@gentleduck/auth/server/generic'
 
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
@@ -81,7 +81,7 @@ export default {
 
     if (url.pathname === '/auth/signin' && req.method === 'POST') {
       const intents = await auth.flows.signIn(await req.json())
-      return executeIntents(intents)
+      return authExecuteIntents(intents)
     }
     return new Response('Not Found', { status: 404 })
   },
@@ -93,9 +93,9 @@ export default {
 If you need to wrap the response or add headers:
 
 ```typescript
-import { executeIntents } from '@gentleduck/auth/server/generic'
+import { authExecuteIntents } from '@gentleduck/auth/server/generic'
 
-const baseResponse = executeIntents(intents)
+const baseResponse = authExecuteIntents(intents)
 
 // Read the body, wrap it, return a new Response with the same headers.
 const wrapped = new Response(

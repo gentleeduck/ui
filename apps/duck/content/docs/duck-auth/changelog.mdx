@@ -21,8 +21,8 @@ for the architectural rationale.
   with `MemoryDPoPNonceStore` and `AuthRedisDPoPNonceStore`.
 - **Adapters** - `AuthMemoryAdapter`, the Redis bundle
   (`AuthRedisSessionStore`, `AuthRedisLimiter`, `AuthRedisIdempotencyStore`,
-  `AuthRedisEvents`, `AuthRedisDPoPNonceStore`, `FakeRedis`), the SQL bridge
-  (`SqlBridge.IBridge`, `createSqlAuthStores`), and the Drizzle
+  `AuthRedisEvents`, `AuthRedisDPoPNonceStore`, `AuthFakeRedis`), the SQL bridge
+  (`SqlBridge.IBridge`, `authCreateSqlStores`), and the Drizzle
   reference implementations for pg / mysql / sqlite.
 - **Providers** - password, magic-link, six OAuth providers (Google,
   GitHub, LinkedIn, Microsoft, Discord, Apple), WebAuthn passkeys
@@ -37,10 +37,10 @@ for the architectural rationale.
 - **OpenAPI 3.1 generator**, **OIDC discovery + JWKS handler**,
   **OpenTelemetry instrumentation**, **i18n catalogs** (built-in +
   Lingui adapter).
-- **`createTestAuth()`** test helper, adapter compliance suite,
+- **`authCreateTest()`** test helper, adapter compliance suite,
   Storybook decorator.
 - **WebAuthn-MFA factor**.
-- **KMS-envelope `dataAtRest`** (`AwsKmsProvider` reference impl).
+- **KMS-envelope `dataAtRest`** (`AuthAwsKmsProvider` reference impl).
 - **`JwtTransport` live JWKS rotation**.
 
 ### Security baselines
