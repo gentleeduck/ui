@@ -48,7 +48,19 @@ const nextConfig: NextConfig = {
       // Client-only libraries — still served to the browser via per-page chunks.
       '**/node_modules/recharts/**',
       '**/node_modules/three-stdlib/**',
-      '**/node_modules/lucide-react/dist/cjs/**',
+      // lucide-react v1.x has no dist/cjs — exclude entire package; optimizePackageImports bundles only used icons.
+      '**/node_modules/lucide-react/**',
+      // mermaid + its heavy deps (d3, dagre, cytoscape) are build-time only (velite plugin uses Chromium headless).
+      '**/node_modules/mermaid/**',
+      '**/node_modules/d3/**',
+      '**/node_modules/d3-*/**',
+      '**/node_modules/dagre-d3-es/**',
+      '**/node_modules/cytoscape/**',
+      '**/node_modules/cytoscape-*/**',
+      '**/node_modules/@mermaid-js/**',
+      '**/node_modules/roughjs/**',
+      '**/node_modules/khroma/**',
+      '**/node_modules/katex/**',
       // Source registries — transpiled into the build output.
       '**/packages/registry-blocks/**',
       '**/packages/registry-examples/**',
