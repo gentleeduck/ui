@@ -20,10 +20,10 @@ distributed claims, RP-initiated logout.
 ## Quick start
 
 ```typescript
-import { createOidcOP, MemoryClientStore } from '@gentleduck/auth/oidc/op'
+import { authCreateOidcOP, AuthMemoryClientStore } from '@gentleduck/auth/oidc/op'
 
-const op = createOidcOP({
-  auth,                     // AuthEngine instance from defineAuth(...)
+const op = authCreateOidcOP({
+  auth,                     // AuthEngine instance from createAuth(...)
   config: {
     issuer: 'https://auth.example.com',
     supportedScopes: ['openid', 'profile', 'email', 'offline_access'],
@@ -81,13 +81,13 @@ The default memory stores are for dev. Production deployments wire a
 Drizzle adapter:
 
 ```typescript
-import { createDrizzlePgOidcOpStores } from '@gentleduck/auth/oidc/op/drizzle/pg'
+import { authCreateDrizzlePgOidcOpStores } from '@gentleduck/auth/oidc/op/drizzle/pg'
 
-const op = createOidcOP({
+const op = authCreateOidcOP({
   auth,
   config: { issuer, supportedScopes },
   signIdToken,
-  stores: createDrizzlePgOidcOpStores(db),
+  stores: authCreateDrizzlePgOidcOpStores(db),
 })
 ```
 
@@ -113,7 +113,7 @@ DCR is disabled by default. Enable it explicitly with a bearer gate so
 random Internet traffic cannot mint clients:
 
 ```typescript
-const op = createOidcOP({
+const op = authCreateOidcOP({
   auth,
   config: { issuer, supportedScopes },
   signIdToken,
@@ -128,7 +128,7 @@ const op = createOidcOP({
 Expose the registration endpoint and advertise it in discovery:
 
 ```typescript
-const discovery = buildOidcDiscovery({
+const discovery = authBuildOidcDiscovery({
   issuer,
   registrationEndpoint: `${issuer}/auth/oauth/register`,
 })

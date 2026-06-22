@@ -11,7 +11,7 @@ configuration overrides for the named regulatory scope:
 
 - Replace `ScryptHasher` with `Argon2idHasher` (HIPAA / FIPS).
 - Force `dataAtRest` encryption on identities and credentials.
-- Register `impossibleTravelDetector` + `deviceFingerprintDetector`.
+- Register `authImpossibleTravelDetector` + `deviceFingerprintDetector`.
 - Tighten password policy (minLength 14+).
 - Set `anomaly.onDetectorError` to `step-up` (SOC2) or `deny` (FIPS).
 - Cap `session.absoluteTtlMs` (HIPAA: 30 days; FIPS: 7 days).
@@ -27,7 +27,7 @@ import { hipaa } from '@gentleduck/auth/core'
 const config = hipaa({
   stores: { /* ... */ },
   events: new AuthRedisEvents(redis),
-  channels: { email: new SesChannel({ ... }) },
+  channels: { email: new AuthSesChannel({ ... }) },
 })
 
 export const auth = new AuthEngine({
@@ -36,7 +36,7 @@ export const auth = new AuthEngine({
 })
 ```
 
-Presets return an `AuthEngine.IConfig` shape that you spread into
+Presets return an `AuthEngineTypes.IConfig` shape that you spread into
 `new AuthEngine({ ... })`. Add your own keys after to override.
 
 ## Available presets
@@ -76,7 +76,7 @@ rather than stacking.
 ### `soc2`
 
 - All `gdpr` requirements.
-- `impossibleTravelDetector` + `deviceFingerprintDetector` registered.
+- `authImpossibleTravelDetector` + `deviceFingerprintDetector` registered.
 - `anomaly.onDetectorError: 'step-up'`.
 - `WebhookDeliverer` wired to ship every audit event to an external sink.
 - `session.absoluteTtlMs: 30 days` cap.
@@ -85,9 +85,9 @@ rather than stacking.
 ### `hipaa`
 
 - All `soc2` requirements.
-- `passwords.hasher: Argon2idHasher(ARGON2ID_COMPLIANCE)`.
+- `passwords.hasher: Argon2idHasher(AUTH_ARGON2ID_COMPLIANCE)`.
 - `passwords.minLength: 14`.
-- `dataAtRest: AesGcmDataAtRest` with a `KeyProvider` (you supply).
+- `dataAtRest: AuthAesGcmDataAtRest` with a `KeyProvider` (you supply).
 - `channel` must implement an audit hook (HIPAA logs every message).
 - `session.absoluteTtlMs: 30 days` cap (already set by SOC2 layer).
 - `mfa.enforced: true` - at least one MFA factor required per identity.
@@ -95,9 +95,9 @@ rather than stacking.
 ### `fips`
 
 - All `hipaa` requirements.
-- `passwords.hasher: Argon2idHasher(ARGON2ID_COMPLIANCE)`.
+- `passwords.hasher: Argon2idHasher(AUTH_ARGON2ID_COMPLIANCE)`.
 - `JwtTransport.algorithms`: `ES256` / `EdDSA` only. HS256 / RS256 rejected.
-- `dataAtRest: KmsEnvelopeDataAtRest` - local key material disallowed.
+- `dataAtRest: AuthKmsEnvelopeDataAtRest` - local key material disallowed.
 - `anomaly.onDetectorError: 'deny'`.
 - `session.absoluteTtlMs: 7 days` cap.
 - `passwords.minLength: 16`.
