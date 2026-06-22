@@ -11,7 +11,7 @@ import { UploadEngineError } from '@gentleduck/upload/core'
 ## Why static messages
 
 Filenames are attacker-controlled. A naive error like
-`new Error(\`upload of \${file.name} failed\`)` invites filenames
+``new Error(`upload of ${file.name} failed`)`` invites filenames
 such as `<img src=x onerror=alert(1)>.png` to slip into your UI when
 the host app renders `error.message` with `dangerouslySetInnerHTML`
 or `innerHTML`.
@@ -103,5 +103,5 @@ if (err instanceof UploadEngineError && err.cause instanceof Response) {
 
 ## See also
 
-- [Contracts](/duck-upload/core/contracts) - the `Contracts.Error` discriminated union for the typed engine-result errors (a separate, broader surface).
-- [Engine](/duck-upload/core/engine) - where these errors originate.
+* [Contracts](/duck-upload/core/contracts) - the `Contracts.Error` discriminated union for the typed engine-result errors (a separate, broader surface).
+* [Engine](/duck-upload/core/engine) - where these errors originate.

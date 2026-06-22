@@ -29,7 +29,7 @@
         "@gentleduck/hooks": "workspace:*",
         "@gentleduck/lazy": "workspace:*",
         "@gentleduck/libs": "workspace:*",
-        "@gentleduck/md": "^0.4.0",
+        "@gentleduck/md": "^0.4.1",
         "@gentleduck/motion": "workspace:*",
         "@gentleduck/primitives": "workspace:*",
         "@gentleduck/registers": "workspace:*",
@@ -242,7 +242,7 @@
       "name": "@gentleduck/docs",
       "version": "3.0.0",
       "dependencies": {
-        "@gentleduck/md": "^0.4.0",
+        "@gentleduck/md": "^0.4.1",
         "@types/unist": "^3.0.3",
         "zod": "4.3.6",
       },
@@ -693,7 +693,7 @@
     },
   },
   "overrides": {
-    "@gentleduck/md": "^0.4.0",
+    "@gentleduck/md": "^0.4.1",
     "esbuild": ">=0.28.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -1032,7 +1032,7 @@
 
     "@gentleduck/libs": ["@gentleduck/libs@workspace:packages/duck-libs"],
 
-    "@gentleduck/md": ["@gentleduck/md@0.4.0", "", { "dependencies": { "rehype-raw": "^7", "rehype-stringify": "^10", "remark-frontmatter": "^5", "remark-mdx": "^3", "remark-parse": "^11", "remark-rehype": "^11", "remark-stringify": "^11", "unified": "^11" }, "optionalDependencies": { "chokidar": "^4", "tsx": "^4" }, "bin": { "duck-md": "bin/duck-md.mjs" } }, "sha512-7W7hOZRHDwa1AZRnw+f3NLFE9EoOvgEKLG5Zppw/uxGwxRSyZ3dPYVD22seDYziGNotRaZmXPWx0vyvKq/ukjw=="],
+    "@gentleduck/md": ["@gentleduck/md@0.4.1", "", { "dependencies": { "rehype-raw": "^7", "rehype-stringify": "^10", "remark-frontmatter": "^5", "remark-mdx": "^3", "remark-parse": "^11", "remark-rehype": "^11", "remark-stringify": "^11", "unified": "^11" }, "optionalDependencies": { "chokidar": "^4", "tsx": "^4" }, "bin": { "duck-md": "bin/duck-md.mjs" } }, "sha512-jcsq6lZenlQxQnL5v0M6EsEGpSmDGAHCMOMaSL9o5DXwcN8GdThO7qGFUtEfStgwonlkh4/5sB0tkGyCfEbjLw=="],
 
     "@gentleduck/motion": ["@gentleduck/motion@workspace:packages/duck-motion"],
 
