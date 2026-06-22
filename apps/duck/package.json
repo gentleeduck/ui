@@ -9,7 +9,7 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/md": "^0.4.2",
+    "@gentleduck/md": "^0.4.1",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/primitives": "workspace:*",
     "@gentleduck/registers": "workspace:*",
