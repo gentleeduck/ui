@@ -14,7 +14,7 @@
     "@types/three": "^0.184.0",
     "husky": "^9.1.7",
     "motion": "^12.26.2",
-    "sherif": "1.11.0",
+    "sherif": "1.12.0",
     "turbo": "^2.9.14",
     "typescript": "6.0.3"
   },
