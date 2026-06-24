@@ -1,8 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import type { IPopover } from '@gentleduck/primitives/popover'
+import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import * as React from 'react'
 
 const Popover = PopoverPrimitive.Root
@@ -40,8 +40,7 @@ const PopoverContent = React.forwardRef<
 ))
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
-const PopoverArrow = React.forwardRef<SVGSVGElement, IPopover.IArrowProps>(
-  ({ className, style, ...props }, ref) => (
+const PopoverArrow = React.forwardRef<SVGSVGElement, IPopover.IArrowProps>(({ className, style, ...props }, ref) => (
   <PopoverPrimitive.Arrow
     ref={ref}
     asChild
