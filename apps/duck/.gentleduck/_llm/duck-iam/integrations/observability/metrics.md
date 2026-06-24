@@ -1,6 +1,6 @@
 ## What it does
 
-`createMetricsAggregator` is a ring-buffer histogram over `IamEngineTypes.IMetricsEvent`. Wire its `.record` method to `hooks.onMetrics` and call `.snapshot()` on demand - a `/metrics` route, a Prometheus scrape, an OTel exporter, whatever your pipeline expects.
+`iamCreateMetricsAggregator` is a ring-buffer histogram over `IamEngineTypes.IMetricsEvent`. Wire its `.record` method to `hooks.onMetrics` and call `.snapshot()` on demand - a `/metrics` route, a Prometheus scrape, an OTel exporter, whatever your pipeline expects.
 
 No external dependencies, no allocations on the hot path beyond a `Float64Array` slot per recorded event.
 
@@ -9,7 +9,7 @@ No external dependencies, no allocations on the hot path beyond a `Float64Array`
 ## Install
 
 ```typescript
-import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { iamCreateMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 ```
 
 ***
@@ -18,9 +18,9 @@ import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
 ```typescript
 import { IamEngine } from '@gentleduck/iam'
-import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { iamCreateMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
-const metrics = createMetricsAggregator({ sampleSize: 1000 })
+const metrics = iamCreateMetricsAggregator({ sampleSize: 1000 })
 
 const engine = new IamEngine({
   adapter,
@@ -105,7 +105,7 @@ import { Counter, Histogram } from 'prom-client'
 const iamTotal = new Counter({ name: 'iam_evaluations_total', help: '...', labelNames: ['outcome'] })
 const iamLatency = new Histogram({ name: 'iam_evaluation_duration_ms', help: '...' })
 
-const metrics = createMetricsAggregator()
+const metrics = iamCreateMetricsAggregator()
 
 const engine = new IamEngine({
   adapter,
@@ -136,8 +136,8 @@ The aggregator is a *complement* to Prometheus, not a replacement - it gives you
 Want one aggregator for `allow`, another for `deny`? Wire both:
 
 ```typescript
-const allowMetrics = createMetricsAggregator()
-const denyMetrics = createMetricsAggregator()
+const allowMetrics = iamCreateMetricsAggregator()
+const denyMetrics = iamCreateMetricsAggregator()
 
 const engine = new IamEngine({
   adapter,
@@ -157,7 +157,7 @@ Same pattern works for per-resource or per-action breakdowns.
 
 All types live under the `Metrics` namespace at `@gentleduck/iam/observability/metrics`. Type-only - zero bundle cost.
 
-* `Metrics.IAggregator` - return shape of `createMetricsAggregator` (`record`, `snapshot`, `reset`).
+* `Metrics.IAggregator` - return shape of `iamCreateMetricsAggregator` (`record`, `snapshot`, `reset`).
 * `Metrics.ISnapshot` - shape returned by `.snapshot()` (`total`, `allow`, `deny`, `failOpen`, `p50`, `p95`, `p99`, `max`, `samples`).
 * `Metrics.IConfig` - constructor config (`sampleSize`).
 
@@ -165,7 +165,7 @@ All types live under the `Metrics` namespace at `@gentleduck/iam/observability/m
 import type { Metrics } from '@gentleduck/iam/observability/metrics'
 
 const config: Metrics.IConfig = { sampleSize: 1000 }
-const aggregator: Metrics.IAggregator = createMetricsAggregator(config)
+const aggregator: Metrics.IAggregator = iamCreateMetricsAggregator(config)
 const snap: Metrics.ISnapshot = aggregator.snapshot()
 ```
 

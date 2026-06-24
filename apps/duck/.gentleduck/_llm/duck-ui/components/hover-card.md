@@ -117,6 +117,42 @@ export default function Demo() {
 }
 ```
 
+### Arrow
+
+Add a caret pointing at the trigger. The arrow moves along the content edge when collision avoidance shifts the card near a viewport boundary.
+
+```tsx title="components/hover-card-5.tsx"
+// import from your project: import Demo from '@/components/hover-card-5'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui/hover-card'
+import { CalendarIcon } from 'lucide-react'
+
+export default function Demo() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger variant="link">@nextjs</HoverCardTrigger>
+      <HoverCardContent side="bottom" arrowPadding={8} className="w-80">
+        <div className="flex justify-between space-x-4">
+          <Avatar>
+            <AvatarImage alt="VC" src="https://github.com/gentleeduck.png" />
+            <AvatarFallback>VC</AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h4 className="font-semibold text-sm">@nextjs</h4>
+            <p className="text-sm">The React Framework — created and maintained by @vercel.</p>
+            <div className="flex items-center pt-2">
+              <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-muted-foreground text-xs">Joined December 2021</span>
+            </div>
+          </div>
+        </div>
+        <HoverCardArrow />
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+```
+
 ## RTL Support
 
 Set `dir="rtl"` on `HoverCard` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors hover-card positioning for right-to-left layouts.

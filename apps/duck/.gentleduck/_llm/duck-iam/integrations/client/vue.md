@@ -1,7 +1,7 @@
 ## Install
 
 ```typescript
-import { createVueAccess, ACCESS_INJECTION_KEY } from '@gentleduck/iam/client/vue'
+import { createVueAccess, IAM_ACCESS_INJECTION_KEY } from '@gentleduck/iam/client/vue'
 ```
 
 Vue 3 is an optional peer dep. The factory accepts your reactive utilities (`ref`, `inject`, `provide`, `defineComponent`) to avoid a hard version dependency.
@@ -162,17 +162,17 @@ This is returned from `createVueAccess()` alongside the other exports. Combine i
 
 ***
 
-## ACCESS\_INJECTION\_KEY
+## IAM\_ACCESS\_INJECTION\_KEY
 
-Exported `Symbol` used by `provideAccess`/`useAccess` internally. You can re-use it if you need to bypass the helpers and call `provide(ACCESS_INJECTION_KEY, state)` yourself - for example, when wiring duck-iam into a custom plugin pipeline.
+Exported `Symbol` used by `provideAccess`/`useAccess` internally. You can re-use it if you need to bypass the helpers and call `provide(IAM_ACCESS_INJECTION_KEY, state)` yourself - for example, when wiring duck-iam into a custom plugin pipeline.
 
 ```typescript
 import { provide } from 'vue'
-import { ACCESS_INJECTION_KEY } from '@gentleduck/iam/client/vue'
+import { IAM_ACCESS_INJECTION_KEY } from '@gentleduck/iam/client/vue'
 import { createAccessState } from '@/lib/access'
 
 const state = createAccessState(permissions)
-provide(ACCESS_INJECTION_KEY, state)
+provide(IAM_ACCESS_INJECTION_KEY, state)
 ```
 
 ***

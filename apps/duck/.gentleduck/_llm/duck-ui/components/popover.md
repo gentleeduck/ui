@@ -329,6 +329,39 @@ export default function Demo() {
 }
 ```
 
+### Arrow
+
+Add a directional caret pointing at the trigger. The arrow tracks the trigger and slides along the content edge during collision avoidance. Use `arrowPadding` to keep it within the rounded corners.
+
+```tsx title="components/popover-7.tsx"
+// import from your project: import Demo from '@/components/popover-7'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
+
+export default function Demo() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">Open popover</Button>
+      </PopoverTrigger>
+      <PopoverContent side="bottom" arrowPadding={8} className="w-60">
+        <p className="text-sm">Settings and configuration options for your account.</p>
+        <PopoverArrow />
+      </PopoverContent>
+    </Popover>
+  )
+}
+```
+
+Customize the border color via `--popover-border-color` on `PopoverContent`:
+
+```tsx
+<PopoverContent style={{ '--popover-border-color': '#5865f2' }}>
+  ...
+  <PopoverArrow />
+</PopoverContent>
+```
+
 ## Component Composition
 
 ## RTL Support

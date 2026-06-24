@@ -43,12 +43,12 @@ real engine.
 
 | Panel | What it shows |
 |---|---|
-| **Flow** | A live stream of every `can` / `check` / `authorize` call: subject, action, resource, the resulting decision, and the matched policy / rule. Backed by `createFlowRecorder`. |
+| **Flow** | A live stream of every `can` / `check` / `authorize` call: subject, action, resource, the resulting decision, and the matched policy / rule. Backed by `iamCreateFlowRecorder`. |
 | **Decision** | A request builder: pick a subject, action, resource, environment. Hit "Run" to see the decision + the rule that matched. Calls `engine.explain()`. |
 | **Policies** | All policies loaded into the engine. Click one to see its rules + targets. |
 | **Roles** | All roles loaded into the engine, including inheritance chains and the synthetic policies they expand to. |
 | **Subjects** | Subjects you've inspected, with their resolved roles + attributes. |
-| **Metrics** | `createMetricsAggregator()` snapshot: p50 / p95 / p99 + allow / deny counts. |
+| **Metrics** | `iamCreateMetricsAggregator()` snapshot: p50 / p95 / p99 + allow / deny counts. |
 
 ## Position & layout
 
@@ -79,14 +79,14 @@ admin UI rather than a floating overlay.
 ## Wiring metrics
 
 The Metrics panel reads from any `IDevtoolsMetrics` instance. The
-shipping `createMetricsAggregator` from `@gentleduck/iam/observability/metrics`
+shipping `iamCreateMetricsAggregator` from `@gentleduck/iam/observability/metrics`
 matches the shape, so the two compose:
 
 ```tsx
-import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { iamCreateMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 import { IamDevtools } from '@gentleduck/iam/dt'
 
-const metrics = createMetricsAggregator()
+const metrics = iamCreateMetricsAggregator()
 const engine = new IamEngine({
   adapter,
   hooks: { onMetrics: metrics.record },
@@ -101,13 +101,13 @@ for the full hook surface.
 ## Wiring the flow recorder
 
 The Flow panel needs an `IFlowRecorder`. Build one via
-`createFlowRecorder` and pass it both as the engine hook bus and as
+`iamCreateFlowRecorder` and pass it both as the engine hook bus and as
 the devtools prop:
 
 ```tsx
-import { createFlowRecorder } from '@gentleduck/iam/dt'
+import { iamCreateFlowRecorder } from '@gentleduck/iam/dt'
 
-const flow = createFlowRecorder({ maxEntries: 500 })
+const flow = iamCreateFlowRecorder({ maxEntries: 500 })
 
 const engine = new IamEngine({
   adapter,
@@ -130,12 +130,12 @@ For when you don't want a floating overlay - export the inner
 component and use the three sub-panel renderers directly:
 
 ```tsx
-import { IamDevtoolsInner, DecisionInspector, FlowPanel, MetricsPanel } from '@gentleduck/iam/dt'
+import { IamDevtoolsInner, IamDecisionInspector, IamFlowPanel, IamMetricsPanel } from '@gentleduck/iam/dt'
 
 <Tabs>
-  <Tab title="Decision"><DecisionInspector engine={engine} /></Tab>
-  <Tab title="Flow"><FlowPanel flow={flow} /></Tab>
-  <Tab title="Metrics"><MetricsPanel metrics={metrics} /></Tab>
+  <Tab title="Decision"><IamDecisionInspector engine={engine} /></Tab>
+  <Tab title="Flow"><IamFlowPanel flow={flow} /></Tab>
+  <Tab title="Metrics"><IamMetricsPanel metrics={metrics} /></Tab>
 </Tabs>
 ```
 

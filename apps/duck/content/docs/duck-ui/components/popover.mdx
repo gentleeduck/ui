@@ -119,6 +119,24 @@ Style the trigger to appear active while the popover is open using `data-[state=
   description="A popover with an active trigger style when open."
 />
 
+### Arrow
+
+Add a directional caret pointing at the trigger. The arrow tracks the trigger and slides along the content edge during collision avoidance. Use `arrowPadding` to keep it within the rounded corners.
+
+<ComponentPreview
+  name="popover-7"
+  description="A popover with an arrow pointing at the trigger."
+/>
+
+Customize the border color via `--popover-border-color` on `PopoverContent`:
+
+```tsx
+<PopoverContent style={{ '--popover-border-color': '#5865f2' }}>
+  ...
+  <PopoverArrow />
+</PopoverContent>
+```
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD

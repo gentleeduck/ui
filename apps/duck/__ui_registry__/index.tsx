@@ -416,6 +416,7 @@ const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples/hover-ca
 const _HoverCard2 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-2'), { ssr: false })
 const _HoverCard3 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-3'), { ssr: false })
 const _HoverCard4 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-4'), { ssr: false })
+const _HoverCard5 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-5'), { ssr: false })
 const _Input1 = dynamic(() => import('@gentleduck/registry-examples/input/input-1'), { ssr: false })
 const _Input2 = dynamic(() => import('@gentleduck/registry-examples/input/input-2'), { ssr: false })
 const _Input3 = dynamic(() => import('@gentleduck/registry-examples/input/input-3'), { ssr: false })
@@ -510,6 +511,8 @@ const _Tooltip2 = dynamic(() => import('@gentleduck/registry-examples/tooltip/to
 const _Tooltip3 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-3'), { ssr: false })
 const _Tooltip4 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-4'), { ssr: false })
 const _Tooltip5 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-5'), { ssr: false })
+const _Tooltip6 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-6'), { ssr: false })
+const _Tooltip7 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-7'), { ssr: false })
 const _AspectRatio1 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-1'), { ssr: false })
 const _AspectRatio2 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-2'), { ssr: false })
 const _AspectRatio3 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-3'), { ssr: false })
@@ -572,6 +575,7 @@ const _Popover3 = dynamic(() => import('@gentleduck/registry-examples/popover/po
 const _Popover4 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-4'), { ssr: false })
 const _Popover5 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-5'), { ssr: false })
 const _Popover6 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-6'), { ssr: false })
+const _Popover7 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-7'), { ssr: false })
 const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-1'), { ssr: false })
 const _Menubar2 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-2'), { ssr: false })
 const _Menubar3 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-3'), { ssr: false })
@@ -591,6 +595,9 @@ const _DropdownMenu5 = dynamic(() => import('@gentleduck/registry-examples/dropd
   ssr: false,
 })
 const _DropdownMenu6 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-6'), {
+  ssr: false,
+})
+const _DropdownMenu7 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-7'), {
   ssr: false,
 })
 const _Combobox1 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-1'), { ssr: false })
@@ -849,7 +856,7 @@ export const Index: Record<string, any> = {
     name: 'signup-1',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/signup-1/signup-1.constants.tsx',
@@ -869,7 +876,7 @@ export const Index: Record<string, any> = {
     name: 'login-1',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/login-1/login-1.tsx',
@@ -889,7 +896,7 @@ export const Index: Record<string, any> = {
     name: 'login-2',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/login-2/login-2.tsx',
@@ -909,7 +916,7 @@ export const Index: Record<string, any> = {
     name: 'login-3',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/login-3/login-3.tsx',
@@ -929,7 +936,7 @@ export const Index: Record<string, any> = {
     name: 'login-4',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/login-4/login-4.tsx',
@@ -949,7 +956,7 @@ export const Index: Record<string, any> = {
     name: 'login-5',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'authentications/login-5/login-5.tsx',
@@ -1064,7 +1071,7 @@ export const Index: Record<string, any> = {
     name: 'dashboard-1',
     description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label'],
     files: [
       {
         path: 'dashboards/dashboard-1/dashboard-1.tsx',
@@ -4520,6 +4527,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'hover-card',
   },
+  'hover-card-5': {
+    name: 'hover-card-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['hover-card'],
+    files: [
+      {
+        path: 'hover-card/hover-card-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _HoverCard5,
+    source: '/registry-examples/src/hover-card',
+    categories: [],
+    root_folder: 'hover-card',
+  },
   'input-1': {
     name: 'input-1',
     description: '',
@@ -6024,6 +6047,38 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'tooltip',
   },
+  'tooltip-6': {
+    name: 'tooltip-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip'],
+    files: [
+      {
+        path: 'tooltip/tooltip-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tooltip6,
+    source: '/registry-examples/src/tooltip',
+    categories: [],
+    root_folder: 'tooltip',
+  },
+  'tooltip-7': {
+    name: 'tooltip-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip'],
+    files: [
+      {
+        path: 'tooltip/tooltip-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tooltip7,
+    source: '/registry-examples/src/tooltip',
+    categories: [],
+    root_folder: 'tooltip',
+  },
   'aspect-ratio-1': {
     name: 'aspect-ratio-1',
     description: '',
@@ -7016,6 +7071,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'popover',
   },
+  'popover-7': {
+    name: 'popover-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover'],
+    files: [
+      {
+        path: 'popover/popover-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Popover7,
+    source: '/registry-examples/src/popover',
+    categories: [],
+    root_folder: 'popover',
+  },
   'menubar-1': {
     name: 'menubar-1',
     description: '',
@@ -7156,6 +7227,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _DropdownMenu6,
+    source: '/registry-examples/src/dropdown-menu',
+    categories: [],
+    root_folder: 'dropdown-menu',
+  },
+  'dropdown-menu-7': {
+    name: 'dropdown-menu-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dropdown-menu'],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _DropdownMenu7,
     source: '/registry-examples/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',

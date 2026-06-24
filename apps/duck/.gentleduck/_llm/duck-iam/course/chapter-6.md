@@ -14,10 +14,10 @@ All server integrations share the same pattern:
 
 ### HTTP Method to Action Mapping
 
-duck-iam maps HTTP methods to actions automatically via `METHOD_ACTION_MAP`:
+duck-iam maps HTTP methods to actions automatically via `IAM_METHOD_ACTION_MAP`:
 
 ```typescript
-const METHOD_ACTION_MAP = {
+const IAM_METHOD_ACTION_MAP = {
   GET: 'read',
   HEAD: 'read',
   OPTIONS: 'read',
@@ -151,7 +151,7 @@ Missing user ID returns 401. Denied permission returns 403.
 interface ExpressOptions {
   getUserId?: (req) => string | null        // default: req.user?.id
   getResource?: (req) => Resource           // default: parse from URL
-  getAction?: (req) => string               // default: METHOD_ACTION_MAP
+  getAction?: (req) => string               // default: IAM_METHOD_ACTION_MAP
   getEnvironment?: (req) => Environment     // default: extractEnvironment()
   getScope?: (req) => string | undefined    // default: none
   onDenied?: (req, res) => void             // default: res.status(403).json(...)
@@ -275,33 +275,33 @@ app.delete('/api/posts/:id',
 
 ```typescript title="src/access/access.module.ts"
 import { Module } from '@nestjs/common'
-import { createEngineProvider, ACCESS_ENGINE_TOKEN } from '@gentleduck/iam/server/nest'
+import { createEngineProvider, IAM_ACCESS_ENGINE_TOKEN } from '@gentleduck/iam/server/nest'
 import { engine } from './access'  // mode: 'production' recommended
 
 @Module({
   providers: [
     createEngineProvider(() => engine),
   ],
-  exports: [ACCESS_ENGINE_TOKEN],
+  exports: [IAM_ACCESS_ENGINE_TOKEN],
 })
 export class AccessModule {}
 ```
 
 `createEngineProvider()` returns a NestJS provider that makes the engine available
-via dependency injection using the `ACCESS_ENGINE_TOKEN` injection token.
+via dependency injection using the `IAM_ACCESS_ENGINE_TOKEN` injection token.
 
 **Create the access guard**
 
 ```typescript title="src/access/access.guard.ts"
 import { CanActivate, ExecutionContext, Injectable, Inject } from '@nestjs/common'
-import { nestAccessGuard, ACCESS_ENGINE_TOKEN } from '@gentleduck/iam/server/nest'
+import { nestAccessGuard, IAM_ACCESS_ENGINE_TOKEN } from '@gentleduck/iam/server/nest'
 import type { IamEngine } from '@gentleduck/iam'
 
 @Injectable()
 export class AccessGuard implements CanActivate {
   private check: ReturnType<typeof nestAccessGuard>
 
-  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine: IamEngine) {
+  constructor(@Inject(IAM_ACCESS_ENGINE_TOKEN) engine: IamEngine) {
     this.check = nestAccessGuard(engine, {
       getUserId: (req) => req.user?.id || req.user?.sub,
       getScope: (req) => req.headers['x-organization'],
@@ -361,7 +361,7 @@ export class PostsController {
 ```
 
 When `@Authorize()` uses `infer: true` (the default), action is inferred from the HTTP method
-via `METHOD_ACTION_MAP` and resource is inferred from the route path (last non-parameter segment).
+via `IAM_METHOD_ACTION_MAP` and resource is inferred from the route path (last non-parameter segment).
 
 If no `@Authorize` decorator is present, the guard allows the request through.
 
@@ -628,7 +628,7 @@ the framework's types.
 How does NestJS action/resource inference work?
 
 When `@Authorize()` uses `infer: true` (the default), the guard reads the HTTP method
-to determine the action (via `METHOD_ACTION_MAP`) and parses the controller route path
+to determine the action (via `IAM_METHOD_ACTION_MAP`) and parses the controller route path
 for the resource type, taking the last non-parameter segment (ignoring `:id` style
 params). For `@Controller('posts')` with `@Delete(':id')`, the inferred action is
 `delete` and resource is `posts`.

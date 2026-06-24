@@ -166,6 +166,17 @@ Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Togg
   description="Tooltip wrapping a Toggle with disableCloseOnClick."
 />
 
+### Arrow
+
+Add a directional caret that always tracks the trigger. The arrow moves along the content edge when collision avoidance shifts the tooltip near a viewport boundary.
+
+Use `arrowPadding` to match the content's `border-radius` so the arrow never slides past the rounded corners.
+
+<ComponentPreview
+  name="tooltip-6"
+  description="A tooltip with an arrow pointing at the trigger."
+/>
+
 ## Styling Hooks
 
 - **`data-state`** - Set on trigger and content (`closed`, `delayed-open`, `instant-open`) for state-based styling.
@@ -189,6 +200,7 @@ Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` on
   name="tooltip-3"
   description="A tooltip with RTL support."
 />
+
 
 ## Motion
 
@@ -258,6 +270,15 @@ Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `Mot
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | - | Additional props to spread to the content div |
 
+
+### TooltipArrow
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `width` | `number` | `14` | Arrow width in px |
+| `height` | `number` | `7` | Arrow height in px |
+| `className` | `string` | - | Merges with `fill-popover` |
+| `style` | `CSSProperties` | - | Override `--tooltip-border-color` here to change stroke color |
 
 ### MotionTooltip
 
