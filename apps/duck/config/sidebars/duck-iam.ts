@@ -88,7 +88,7 @@ export const duckIamSidebar = defineSidebar([
         collapsible: true,
         defaultOpen: false,
         items: [
-          { title: 'createAccessConfig()', href: '/duck-iam/advanced/config/access-config' },
+          { title: 'createIam()', href: '/duck-iam/advanced/config/access-config' },
           { title: 'Methods reference', href: '/duck-iam/advanced/config/methods' },
           { title: 'Typed context', href: '/duck-iam/advanced/config/context' },
           { title: 'Typed $-references', href: '/duck-iam/advanced/config/dollar-paths' },

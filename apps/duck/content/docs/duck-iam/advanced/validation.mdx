@@ -112,16 +112,16 @@ same caps in their UI.
 
 | Constant | Value | What it caps |
 |---|---|---|
-| `POLICY_LIMITS.rulesPerPolicy` | 1_000 | rules per policy |
-| `POLICY_LIMITS.actionsPerRule` | 100 | actions per rule |
-| `POLICY_LIMITS.resourcesPerRule` | 100 | resources per rule |
-| `POLICY_LIMITS.cartesianPerRule` | 1_000 | actions x resources expansion |
-| `MAX_FIELD_LENGTH` | 256 | field-path strings |
-| `MAX_CONDITION_VALUE_LENGTH` | 1024 | string condition values |
+| `IAM_POLICY_LIMITS.rulesPerPolicy` | 1_000 | rules per policy |
+| `IAM_POLICY_LIMITS.actionsPerRule` | 100 | actions per rule |
+| `IAM_POLICY_LIMITS.resourcesPerRule` | 100 | resources per rule |
+| `IAM_POLICY_LIMITS.cartesianPerRule` | 1_000 | actions x resources expansion |
+| `IAM_MAX_FIELD_LENGTH` | 256 | field-path strings |
+| `IAM_MAX_CONDITION_VALUE_LENGTH` | 1024 | string condition values |
 | `MAX_INHERITANCE_DEPTH` | 8 | role inherits chain depth |
 
 ```typescript
-import { POLICY_LIMITS, MAX_FIELD_LENGTH } from '@gentleduck/iam/core/validate'
+import { IAM_POLICY_LIMITS, IAM_MAX_FIELD_LENGTH } from '@gentleduck/iam/core/validate'
 ```
 
 ## ReDoS defense
@@ -134,9 +134,9 @@ string }` and `validatePolicy` calls it on every `matches` condition.
 The detector refuses common ReDoS shapes:
 - Nested quantifiers (`(a+)+`, `(a*)*`).
 - Alternation inside a quantifier (`(a|a)+`).
-- More than `MAX_UNBOUNDED_QUANTIFIERS` unbounded quantifiers (default 4) in one pattern.
+- More than `IAM_MAX_UNBOUNDED_QUANTIFIERS` unbounded quantifiers (default 4) in one pattern.
 - Backreference followed by a quantifier (`(\w+)\1+`).
-- Bounded quantifier with large upper bound (`a{1,1000000}`); cap is `MAX_BOUNDED_QUANTIFIER` (default 1_000).
+- Bounded quantifier with large upper bound (`a{1,1000000}`); cap is `IAM_MAX_BOUNDED_QUANTIFIER` (default 1_000).
 - Lookaround group containing a quantifier (`(?=(a+)+)`).
 
 Patterns deemed unsafe never compile, so the runtime never sees them.
@@ -160,7 +160,7 @@ them in your error handling so a code change is a deliberate event:
 | `INVALID_EFFECT` | Effect is not `'allow'` or `'deny'` |
 | `INVALID_OPERATOR` | Condition operator is not in the closed set |
 | `INVALID_CONDITION` | Condition group structure is malformed |
-| `LIMIT_EXCEEDED` | A `POLICY_LIMITS` cap was breached |
+| `LIMIT_EXCEEDED` | A `IAM_POLICY_LIMITS` cap was breached |
 | `UNSAFE_REGEX` | `detectCatastrophicRegex` rejected a pattern |
 
 The full `IamValidate.IIssue` type is exported from

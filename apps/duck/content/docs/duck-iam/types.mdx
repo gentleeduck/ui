@@ -71,7 +71,7 @@ The class `IamEngine` lives next to the `IamEngineTypes` namespace - same name a
 
 Three reasons.
 
-**1. Avoid name collisions across modules.** `IResult` exists in both `Validate` and `Explain`. Without namespaces, one of them needs a longer name. With namespaces, both stay short and the context is explicit at the call site (`IamValidate.IResult` vs `IamExplain.IResult`).
+**1. Avoid name collisions across modules.** `IResult` exists in both `Validate` and `Explain`. Without namespaces, one of them needs a longer name. With namespaces, both stay short and the context is explicit at the call site (`IamValidate.IResult` vs `Explain.IResult`).
 
 **2. One import per module.** Instead of:
 

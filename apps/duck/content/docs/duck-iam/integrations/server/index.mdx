@@ -49,7 +49,7 @@ All five share the same building blocks: identity extraction, action mapping, re
 The default method-to-action map shared by every integration:
 
 ```typescript
-const METHOD_ACTION_MAP = {
+const IAM_METHOD_ACTION_MAP = {
   GET: 'read',
   HEAD: 'read',
   OPTIONS: 'read',
@@ -93,7 +93,7 @@ const middleware = accessMiddleware(engine, {
     if (req.method === 'POST' && req.path.endsWith('/publish')) {
       return 'publish'
     }
-    return METHOD_ACTION_MAP[req.method] ?? 'read'
+    return IAM_METHOD_ACTION_MAP[req.method] ?? 'read'
   },
 })
 ```

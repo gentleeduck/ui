@@ -217,11 +217,11 @@ In production mode, `engine.authorize()` returns a plain `boolean` - no `IDecisi
 Most applications only need the `IamEngine`, but two adjacent exports are worth knowing about:
 
 ```typescript
-import { LRUCache, buildPermissionKey } from '@gentleduck/iam'
+import { IamLRUCache, iamBuildPermissionKey } from '@gentleduck/iam'
 ```
 
-- `buildPermissionKey(action, resource, resourceId?, scope?)` matches the exact key format used by `engine.permissions()` and all client libraries
-- `LRUCache` is the small TTL cache implementation the engine uses internally - import only if you want the same eviction semantics in neighboring application code
+- `iamBuildPermissionKey(action, resource, resourceId?, scope?)` matches the exact key format used by `engine.permissions()` and all client libraries
+- `IamLRUCache` is the small TTL cache implementation the engine uses internally - import only if you want the same eviction semantics in neighboring application code
 
 ---
 

@@ -26,11 +26,11 @@ import { IamEngine } from '@gentleduck/iam/core'
 import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 import { adminRouter, guard } from '@gentleduck/iam/server/express'
 import { createIamRedisInvalidator } from '@gentleduck/iam/invalidators/redis'
-import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { iamCreateMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
 const adapter = new IamDrizzleAdapter(db, schema)
 const invalidator = createIamRedisInvalidator({ client: redis })
-const metrics = createMetricsAggregator()
+const metrics = iamCreateMetricsAggregator()
 
 const engine = new IamEngine({
   adapter,
