@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.3.1
+
+### Patch Changes
+
+- a157bae: Fix arrow base component to use smooth bezier curve path instead of polygon. Correct `TooltipArrow` and `PopoverArrow` to use `PopperArrow` primitive instead of `PopperAnchor` (was rendering invisible). Fix `asChild` propagation to `Primitive.svg` that caused SVG to become a Slot and eject children.
+
 ## 0.3.0
 
 ### Minor Changes

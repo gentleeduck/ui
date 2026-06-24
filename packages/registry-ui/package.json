@@ -65,7 +65,7 @@
   },
   "type": "module",
   "sideEffects": false,
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Styled Tailwind components for Duck UI.",
   "keywords": [
     "gentleduck",
