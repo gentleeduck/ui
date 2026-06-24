@@ -16,24 +16,57 @@ PopoverAnchor.displayName = 'PopoverAnchor'
 const PopoverContent = React.forwardRef<
   React.ComponentRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
+>(({ className, align = 'center', sideOffset = 4, style, ...props }, ref) => (
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
       sideOffset={sideOffset}
       className={cn(
-        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--gentleduck-popover-content-transform-origin) rounded-md border bg-popover p-4 text-start text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
+        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 w-72 origin-(--gentleduck-popover-content-transform-origin) rounded-md border bg-popover p-4 text-start text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=open]:animate-in',
         className,
       )}
+      style={
+        {
+          '--popover-border-color': 'var(--border)',
+          borderColor: 'var(--popover-border-color)',
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     />
   </PopoverPrimitive.Portal>
 ))
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
+const PopoverArrow = React.forwardRef<
+  React.ComponentRef<typeof PopoverPrimitive.Arrow>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Arrow>
+>(({ className, style, ...props }, ref) => (
+  <PopoverPrimitive.Arrow
+    ref={ref}
+    asChild
+    width={14}
+    height={7}
+    className={cn('fill-popover', className)}
+    {...props}
+    overflow="visible"
+    style={style}>
+    <g>
+      <path
+        d="M 0,0 C 6,0 13.5,10 15,10 C 16.5,10 24,0 30,0"
+        fill="none"
+        stroke="var(--popover-border-color)"
+        strokeWidth="2"
+        vectorEffect="non-scaling-stroke"
+      />
+      <path d="M 0,-2 L 30,-2 L 30,0 C 24,0 16.5,10 15,10 C 13.5,10 6,0 0,0 Z" />
+    </g>
+  </PopoverPrimitive.Arrow>
+))
+PopoverArrow.displayName = 'PopoverArrow'
+
 export const PopoverClose: typeof PopoverPrimitive.Close = PopoverPrimitive.Close
 PopoverClose.displayName = 'PopoverClose'
 
-export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger }
+export { Popover, PopoverAnchor, PopoverArrow, PopoverContent, PopoverTrigger }

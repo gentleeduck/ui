@@ -58,21 +58,58 @@ DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayNam
 const DropdownMenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+>(({ className, sideOffset = 4, children, style, ...props }, ref) => (
   <DropdownMenuPrimitive.Portal>
     <DropdownMenuPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
+        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) rounded-md border bg-popover text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
         className,
       )}
-      {...props}
-    />
+      style={
+        {
+          '--dropdown-menu-border-color': 'var(--border)',
+          borderColor: 'var(--dropdown-menu-border-color)',
+          ...style,
+        } as React.CSSProperties
+      }
+      {...props}>
+      {/* Inner scrollable wrapper — separates overflow from the arrow's containing block */}
+      <div className="max-h-(--gentleduck-dropdown-menu-content-available-height) overflow-y-auto overflow-x-hidden p-1">
+        {children}
+      </div>
+    </DropdownMenuPrimitive.Content>
   </DropdownMenuPrimitive.Portal>
 ))
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+const DropdownMenuArrow = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Arrow>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Arrow>
+>(({ className, style, ...props }, ref) => (
+  <DropdownMenuPrimitive.Arrow
+    ref={ref}
+    asChild
+    width={14}
+    height={7}
+    className={cn('fill-popover', className)}
+    {...props}
+    overflow="visible"
+    style={style}>
+    <g>
+      <path
+        d="M 0,0 C 6,0 13.5,10 15,10 C 16.5,10 24,0 30,0"
+        fill="none"
+        stroke="var(--dropdown-menu-border-color)"
+        strokeWidth="2"
+        vectorEffect="non-scaling-stroke"
+      />
+      <path d="M 0,-2 L 30,-2 L 30,0 C 24,0 16.5,10 15,10 C 13.5,10 6,0 0,0 Z" />
+    </g>
+  </DropdownMenuPrimitive.Arrow>
+))
+DropdownMenuArrow.displayName = 'DropdownMenuArrow'
 
 const DropdownMenuItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Item>,
@@ -182,6 +219,7 @@ DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
 export {
   DropdownMenu,
+  DropdownMenuArrow,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
