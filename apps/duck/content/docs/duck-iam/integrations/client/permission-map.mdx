@@ -1,6 +1,6 @@
 ---
 title: PermissionMap reference
-description: Wire format, key encoding rules, and buildPermissionKey helper for the duck-iam client integrations.
+description: Wire format, key encoding rules, and iamBuildPermissionKey helper for the duck-iam client integrations.
 section: Integrations
 ---
 ## What is a PermissionMap?
@@ -42,23 +42,23 @@ The shape is determined by which fields you pass when generating the map (or cal
 
 ---
 
-## buildPermissionKey
+## iamBuildPermissionKey
 
 The same key builder powers every client integration:
 
 ```typescript
-import { buildPermissionKey } from '@gentleduck/iam'
+import { iamBuildPermissionKey } from '@gentleduck/iam'
 
-buildPermissionKey('delete', 'post')
+iamBuildPermissionKey('delete', 'post')
 // "delete:post"
 
-buildPermissionKey('update', 'post', 'post-42', 'org-1')
+iamBuildPermissionKey('update', 'post', 'post-42', 'org-1')
 // "org-1:update:post:post-42"
 ```
 
 Order: `(action, resource, resourceId?, scope?)`. The serialized key always reorders as `scope:action:resource:resourceId` so server and client agree.
 
-You rarely call `buildPermissionKey()` directly - the React, Vue, and vanilla clients call it internally. Reach for it when:
+You rarely call `iamBuildPermissionKey()` directly - the React, Vue, and vanilla clients call it internally. Reach for it when:
 
 - Writing tests that assert specific keys
 - Building custom permission map endpoints

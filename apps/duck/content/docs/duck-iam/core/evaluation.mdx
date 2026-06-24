@@ -150,6 +150,6 @@ console.log(trace.policies) // per-policy breakdowns
 console.log(trace.rules)    // per-rule match details
 ```
 
-`explain()` runs the same pipeline but builds a richer `IamExplain.IResult` trace instead of an `AccessControl.IDecision`. Side-effect hooks (`onDeny`, `afterEvaluate`) don't fire - it's read-only.
+`explain()` runs the same pipeline but builds a richer `Explain.IResult` trace instead of an `AccessControl.IDecision`. Side-effect hooks (`onDeny`, `afterEvaluate`) don't fire - it's read-only.
 
 See [explain and debug](/duck-iam/advanced/explain) for the full trace API.

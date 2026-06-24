@@ -19,14 +19,14 @@ Apply access control to every route under a path prefix.
 
 ```typescript
 import { accessMiddleware } from '@gentleduck/iam/server/express'
-import { METHOD_ACTION_MAP } from '@gentleduck/iam/server/generic'
+import { IAM_METHOD_ACTION_MAP } from '@gentleduck/iam/server/generic'
 
 const middleware = accessMiddleware(engine, {
   // Extract user ID from your auth layer (passport, jwt, etc.)
   getUserId: (req) => req.user?.id,
 
-  // Map HTTP method to action (defaults to METHOD_ACTION_MAP)
-  getAction: (req) => METHOD_ACTION_MAP[req.method],
+  // Map HTTP method to action (defaults to IAM_METHOD_ACTION_MAP)
+  getAction: (req) => IAM_METHOD_ACTION_MAP[req.method],
 
   // Infer resource from the URL path
   getResource: (req) => {

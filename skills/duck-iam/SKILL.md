@@ -37,12 +37,12 @@ Modern ABAC/RBAC access control engine. Framework-agnostic core with integration
 
 ### 1. Define Your Access Schema
 
-Use `createAccessConfig` with `as const` arrays for full type safety. Every builder method constrains actions, resources, roles, and scopes at compile time.
+Use `createIam` with `as const` arrays for full type safety. Every builder method constrains actions, resources, roles, and scopes at compile time.
 
 ```ts
-import { createAccessConfig } from '@gentleduck/iam'
+import { createIam } from '@gentleduck/iam'
 
-const access = createAccessConfig({
+const access = createIam({
   actions: ['create', 'read', 'update', 'delete', 'publish'] as const,
   resources: ['post', 'comment', 'user'] as const,
   roles: ['viewer', 'editor', 'admin'] as const,
@@ -316,12 +316,12 @@ if (can('delete', 'post')) { /* show delete button */ }
 Use `MemoryAdapter` for unit tests. Seed it with roles, policies, and assignments, then assert with `engine.can()` or `engine.check()`:
 
 ```ts
-import { createAccessConfig } from '@gentleduck/iam'
+import { createIam } from '@gentleduck/iam'
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 import { describe, expect, it } from 'vitest'
 
 describe('authorization', () => {
-  const access = createAccessConfig({
+  const access = createIam({
     actions: ['read', 'delete'] as const,
     resources: ['post'] as const,
     roles: ['viewer', 'admin'] as const,
@@ -355,7 +355,7 @@ Use `engine.explain()` to debug failing assertions -- it returns the full evalua
 
 ## Coding Conventions
 
-- Use `createAccessConfig` for type-safe builders. Use standalone `defineRole`/`defineRule`/`policy`/`when` only for untyped or dynamic scenarios.
+- Use `createIam` for type-safe builders. Use standalone `defineRole`/`defineRule`/`policy`/`when` only for untyped or dynamic scenarios.
 - Always call `.build()` to finalize builders -- they return plain data objects.
 - Roles produce RBAC permissions; policies produce ABAC rules. The engine combines both.
 - A deny from any policy is final when using `deny-overrides`.

@@ -21,8 +21,8 @@ engine.invalidatePolicies(opts)            engine.cache.invalidatePolicies(opts)
 engine.invalidateRoles(id?, opts)          engine.cache.invalidateRoles(id?, opts)
 engine.stats()                             engine.stats.get()
 engine.resetStats()                        engine.stats.reset()
-engine.flushSharedCaches()                 // REMOVED
-                                           import { flushSharedCaches } from '@gentleduck/iam'
+engine.iamFlushSharedCaches()                 // REMOVED
+                                           import { iamFlushSharedCaches } from '@gentleduck/iam'
 ```
 
 Mechanical `sed` per call site - no behavior change. Codemod:
@@ -40,7 +40,7 @@ sed -i -E \
 
 #### Why 3.0 now
 
-- `flushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
+- `iamFlushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
 - Flat surface drops from 16 -> 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
 
 #### What did not change
@@ -84,7 +84,7 @@ Plus 50+ smaller fixes covering cache races, listener swallow, audit string leak
 
 **Next `withAccess` requires `getUserId` at construction.** Throws otherwise with a message pointing to cookie/JWT-derived identity. **SEC-101.**
 
-**Admin routers CSRF-check by default.** `adminRouter` / `bindAdminRouter` / `createAdminHandlers` / `createAdminOperations` all apply `defaultCsrfCheck` (rejects `Sec-Fetch-Site: cross-site|cross-origin`). Bearer-token / mTLS APIs opt out via `csrfCheck: false`. Cookie-auth admin UIs get protection without any opt-in. **CAVEAT-2.**
+**Admin routers CSRF-check by default.** `adminRouter` / `bindAdminRouter` / `createAdminHandlers` / `createAdminOperations` all apply `iamDefaultCsrfCheck` (rejects `Sec-Fetch-Site: cross-site|cross-origin`). Bearer-token / mTLS APIs opt out via `csrfCheck: false`. Cookie-auth admin UIs get protection without any opt-in. **CAVEAT-2.**
 
 **`IamFileAdapter` no longer silently empties on errors.** Non-ENOENT readFile errors throw. JSON parse failure throws "store corrupt - refusing to load; restore from backup before retrying" instead of populating `_cache = {}` and risking permanent overwrite on next flush. **SEC-054 / SEC-064.**
 
@@ -92,16 +92,16 @@ Plus 50+ smaller fixes covering cache races, listener swallow, audit string leak
 
 **All 5 adapters' `getSubjectRoles` return unscoped-only.** Scoped assignments surface via `getSubjectScopedRoles` only. Was inconsistent across backends. **SEC-059.**
 
-**Engine ctor + LRUCache reject NaN/Infinity bounds.** `maxPolicies`, `maxRoles`, `adapterTimeoutMs`, `maxSize`, `ttlMs` all require finite numbers. NaN silently disabled the cap before. **INFO-A.**
+**Engine ctor + IamLRUCache reject NaN/Infinity bounds.** `maxPolicies`, `maxRoles`, `adapterTimeoutMs`, `maxSize`, `ttlMs` all require finite numbers. NaN silently disabled the cap before. **INFO-A.**
 
 ### New APIs
 
 ```ts
 // Engine: flush process-wide regex + path caches (multi-tenant)
-engine.flushSharedCaches()
+engine.iamFlushSharedCaches()
 
 // Server: built-in Sec-Fetch-Site CSRF predicate
-import { defaultCsrfCheck } from '@gentleduck/iam/server/generic'
+import { iamDefaultCsrfCheck } from '@gentleduck/iam/server/generic'
 
 // Admin router CSRF opt-out
 adminRouter(engine, { authorize, csrfCheck: false })
@@ -115,11 +115,11 @@ createIamRedisInvalidator({
 })
 
 // Metrics: fail-open chartable counter
-const m = createMetricsAggregator()
+const m = iamCreateMetricsAggregator()
 m.snapshot().failOpen  // subset of allow attributable to defaultEffect fallback
 
 // Shared keys: escape-aware key parser
-import { splitPermissionKey } from '@gentleduck/iam/shared/keys'
+import { iamSplitPermissionKey } from '@gentleduck/iam/shared/keys'
 
 // Low-level cache controls
 import { clearRegexCache } from '@gentleduck/iam/core/conditions'
@@ -187,7 +187,7 @@ If you relied on **`IamFileAdapter`** silently emptying on errors, wire `onPolic
 
 - **30+ fix commits** in this release on top of the 2.0.0 audit.
 - **0 P0/P1/P2/Low open** at release time.
-- **3 Info-tier residuals** (SEC-049 doc IPv6 prefix not publicly routed; SEC-050 architectural per-instance refactor deferred behind public `flushSharedCaches` helper).
+- **3 Info-tier residuals** (SEC-049 doc IPv6 prefix not publicly routed; SEC-050 architectural per-instance refactor deferred behind public `iamFlushSharedCaches` helper).
 
 ## 2.0.0
 
@@ -217,10 +217,10 @@ If you relied on **`IamFileAdapter`** silently emptying on errors, wire `onPolic
 - **`AccessControl.PolicyCombine`** - cross-policy combine strategy (`'and'` / `'allow-overrides'` / `'first-applicable'`). Configurable via `IamEngine.policyCombine`.
 - **`IamEngineTypes.IMetricsEvent` + `onMetrics` hook** - primitive-only telemetry payload fired once per evaluation in both dev and prod modes. Zero overhead when unwired.
 - **`IamFileAdapter`** at `@gentleduck/iam/adapters/file` - JSON-on-disk store with pluggable `IamFile.IFS` interface.
-- **`POLICY_JSON_SCHEMA`** - Draft 2020-12 JSON schema export for non-TS consumers and editor tooling.
+- **`IAM_POLICY_JSON_SCHEMA`** - Draft 2020-12 JSON schema export for non-TS consumers and editor tooling.
 - **`IamEngine.stats()` / `resetStats()`** - cache hit/miss counters per cache.
 - **Validator semantic checks** - emits `UNRESOLVABLE_FIELD`, `UNRESOLVABLE_VALUE`, `INHERITANCE_TOO_DEEP`, `BROAD_ALLOW`, `LIMIT_EXCEEDED` codes.
-- **`POLICY_LIMITS`** - DoS bounds (1000 rules/policy, 100 actions/rule, 100 resources/rule, 1000 action x resource cartesian/rule).
+- **`IAM_POLICY_LIMITS`** - DoS bounds (1000 rules/policy, 100 actions/rule, 100 resources/rule, 1000 action x resource cartesian/rule).
 - **`MAX_INHERITANCE_DEPTH = 32`** exported from `core/rbac`. Validator errors on chains that exceed it.
 
 **Build / package:**
@@ -243,7 +243,7 @@ If you relied on **`IamFileAdapter`** silently emptying on errors, wire `onPolic
 - `hooks.onMetrics` - primitive-only telemetry event fired once per evaluation in both modes.
 - IamHttpAdapter retry + per-request timeout + circuit-breaker (`retries`, `backoffMs`, `timeoutMs`, `circuitBreakerThreshold`, `circuitBreakerCooldownMs`).
 - `createIamRedisInvalidator` at `@gentleduck/iam/invalidators/redis` - pub/sub helper with self-echo filtering.
-- `createMetricsAggregator` at `@gentleduck/iam/observability/metrics` - p50 / p95 / p99 over `onMetrics` events.
+- `iamCreateMetricsAggregator` at `@gentleduck/iam/observability/metrics` - p50 / p95 / p99 over `onMetrics` events.
 - Hono `bindAdminRouter`, Next.js `createAdminHandlers`, NestJS `createAdminOperations` - all require `authorize` callback.
 - Express `adminRouter(engine, { authorize })` - `authorize` is now required (was optional).
 
@@ -251,7 +251,7 @@ If you relied on **`IamFileAdapter`** silently emptying on errors, wire `onPolic
 
 - `matches` operator refuses `$`-resolved RHS values (ReDoS via user-controlled regex).
 - IamHttpAdapter `getPolicy` / `getRole` return `null` on 404 instead of throwing.
-- Validator depth bound (`MAX_CONDITION_DEPTH=10`) and field-length cap (`MAX_FIELD_LENGTH=256`).
+- Validator depth bound (`MAX_CONDITION_DEPTH=10`) and field-length cap (`IAM_MAX_FIELD_LENGTH=256`).
 - Regex cache is LRU on hit, not FIFO on insert.
 - Synthesised RBAC policy is deep-frozen (every rule + conditions tree).
 - `Number.isFinite` priority check in validator.
@@ -301,7 +301,7 @@ Every new namespace is type-only (interfaces + type aliases only, no runtime val
 
 - 0e80f84: Add Redis adapter, Drizzle schemas, and full integration test coverage.
 
-  **New: `IamRedisAdapter`** at `@gentleduck/iam/adapters/redis`. Distributed key/value backend with idempotent `assignRole` (set semantics), multi-tenant `keyPrefix`, and a minimal `RedisLike` interface that ioredis, node-redis v4+, and Upstash all satisfy directly.
+  **New: `IamRedisAdapter`** at `@gentleduck/iam/adapters/redis`. Distributed key/value backend with idempotent `assignRole` (set semantics), multi-tenant `keyPrefix`, and a minimal `AuthRedisLike` interface that ioredis, node-redis v4+, and Upstash all satisfy directly.
 
   **New: pre-built Drizzle schemas** at `@gentleduck/iam/adapters/drizzle/schema/{pg,mysql,sqlite}`. Drop-in tables for all three SQL dialects with the right column types, FK cascade on `roleId`, unique index on `(subjectId, roleId, scope)`, and auto-managed `created_at`/`updated_at`. Generate migrations via `drizzle-kit generate`.
 

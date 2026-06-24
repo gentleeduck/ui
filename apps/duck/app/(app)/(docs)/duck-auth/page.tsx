@@ -18,7 +18,7 @@ const description =
 const features = [
   {
     icon: ShieldCheck,
-    title: '14-facet AuthRoot',
+    title: '14-facet AuthEngine',
     description:
       'One typed root exposes sessions, identities, passwords, providers, MFA, flows, API keys, M2M, orgs, idempotency, hijack policy, and anomaly detection.',
     bg: 'bg-emerald-500/10',
@@ -52,7 +52,7 @@ const features = [
     icon: Fingerprint,
     title: 'Production posture',
     description:
-      'AuthRoot.strict() rejects insecure config at boot — no NoopLimiter, no MemoryAdapter, no insecure cookies. Compliance presets for GDPR / SOC2 / HIPAA / FIPS.',
+      'AuthEngine.strict() rejects insecure config at boot — no NoopLimiter, no MemoryAdapter, no insecure cookies. Compliance presets for GDPR / SOC2 / HIPAA / FIPS.',
     bg: 'bg-orange-500/10',
     color: 'text-orange-500',
   },
@@ -147,7 +147,7 @@ export default async function DuckAuthPage() {
         <div>
           <div className="mb-8 flex flex-col items-center gap-1 text-center">
             <h2 className="font-semibold text-xl leading-tight tracking-tight">Install</h2>
-            <p className="text-muted-foreground text-sm">Scaffold a starter, or wire AuthRoot by hand.</p>
+            <p className="text-muted-foreground text-sm">Scaffold a starter, or wire AuthEngine by hand.</p>
           </div>
           <div className="relative mx-auto max-w-2xl">
             <CopyButton value={INSTALL_CODE} variant="ghost" className="absolute top-3 right-3" />

@@ -124,7 +124,7 @@ interface PermissionCheck<
 
 This is the method to use when rendering a UI that needs many permissions at once (which buttons to show/hide). It's also what server middleware uses to generate `PermissionMap` objects for client hydration.
 
-The returned map uses the same key format as the client libraries and the root-level `buildPermissionKey()` helper. If you're writing custom hydration code, tests, or a framework integration outside the shipped clients, prefer that helper instead of hand-building key strings.
+The returned map uses the same key format as the client libraries and the root-level `iamBuildPermissionKey()` helper. If you're writing custom hydration code, tests, or a framework integration outside the shipped clients, prefer that helper instead of hand-building key strings.
 
 ### With scopes and resource IDs
 
@@ -226,11 +226,11 @@ engine.cache.invalidateRoles(roleId?, opts?)     // drop cached roles + RBAC pol
 
 With an `invalidator` wired, each call publishes an event so peer instances flush their local caches. Pass `{ broadcast: false }` to suppress the publish when *applying* an inbound event (otherwise instances ping-pong).
 
-Module-level `flushSharedCaches()` (separate import) wipes the **process-wide** regex + path caches shared across every Engine. Schedule periodically in multi-tenant deployments.
+Module-level `iamFlushSharedCaches()` (separate import) wipes the **process-wide** regex + path caches shared across every Engine. Schedule periodically in multi-tenant deployments.
 
 ```typescript
-import { flushSharedCaches } from '@gentleduck/iam'
-setInterval(flushSharedCaches, 5 * 60 * 1000)
+import { iamFlushSharedCaches } from '@gentleduck/iam'
+setInterval(iamFlushSharedCaches, 5 * 60 * 1000)
 ```
 
 ---
