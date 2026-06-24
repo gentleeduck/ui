@@ -23,7 +23,7 @@ const result = await engine.explain('user-1', 'delete', {
 })
 ```
 
-### The IamExplain.IResult
+### The Explain.IResult
 
 ```typescript
 interface IResult {
@@ -40,7 +40,7 @@ interface IResult {
     scopedRolesApplied: string[]      // Extra roles added from scoped assignments
     attributes: Record<string, any>
   }
-  policies: IamExplain.IPolicyTrace[]    // Trace of every policy evaluated
+  policies: Explain.IPolicyTrace[]    // Trace of every policy evaluated
   summary: string                     // Human-readable multi-line summary
 }
 ```
@@ -86,9 +86,9 @@ This tells you:
 * The RBAC policy had 5 rules but none matched the `delete` action.
 * The `owner-policy` matched, and rule `deny-non-owner-delete` produced the deny.
 
-### Reading IamExplain.IPolicyTrace
+### Reading Explain.IPolicyTrace
 
-Each entry in `result.policies` is an `IamExplain.IPolicyTrace`:
+Each entry in `result.policies` is an `Explain.IPolicyTrace`:
 
 ```typescript
 interface IPolicyTrace {
@@ -96,7 +96,7 @@ interface IPolicyTrace {
   policyName: string                          // Human-readable policy name
   algorithm: AccessControl.CombiningAlgorithm // deny-overrides, allow-overrides, etc.
   targetMatch: boolean                        // Did the policy's target filter match?
-  rules: IamExplain.IRuleTrace[]                 // Trace of every rule in this policy
+  rules: Explain.IRuleTrace[]                 // Trace of every rule in this policy
   result: 'allow' | 'deny'                    // The policy's final per-policy result
   reason: string                              // Human-readable explanation
   decidingRuleId?: string                     // Which rule determined the result
@@ -118,9 +118,9 @@ for (const pt of result.policies) {
 }
 ```
 
-### Reading IamExplain.IRuleTrace
+### Reading Explain.IRuleTrace
 
-Each rule inside a policy produces an `IamExplain.IRuleTrace`:
+Each rule inside a policy produces an `Explain.IRuleTrace`:
 
 ```typescript
 interface IRuleTrace {
@@ -131,7 +131,7 @@ interface IRuleTrace {
   actionMatch: boolean            // Did the rule's actions match the request action?
   resourceMatch: boolean          // Did the rule's resources match the request resource?
   conditionsMet: boolean          // Did all conditions evaluate to true?
-  conditions: IamExplain.IGroupTrace // Full condition tree trace
+  conditions: Explain.IGroupTrace // Full condition tree trace
   matched: boolean                // actionMatch && resourceMatch && conditionsMet
 }
 ```
@@ -162,7 +162,7 @@ interface IGroupTrace {
   type: 'group'
   logic: 'all' | 'any' | 'none'
   result: boolean
-  children: Array<IamExplain.ILeafTrace | IamExplain.IGroupTrace>
+  children: Array<Explain.ILeafTrace | Explain.IGroupTrace>
 }
 
 // Leaf node
@@ -252,11 +252,11 @@ The validate module also exports a handful of constants and a JSON Schema (Draft
 
 ```typescript
 import {
-  POLICY_JSON_SCHEMA,     // JSON Schema (Draft 2020-12) for AccessControl.IPolicy
-  POLICY_LIMITS,          // { rulesPerPolicy, actionsPerRule, resourcesPerRule, cartesianPerRule }
+  IAM_POLICY_JSON_SCHEMA,     // JSON Schema (Draft 2020-12) for AccessControl.IPolicy
+  IAM_POLICY_LIMITS,          // { rulesPerPolicy, actionsPerRule, resourcesPerRule, cartesianPerRule }
   MAX_INHERITANCE_DEPTH,  // 32 - cap used by INHERITANCE_TOO_DEEP
   MAX_CONDITION_DEPTH,    // 10 - cap on nested all/any/none groups
-  MAX_FIELD_LENGTH,       // 256 - cap on dot-path field length
+  IAM_MAX_FIELD_LENGTH,       // 256 - cap on dot-path field length
 } from '@gentleduck/iam'
 ```
 

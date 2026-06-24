@@ -144,7 +144,7 @@ const engine = new IamEngine({
 - `onError` - adapter failures, condition tree throws. Page on rate.
 - `onPolicyError` - one rotten row in the adapter. Page on rate.
 - `onDeny` - audit log. Required for SOC2 / ISO 27001.
-- `onMetrics` - latency + outcome telemetry. Wire to `createMetricsAggregator()` (next section).
+- `onMetrics` - latency + outcome telemetry. Wire to `iamCreateMetricsAggregator()` (next section).
 - `afterEvaluate` - debug only; allocates a `Decision` even in production mode. Disable in prod.
 
 ---
@@ -205,12 +205,12 @@ Probe runs one `listPolicies` with the configured `adapterTimeoutMs`. Cheap enou
 
 ## Metrics aggregation
 
-Wire `createMetricsAggregator()` to `onMetrics` and expose its snapshot:
+Wire `iamCreateMetricsAggregator()` to `onMetrics` and expose its snapshot:
 
 ```ts
-import { createMetricsAggregator } from '@gentleduck/iam/observability/metrics'
+import { iamCreateMetricsAggregator } from '@gentleduck/iam/observability/metrics'
 
-const metrics = createMetricsAggregator({ sampleSize: 1000 })
+const metrics = iamCreateMetricsAggregator({ sampleSize: 1000 })
 const engine = new IamEngine({ adapter, hooks: { onMetrics: metrics.record } })
 
 app.get('/metrics', (_, res) => res.json(metrics.snapshot()))
@@ -242,7 +242,7 @@ Bench shows ~15x speedup on the first call vs cold.
 
 ## Shared cache flushing (multi-tenant)
 
-`flushSharedCaches()` wipes the process-wide compiled-regex cache
+`iamFlushSharedCaches()` wipes the process-wide compiled-regex cache
 (matches operator) and the dot-path segment cache. Both are module-globals
 shared across every Engine instance in the process. In multi-tenant
 deployments, a hostile tenant flooding distinct `matches` patterns or
@@ -251,7 +251,7 @@ influence. SEC-050.
 
 ```ts
 // Multi-tenant operators: flush every 5 minutes.
-setInterval(() => flushSharedCaches(), 5 * 60 * 1000)
+setInterval(() => iamFlushSharedCaches(), 5 * 60 * 1000)
 ```
 
 Cost: the next request from every tenant pays one regex-compile per
@@ -323,6 +323,6 @@ Before flipping production traffic on:
 - [ ] `/metrics` route returns aggregator snapshot
 - [ ] `engine.preload()` in startup
 - [ ] `engine.dispose()` in shutdown
-- [ ] `flushSharedCaches()` scheduled in multi-tenant deployments (SEC-050)
+- [ ] `iamFlushSharedCaches()` scheduled in multi-tenant deployments (SEC-050)
 - [ ] Admin routes mounted behind a real `authorize` callback (not a stub)
 - [ ] Policies bounded under `maxPolicies` (default `10_000`)

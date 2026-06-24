@@ -1,4 +1,4 @@
-duck-iam exports `POLICY_JSON_SCHEMA` - a JSON Schema (Draft 2020-12)
+duck-iam exports `IAM_POLICY_JSON_SCHEMA` - a JSON Schema (Draft 2020-12)
 document that mirrors the runtime shape of `AccessControl.IPolicy`.
 It's useful for:
 
@@ -7,7 +7,7 @@ It's useful for:
 * **Admin dashboards** generating policy forms from the schema.
 
 ```typescript
-import { POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
+import { IAM_POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
 ```
 
 ## Why hand-authored?
@@ -22,23 +22,23 @@ sets.
 ## Tightening for your app
 
 ```typescript
-import { POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
+import { IAM_POLICY_JSON_SCHEMA } from '@gentleduck/iam/core/schema'
 
 const myAppSchema = {
-  ...POLICY_JSON_SCHEMA,
+  ...IAM_POLICY_JSON_SCHEMA,
   $defs: {
-    ...POLICY_JSON_SCHEMA.$defs,
+    ...IAM_POLICY_JSON_SCHEMA.$defs,
     Action: { enum: ['create', 'read', 'update', 'delete'] },
     Resource: { enum: ['post', 'comment', 'user'] },
   },
   properties: {
-    ...POLICY_JSON_SCHEMA.properties,
+    ...IAM_POLICY_JSON_SCHEMA.properties,
     rules: {
       type: 'array',
       items: {
-        ...POLICY_JSON_SCHEMA.$defs.Rule,
+        ...IAM_POLICY_JSON_SCHEMA.$defs.Rule,
         properties: {
-          ...POLICY_JSON_SCHEMA.$defs.Rule.properties,
+          ...IAM_POLICY_JSON_SCHEMA.$defs.Rule.properties,
           actions: { type: 'array', items: { $ref: '#/$defs/Action' } },
           resources: { type: 'array', items: { $ref: '#/$defs/Resource' } },
         },

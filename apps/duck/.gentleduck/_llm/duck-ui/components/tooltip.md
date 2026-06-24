@@ -176,6 +176,35 @@ export default function Demo() {
 }
 ```
 
+### Arrow
+
+Add a directional caret that always tracks the trigger. The arrow moves along the content edge when collision avoidance shifts the tooltip near a viewport boundary.
+
+Use `arrowPadding` to match the content's `border-radius` so the arrow never slides past the rounded corners.
+
+```tsx title="components/tooltip-6.tsx"
+// import from your project: import Demo from '@/components/tooltip-6'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
+
+export default function Demo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Hover</Button>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" arrowPadding={12} className="rounded-xl px-4 py-2 font-semibold">
+          <p>Inbox</p>
+          <TooltipArrow />
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+```
+
 ## Styling Hooks
 
 * **`data-state`** - Set on trigger and content (`closed`, `delayed-open`, `instant-open`) for state-based styling.
@@ -301,6 +330,15 @@ export default function Demo() {
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | - | Additional props to spread to the content div |
+
+### TooltipArrow
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `width` | `number` | `14` | Arrow width in px |
+| `height` | `number` | `7` | Arrow height in px |
+| `className` | `string` | - | Merges with `fill-popover` |
+| `style` | `CSSProperties` | - | Override `--tooltip-border-color` here to change stroke color |
 
 ### MotionTooltip
 

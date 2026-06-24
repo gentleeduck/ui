@@ -4,7 +4,7 @@
 import { IamRedisAdapter } from '@gentleduck/iam/adapters/redis'
 ```
 
-Distributed key/value backend. Works with [`ioredis`](https://github.com/redis/ioredis), [`node-redis`](https://github.com/redis/node-redis) v4+, or any client matching the `RedisLike` interface.
+Distributed key/value backend. Works with [`ioredis`](https://github.com/redis/ioredis), [`node-redis`](https://github.com/redis/node-redis) v4+, or any client matching the `AuthRedisLike` interface.
 
 ```bash
 bun add ioredis
@@ -17,7 +17,7 @@ bun add redis
 ## When to use
 
 * **Multi-instance deploys** - share policy/role state across nodes
-* **Edge / serverless** - Upstash Redis, Cloudflare KV (behind a `RedisLike` shim), Vercel KV
+* **Edge / serverless** - Upstash Redis, Cloudflare KV (behind a `AuthRedisLike` shim), Vercel KV
 * **Pair with Engine LRU cache** - Redis = source of truth, in-process LRU = hot reads
 * **Cross-tenant SaaS** - `keyPrefix` isolates tenants in a shared Redis
 
@@ -85,13 +85,13 @@ Set semantics make `assignRole` idempotent - calling it twice with the same `(su
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `client` | `RedisLike` | -- | Any client implementing the minimal Redis surface |
+| `client` | `AuthRedisLike` | -- | Any client implementing the minimal Redis surface |
 | `keyPrefix` | `string` | `''` | Optional prefix to namespace duck-iam keys |
 
-### `RedisLike` interface
+### `AuthRedisLike` interface
 
 ```typescript
-interface RedisLike {
+interface AuthRedisLike {
   get(key: string): Promise<string | null>
   set(key: string, value: string): Promise<unknown>
   del(...keys: string[]): Promise<number>
@@ -175,4 +175,4 @@ const config: Redis.IConfig = {
 }
 ```
 
-Deprecated bare aliases (`RedisLike`, `RedisAdapterConfig`) remain for back-compat and will be removed in 3.0.
+Deprecated bare aliases (`AuthRedisLike`, `RedisAdapterConfig`) remain for back-compat and will be removed in 3.0.

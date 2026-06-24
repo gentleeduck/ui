@@ -21,10 +21,10 @@ Pick the entry that matches your database. All three define the same four tables
 
 ```typescript
 import {
-  accessPolicies,
-  accessRoles,
-  accessAssignments,
-  accessSubjectAttrs,
+  iamPolicies,
+  iamRoles,
+  iamAssignments,
+  iamSubjectAttrs,
 } from '@gentleduck/iam/adapters/drizzle/schema/pg'
 ```
 
@@ -38,10 +38,10 @@ import {
 
 ```typescript
 import {
-  accessPolicies,
-  accessRoles,
-  accessAssignments,
-  accessSubjectAttrs,
+  iamPolicies,
+  iamRoles,
+  iamAssignments,
+  iamSubjectAttrs,
 } from '@gentleduck/iam/adapters/drizzle/schema/mysql'
 ```
 
@@ -54,10 +54,10 @@ import {
 
 ```typescript
 import {
-  accessPolicies,
-  accessRoles,
-  accessAssignments,
-  accessSubjectAttrs,
+  iamPolicies,
+  iamRoles,
+  iamAssignments,
+  iamSubjectAttrs,
 } from '@gentleduck/iam/adapters/drizzle/schema/sqlite'
 ```
 
@@ -71,7 +71,7 @@ import {
 ## What each schema includes
 
 * Named constraints throughout: `pk_` primary key, `fk_` foreign key, `uq_` unique, `idx_` index, `ch_` check
-* FK cascade on `roleId` -> `accessRoles.id`
+* FK cascade on `roleId` -> `iamRoles.id`
 * Unique on `(subjectId, roleId, scope)` for idempotent assignments, with NULL scopes collapsed (`NULLS NOT DISTINCT` on PG, `COALESCE` on MySQL/SQLite)
 * Lookup index on `subjectId` plus a `roleId` index for FK deletes and reverse lookups
 * CHECK constraints: non-blank name/subject, `version >= 1`, valid algorithm
@@ -114,10 +114,10 @@ import { Pool } from 'pg'
 import { IamDrizzleAdapter } from '@gentleduck/iam/adapters/drizzle'
 import { IamEngine } from '@gentleduck/iam'
 import {
-  accessPolicies,
-  accessRoles,
-  accessAssignments,
-  accessSubjectAttrs,
+  iamPolicies,
+  iamRoles,
+  iamAssignments,
+  iamSubjectAttrs,
 } from '@gentleduck/iam/adapters/drizzle/schema/pg'
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
@@ -126,10 +126,10 @@ const db = drizzle(pool)
 const adapter = new IamDrizzleAdapter({
   db,
   tables: {
-    policies: accessPolicies,
-    roles: accessRoles,
-    assignments: accessAssignments,
-    attrs: accessSubjectAttrs,
+    policies: iamPolicies,
+    roles: iamRoles,
+    assignments: iamAssignments,
+    attrs: iamSubjectAttrs,
   },
   ops: { eq, and },
 })
@@ -169,7 +169,7 @@ The read path accepts both shapes, so switching modes is migration-safe. For SQL
 ```typescript
 const adapter = new IamDrizzleAdapter({
   db,
-  tables: { policies: accessPolicies, roles: accessRoles, assignments: accessAssignments, attrs: accessSubjectAttrs },
+  tables: { policies: iamPolicies, roles: iamRoles, assignments: iamAssignments, attrs: iamSubjectAttrs },
   ops: { eq, and },
   json: 'string', // SQLite stores JSON as TEXT
 })

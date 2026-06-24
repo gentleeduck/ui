@@ -34,12 +34,13 @@ export namespace IPopover {
 
   type PrimitiveButtonProps = React.ComponentPropsWithRef<typeof Primitive.button>
   type PopperAnchorProps = React.ComponentPropsWithRef<typeof PopperPrimitive.PopperAnchor>
+  type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperArrow>
   type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
   type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
   type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 
   export interface IAnchorProps extends PopperAnchorProps {}
-  export interface IArrowProps extends PopperAnchorProps {}
+  export interface IArrowProps extends PopperArrowProps {}
   export interface ITriggerProps extends PrimitiveButtonProps {}
   export interface ICloseProps extends ITriggerProps {}
 

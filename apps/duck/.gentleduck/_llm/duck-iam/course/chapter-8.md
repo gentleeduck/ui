@@ -300,19 +300,19 @@ import * as tables from './schema'
 const adapter = new IamDrizzleAdapter({
   db,
   tables: {
-    policies: tables.accessPolicies,
-    roles: tables.accessRoles,
-    assignments: tables.accessAssignments,
-    attrs: tables.accessSubjectAttrs,
+    policies: tables.iamPolicies,
+    roles: tables.iamRoles,
+    assignments: tables.iamAssignments,
+    attrs: tables.iamSubjectAttrs,
   },
   ops: { eq, and },
 })
 ```
 
-#### DrizzleConfig Interface
+#### IamDrizzle.IConfig Interface
 
 ```typescript
-interface DrizzleConfig {
+interface IamDrizzle.IConfig {
   db: {
     select: () => { from: (table: unknown) => DrizzleQuery }
     insert: (table: unknown) => { values: (data: Record<string, unknown>) => DrizzleInsert }
@@ -344,7 +344,7 @@ interface DrizzleConfig {
 ```typescript title="src/schema.ts"
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
 
-export const accessPolicies = sqliteTable('access_policies', {
+export const iamPolicies = sqliteTable('access_policies', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
@@ -354,7 +354,7 @@ export const accessPolicies = sqliteTable('access_policies', {
   targets: text('targets'),              // JSON string or null
 })
 
-export const accessRoles = sqliteTable('access_roles', {
+export const iamRoles = sqliteTable('access_roles', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
@@ -364,7 +364,7 @@ export const accessRoles = sqliteTable('access_roles', {
   metadata: text('metadata'),
 })
 
-export const accessAssignments = sqliteTable('access_assignments', {
+export const iamAssignments = sqliteTable('access_assignments', {
   subjectId: text('subject_id').notNull(),
   roleId: text('role_id').notNull(),
   scope: text('scope'),
@@ -372,7 +372,7 @@ export const accessAssignments = sqliteTable('access_assignments', {
   pk: primaryKey(t.subjectId, t.roleId, t.scope),
 }))
 
-export const accessSubjectAttrs = sqliteTable('access_subject_attrs', {
+export const iamSubjectAttrs = sqliteTable('access_subject_attrs', {
   subjectId: text('subject_id').primaryKey(),
   data: text('data').notNull(),   // JSON string
 })
@@ -559,7 +559,7 @@ Key: 'all' -> Policy[]"]
 The cache is a custom LRU (Least Recently Used) implementation backed by a `Map`:
 
 ```typescript
-class LRUCache<V> {
+class IamLRUCache<V> {
   private map = new Map<string, { value: V; expiresAt: number }>()
   private maxSize: number
   private ttl: number
@@ -792,15 +792,15 @@ const MAX_REGEX_LENGTH = 512
 const REGEX_CACHE_MAX = 256
 
 function getCachedRegex(pattern: string): RegExp | null {
-  const cached = regexCache.get(pattern)
+  const cached = iamRegexCache.get(pattern)
   if (cached) return cached
   try {
     const re = new RegExp(pattern)
-    if (regexCache.size >= REGEX_CACHE_MAX) {
-      const first = regexCache.keys().next().value
-      if (first !== undefined) regexCache.delete(first)
+    if (iamRegexCache.size >= REGEX_CACHE_MAX) {
+      const first = iamRegexCache.keys().next().value
+      if (first !== undefined) iamRegexCache.delete(first)
     }
-    regexCache.set(pattern, re)
+    iamRegexCache.set(pattern, re)
     return re
   } catch {
     return null   // invalid regex -> fail closed

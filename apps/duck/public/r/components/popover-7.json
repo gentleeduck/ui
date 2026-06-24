@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'\n\nexport default function Demo() {\n  return (\n    <Popover>\n      <PopoverTrigger asChild>\n        <Button variant=\"outline\">Open popover</Button>\n      </PopoverTrigger>\n      <PopoverContent side=\"bottom\" arrowPadding={8} className=\"w-60\">\n        <p className=\"text-sm\">Settings and configuration options for your account.</p>\n        <PopoverArrow />\n      </PopoverContent>\n    </Popover>\n  )\n}\n",
+      "path": "popover/popover-7.tsx",
+      "target": "components/popover-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "popover-7",
+  "registryDependencies": [
+    "popover"
+  ],
+  "root_folder": "popover",
+  "source": "/registry-examples/src/popover",
+  "type": "registry:example"
+}

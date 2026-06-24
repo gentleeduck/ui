@@ -14,8 +14,8 @@ engine.invalidatePolicies(opts)            engine.cache.invalidatePolicies(opts)
 engine.invalidateRoles(id?, opts)          engine.cache.invalidateRoles(id?, opts)
 engine.stats()                             engine.stats.get()
 engine.resetStats()                        engine.stats.reset()
-engine.flushSharedCaches()                 // REMOVED
-                                           import { flushSharedCaches } from '@gentleduck/iam'
+engine.iamFlushSharedCaches()                 // REMOVED
+                                           import { iamFlushSharedCaches } from '@gentleduck/iam'
 ```
 
 Mechanical `sed` per call site - no behavior change. Codemod:
@@ -33,7 +33,7 @@ sed -i -E \
 
 #### Why 3.0 now
 
-* `flushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
+* `iamFlushSharedCaches` instance method was already scheduled for 3.0 removal - it was misleading (wiped process-globals, affecting every Engine in the process). Bundle the deprecation with the facet split: one major, one migration window.
 * Flat surface drops from 16 -> 9 methods + 2 facet handles. Leaves room for future facet growth (`engine.cache.prewarm()`, `engine.stats.subscribe()`) without polluting the root.
 
 #### What did not change

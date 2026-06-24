@@ -6,8 +6,8 @@ import {
   Authorize,
   createTypedAuthorize,
   createEngineProvider,
-  ACCESS_ENGINE_TOKEN,
-  ACCESS_METADATA_KEY,
+  IAM_ACCESS_ENGINE_TOKEN,
+  IAM_ACCESS_METADATA_KEY,
 } from '@gentleduck/iam/server/nest'
 ```
 
@@ -111,7 +111,7 @@ import { Module } from '@nestjs/common'
 import { APP_GUARD } from '@nestjs/core'
 import {
   createEngineProvider,
-  ACCESS_ENGINE_TOKEN,
+  IAM_ACCESS_ENGINE_TOKEN,
   nestAccessGuard,
 } from '@gentleduck/iam/server/nest'
 
@@ -121,7 +121,7 @@ import {
     {
       provide: APP_GUARD,
       useFactory: (engine) => ({ canActivate: nestAccessGuard(engine) }),
-      inject: [ACCESS_ENGINE_TOKEN],
+      inject: [IAM_ACCESS_ENGINE_TOKEN],
     },
   ],
 })
@@ -156,8 +156,8 @@ The engine factory can be async - return a `Promise<IamEngine>` to support adapt
 
 | Token | Type | Purpose |
 | --- | --- | --- |
-| `ACCESS_ENGINE_TOKEN` | `string` (`'ACCESS_ENGINE'`) | DI token for the engine |
-| `ACCESS_METADATA_KEY` | `string` (`'duck-iam:authorize'`) | Reflect metadata key for the decorator |
+| `IAM_ACCESS_ENGINE_TOKEN` | `string` (`'ACCESS_ENGINE'`) | DI token for the engine |
+| `IAM_ACCESS_METADATA_KEY` | `string` (`'duck-iam:authorize'`) | Reflect metadata key for the decorator |
 
 ***
 
@@ -167,13 +167,13 @@ NestJS routes via controllers, so duck-iam ships gated admin *operations* (not a
 
 ```typescript
 import { Controller, Get, Put, Post, Delete, Inject, Req, Body, Param } from '@nestjs/common'
-import { ACCESS_ENGINE_TOKEN, createAdminOperations } from '@gentleduck/iam/server/nest'
+import { IAM_ACCESS_ENGINE_TOKEN, createAdminOperations } from '@gentleduck/iam/server/nest'
 
 @Controller('admin')
 export class IamAdminController {
   private readonly h
 
-  constructor(@Inject(ACCESS_ENGINE_TOKEN) engine) {
+  constructor(@Inject(IAM_ACCESS_ENGINE_TOKEN) engine) {
     this.h = createAdminOperations(engine, {
       authorize: (req) => req.user?.role === 'platform-admin',
     })

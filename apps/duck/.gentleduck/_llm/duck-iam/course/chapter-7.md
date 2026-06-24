@@ -20,7 +20,7 @@ A `PermissionMap` is a key-value object generated on the server:
 
 ### PermissionKey Format
 
-Keys are colon-separated strings built by `buildPermissionKey()`:
+Keys are colon-separated strings built by `iamBuildPermissionKey()`:
 
 ```typescript
 type PermissionKey =
@@ -232,7 +232,7 @@ export const {
   createAccessState,
   Can,
   Cannot,
-  ACCESS_INJECTION_KEY,
+  IAM_ACCESS_INJECTION_KEY,
 } = createVueAccess({ ref, computed, inject, provide, defineComponent, h })
 ```
 
@@ -247,7 +247,7 @@ package tree-shakeable.
 | `createAccessState(perms)` | Function | Low-level reactive state factory |
 | `Can` | Component | Renders slot when permission granted |
 | `Cannot` | Component | Renders slot when permission denied |
-| `ACCESS_INJECTION_KEY` | Symbol | For advanced provide/inject scenarios |
+| `IAM_ACCESS_INJECTION_KEY` | Symbol | For advanced provide/inject scenarios |
 
 **Install as a plugin**
 

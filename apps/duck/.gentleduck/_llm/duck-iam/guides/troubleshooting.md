@@ -73,7 +73,7 @@ a TS error.
 
 **Symptoms**: `validatePolicy()` returns `{ code: 'POLICY_LIMIT_EXCEEDED' }`.
 
-**Cause**: A single policy exceeds `POLICY_LIMITS` (number of rules,
+**Cause**: A single policy exceeds `IAM_POLICY_LIMITS` (number of rules,
 actions per rule, resources per rule). The defaults are generous (50
 rules, 100 actions, 100 resources). If you've hit them, the policy is
 likely a "god policy" that mixes too many domains - split it.

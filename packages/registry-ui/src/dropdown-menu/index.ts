@@ -1,5 +1,6 @@
 export {
   DropdownMenu,
+  DropdownMenuArrow,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,

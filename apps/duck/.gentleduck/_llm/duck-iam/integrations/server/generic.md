@@ -2,9 +2,9 @@
 
 ```ts
 import {
-  METHOD_ACTION_MAP,
+  IAM_METHOD_ACTION_MAP,
   createSubjectCan,
-  defaultCsrfCheck,
+  iamDefaultCsrfCheck,
   extractEnvironment,
   generatePermissionMap,
 } from '@gentleduck/iam/server/generic'
@@ -21,8 +21,8 @@ Use the generic helpers when the framework wrappers are too opinionated, or when
 | `generatePermissionMap` | `(engine, subjectId, checks, environment?)` | Wraps `engine.permissions()` for server-to-client hydration |
 | `createSubjectCan` | `(engine, subjectId, environment?)` | Returns a subject-bound `can(action, resource, resourceId?, scope?)` |
 | `extractEnvironment` | `(req)` | Builds the default `{ ip, userAgent, timestamp }` from common request shapes |
-| `defaultCsrfCheck` | `(req) -> boolean` | Built-in `Sec-Fetch-Site` predicate the admin routers use by default (SEC-103) |
-| `METHOD_ACTION_MAP` | `Record<string, string>` | Read-only CRUD map (GET -> read, POST -> create, etc.) used by every built-in integration |
+| `iamDefaultCsrfCheck` | `(req) -> boolean` | Built-in `Sec-Fetch-Site` predicate the admin routers use by default (SEC-103) |
+| `IAM_METHOD_ACTION_MAP` | `Record<string, string>` | Read-only CRUD map (GET -> read, POST -> create, etc.) used by every built-in integration |
 
 ***
 
@@ -87,18 +87,18 @@ Override anywhere a `getEnvironment` option is exposed by passing your own extra
 
 ## Default CSRF predicate
 
-`defaultCsrfCheck` is the `Sec-Fetch-Site` predicate every admin router uses
+`iamDefaultCsrfCheck` is the `Sec-Fetch-Site` predicate every admin router uses
 by default (SEC-103 / CAVEAT-2). It handles all four request shapes
 (Express/Nest record headers, fetch-API `Headers.get`, Hono `c.req.header`).
 Returns `true` when the request is allowed, `false` when it must be rejected.
 
 ```ts
-import { defaultCsrfCheck } from '@gentleduck/iam/server/generic'
+import { iamDefaultCsrfCheck } from '@gentleduck/iam/server/generic'
 
 // Compose with your own check - accept default behaviour AND require Origin.
 const allow = new Set(['https://admin.example.com'])
 const csrfCheck = (req: Request) =>
-  defaultCsrfCheck(req) && allow.has(req.headers.get('origin') ?? '')
+  iamDefaultCsrfCheck(req) && allow.has(req.headers.get('origin') ?? '')
 ```
 
 `Sec-Fetch-Site` is populated by every modern browser; non-browser callers

@@ -57,11 +57,12 @@ export namespace ITooltip {
   }
 
   type PopperAnchorProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperAnchor>
+  type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperArrow>
   type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
   type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
   type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-  export interface IArrowProps extends PopperAnchorProps {}
+  export interface IArrowProps extends PopperArrowProps {}
 
   export interface IContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
     'aria-label'?: string
