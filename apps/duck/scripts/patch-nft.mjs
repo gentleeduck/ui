@@ -18,7 +18,7 @@
  *      the plugin copies into the Lambda).
  *   3. Remove hashed symlinks in .next/node_modules/ that point to excluded pkgs.
  */
-import { readdir, readFile, writeFile, readlink, unlink, rm, stat } from 'node:fs/promises'
+import { readdir, readFile, readlink, rm, stat, unlink, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -62,7 +62,7 @@ const BUILD_TIME_NEEDLES = [
   '/node_modules/puppeteer/',
   '/node_modules/@puppeteer/',
   // Build toolchains
-  '/node_modules/@swc/',
+  '/node_modules/@swc/core',
   '/node_modules/esbuild/',
   '/node_modules/webpack/',
   '/node_modules/terser/',
@@ -106,7 +106,9 @@ try {
 }
 
 if (excludedHashedNames.size > 0) {
-  console.log(`[patch-nft] found ${excludedHashedNames.size} excluded hashed symlink(s): ${[...excludedHashedNames].join(', ')}`)
+  console.log(
+    `[patch-nft] found ${excludedHashedNames.size} excluded hashed symlink(s): ${[...excludedHashedNames].join(', ')}`,
+  )
 }
 
 const isExcludedFull = (p) => {
