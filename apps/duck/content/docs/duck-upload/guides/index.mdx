@@ -1,115 +1,95 @@
 ---
 title: Guides
-description: Step-by-step guides for common upload scenarios.
+description: Copy-paste recipes for common upload scenarios.
 section: Guides
 order: 0
 ---
-## Quick Start Guide
 
-A basic file upload, from scratch.
+Focused recipes built on the real API. Each assumes the shared types from
+[Installation](/duck-upload/installation).
 
-### Step 1: Set Up the Store
+## Minimal store (vanilla)
 
 ```ts
+import type { Contracts } from '@gentleduck/upload/core'
 import { createUploadStore } from '@gentleduck/upload/core'
-import { createStrategyRegistry, PostStrategy } from '@gentleduck/upload/strategies'
+import { PostStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 
-// Register the POST strategy for simple uploads
-const strategies = createStrategyRegistry()
-strategies.set(PostStrategy())
+type Intents = { post: PostStrategy.Intent }
+type Cursors = { post?: PostStrategy.Cursor }
+type Purpose = 'document'
+type Result = Contracts.Result.Base & { url: string }
 
-// Define your backend adapter
-const api = {
-  createIntent: async ({ file, purpose }) => {
+const api: Contracts.Api.Me<Intents, Purpose, Result> = {
+  async createIntent({ purpose, contentType, size, filename }, ctx) {
     const res = await fetch('/api/uploads/intent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: file.name, size: file.size, purpose }),
+      body: JSON.stringify({ purpose, contentType, size, filename }),
+      signal: ctx.signal,
     })
     return res.json()
   },
-  complete: async ({ fileId }) => {
-    const res = await fetch(`/api/uploads/${fileId}/complete`, { method: 'POST' })
+  async complete({ fileId, filename, contentType, size }, ctx) {
+    const res = await fetch(`/api/uploads/${fileId}/complete`, {
+      method: 'POST',
+      body: JSON.stringify({ filename, contentType, size }),
+      signal: ctx.signal,
+    })
     return res.json()
   },
 }
 
-const store = createUploadStore({ api, strategies })
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PostStrategy())
+
+export const store = createUploadStore<Intents, Cursors, Purpose, Result>({ api, strategies })
 ```
 
-### Step 2: Add Files
+Drive it:
 
 ```ts
-// From a file input or drag-and-drop
-store.dispatch({
-  type: 'addFiles',
-  files: selectedFiles,
-  purpose: 'document',
-})
+store.dispatch({ type: 'addFiles', files: selectedFiles, purpose: 'document' })
+store.dispatch({ type: 'startAll' })
+store.on('upload.completed', ({ localId, result }) => console.log(localId, result))
 ```
 
-### Step 3: Start Uploads
+Without `autoStart`, start manually with `start`/`startAll`.
 
-Without `autoStart`, start uploads manually:
-
-```ts
-store.dispatch({ type: 'start', localId: 'some-local-id' })
-```
-
-### Step 4: Listen for Completion
-
-```ts
-store.on('upload.completed', ({ localId, result }) => {
-  console.log(`Upload ${localId} completed:`, result)
-})
-```
-
----
-
-## React Quick Start
-
-### Wrap Your App
+## React quick start
 
 ```tsx
-import { UploadProvider } from '@gentleduck/upload/react'
+import { UploadProvider, useUploader } from '@gentleduck/upload/react'
+import { store } from './upload'
 
-function App() {
+export function App() {
   return (
     <UploadProvider store={store}>
       <UploadPage />
     </UploadProvider>
   )
 }
-```
-
-### Build an Upload Component
-
-```tsx
-import { useUploader } from '@gentleduck/upload/react'
-import React from 'react'
 
 function UploadPage() {
-  const { items, dispatch, on } = useUploader()
+  const { items, dispatch, on } = useUploader<Intents, Cursors, Purpose, Result>()
 
-  React.useEffect(() => {
-    return on('upload.completed', ({ localId, result }) => {
-      console.log('Done:', localId, result)
-    })
-  }, [on])
-
-  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? [])
-    dispatch({ type: 'addFiles', files, purpose: 'avatar' })
-  }
+  React.useEffect(() => on('upload.completed', ({ localId, result }) =>
+    console.log('done', localId, result)
+  ), [on])
 
   return (
     <div>
-      <input type="file" multiple onChange={handleFiles} />
+      <input
+        type="file"
+        multiple
+        onChange={(e) =>
+          dispatch({ type: 'addFiles', files: Array.from(e.target.files ?? []), purpose: 'document' })
+        }
+      />
       <ul>
         {items.map((item) => (
           <li key={item.localId}>
-            {item.file?.name} - {item.phase}
-            {item.phase === 'uploading' && ` (${Math.round(item.progress ?? 0)}%)`}
+            {item.fingerprint.name} — {item.phase}
+            {item.phase === 'uploading' && ` (${item.progress.pct.toFixed(0)}%)`}
           </li>
         ))}
       </ul>
@@ -118,65 +98,74 @@ function UploadPage() {
 }
 ```
 
----
+`item.progress` only exists once you're in a phase that has it (`uploading`, `completing`,
+`paused`) — narrow on `item.phase` first.
 
-## Large File Uploads with Multipart
+## Support large files with multipart
 
-For resumable uploads, use the multipart strategy:
+Register both strategies and let the backend pick per file:
 
 ```ts
-import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+import { PostStrategy, multipartStrategy, MultipartStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 
-const strategies = createStrategyRegistry()
+type Intents = { post: PostStrategy.Intent; multipart: MultipartStrategy.Intent }
+type Cursors = { post?: PostStrategy.Cursor; multipart?: MultipartStrategy.Cursor }
+
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
 strategies.set(PostStrategy())
-strategies.set(multipartStrategy())
+strategies.set(multipartStrategy({ maxPartConcurrency: 4 }))
 ```
 
-Have the backend's `createIntent` return a multipart intent for large files:
+Your `createIntent` chooses a strategy by returning the matching intent — the engine dispatches
+on the intent's `strategy` field. The multipart strategy also needs `api.multipart.signPart`
+and `api.multipart.completeMultipart` (see [Multipart Strategy](/duck-upload/strategies/multipart)).
+
+## Auto-start selected purposes
 
 ```ts
-const api = {
-  createIntent: async ({ file, purpose }) => {
-    const strategy = file.size > 10 * 1024 * 1024 ? 'multipart' : 'post'
-    // Call your backend which returns the correct intent shape
-    const res = await fetch('/api/uploads/intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: file.name, size: file.size, purpose, strategy }),
-    })
-    return res.json()
-  },
-  complete: async ({ fileId }) => {
-    const res = await fetch(`/api/uploads/${fileId}/complete`, { method: 'POST' })
-    return res.json()
-  },
-}
+createUploadStore({
+  api,
+  strategies,
+  config: { autoStart: ['avatar'] }, // or: autoStart: (p) => p !== 'draft'
+})
 ```
 
-The engine picks the strategy from the `strategy` field on the returned intent.
+Matching files upload as soon as their intent is created — no manual `start`.
 
----
-
-## Enabling Persistence
-
-To resume uploads after a page refresh:
+## Enable resume across reloads
 
 ```ts
-import { LocalStorageAdapter } from '@gentleduck/upload/core'
+import { IndexedDBAdapter } from '@gentleduck/upload/core'
 
-const store = createUploadStore({
+const store = createUploadStore<Intents, Cursors, Purpose, Result>({
   api,
   strategies,
   persistence: {
     key: 'uploads',
     version: 1,
-    adapter: LocalStorageAdapter,
-    isPurpose: (value) => value === 'avatar' || value === 'document',
-    isIntent: (value) =>
-      typeof value === 'object' && value !== null && 'strategy' in value && 'fileId' in value,
+    adapter: IndexedDBAdapter,
+    isPurpose: (v): v is Purpose => v === 'avatar' || v === 'document',
+    isIntent: (v): v is Intents[keyof Intents] =>
+      typeof v === 'object' && v !== null && 'strategy' in v && 'fileId' in v,
   },
 })
 ```
 
-Restored items come back `paused` without a `file` reference. Use the `rebind`
-command to attach the file before resuming.
+Restored items come back `paused` without a `File`. Rebind before resuming:
+
+```ts
+store.dispatch({ type: 'rebind', localId, file: reselectedFile })
+store.dispatch({ type: 'resume', localId })
+```
+
+See [Persistence](/duck-upload/core/persistence) for the full flow.
+
+## Await a batch of uploads
+
+```ts
+const ids = Array.from(store.getSnapshot().items.keys())
+for (const outcome of await store.waitFor(ids)) {
+  if (outcome.status === 'completed') console.log(outcome.result.key)
+  else if (outcome.status === 'error') console.warn(outcome.error.code)
+}
+```

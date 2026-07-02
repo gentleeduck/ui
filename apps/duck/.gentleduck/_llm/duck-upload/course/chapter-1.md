@@ -1,464 +1,195 @@
 ## Goal
 
-By the end of this chapter you will have a working upload pipeline. You will create an upload
-client, add a file, start the upload, and watch it progress through the state machine phases.
+Stand up a working upload pipeline: define the four type parameters, implement a mock backend
+contract, build the store with `createUploadStore`, add a file, and watch it flow through the
+phases while progress and completion events fire.
 
-## Step by Step
+## Step by step
 
-**Install @gentleduck/upload**
+**Install**
 
 ```bash
 npm install @gentleduck/upload
 ```
 
-This is the only package you need. It includes the core engine, React bindings, and all
-built-in strategies. It works with npm, yarn, pnpm, and bun.
+One package: core engine, React bindings, and built-in strategies.
 
-**Define your types**
+**Define the four type parameters**
 
-Create `src/upload.ts`. First, define the intent map, cursor map, purpose union, and result
-type that describe your upload pipeline:
+Create `src/upload.ts`. Describe the pipeline with an intent map (`M`), cursor map (`C`),
+purpose (`P`), and result (`R`).
 
 ```typescript title="src/upload.ts"
-import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
-import { PostIntent, PostCursor } from '@gentleduck/upload'
+import type { Contracts } from '@gentleduck/upload/core'
+import type { PostStrategy } from '@gentleduck/upload/strategies'
 
-// Intent map: which strategies exist and what data they need
-type PhotoIntentMap = {
-  post: PostIntent
-}
+// M — which strategies exist and the intent each returns
+type PhotoIntents = { post: PostStrategy.Intent }
 
-// Cursor map: resume state per strategy
-type PhotoCursorMap = {
-  post: PostCursor
-}
+// C — resume state per strategy (POST has none)
+type PhotoCursors = { post?: PostStrategy.Cursor }
 
-// Purpose: what kind of upload is this?
+// P — the kinds of uploads in the app
 type PhotoPurpose = 'photo'
 
-// Result: what the backend returns on completion
-type PhotoResult = UploadResultBase & {
-  url: string
-}
+// R — what your backend returns from complete()
+type PhotoResult = Contracts.Result.Base & { url: string }
 ```
 
-The **intent map** defines all upload strategies your app supports. Each key is a strategy
-name, and the value is the data shape your backend returns. For now we use the built-in
-`PostIntent`.
+`Contracts.Result.Base` is `{ fileId: string; key: string }`. `PostStrategy.Intent` and
+`PostStrategy.Cursor` come from the strategy's type namespace (the same `PostStrategy` you
+call as a function).
 
-The **purpose** is a string union that categorizes uploads. PhotoDuck only has `'photo'`
-for now, but a real app might have `'avatar' | 'cover' | 'attachment'`.
+**Implement the backend contract**
 
-**Implement the UploadApi**
-
-The `UploadApi` is the contract between the upload engine and your backend. It has two
-required methods: `createIntent` and `complete`. For now, we mock them:
-
-```typescript title="src/upload.ts"
-const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
-  async createIntent({ purpose, contentType, size, filename }) {
-    // In a real app, this calls your backend to get a presigned POST URL
-    console.log(`Creating intent for ${filename} (${size} bytes, ${contentType})`)
-
-    return {
-      strategy: 'post',
-      fileId: `file-${Date.now()}`,
-      url: 'https://your-bucket.s3.amazonaws.com',
-      fields: {
-        key: `uploads/${filename}`,
-        'Content-Type': contentType,
-      },
-    }
-  },
-
-  async complete({ fileId }) {
-    // In a real app, this tells your backend the upload finished
-    console.log(`Completing upload for ${fileId}`)
-    return {
-      fileId,
-      key: `uploads/${fileId}`,
-      url: `https://cdn.example.com/uploads/${fileId}`,
-    }
-  },
-}
-```
-
-`createIntent` is called when a file enters the pipeline. Your backend decides the strategy,
-generates presigned URLs, and returns an intent object. The engine then hands this intent to
-the matching strategy.
-
-`complete` is called after the bytes are transferred. Your backend can mark the file as
-uploaded in the database, generate thumbnails, or return metadata.
-
-**Create the upload client**
-
-Now wire everything together with `createUploadClient`:
-
-```typescript title="src/upload.ts"
-import {
-  createUploadClient,
-  createStrategyRegistry,
-  PostStrategy,
-  createXHRTransport,
-} from '@gentleduck/upload'
-import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
-import { PostIntent, PostCursor } from '@gentleduck/upload'
-
-// ... types and api from above ...
-
-const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
-strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
-
-export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
-  api,
-  strategies,
-  transport: createXHRTransport(),
-})
-```
-
-`createStrategyRegistry` creates a registry where you register strategy implementations.
-`PostStrategy()` creates the built-in POST strategy for simple file uploads.
-`createXHRTransport()` creates a browser-native XHR transport with upload progress support.
-
-**Add files and start uploading**
-
-Create `src/main.ts`:
-
-```typescript title="src/main.ts"
-import { uploadClient } from './upload'
-
-// Add files to the pipeline
-const file = new File(['hello world'], 'photo.jpg', { type: 'image/jpeg' })
-uploadClient.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
-
-// Listen to progress events
-uploadClient.on('upload.progress', (event) => {
-  console.log(`Progress: ${event.pct.toFixed(1)}% (${event.uploadedBytes}/${event.totalBytes})`)
-})
-
-// Listen to completion
-uploadClient.on('upload.completed', (event) => {
-  console.log(`Upload completed: ${event.localId}`, event.result)
-})
-
-// Listen to errors
-uploadClient.on('upload.error', (event) => {
-  console.log(`Upload failed: ${event.localId}`, event.error.message)
-})
-
-// Start all uploads
-uploadClient.dispatch({ type: 'startAll' })
-```
-
-`dispatch` is the single entry point for all commands. `addFiles` puts files into the
-pipeline. `startAll` begins uploading every file that is in the `ready` phase.
-
-## How the State Machine Works
-
-Every upload item flows through a sequence of **phases**. The phase determines what the engine
-is doing with the file at any given moment:
+The contract type is `Contracts.Api.Me
 
 | Phase | Meaning |
 | --- | --- |
-| `validating` | File is being checked against validation rules (size, type) |
-| `creating_intent` | Engine is calling `api.createIntent()` to get upload instructions |
-| `ready` | Intent received, waiting for user or autoStart to trigger upload |
-| `queued` | Upload requested, waiting for a concurrency slot |
-| `uploading` | Bytes are being transferred |
-| `completing` | Bytes sent, calling `api.complete()` to finalize |
-| `completed` | Upload finished successfully |
-| `error` | Something went wrong (may be retryable) |
-| `paused` | Upload paused by user (resumable strategies can pick up where they left off) |
-| `canceled` | Upload canceled by user |
+| `validating` | Checking against per-purpose rules |
+| `creating_intent` | Calling `api.createIntent()` |
+| `ready` | Intent received; waiting for `start`/`autoStart` |
+| `queued` | Wants a slot (concurrency cap reached) |
+| `uploading` | Transferring bytes |
+| `completing` | Calling `api.complete()` |
+| `completed` | Done and finalized |
+| `error` | Failed (possibly retryable) |
+| `paused` / `canceled` | Paused (resumable) / canceled |
 
-When you `dispatch({ type: 'addFiles', ... })`, the engine:
+On `addFiles` the engine assigns a `localId`, computes a fingerprint, validates, then calls
+`createIntent` and lands in `ready`. On `startAll`, `ready` → `queued` → (scheduler) →
+`uploading` → `completing` → `completed`.
 
-1. Creates a local ID and fingerprint for each file
-2. Moves the item to `validating` phase
-3. Runs validation rules (Chapter 5)
-4. On success, moves to `creating_intent` and calls `api.createIntent()`
-5. On success, moves to `ready` with the intent attached
+## Commands
 
-When you `dispatch({ type: 'start', localId })` or `dispatch({ type: 'startAll' })`:
-
-1. Items in `ready` move to `queued`
-2. The scheduler picks items from the queue (respecting `maxConcurrentUploads`)
-3. The matching strategy's `start()` method runs, moving the item to `uploading`
-4. On success, the item moves to `completing` and the engine calls `api.complete()`
-5. On success, the item reaches `completed`
-
-## Commands Reference
-
-All user actions go through `dispatch()`. Here are the available commands:
+Every action goes through `dispatch`. The command type is `Engine.Command<P>`:
 
 | Command | Effect |
 | --- | --- |
-| `{ type: 'addFiles', files: File[], purpose: P }` | Add files to the pipeline |
-| `{ type: 'start', localId: string }` | Start a single upload |
-| `{ type: 'startAll', purpose?: P }` | Start all ready uploads (optionally filtered by purpose) |
-| `{ type: 'pause', localId: string }` | Pause a single upload |
-| `{ type: 'pauseAll', purpose?: P }` | Pause all active uploads |
-| `{ type: 'resume', localId: string }` | Resume a paused upload |
-| `{ type: 'cancel', localId: string }` | Cancel a single upload |
-| `{ type: 'cancelAll', purpose?: P }` | Cancel all uploads |
-| `{ type: 'retry', localId: string }` | Retry a failed upload |
-| `{ type: 'remove', localId: string }` | Remove an item from state |
-| `{ type: 'rebind', localId: string, file: File }` | Re-attach a File to a persisted paused item |
+| `{ type: 'addFiles', files, purpose, meta? }` | Register files |
+| `{ type: 'start', localId }` / `{ type: 'startAll', purpose? }` | Begin upload(s) |
+| `{ type: 'pause', localId }` / `{ type: 'pauseAll', purpose? }` | Pause |
+| `{ type: 'resume', localId }` | Resume a paused item |
+| `{ type: 'cancel', localId }` / `{ type: 'cancelAll', purpose? }` | Cancel |
+| `{ type: 'retry', localId }` | Retry a failed item |
+| `{ type: 'rebind', localId, file }` | Re-attach a `File` after persistence restore |
+| `{ type: 'remove', localId }` | Drop an item from state |
 
-## Events Reference
+## Events
 
-Subscribe to events with `uploadClient.on(eventName, callback)`. The `on` method returns an
-unsubscribe function:
+Subscribe with `store.on(name, cb)`. It returns an unsubscribe function:
 
 ```typescript
-const unsub = uploadClient.on('upload.progress', (event) => {
-  console.log(event.pct)
-})
-
-// Later, stop listening
+const unsub = store.on('upload.progress', ({ pct }) => console.log(pct))
 unsub()
 ```
 
-| Event | Payload |
-| --- | --- |
-| `file.added` | `{ localId, purpose, file, fingerprint }` |
-| `file.rejected` | `{ file, reason }` |
-| `intent.creating` | `{ localId }` |
-| `intent.created` | `{ localId, intent }` |
-| `intent.failed` | `{ localId, error, retryable }` |
-| `upload.started` | `{ localId }` |
-| `upload.progress` | `{ localId, pct, uploadedBytes, totalBytes }` |
-| `upload.paused` | `{ localId, cursor }` |
-| `upload.canceled` | `{ localId }` |
-| `upload.completing` | `{ localId }` |
-| `upload.completed` | `{ localId, result, completedBy }` |
-| `upload.error` | `{ localId, error, retryable }` |
+Common events: `file.added`, `file.rejected`, `intent.creating`, `intent.created`,
+`upload.started`, `upload.progress`, `upload.paused`, `upload.canceled`, `upload.completing`,
+`upload.completed`, `upload.error`.
 
-## Reading State with getSnapshot
+## Reading state
 
-You can read the current state at any time:
+`getSnapshot()` returns immutable state with `items: Map<string, Engine.Item>`. Because
+`Engine.Item` is a discriminated union over `phase`, narrowing unlocks phase-specific fields:
 
 ```typescript
-const snapshot = uploadClient.getSnapshot()
-
-// snapshot.items is a Map<string, UploadItem>
-for (const [localId, item] of snapshot.items) {
-  console.log(`${localId}: phase=${item.phase}, purpose=${item.purpose}`)
-
-  if (item.phase === 'uploading') {
-    console.log(`  progress: ${item.progress.pct.toFixed(1)}%`)
-  }
-
-  if (item.phase === 'error') {
-    console.log(`  error: ${item.error.message} (retryable: ${item.retryable})`)
-  }
+for (const item of store.getSnapshot().items.values()) {
+  if (item.phase === 'uploading') console.log(item.progress.pct)
+  if (item.phase === 'error') console.log(item.error.message, item.retryable)
 }
 ```
 
-The `UploadItem` type is a discriminated union on `phase`. TypeScript narrows the type when
-you check the phase, giving you access to phase-specific fields like `progress`, `intent`,
-`error`, and `cursor`.
+## Awaiting an upload
 
-## Waiting for Uploads
-
-The `waitFor` method returns a promise that resolves when all given uploads reach a terminal
-state (`completed`, `error`, or `canceled`):
+`waitFor` resolves once items reach a terminal phase:
 
 ```typescript
-uploadClient.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
+store.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
+const localId = Array.from(store.getSnapshot().items.keys())[0]!
+store.dispatch({ type: 'start', localId })
 
-// Get the localId from the snapshot
-const snapshot = uploadClient.getSnapshot()
-const localId = Array.from(snapshot.items.keys())[0]
-
-uploadClient.dispatch({ type: 'start', localId })
-
-const [outcome] = await uploadClient.waitFor([localId])
-
-if (outcome.status === 'completed') {
-  console.log('Upload done:', outcome.result)
-} else if (outcome.status === 'error') {
-  console.log('Upload failed:', outcome.error)
-}
+const [outcome] = await store.waitFor([localId])
+if (outcome.status === 'completed') console.log('done', outcome.result)
+else if (outcome.status === 'error') console.log('failed', outcome.error)
 ```
 
 ## Checkpoint
 
-Your project should look like this:
-
 ```
 photoduck/
   src/
-    upload.ts    -- types + api + client
-    main.ts      -- dispatch commands + event listeners
-  package.json
-  tsconfig.json
+    upload.ts   -- types + api + store
+    main.ts     -- dispatch + event listeners
 ```
 
 Full `src/upload.ts`
 
 ```typescript
-import {
-  createUploadClient,
-  createStrategyRegistry,
-  PostStrategy,
-  createXHRTransport,
-} from '@gentleduck/upload'
-import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
-import { PostIntent, PostCursor } from '@gentleduck/upload'
+import type { Contracts } from '@gentleduck/upload/core'
+import { createUploadStore } from '@gentleduck/upload/core'
+import { PostStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 
-// --- Types ---
-
-type PhotoIntentMap = {
-  post: PostIntent
-}
-
-type PhotoCursorMap = {
-  post: PostCursor
-}
-
+type PhotoIntents = { post: PostStrategy.Intent }
+type PhotoCursors = { post?: PostStrategy.Cursor }
 type PhotoPurpose = 'photo'
+type PhotoResult = Contracts.Result.Base & { url: string }
 
-type PhotoResult = UploadResultBase & {
-  url: string
-}
-
-// --- Backend API ---
-
-const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
-  async createIntent({ purpose, contentType, size, filename }) {
-    console.log(`Creating intent for ${filename} (${size} bytes, ${contentType})`)
-
+const api: Contracts.Api.Me<PhotoIntents, PhotoPurpose, PhotoResult> = {
+  async createIntent({ purpose, contentType, size, filename }, ctx) {
     return {
       strategy: 'post',
       fileId: `file-${Date.now()}`,
       url: 'https://your-bucket.s3.amazonaws.com',
-      fields: {
-        key: `uploads/${filename}`,
-        'Content-Type': contentType,
-      },
+      fields: { key: `uploads/${filename}`, 'Content-Type': contentType },
     }
   },
-
-  async complete({ fileId }) {
-    console.log(`Completing upload for ${fileId}`)
-    return {
-      fileId,
-      key: `uploads/${fileId}`,
-      url: `https://cdn.example.com/uploads/${fileId}`,
-    }
+  async complete({ fileId }, ctx) {
+    return { fileId, key: `uploads/${fileId}`, url: `https://cdn.example.com/${fileId}` }
   },
 }
 
-// --- Upload Client ---
+const strategies = createStrategyRegistry<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+strategies.set(PostStrategy())
 
-const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
-strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
-
-export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+export const store = createUploadStore<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>({
   api,
   strategies,
-  transport: createXHRTransport(),
 })
-```
-
-Full `src/main.ts`
-
-```typescript
-import { uploadClient } from './upload'
-
-// Listen to events
-uploadClient.on('file.added', (event) => {
-  console.log(`File added: ${event.localId} (${event.purpose})`)
-})
-
-uploadClient.on('intent.created', (event) => {
-  console.log(`Intent created: ${event.localId}`, event.intent)
-})
-
-uploadClient.on('upload.progress', (event) => {
-  console.log(`Progress: ${event.pct.toFixed(1)}% (${event.uploadedBytes}/${event.totalBytes})`)
-})
-
-uploadClient.on('upload.completed', (event) => {
-  console.log(`Completed: ${event.localId}`, event.result)
-})
-
-uploadClient.on('upload.error', (event) => {
-  console.log(`Error: ${event.localId}`, event.error.message)
-})
-
-// Add a file
-const file = new File(['hello world'], 'photo.jpg', { type: 'image/jpeg' })
-uploadClient.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
-
-// Start all uploads
-uploadClient.dispatch({ type: 'startAll' })
 ```
 
 ***
 
 ## Chapter 1 FAQ
 
-Why use dispatch instead of direct method calls like client.addFiles()?
+Why dispatch instead of methods like store.addFiles()?
 
-The dispatch pattern (command pattern) centralizes all state mutations through a single
-entry point. This makes the engine predictable, testable, and debuggable. Every action
-goes through the same pipeline: command -> reducer -> state update -> effects -> events.
-Plugins and hooks can observe all commands in one place. It also allows the engine to
-batch and schedule work without race conditions.
+One command pipeline (command → reducer → new state → effects → events) makes the engine
+predictable, testable, and race-free. Plugins observe every command in one place, and the
+engine can batch and schedule work without conflicts.
 
-What is a "purpose" and why do I need it?
+What is a "purpose"?
 
-A purpose is a string that categorizes the upload. It serves three roles: (1) your backend
-uses it to decide where to store the file (e.g., avatars go to one bucket, photos to
-another), (2) the engine uses it to apply purpose-specific validation rules (e.g., avatars
-max 5MB, photos max 50MB), and (3) commands like `startAll` and `cancelAll` can filter by
-purpose. Define your purposes as a string union type for type safety.
+A string that categorizes an upload. It drives per-purpose validation rules, `autoStart`,
+and the optional filter on batch commands (`startAll`, `cancelAll`). Define it as a string
+union (`P`) for type safety.
 
-What is a file fingerprint?
+localId vs fileId?
 
-When a file is added, the engine computes a fingerprint from the file name, size, type,
-and last modified timestamp. This fingerprint is used to deduplicate files (avoid adding
-the same file twice) and to match files on resume. You can provide a custom fingerprinting
-function via the `fingerprint` option if you need SHA-256 hashing or other schemes.
+`localId` is a client id generated on `addFiles` and used for all client commands. `fileId`
+comes from your backend inside the intent and identifies the file server-side.
 
-What is a localId?
+Can uploads start without startAll?
 
-The `localId` is a client-generated unique identifier for each upload item. It is created
-when you `addFiles` and persists throughout the upload lifecycle. It is different from the
-`fileId` which comes from your backend via the intent. Use `localId` for all client-side
-operations (start, pause, cancel, retry). Use `fileId` for server-side references.
+Yes — set `config.autoStart`, either an array (`autoStart: ['photo']`) or a predicate
+(`autoStart: (p) => p !== 'draft'`). Matching files upload as soon as their intent is
+created.
 
-Can uploads start automatically without calling startAll?
+subscribe() vs on()?
 
-Yes. Pass `autoStart` in the config:
-`createUploadClient({ ..., config: { autoStart: ['photo'] } })`. This makes files with
-purpose `'photo'` start uploading immediately after the intent is created. You can also
-pass a function: `autoStart: (purpose) => purpose !== 'draft'` for dynamic control.
-
-How many files upload at the same time?
-
-The default `maxConcurrentUploads` is determined by the engine defaults. You can configure
-it: `createUploadClient({ ..., config: { maxConcurrentUploads: 3 } })`. When more files
-are ready than slots available, they queue in the `queued` phase and the scheduler picks
-them up as slots become free.
-
-What is the difference between subscribe() and on()?
-
-`subscribe(listener)` fires on every state change, regardless of which item or phase
-changed. It is designed for UI frameworks that need to re-render on any update (React uses
-this internally via `useSyncExternalStore`). `on(eventName, callback)` fires only for
-specific events like `upload.progress` or `upload.completed`. Use `subscribe` for rendering
-and `on` for side effects (logging, analytics, notifications).
-
-Why use XHR instead of fetch?
-
-The `createXHRTransport()` uses XMLHttpRequest because fetch does not yet support upload
-progress events in a standard cross-browser way. XHR provides `xhr.upload.onprogress`
-which gives deterministic byte-level progress tracking. The transport is an abstraction --
-you can swap it for a fetch-based or test transport by implementing the `UploadTransport`
-interface.
+`subscribe(listener)` fires on any state change (React uses it via `useSyncExternalStore`).
+`on(name, cb)` fires for a specific typed event. Use `subscribe` for rendering, `on` for
+side effects.
 
 ***
 

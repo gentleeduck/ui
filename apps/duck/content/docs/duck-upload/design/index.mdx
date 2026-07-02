@@ -1,56 +1,71 @@
 ---
 title: Design Decisions
-description: Architecture decisions and design rationale behind @gentleduck/upload.
+description: The architecture choices behind @gentleduck/upload and why they were made.
 section: Concepts
 order: 0
 ---
-Architecture decisions and rationale behind the upload engine.
 
-## Typed Results End-to-End
+A short tour of the decisions that shape the engine. Each one is a tradeoff made in favor of
+predictability and type safety.
 
-The engine carries a typed completion result all the way through:
+## Command in, events out
 
-- `UploadApi.complete` returns a typed result.
-- Internal events include the result.
-- `upload.completed` emits it.
-- Items in the `completed` phase keep it.
+There is one way to change state — `dispatch(command)` — and one way to observe it —
+`subscribe` for snapshots and `on` for typed events. Concentrating mutations behind a command
+pipeline (command → reducer → new state → effects → events) makes the engine testable and
+race-free, and gives plugins a single place to observe everything.
 
-`unknown` never appears on the completion path, so UIs use results without casts.
+## Typed results end-to-end
 
-## Dedupe Without Fake Intents
+The result generic `R` is threaded through the whole system rather than degrading to `unknown`:
 
-When `findByChecksum` matches, the engine completes the item via a dedicated internal
-event (`dedupe.ok`) - no synthetic intent. State stays honest and no strategy
-assumptions sneak in.
+- `Contracts.Api.Me.complete` returns `R`.
+- Internal and public completion events carry `R`.
+- `upload.completed` emits it; `completed` items keep it on `item.result`.
 
-## Defaults At Construction
+So UI code reads `item.result.url` with no cast — TypeScript already knows the shape.
 
-`createUploadStore` resolves config defaults and supplies a default transport
-(`createXHRTransport`) when none is given. Pass only the fields you care about - the
-runtime is always fully specified.
+## Dedupe without fake intents
 
-## Core Does Not Depend On React
+When `findByChecksum` matches, the engine finishes the item through a dedicated `dedupe.ok`
+event and marks it `completedBy: 'dedupe'`. It does **not** fabricate a synthetic intent or run
+a strategy. State stays honest about what actually happened.
 
-The reducer and runtime are React-free. React adapters live in `src/react` and only
-read the store interface. No import cycles, and the core works in Node.js, Vue, or
-vanilla JS.
+## Defaults resolved at construction
 
-## Immutable State Updates
+`createUploadStore` runs `resolveUploadConfig` once and installs `createXHRTransport()` when no
+transport is given. After construction the runtime always holds a fully-specified config, so no
+code path has to re-check optional fields.
 
-All state changes go through the reducer. Direct map mutations were removed to fix
-`useSyncExternalStore` snapshot identity issues. Internal events drive every change:
+## The core never imports React
 
-- Files are added via `files.added`.
-- Fingerprints update via `fingerprint.updated`.
-- Cleanup returns a new state instead of mutating.
+The reducer and runtime are React-free. The React binding lives in `react/` and only reads the
+public store interface (`subscribe`, `getSnapshot`, `dispatch`, `on`). No import cycles, and the
+same store works in Node, a worker, Vue, or vanilla JS.
 
-## Single Event Emission Layer
+## Immutable state updates
 
-State-derived public events emit from one place in the store runtime, not inside
-individual handlers. No duplicates, consistent semantics across the lifecycle.
+Every reducer step returns a new state object; nothing mutates the `items` map in place. This
+fixed `useSyncExternalStore` tearing — React can compare snapshots by reference and re-render
+exactly when something changed. Cleanup and eviction return new state too.
 
-## Strategy Decoupling
+## One event-emission layer
 
-Core defines strategy interfaces in `core/contracts/strategy.types.ts`. The strategies
-package implements the registry helper and the protocol logic. Core never imports
-strategy implementations directly.
+State-derived public events are emitted from a single point after transitions, not scattered
+inside handlers. That removes duplicate emissions and keeps event semantics consistent across
+the lifecycle.
+
+## Strategies stay at the edge
+
+The engine selects a strategy purely by the `strategy` field on the intent and calls its
+`start`. It never imports a concrete strategy. You only ship the strategies you register, and
+custom protocols slot in without forking the engine.
+
+## Security-conscious by default
+
+- Error **messages are static**; tainted values live on `context`, closing an XSS vector (see
+  [Errors](/duck-upload/core/errors)).
+- The multipart strategy validates every signed part URL — protocol, optional host allow-list,
+  and private/loopback IP rejection — before handing it to the transport.
+- Persisted snapshots are treated as untrusted: guarded by `isPurpose`/`isIntent` and stripped
+  of prototype-polluting keys on the way in.

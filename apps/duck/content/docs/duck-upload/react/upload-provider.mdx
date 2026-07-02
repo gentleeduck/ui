@@ -1,21 +1,20 @@
 ---
 title: UploadProvider
-description: React context provider for sharing the upload store across components.
+description: Share an upload store across the component tree via React context.
 section: Integrations
 order: 10
 ---
-`UploadProvider` exposes the upload store via React context, making it available to all descendant components.
 
-## Why It Exists
-
-- Keeps components clean by avoiding prop drilling
-- Centralizes store access across the component tree
-- Enforces a consistent store instance per React tree
+`UploadProvider` publishes an upload store on React context so any descendant can reach it with
+`useUploader`, `useUploaderActions`, or `useUploadStore` — no prop drilling.
 
 ## Usage
 
+Create the store once, outside render, and pass it in:
+
 ```tsx
 import { UploadProvider } from '@gentleduck/upload/react'
+import { store } from './upload'
 
 export function App() {
   return (
@@ -26,17 +25,27 @@ export function App() {
 }
 ```
 
-The provider uses runtime guards to ensure the store instance is valid.
-
 ## Props
+
+`UploadProviderProps<M, C, P, R>`:
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `store` | `UploadStore` | The upload store instance created by `createUploadStore` or `createUploadClient` |
-| `children` | `ReactNode` | Child components that can access the store via hooks |
+| `store` | `Store.UploadStore<M, C, P, R>` | The store from `createUploadStore` |
+| `children` | `ReactNode` | Subtree that can access the store via hooks |
+
+## Related hooks
+
+- `useUploadStore()` — returns the raw store from context, or throws if used outside a provider.
+- `isUploadStore(value)` — a runtime type guard that checks a value has the store shape
+  (`getSnapshot`, `subscribe`, `dispatch`, `on`, `off`, `waitFor`).
 
 ## Notes
 
-- Only one `UploadProvider` is needed per React tree.
-- The store instance should be created outside of the component render cycle to avoid re-creation on every render.
-- All `useUploader` and `useUploaderActions` hooks must be used within a descendant of `UploadProvider`.
+- One provider per tree is enough. For truly independent pipelines (different backends or
+  persistence keys), create separate stores and nest providers, or skip the provider and pass a
+  store directly to `useUploader(store)`.
+- Create the store in a module (or a stable ref), never inline in render, so it isn't recreated
+  on every render.
+- All `useUploader` / `useUploaderActions` calls must be inside a descendant of the provider —
+  unless you pass a store to `useUploader` explicitly.

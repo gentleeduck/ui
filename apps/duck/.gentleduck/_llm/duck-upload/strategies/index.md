@@ -1,34 +1,52 @@
-Strategies implement the upload protocol and register with the engine. The engine
-picks one based on the `strategy` field on the intent returned by the backend.
+A strategy is the piece that actually moves bytes. The engine stays protocol-agnostic: your
+backend returns an intent, the engine reads its `strategy` field, looks the strategy up in the
+registry, and calls `start()`. Swapping S3 POST for multipart, TUS, or a custom endpoint never
+touches engine code.
 
-## Responsibilities
+## What a strategy does
 
 Each strategy:
 
-* Turns an intent into network calls.
-* Reports progress and persists cursor updates.
-* Honors abort signals for pause and cancel.
+* Turns an intent into network calls via the injected `ctx.transport`.
+* Reports progress with `ctx.reportProgress` and, if resumable, persists a cursor with
+  `ctx.persistCursor`.
+* Honors `ctx.signal` so pause and cancel abort cleanly.
 
-## Available Strategies
-
-| Strategy | Use Case | Resumable |
-| --- | --- | --- |
-| [POST](/duck-upload/strategies/post) | Simple presigned form uploads | No |
-| [Multipart](/duck-upload/strategies/multipart) | Large file uploads with concurrent parts | Yes |
-
-## Registry
-
-Install strategies via the registry helper before creating the store:
+The shape is `Contracts.Strategy.Me<M, C, P, R, K>`:
 
 ```ts
-import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
-
-const registry = createStrategyRegistry()
-registry.set(PostStrategy())
-registry.set(multipartStrategy())
+{
+  id: K              // must equal the intent's `strategy` value
+  resumable: boolean
+  start(ctx): Promise<void>
+}
 ```
 
-The registry enforces typed strategy keys through the intent map, keeping the
-backend intent response and the strategy implementation in sync.
+## Built-in strategies
 
-See [Strategy Registry](/duck-upload/strategies/registry) for more.
+| Strategy | Factory | Use case | Resumable |
+| --- | --- | --- | --- |
+| [POST](/duck-upload/strategies/post) | `PostStrategy()` | Presigned form uploads (small/medium) | No |
+| [Multipart](/duck-upload/strategies/multipart) | `multipartStrategy(opts?)` | Large files, concurrent parts | Yes |
+
+Note the casing: `PostStrategy` (also a type namespace) and `multipartStrategy` (its type
+namespace is `MultipartStrategy`).
+
+## Registering
+
+`createStrategyRegistry()` returns an empty typed registry; add strategies with `.set()`:
+
+```ts
+import { PostStrategy, multipartStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
+
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PostStrategy())
+strategies.set(multipartStrategy({ maxPartConcurrency: 4 }))
+```
+
+The registry's key types come from your intent map `M`, so the backend intent response and the
+registered strategies stay in sync at compile time. If the backend returns a `strategy` that
+isn't registered, the item fails with a `strategy_missing` error.
+
+See [Strategy Registry](/duck-upload/strategies/registry) for the registry API and writing your
+own strategy.

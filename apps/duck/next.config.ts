@@ -39,7 +39,10 @@ const nextConfig: NextConfig = {
       '**/node_modules/puppeteer-*/**',
       '**/node_modules/@puppeteer/**',
       '**/node_modules/sharp/**',
+      '**/node_modules/@img/**',
       '**/node_modules/canvas/**',
+      '**/node_modules/ts-morph/**',
+      '**/node_modules/@ts-morph/**',
       // 3D/animation libs that no app/component code imports.
       '**/node_modules/three/**',
       '**/node_modules/@splinetool/**',

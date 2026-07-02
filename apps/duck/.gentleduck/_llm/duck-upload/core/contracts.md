@@ -1,43 +1,164 @@
-Contracts define the integration points between your backend, transport, and strategies.
+The `Contracts` namespace holds every integration point between the engine and the outside
+world: what your backend implements, what the transport does, and what a strategy looks like.
+Each concern is a sub-namespace so the names stay short and grouped.
 
-## UploadApi
+## Contracts.Api.Me
 
-Your backend adapter implements:
-
-* `createIntent` -- returns a strategy intent describing how the file should be uploaded
-* `complete` -- returns a typed result after the upload finishes
-* optional `findByChecksum` for deduplication
-* optional multipart and tus helpers
-
-## UploadTransport
-
-Transport handles raw HTTP requests (XHR or fetch). The default implementation uses XHR because it supports upload progress events.
-
-## Strategy Contracts
-
-Strategies implement a single method:
+Your backend adapter implements `Contracts.Api.Me<M, P, R>`. Two methods are required; the rest
+are opt-in per feature.
 
 ```ts
-start(ctx: StrategyCtx): Promise<void>
+import type { Contracts } from '@gentleduck/upload/core'
+
+const api: Contracts.Api.Me<Intents, Purpose, Result> = {
+  createIntent(args, ctx) { /* … */ },
+  complete(args, ctx) { /* … */ },
+  // findByChecksum?, multipart?, tus?
+}
 ```
 
-The engine provides `file`, `intent`, `transport`, `api`, and cursor helpers via the context object.
+Every method takes call-specific `args` plus a **context** object `ctx`.
 
-## Upload Lifecycle Sequence
+### createIntent (required)
+
+Asks your backend how a file should be uploaded. Returns a value from the intent map `M` — the
+`strategy` field on the returned object selects which registered strategy runs.
+
+```ts
+async createIntent({ purpose, contentType, size, filename, checksum, attempt }, ctx) {
+  // ctx.file and ctx.signal are guaranteed present here.
+  const res = await fetch('/api/uploads/intent', {
+    method: 'POST',
+    body: JSON.stringify({ purpose, contentType, size, filename, checksum }),
+    signal: ctx.signal,
+  })
+  return res.json() // e.g. a PostStrategy.Intent or MultipartStrategy.Intent
+}
+```
+
+### complete (required)
+
+Finalizes the upload after bytes land and returns your typed `R`.
+
+```ts
+async complete({ fileId, filename, contentType, size, checksum, attempt }, ctx) {
+  const res = await fetch(`/api/uploads/${fileId}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({ filename, contentType, size }),
+    signal: ctx.signal,
+  })
+  return res.json() // Result
+}
+```
+
+Use the sanitized `filename` from `args`, never the raw browser `File.name`.
+
+### Optional methods
+
+| Method | Enables |
+| --- | --- |
+| `findByChecksum(args, ctx)` | Deduplication — return `R` to skip the upload, or `null` |
+| `getSignedPreviewUrl(args, ctx)` | Fetch a signed URL for a completed file |
+| `multipart.signPart` / `multipart.completeMultipart` | Required by the multipart strategy |
+| `multipart.listParts` / `multipart.abort` | Optional multipart housekeeping |
+| `tus.create` / `tus.getOffset` | Contract hooks for a TUS strategy |
+
+> The `tus` methods exist in the contract, but the package does **not** ship a built-in TUS
+> strategy yet — only `PostStrategy` and `multipartStrategy`. To use TUS today you'd write a
+> custom strategy (see [Strategy Registry](/duck-upload/strategies/registry)) that consumes
+> these methods.
+
+### The call context
+
+Every method receives a `Contracts.Api.Context<P, M>`. Handy fields:
+
+| Field | Notes |
+| --- | --- |
+| `localId` | Client id for this item |
+| `purpose` | The upload's purpose |
+| `fingerprint` | `{ name, size, type, lastModified, checksum? }` — always present |
+| `attempt` | 1-based, increments on retry |
+| `meta` | Caller metadata from `addFiles` (never persisted) |
+| `signal` | Abort signal (present in `createIntent`/`complete`) |
+| `file` | The `File` (present in most phases) |
+| `intent` | Present after `createIntent` succeeds |
+| `steps` | Phase history; errors have `cause` stripped |
+
+Refined contexts tighten which fields are guaranteed: `CreateIntentContext` guarantees `file`
+and `signal`; `CompleteContext` also guarantees `intent`.
+
+## Transport.Options
+
+The transport abstracts raw HTTP so strategies stay testable. `createXHRTransport()` implements
+it with `XMLHttpRequest` for real progress events; the store installs it automatically.
+
+```ts
+type Options = {
+  put(args):     Promise<{ etag?: string; headers?: Record<string, string> }>
+  postForm(args): Promise<{ etag?: string; headers?: Record<string, string> }>
+  patch(args):   Promise<{ headers?: Record<string, string> }>
+}
+```
+
+Each method takes a `url`, a body/fields, an `AbortSignal`, and an optional `onProgress`
+callback. Provide your own `Transport.Options` for Node, fetch, or mocks.
+
+## Contracts.Strategy.Me
+
+A strategy turns an intent into network calls. It is a small object:
+
+```ts
+type Me<M, C, P, R, K> = {
+  id: K              // must equal the intent's `strategy` field
+  resumable: boolean // can it pick up after a pause?
+  start(ctx: Ctx<M, C, P, R, K>): Promise<void>
+}
+```
+
+`start` receives a rich `Contracts.Strategy.Ctx` with `file`, `intent`, `signal`, the injected
+`transport`, your `api`, `reportProgress`, and cursor helpers `readCursor`/`persistCursor`. See
+[Strategies](/duck-upload/strategies) for full details and a custom-strategy example.
+
+## Contracts.Strategy.Registry
+
+The registry maps strategy ids to implementations and keeps the engine decoupled:
+
+```ts
+type Registry<M, C, P, R> = {
+  get<K>(id: K): Me<M, C, P, R, K> | undefined
+  has(id: string): id is keyof M & string
+  set<K>(strategy: Me<M, C, P, R, K>): void
+}
+```
+
+Build one with `createStrategyRegistry()` and populate it via `.set()`.
+
+## Supporting shapes
+
+* `Contracts.Result.Base` — `{ fileId: string; key: string }`; extend it as `R`.
+* `Contracts.Intent.Base<K>` — `{ strategy: K; fileId: string }`; the base for every intent.
+* `Contracts.FingerprintFile` — the file identity signature (optionally with a `checksum`).
+* `Contracts.ValidationRules` — the per-purpose rules described in
+  [Store Options](/duck-upload/core/client).
+* `Contracts.Validation.Rejection` — the discriminated reason a file was rejected.
+* `Contracts.Errors.Error` — the plain error shape carried through events (see
+  [Errors](/duck-upload/core/errors)).
+
+## Upload lifecycle sequence
 
 ```mermaid
 sequenceDiagram
   participant UI
   participant Store
-  participant API
+  participant API as Contracts.Api.Me
   participant Strategy
-  UI->>Store: addFiles
-  Store->>API: createIntent
+  UI->>Store: dispatch(addFiles)
+  Store->>API: createIntent(args, ctx)
   API-->>Store: intent
-  Store->>Strategy: start(file, intent)
-  Strategy-->>Store: progress
-  Strategy-->>Store: done
-  Store->>API: complete(fileId)
-  API-->>Store: result
+  Store->>Strategy: start(ctx)
+  Strategy-->>Store: reportProgress(...)
+  Strategy-->>Store: resolves
+  Store->>API: complete(args, ctx)
+  API-->>Store: result (R)
   Store-->>UI: upload.completed
 ```

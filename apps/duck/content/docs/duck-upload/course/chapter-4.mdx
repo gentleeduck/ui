@@ -1,371 +1,244 @@
 ---
-title: "chapter 4: multipart uploads"
-description: "Upload large files in chunks with S3/MinIO multipart uploads."
+title: "Chapter 4: Multipart Uploads"
+description: "Upload large files in concurrent chunks with the multipart strategy, signPart, and completeMultipart."
 section: Course
 order: 4
 ---
+
 ## Goal
 
-By the end of this chapter you will configure the multipart strategy for large file uploads,
-implement the multipart backend API methods (`signPart`, `completeMultipart`), track per-part
-progress, and understand how concurrent chunk uploads work.
+Add the multipart strategy for large files: extend your type maps, register
+`multipartStrategy`, implement the `signPart`/`completeMultipart` backend methods, and see how
+concurrent parts and cursors give you resume.
 
 <MermaidDiagram chart={`flowchart LR
-    A["Large File<br/>200MB"] --> B["createIntent"]
-    B -->|"MultipartIntent"| C["multipartStrategy"]
-    C --> D["Part 1<br/>signPart + PUT"]
-    C --> E["Part 2<br/>signPart + PUT"]
-    C --> F["Part 3<br/>signPart + PUT"]
-    C --> G["..."]
-    D --> H["completeMultipart"]
-    E --> H
-    F --> H
-    G --> H`} />
+    A["Large file"] --> B["createIntent"]
+    B -->|MultipartStrategy.Intent| C["multipartStrategy"]
+    C --> P1["part 1: signPart + PUT"]
+    C --> P2["part 2: signPart + PUT"]
+    C --> P3["part N: signPart + PUT"]
+    P1 --> D["completeMultipart"]
+    P2 --> D
+    P3 --> D`} />
 
-## Step by Step
+## Step by step
 
 <Steps>
   <Step>
-    **Update your types to include the multipart strategy**
+    **Extend the type maps**
 
-    Add `MultipartIntent` and `MultipartCursor` to your intent and cursor maps:
+    Add `multipart` to the intent and cursor maps. `MultipartStrategy` is the type namespace
+    that pairs with the `multipartStrategy` function.
 
     ```typescript title="src/upload.ts"
-    import {
-      PostIntent, PostCursor,
-      MultipartIntent, MultipartCursor,
-    } from '@gentleduck/upload'
-    import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+    import type { PostStrategy, MultipartStrategy } from '@gentleduck/upload/strategies'
 
-    // Now supports both POST (small files) and multipart (large files)
-    type PhotoIntentMap = {
-      post: PostIntent
-      multipart: MultipartIntent
+    type PhotoIntents = {
+      post: PostStrategy.Intent
+      multipart: MultipartStrategy.Intent
     }
-
-    type PhotoCursorMap = {
-      post: PostCursor
-      multipart: MultipartCursor
-    }
-
-    type PhotoPurpose = 'photo'
-
-    type PhotoResult = UploadResultBase & {
-      url: string
+    type PhotoCursors = {
+      post?: PostStrategy.Cursor
+      multipart?: MultipartStrategy.Cursor
     }
     ```
 
-    The `MultipartIntent` type defines what your backend returns for multipart uploads:
+    The intent your backend returns for large files:
 
     ```typescript
-    type MultipartIntent = {
-      strategy: 'multipart'   // discriminant
-      fileId: string          // backend file identifier
-      uploadId: string        // S3 multipart upload ID
-      partSize: number        // size of each part in bytes
-      partCount: number       // total number of parts
+    // MultipartStrategy.Intent
+    {
+      strategy: 'multipart'
+      fileId: string
+      uploadId: string   // S3/GCS multipart session id
+      partSize: number   // bytes per part (S3 min 5 MB, except the last)
+      partCount: number  // total parts
+      parts?: Array<{ partNumber: number; url: string; headers?: Record<string, string> }>
     }
     ```
 
-    The `MultipartCursor` tracks which parts have been uploaded (for resume):
+    The resume cursor tracks completed parts:
 
     ```typescript
-    type MultipartCursor = {
-      done: Array<{
-        partNumber: number
-        etag: string
-        size: number
-      }>
-      completed?: true  // marks the multipart session as assembled
+    // MultipartStrategy.Cursor
+    {
+      done: Array<{ partNumber: number; etag: string; size: number }>
+      completed?: true // set after completeMultipart, so resume won't re-finalize
     }
     ```
+
+    The cursor map holds the **raw** cursor type. The engine wraps it as
+    `{ strategy: 'multipart', value }` when it surfaces through events and persistence.
   </Step>
 
   <Step>
-    **Register the multipart strategy**
+    **Register multipartStrategy**
 
     ```typescript title="src/upload.ts"
-    import {
-      createUploadClient,
-      createStrategyRegistry,
-      PostStrategy,
-      multipartStrategy,
-      createXHRTransport,
-    } from '@gentleduck/upload'
+    import { PostStrategy, multipartStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 
-    const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
-    strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
-    strategies.set(multipartStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
-      maxPartConcurrency: 4,
-    }))
+    const strategies = createStrategyRegistry<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+    strategies.set(PostStrategy())
+    strategies.set(multipartStrategy({ maxPartConcurrency: 4 }))
     ```
 
-    `multipartStrategy()` accepts an optional config:
+    `MultipartStrategy.Config`:
 
     | Option | Default | Description |
     | --- | --- | --- |
-    | `maxPartConcurrency` | `4` | Maximum number of parts uploaded simultaneously |
+    | `maxPartConcurrency` | `4` | Parts uploaded at once |
+    | `allowedHosts` | — | Host allow-list for signed part URLs |
+    | `allowPrivateHosts` | `false` | Allow private/loopback IPs in signed URLs |
 
-    Higher concurrency uses more bandwidth and memory but finishes faster. For most connections,
-    3-6 is a good range. Each concurrent part holds a file slice (`Blob`) in memory.
+    Set `allowedHosts` in production — otherwise the strategy warns once that signed URLs are
+    host-unrestricted.
   </Step>
 
   <Step>
-    **Implement multipart UploadApi methods**
+    **Implement the multipart backend methods**
 
-    The multipart strategy requires two additional methods on your `UploadApi`: `signPart` and
-    `completeMultipart`. These live under the `multipart` namespace:
+    The strategy calls `api.multipart.signPart` and `api.multipart.completeMultipart` (each with
+    `args` and `ctx`):
 
     ```typescript title="src/upload.ts"
-    const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
-      async createIntent({ purpose, contentType, size, filename }) {
+    const api: Contracts.Api.Me<PhotoIntents, PhotoPurpose, PhotoResult> = {
+      async createIntent({ purpose, contentType, size, filename }, ctx) {
         const res = await fetch('/api/uploads/create-intent', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ purpose, contentType, size, filename }),
+          signal: ctx.signal,
         })
-
-        if (!res.ok) throw new Error(`Failed to create intent: ${res.status}`)
-
-        // Backend decides strategy based on file size:
-        // - Small files (under 100MB): returns PostIntent
-        // - Large files (100MB and above): returns MultipartIntent
+        if (!res.ok) throw new Error(`create-intent failed: ${res.status}`)
+        // Backend chooses: small -> PostStrategy.Intent, large -> MultipartStrategy.Intent
         return res.json()
       },
-
-      async complete({ fileId }) {
+      async complete({ fileId, filename, contentType, size }, ctx) {
         const res = await fetch('/api/uploads/complete', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fileId }),
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileId, filename, contentType, size }),
+          signal: ctx.signal,
         })
-
-        if (!res.ok) throw new Error(`Failed to complete upload: ${res.status}`)
+        if (!res.ok) throw new Error(`complete failed: ${res.status}`)
         return res.json()
       },
-
-      // Multipart-specific operations
       multipart: {
-        async signPart({ fileId, uploadId, partNumber }) {
+        async signPart({ fileId, uploadId, partNumber }, ctx) {
           const res = await fetch('/api/uploads/sign-part', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ fileId, uploadId, partNumber }),
+            signal: ctx.signal,
           })
-
-          if (!res.ok) throw new Error(`Failed to sign part ${partNumber}: ${res.status}`)
-
-          // Returns: { url: 'https://...presigned-put-url...', headers?: { ... } }
-          return res.json()
+          if (!res.ok) throw new Error(`sign-part ${partNumber} failed: ${res.status}`)
+          return res.json() // { url: string; headers?: Record<string, string> }
         },
-
-        async completeMultipart({ fileId, uploadId, parts }) {
+        async completeMultipart({ fileId, uploadId, parts }, ctx) {
           const res = await fetch('/api/uploads/complete-multipart', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fileId, uploadId, parts }),
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ fileId, uploadId, parts }), // parts: { partNumber, etag }[]
+            signal: ctx.signal,
           })
-
-          if (!res.ok) throw new Error(`Failed to complete multipart: ${res.status}`)
+          if (!res.ok) throw new Error(`complete-multipart failed: ${res.status}`)
           return res.json()
         },
       },
     }
     ```
 
-    The flow per part is:
-    1. Engine calls `signPart({ fileId, uploadId, partNumber })` to get a presigned PUT URL
-    2. Transport sends the part bytes via PUT to that URL
-    3. S3 returns an `ETag` header for the part
-    4. After all parts, engine calls `completeMultipart` with the list of `{ partNumber, etag }`
+    Per part: the strategy calls `signPart` for a presigned PUT URL, PUTs the slice, reads the
+    `ETag`, and after all parts calls `completeMultipart` with `{ partNumber, etag }[]`.
   </Step>
 
   <Step>
-    **Configure chunk size and concurrency**
+    **Part size comes from the backend**
 
-    The chunk size is controlled by your backend. When `createIntent` returns a
-    `MultipartIntent`, it includes `partSize` and `partCount`:
+    `createIntent` returns `partSize` and `partCount`:
 
     ```typescript
-    // Example backend response for a 200MB file with 10MB parts
-    {
-      strategy: 'multipart',
-      fileId: 'abc-123',
-      uploadId: 's3-upload-id-xyz',
-      partSize: 10 * 1024 * 1024,   // 10MB per part
-      partCount: 20,                  // 200MB / 10MB = 20 parts
-    }
+    // 200 MB with 10 MB parts
+    { strategy: 'multipart', fileId: 'abc', uploadId: 'upl-xyz', partSize: 10 * 1024 * 1024, partCount: 20 }
     ```
 
-    Common part size choices:
+    | File size | Part size | Notes |
+    | --- | --- | --- |
+    | < ~100 MB | — | Use POST |
+    | 100 MB – 1 GB | 10 MB | Good balance |
+    | 1 – 5 GB | 50 MB | Fewer requests |
+    | 5 GB+ | 100 MB | S3 caps at 10,000 parts |
 
-    | File size | Part size | Parts | Notes |
-    | --- | --- | --- | --- |
-    | Under 100MB | N/A | N/A | Use POST strategy instead |
-    | 100MB - 1GB | 10MB | 10-100 | Good balance |
-    | 1GB - 5GB | 50MB | 20-100 | Fewer requests |
-    | 5GB+ | 100MB | 50+ | S3 allows max 10,000 parts |
-
-    S3 requires a minimum part size of 5MB (except the last part) and allows up to 10,000
-    parts per upload.
+    S3 requires a 5 MB minimum per part (except the last).
   </Step>
 
   <Step>
-    **Upload a large file and track per-part progress**
+    **Upload and track progress**
 
-    With the multipart strategy registered, large file uploads work the same way as POST
-    uploads from the UI perspective. The engine handles everything internally:
+    From the UI, large files behave like any other upload:
 
     ```typescript title="src/main.ts"
-    import { uploadClient } from './upload'
-
-    // Listen to progress -- same API as POST uploads
-    uploadClient.on('upload.progress', ({ localId, pct, uploadedBytes, totalBytes }) => {
-      const mb = (bytes: number) => (bytes / 1024 / 1024).toFixed(1)
-      console.log(`${localId}: ${pct.toFixed(1)}% (${mb(uploadedBytes)}MB / ${mb(totalBytes)}MB)`)
+    store.on('upload.progress', ({ localId, pct, uploadedBytes, totalBytes }) => {
+      const mb = (b: number) => (b / 1024 / 1024).toFixed(1)
+      console.log(`${localId}: ${pct.toFixed(1)}% (${mb(uploadedBytes)}/${mb(totalBytes)} MB)`)
     })
 
-    // Listen to cursor updates -- multipart-specific resume state
-    uploadClient.on('upload.cursor', ({ localId, cursor }) => {
+    // Multipart resume state surfaces as a wrapped cursor.
+    store.on('upload.cursor', ({ localId, cursor }) => {
       if (cursor.strategy === 'multipart' && cursor.value) {
-        const mc = cursor.value as { done: Array<{ partNumber: number }> }
-        console.log(`${localId}: ${mc.done.length} parts completed`)
-      }
-    })
-
-    uploadClient.on('upload.completed', ({ localId, result }) => {
-      console.log(`${localId}: upload complete!`, result)
-    })
-
-    // Add a large file
-    const input = document.querySelector<HTMLInputElement>('#file-input')!
-    input.addEventListener('change', () => {
-      const files = Array.from(input.files ?? [])
-      if (files.length > 0) {
-        uploadClient.dispatch({ type: 'addFiles', files, purpose: 'photo' })
+        console.log(`${localId}: ${cursor.value.done.length} parts done`)
       }
     })
     ```
 
-    The `upload.progress` event aggregates progress across all parts. The engine tracks bytes
-    from finished parts plus bytes in-flight from currently uploading parts to give you a smooth
-    total progress percentage.
+    Progress aggregates finished-part bytes plus in-flight bytes for one smooth percentage.
   </Step>
 </Steps>
 
-## How Concurrent Part Uploads Work
+## How concurrent parts work
 
-The multipart strategy manages its own concurrency at the part level (separate from the
-engine's `maxConcurrentUploads` which controls file-level concurrency).
-
-Here is what happens step by step:
+Part-level concurrency (`maxPartConcurrency`) is separate from file-level concurrency
+(`maxConcurrentUploads`).
 
 <MermaidDiagram chart={`sequenceDiagram
     participant E as Engine
     participant S as multipartStrategy
-    participant B as Backend API
+    participant B as api.multipart
     participant S3 as S3/MinIO
-
     E->>S: start(ctx)
-    Note over S: Build queue: parts 1..N minus already done
-    loop For each part (maxPartConcurrency=4)
+    Note over S: queue = 1..N minus cursor.done
+    loop up to maxPartConcurrency
         S->>B: signPart({ partNumber })
         B-->>S: { url, headers? }
-        S->>S3: PUT part bytes
-        S3-->>S: ETag header
-        Note over S: persistCursor({ done: [...] })
-        Note over S: reportProgress(...)
+        S->>S3: PUT slice
+        S3-->>S: ETag
+        Note over S: persistCursor(done += part)
     end
-    S->>B: completeMultipart({ parts: [{ partNumber, etag }...] })
-    B-->>S: OK
-    S-->>E: Promise resolves`} />
+    S->>B: completeMultipart({ parts })
+    B-->>S: OK`} />
 
-1. **Build the queue** -- The strategy calculates which parts need uploading. It reads the
-   cursor (`ctx.readCursor()`) to skip parts that were already uploaded in a previous session.
+1. **Queue** parts, skipping those already in `cursor.done`.
+2. **Upload** up to `maxPartConcurrency` at a time; sign each on demand.
+3. **Collect ETags** — expose them via CORS (`Access-Control-Expose-Headers: ETag`) or the
+   strategy throws "missing ETag".
+4. **Persist the cursor** after each part.
+5. **Finalize** with `completeMultipart`, then mark the cursor `completed`.
+6. **Retry transient part failures** (network/timeout/5xx) up to 3× with backoff (500 ms, 1 s,
+   2 s).
 
-2. **Concurrent upload loop** -- The strategy maintains a pool of up to `maxPartConcurrency`
-   concurrent uploads. As each part finishes, the next one from the queue starts.
+## The legacy `parts` array
 
-3. **Per-part signing** -- For each part, the strategy calls `api.multipart.signPart()` to get
-   a presigned PUT URL. This is a "sign on demand" pattern -- you do not need to pre-sign all
-   parts upfront.
+If `intent.parts` is present, the strategy uses those pre-signed URLs and skips `signPart`.
+On-demand signing is preferred: URLs stay fresh, fewer up-front calls, and only the parts you
+actually need get signed.
 
-4. **ETag collection** -- After each successful PUT, S3 returns an `ETag` header. The strategy
-   collects these. If S3/MinIO is behind a proxy, make sure CORS exposes the `ETag` header:
-   `Access-Control-Expose-Headers: ETag`.
+## Pause and resume
 
-5. **Cursor persistence** -- After each part, the strategy calls `ctx.persistCursor()` with the
-   updated list of completed parts. If the upload is paused or the browser crashes, the cursor
-   is available on resume.
-
-6. **Completion** -- Once all parts are uploaded, the strategy calls
-   `api.multipart.completeMultipart()` with the full list of `{ partNumber, etag }`. S3
-   assembles the parts into the final object.
-
-7. **Per-part retry** -- If a part fails due to a network error, the strategy retries it up to
-   3 times with exponential backoff (500ms, 1s, 2s). Only network-ish errors are retried
-   (network failures, timeouts, 5xx responses).
-
-## The Legacy Parts Array
-
-The `MultipartIntent` has an optional `parts` field for backends that provide all presigned
-URLs upfront:
-
-```typescript
-type MultipartIntent = {
-  strategy: 'multipart'
-  fileId: string
-  uploadId: string
-  partSize: number
-  partCount: number
-
-  // Optional: all part URLs provided upfront
-  parts?: Array<{
-    partNumber: number
-    url: string
-    headers?: Record<string, string>
-  }>
-}
-```
-
-If `parts` is provided, the strategy uses those URLs directly instead of calling `signPart`.
-This is the "legacy" mode -- the on-demand `signPart` approach is preferred because:
-- URLs do not expire before they are needed
-- Fewer upfront API calls for large files
-- Better for resumable uploads (only sign parts you need)
-
-## Pausing and Resuming Multipart Uploads
-
-The multipart strategy is resumable (`resumable: true`). When a user pauses:
-
-1. The engine sets the abort signal, which cancels in-flight PUT requests
-2. The strategy's cursor already has all completed parts persisted
-3. The item moves to the `paused` phase
-
-When the user resumes:
-
-1. The item moves back to `queued`, then `uploading`
-2. The strategy calls `ctx.readCursor()` to get the list of already-completed parts
-3. It skips those parts and only uploads the remaining ones
-4. Progress resumes from where it left off
-
-If the `completed` flag is set in the cursor, the strategy skips the `completeMultipart` call
-too -- this prevents duplicate assembly requests if the upload was interrupted after completion
-but before the engine finalized.
+`resumable: true`. Pausing aborts in-flight PUTs; the cursor already has every completed part.
+On resume the strategy reads `cursor.done`, skips those parts, and continues. If the cursor is
+`completed`, it also skips `completeMultipart` — no double assembly.
 
 ## Checkpoint
-
-Your project should look like this:
-
-```
-photoduck/
-  src/
-    upload.ts         -- types with multipart + api with signPart/completeMultipart
-    App.tsx           -- UploadProvider wrapper
-    PhotoUploader.tsx -- dropzone + progress bars + controls
-  package.json
-  tsconfig.json
-```
 
 <Accordion type="single" collapsible className="w-full">
   <AccordionItem value="c4-full-upload-ts">
@@ -373,103 +246,73 @@ photoduck/
     <AccordionContent>
 
 ```typescript
+import type { Contracts } from '@gentleduck/upload/core'
+import { createUploadStore } from '@gentleduck/upload/core'
 import {
-  createUploadClient,
-  createStrategyRegistry,
   PostStrategy,
   multipartStrategy,
-  createXHRTransport,
-} from '@gentleduck/upload'
-import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
-import {
-  PostIntent, PostCursor,
-  MultipartIntent, MultipartCursor,
-} from '@gentleduck/upload'
+  createStrategyRegistry,
+  type MultipartStrategy,
+} from '@gentleduck/upload/strategies'
 
-// --- Types ---
-
-type PhotoIntentMap = {
-  post: PostIntent
-  multipart: MultipartIntent
-}
-
-type PhotoCursorMap = {
-  post: PostCursor
-  multipart: MultipartCursor
-}
-
+type PhotoIntents = { post: PostStrategy.Intent; multipart: MultipartStrategy.Intent }
+type PhotoCursors = { post?: PostStrategy.Cursor; multipart?: MultipartStrategy.Cursor }
 type PhotoPurpose = 'photo'
+type PhotoResult = Contracts.Result.Base & { url: string }
 
-type PhotoResult = UploadResultBase & {
-  url: string
-}
-
-// --- Backend API ---
-
-const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
-  async createIntent({ purpose, contentType, size, filename }) {
+const api: Contracts.Api.Me<PhotoIntents, PhotoPurpose, PhotoResult> = {
+  async createIntent({ purpose, contentType, size, filename }, ctx) {
     const res = await fetch('/api/uploads/create-intent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ purpose, contentType, size, filename }),
+      signal: ctx.signal,
     })
-
-    if (!res.ok) throw new Error(`Failed to create intent: ${res.status}`)
+    if (!res.ok) throw new Error(`create-intent failed: ${res.status}`)
     return res.json()
   },
-
-  async complete({ fileId }) {
+  async complete({ fileId, filename, contentType, size }, ctx) {
     const res = await fetch('/api/uploads/complete', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileId }),
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ fileId, filename, contentType, size }),
+      signal: ctx.signal,
     })
-
-    if (!res.ok) throw new Error(`Failed to complete upload: ${res.status}`)
+    if (!res.ok) throw new Error(`complete failed: ${res.status}`)
     return res.json()
   },
-
   multipart: {
-    async signPart({ fileId, uploadId, partNumber }) {
+    async signPart({ fileId, uploadId, partNumber }, ctx) {
       const res = await fetch('/api/uploads/sign-part', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ fileId, uploadId, partNumber }),
+        signal: ctx.signal,
       })
-
-      if (!res.ok) throw new Error(`Failed to sign part ${partNumber}: ${res.status}`)
+      if (!res.ok) throw new Error(`sign-part ${partNumber} failed: ${res.status}`)
       return res.json()
     },
-
-    async completeMultipart({ fileId, uploadId, parts }) {
+    async completeMultipart({ fileId, uploadId, parts }, ctx) {
       const res = await fetch('/api/uploads/complete-multipart', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ fileId, uploadId, parts }),
+        signal: ctx.signal,
       })
-
-      if (!res.ok) throw new Error(`Failed to complete multipart: ${res.status}`)
+      if (!res.ok) throw new Error(`complete-multipart failed: ${res.status}`)
       return res.json()
     },
   },
 }
 
-// --- Upload Client ---
+const strategies = createStrategyRegistry<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+strategies.set(PostStrategy())
+strategies.set(multipartStrategy({ maxPartConcurrency: 4, allowedHosts: ['my-bucket.s3.us-east-1.amazonaws.com'] }))
 
-const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
-strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
-strategies.set(multipartStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
-  maxPartConcurrency: 4,
-}))
-
-export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+export const store = createUploadStore<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>({
   api,
   strategies,
-  transport: createXHRTransport(),
-  config: {
-    maxConcurrentUploads: 3,
-    autoStart: ['photo'],
-  },
+  config: { maxConcurrentUploads: 3, autoStart: ['photo'] },
 })
 ```
 
@@ -482,94 +325,50 @@ export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, P
 ## Chapter 4 FAQ
 
 <Accordion type="multiple" collapsible className="w-full">
-  <AccordionItem value="c4-when-multipart">
-    <AccordionTrigger>When should I use multipart instead of POST?</AccordionTrigger>
+  <AccordionItem value="c4-when">
+    <AccordionTrigger>When multipart over POST?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Use multipart for files larger than ~100MB. Multipart uploads are resumable, so if the
-      connection drops, only the current part is lost -- not the entire file. They also enable
-      parallel part transfers which can saturate high-bandwidth connections better than a single
-      stream. The decision is typically made on the backend in `createIntent` based on file size.
+      For large files (~100 MB+). Multipart is resumable — a dropped connection loses one part,
+      not the whole file — and parallel parts saturate fast links. The backend decides per file
+      in `createIntent`.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c4-etag-cors">
-    <AccordionTrigger>I am getting "Missing ETag" errors. What is wrong?</AccordionTrigger>
+  <AccordionItem value="c4-etag">
+    <AccordionTrigger>"Missing ETag" errors?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      S3/MinIO returns the `ETag` header on part uploads, but browsers only expose headers
-      listed in `Access-Control-Expose-Headers`. Configure your S3/MinIO CORS to include:
-      `Access-Control-Expose-Headers: ETag`. Without this, the XHR response cannot read the
-      ETag and the multipart strategy throws an error. This is the most common gotcha with
-      multipart uploads.
+      Browsers only expose headers listed in `Access-Control-Expose-Headers`. Add
+      `Access-Control-Expose-Headers: ETag` to your S3/MinIO CORS so the strategy can read each
+      part's ETag. This is the most common multipart gotcha.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c4-part-size-choice">
-    <AccordionTrigger>How do I choose the right part size?</AccordionTrigger>
+  <AccordionItem value="c4-concurrency">
+    <AccordionTrigger>maxPartConcurrency vs maxConcurrentUploads?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Part size is a tradeoff between resumability and overhead. Smaller parts (5-10MB) mean
-      less data is lost on failure and more granular progress, but more HTTP requests. Larger
-      parts (50-100MB) mean fewer requests but coarser progress and more data to re-upload on
-      failure. S3 requires minimum 5MB per part (except the last) and maximum 10,000 parts per
-      upload. A common pattern is to use 10MB parts up to 1GB files, then increase part size for
-      larger files.
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="c4-max-part-concurrency">
-    <AccordionTrigger>How does maxPartConcurrency interact with maxConcurrentUploads?</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-      They operate at different levels. `maxConcurrentUploads` controls how many files can upload
-      at the same time (engine level). `maxPartConcurrency` controls how many parts of a single
-      multipart upload transfer simultaneously (strategy level). So if you have
-      `maxConcurrentUploads: 3` and `maxPartConcurrency: 4`, you could have up to 3 multipart
-      files each with 4 concurrent parts, for a total of 12 concurrent HTTP requests.
+      `maxConcurrentUploads` is files at once (engine). `maxPartConcurrency` is parts within one
+      multipart upload (strategy). With 3 and 4, you could have up to 12 in-flight requests.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="c4-sign-on-demand">
-    <AccordionTrigger>Why sign parts on demand instead of upfront?</AccordionTrigger>
+    <AccordionTrigger>Why sign parts on demand?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Presigned URLs expire. If you sign all 100 parts of a large file upfront and the upload
-      takes 30 minutes, later parts might expire before they are needed. Signing on demand means
-      each URL is fresh. It also reduces the initial API call payload and is better for resumable
-      uploads -- you only sign parts that actually need uploading.
+      Presigned URLs expire. Signing all parts up front risks later parts expiring mid-upload.
+      On-demand signing keeps each URL fresh and only signs parts that still need uploading.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c4-abort-multipart">
-    <AccordionTrigger>What happens to incomplete multipart uploads on the server?</AccordionTrigger>
+  <AccordionItem value="c4-abort">
+    <AccordionTrigger>What about abandoned multipart uploads on the server?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      If a multipart upload is abandoned, the uploaded parts remain in S3 and incur storage
-      costs. You should configure an S3 lifecycle rule to automatically abort incomplete multipart
-      uploads after a period (e.g., 7 days). The `UploadApi` also has an optional
-      `multipart.abort` method you can implement to explicitly abort the multipart upload on
-      cancel, which immediately cleans up the parts.
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="c4-per-part-retry">
-    <AccordionTrigger>Does the strategy retry failed parts automatically?</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-      Yes. The multipart strategy has built-in retry logic for network-ish failures (network
-      errors, timeouts, 5xx responses). It retries up to 3 times per part with exponential
-      backoff (500ms, 1s, 2s). If a part still fails after retries, the entire upload moves to
-      the `error` phase. The user can then retry the upload, which resumes from the last
-      persisted cursor (skipping already-uploaded parts).
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="c4-progress-multipart">
-    <AccordionTrigger>How does progress work with concurrent parts?</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-      The strategy tracks two things: `finishedBytes` (total bytes from fully uploaded parts)
-      and `inflightBytes` (bytes transferred so far in currently uploading parts). The progress
-      reported to the engine is `finishedBytes + inflightBytes` out of `totalBytes`. This gives
-      you smooth continuous progress even though multiple parts upload in parallel. The engine
-      throttles these reports via `progressThrottleMs` before sending them to your UI.
+      Orphaned parts sit in S3 and cost storage. Add an S3 lifecycle rule to abort incomplete
+      multipart uploads after N days, and optionally implement `api.multipart.abort` to clean up
+      immediately on cancel.
     </AccordionContent>
   </AccordionItem>
 </Accordion>
 
 ---
 
-Next: [Chapter 5: Validation & Rejection](/duck-upload/course/chapter-5)
+Next: [Chapter 5: Pause, Resume & Retry](/duck-upload/course/chapter-5)

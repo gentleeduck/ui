@@ -1,45 +1,92 @@
 ---
 title: Strategy Registry
-description: Register and resolve upload strategies by name.
+description: Register and resolve upload strategies by id, and write your own.
 section: Adapters
-order: 10
+order: 30
 ---
-The registry owns the set of available strategies and keeps the core engine decoupled from protocol implementations.
 
-## Why It Exists
+The registry owns the set of available strategies and keeps the engine decoupled from any
+concrete protocol. `createStrategyRegistry()` returns an **empty** registry — you populate it
+with `.set()`.
 
-- Core should not import strategy implementations directly
-- Strategies can be swapped or extended without changing engine logic
-- The registry enforces typed strategy keys via the intent map
+## Why it exists
+
+- The core never imports strategy implementations.
+- Strategies can be swapped or added without changing engine logic.
+- Registry key types come from your intent map `M`, so the backend's intent response and the
+  registered strategies are kept in sync at compile time.
+
+## API
+
+`Contracts.Strategy.Registry<M, C, P, R>`:
+
+```ts
+type Registry<M, C, P, R> = {
+  get<K>(id: K): Contracts.Strategy.Me<M, C, P, R, K> | undefined
+  has(id: string): id is keyof M & string
+  set<K>(strategy: Contracts.Strategy.Me<M, C, P, R, K>): void
+}
+```
 
 ## Usage
 
 ```ts
-import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+import { PostStrategy, multipartStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 
-const registry = createStrategyRegistry()
-registry.set(PostStrategy())
-registry.set(multipartStrategy())
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PostStrategy())
+strategies.set(multipartStrategy())
 ```
 
-## How It Works
+There is no array constructor form — always create empty and `set()` each strategy.
 
-When the engine receives an intent from your backend, it reads the `strategy` field and looks up the corresponding implementation in the registry. If no strategy is found for the given key, the upload transitions to an error state.
+## How resolution works
 
-## Custom Strategies
+When your backend returns an intent, the engine reads its `strategy` field and calls
+`registry.get(strategy)`. A hit runs that strategy's `start()`. A miss moves the item to the
+`error` phase with a `strategy_missing` error naming the unregistered id.
 
-You can create and register your own strategies:
+## Writing a custom strategy
+
+A strategy is a plain object with `id`, `resumable`, and `start`. The context gives you the
+file, the intent, the injected transport, your API, progress reporting, and cursor helpers.
 
 ```ts
-const customStrategy = {
-  name: 'custom',
-  start: async (ctx) => {
-    // Your custom upload logic here
-    // Use ctx.file, ctx.intent, ctx.transport, ctx.onProgress, ctx.signal
-  },
-}
+import type { Contracts } from '@gentleduck/upload/core'
 
-registry.set(customStrategy)
+type MyIntent = Contracts.Intent.Base<'my-put'> & { uploadUrl: string; token: string }
+type MyCursor = { bytesUploaded: number }
+
+function myPutStrategy<
+  M extends Contracts.Intent.Map & { 'my-put': MyIntent },
+  C extends Contracts.Cursor.Map<M> & { 'my-put'?: MyCursor },
+  P extends string,
+  R extends Contracts.Result.Base,
+>(): Contracts.Strategy.Me<M, C, P, R, 'my-put'> {
+  return {
+    id: 'my-put',      // must equal the intent's `strategy`
+    resumable: true,
+    async start(ctx) {
+      const offset = ctx.readCursor()?.bytesUploaded ?? 0
+      await ctx.transport.put({
+        url: ctx.intent.uploadUrl,
+        body: ctx.file.slice(offset),
+        headers: { authorization: `Bearer ${ctx.intent.token}` },
+        signal: ctx.signal,
+        onProgress: (uploaded) =>
+          ctx.reportProgress({ uploadedBytes: offset + uploaded, totalBytes: ctx.file.size }),
+      })
+      ctx.persistCursor({ bytesUploaded: ctx.file.size } as C['my-put'])
+    },
+  }
+}
 ```
 
-Your backend's `createIntent` would then return `{ strategy: 'custom', ... }` to use this strategy.
+Register it and have the backend return `{ strategy: 'my-put', ... }`:
+
+```ts
+strategies.set(myPutStrategy())
+```
+
+The `id` must exactly match the intent's `strategy` field, and both must be keys of your intent
+map — the registry's generics enforce it.

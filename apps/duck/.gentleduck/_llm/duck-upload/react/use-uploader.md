@@ -1,50 +1,104 @@
-`useUploader()` subscribes to the store and returns a structured view of upload items along with dispatch and event helpers.
+`useUploader` subscribes to the store with `useSyncExternalStore` and returns the items, phase
+buckets, and the `dispatch`/`on`/`off` handles. It re-renders when the snapshot changes.
 
-## Return Shape
+```tsx
+const {
+  items, byPhase, uploading, paused, completed, failed, ready,
+  dispatch, on, off,
+} = useUploader<Intents, Cursors, Purpose, Result>()
+```
+
+Pass a store explicitly to bypass context: `useUploader(store)`. With no argument it reads the
+store from `UploadProvider`.
+
+## Return shape (`Uploader.State`)
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `items` | `UploadItem[]` | Array of all upload items |
-| `byPhase` | `Record<Phase, UploadItem[]>` | Items grouped by their current phase |
-| `dispatch` | `(command: UploadCommand) => void` | Send commands to the store |
-| `on` / `off` | Event helpers | Subscribe to and unsubscribe from upload events |
-| `uploading` | `UploadItem[]` | Convenience: items currently uploading |
-| `paused` | `UploadItem[]` | Convenience: paused items |
-| `completed` | `UploadItem[]` | Convenience: completed items |
-| `failed` | `UploadItem[]` | Convenience: failed items |
-| `ready` | `UploadItem[]` | Convenience: items ready to start |
+| `items` | `Engine.Item[]` | All items, in insertion order |
+| `byPhase` | `Record<Engine.Phase, Engine.Item[]>` | Items grouped by phase |
+| `uploading` | `Engine.Item[]` | Items in `uploading` |
+| `paused` | `Engine.Item[]` | Items in `paused` |
+| `completed` | `Engine.Item[]` | Items in `completed` |
+| `failed` | `Engine.Item[]` | Items in `error` (exposed as `failed` for convenience) |
+| `ready` | `Engine.Item[]` | Items in `ready` |
+| `dispatch` | `(cmd: Engine.Command<P>) => void` | Send commands |
+| `on` / `off` | event helpers | Subscribe / unsubscribe (`on` returns an unsubscribe fn) |
 
-## Example
+Note `failed` maps to the `error` **phase** — when you check `item.phase`, use `'error'`.
 
-```tsx
-const { items, dispatch, on } = useUploader()
-
-React.useEffect(() => {
-  return on('upload.completed', ({ localId, result }) => {
-    console.log(localId, result)
-  })
-}, [on])
-```
-
-## Dispatching Commands
+## Dispatching commands
 
 ```tsx
-// Add files
 dispatch({ type: 'addFiles', files: selectedFiles, purpose: 'avatar' })
-
-// Start a specific upload
-dispatch({ type: 'start', localId: item.localId })
-
-// Pause an upload
-dispatch({ type: 'pause', localId: item.localId })
-
-// Resume a paused upload
-dispatch({ type: 'resume', localId: item.localId })
-
-// Cancel an upload
-dispatch({ type: 'cancel', localId: item.localId })
+dispatch({ type: 'start', localId })
+dispatch({ type: 'pause', localId })
+dispatch({ type: 'resume', localId })
+dispatch({ type: 'cancel', localId })
+dispatch({ type: 'retry', localId })
+dispatch({ type: 'remove', localId })
 ```
 
-## Tip
+Batch variants (`startAll`, `pauseAll`, `cancelAll`) accept an optional `purpose` filter.
 
-If you need direct access to the store (e.g., `getSnapshot` or `waitFor`), use `useUploaderActions()` instead.
+## Listening for events
+
+`on` returns its own unsubscribe function — return it straight from an effect:
+
+```tsx
+React.useEffect(() => on('upload.progress', ({ localId, pct }) => {
+  console.log(localId, pct)
+}), [on])
+```
+
+## Rendering phase-specific fields
+
+`Engine.Item` is a discriminated union, so narrow on `phase` before touching phase-only fields:
+
+```tsx
+{items.map((item) => (
+  <div key={item.localId}>
+    <span>{item.fingerprint.name}</span>
+    {item.phase === 'uploading' && <progress value={item.progress.pct} max={100} />}
+    {item.phase === 'error' && item.retryable && (
+      <button onClick={() => dispatch({ type: 'retry', localId: item.localId })}>Retry</button>
+    )}
+  </div>
+))}
+```
+
+## Variants
+
+### useUploaderActions
+
+Returns `{ dispatch, on, store }` without subscribing to snapshots — use it for buttons or
+side-effect components that shouldn't re-render on progress:
+
+```tsx
+function StartAllButton() {
+  const { dispatch } = useUploaderActions<Intents, Cursors, Purpose, Result>()
+  return <button onClick={() => dispatch({ type: 'startAll' })}>Start all</button>
+}
+```
+
+### createUploadFactory
+
+Bind a `useUploader` to a specific store so every call is typed without repeating generics:
+
+```tsx
+import { createUploadFactory } from '@gentleduck/upload/react'
+import { store } from './upload'
+
+export const useMyUploader = createUploadFactory(store)
+
+function List() {
+  const { items, dispatch } = useMyUploader() // fully typed, no context needed
+  // …
+}
+```
+
+## Re-render notes
+
+`useUploader` re-renders on every snapshot change, which includes progress. The engine throttles
+progress with `config.progressThrottleMs` (default `100`), so updates stay smooth. For zero
+progress-driven re-renders, use `useUploaderActions` instead.

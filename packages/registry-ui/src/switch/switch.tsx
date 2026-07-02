@@ -40,7 +40,8 @@ const Switch = React.forwardRef<
           '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
           '[&[dir=ltr]:checked]:after:translate-x-full [&[dir=ltr]]:after:translate-x-0',
           '[&[dir=rtl]:checked]:after:-translate-x-full [&[dir=rtl]]:after:translate-x-0',
-          '[&:checked]:after:origin-left [&:not(:checked)]:after:origin-right',
+          '[&[dir=ltr]:checked]:after:origin-right [&[dir=ltr]:not(:checked)]:after:origin-left',
+          '[&[dir=rtl]:checked]:after:origin-left [&[dir=rtl]:not(:checked)]:after:origin-right',
           'active:after:scale-x-125 active:after:scale-y-110',
           className,
         )}

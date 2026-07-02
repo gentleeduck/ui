@@ -1,40 +1,60 @@
-The React layer is thin on purpose - context and subscription helpers only. Upload
-logic stays in the core engine.
+The React layer is deliberately thin: a context provider and a few hooks that read the store
+through its public interface. All upload logic stays in the core engine, so the binding is just
+`useSyncExternalStore` plumbing plus convenience selectors.
+
+Import everything from `@gentleduck/upload/react`.
+
+## Exports
+
+| Export | Kind | Purpose |
+| --- | --- | --- |
+| `UploadProvider` | component | Puts a store on React context |
+| `useUploader` | hook | Reactive items + grouped selectors + `dispatch`/`on`/`off` |
+| `useUploaderActions` | hook | `dispatch`/`on` + the raw store, without subscribing to state |
+| `createUploadFactory` | helper | A `useUploader` pre-bound to a specific store |
+| `useUploadStore` | hook | The raw store from context |
+| `isUploadStore` | guard | Runtime check that a value is a store |
 
 ## Provider
 
-Wrap the app with `UploadProvider` so components can reach the store:
+Wrap your tree once so descendants can reach the store:
 
 ```tsx
 import { UploadProvider } from '@gentleduck/upload/react'
+import { store } from './upload'
 
 <UploadProvider store={store}>
   <App />
 </UploadProvider>
 ```
 
-## Hooks
+## Reading state
 
-| Hook | Description |
-| --- | --- |
-| `useUploader()` | Returns items, dispatch, and event helpers |
-| `useUploaderActions()` | Returns dispatch/on plus direct store access |
-
-## Typical Flow
-
-1. Render upload lists and progress with `useUploader`.
-2. Add files with `dispatch({ type: 'addFiles' })`.
-3. Subscribe to `upload.completed` for results.
+`useUploader` subscribes to the store and returns the items plus ready-made phase buckets:
 
 ```tsx
-const { items, dispatch, on } = useUploader()
-
-React.useEffect(() => {
-  return on('upload.completed', ({ localId, result }) => {
-    console.log(localId, result)
-  })
-}, [on])
+const { items, uploading, completed, failed, dispatch, on } =
+  useUploader<Intents, Cursors, Purpose, Result>()
 ```
 
-See [UploadProvider](/duck-upload/react/upload-provider) and
-[useUploader](/duck-upload/react/use-uploader) for the API.
+Pass your four type parameters (or use `createUploadFactory`) so `items`, event payloads, and
+`dispatch` are fully typed.
+
+## Typical flow
+
+1. Render lists/progress from `useUploader`.
+2. Add files with `dispatch({ type: 'addFiles', ... })`.
+3. React to results with `on('upload.completed', ...)`.
+
+```tsx
+const { items, dispatch, on } = useUploader<Intents, Cursors, Purpose, Result>()
+
+React.useEffect(() => on('upload.completed', ({ localId, result }) => {
+  console.log(localId, result)
+}), [on])
+```
+
+## Next
+
+* [UploadProvider](/duck-upload/react/upload-provider) — the provider and context hook.
+* [useUploader](/duck-upload/react/use-uploader) — return shape, actions, and variants.

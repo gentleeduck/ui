@@ -1,273 +1,244 @@
 ---
-title: client
-description: Upload client configuration, plugins, hooks, and the createUploadClient entry point.
+title: Store Options
+description: Everything you pass to createUploadStore — config, plugins, hooks, fingerprinting, and validation.
 section: Core
 order: 10
 ---
+
 ## Overview
 
-The client layer is the public entry point for creating an upload store. It
-normalizes config, wires plugins, sets up the transport, and returns a stable
-`UploadStore`.
+`createUploadStore` is the single entry point for building a store. It normalizes config,
+installs the default transport, wires plugins and hooks, optionally hydrates from persistence,
+and returns a `Store.UploadStore<M, C, P, R>`.
 
-## Creating a Client
+```ts
+import { createUploadStore } from '@gentleduck/upload/core'
 
-`createUploadClient` is the recommended way to create an upload store:
-
-```typescript title="src/lib/upload-client.ts"
-import { createUploadClient } from "@gentleduck/upload"
-
-const client = createUploadClient({
-  api: uploadApi,
-  strategies: strategyRegistry,
+export const store = createUploadStore<Intents, Cursors, Purpose, Result>({
+  api,
+  strategies,
   config: {
     maxConcurrentUploads: 3,
     maxAttempts: 3,
     progressThrottleMs: 100,
-    autoStart: ["avatar"],
+    autoStart: ['avatar'],
     maxItems: 100,
     validation: {
-      avatar: { maxSizeBytes: 5 * 1024 * 1024, allowedTypes: ["image/*"] },
+      avatar: { maxSizeBytes: 5 * 1024 * 1024, allowedTypes: ['image/*'] },
     },
   },
 })
 ```
 
-`createUploadClient` is a thin alias for `createUploadStore`. Both return the same
-`UploadStore` interface.
+## Store options
 
-## Configuration
+`Store.Options<M, C, P, R>` accepts:
 
-All config fields are optional. `resolveUploadConfig()` applies defaults at
-construction time:
+| Option | Required | Description |
+| --- | --- | --- |
+| `api` | Yes | Backend contract — `Contracts.Api.Me<M, P, R>` |
+| `strategies` | Yes | Strategy registry with your strategies registered |
+| `config` | No | Engine config (defaults applied by `resolveUploadConfig`) |
+| `transport` | No | HTTP transport. Defaults to `createXHRTransport()` |
+| `persistence` | No | Adapter + options for crash-safe resume |
+| `plugins` | No | Array of `Engine.Plugin` modules |
+| `hooks` | No | `Engine.Hooks` for low-level observation |
+| `fingerprint` | No | Custom, synchronous `(file) => Contracts.FingerprintFile` |
+| `validateFile` | No | Extra validator run after built-in rules |
+| `errorNormalizer` | No | Map raw thrown values into `Contracts.Errors.Error` |
+| `initialState` | No | Pre-hydrated `Engine.State` (e.g. from persistence) |
 
-| Option | Type | Default | Description |
+## Config
+
+Everything under `config` is optional. `resolveUploadConfig()` fills the rest at construction
+time, so the runtime always has a fully-specified `Engine.Config`.
+
+| Field | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| `maxConcurrentUploads` | `number` | `3` | Maximum simultaneous uploads |
-| `progressThrottleMs` | `number` | `100` | Minimum interval between progress updates (ms) |
-| `maxAttempts` | `number` | `3` | Maximum retry attempts per upload |
-| `maxItems` | `number` | `100` | Maximum items in state before cleanup |
-| `autoStart` | `P[] \| (purpose: P) => boolean` | `undefined` | Auto-start uploads for matching purposes |
-| `validation` | `Partial<Record<P, UploadValidationRules>>` | `{}` | Per-purpose validation rules |
-| `retryPolicy` | `(ctx) => RetryDecision` | `undefined` | Custom retry decision function |
-| `completedItemTTL` | `number` | `undefined` | Auto-remove completed items after N ms |
+| `maxConcurrentUploads` | `number` | `3` | Files transferring at once (queued items wait) |
+| `progressThrottleMs` | `number` | `100` | Minimum gap between progress events |
+| `maxAttempts` | `number` | `3` | Hard cap on attempts per phase |
+| `maxItems` | `number` | `100` | Items kept in state before oldest terminal ones evict |
+| `autoStart` | `readonly P[] \| (purpose: P) => boolean` | `undefined` | Auto-queue matching purposes after intent |
+| `validation` | `Partial<Record<P, Contracts.ValidationRules>>` | `{}` | Per-purpose rules |
+| `retryPolicy` | `(ctx) => Engine.RetryDecision` | `undefined` | Override default backoff |
+| `completedItemTTL` | `number` | `undefined` | Evict completed items after N ms |
+| `strictMimeMatch` | `boolean` | `false` | Sniff magic bytes and reject spoofed types |
+| `checksumMaxSize` | `number \| null` | `null` | Size cap above which client checksums are skipped |
 
-### Validation Rules
+### Validation rules
 
-Validation rules are keyed by purpose and run during the `addFiles` command:
+Rules are keyed by purpose and run during `addFiles`. Extensions are matched **without a
+leading dot** and case-insensitively; MIME types support an `image/*` wildcard prefix.
 
-```typescript title="src/lib/upload-config.ts"
+```ts
 const config = {
   validation: {
     avatar: {
       maxFiles: 1,
       maxSizeBytes: 5 * 1024 * 1024,
       minSizeBytes: 1024,
-      allowedTypes: ["image/jpeg", "image/png", "image/webp"],
-      allowedExtensions: [".jpg", ".jpeg", ".png", ".webp"],
+      allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'webp'],
     },
     document: {
       maxSizeBytes: 100 * 1024 * 1024,
-      allowedTypes: ["application/pdf"],
+      allowedTypes: ['application/pdf'],
     },
   },
 }
 ```
 
-Files that fail validation are rejected with a `RejectReason` and emitted as
-`file.rejected` events. They never enter the state machine.
+When both `allowedTypes` and `allowedExtensions` are given, a file passes if it matches
+**either**. Rejected files never enter the state machine — they emit `file.rejected` with a
+`Contracts.Validation.Rejection`.
 
-### Retry Policy
+### Retry policy
 
-Default behavior retries up to `maxAttempts` with exponential backoff. Override with a
-custom `retryPolicy`:
+The default retries up to `maxAttempts` with exponential backoff. Override per-error with
+`retryPolicy`, which returns an `Engine.RetryDecision`:
 
-```typescript title="src/lib/retry-policy.ts"
+```ts
 const config = {
   retryPolicy: ({ phase, attempt, error }) => {
-    // Never retry auth errors
-    if (error.code === "auth") return { retryable: false }
-
-    // Respect rate limit headers
-    if (error.code === "rate_limit" && error.retryAfterMs) {
+    if (error.code === 'auth') return { retryable: false }
+    if (error.code === 'rate_limit' && 'retryAfterMs' in error && typeof error.retryAfterMs === 'number') {
       return { retryable: true, delayMs: error.retryAfterMs }
     }
-
-    // Exponential backoff with cap
-    const delayMs = Math.min(500 * 2 ** (attempt - 1), 10_000)
-    return { retryable: true, delayMs }
+    return { retryable: true, delayMs: Math.min(500 * 2 ** (attempt - 1), 10_000) }
   },
 }
 ```
 
-The `RetryDecision` type is either `{ retryable: false }` or `{ retryable: true; delayMs: number }`.
-
-## Store Options
-
-The `StoreOptions` interface holds everything needed to build the store runtime:
-
-| Option | Required | Description |
-| --- | --- | --- |
-| `api` | Yes | Backend API implementing `UploadApi` |
-| `strategies` | Yes | Strategy registry with registered strategies |
-| `config` | No | Upload configuration (defaults applied) |
-| `transport` | No | HTTP transport (defaults to `createXHRTransport()`) |
-| `persistence` | No | Persistence adapter and options |
-| `plugins` | No | Array of plugins |
-| `hooks` | No | Lifecycle hooks |
-| `fingerprint` | No | Custom file fingerprinting function |
-| `validateFile` | No | Custom validation function (runs after built-in rules) |
-| `errorNormalizer` | No | Custom error normalizer for raw errors |
-| `initialState` | No | Pre-hydrated state (e.g., from persistence) |
+`phase` is `'intent' | 'upload' | 'complete'`. Return `{ retryable: false }` or
+`{ retryable: true, delayMs }`. `maxAttempts` still caps everything.
 
 ## Plugins
 
-Plugins extend the store's behavior without forking the engine. Each plugin gets a
-minimal proxy with `on`, `dispatch`, and `getSnapshot` - enough to observe events and
-drive behavior, not enough to break internal state.
+Plugins extend behavior without forking the engine. Each `Engine.Plugin` has a `name` and a
+`setup` that receives a minimal proxy — `on`, `off`, `dispatch`, `getSnapshot` — enough to
+observe and react, not enough to corrupt state.
 
-```typescript title="src/lib/plugins/analytics.ts"
-import type { UploadPlugin } from "@gentleduck/upload"
+```ts
+import type { Engine } from '@gentleduck/upload/core'
 
-const analyticsPlugin: UploadPlugin<MyIntents, MyCursors, Purpose, MyResult> = {
-  name: "analytics",
+const analytics: Engine.Plugin<Intents, Cursors, Purpose, Result> = {
+  name: 'analytics',
   setup({ on, getSnapshot }) {
-    on("upload.completed", ({ localId, result }) => {
+    on('upload.completed', ({ localId, result }) => {
       const item = getSnapshot().items.get(localId)
-      trackEvent("upload_completed", {
-        fileId: result.fileId,
-        purpose: item?.purpose,
-      })
+      track('upload_completed', { fileId: result.fileId, purpose: item?.purpose })
     })
-
-    on("upload.error", ({ localId, error }) => {
-      trackEvent("upload_error", {
-        code: error.code,
-        message: error.message,
-      })
+    on('upload.error', ({ error }) => {
+      track('upload_error', { code: error.code, message: error.message })
     })
   },
 }
 
-const client = createUploadClient({
-  api: uploadApi,
-  strategies,
-  plugins: [analyticsPlugin],
-})
+const store = createUploadStore({ api, strategies, plugins: [analytics] })
 ```
 
-### Plugin Guidelines
-
-- Plugins should be read-only - don't mutate state directly.
-- Use `dispatch` only for well-defined side effects (e.g. auto-retry).
-- Plugin `setup` errors are caught and logged in development mode.
-- Plugin names are for debugging - keep them descriptive.
+A plugin that throws in `setup` is caught and logged in development; it never breaks the store,
+and later plugins still initialize.
 
 ## Hooks
 
-Hooks are a lower-level observation point than plugins. `onInternalEvent` fires after
-each internal event, giving full fidelity into engine behavior:
+Hooks are lower-level than plugins. `onInternalEvent` fires after every reducer event with the
+event and the resulting state — ideal for devtools and logging:
 
-```typescript title="src/lib/devtools.ts"
-const client = createUploadClient({
-  api: uploadApi,
+```ts
+const store = createUploadStore({
+  api,
   strategies,
   hooks: {
     onInternalEvent(event, state) {
-      console.log("[upload]", event.type, event)
+      if (process.env.NODE_ENV === 'development') console.log('[upload]', event.type, event)
     },
   },
 })
 ```
 
-## Custom Fingerprinting
+## Custom fingerprinting
 
-The engine fingerprints files using name, size, type, and lastModified by default.
-Provide a custom function for stronger identity (e.g. a checksum):
+By default the engine fingerprints on `name + size + type + lastModified`. Supply a
+**synchronous** function for stronger identity (a precomputed checksum enables dedupe):
 
-```typescript title="src/lib/upload-client.ts"
-const client = createUploadClient({
-  api: uploadApi,
+```ts
+const store = createUploadStore({
+  api,
   strategies,
   fingerprint: (file) => ({
     name: file.name,
     size: file.size,
     type: file.type,
     lastModified: file.lastModified,
-    checksum: computeSHA256(file), // must be synchronous
+    checksum: precomputedChecksums.get(file), // must be available synchronously
   }),
 })
 ```
 
-The fingerprint function must be synchronous to keep `addFiles` fast.
+It must stay synchronous so `addFiles` never blocks. To hash large files, compute the checksum
+before adding and look it up here.
 
-## Next Steps
+## Custom error normalization
 
-- [Engine](/duck-upload/core/engine) - state machine, scheduling, and retry details.
-- [Contracts](/duck-upload/core/contracts) - the UploadApi, transport, and strategy interfaces.
-- [Persistence](/duck-upload/core/persistence) - configure state persistence.
+`errorNormalizer` converts raw throws (fetch `TypeError`, XHR errors, backend shapes) into a
+`Contracts.Errors.Error` with a stable `code`, so `retryPolicy` and your UI always see one
+shape. Without it, the engine's built-in normalizer classifies common HTTP/network failures.
+
+## Next
+
+- [Engine](/duck-upload/core/engine) — phases, scheduling, retry mechanics.
+- [Contracts](/duck-upload/core/contracts) — the API, transport, and strategy shapes.
+- [Persistence](/duck-upload/core/persistence) — configure resume across reloads.
 
 ---
 
-## Client FAQ
+## FAQ
 
 <Accordion type="multiple" collapsible className="w-full">
-  <AccordionItem value="client-vs-store">
-    <AccordionTrigger>What is the difference between createUploadClient and createUploadStore?</AccordionTrigger>
+  <AccordionItem value="no-client">
+    <AccordionTrigger>Is there a createUploadClient?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      They are the same function.
-      <code className="rounded bg-muted px-2 py-1">createUploadClient</code> is a thin alias around
-      <code className="rounded bg-muted px-2 py-1">createUploadStore</code> to match the "upload
-      client" mental model.
+      No. <code className="rounded bg-muted px-2 py-1">createUploadStore</code> is the only
+      constructor. Older drafts referenced a client alias that no longer exists.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="config-resolution">
     <AccordionTrigger>When are config defaults applied?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Defaults are applied once at construction time by
-      <code className="rounded bg-muted px-2 py-1">resolveUploadConfig()</code>. After construction,
-      the runtime always has fully-specified config -- no optional fields to check at runtime.
+      Once, at construction, by
+      <code className="rounded bg-muted px-2 py-1">resolveUploadConfig()</code>. After that the
+      runtime holds a fully-specified config — no optional fields to check per operation.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="plugin-error">
-    <AccordionTrigger>What happens if a plugin throws during setup?</AccordionTrigger>
+    <AccordionTrigger>What if a plugin throws during setup?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      The error is caught and logged to console in development mode. The store continues to
-      function normally. Other plugins are still initialized. A failing plugin never breaks the
-      upload engine.
+      It is caught and logged in development. The store keeps working and the remaining plugins
+      still initialize.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="custom-transport">
-    <AccordionTrigger>When should I provide a custom transport?</AccordionTrigger>
+    <AccordionTrigger>When should I supply a custom transport?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      The default XHR transport works for most browser use cases. Provide a custom transport
-      when you need fetch-based uploads, Node.js compatibility, testing with mock transports,
-      or custom header/authentication handling.
+      The default XHR transport covers browsers. Provide your own for Node, fetch-based
+      uploads, mock transports in tests, or bespoke header/auth handling. It must implement
+      <code className="rounded bg-muted px-2 py-1">Transport.Options</code>.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="validate-file">
-    <AccordionTrigger>How does custom validation work alongside built-in rules?</AccordionTrigger>
+    <AccordionTrigger>How does validateFile combine with built-in rules?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      The <code className="rounded bg-muted px-2 py-1">validateFile</code> function runs after
-      built-in config validation (size, type, extension, count). If the built-in rules pass but
-      your custom function returns a
-      <code className="rounded bg-muted px-2 py-1">RejectReason</code>, the file is still rejected.
-      Return <code className="rounded bg-muted px-2 py-1">null</code> to accept the file.
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="error-normalizer">
-    <AccordionTrigger>What is the errorNormalizer for?</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-      The <code className="rounded bg-muted px-2 py-1">errorNormalizer</code> converts raw errors
-      (from fetch, XHR, or your API) into the engine's
-      <code className="rounded bg-muted px-2 py-1">UploadError</code> shape. This lets you map
-      your backend's error format into consistent error codes that the retry policy can reason
-      about.
+      Built-in rules (size, type, extension, count) run first. If they pass but
+      <code className="rounded bg-muted px-2 py-1">validateFile</code> returns a
+      <code className="rounded bg-muted px-2 py-1">Contracts.Validation.Rejection</code>, the
+      file is still rejected. Return <code className="rounded bg-muted px-2 py-1">null</code> to
+      accept it.
     </AccordionContent>
   </AccordionItem>
 </Accordion>

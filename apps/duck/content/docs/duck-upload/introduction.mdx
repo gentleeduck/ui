@@ -4,85 +4,154 @@ description: A modular, strategy-based file upload engine with React bindings.
 section: Getting Started
 order: 0
 ---
+
 ## What is Duck Upload?
 
-Duck Upload is a file upload engine with strategy plugins and thin React bindings. The shape is similar to React Query: a core client that owns state and scheduling, strategies that handle the transport, and a React adapter.
+Duck Upload (`@gentleduck/upload`) is a framework-agnostic engine for moving files from a
+browser into object storage. It owns the hard parts of uploading — a lifecycle state machine,
+concurrency scheduling, retries with backoff, pause/resume, deduplication, and crash-safe
+persistence — and leaves the transport protocol to pluggable **strategies**.
 
-## Package Structure
+The mental model is close to a data-fetching library like TanStack Query: a small typed core
+holds all the state and does the scheduling, adapters plug into the edges, and a thin React
+binding reads the core. Nothing about React leaks into the engine, so the same store runs in
+Node, a worker, Vue, or plain JavaScript.
+
+## The four type parameters
+
+Every public API is generic over the same four parameters. Learn them once and the rest of the
+library reads naturally:
+
+| Param | Name | What it describes |
+| --- | --- | --- |
+| `M` | Intent map | Every strategy your backend can pick, keyed by strategy id, mapped to the intent shape it returns |
+| `C` | Cursor map | Per-strategy resume state, keyed by the same ids (optional per key) |
+| `P` | Purpose | A string union categorizing uploads (`'avatar' \| 'attachment'`) |
+| `R` | Result | The typed payload your backend returns from `complete()` |
+
+`P` drives per-purpose validation, `autoStart`, and the `purpose` filter on batch commands.
+`R` flows end-to-end, so `item.result` is fully typed with no casts.
+
+## Package layout
 
 ```text
-src/
-  core/           # engine + contracts + persistence + utilities
-  strategies/     # protocol implementations + registry helper
-  react/          # provider + hooks
+@gentleduck/upload            # everything (core + react + strategies)
+@gentleduck/upload/core       # engine, contracts, persistence, errors, transport
+@gentleduck/upload/react      # <UploadProvider> + hooks
+@gentleduck/upload/strategies # PostStrategy, multipartStrategy, registry helper
 ```
 
-## Architecture at a Glance
+## Architecture at a glance
 
 ```mermaid
 graph TD
-  UI[React UI] -->|useUploader| ReactLayer[react/]
-  ReactLayer -->|dispatch/on/subscribe| Core[core/engine]
-  Core -->|intent/complete| Api[core/contracts UploadApi]
-  Core -->|upload bytes| Transport[core/contracts UploadTransport]
-  Core -->|start/resume| Strategy[strategies/*]
-  Core -->|persist| Persistence[core/persistence]
+  UI[React UI] -->|useUploader| ReactLayer[react]
+  ReactLayer -->|dispatch / on / subscribe| Core[core engine store]
+  Core -->|createIntent / complete| Api[Contracts.Api.Me]
+  Core -->|transfer bytes| Transport[Transport.Options]
+  Core -->|start / resume| Strategy[strategies]
+  Core -->|snapshot / restore| Persistence[UploadPersistence]
 ```
 
-## Quick Lifecycle
+## Quick start
 
-1. `addFiles` dispatches files into the store with validation
-2. `start` or `autoStart` queues the item for upload
-3. The matched strategy uploads bytes, reporting progress
-4. `complete` finalizes the upload and returns a typed result
-5. Public events emit from a single transition layer
-
-## Quick Start
+The whole setup is: describe the types, implement the backend contract, register strategies,
+create the store.
 
 ```ts
+import type { Contracts } from '@gentleduck/upload/core'
 import { createUploadStore } from '@gentleduck/upload/core'
-import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+import {
+  PostStrategy,
+  multipartStrategy,
+  createStrategyRegistry,
+  type MultipartStrategy,
+} from '@gentleduck/upload/strategies'
 
-const strategies = createStrategyRegistry()
-strategies.set(PostStrategy())
-strategies.set(multipartStrategy())
+// 1. Describe the pipeline.
+type Intents = { post: PostStrategy.Intent; multipart: MultipartStrategy.Intent }
+type Cursors = { post?: PostStrategy.Cursor; multipart?: MultipartStrategy.Cursor }
+type Purpose = 'avatar' | 'attachment'
+type Result = Contracts.Result.Base & { url: string }
 
-const store = createUploadStore({
-  api, // implements UploadApi
-  strategies,
-  config: {
-    autoStart: (purpose) => purpose === 'avatar',
+// 2. Implement your backend contract.
+const api: Contracts.Api.Me<Intents, Purpose, Result> = {
+  async createIntent({ purpose, contentType, size, filename }, ctx) {
+    const res = await fetch('/api/uploads/intent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ purpose, contentType, size, filename }),
+      signal: ctx.signal,
+    })
+    if (!res.ok) throw new Error(`intent failed: ${res.status}`)
+    return res.json()
   },
+  async complete({ fileId, filename, contentType, size }, ctx) {
+    const res = await fetch(`/api/uploads/${fileId}/complete`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ filename, contentType, size }),
+      signal: ctx.signal,
+    })
+    if (!res.ok) throw new Error(`complete failed: ${res.status}`)
+    return res.json()
+  },
+}
+
+// 3. Register strategies (the registry starts empty; add with .set()).
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PostStrategy())
+strategies.set(multipartStrategy({ maxPartConcurrency: 4 }))
+
+// 4. Build the store.
+export const store = createUploadStore<Intents, Cursors, Purpose, Result>({
+  api,
+  strategies,
+  config: { autoStart: ['avatar'] },
 })
 ```
 
-### Wait For Results
+### Drive it
+
+Everything happens through `dispatch`. Read state with `getSnapshot`, listen with `on`.
 
 ```ts
-const { items } = store.getSnapshot()
-const localIds = Array.from(items.keys())
+const file = new File(['…'], 'photo.jpg', { type: 'image/jpeg' })
+store.dispatch({ type: 'addFiles', files: [file], purpose: 'attachment' })
 
-const outcomes = await store.waitFor(localIds)
-for (const outcome of outcomes) {
+const unsub = store.on('upload.completed', ({ localId, result }) => {
+  console.log('done', localId, result.url)
+})
+
+store.dispatch({ type: 'startAll' })
+```
+
+### Await results
+
+`waitFor` resolves once the given items reach a terminal phase:
+
+```ts
+const ids = Array.from(store.getSnapshot().items.keys())
+for (const outcome of await store.waitFor(ids)) {
   if (outcome.status === 'completed') {
     console.log(outcome.result.fileId, outcome.result.key)
   }
 }
 ```
 
-## Architecture Goals
+## Design goals
 
-- One core with immutable state updates and centralized event emission.
-- Strategies are pluggable; they do not leak into core.
-- The React layer consumes store APIs and nothing else.
-- Types live next to their module (no mega types folder).
+- **One source of truth.** All mutations run through a reducer; snapshots are immutable so
+  `useSyncExternalStore` never tears.
+- **Strategies stay at the edge.** The engine picks a strategy by the `strategy` field on the
+  intent and never imports strategy code.
+- **Typed from backend to UI.** `R` reaches `item.result` and the `upload.completed` event
+  without a cast.
+- **Types live next to their module.** No mega types folder; each concern owns its shapes.
 
-## What This Documentation Covers
+## Where to go next
 
-- **Core**: engine behavior, state machine, contracts, persistence.
-- **Strategies**: POST and multipart protocols, strategy registry.
-- **React**: provider, hooks, UI patterns.
-- **Utilities**: shared helpers and guards.
-- **Design**: architecture decisions and rationale.
-
-Start with [Core Overview](/duck-upload/core), then [Engine](/duck-upload/core/engine), then [React Overview](/duck-upload/react).
+- [Installation](/duck-upload/installation) — add the package and wire the pieces.
+- [Core Overview](/duck-upload/core) → [Engine](/duck-upload/core/engine) — the state machine.
+- [React Overview](/duck-upload/react) — the provider and hooks.
+- [Course](/duck-upload/course) — build a full app, chapter by chapter.
