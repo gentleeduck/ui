@@ -100,7 +100,7 @@
     "format:reg": "bunx biome format --write ./__ui_registry__/index.tsx",
     "lint": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "postbuild": "next-sitemap",
+    "postbuild": "node scripts/patch-nft.mjs && next-sitemap",
     "start": "next start --port 3008",
     "preview": "next build && next start"
   },
