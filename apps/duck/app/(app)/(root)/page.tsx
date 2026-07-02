@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="overflow-hidden">
-      <PageHeader className="iv]:h-screen relative flex w-full flex-col justify-start justify-self-center text-center [&>div>">
+      <PageHeader className="relative mt-24 flex w-full flex-col justify-start justify-self-center text-center">
         <Announcement />
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
