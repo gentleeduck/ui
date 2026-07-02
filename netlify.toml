@@ -1,0 +1,6 @@
+[build]
+  # Run patch-nft AFTER turbo so it always executes regardless of turbo cache hits.
+  # outputFileTracingExcludes in next.config.ts is a no-op in non-standalone mode;
+  # the patch script replicates those exclusions by editing .nft.json files directly.
+  command = "turbo run build --filter @gentleduck/ui-docs && node apps/duck/scripts/patch-nft.mjs"
+  publish = "apps/duck/.next"
