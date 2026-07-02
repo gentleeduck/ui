@@ -1,395 +1,191 @@
 ## Goal
 
-PhotoDuck is feature-complete. Before shipping to production, you will add **type-safe
-upload results**, **file deduplication** by checksum, **multiple upload purposes** with
-different configurations, and a **testing strategy**. This chapter ties together everything
-from Chapters 1--7 into a production-ready setup.
+Ship PhotoDuck. Add **typed results**, **checksum deduplication**, **multiple purposes** with
+distinct configs, and a **testing** approach — tying Chapters 1–7 into a production setup.
 
-10MB, image/*"]
-      P2["avatar:2MB, square"]
-      P3["document:50MB, PDF"]
-  end
+## Typed results
 
-  subgraph Engine["Upload Engine"]
-      V["Validation per purpose"]
-      D["Deduplication by checksum"]
-      U["Upload with retry"]
-      R["Type-safe Result&lt;R&gt;"]
-  end
-
-  subgraph Output["Typed Results"]
-      R1["PhotoResult: url, width, height"]
-      R2["AvatarResult: url, thumbUrl"]
-      R3["DocResult: url, pageCount"]
-  end
-
-  Purposes --> Engine --> Output`}
-/>
-
-## Type-Safe Upload Results
-
-**Define your result type extending UploadResultBase**
-
-Every completed upload returns a result from your backend's `complete()` API. The base
-type requires `fileId` and `key`:
+**Extend `Contracts.Result.Base`**
 
 ```typescript title="src/types/upload.ts"
-import type { UploadResultBase } from '@gentleduck/upload'
+import type { Contracts } from '@gentleduck/upload/core'
 
-/**
- * Extended result type for PhotoDuck.
- * Your backend returns this from the `complete()` API call.
- */
-export type PhotoDuckResult = UploadResultBase & {
+// Contracts.Result.Base = { fileId: string; key: string }
+export type PhotoDuckResult = Contracts.Result.Base & {
   url: string
   thumbnailUrl: string
   width: number
   height: number
-  blurhash: string
 }
-
-// The base type for reference:
-// type UploadResultBase = {
-//   fileId: string
-//   key: string
-// }
 ```
 
-The `R` generic flows through the entire system. When you create a store with
-`createUploadStore<M, C, P, PhotoDuckResult>`, every `UploadItem` in the `completed`
-phase has `result: PhotoDuckResult` -- fully typed, no casts needed.
+`R` flows through the whole store. With `createUploadStore<M, C, P, PhotoDuckResult>`, every
+`completed` item exposes `item.result: PhotoDuckResult` — no casts.
 
 **Type the intent and cursor maps**
 
-The generic type parameters on the store are `<M, C, P, R>`:
+Build intents on `Contracts.Intent.Base`; the cursor map holds **raw** cursor types.
 
 ```typescript title="src/types/upload.ts"
-import type { IntentBase } from '@gentleduck/upload'
+import type { Contracts } from '@gentleduck/upload/core'
+import type { PostStrategy, MultipartStrategy } from '@gentleduck/upload/strategies'
 
-// -- Intent types (what your backend returns from createIntent) --
-
-export type PostIntent = IntentBase<'post'> & {
-  url: string
-  fields: Record<string, string>
+export type PhotoDuckIntents = {
+  post: PostStrategy.Intent
+  multipart: MultipartStrategy.Intent
 }
-
-export type MultipartIntent = IntentBase<'multipart'> & {
-  uploadId: string
-  partSize: number
+export type PhotoDuckCursors = {
+  post?: PostStrategy.Cursor
+  multipart?: MultipartStrategy.Cursor
 }
-
-export type PhotoDuckIntentMap = {
-  post: PostIntent
-  multipart: MultipartIntent
-}
-
-// -- Cursor types (strategy-specific resume checkpoints) --
-
-export type PhotoDuckCursorMap = {
-  post: never  // POST strategy is not resumable
-  multipart: {
-    strategy: 'multipart'
-    parts: Array<{ partNumber: number; etag: string }>
-  }
-}
-
-// -- Purpose union --
-
 export type PhotoDuckPurpose = 'photo' | 'avatar' | 'document'
 ```
 
-These types guarantee that:
+These guarantee: `createIntent` returns a valid intent shape, a paused item's cursor matches
+its strategy, `addFiles({ purpose: 'invalid' })` is a compile error, and `item.result` is
+`PhotoDuckResult`.
 
-* `createIntent()` returns the correct intent shape for each strategy
-* `cursor` on a paused item matches the strategy's cursor type
-* `dispatch({ type: 'addFiles', purpose: 'invalid' })` is a compile-time error
-* `item.result` on completed items is `PhotoDuckResult`
+**Implement the typed contract**
 
-**Implement the typed UploadApi**
-
-Your backend adapter implements the `UploadApi<M, P, R>` interface:
+Every method takes `args` and `ctx`; use `ctx.signal` to stay cancelable.
 
 ```typescript title="src/lib/api.ts"
-import type { UploadApi } from '@gentleduck/upload'
-import type {
-  PhotoDuckIntentMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult,
-} from '../types/upload'
+import type { Contracts } from '@gentleduck/upload/core'
+import type { PhotoDuckIntents, PhotoDuckPurpose, PhotoDuckResult } from '../types/upload'
 
-export const photoDuckApi: UploadApi<
-  PhotoDuckIntentMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult
-> = {
-  async createIntent({ purpose, contentType, size, filename, checksum }, opts) {
+export const photoDuckApi: Contracts.Api.Me<PhotoDuckIntents, PhotoDuckPurpose, PhotoDuckResult> = {
+  async createIntent({ purpose, contentType, size, filename, checksum }, ctx) {
     const res = await fetch('/api/uploads/intent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ purpose, contentType, size, filename, checksum }),
-      signal: opts?.signal,
+      signal: ctx.signal,
     })
-    if (!res.ok) throw new Error(`Intent failed: ${res.status}`)
-    return res.json() // returns PostIntent | MultipartIntent
+    if (!res.ok) throw new Error(`intent failed: ${res.status}`)
+    return res.json() // PostStrategy.Intent | MultipartStrategy.Intent
   },
-
-  async complete({ fileId }, opts) {
+  async complete({ fileId, filename, contentType, size }, ctx) {
     const res = await fetch(`/api/uploads/${fileId}/complete`, {
       method: 'POST',
-      signal: opts?.signal,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ filename, contentType, size }),
+      signal: ctx.signal,
     })
-    if (!res.ok) throw new Error(`Complete failed: ${res.status}`)
-    return res.json() // returns PhotoDuckResult
+    if (!res.ok) throw new Error(`complete failed: ${res.status}`)
+    return res.json() // PhotoDuckResult
   },
-
-  async findByChecksum({ checksum, purpose }, opts) {
-    const res = await fetch(
-      `/api/uploads/find?checksum=${checksum}&purpose=${purpose}`,
-      { signal: opts?.signal },
-    )
+  async findByChecksum({ checksum, purpose }, ctx) {
+    const res = await fetch(`/api/uploads/find?checksum=${checksum}&purpose=${purpose}`, {
+      signal: ctx.signal,
+    })
     if (!res.ok) return null
-    const data = await res.json()
-    return data as PhotoDuckResult | null
+    return (await res.json()) as PhotoDuckResult | null
   },
-
   multipart: {
-    async signPart({ fileId, uploadId, partNumber }, opts) {
+    async signPart({ fileId, uploadId, partNumber }, ctx) {
       const res = await fetch('/api/uploads/multipart/sign', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ fileId, uploadId, partNumber }),
-        signal: opts?.signal,
+        signal: ctx.signal,
       })
       return res.json()
     },
-
-    async completeMultipart({ fileId, uploadId, parts }, opts) {
+    async completeMultipart({ fileId, uploadId, parts }, ctx) {
       await fetch('/api/uploads/multipart/complete', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ fileId, uploadId, parts }),
-        signal: opts?.signal,
+        signal: ctx.signal,
       })
     },
   },
 }
 ```
 
-The `createIntent` function is the backend's decision point. It looks at the file size
-and purpose to choose a strategy: small files get `PostIntent` (presigned POST), large
-files get `MultipartIntent`. The engine does not choose the strategy -- the backend does.
+`createIntent` is the backend's decision point: it inspects size/purpose and returns the
+right intent. The engine never picks the strategy — the backend does.
 
-**File deduplication by checksum**
+**Deduplicate by checksum**
 
-If your backend implements `findByChecksum()`, the engine checks for existing files
-during the validation phase. When a match is found, the item skips the upload entirely
-and transitions to `completed` with `completedBy: 'dedupe'`:
+If the fingerprint carries a `checksum` and `findByChecksum` is implemented, the engine
+checks for an existing file during validation and, on a match, completes the item instantly
+with `completedBy: 'dedupe'` — no intent, no bytes.
 
-```typescript title="src/lib/upload-client.ts"
-import { createUploadStore } from '@gentleduck/upload'
+The default fingerprint has **no** checksum, and the `fingerprint` option must be
+synchronous. So compute hashes **before** adding files, then look them up in `fingerprint`:
 
-const store = createUploadStore<
-  PhotoDuckIntentMap,
-  PhotoDuckCursorMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult
->({
-  api: photoDuckApi,  // must implement findByChecksum
-  strategies: photoDuckStrategies,
-  config: { /* ... */ },
-
-  // Custom fingerprint function that includes a checksum
-  fingerprint: (file) => ({
-    name: file.name,
-    size: file.size,
-    type: file.type,
-    lastModified: file.lastModified,
-    // Note: computing SHA-256 in the browser is async, but fingerprint must be sync.
-    // Use a simpler checksum or compute it async via a plugin.
-    // The default fingerprint does NOT include a checksum.
-  }),
-})
-```
-
-The default fingerprint uses `name + size + type + lastModified` -- no checksum. For
-true content-based deduplication, you need a hash. Since the `fingerprint` callback
-must be synchronous, computing SHA-256 inline is not practical for large files. Instead,
-use a plugin that computes the hash asynchronously and updates the fingerprint:
-
-```typescript title="src/plugins/checksum.ts"
-import type { UploadPlugin } from '@gentleduck/upload'
-
-export function createChecksumPlugin<M, C, P extends string, R>(): UploadPlugin<M, C, P, R> {
-  return {
-    name: 'checksum',
-    setup({ on, getSnapshot }) {
-      on('file.added', async ({ localId, file }) => {
-        const buffer = await file.arrayBuffer()
-        const hashBuffer = await crypto.subtle.digest('SHA-256', buffer)
-        const hashArray = Array.from(new Uint8Array(hashBuffer))
-        const checksum = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
-
-        // The fingerprint.updated internal event can update the checksum
-        // This is handled by the engine when using the built-in dedup flow
-        console.log(`Checksum for ${file.name}: ${checksum}`)
-      })
-    },
-  }
+```typescript title="src/lib/add-with-checksum.ts"
+async function sha256Hex(file: File): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', await file.arrayBuffer())
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }
-```
 
-The `FileFingerprint` type:
+const checksums = new Map<File, string>()
 
-```typescript
-type FileFingerprint = {
-  name: string
-  size: number
-  type: string
-  lastModified: number
-  checksum?: string   // optional, enables dedup when findByChecksum is implemented
+export async function addWithChecksum(files: File[], purpose: PhotoDuckPurpose) {
+  await Promise.all(files.map(async (f) => checksums.set(f, await sha256Hex(f))))
+  store.dispatch({ type: 'addFiles', files, purpose })
 }
+
+// In the store:
+// fingerprint: (file) => ({
+//   name: file.name, size: file.size, type: file.type,
+//   lastModified: file.lastModified, checksum: checksums.get(file),
+// }),
 ```
 
-When the engine sees a fingerprint with a `checksum` and the API has `findByChecksum`,
-it calls the API during validation. If a result comes back, the item completes instantly
-via the `dedupe.ok` internal event.
+`Contracts.FingerprintFile` is `{ name, size, type, lastModified, checksum? }`. For very
+large files, respect `config.checksumMaxSize` (the built-in checksum step skips files above
+it).
 
-**Multiple upload purposes with different configs**
+**Multiple purposes**
 
-PhotoDuck has three distinct upload flows. Each purpose gets its own validation rules,
-and you can control auto-start per purpose:
+Each purpose gets its own rules, and `autoStart` can target specific ones:
 
-```typescript title="src/lib/upload-client.ts"
-const store = createUploadStore<
-  PhotoDuckIntentMap,
-  PhotoDuckCursorMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult
->({
+```typescript title="src/lib/upload.ts"
+createUploadStore<PhotoDuckIntents, PhotoDuckCursors, PhotoDuckPurpose, PhotoDuckResult>({
   api: photoDuckApi,
-  strategies: photoDuckStrategies,
+  strategies,
   config: {
     maxConcurrentUploads: 3,
-    maxAttempts: 5,
-
-    // Auto-start avatars (single file, small), but not photos or documents
-    autoStart: (purpose) => purpose === 'avatar',
-
-    // OR: array form
-    // autoStart: ['avatar'],
-
+    autoStart: (purpose) => purpose === 'avatar', // or ['avatar']
     validation: {
-      photo: {
-        maxFiles: 50,
-        maxSizeBytes: 10 * 1024 * 1024,
-        allowedTypes: ['image/*'],
-      },
-      avatar: {
-        maxFiles: 1,
-        maxSizeBytes: 2 * 1024 * 1024,
-        allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
-      },
-      document: {
-        maxFiles: 10,
-        maxSizeBytes: 50 * 1024 * 1024,
-        allowedTypes: ['application/pdf'],
-        allowedExtensions: ['pdf'],
-      },
-    },
-
-    retryPolicy: ({ attempt, error }) => {
-      if (error.code === 'auth') return { retryable: false }
-      return { retryable: true, delayMs: 1000 * 2 ** (attempt - 1) }
+      photo:    { maxFiles: 50, maxSizeBytes: 10 * 1024 * 1024, allowedTypes: ['image/*'] },
+      avatar:   { maxFiles: 1,  maxSizeBytes: 2 * 1024 * 1024,  allowedTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+      document: { maxFiles: 10, maxSizeBytes: 50 * 1024 * 1024, allowedTypes: ['application/pdf'], allowedExtensions: ['pdf'] },
     },
   },
 })
 ```
 
-The `autoStart` option controls whether files are automatically queued after intent
-creation. With `autoStart: ['avatar']`, avatar uploads start immediately when added.
-Photo and document uploads wait in `ready` until you dispatch `start` or `startAll`.
+Scope batch commands by purpose, and filter items by purpose in the UI:
 
-In the UI, filter items by purpose to show separate upload sections:
-
-```tsx title="src/components/PhotoGallery.tsx"
-function PhotoGallery() {
-  const { store } = useUploader()
-  const snapshot = store.getSnapshot()
-  const photos = Array.from(snapshot.items.values())
-    .filter((item) => item.purpose === 'photo')
-
-  return (
-    <div>
-      <h2>Photos ({photos.length})</h2>
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={(e) => {
-          const files = Array.from(e.target.files ?? [])
-          store.dispatch({ type: 'addFiles', files, purpose: 'photo' })
-        }}
-      />
-      <button onClick={() => store.dispatch({ type: 'startAll', purpose: 'photo' })}>
-        Upload All Photos
-      </button>
-      {/* ... render photo items */}
-    </div>
-  )
-}
-
-function AvatarUpload() {
-  const { store } = useUploader()
-
-  return (
-    <div>
-      <h2>Avatar</h2>
-      <input
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        onChange={(e) => {
-          const file = e.target.files?.[0]
-          if (file) {
-            // Avatar auto-starts, no need to dispatch 'start'
-            store.dispatch({ type: 'addFiles', files: [file], purpose: 'avatar' })
-          }
-        }}
-      />
-    </div>
-  )
-}
+```tsx
+dispatch({ type: 'startAll', purpose: 'photo' })
+const photos = items.filter((i) => i.purpose === 'photo')
 ```
 
-Batch commands accept an optional `purpose` parameter to scope the operation:
+## Testing
 
-```typescript
-store.dispatch({ type: 'startAll', purpose: 'photo' })   // only start photos
-store.dispatch({ type: 'pauseAll', purpose: 'document' }) // only pause documents
-store.dispatch({ type: 'cancelAll' })                     // cancel everything
-```
+Mock at the `Contracts.Api.Me` level and use `MemoryAdapter` for persistence.
 
-## Testing Uploads
-
-Testing upload flows requires mocking the backend API and optionally the transport layer.
-Here are patterns for unit and integration tests:
-
-### Mock the UploadApi
+### Mock the contract
 
 ```typescript title="src/test/mock-api.ts"
-import type { UploadApi } from '@gentleduck/upload'
-import type { PhotoDuckIntentMap, PhotoDuckPurpose, PhotoDuckResult } from '../types/upload'
+import type { Contracts } from '@gentleduck/upload/core'
+import type { PhotoDuckIntents, PhotoDuckPurpose, PhotoDuckResult } from '../types/upload'
 
 export function createMockApi(
-  overrides?: Partial<UploadApi<PhotoDuckIntentMap, PhotoDuckPurpose, PhotoDuckResult>>
-): UploadApi<PhotoDuckIntentMap, PhotoDuckPurpose, PhotoDuckResult> {
+  overrides?: Partial<Contracts.Api.Me<PhotoDuckIntents, PhotoDuckPurpose, PhotoDuckResult>>,
+): Contracts.Api.Me<PhotoDuckIntents, PhotoDuckPurpose, PhotoDuckResult> {
   return {
-    createIntent: overrides?.createIntent ?? (async ({ purpose, filename }) => ({
-      strategy: 'post' as const,
+    createIntent: overrides?.createIntent ?? (async ({ filename }) => ({
+      strategy: 'post',
       fileId: `file-${Date.now()}`,
       url: 'https://storage.example.com/upload',
       fields: { key: `uploads/${filename}` },
     })),
-
     complete: overrides?.complete ?? (async ({ fileId }) => ({
       fileId,
       key: `uploads/${fileId}`,
@@ -397,385 +193,131 @@ export function createMockApi(
       thumbnailUrl: `https://cdn.example.com/${fileId}/thumb`,
       width: 1920,
       height: 1080,
-      blurhash: 'LEHV6nWB2yk8pyoJadR*.7kCMdnj',
     })),
-
     findByChecksum: overrides?.findByChecksum ?? (async () => null),
   }
 }
 ```
 
-### Test with MemoryAdapter
+### Test with MemoryAdapter and waitFor
 
 ```typescript title="src/test/upload.test.ts"
-import { createUploadStore } from '@gentleduck/upload'
-import { MemoryAdapter } from '@gentleduck/upload/persistence/memory'
+import { describe, it, expect } from 'vitest'
+import { createUploadStore } from '@gentleduck/upload/core'
+import { PostStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
 import { createMockApi } from './mock-api'
 
-function createTestFile(name: string, size: number, type: string): File {
-  const buffer = new ArrayBuffer(size)
-  return new File([buffer], name, { type, lastModified: Date.now() })
-}
+const strategies = createStrategyRegistry<PhotoDuckIntents, PhotoDuckCursors, PhotoDuckPurpose, PhotoDuckResult>()
+strategies.set(PostStrategy())
+
+const file = (name: string, size: number, type: string) =>
+  new File([new ArrayBuffer(size)], name, { type, lastModified: Date.now() })
 
 describe('PhotoDuck uploads', () => {
-  it('should validate file size', () => {
+  it('rejects oversized files before entering state', () => {
     const store = createUploadStore({
       api: createMockApi(),
-      strategies: testStrategies,
-      config: {
-        validation: {
-          photo: { maxSizeBytes: 1024 },
-        },
-      },
+      strategies,
+      config: { validation: { photo: { maxSizeBytes: 1024 } } },
     })
-
-    const bigFile = createTestFile('big.jpg', 2048, 'image/jpeg')
-    store.dispatch({ type: 'addFiles', files: [bigFile], purpose: 'photo' })
-
-    const snapshot = store.getSnapshot()
-    const item = Array.from(snapshot.items.values())[0]
-
-    expect(item.phase).toBe('error')
-    if (item.phase === 'error') {
-      expect(item.error.code).toBe('validation_failed')
-      expect(item.retryable).toBe(false)
-    }
+    store.dispatch({ type: 'addFiles', files: [file('big.jpg', 2048, 'image/jpeg')], purpose: 'photo' })
+    // Built-in size failures emit file.rejected and never enter state.
+    expect(store.getSnapshot().items.size).toBe(0)
   })
 
-  it('should reject disallowed types', () => {
-    const store = createUploadStore({
-      api: createMockApi(),
-      strategies: testStrategies,
-      config: {
-        validation: {
-          photo: { allowedTypes: ['image/*'] },
-        },
-      },
-    })
-
-    const exeFile = createTestFile('app.exe', 100, 'application/x-msdownload')
-    store.dispatch({ type: 'addFiles', files: [exeFile], purpose: 'photo' })
-
-    const item = Array.from(store.getSnapshot().items.values())[0]
-    expect(item.phase).toBe('error')
-  })
-
-  it('should complete upload and return typed result', async () => {
-    const mockResult: PhotoDuckResult = {
-      fileId: 'file-1',
-      key: 'uploads/photo.jpg',
-      url: 'https://cdn.example.com/photo.jpg',
-      thumbnailUrl: 'https://cdn.example.com/photo.jpg/thumb',
-      width: 1920,
-      height: 1080,
-      blurhash: 'LEHV6nWB2yk8pyoJadR*.7kCMdnj',
+  it('deduplicates by checksum', async () => {
+    const existing: PhotoDuckResult = {
+      fileId: 'existing', key: 'uploads/x', url: 'https://cdn/x',
+      thumbnailUrl: 'https://cdn/x/t', width: 100, height: 100,
     }
-
     const store = createUploadStore({
-      api: createMockApi({
-        complete: async () => mockResult,
-      }),
-      strategies: testStrategies,
-    })
-
-    const file = createTestFile('photo.jpg', 100, 'image/jpeg')
-    store.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
-
-    // Use waitFor to await terminal state
-    const outcomes = await store.waitFor(['localId-here'])
-
-    // The result is typed as PhotoDuckResult
-    if (outcomes[0].status === 'completed') {
-      expect(outcomes[0].result.url).toBe('https://cdn.example.com/photo.jpg')
-      expect(outcomes[0].result.width).toBe(1920)
-    }
-  })
-
-  it('should deduplicate by checksum', async () => {
-    const existingResult: PhotoDuckResult = {
-      fileId: 'existing-file',
-      key: 'uploads/sunset.jpg',
-      url: 'https://cdn.example.com/sunset.jpg',
-      thumbnailUrl: 'https://cdn.example.com/sunset.jpg/thumb',
-      width: 3840,
-      height: 2160,
-      blurhash: 'LKO2:N%2Tw=w]~RBVZRi};RPxuwH',
-    }
-
-    const store = createUploadStore({
-      api: createMockApi({
-        findByChecksum: async () => existingResult,
-      }),
-      strategies: testStrategies,
-      fingerprint: (file) => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-        checksum: 'abc123',  // fixed checksum for testing
+      api: createMockApi({ findByChecksum: async () => existing }),
+      strategies,
+      config: { autoStart: ['photo'] },
+      fingerprint: (f) => ({
+        name: f.name, size: f.size, type: f.type, lastModified: f.lastModified, checksum: 'abc123',
       }),
     })
+    store.dispatch({ type: 'addFiles', files: [file('sunset.jpg', 100, 'image/jpeg')], purpose: 'photo' })
 
-    const file = createTestFile('sunset.jpg', 100, 'image/jpeg')
-    store.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
-
-    // Item should complete via dedup, not upload
-    // ... await completion
-    const item = Array.from(store.getSnapshot().items.values())[0]
-    if (item.phase === 'completed') {
-      expect(item.completedBy).toBe('dedupe')
-      expect(item.result.fileId).toBe('existing-file')
+    const id = [...store.getSnapshot().items.keys()][0]!
+    const [outcome] = await store.waitFor([id])
+    expect(outcome.status).toBe('completed')
+    if (outcome.status === 'completed') {
+      expect(outcome.completedBy).toBe('dedupe')
+      expect(outcome.result.fileId).toBe('existing')
     }
   })
 })
 ```
 
-### Use waitFor for Async Assertions
-
-The store provides `waitFor(localIds)` which returns a promise that resolves when all
-specified items reach a terminal state (`completed`, `error`, or `canceled`):
+`store.waitFor(ids)` resolves with `Engine.Outcome` values once items reach a terminal phase:
 
 ```typescript
-const file = createTestFile('test.jpg', 100, 'image/jpeg')
-store.dispatch({ type: 'addFiles', files: [file], purpose: 'photo' })
-
-// Get the localId from state
-const localId = Array.from(store.getSnapshot().items.keys())[0]
-
-store.dispatch({ type: 'start', localId })
-
-// Wait for upload to finish
-const outcomes = await store.waitFor([localId])
-
-// outcomes is Array<UploadOutcome<R>>
-// UploadOutcome =
+// Engine.Outcome<R> =
 //   | { localId; status: 'completed'; completedBy: 'upload' | 'dedupe'; result: R }
 //   | { localId; status: 'error'; error: UploadError }
 //   | { localId; status: 'canceled' }
-//   | { localId; status: 'missing' }
+//   | { localId; status: 'missing'; reason: 'removed' | 'evicted' | 'never-existed' | 'destroyed' }
 ```
 
-## How the Generic Type System Flows
+## How the generics flow
 
-The four generics `<M, C, P, R>` thread through every layer of the upload engine:
+The four parameters thread through every layer:
 
 ```
 createUploadStore<M, C, P, R>
-  |
-  +-- UploadApi<M, P, R>
-  |     createIntent() -> M[keyof M]     (intent is typed per strategy)
-  |     complete()     -> R               (result is your custom type)
-  |     findByChecksum -> R | null        (dedup returns same result type)
-  |
-  +-- StrategyRegistry<M, C, P, R>
-  |     start(intent: M[K], cursor?: C[K]) -> ...
-  |                                          (each strategy gets its own types)
-  |
-  +-- UploadStore<M, C, P, R>
-  |     getSnapshot() -> UploadState<M, C, P, R>
-  |       items -> Map<string, UploadItem<M, C, P, R>>
-  |         item.intent  -> M[keyof M]   (typed intent)
-  |         item.cursor  -> C[keyof C]   (typed cursor)
-  |         item.result  -> R            (typed result)
-  |         item.purpose -> P            (typed purpose)
-  |
-  +-- UploadPlugin<M, C, P, R>
-  |     setup(ctx) -> void
-  |       ctx.on('upload.completed', ({ result }) => ...)
-  |                                  result: R (typed)
-  |
-  +-- UploadEventMap<M, C, P, R>
-        'upload.completed' -> { result: R, completedBy }
-        'intent.created'   -> { intent: M[keyof M] }
-        'file.added'       -> { purpose: P }
+  ├─ Contracts.Api.Me<M, P, R>
+  │    createIntent -> M[keyof M]      complete -> R      findByChecksum -> R | null
+  ├─ Contracts.Strategy.Registry<M, C, P, R>
+  │    start(ctx) with intent M[K], cursor C[K]
+  ├─ Store.UploadStore<M, C, P, R>
+  │    getSnapshot().items -> Map<string, Engine.Item<M, C, P, R>>
+  │      item.intent M[keyof M] · item.cursor · item.result R · item.purpose P
+  ├─ Engine.Plugin<M, C, P, R>
+  │    on('upload.completed', ({ result }) => …)  // result: R
+  └─ Engine.EventMap<M, C, P, R>
+       'upload.completed' -> { result: R; completedBy }
+       'intent.created'   -> { intent: M[keyof M] }
 ```
 
-The key benefit: when your backend returns a `PhotoDuckResult` with `width` and `height`,
-you can access `item.result.width` in your React component without any type assertion.
-TypeScript knows the shape because it flows from the `R` generic all the way through.
-
-## Checkpoint
-
-Full production setup for PhotoDuck:
-
-```typescript title="src/lib/upload-client.ts"
-import { createUploadStore } from '@gentleduck/upload'
-import { IndexedDBAdapter } from '@gentleduck/upload/persistence/indexeddb'
-import type {
-  PhotoDuckIntentMap,
-  PhotoDuckCursorMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult,
-} from '../types/upload'
-import { photoDuckApi } from './api'
-import { photoDuckStrategies } from './strategies'
-
-export const uploadStore = createUploadStore<
-  PhotoDuckIntentMap,
-  PhotoDuckCursorMap,
-  PhotoDuckPurpose,
-  PhotoDuckResult
->({
-  api: photoDuckApi,
-  strategies: photoDuckStrategies,
-
-  config: {
-    maxConcurrentUploads: 3,
-    maxAttempts: 5,
-    progressThrottleMs: 250,
-    maxItems: 200,
-    completedItemTTL: 60_000,
-
-    autoStart: (purpose) => purpose === 'avatar',
-
-    validation: {
-      photo: {
-        maxFiles: 50,
-        maxSizeBytes: 10 * 1024 * 1024,
-        allowedTypes: ['image/*'],
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'webp', 'heic', 'gif'],
-      },
-      avatar: {
-        maxFiles: 1,
-        maxSizeBytes: 2 * 1024 * 1024,
-        allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
-      },
-      document: {
-        maxFiles: 10,
-        maxSizeBytes: 50 * 1024 * 1024,
-        allowedTypes: ['application/pdf'],
-        allowedExtensions: ['pdf'],
-      },
-    },
-
-    retryPolicy: ({ phase, attempt, error }) => {
-      // Never retry auth or validation errors
-      if (error.code === 'auth' || error.code === 'validation_failed') {
-        return { retryable: false }
-      }
-
-      // Respect rate-limit headers
-      if (error.code === 'rate_limit' && 'retryAfterMs' in error) {
-        return { retryable: true, delayMs: error.retryAfterMs as number }
-      }
-
-      // Exponential backoff with jitter
-      const base = 1000 * Math.pow(2, attempt - 1)
-      const jitter = Math.random() * 500
-      const delayMs = Math.min(base + jitter, 30_000)
-
-      return { retryable: true, delayMs }
-    },
-  },
-
-  persistence: {
-    key: 'photoduck-uploads',
-    version: 1,
-    adapter: IndexedDBAdapter,
-    debounceMs: 200,
-    isPurpose: (v): v is PhotoDuckPurpose =>
-      v === 'photo' || v === 'avatar' || v === 'document',
-    isIntent: (v): v is PhotoDuckIntentMap[keyof PhotoDuckIntentMap] => {
-      if (typeof v !== 'object' || v === null) return false
-      const obj = v as Record<string, unknown>
-      return typeof obj.strategy === 'string' && typeof obj.fileId === 'string'
-    },
-  },
-
-  plugins: [
-    {
-      name: 'analytics',
-      setup({ on }) {
-        on('upload.completed', ({ localId, result, completedBy }) => {
-          console.log(`[analytics] Upload ${localId} completed via ${completedBy}`)
-        })
-        on('upload.error', ({ localId, error }) => {
-          console.error(`[analytics] Upload ${localId} failed: ${error.code}`)
-        })
-      },
-    },
-  ],
-
-  hooks: {
-    onInternalEvent: (event, state) => {
-      if (import.meta.env.DEV) {
-        console.debug('[upload-engine]', event.type, event)
-      }
-    },
-  },
-
-  validateFile: (file, purpose) => {
-    if (file.size === 0) return { code: 'empty_file' }
-    return null
-  },
-})
-```
+So `item.result.width` is typed all the way from the `R` you declared.
 
 ***
 
 ## Chapter 8 FAQ
 
-Can different purposes have different result types?
+Different result types per purpose?
 
-The `R` generic is a single type for the entire store. If your backend returns
-different shapes for avatars vs photos, define a union type:
-`type MyResult = PhotoResult | AvatarResult` where both extend `UploadResultBase`.
-In your components, narrow by checking a discriminant field or by the item's `purpose`.
-The engine treats `R` as one type throughout.
+`R` is one type for the store. Use a union — `type R = PhotoResult | AvatarResult`, both
+extending `Contracts.Result.Base` — and narrow by a discriminant or by `item.purpose`.
 
-How does deduplication work internally?
+How does dedupe work internally?
 
-During the validation phase, if the file's fingerprint has a `checksum` and your API
-implements `findByChecksum()`, the engine calls it. If the API returns a non-null result,
-the engine emits a `dedupe.ok` internal event. The reducer transitions the item from
-`validating` directly to `completed` with `completedBy: 'dedupe'`. No intent is created,
-no bytes are uploaded. The result from `findByChecksum` becomes the item's `result`. If
-`findByChecksum` returns null or is not implemented, validation continues normally.
+During validation, if the fingerprint has a `checksum` and `findByChecksum` is implemented,
+the engine calls it. A non-null result emits `dedupe.ok`, moving the item straight to
+`completed` with `completedBy: 'dedupe'` and that result — no intent, no bytes. `null`
+continues normal validation.
 
 How does autoStart interact with validation?
 
-Validation always runs first. A file goes through `validating` then `creating_intent`
-then `ready`. When `autoStart` matches the item's purpose, the engine automatically
-dispatches `start` when the item reaches `ready`. If validation fails, the item never
-reaches `ready` and autoStart has no effect. AutoStart is evaluated after intent
-creation, not after addFiles.
+Validation runs first (`validating` → `creating_intent` → `ready`). `autoStart` fires when
+the item reaches `ready`. If validation fails, it never reaches `ready`, so autoStart has
+no effect.
 
-What is the bundle size impact?
+How should I test?
 
-The core engine (store, reducer, validation) is small because it has zero runtime
-dependencies. Persistence adapters are separate entry points, so tree-shaking removes
-unused ones. The React adapter adds a thin hook layer. Strategies (multipart, TUS,
-POST) are registered at the app level and only bundled if imported. A typical setup
-with one strategy and IndexedDB persistence is well under 10 KB gzipped.
+Mock `Contracts.Api.Me`, use `MemoryAdapter`, and assert with `waitFor`. For end-to-end,
+keep a real strategy and mock HTTP (e.g. MSW).
 
-How should I test upload strategies?
+One store or many?
 
-Mock at the `UploadApi` level, not the strategy level. Create a mock API that returns
-known intents and results, and use `MemoryAdapter` for persistence. The store's
-`waitFor()` method is your main assertion tool -- it returns a promise that resolves
-when items reach terminal states. For integration tests, you can use a real strategy
-with a mock HTTP server (like MSW) to test the full upload flow.
-
-Should I use one store or multiple stores?
-
-One store per app is the recommended pattern. Use the `purpose` field to distinguish
-between different upload flows (photos, avatars, documents). The `purpose` threads
-through validation, autoStart, batch commands, and persistence. If you truly need
-isolated upload engines (for example, separate persistence keys or different backends),
-create separate stores. But purposes handle most multi-upload-type use cases within
-a single store.
-
-What is the errorNormalizer option for?
-
-When a network request fails, the raw error might be a `TypeError` (fetch), an
-`XMLHttpRequest` error event, or a custom error from your transport. The
-`errorNormalizer` option lets you convert any raw error into a structured `UploadError`
-with a `code`, `message`, and optional `cause`. This ensures your `retryPolicy` and
-UI always see a consistent error shape. If not provided, the engine uses a built-in
-normalizer that handles common HTTP and network errors.
+One store, many purposes handles most apps — purpose threads through validation, autoStart,
+batch commands, and persistence. Use separate stores only for truly isolated pipelines
+(different backends or persistence keys).
 
 ***
 
-You have built PhotoDuck from an empty project to a production-ready upload system with
-pause/resume, persistence, validation, plugins, type-safe results, and deduplication. The
-`@gentleduck/upload` engine handles the complexity; your code stays focused on the product.
+You built PhotoDuck from an empty folder to a production upload system: pause/resume,
+persistence, validation, plugins, typed results, and deduplication. The engine carries the
+complexity so your product code stays focused.

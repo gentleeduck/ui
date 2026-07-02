@@ -16,7 +16,7 @@ export const duckUploadSidebar = defineSidebar([
     title: 'Core',
     items: [
       { title: 'Core Overview', href: '/duck-upload/core' },
-      { title: 'Client', href: '/duck-upload/core/client' },
+      { title: 'Store Options', href: '/duck-upload/core/client' },
       { title: 'Contracts', href: '/duck-upload/core/contracts' },
       { title: 'Engine', href: '/duck-upload/core/engine' },
       { title: 'Errors', href: '/duck-upload/core/errors' },

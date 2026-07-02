@@ -1,12 +1,16 @@
-## Install the Package
+## Requirements
 
-Pick a package manager:
+* A modern browser with `XMLHttpRequest` (the default transport uses it for byte-level upload
+  progress).
+* For the React binding: React 19.
+
+## Install
 
 ```package-install
 @gentleduck/upload
 ```
 
-Or install manually:
+Or with a specific manager:
 
 ```bash tab="bun"
 bun add @gentleduck/upload
@@ -20,105 +24,138 @@ npm install @gentleduck/upload
 pnpm add @gentleduck/upload
 ```
 
-## Basic Setup
+One package ships everything. The core engine, React bindings, and built-in strategies are
+reachable through three subpath entry points.
 
-### 1. Create a Strategy Registry
+## Entry points
 
-Register the strategies the app needs:
+| Import | Contains |
+| --- | --- |
+| `@gentleduck/upload` | Re-exports all three below |
+| `@gentleduck/upload/core` | `createUploadStore`, `Contracts`, `Engine`, error classes, persistence adapters, `createXHRTransport` |
+| `@gentleduck/upload/strategies` | `PostStrategy`, `multipartStrategy`, `createStrategyRegistry` |
+| `@gentleduck/upload/react` | `UploadProvider`, `useUploader`, `useUploaderActions` |
+
+## Four steps to a working store
+
+### 1. Describe your pipeline
+
+The store is generic over `<M, C, P, R>` (intent map, cursor map, purpose, result). Define
+them once and reuse everywhere:
 
 ```ts
-import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+import type { Contracts } from '@gentleduck/upload/core'
+import type { PostStrategy } from '@gentleduck/upload/strategies'
 
-const strategies = createStrategyRegistry()
-strategies.set(PostStrategy())
-strategies.set(multipartStrategy())
+type Intents = { post: PostStrategy.Intent }
+type Cursors = { post?: PostStrategy.Cursor }
+type Purpose = 'avatar' | 'document'
+type Result = Contracts.Result.Base & { url: string }
 ```
 
-### 2. Implement the Upload API
+`Contracts.Result.Base` is `{ fileId: string; key: string }` — extend it with whatever your
+backend returns.
 
-The backend adapter implements `UploadApi`:
+### 2. Implement the backend contract
+
+Your adapter implements `Contracts.Api.Me<M, P, R>`. Only `createIntent` and `complete` are
+required. Note the second argument is the call **context** (`ctx`), which carries the abort
+`signal`, the `File`, the fingerprint, and retry metadata.
 
 ```ts
-import type { UploadApi } from '@gentleduck/upload/core'
-
-const api: UploadApi = {
-  createIntent: async ({ file, purpose }) => {
-    // Call your backend to create an upload intent
+const api: Contracts.Api.Me<Intents, Purpose, Result> = {
+  async createIntent({ purpose, contentType, size, filename }, ctx) {
     const res = await fetch('/api/uploads/intent', {
       method: 'POST',
-      body: JSON.stringify({ fileName: file.name, purpose }),
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ purpose, contentType, size, filename }),
+      signal: ctx.signal,
     })
+    if (!res.ok) throw new Error(`intent failed: ${res.status}`)
+    // Returns a value from the intent map — here a PostStrategy.Intent.
     return res.json()
   },
-  complete: async ({ fileId }) => {
-    // Notify your backend that the upload finished
-    const res = await fetch(`/api/uploads/${fileId}/complete`, { method: 'POST' })
+  async complete({ fileId, filename, contentType, size }, ctx) {
+    const res = await fetch(`/api/uploads/${fileId}/complete`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ filename, contentType, size }),
+      signal: ctx.signal,
+    })
+    if (!res.ok) throw new Error(`complete failed: ${res.status}`)
     return res.json()
   },
 }
 ```
 
-### 3. Create the Upload Store
+### 3. Register strategies
+
+`createStrategyRegistry()` returns an **empty** typed registry. Add strategies with `.set()`:
+
+```ts
+import { PostStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
+
+const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PostStrategy())
+```
+
+### 4. Create the store
 
 ```ts
 import { createUploadStore } from '@gentleduck/upload/core'
 
-const store = createUploadStore({
+export const store = createUploadStore<Intents, Cursors, Purpose, Result>({
   api,
   strategies,
   config: {
     maxConcurrentUploads: 3,
-    autoStart: (purpose) => purpose === 'avatar',
+    autoStart: ['avatar'],
   },
 })
 ```
 
-### 4. Connect to React (Optional)
+If you omit `transport`, the store installs `createXHRTransport()` for you.
 
-For React, wrap the app in `UploadProvider`:
+## Add React (optional)
+
+Wrap your tree in `UploadProvider` and read the store with `useUploader`:
 
 ```tsx
-import { UploadProvider } from '@gentleduck/upload/react'
+import { UploadProvider, useUploader } from '@gentleduck/upload/react'
+import { store } from './upload'
 
-function App() {
+export function App() {
   return (
     <UploadProvider store={store}>
-      <YourUploadUI />
+      <UploadList />
     </UploadProvider>
   )
 }
-```
-
-Use `useUploader` inside components:
-
-```tsx
-import { useUploader } from '@gentleduck/upload/react'
 
 function UploadList() {
-  const { items, dispatch } = useUploader()
+  const { items, dispatch } = useUploader<Intents, Cursors, Purpose, Result>()
 
   return (
     <div>
       <input
         type="file"
-        onChange={(e) => {
-          dispatch({ type: 'addFiles', files: Array.from(e.target.files!), purpose: 'doc' })
-        }}
+        multiple
+        onChange={(e) =>
+          dispatch({ type: 'addFiles', files: Array.from(e.target.files ?? []), purpose: 'document' })
+        }
       />
       {items.map((item) => (
-        <div key={item.localId}>{item.file?.name} - {item.phase}</div>
+        <div key={item.localId}>
+          {item.fingerprint.name} — {item.phase}
+        </div>
       ))}
     </div>
   )
 }
 ```
 
-## Import Paths
+## Next
 
-The package has three entry points:
-
-| Import | Description |
-| --- | --- |
-| `@gentleduck/upload/core` | Engine, contracts, persistence, utilities |
-| `@gentleduck/upload/strategies` | Strategy implementations and registry |
-| `@gentleduck/upload/react` | React provider and hooks |
+* [Design Decisions](/duck-upload/design) — why the engine is shaped this way.
+* [Core Overview](/duck-upload/core) — the modules behind the store.
+* [Guides](/duck-upload/guides) — copy-paste recipes for common scenarios.

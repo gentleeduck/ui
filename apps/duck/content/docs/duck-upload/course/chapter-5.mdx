@@ -1,19 +1,16 @@
 ---
-title: "chapter 5: pause, resume & retry"
-description: Control upload lifecycle with pause, resume, cancel, and automatic retry.
+title: "Chapter 5: Pause, Resume & Retry"
+description: "Control the upload lifecycle — pause, resume, cancel — and configure automatic retry with backoff."
 section: Course
 order: 5
 ---
+
 ## Goal
 
-PhotoDuck users upload large photos over unreliable connections. A 50 MB file on a spotty
-train Wi-Fi needs to pause when signal drops and resume when it comes back. You will add
-**pause, resume, cancel** controls and configure **automatic retry** with exponential backoff.
+PhotoDuck users upload big photos on flaky connections. Add **pause / resume / cancel** controls
+and an **automatic retry** policy with exponential backoff.
 
 <MermaidDiagram chart={`stateDiagram-v2
-    [*] --> ready
-    ready --> queued : start
-    queued --> uploading : slot available
     uploading --> paused : pause
     paused --> queued : resume
     uploading --> error : failure
@@ -21,405 +18,226 @@ train Wi-Fi needs to pause when signal drops and resume when it comes back. You 
     uploading --> completing : bytes sent
     completing --> completed : finalized
     uploading --> canceled : cancel
-    paused --> canceled : cancel
-    error --> canceled : cancel`} />
+    paused --> canceled : cancel`} />
 
-## Dispatch Pause and Resume Commands
+## The hook returns commands, not the store
+
+`useUploader` returns `items`, the phase buckets, and `dispatch`/`on`/`off`. It does **not**
+return the store object. When you need the raw store (for `getSnapshot` or `waitFor`), use
+`useUploaderActions`, which returns `{ dispatch, on, store }`.
+
+```tsx
+import { useUploader, useUploaderActions } from '@gentleduck/upload/react'
+
+const { items, dispatch } = useUploader<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+const { store } = useUploaderActions<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+```
+
+## Lifecycle commands
 
 <Steps>
   <Step>
-    **Pause an active upload**
+    **Pause**
 
-    The store accepts commands through `dispatch()`. To pause an upload that is currently
-    in the `uploading` phase, dispatch a `pause` command with its `localId`:
-
-    ```typescript title="src/components/UploadControls.tsx"
-    import { useUploader } from '@gentleduck/upload/react'
-
-    function UploadControls({ localId }: { localId: string }) {
-      const { store } = useUploader()
-
-      const handlePause = () => {
-        store.dispatch({ type: 'pause', localId })
-      }
-
-      return <button onClick={handlePause}>Pause</button>
-    }
+    ```tsx
+    dispatch({ type: 'pause', localId })
     ```
 
-    When you dispatch `pause`, the engine sets the inflight upload's abort mode to `'pause'`
-    and aborts the underlying `AbortController`. The strategy receives the abort signal,
-    stops transferring bytes, and emits an internal `paused` event with the current cursor
-    position. The reducer transitions the item from `uploading` to `paused`.
-
-    If the item is in the `queued` phase (waiting for a concurrency slot), pause reverts it
-    back to `ready` without touching the network.
+    On `pause` the engine sets the in-flight upload's mode to `'pause'` and aborts its
+    `AbortController`. The strategy catches the abort, its cursor is already persisted, and the
+    item transitions `uploading` → `paused`. Pausing a `queued` item just reverts it to `ready`
+    (no network was in flight).
   </Step>
 
   <Step>
-    **Resume a paused upload**
+    **Resume**
 
-    ```typescript title="src/components/UploadControls.tsx"
-    const handleResume = () => {
-      store.dispatch({ type: 'resume', localId })
-    }
+    ```tsx
+    dispatch({ type: 'resume', localId })
     ```
 
-    Resume moves the item from `paused` back to `queued`. The scheduler picks it up when a
-    concurrency slot opens. The strategy reads the stored cursor to continue from the last
-    byte offset -- no data is re-uploaded.
-
-    Resume requires the item to have a `file` reference. After a page refresh, File objects
-    are lost (Chapter 6 covers rebinding). If `item.file` is `undefined`, resume is a no-op.
+    `paused` → `queued`; the scheduler restarts the strategy, which reads the cursor and
+    continues from the last checkpoint. Resume requires a `file`. After a reload the `File` is
+    gone, so resume is a no-op until you `rebind` (Chapter 6).
   </Step>
 
   <Step>
-    **Cancel uploads and clean up**
+    **Cancel and remove**
 
-    ```typescript title="src/components/UploadControls.tsx"
-    const handleCancel = () => {
-      store.dispatch({ type: 'cancel', localId })
-    }
-
-    // Remove the item from state entirely
-    const handleRemove = () => {
-      store.dispatch({ type: 'remove', localId })
-    }
+    ```tsx
+    dispatch({ type: 'cancel', localId }) // aborts + moves to canceled (final)
+    dispatch({ type: 'remove', localId }) // drops the item from state
     ```
 
-    Cancel transitions any non-terminal item to the `canceled` phase. If the item is actively
-    uploading, the engine aborts the network request with mode `'cancel'`. Unlike pause,
-    cancel is final -- the cursor and intent are preserved on the item for debugging, but
-    the item cannot be resumed.
-
-    Use `remove` to delete the item from state completely. This is useful for cleaning up
-    the UI after a cancel or completion.
+    Cancel aborts any in-flight request with mode `'cancel'` and is terminal. `remove` deletes
+    the item entirely — handy for clearing terminal rows from the UI.
   </Step>
 
   <Step>
-    **Configure automatic retry with exponential backoff**
+    **Automatic retry policy**
 
-    ```typescript title="src/lib/upload-client.ts"
-    import { createUploadStore } from '@gentleduck/upload'
-
-    const store = createUploadStore({
-      api: photoDuckApi,
-      strategies: photoDuckStrategies,
+    ```typescript title="src/upload.ts"
+    export const store = createUploadStore<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>({
+      api,
+      strategies,
       config: {
         maxAttempts: 5,
         retryPolicy: ({ phase, attempt, error }) => {
-          // Don't retry auth errors
           if (error.code === 'auth') return { retryable: false }
-
-          // Don't retry validation failures
           if (error.code === 'validation_failed') return { retryable: false }
-
-          // Exponential backoff: 1s, 2s, 4s, 8s, 16s
-          const delayMs = Math.min(1000 * Math.pow(2, attempt - 1), 30_000)
-
+          const delayMs = Math.min(1000 * 2 ** (attempt - 1), 30_000) // 1s,2s,4s,8s,16s
           return { retryable: true, delayMs }
         },
       },
     })
     ```
 
-    The `retryPolicy` function is called whenever a phase fails. It receives the current
-    `phase` (`'intent'`, `'upload'`, or `'complete'`), the `attempt` number, and the
-    `UploadError`. Return `{ retryable: true, delayMs }` to schedule a retry after the
-    given delay, or `{ retryable: false }` to mark the item as permanently failed.
-
-    `maxAttempts` is the global cap. Even if `retryPolicy` says retryable, the engine stops
-    after this many attempts. The default is 3.
+    `retryPolicy` runs whenever a phase fails. It receives `phase` (`'intent' | 'upload' |
+    'complete'`), the `attempt` number, and the `UploadError`, and returns an
+    `Engine.RetryDecision`. `maxAttempts` is the hard cap even when the policy says retryable.
   </Step>
 
   <Step>
-    **Handle errors and show retry UI**
+    **Retry UI**
 
-    ```tsx title="src/components/UploadItem.tsx"
-    import { useUploader } from '@gentleduck/upload/react'
-    import type { UploadItem } from '@gentleduck/upload'
+    ```tsx title="src/UploadRow.tsx"
+    import type { Engine } from '@gentleduck/upload/core'
 
-    function UploadItemRow({ item }: { item: UploadItem }) {
-      const { store } = useUploader()
+    type Item = Engine.Item<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>
 
+    function UploadRow({ item, dispatch }: {
+      item: Item
+      dispatch: (cmd: Engine.Command<PhotoPurpose>) => void
+    }) {
       if (item.phase === 'error') {
         return (
-          <div className="flex items-center gap-2">
-            <span className="text-red-500">
-              {item.error.message}
-            </span>
-
+          <div>
+            <span style={{ color: '#dc2626' }}>{item.error.message}</span>
             {item.retryable && (
-              <button
-                onClick={() => store.dispatch({ type: 'retry', localId: item.localId })}
-              >
+              <button onClick={() => dispatch({ type: 'retry', localId: item.localId })}>
                 Retry (attempt {item.attempt})
               </button>
             )}
-
-            <button
-              onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}
-            >
-              Dismiss
-            </button>
+            <button onClick={() => dispatch({ type: 'remove', localId: item.localId })}>Dismiss</button>
           </div>
         )
       }
-
       return (
-        <div className="flex items-center gap-2">
+        <div>
           {item.phase === 'uploading' && (
             <>
               <progress value={item.progress.pct} max={100} />
-              <button onClick={() => store.dispatch({ type: 'pause', localId: item.localId })}>
-                Pause
-              </button>
+              <button onClick={() => dispatch({ type: 'pause', localId: item.localId })}>Pause</button>
             </>
           )}
-
           {item.phase === 'paused' && (
-            <button onClick={() => store.dispatch({ type: 'resume', localId: item.localId })}>
-              Resume
-            </button>
+            <button onClick={() => dispatch({ type: 'resume', localId: item.localId })}>Resume</button>
           )}
-
-          <button onClick={() => store.dispatch({ type: 'cancel', localId: item.localId })}>
-            Cancel
-          </button>
+          <button onClick={() => dispatch({ type: 'cancel', localId: item.localId })}>Cancel</button>
         </div>
       )
     }
     ```
 
-    The `retry` command is only accepted when the item is in the `error` phase and `retryable`
-    is `true`. Retry transitions the item differently depending on its state:
-    - If the item has no intent yet (intent creation failed): moves to `creating_intent`
-    - If the item has an intent but upload failed: moves to `ready` to re-queue
-    - If the item was in the `completing` phase (100% uploaded, finalization failed): moves
-      back to `completing` to retry finalization only
+    `retry` is only accepted from the `error` phase. Where it re-enters depends on how far the
+    item got:
+    - no intent yet → `creating_intent`
+    - has intent, bytes pending → `ready` (re-queued)
+    - failed while finalizing → `completing` (retries only the finalize call)
   </Step>
 </Steps>
 
-## Batch Operations
+## Batch operations
 
-For bulk control, dispatch `pauseAll`, `startAll`, or `cancelAll`. These iterate over every
-item in state and apply the individual command. Pass an optional `purpose` to scope the
-operation:
+`startAll`, `pauseAll`, and `cancelAll` apply to every matching item; pass a `purpose` to scope:
 
-```typescript title="src/components/BatchControls.tsx"
-function BatchControls() {
-  const { store } = useUploader()
-
-  return (
-    <div className="flex gap-2">
-      <button onClick={() => store.dispatch({ type: 'startAll' })}>
-        Start All
-      </button>
-      <button onClick={() => store.dispatch({ type: 'pauseAll' })}>
-        Pause All
-      </button>
-      <button onClick={() => store.dispatch({ type: 'cancelAll' })}>
-        Cancel All
-      </button>
-
-      {/* Scope to a specific purpose */}
-      <button onClick={() => store.dispatch({ type: 'startAll', purpose: 'photo' })}>
-        Start All Photos
-      </button>
-    </div>
-  )
-}
+```tsx
+dispatch({ type: 'startAll' })
+dispatch({ type: 'pauseAll' })
+dispatch({ type: 'cancelAll' })
+dispatch({ type: 'startAll', purpose: 'photo' }) // only photos
 ```
 
-The full set of commands accepted by the store:
+| Command | Valid from |
+| --- | --- |
+| `start` / `startAll` | `ready` |
+| `pause` / `pauseAll` | `uploading`, `queued` |
+| `resume` | `paused` (needs `file`) |
+| `cancel` / `cancelAll` | any non-terminal |
+| `retry` | `error` (needs `retryable`) |
+| `remove` | any |
+| `rebind` | `paused` without `file` |
 
-| Command | Description | Valid From |
-| --- | --- | --- |
-| `start` | Queue a single item for upload | `ready` |
-| `startAll` | Queue all ready items | `ready` (each) |
-| `pause` | Pause an active or queued upload | `uploading`, `queued` |
-| `pauseAll` | Pause all active uploads | `uploading`, `queued` (each) |
-| `resume` | Resume a paused upload | `paused` (requires `file`) |
-| `cancel` | Cancel an upload | any non-terminal |
-| `cancelAll` | Cancel all non-terminal uploads | any non-terminal (each) |
-| `retry` | Retry a failed upload | `error` (requires `retryable`) |
-| `remove` | Remove item from state | any |
-| `rebind` | Re-attach a File reference | `paused` (no `file`) |
-
-## How the State Machine Transitions Between Phases
-
-The upload engine uses a strict state machine. Each `UploadItem` has a `phase` field that
-acts as a discriminant. The reducer only allows transitions from valid source phases:
+## Full transition map
 
 <MermaidDiagram chart={`stateDiagram-v2
     [*] --> validating : addFiles
     validating --> creating_intent : validation.ok
-    validating --> error : validation.failed
     validating --> completed : dedupe.ok
+    validating --> error : validation.failed
     creating_intent --> ready : intent.ok
     creating_intent --> error : intent.failed
-    ready --> queued : start / startAll
+    ready --> queued : start
     queued --> uploading : upload.begin
-    queued --> ready : pause (reverts)
-    uploading --> paused : paused (via abort)
+    queued --> ready : pause
+    uploading --> paused : pause
     uploading --> completing : upload.ok
     uploading --> error : upload.failed
-    uploading --> canceled : canceled (via abort)
+    uploading --> canceled : cancel
     paused --> queued : resume
     paused --> canceled : cancel
     completing --> completed : complete.ok
     completing --> error : complete.failed
     error --> creating_intent : retry (no intent)
     error --> ready : retry (has intent)
-    error --> completing : retry (was completing)
-    error --> canceled : cancel`} />
-
-Key transitions to understand:
-
-1. **Pause during upload**: When you dispatch `pause`, the store sets `inflightUpload.mode = 'pause'`
-   and calls `controller.abort()`. The strategy catches the abort, records the cursor position, and
-   the engine emits `{ type: 'paused', cursor, pausedAt }`. The reducer moves the item to `paused`
-   with the cursor intact.
-
-2. **Resume after pause**: The `resume` command checks that `item.file` exists (File objects cannot
-   survive persistence). If the file is present, the item goes to `queued`. The scheduler starts the
-   strategy with the stored cursor so it resumes from the last byte.
-
-3. **Error to retry**: The `retry` command inspects the item to decide where to re-enter:
-   - No `intent`: back to `creating_intent` (attempt incremented)
-   - Has `intent`, progress < 100%: back to `ready` (re-queued for upload)
-   - Has `intent`, progress = 100%: back to `completing` (only retry finalization)
-
-4. **Automatic retry**: When `retryPolicy` returns `{ retryable: true, delayMs: 1000 }`, the engine
-   schedules `dispatch({ type: 'retry', localId })` after the delay. The UI sees the item in `error`
-   phase briefly, then it transitions automatically. If you want manual-only retry, return
-   `{ retryable: false }` from the policy and let the user click retry.
+    error --> completing : retry (was finalizing)`} />
 
 ## Checkpoint
 
-Full upload controls component with pause, resume, cancel, retry, and batch operations:
+A full controls component. Read items from `useUploader`; grab `store` from `useUploaderActions`
+only if you need `getSnapshot`/`waitFor`.
 
-```tsx title="src/components/PhotoUploader.tsx"
+```tsx title="src/PhotoUploader.tsx"
 import { useUploader } from '@gentleduck/upload/react'
-import type { UploadItem } from '@gentleduck/upload'
 
-type Purpose = 'photo'
-
-function PhotoUploader() {
-  const { store } = useUploader()
-  const snapshot = store.getSnapshot()
-  const items = Array.from(snapshot.items.values())
-
-  const activeCount = items.filter(
-    (i) => i.phase === 'uploading' || i.phase === 'queued'
-  ).length
+export function PhotoUploader() {
+  const { items, dispatch } = useUploader<PhotoIntents, PhotoCursors, PhotoPurpose, PhotoResult>()
+  const active = items.filter((i) => i.phase === 'uploading' || i.phase === 'queued').length
 
   return (
     <div>
-      <h2>PhotoDuck Uploads</h2>
-
       <input
         type="file"
         multiple
         accept="image/*"
         onChange={(e) => {
           const files = Array.from(e.target.files ?? [])
-          if (files.length > 0) {
-            store.dispatch({ type: 'addFiles', files, purpose: 'photo' as Purpose })
-          }
+          if (files.length) dispatch({ type: 'addFiles', files, purpose: 'photo' })
         }}
       />
-
-      <div className="flex gap-2 my-4">
-        <button onClick={() => store.dispatch({ type: 'startAll' })}>
-          Start All
-        </button>
-        <button onClick={() => store.dispatch({ type: 'pauseAll' })}>
-          Pause All
-        </button>
-        <button onClick={() => store.dispatch({ type: 'cancelAll' })}>
-          Cancel All
-        </button>
-        <span>{activeCount} active</span>
+      <div>
+        <button onClick={() => dispatch({ type: 'startAll' })}>Start all</button>
+        <button onClick={() => dispatch({ type: 'pauseAll' })}>Pause all</button>
+        <button onClick={() => dispatch({ type: 'cancelAll' })}>Cancel all</button>
+        <span>{active} active</span>
       </div>
-
       <ul>
         {items.map((item) => (
           <li key={item.localId}>
-            <UploadRow item={item} />
+            {item.fingerprint.name} — {item.phase}
+            {'progress' in item && item.progress && ` (${Math.round(item.progress.pct)}%)`}
+            {item.phase === 'uploading' && (
+              <button onClick={() => dispatch({ type: 'pause', localId: item.localId })}>Pause</button>
+            )}
+            {item.phase === 'paused' && (
+              <button onClick={() => dispatch({ type: 'resume', localId: item.localId })}>Resume</button>
+            )}
+            {item.phase === 'error' && item.retryable && (
+              <button onClick={() => dispatch({ type: 'retry', localId: item.localId })}>Retry</button>
+            )}
           </li>
         ))}
       </ul>
-    </div>
-  )
-}
-
-function UploadRow({ item }: { item: UploadItem }) {
-  const { store } = useUploader()
-
-  const phaseLabel: Record<string, string> = {
-    validating: 'Validating...',
-    creating_intent: 'Preparing...',
-    ready: 'Ready',
-    queued: 'Queued',
-    uploading: 'Uploading',
-    paused: 'Paused',
-    completing: 'Finalizing...',
-    completed: 'Done',
-    error: 'Error',
-    canceled: 'Canceled',
-  }
-
-  return (
-    <div className="flex items-center gap-3 py-2">
-      <span className="w-48 truncate">{item.fingerprint.name}</span>
-      <span className="text-sm text-muted-foreground">{phaseLabel[item.phase]}</span>
-
-      {item.phase === 'uploading' && (
-        <progress value={item.progress.pct} max={100} className="flex-1" />
-      )}
-
-      {item.phase === 'paused' && 'progress' in item && (
-        <span className="text-sm">{Math.round(item.progress.pct)}% paused</span>
-      )}
-
-      <div className="flex gap-1">
-        {item.phase === 'ready' && (
-          <button onClick={() => store.dispatch({ type: 'start', localId: item.localId })}>
-            Start
-          </button>
-        )}
-
-        {item.phase === 'uploading' && (
-          <button onClick={() => store.dispatch({ type: 'pause', localId: item.localId })}>
-            Pause
-          </button>
-        )}
-
-        {item.phase === 'paused' && (
-          <button onClick={() => store.dispatch({ type: 'resume', localId: item.localId })}>
-            Resume
-          </button>
-        )}
-
-        {item.phase === 'error' && item.retryable && (
-          <button onClick={() => store.dispatch({ type: 'retry', localId: item.localId })}>
-            Retry ({item.attempt})
-          </button>
-        )}
-
-        {item.phase !== 'completed' && item.phase !== 'canceled' && (
-          <button onClick={() => store.dispatch({ type: 'cancel', localId: item.localId })}>
-            Cancel
-          </button>
-        )}
-
-        {(item.phase === 'completed' || item.phase === 'canceled' || item.phase === 'error') && (
-          <button onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}>
-            Remove
-          </button>
-        )}
-      </div>
     </div>
   )
 }
@@ -433,66 +251,42 @@ function UploadRow({ item }: { item: UploadItem }) {
   <AccordionItem value="c5-pause-queued">
     <AccordionTrigger>What happens if I pause a queued item?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      If the item is in the `queued` phase (waiting for a concurrency slot but not yet
-      uploading), the reducer moves it back to `ready`. No network request is aborted
-      because none was started. You can `start` it again later.
+      It reverts to `ready` — no request is aborted because none started. Start it again later.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c5-resume-no-file">
-    <AccordionTrigger>Why does resume require a file reference?</AccordionTrigger>
+  <AccordionItem value="c5-resume-file">
+    <AccordionTrigger>Why does resume need a file?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Browser `File` objects cannot be serialized. After a page refresh, paused items
-      restored from persistence have `file: undefined`. The `resume` command checks for
-      `item.file` and is a no-op if it is missing. Use the `rebind` command to re-attach
-      the file first: `store.dispatch({ type: 'rebind', localId, file })`. The engine
-      verifies the fingerprint matches before accepting the rebind. See Chapter 6 for the
-      full persistence and rebind workflow.
+      `File` objects can't be serialized, so items restored from persistence have
+      `file: undefined`. Resume is a no-op without a file. Use `rebind` first — it checks the new
+      file's fingerprint matches. Chapter 6 covers the flow.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c5-retry-phases">
-    <AccordionTrigger>How does retry know where to re-enter the pipeline?</AccordionTrigger>
+  <AccordionItem value="c5-retry-where">
+    <AccordionTrigger>How does retry know where to re-enter?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      The reducer inspects the failed item's state. If `item.intent` is `undefined`, the
-      failure was during intent creation, so retry goes to `creating_intent`. If an intent
-      exists and progress is at 100%, the failure was during completion, so retry goes to
-      `completing`. Otherwise the upload itself failed, so retry goes to `ready` to be
-      re-queued. This means retry never re-uploads bytes that were already confirmed.
+      It inspects the failed item: no `intent` → `creating_intent`; has intent, bytes pending →
+      `ready`; failed while finalizing → `completing`. Confirmed bytes are never re-uploaded.
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="c5-auto-vs-manual">
-    <AccordionTrigger>Can I have automatic retry for some errors and manual for others?</AccordionTrigger>
+  <AccordionItem value="c5-auto-manual">
+    <AccordionTrigger>Auto retry for some errors, manual for others?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Yes. Your `retryPolicy` function decides per-error. Return `{ retryable: true, delayMs }`
-      for transient errors (network, timeout, rate limit) and `{ retryable: false }` for
-      permanent errors (auth, validation). When you return retryable false, the item stays in
-      the `error` phase with `retryable: false`, and the retry button is hidden. The user
-      can still `remove` or `cancel` it.
+      Decide per-error in `retryPolicy`. Return `{ retryable: true, delayMs }` for transient
+      errors and `{ retryable: false }` for permanent ones. Non-retryable items stay in `error`
+      with `retryable: false`; hide the retry button and let the user `remove` them.
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="c5-cursor">
-    <AccordionTrigger>What is a cursor and how does it enable resumable uploads?</AccordionTrigger>
+    <AccordionTrigger>What is a cursor?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      A cursor is a strategy-specific checkpoint that records how far an upload has progressed.
-      For a multipart strategy, the cursor tracks which parts have been uploaded and their ETags.
-      For a TUS strategy, the cursor tracks the byte offset. When the strategy resumes, it
-      reads the cursor and skips already-uploaded segments. The cursor is updated via
-      `cursor.updated` internal events during the upload and is persisted alongside the item.
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="c5-cancel-cleanup">
-    <AccordionTrigger>Does cancel clean up server-side resources?</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-      The `cancel` command only affects client-side state. It aborts the in-flight request and
-      transitions the item to `canceled`. Server-side cleanup (like aborting a multipart upload)
-      depends on your backend. If your `UploadApi` has `multipart.abort()`, you can call it in
-      an event listener: `store.on('upload.canceled', ({ localId }) => { ... })`. Most cloud
-      providers also have lifecycle policies that auto-clean incomplete multipart uploads after
-      a configurable period.
+      A strategy-specific checkpoint. For multipart it's the completed parts and their ETags. On
+      resume the strategy reads it and skips finished work. It's updated during the upload and
+      persisted with the item.
     </AccordionContent>
   </AccordionItem>
 </Accordion>

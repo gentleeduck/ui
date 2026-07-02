@@ -1,59 +1,128 @@
 ---
 title: Engine
-description: State machine, scheduling, and retry model for uploads.
+description: The phase state machine, scheduler, event layer, and retry model.
 section: Core
-order: 10
+order: 30
 ---
-The engine runs the upload state machine, scheduler, and side effects. State
-changes go through the reducer; public events emit from one transition layer.
 
-## State Machine
+The engine is the store's brain: a strict phase state machine, a scheduler that keeps work
+flowing within concurrency limits, a single event-emission layer, and a centralized retry
+policy. All of it lives under the `Engine` namespace and runs through one reducer.
+
+## Phases
+
+Every item carries a `phase` discriminant. `Engine.Phases` is the const map; `Engine.Phase` is
+its union.
+
+| Phase | Meaning |
+| --- | --- |
+| `validating` | Running validation rules |
+| `creating_intent` | Calling `api.createIntent()` |
+| `ready` | Intent received; waiting for `start`/`autoStart` |
+| `queued` | Wants to upload; waiting for a concurrency slot |
+| `uploading` | Transferring bytes |
+| `paused` | Paused; resumable cursor preserved |
+| `completing` | Calling `api.complete()` |
+| `completed` | Done and finalized (`completedBy: 'upload' \| 'dedupe'`) |
+| `error` | Terminal-for-now failure (may be retryable) |
+| `canceled` | Canceled by the user |
+
+`Engine.Item` is a discriminated union over `phase`, so checking `item.phase === 'uploading'`
+narrows the type and unlocks `item.progress`, `item.intent`, and friends.
+
+## State machine
 
 ```mermaid
 stateDiagram-v2
-  [*] --> validating
+  [*] --> validating: addFiles
   validating --> creating_intent: validation.ok
+  validating --> completed: dedupe.ok
   validating --> error: validation.failed
   creating_intent --> ready: intent.ok
   creating_intent --> error: intent.failed
-  ready --> queued: start
+  ready --> queued: start / startAll
   queued --> uploading: upload.begin
+  queued --> ready: pause (reverts, no network)
   uploading --> completing: upload.ok
-  uploading --> paused: paused
+  uploading --> paused: pause (aborts transfer)
   uploading --> error: upload.failed
+  uploading --> canceled: cancel
+  paused --> queued: resume
+  paused --> canceled: cancel
   completing --> completed: complete.ok
   completing --> error: complete.failed
-  paused --> queued: resume
-  error --> creating_intent: retry (intent)
-  error --> ready: retry (upload)
-  error --> completing: retry (complete)
+  error --> creating_intent: retry (no intent)
+  error --> ready: retry (has intent, bytes pending)
+  error --> completing: retry (was finalizing)
   completed --> [*]
   canceled --> [*]
 ```
 
 ## Scheduling
 
-The scheduler keeps making progress:
+After every state change the scheduler looks for work it can start without exceeding limits:
 
-- **Intent creation** for items in `creating_intent`.
-- **Upload slots** for `queued` items, up to the configured concurrency limit.
-- **Finalization** for items in `completing`.
+- **Intent creation** for `creating_intent` items.
+- **Upload slots** for `queued` items, up to `maxConcurrentUploads`.
+- **Finalization** for `completing` items.
 
-## Event Emission
+When more items are ready than there are slots, the extras sit in `queued` until a slot frees.
 
-Public events emit from `store.runtime.ts` after transitions, not inside handlers.
-That prevents duplicates and keeps semantics consistent.
+## The event layer
 
-| Internal Event | Public Event |
+State-derived public events emit from one place after transitions — not inside individual
+handlers. This guarantees no duplicate events and consistent ordering. Internal reducer events
+map to the public `Engine.EventMap` names you subscribe to with `store.on(...)`:
+
+| Internal event | Public event(s) |
 | --- | --- |
-| `validation.ok` | `validation.ok` + `intent.creating` |
+| `validation.ok` | `validation.ok`, then `intent.creating` |
+| `intent.ok` | `intent.created` |
 | `upload.begin` | `upload.started` |
+| `upload.progress` | `upload.progress` |
+| `cursor.updated` | `upload.cursor` |
 | `upload.ok` | `upload.completing` |
-| `complete.ok` | `upload.completed` |
+| `dedupe.ok` / `complete.ok` | `upload.completed` |
 
-`file.rejected` emits during `addFiles` because rejected files never enter state.
+`file.rejected` emits during `addFiles`, because rejected files never enter the state machine.
 
-## Retry Model
+### Public events
 
-`retryDecision` centralizes retry policy. Handlers ask for a decision; they don't
-hardcode retry logic. The default allows up to 3 attempts with exponential backoff.
+The events actually emitted are: `file.added`, `file.rejected`, `validation.ok`/`validation.failed`,
+`intent.creating`/`intent.created`/`intent.failed`, `upload.queued`, `upload.resumed`,
+`upload.started`, `upload.progress`, `upload.cursor`, `upload.paused`, `upload.canceled`,
+`upload.completing`, `upload.completed`, and `upload.error`.
+
+> `Engine.EventMap` also declares `upload.removed`, `rebind.ok`, and `rebind.failed`, but the
+> engine does not currently emit them — don't rely on subscribing to those. After a `rebind`,
+> read the snapshot to see whether `item.file` was attached.
+
+## Retry model
+
+Retry decisions are centralized. When a phase fails, the engine consults `config.retryPolicy`
+(or the default exponential backoff) for an `Engine.RetryDecision`, and `maxAttempts` caps the
+total. Handlers never hardcode retry logic — they ask for a decision. Where a retry re-enters
+depends on how far the item got:
+
+- No intent yet → back to `creating_intent`.
+- Has an intent, bytes still pending → back to `ready` (re-queued).
+- Failed during finalization → back to `completing` (retries only the finalize call).
+
+This means a retry never re-uploads bytes that were already confirmed.
+
+## Reading state
+
+`store.getSnapshot()` returns an immutable `Engine.State` whose `items` is a
+`Map<string, Engine.Item>`:
+
+```ts
+for (const item of store.getSnapshot().items.values()) {
+  if (item.phase === 'uploading') console.log(item.progress.pct)
+  if (item.phase === 'error') console.log(item.error.message, item.retryable)
+}
+```
+
+## Awaiting outcomes
+
+`store.waitFor(localIds)` resolves with `Engine.Outcome` values once each item reaches a
+terminal phase — `completed`, `error`, `canceled`, or `missing`.

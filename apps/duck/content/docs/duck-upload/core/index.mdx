@@ -4,33 +4,64 @@ description: The framework-agnostic upload engine core.
 section: Core
 order: 0
 ---
-The core module holds the upload engine, contracts, persistence layer, and utilities. Framework-agnostic - works without React.
 
-## Exports
+`@gentleduck/upload/core` is the engine — the store, the reducer, the contracts your backend
+implements, the persistence layer, the typed error classes, and the default transport. It has
+no React dependency and runs anywhere `File`, `Blob`, and `AbortController` exist.
 
-From `@gentleduck/upload/core`:
+## What you import from core
 
-- `createUploadStore`, `createUploadClient`
-- `UploadApi`, `UploadTransport`, `StrategyRegistry`
-- `UploadCommand`, `UploadEventMap`, `UploadOutcome`
-- `LocalStorageAdapter`, `IndexedDBAdapter`, `MemoryAdapter`
-- Shared utilities (`isRecord`, `sleep`, `generateId`, etc.)
+### Values
 
-## Submodules
-
-| Module | Description |
+| Export | Purpose |
 | --- | --- |
-| **client/** | Configuration, plugins/hooks, and `createUploadClient` |
-| **engine/** | Reducer, scheduler, handlers, events |
-| **contracts/** | API and transport interfaces |
-| **persistence/** | Snapshot serialize/deserialize and storage adapters |
-| **utils/** | Shared helpers |
+| `createUploadStore(options)` | Build the store — the single runtime object you interact with |
+| `resolveUploadConfig(partial)` | Apply config defaults (mostly used internally and in tests) |
+| `createXHRTransport()` | The browser transport (installed automatically when `transport` is omitted) |
+| `LocalStorageAdapter`, `IndexedDBAdapter`, `MemoryAdapter`, `createMemoryAdapter()` | Persistence adapters |
+| `UploadEngineError` and subclasses | Typed errors with static, XSS-safe messages |
 
-## Design Principles
+There is **no** `createUploadClient`; `createUploadStore` is the only constructor.
 
-- **Immutable state snapshots** for predictable UI updates.
-- **Single event emission layer** for consistent public events.
-- **Typed results end-to-end** from backend to UI.
-- **Strategy-driven uploads** to keep the engine protocol-agnostic.
+### Types (namespaced)
 
-See [Engine](/duck-upload/core/engine) for state machine and scheduler details.
+The public type surface lives under a few namespaces rather than flat aliases:
+
+| Namespace | Notable members |
+| --- | --- |
+| `Contracts` | `Api.Me`, `Result.Base`, `Intent.Base`/`Intent.Map`, `Cursor.Map`, `Validation.Rejection`, `ValidationRules`, `FingerprintFile`, `Strategy.Me`/`Strategy.Registry` |
+| `Engine` | `Command`, `Item`, `State`, `EventMap`, `Config`, `Phase`/`Phases`, `Progress`, `Outcome`, `Plugin`, `Hooks`, `RetryDecision` |
+| `Store` | `UploadStore`, `Options` |
+| `Transport` | `Options` |
+| `UploadPersistence` | `Adapter`, `Options`, `Snapshot`, `PersistedItem` |
+
+So the backend contract type is `Contracts.Api.Me<M, P, R>`, a command is `Engine.Command<P>`,
+and the store handle is `Store.UploadStore<M, C, P, R>`.
+
+## Module map
+
+| Module | What lives there |
+| --- | --- |
+| `engine/store` | `createUploadStore`, the runtime, dispatch, scheduler, command handlers |
+| `engine` | `Engine` namespace: state model, commands, events, config |
+| `contracts` | `Contracts` namespace and the `Transport` interface |
+| `persistence` | Snapshot serialize/deserialize + storage adapters |
+| `errors` | `UploadEngineError` and its typed subclasses |
+
+## Design principles
+
+- **Immutable snapshots.** Every reducer step returns a new state object, so reference equality
+  drives React re-renders correctly.
+- **One event layer.** Public events emit from a single place after transitions, never from
+  inside handlers — no duplicates, consistent semantics.
+- **Typed results end-to-end.** `R` flows from `complete()` through events to `item.result`.
+- **Protocol-agnostic.** The engine selects a strategy by the intent's `strategy` field and
+  never depends on a concrete protocol.
+
+## Continue
+
+- [Client](/duck-upload/core/client) — store options, plugins, hooks, custom fingerprinting.
+- [Contracts](/duck-upload/core/contracts) — the API, transport, and strategy interfaces.
+- [Engine](/duck-upload/core/engine) — phases, scheduling, and retries.
+- [Errors](/duck-upload/core/errors) — the typed error model.
+- [Persistence](/duck-upload/core/persistence) — resume across reloads.

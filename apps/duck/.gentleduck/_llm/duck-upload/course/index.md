@@ -1,75 +1,41 @@
-## What You Will Build
+## What you'll build
 
-This course walks you through building **PhotoDuck** -- a photo sharing app with a full upload
-pipeline. You start with a single file upload and finish with a production-grade system using
-multipart uploads, resumable transfers, React integration, persistence, and validation.
+This course builds **PhotoDuck**, a photo-sharing app, one upload feature at a time. You start
+with a single file transfer and finish with a production setup: multipart uploads, pause/resume,
+persistence, validation, plugins, typed results, and deduplication — all on the real
+`@gentleduck/upload` API.
 
-Upload"]
-  end
-
-  subgraph CH2["Chapter 2"]
-      direction TB
-      C2["Strategies& Backends"]
-  end
-
-  subgraph CH3["Chapter 3"]
-      direction TB
-      C3["ReactIntegration"]
-  end
-
-  subgraph CH4["Chapter 4"]
-      direction TB
-      C4["MultipartUploads"]
-  end
-
-  subgraph CH5["Chapter 5"]
-      direction TB
-      C5["Validation& Rejection"]
-  end
-
-  subgraph CH6["Chapter 6"]
-      direction TB
-      C6["Persistence& Resume"]
-  end
-
-  subgraph CH7["Chapter 7"]
-      direction TB
-      C7["Plugins& Hooks"]
-  end
-
-  subgraph CH8["Chapter 8"]
-      direction TB
-      C8["ProductionReadiness"]
-  end
-
-  CH1 --> CH2 --> CH3 --> CH4 --> CH5 --> CH6 --> CH7 --> CH8`}
+First Upload"] --> CH2["Ch2Strategies"]
+  CH2 --> CH3["Ch3React"]
+  CH3 --> CH4["Ch4Multipart"]
+  CH4 --> CH5["Ch5Pause/Resume/Retry"]
+  CH5 --> CH6["Ch6Persistence"]
+  CH6 --> CH7["Ch7Validation/Plugins"]
+  CH7 --> CH8["Ch8Production"]`}
 />
 
-## Who Is This For
+## Who it's for
 
-* Developers who are new to @gentleduck/upload and want a structured learning path
-* Teams evaluating @gentleduck/upload for file upload needs
-* Anyone who learns best by building something real
+* Developers new to `@gentleduck/upload` who want a guided path.
+* Teams evaluating the engine for real upload needs.
+* Anyone who learns by building something concrete.
 
 ## Prerequisites
 
-* TypeScript basics (types, interfaces, async/await)
-* React basics (components, hooks, context)
-* Node.js installed (v18+) or Bun
-* Basic knowledge of S3/MinIO is helpful but not required
+* TypeScript basics (types, generics, async/await).
+* React basics for Chapters 3+ (components, hooks, context).
+* Node 22+ or Bun.
+* Passing familiarity with S3/MinIO helps but isn't required.
 
-## How to Follow Along
+## The mental model you'll carry
 
-Each chapter builds on the previous one. Every chapter ends with:
+Everything in the course rests on four type parameters — **`M`** (intent map), **`C`** (cursor
+map), **`P`** (purpose), **`R`** (result). You define them once and they thread through the API,
+the store, the events, and your components. Keep them in mind; each chapter adds to them.
 
-* A **checkpoint** showing the complete code so far
-* **FAQ questions** answering common doubts about what you just learned
+## Set up the project
 
-Estimated time: ~10-15 minutes per chapter.
-
-You can follow along by creating a new project:
-
-Create a new project directory and initialize it:
+Create and initialize a project:
 
 ```sh
 mkdir photoduck && cd photoduck
@@ -79,17 +45,19 @@ npx tsc --init
 mkdir src
 ```
 
-You are ready. Start with [Chapter 1: Your First Upload](/duck-upload/course/chapter-1).
+Start with [Chapter 1: Your First Upload](/duck-upload/course/chapter-1).
 
-## Course Map
+## Course map
 
-| Chapter | Topic | What You Learn |
+| Chapter | Topic | Key API |
 | --- | --- | --- |
-| [1](/duck-upload/course/chapter-1) | Your First Upload | `createUploadClient`, `UploadApi`, `dispatch`, phases, progress events |
-| [2](/duck-upload/course/chapter-2) | Strategies & Backends | `PostStrategy`, `createStrategyRegistry`, presigned URLs, strategy architecture |
-| [3](/duck-upload/course/chapter-3) | React Integration | `UploadProvider`, `useUploader`, dropzone UI, progress bars |
-| [4](/duck-upload/course/chapter-4) | Multipart Uploads | `multipartStrategy`, chunked uploads, `signPart`, `completeMultipart`, concurrency |
-| [5](/duck-upload/course/chapter-5) | Validation & Rejection | `UploadValidationRules`, file type/size limits, custom validators, rejection events |
-| [6](/duck-upload/course/chapter-6) | Persistence & Resume | `PersistenceAdapter`, cursors, `rebind`, resumable uploads across sessions |
-| [7](/duck-upload/course/chapter-7) | Plugins & Hooks | `UploadPlugin`, `UploadHooks`, debugging, metrics, custom extensions |
-| [8](/duck-upload/course/chapter-8) | Production Readiness | Retry policies, error normalization, concurrency tuning, fingerprinting, testing |
+| [1](/duck-upload/course/chapter-1) | Your First Upload | `createUploadStore`, `Contracts.Api.Me`, `dispatch`, phases, events |
+| [2](/duck-upload/course/chapter-2) | Strategies & Backends | `PostStrategy`, `createStrategyRegistry`, presigned URLs |
+| [3](/duck-upload/course/chapter-3) | React Integration | `UploadProvider`, `useUploader`, dropzone, progress bars |
+| [4](/duck-upload/course/chapter-4) | Multipart Uploads | `multipartStrategy`, `signPart`, `completeMultipart`, cursors |
+| [5](/duck-upload/course/chapter-5) | Pause, Resume & Retry | `pause`/`resume`/`cancel`/`retry`, `config.retryPolicy` |
+| [6](/duck-upload/course/chapter-6) | Persistence & Offline | `IndexedDBAdapter`, `rebind`, resume across reloads |
+| [7](/duck-upload/course/chapter-7) | Validation & Plugins | `Contracts.ValidationRules`, `validateFile`, `Engine.Plugin`, `hooks` |
+| [8](/duck-upload/course/chapter-8) | Production Patterns | Typed `R`, dedupe, multiple purposes, testing |
+
+Each chapter ends with a **checkpoint** (the full code so far) and an **FAQ**.

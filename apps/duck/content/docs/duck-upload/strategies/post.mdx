@@ -1,38 +1,72 @@
 ---
 title: POST Strategy
-description: Simple presigned form uploads for small and medium files.
+description: Presigned multipart/form-data uploads for small and medium files.
 section: Adapters
-order: 10
+order: 20
 ---
-The POST strategy handles presigned form uploads (S3 POST policy style). Best for
-small to medium files when resumability isn't required.
 
-## Intent Shape
-
-Your backend's `createIntent` should return this shape for POST uploads:
+`PostStrategy` sends a file as a single `multipart/form-data` request using presigned form
+fields (S3 POST policy style). It is the simplest option and is **not** resumable — a failure
+restarts from zero.
 
 ```ts
-type PostIntent = {
+import { PostStrategy } from '@gentleduck/upload/strategies'
+
+strategies.set(PostStrategy())
+```
+
+`PostStrategy()` takes no runtime arguments; the four type parameters are inferred from the
+registry.
+
+## Intent shape
+
+Your `createIntent` returns `PostStrategy.Intent`:
+
+```ts
+type Intent = {
   strategy: 'post'
   fileId: string
-  url: string
-  fields: Record<string, string>
-  expiresAt?: string
+  url: string                       // presigned POST endpoint (form action)
+  fields: Record<string, string>    // presigned policy fields (key, policy, signature…)
+  expiresAt?: string                // optional expiry hint
 }
 ```
 
-## Behavior
+## Cursor shape
 
-- Uploads the file via `transport.postForm` using the presigned URL and form fields.
-- Reports progress through the transport callback.
-- Not resumable - failure restarts from the beginning.
-- Simple and efficient for files under your size threshold.
+There is nothing to resume, so the cursor is empty:
 
-## When to Use
+```ts
+type Cursor = Record<string, never>
+type Cursors = { post?: PostStrategy.Cursor }
+```
 
-Use the POST strategy when:
+## How it runs
 
-- Files are small to medium.
-- Resumability isn't required.
-- The backend supports S3-style presigned POST policies.
-- You want the simplest possible upload flow.
+`start()` hands the file and presigned fields to `ctx.transport.postForm`, which builds the
+`FormData` (fields first, file last, as S3 requires), POSTs it, and streams progress:
+
+```ts
+async start(ctx) {
+  await ctx.transport.postForm({
+    url: ctx.intent.url,
+    file: ctx.file,
+    fields: ctx.intent.fields,
+    filename: ctx.file.name,
+    signal: ctx.signal,
+    onProgress: (uploadedBytes, totalBytes) => ctx.reportProgress({ uploadedBytes, totalBytes }),
+  })
+}
+```
+
+If the intent is missing its `url`, the strategy throws a validation error.
+
+## When to use
+
+- Small to medium files where resumability isn't needed.
+- Backends that issue S3-style presigned POST policies.
+- The simplest possible upload path.
+
+For large files or unreliable connections, reach for the
+[Multipart Strategy](/duck-upload/strategies/multipart) instead. A common pattern is to register
+both and let `createIntent` choose per file by size.

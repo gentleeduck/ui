@@ -1,31 +1,41 @@
-Shared helpers used across core and strategies. Keeping them centralized reduces duplication and ensures consistent behavior.
+The core ships a handful of small helpers that the engine and strategies rely on. They are
+**internal** — used inside the library, not part of the public export surface — so this page is
+here to explain the machinery, not to hand you an import list. The public entry points are
+`@gentleduck/upload/core`, `/react`, and `/strategies`.
 
-## Contents
+## What they cover
 
-| Module | Export | Description |
+| Area | Helper | Role |
 | --- | --- | --- |
-| `async.ts` | `sleep(ms)` | Promise-based delay |
-| `guards.ts` | `isRecord` | Runtime type guard for plain objects |
-| `id.ts` | `generateId()` | Generate unique local IDs |
-| `constants.ts` | Various | Default limits and timeouts |
-| `fingerprint.ts` | `computeFingerprint`, `compareFingerprint` | Compute and compare file fingerprints for deduplication |
-| `emitter/` | `createEmitter` | Typed event emitter implementation |
+| Async | `sleep(ms)` | Promise-based delay used for retry backoff |
+| Guards | `isRecord(value)`, `stripDangerousKeys(input)` | Safe object checks; strips prototype-polluting keys from untrusted data |
+| Identity | `generateId()` | Generates each item's `localId` |
+| Fingerprint | `computeFingerprint(file)`, `fingerprintMatches(a, b)` | Builds and compares the file identity signature (used for dedupe and rebind) |
+| Events | `createTypedEmitter()` | The fully-typed emitter behind `store.on`/`store.off` |
+| Constants | `DEFAULT_*` | The default config values (concurrency, attempts, throttle, etc.) |
 
-## Usage
+## Why they matter to you
 
-Use these helpers instead of rolling custom versions inside strategies or UI code:
+Even though you don't import these directly, their behavior shapes the public API:
 
-```ts
-import { sleep, generateId, isRecord } from '@gentleduck/upload/core'
+* **Fingerprints** decide item identity. `computeFingerprint` reads `name`, `size`, `type`, and
+  `lastModified`. Supplying a `checksum` (via the `fingerprint` store option) is what unlocks
+  content-based deduplication through `findByChecksum`. `fingerprintMatches` is what the `rebind`
+  command uses to confirm the user re-selected the same file.
+* **The typed emitter** is what makes `store.on('upload.completed', …)` type the payload
+  precisely from `Engine.EventMap`.
+* **`stripDangerousKeys`** hardens deserialization — persisted snapshots are untrusted input, so
+  prototype-polluting keys are removed before the data is used.
+* **The defaults** (`maxConcurrentUploads: 3`, `maxAttempts: 3`, `progressThrottleMs: 100`,
+  `maxItems: 100`) are applied by `resolveUploadConfig` when you leave config fields unset.
 
-// Delay execution
-await sleep(1000)
+## Extending behavior instead
 
-// Generate a unique ID
-const id = generateId()
+Because these are internal, the supported way to plug in your own logic is through public
+options rather than importing helpers:
 
-// Type-safe object check
-if (isRecord(value)) {
-  // value is Record<string, unknown>
-}
-```
+* Custom identity/dedupe → the `fingerprint` store option.
+* Custom delays/backoff → the `retryPolicy` config.
+* Reacting to events → `plugins` and the `on` API (backed by the typed emitter).
+
+See [Store Options](/duck-upload/core/client) for those extension points.

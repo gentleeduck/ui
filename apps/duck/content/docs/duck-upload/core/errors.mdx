@@ -1,113 +1,115 @@
 ---
 title: Errors
-description: UploadEngineError - typed errors with static messages safe for UI rendering. Tainted values live on context, never in the message.
+description: Typed UploadEngineError classes with static, XSS-safe messages. Tainted values live on context, never in the message.
 section: Core
+order: 40
 ---
 
-duck-upload throws `UploadEngineError` from intent, upload, and
-finalize handlers. Errors carry a stable `code` and a **static
-message** that's safe to render directly. Tainted, attacker-controlled
-values (filename, fileId, server response strings) live on the
-structured `context` field - never in the message.
+The engine throws `UploadEngineError` (and typed subclasses) from the intent, upload, and
+finalize phases. Each error carries a stable machine-readable `code`, a **static** message the
+library controls, a `retryable` flag, and optional structured `context`. Attacker-controlled
+values (filenames, server bodies) never go in the message.
 
-```typescript
+```ts
 import { UploadEngineError } from '@gentleduck/upload/core'
 ```
 
-## Why static messages
+## The base error
 
-Filenames are attacker-controlled. A naive error like
-``new Error(`upload of ${file.name} failed`)`` invites filenames
-such as `<img src=x onerror=alert(1)>.png` to slip into your UI when
-the host app renders `error.message` with `dangerouslySetInnerHTML`
-or `innerHTML`.
-
-`UploadEngineError` keeps a constant message per `code`:
-
-```typescript
-intent_failed   -> 'upload intent request failed'
-upload_failed   -> 'upload transfer failed'
-complete_failed -> 'upload finalize failed'
-```
-
-You can safely pipe `err.message` into a toast, `<div>{err.message}</div>`,
-or even `dangerouslySetInnerHTML` - the value is a string the library
-controls.
-
-## Reading tainted values
-
-Filenames, fileIds, response bodies, and other inputs supplied by
-your backend or end users live on `err.context`:
-
-```typescript
-try {
-  await client.upload(file)
-} catch (err) {
-  if (err instanceof UploadEngineError) {
-    // Safe: static, attacker-cannot-influence string.
-    toast(err.message)
-
-    // Tainted: escape before HTML rendering!
-    log({ filename: err.context?.filename })
-  }
+```ts
+class UploadEngineError extends Error {
+  readonly code: string                 // stable classification
+  readonly retryable: boolean           // may the recovery system retry?
+  readonly context?: Record<string, unknown>
+  readonly cause?: unknown              // wrapped original (ES2022)
 }
 ```
 
-When you render `err.context.*` in HTML you MUST escape it -
-`textContent`, React children (which auto-escape), or a sanitizer.
-Direct `innerHTML` injection of `context` values is an XSS bug.
+Static messages per code include:
 
-## Discriminating on `code`
+```text
+intent_failed    -> 'upload intent request failed'
+upload_failed    -> 'upload transfer failed'
+complete_failed  -> 'upload finalize failed'
+validation_failed-> 'file validation failed'
+strategy_missing -> 'upload strategy not found'
+aborted / network / http / timeout / auth / rate_limit / server / unknown
+```
 
-`code` is a stable, machine-readable string. Branch on it for typed
-recovery:
+Because the message is a constant the library owns, `err.message` is safe to render directly —
+in a toast, as React children, even with `dangerouslySetInnerHTML`.
+
+## Why static messages
+
+Filenames are attacker-controlled. `` new Error(`upload of ${file.name} failed`) `` invites a
+name like `<img src=x onerror=alert(1)>.png` to reach your DOM if you render `error.message`
+unsafely. Keeping the message constant removes that whole class of XSS.
+
+Tainted inputs live on `err.context` instead — and you **must** escape those before HTML
+rendering (React children auto-escape; raw `innerHTML` does not).
+
+## Typed subclasses
+
+Each subclass adds structured, code-specific fields:
+
+| Class | code | Extra fields | retryable default |
+| --- | --- | --- | --- |
+| `UploadValidationError` | `validation_failed` | `reason: Contracts.Validation.Rejection` | `false` |
+| `UploadStrategyMissingError` | `strategy_missing` | `strategy: string` | `false` |
+| `UploadAbortError` | `aborted` | `reason: 'pause' \| 'cancel' \| 'unknown'` | `false` |
+| `UploadNetworkError` | `network` | — | `true` |
+| `UploadHttpError` | `http` | `status`, `statusText?` | `true` for `>= 500` or `429` |
+| `UploadTimeoutError` | `timeout` | — | `true` |
+| `UploadAuthError` | `auth` | — | `false` |
+| `UploadRateLimitError` | `rate_limit` | `retryAfterMs?` | `true` |
+| `UploadServerError` | `server` | `serverCode?` | `true` |
+| `UploadUnknownError` | `unknown` | — | `false` |
+
+## Discriminating on code
+
+`code` is stable, so branch on it for typed recovery:
 
 ```tsx
 if (err instanceof UploadEngineError) {
   switch (err.code) {
-    case 'intent_failed':
-      // Your backend rejected the createIntent call. Show "try again later".
-      return <RetryToast />
-    case 'upload_failed':
-      // Bytes failed to reach storage. Resume is usually possible.
-      return <ResumeButton fileId={err.context?.fileId as string} />
-    case 'complete_failed':
-      // All bytes uploaded but finalize/assemble failed. Manual recovery.
-      return <ContactSupport />
+    case 'auth':
+      return <SignInAgain />
+    case 'rate_limit':
+      // UploadRateLimitError adds retryAfterMs.
+      return <RetryLater afterMs={(err as UploadRateLimitError).retryAfterMs} />
+    case 'http':
+      return <GenericHttpError status={(err as UploadHttpError).status} />
     default:
-      return <GenericError />
+      return <GenericError message={err.message} />
   }
 }
 ```
 
-Always treat `err.context?.fileId` and similar as `unknown` at the
-boundary - the discriminated cast above is intentional. The error
-context shape is open per `code`, so a stricter typing has to come
-from your app's error policy.
+## Reading wrapped causes
 
-## ES2022 `cause`
+When the engine wraps an underlying failure, the original lives on `err.cause` (treat it as
+`unknown`):
 
-When `UploadEngineError` wraps an underlying error (HTTP fetch, JSON
-parse, backend handler throw), the original lives on `err.cause`:
-
-```typescript
+```ts
 if (err instanceof UploadEngineError && err.cause instanceof Response) {
   console.error('HTTP', err.cause.status, await err.cause.text())
 }
 ```
 
-`cause` carries whatever the engine caught; treat it as `unknown`.
+## The plain error shape
 
-## Common error patterns
+Errors surfaced through events and stored on items use the `UploadError` type — either a
+`UploadEngineError` instance or a plain `Contracts.Errors.Error` object. Both always expose
+`code`, `message`, and `retryable`, so event handlers can rely on those three without an
+`instanceof` check:
 
-| Pattern | What it means |
-|---|---|
-| `intent_failed` with `cause` = `Response` | Your backend returned non-2xx on `createIntent`. Inspect `cause.status` and `cause.text()`. |
-| `upload_failed` with `context.fileId` set | The transport (strategy) gave up after retries. The fileId is safe to pass back to resume. |
-| `upload_failed` with `cause` = `DOMException` | Network abort - usually the user cancelled or the page navigated. Don't escalate. |
-| `complete_failed` with `context.uploadId` set | Multipart assembly failed server-side. All bytes are uploaded; manual recovery via the backend is usually possible. |
+```ts
+store.on('upload.error', ({ error, retryable }) => {
+  console.warn(error.code, error.message, retryable)
+})
+```
 
 ## See also
 
-- [Contracts](/duck-upload/core/contracts) - the `Contracts.Error` discriminated union for the typed engine-result errors (a separate, broader surface).
-- [Engine](/duck-upload/core/engine) - where these errors originate.
+- [Contracts](/duck-upload/core/contracts) — the `Contracts.Errors` union and validation shapes.
+- [Engine](/duck-upload/core/engine) — where errors originate and how retry re-enters.
