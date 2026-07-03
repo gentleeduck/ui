@@ -36,9 +36,9 @@ library reads naturally:
 
 ```text
 @gentleduck/upload            # everything (core + react + strategies)
-@gentleduck/upload/core       # engine, contracts, persistence, errors, transport
-@gentleduck/upload/react      # <UploadProvider> + hooks
-@gentleduck/upload/strategies # PostStrategy, multipartStrategy, registry helper
+@gentleduck/upload/core       # engine, contracts, persistence, errors, XHR + fetch transports
+@gentleduck/upload/react      # <UploadProvider> + hooks (useUploader, useDropzone)
+@gentleduck/upload/strategies # PutStrategy, PostStrategy, multipartStrategy, TusStrategy, registry helper
 ```
 
 ## Architecture at a glance

@@ -64,7 +64,7 @@ time, so the runtime always has a fully-specified `Engine.Config`.
 | `retryPolicy` | `(ctx) => Engine.RetryDecision` | `undefined` | Override default backoff |
 | `completedItemTTL` | `number` | `undefined` | Evict completed items after N ms |
 | `strictMimeMatch` | `boolean` | `false` | Sniff magic bytes and reject spoofed types |
-| `checksumMaxSize` | `number \| null` | `null` | Size cap above which client checksums are skipped |
+| `checksumMaxSize` | `number \| null` | `null` | Inline/off-thread boundary (default 64 MiB): larger files hash incrementally off the main thread, not skipped |
 
 ### Validation rules
 
