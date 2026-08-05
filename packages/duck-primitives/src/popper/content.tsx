@@ -41,6 +41,7 @@ export const PopperContent = React.forwardRef<PopperContentElement, IPopper.ICon
       hideWhenDetached = false,
       updatePositionStrategy = 'optimized',
       onPlaced,
+      shiftCrossAxis = false,
       ...contentProps
     } = props
 
@@ -86,7 +87,7 @@ export const PopperContent = React.forwardRef<PopperContentElement, IPopper.ICon
         avoidCollisions &&
           shift({
             mainAxis: true,
-            crossAxis: false,
+            crossAxis: shiftCrossAxis,
             ...(sticky === 'partial' ? { limiter: limitShift() } : {}),
             ...detectOverflowOptions,
           }),

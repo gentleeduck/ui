@@ -56,5 +56,7 @@ export namespace IPopper {
     hideWhenDetached?: boolean | undefined
     updatePositionStrategy?: 'optimized' | 'always' | undefined
     onPlaced?: (() => void) | undefined
+    /** Lets `shift()` also correct along the side's own axis (e.g. vertically for top/bottom placements), not just the alignment axis. Off by default to match existing behavior. */
+    shiftCrossAxis?: boolean | undefined
   }
 }
