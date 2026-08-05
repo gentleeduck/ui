@@ -1,0 +1,94 @@
+`TusStrategy` implements resumable uploads over the [tus protocol](https://tus.io). It is
+**creation-less**: your backend creates the tus upload server-side (via the tus creation
+extension) and returns a ready upload URL in the intent, so the strategy only performs the
+transfer half of the protocol — a `HEAD` to read the server's `Upload-Offset`, then a sequence
+of `PATCH` requests. The offset is persisted in the cursor, so a refresh-and-rebind (or a
+resumed session on a fresh device) continues where it left off.
+
+```ts
+import { TusStrategy } from '@gentleduck/upload/strategies'
+
+strategies.set(TusStrategy({ allowedHosts: ['tus.example.com'], chunkSize: 8 * 1024 * 1024 }))
+```
+
+## Configuration
+
+```ts
+TusStrategy({
+  chunkSize?: number             // PATCH chunk size in bytes (default 8 MiB; intent overrides)
+  allowedHosts?: string[]        // lock the tus host (recommended)
+  allowPrivateHosts?: boolean    // allow loopback/RFC1918 hosts (default false)
+  maxRetries?: number            // transient HEAD/PATCH retries (default 3)
+})
+```
+
+## Intent shape
+
+Your `createIntent` returns `TusStrategy.Intent` with a ready upload URL:
+
+```ts
+type Intent = {
+  strategy: 'tus'
+  fileId: string
+  url: string                       // ready tus upload URL (backend-created)
+  chunkSize?: number                // optional per-upload chunk override
+  headers?: Record<string, string>  // optional headers on every request (e.g. auth)
+}
+```
+
+Because creation happens on the backend, the client never sends `Upload-Length` /
+`Upload-Metadata` and never parses a `Location` header — one fewer CORS surface and no presign
+logic in the browser.
+
+## Cursor shape
+
+The cursor is the last server-acknowledged byte offset:
+
+```ts
+type Cursor = { offset: number }
+type Cursors = { tus?: TusStrategy.Cursor }
+```
+
+## How it runs
+
+1. **Validate** the upload URL through the SSRF guard.
+2. **Resolve the offset** — start from the persisted cursor, then confirm against the server
+   with `HEAD` (the server's `Upload-Offset` is authoritative on resume). If the transport has
+   no `head()`, the persisted cursor is used as-is.
+3. **PATCH in chunks** — for each slice, send `Upload-Offset`, `Tus-Resumable: 1.0.0`, and
+   `Content-Type: application/offset+octet-stream`. Trust the server's returned `Upload-Offset`
+   to advance; persist it after each accepted chunk.
+
+```ts
+// per chunk
+const res = await ctx.transport.patch({
+  url,
+  body: file.slice(start, end),
+  headers: {
+    'Tus-Resumable': '1.0.0',
+    'Upload-Offset': String(start),
+    'Content-Type': 'application/offset+octet-stream',
+  },
+  signal: ctx.signal,
+  onProgress: (loaded) => ctx.reportProgress({ uploadedBytes: start + loaded, totalBytes: total }),
+})
+```
+
+Each HEAD/PATCH is wrapped in the shared retry helper (backoff on timeouts, 5xx, `ECONNRESET`).
+If the server ever fails to advance `Upload-Offset`, the strategy bails with an
+`upload_failed` error rather than looping forever.
+
+## Transport requirement
+
+The tus strategy uses the transport's `patch()` for chunk uploads and, when present, `head()`
+to read the resume offset. Both `createXHRTransport()` (browser) and `createFetchTransport()`
+(Node/SSR/edge) implement them. See [Contracts → Transport](/duck-upload/core/contracts).
+
+## When to use
+
+* Resumable uploads against a tus-compatible server (tusd, tus-node-server, Uppy Companion, …).
+* Large files on unreliable connections where offset-based resume beats restarting.
+* When you want a single, standardized wire protocol across clients.
+
+For S3-style storage without a tus server, use the
+[Multipart Strategy](/duck-upload/strategies/multipart) instead.

@@ -160,12 +160,14 @@ import data from '../../../../apps/duck/public/data/benchmarks/primitives.json'
 const config = {
   gentleduck: { label: 'gentleduck (KB)', color: 'var(--chart-1)' },
   radix: { label: 'Radix UI (KB)', color: 'var(--chart-2)' },
+  baseui: { label: 'Base UI (KB)', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
-const chartData = data.perComponent.map((c: { name: string; gentleduck: number; radix: number }) => ({
+const chartData = data.perComponent.map((c: { name: string; gentleduck: number; radix: number; baseui: number }) => ({
   name: c.name,
   gentleduck: c.gentleduck > 0 ? +(c.gentleduck / 1024).toFixed(1) : 0,
   radix: c.radix > 0 ? +(c.radix / 1024).toFixed(1) : 0,
+  baseui: c.baseui > 0 ? +(c.baseui / 1024).toFixed(1) : 0,
 }))
 
 export default function PrimitivesAllComponents() {
@@ -181,8 +183,9 @@ export default function PrimitivesAllComponents() {
           <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
           <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
           <ChartLegend content={<ChartLegendContent />} />
-          <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={9} />
-          <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={9} />
+          <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={7} />
+          <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={7} />
+          <Bar dataKey="baseui" fill="var(--color-baseui)" radius={[0, 4, 4, 0]} barSize={7} />
         </BarChart>
       </ChartContainer>
     </div>

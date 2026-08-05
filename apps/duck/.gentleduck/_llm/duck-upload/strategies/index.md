@@ -26,22 +26,32 @@ The shape is `Contracts.Strategy.Me<M, C, P, R, K>`:
 
 | Strategy | Factory | Use case | Resumable |
 | --- | --- | --- | --- |
-| [POST](/duck-upload/strategies/post) | `PostStrategy()` | Presigned form uploads (small/medium) | No |
+| [PUT](/duck-upload/strategies/put) | `PutStrategy(opts?)` | Single presigned PUT (S3 `putObject`) | No |
+| [POST](/duck-upload/strategies/post) | `PostStrategy(opts?)` | Presigned form uploads (small/medium) | No |
 | [Multipart](/duck-upload/strategies/multipart) | `multipartStrategy(opts?)` | Large files, concurrent parts | Yes |
+| [tus](/duck-upload/strategies/tus) | `TusStrategy(opts?)` | Resumable uploads over the tus protocol | Yes |
 
-Note the casing: `PostStrategy` (also a type namespace) and `multipartStrategy` (its type
-namespace is `MultipartStrategy`).
+Note the casing: `PutStrategy`, `PostStrategy`, and `TusStrategy` are PascalCase (each is also a
+type namespace); `multipartStrategy` is camelCase (its type namespace is `MultipartStrategy`).
 
 ## Registering
 
 `createStrategyRegistry()` returns an empty typed registry; add strategies with `.set()`:
 
 ```ts
-import { PostStrategy, multipartStrategy, createStrategyRegistry } from '@gentleduck/upload/strategies'
+import {
+  PutStrategy,
+  PostStrategy,
+  multipartStrategy,
+  TusStrategy,
+  createStrategyRegistry,
+} from '@gentleduck/upload/strategies'
 
 const strategies = createStrategyRegistry<Intents, Cursors, Purpose, Result>()
+strategies.set(PutStrategy({ allowedHosts: ['uploads.example.com'] }))
 strategies.set(PostStrategy())
 strategies.set(multipartStrategy({ maxPartConcurrency: 4 }))
+strategies.set(TusStrategy({ allowedHosts: ['tus.example.com'] }))
 ```
 
 The registry's key types come from your intent map `M`, so the backend intent response and the

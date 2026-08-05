@@ -89,19 +89,39 @@ and `signal`; `CompleteContext` also guarantees `intent`.
 
 ## Transport.Options
 
-The transport abstracts raw HTTP so strategies stay testable. `createXHRTransport()` implements
-it with `XMLHttpRequest` for real progress events; the store installs it automatically.
+The transport abstracts raw HTTP so strategies stay testable. Two implementations ship, and the
+store installs `createXHRTransport()` by default:
+
+* **`createXHRTransport()`** — browser transport built on `XMLHttpRequest` for real upload
+  progress events. The default.
+* **`createFetchTransport()`** — `fetch`-based transport for Node, SSR, edge, and workers (any
+  runtime without `XMLHttpRequest`). Pass it via the `transport` store option.
 
 ```ts
 type Options = {
-  put(args):     Promise<{ etag?: string; headers?: Record<string, string> }>
+  put(args):      Promise<{ etag?: string; headers?: Record<string, string> }>
   postForm(args): Promise<{ etag?: string; headers?: Record<string, string> }>
-  patch(args):   Promise<{ headers?: Record<string, string> }>
+  patch(args):    Promise<{ headers?: Record<string, string> }>
+  get?(args):     Promise<{ blob: Blob; status: number; headers?: Record<string, string> }>
+  head?(args):    Promise<{ status: number; headers: Record<string, string> }>
 }
 ```
 
-Each method takes a `url`, a body/fields, an `AbortSignal`, and an optional `onProgress`
-callback. Provide your own `Transport.Options` for Node, fetch, or mocks.
+Each upload method takes a `url`, a body/fields, an `AbortSignal`, and an optional `onProgress`
+callback. `patch` is used by the [tus strategy](/duck-upload/strategies/tus); `head` reads its
+resume offset; `get` is an optional streaming download. `get` and `head` are optional — check
+for presence before calling. Provide your own `Transport.Options` for a custom runtime or mocks.
+
+```ts
+import { createFetchTransport } from '@gentleduck/upload/core'
+
+createUploadStore({ transport: createFetchTransport(), /* … */ })
+```
+
+**Note:** `fetch` has no portable upload-progress API, so `createFetchTransport()` reports a
+single terminal `onProgress(total, total)` on `put`/`postForm`/`patch`. Download progress via
+`get()` **is** streamed and incremental. Use `createXHRTransport()` in the browser when you need
+byte-level upload progress.
 
 ## Contracts.Strategy.Me
 

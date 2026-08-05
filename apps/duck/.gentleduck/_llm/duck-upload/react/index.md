@@ -11,6 +11,7 @@ Import everything from `@gentleduck/upload/react`.
 | `UploadProvider` | component | Puts a store on React context |
 | `useUploader` | hook | Reactive items + grouped selectors + `dispatch`/`on`/`off` |
 | `useUploaderActions` | hook | `dispatch`/`on` + the raw store, without subscribing to state |
+| `useDropzone` | hook | Headless drag-and-drop + file-picker prop getters |
 | `createUploadFactory` | helper | A `useUploader` pre-bound to a specific store |
 | `useUploadStore` | hook | The raw store from context |
 | `isUploadStore` | guard | Runtime check that a value is a store |
@@ -54,7 +55,21 @@ React.useEffect(() => on('upload.completed', ({ localId, result }) => {
 }), [on])
 ```
 
+## Adding files
+
+`useDropzone` gives you drag-and-drop and the native file picker without any markup — spread its
+prop getters onto your own elements:
+
+```tsx
+const { getRootProps, getInputProps, isDragging } = useDropzone({ purpose: 'attachment' })
+
+<div {...getRootProps()} data-active={isDragging}>
+  <input {...getInputProps()} />
+</div>
+```
+
 ## Next
 
 * [UploadProvider](/duck-upload/react/upload-provider) — the provider and context hook.
 * [useUploader](/duck-upload/react/use-uploader) — return shape, actions, and variants.
+* [useDropzone](/duck-upload/react/use-dropzone) — drag-and-drop and file-picker prop getters.

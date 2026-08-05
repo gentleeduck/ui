@@ -1,0 +1,88 @@
+`PutStrategy` sends the whole file as the body of one presigned HTTP `PUT` request. It is the
+most common direct-to-storage pattern — S3 `putObject`, GCS and Azure signed PUT — and the
+lightest way to hand bytes to object storage. It is **not** resumable: a failure restarts from
+zero (but transient network errors are retried automatically).
+
+```ts
+import { PutStrategy } from '@gentleduck/upload/strategies'
+
+strategies.set(PutStrategy({ allowedHosts: ['uploads.example.com'] }))
+```
+
+## Configuration
+
+```ts
+PutStrategy({
+  allowedHosts?: string[]        // lock the PUT host (recommended)
+  allowPrivateHosts?: boolean    // allow loopback/RFC1918 hosts (default false)
+  maxRetries?: number            // transient-failure retries (default 3)
+})
+```
+
+When `allowedHosts` is omitted the strategy warns once and every host is allowed. Set it to
+your storage host(s) to close the SSRF surface — see [Security](#security).
+
+## Intent shape
+
+Your `createIntent` returns `PutStrategy.Intent`:
+
+```ts
+type Intent = {
+  strategy: 'put'
+  fileId: string
+  url: string                       // presigned PUT URL
+  headers?: Record<string, string>  // signature-required headers (e.g. Content-Type)
+  expiresAt?: string                // optional expiry hint
+}
+```
+
+Any headers your signature covers (commonly `Content-Type`) go in `headers` and are sent
+verbatim on the PUT.
+
+## Cursor shape
+
+Nothing to resume, so the cursor is empty:
+
+```ts
+type Cursor = Record<string, never>
+type Cursors = { put?: PutStrategy.Cursor }
+```
+
+## How it runs
+
+`start()` validates the URL, then PUTs the file body through `ctx.transport.put`, streaming
+progress. The call is wrapped in the shared retry helper, so transient network failures
+(timeouts, 5xx, `ECONNRESET`) back off and retry up to `maxRetries`:
+
+```ts
+async start(ctx) {
+  await ctx.transport.put({
+    url: ctx.intent.url,
+    body: ctx.file,
+    headers: ctx.intent.headers ?? {},
+    signal: ctx.signal,
+    onProgress: (uploadedBytes, totalBytes) => ctx.reportProgress({ uploadedBytes, totalBytes }),
+  })
+}
+```
+
+If the intent is missing its `url`, the strategy throws a validation error.
+
+## Security
+
+The presigned URL is backend-supplied and flows straight to the transport, so a compromised
+backend or a MITM could return a `file:`, `javascript:`, or private-network URL. Every URL runs
+through the shared `validateUploadUrl` SSRF guard before any byte leaves the client. Lock it
+down with `allowedHosts`, and keep `allowPrivateHosts` at its default `false` to block
+loopback, link-local, RFC1918, and cloud-metadata addresses.
+
+## When to use
+
+* Direct-to-storage uploads where the backend can presign a single PUT.
+* Small to medium files that don't need part-level resume.
+* The simplest S3 / GCS / Azure object-put path.
+
+For large files or flaky connections, reach for the
+[Multipart Strategy](/duck-upload/strategies/multipart) (concurrent parts, per-part resume) or
+the [tus Strategy](/duck-upload/strategies/tus) (offset-based resume). A common pattern is to
+register several and let `createIntent` pick per file by size.
