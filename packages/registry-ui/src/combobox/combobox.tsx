@@ -76,7 +76,12 @@ const Combobox = React.forwardRef<
           dir={direction}
           className={cn('w-(--gentleduck-popover-trigger-width) p-0', popoverContent?.className)}>
           <Command {...command}>
-            {withSearch && <CommandInput {...commandInput} className={cn('h-8 [&_svg:not([class*=size-])]:size-4.5 px-2', commandInput)} />}
+            {withSearch && (
+              <CommandInput
+                {...commandInput}
+                className={cn('h-8 [&_svg:not([class*=size-])]:size-4.5 px-2', commandInput)}
+              />
+            )}
             <CommandList>
               {commandEmpty && <CommandEmpty>{commandEmpty}</CommandEmpty>}
               {children(items)}
