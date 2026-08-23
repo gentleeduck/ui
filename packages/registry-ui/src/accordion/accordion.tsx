@@ -54,7 +54,7 @@ const AccordionTrigger = React.forwardRef<
       <span>{children}</span>
       <span
         className={cn(
-          '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-data-[state=open]/accordion-trigger:[&>svg]:rotate-180',
+          '[&>svg:not([class*=size-])]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-data-[state=open]/accordion-trigger:[&>svg]:rotate-180',
         )}
         data-slot="accordion-icon">
         {icon ? icon : <ChevronDown aria-hidden="true" />}

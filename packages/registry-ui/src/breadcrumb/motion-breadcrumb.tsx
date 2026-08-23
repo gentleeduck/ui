@@ -46,7 +46,7 @@ const MotionBreadcrumbSeparator = React.forwardRef<
     <LazyMotion features={loadDomAnimation}>
       <m.li
         ref={ref}
-        className={cn('[&>svg]:size-3.5', className)}
+        className={cn('[&>svg:not([class*=size-])]:size-3.5', className)}
         initial={content.initial}
         animate={content.animate}
         transition={content.transition}

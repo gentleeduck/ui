@@ -95,7 +95,7 @@ const CommandGroup = React.forwardRef<
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
 export const COMMAND_ITEM_CLASSNAME =
-  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4'
+  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg:not([class*=size-])]:size-4'
 
 const CommandItem = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Item>,
@@ -146,7 +146,7 @@ const CommandShortcut = React.forwardRef<HTMLElement, ICommandBadgeProps>(
     return (
       <kbd
         className={cn(
-          'focus:offset-2 pointer-events-none ms-auto inline-flex cursor-none select-none items-center gap-0.5 rounded-sm px-2 py-[.12rem] font-sans text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring [&_svg]:size-3',
+          'focus:offset-2 pointer-events-none ms-auto inline-flex cursor-none select-none items-center gap-0.5 rounded-sm px-2 py-[.12rem] font-sans text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring [&_svg:not([class*=size-])]:size-3',
           variant === 'secondary' && 'bg-secondary',
           className,
         )}
