@@ -90,10 +90,10 @@ const config = {
   radix: { label: 'Radix UI (KB)', color: 'var(--chart-2)' },
 } satisfies ChartConfig
 
-const chartData = data.savings.map((s: { name: string; gentleduckKB: number; radixKB: number }) => ({
+const chartData = data.savingsVsRadix.map((s: { name: string; gentleduckKB: number; competitorKB: number }) => ({
   name: s.name,
   gentleduck: s.gentleduckKB,
-  radix: s.radixKB,
+  radix: s.competitorKB,
 }))
 
 export default function PrimitivesVsRadix() {
